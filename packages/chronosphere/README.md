@@ -12,7 +12,7 @@ npm install @distilled.cloud/chronosphere effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Chronosphere from "@distilled.cloud/chronosphere";
 
 const program = Effect.gen(function* () {

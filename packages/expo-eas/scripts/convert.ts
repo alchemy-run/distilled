@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the EAS GraphQL introspection schema into a Smithy 2.0 JSON
  * model.
@@ -9,7 +9,7 @@
  *         GraphQL endpoint at https://api.expo.dev/graphql)
  *
  * The GraphQL→Smithy converter itself lives in
- * `@distilled.cloud/core/codegen/graphql`; this script is EAS's provider
+ * `@distilled.cloud/dev/codegen/graphql`; this script is EAS's provider
  * config: the trait vocabulary (`com.expo.graphql#*`), the endpoint, the
  * custom scalar map, and the namespace-expansion settings.
  *
@@ -26,21 +26,17 @@ import {
   convertGraphQLToSmithy,
   PRELUDE,
   readIntrospection,
-} from "@distilled.cloud/core/codegen/graphql";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+} from "@distilled.cloud/dev/codegen/graphql";
+import { writeModel } from "@distilled.cloud/dev/codegen/models";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
-const ROOT = path.resolve(import.meta.dir, "..");
-const SCHEMA_PATH = resolveSpecPath(
-  ROOT,
-  "specs/spec-mirror-expo-eas/specs/graphql.schema.json",
-);
+const ROOT = path.resolve(import.meta.dirname, "..");
+const SCHEMA_PATH = resolveSpecPath(ROOT, "specs/spec-mirror-expo-eas/specs/graphql.schema.json");
 const OUT_DIR = path.join(ROOT, ".generated-specs");
 const OUT_FILE = path.join(OUT_DIR, "eas.json");
 
-const schema = readIntrospection(
-  JSON.parse(fs.readFileSync(SCHEMA_PATH, "utf-8")),
-);
+const schema = readIntrospection(JSON.parse(fs.readFileSync(SCHEMA_PATH, "utf-8")));
 
 const result = convertGraphQLToSmithy({
   schema,
@@ -79,9 +75,7 @@ const result = convertGraphQLToSmithy({
     BigInt: PRELUDE.String,
   },
 });
-
-fs.mkdirSync(OUT_DIR, { recursive: true });
-fs.writeFileSync(OUT_FILE, `${JSON.stringify(result.model, null, 2)}\n`);
+writeModel(OUT_FILE, result.model);
 
 console.log(
   `✅ Converted ${result.converted} GraphQL operations (${result.failed} failed, ` +

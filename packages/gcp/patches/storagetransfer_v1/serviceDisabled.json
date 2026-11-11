@@ -1,0 +1,145 @@
+{
+  "description": "Type the Storage Transfer API-disabled answer (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: 'Storage Transfer API has not been used in project N before or it is disabled.'). It surfaced as the generic Forbidden, so callers could not tell an unactivated service from a missing permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The Storage Transfer API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#CancelTransferOperations/errors/-",
+      "value": {
+        "target": "com.gcp.storagetransfer_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#CreateProjectsAgentPools/errors/-",
+      "value": {
+        "target": "com.gcp.storagetransfer_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#CreateTransferJobs/errors/-",
+      "value": {
+        "target": "com.gcp.storagetransfer_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#DeleteProjectsAgentPools/errors/-",
+      "value": {
+        "target": "com.gcp.storagetransfer_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#DeleteTransferJobs/errors/-",
+      "value": {
+        "target": "com.gcp.storagetransfer_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#GetGoogleServiceAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.storagetransfer_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#GetProjectsAgentPools/errors/-",
+      "value": {
+        "target": "com.gcp.storagetransfer_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#GetTransferJobs/errors/-",
+      "value": {
+        "target": "com.gcp.storagetransfer_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#GetTransferOperations/errors/-",
+      "value": {
+        "target": "com.gcp.storagetransfer_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#ListProjectsAgentPools/errors/-",
+      "value": {
+        "target": "com.gcp.storagetransfer_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#ListTransferJobs/errors/-",
+      "value": {
+        "target": "com.gcp.storagetransfer_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#ListTransferOperations/errors/-",
+      "value": {
+        "target": "com.gcp.storagetransfer_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#PatchProjectsAgentPools/errors/-",
+      "value": {
+        "target": "com.gcp.storagetransfer_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#PatchTransferJobs/errors/-",
+      "value": {
+        "target": "com.gcp.storagetransfer_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#PauseTransferOperations/errors/-",
+      "value": {
+        "target": "com.gcp.storagetransfer_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#ResumeTransferOperations/errors/-",
+      "value": {
+        "target": "com.gcp.storagetransfer_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#RunTransferJobs/errors/-",
+      "value": {
+        "target": "com.gcp.storagetransfer_v1#ServiceDisabled"
+      }
+    }
+  ]
+}

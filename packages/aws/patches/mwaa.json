@@ -1,5 +1,18 @@
 {
-  "errorHttpStatus": {
-    "ResourceNotFoundException": 404
+  "operations": {
+    "createEnvironment": {
+      "syntheticErrors": [
+        {
+          "name": "MwaaExecutionRoleNotAssumable",
+          "from": "ValidationException",
+          "message": {
+            "includes": "Failed to assume role"
+          }
+        }
+      ]
+    }
+  },
+  "errorCategories": {
+    "MwaaExecutionRoleNotAssumable": ["RetryableError"]
   }
 }

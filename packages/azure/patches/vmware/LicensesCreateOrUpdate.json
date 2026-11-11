@@ -1,0 +1,85 @@
+{
+  "description": "License properties are a discriminated union on kind in ARM (VmwareFirewall licenseKey/endDate/broadcomSiteId/broadcomContractNumber); the converted model only kept kind, so add the VmwareFirewall fields as optional members on input and output.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#LicensePropertiesInput/members/licenseKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "VmwareFirewall: the license key (write-only)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#LicensePropertiesInput/members/endDate",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "VmwareFirewall: ISO 8601 date-time when the license expires."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#LicensePropertiesInput/members/broadcomSiteId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "VmwareFirewall: the Broadcom site ID associated with the license."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#LicensePropertiesInput/members/broadcomContractNumber",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "VmwareFirewall: the Broadcom contract number associated with the license."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#LicenseProperties/members/licenseKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "VmwareFirewall: the license key (write-only)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#LicenseProperties/members/endDate",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "VmwareFirewall: ISO 8601 date-time when the license expires."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#LicenseProperties/members/broadcomSiteId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "VmwareFirewall: the Broadcom site ID associated with the license."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#LicenseProperties/members/broadcomContractNumber",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "VmwareFirewall: the Broadcom contract number associated with the license."
+        }
+      }
+    }
+  ]
+}

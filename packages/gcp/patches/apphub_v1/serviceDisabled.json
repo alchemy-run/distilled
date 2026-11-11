@@ -1,0 +1,306 @@
+{
+  "description": "Type the App Hub API-disabled answer (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: 'App Hub API has not been used in project N before or it is disabled.'). It surfaced as the generic Forbidden, so callers could not tell an unactivated service from a missing permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The App Hub API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#CancelProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#CreateProjectsLocationsApplications/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#CreateProjectsLocationsApplicationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#CreateProjectsLocationsApplicationsWorkloads/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#CreateProjectsLocationsServiceProjectAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#DeleteProjectsLocationsApplications/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#DeleteProjectsLocationsApplicationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#DeleteProjectsLocationsApplicationsWorkloads/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#DeleteProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#DeleteProjectsLocationsServiceProjectAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#DetachServiceProjectAttachmentProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetBoundaryProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetIamPolicyProjectsLocationsApplications/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetProjectsLocationsApplications/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetProjectsLocationsApplicationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetProjectsLocationsApplicationsWorkloads/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetProjectsLocationsDiscoveredServices/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetProjectsLocationsDiscoveredWorkloads/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetProjectsLocationsExtendedMetadataSchemas/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetProjectsLocationsServiceProjectAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#ListProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#ListProjectsLocationsApplications/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#ListProjectsLocationsApplicationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#ListProjectsLocationsApplicationsWorkloads/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#ListProjectsLocationsDiscoveredServices/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#ListProjectsLocationsDiscoveredWorkloads/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#ListProjectsLocationsExtendedMetadataSchemas/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#ListProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#ListProjectsLocationsServiceProjectAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#LookupProjectsLocationsDiscoveredServices/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#LookupProjectsLocationsDiscoveredWorkloads/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#LookupServiceProjectAttachmentProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#PatchProjectsLocationsApplications/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#PatchProjectsLocationsApplicationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#PatchProjectsLocationsApplicationsWorkloads/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#SetIamPolicyProjectsLocationsApplications/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#TestIamPermissionsProjectsLocationsApplications/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#UpdateBoundaryProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.apphub_v1#ServiceDisabled"
+      }
+    }
+  ]
+}

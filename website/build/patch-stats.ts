@@ -55,8 +55,7 @@ const countDeclarativeAws = (doc: Record<string, unknown>): number => {
   return n;
 };
 
-const REST_OPERATION =
-  /^export const [A-Za-z0-9_]+: API\.(?:Paginated)?OperationMethod</gm;
+const REST_OPERATION = /^export const [A-Za-z0-9_]+: API\.(?:Paginated)?OperationMethod</gm;
 const GRAPHQL_OPERATION = /^export const [A-Za-z0-9_]+ = client\.operation\(/gm;
 
 const countMatches = async (files: string[], re: RegExp): Promise<number> => {
@@ -87,18 +86,13 @@ const countOperations = async (srcDir: string): Promise<number> =>
   (await countMatches(await walk(join(srcDir, "services")), REST_OPERATION)) +
   (await countMatches(await listFiles(srcDir), GRAPHQL_OPERATION));
 
-export const readPatchStats = async (
-  packagesDir: string,
-  dir: string,
-): Promise<PatchStats> => {
+export const readPatchStats = async (packagesDir: string, dir: string): Promise<PatchStats> => {
   const pkgRoot = join(packagesDir, dir);
   const ops: Record<string, number> = {};
   let files = 0;
   let fixes = 0;
 
-  const patchFiles = (await walk(join(pkgRoot, "patches"))).filter((f) =>
-    f.endsWith(".json"),
-  );
+  const patchFiles = (await walk(join(pkgRoot, "patches"))).filter((f) => f.endsWith(".json"));
   for (const file of patchFiles) {
     let doc: unknown;
     try {
@@ -137,9 +131,7 @@ export const readPatchStats = async (
 
 const tally = (ops: Record<string, number>, op: unknown): void => {
   const kind =
-    op &&
-    typeof op === "object" &&
-    typeof (op as { op?: unknown }).op === "string"
+    op && typeof op === "object" && typeof (op as { op?: unknown }).op === "string"
       ? (op as { op: string }).op
       : "other";
   const key = (OP_KINDS as readonly string[]).includes(kind) ? kind : "other";

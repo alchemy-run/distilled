@@ -1,22 +1,27 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "ivs",
   serviceShapeName: "AmazonInteractiveVideoService",
 });
-const auth = T.AwsAuthSigv4({ name: "ivs" });
-const ver = T.ServiceVersion("2020-07-14");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "ivs" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2020-07-14");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -28,14 +33,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -58,382 +59,408 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://ivs-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://ivs-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://ivs.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://ivs.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://ivs.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://ivs.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://ivs.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ivs",
+  service: "ivs",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
     {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
+      accessControlAllowOrigin: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Allow-Origin"),
       ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
+      accessControlExposeHeaders: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Expose-Headers"),
       ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
+      cacheControl: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Cache-Control"),
       ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
+      contentSecurityPolicy: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Content-Security-Policy"),
       ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
+      strictTransportSecurity: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Strict-Transport-Security"),
       ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
+      xContentTypeOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Content-Type-Options"),
       ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      xFrameOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Frame-Options"),
+      ),
+      xAmznErrorType: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("x-amzn-ErrorType"),
+      ),
+      exceptionMessage: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
-    T.HttpError(403),
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class ChannelNotBroadcasting
   extends /*@__PURE__*/ S.TaggedError<ChannelNotBroadcasting>()(
     "ChannelNotBroadcasting",
     {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
+      accessControlAllowOrigin: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Allow-Origin"),
       ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
+      accessControlExposeHeaders: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Expose-Headers"),
       ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
+      cacheControl: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Cache-Control"),
       ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
+      contentSecurityPolicy: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Content-Security-Policy"),
       ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
+      strictTransportSecurity: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Strict-Transport-Security"),
       ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
+      xContentTypeOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Content-Type-Options"),
       ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      xFrameOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Frame-Options"),
+      ),
+      xAmznErrorType: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("x-amzn-ErrorType"),
+      ),
+      exceptionMessage: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
-    T.HttpError(404),
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
     {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
+      accessControlAllowOrigin: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Allow-Origin"),
       ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
+      accessControlExposeHeaders: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Expose-Headers"),
       ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
+      cacheControl: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Cache-Control"),
       ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
+      contentSecurityPolicy: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Content-Security-Policy"),
       ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
+      strictTransportSecurity: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Strict-Transport-Security"),
       ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
+      xContentTypeOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Content-Type-Options"),
       ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      xFrameOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Frame-Options"),
+      ),
+      xAmznErrorType: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("x-amzn-ErrorType"),
+      ),
+      exceptionMessage: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
-    T.HttpError(409),
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
     {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
+      accessControlAllowOrigin: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Allow-Origin"),
       ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
+      accessControlExposeHeaders: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Expose-Headers"),
       ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
+      cacheControl: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Cache-Control"),
       ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
+      contentSecurityPolicy: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Content-Security-Policy"),
       ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
+      strictTransportSecurity: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Strict-Transport-Security"),
       ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
+      xContentTypeOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Content-Type-Options"),
       ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      xFrameOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Frame-Options"),
+      ),
+      xAmznErrorType: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("x-amzn-ErrorType"),
+      ),
+      exceptionMessage: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
-    T.HttpError(500),
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class PendingVerification
   extends /*@__PURE__*/ S.TaggedError<PendingVerification>()(
     "PendingVerification",
     {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
+      accessControlAllowOrigin: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Allow-Origin"),
       ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
+      accessControlExposeHeaders: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Expose-Headers"),
       ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
+      cacheControl: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Cache-Control"),
       ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
+      contentSecurityPolicy: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Content-Security-Policy"),
       ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
+      strictTransportSecurity: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Strict-Transport-Security"),
       ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
+      xContentTypeOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Content-Type-Options"),
       ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      xFrameOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Frame-Options"),
+      ),
+      xAmznErrorType: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("x-amzn-ErrorType"),
+      ),
+      exceptionMessage: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
-    T.HttpError(403),
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
     {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
+      accessControlAllowOrigin: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Allow-Origin"),
       ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
+      accessControlExposeHeaders: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Expose-Headers"),
       ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
+      cacheControl: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Cache-Control"),
       ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
+      contentSecurityPolicy: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Content-Security-Policy"),
       ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
+      strictTransportSecurity: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Strict-Transport-Security"),
       ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
+      xContentTypeOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Content-Type-Options"),
       ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      xFrameOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Frame-Options"),
+      ),
+      xAmznErrorType: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("x-amzn-ErrorType"),
+      ),
+      exceptionMessage: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
-    T.HttpError(404),
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
     {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
+      accessControlAllowOrigin: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Allow-Origin"),
       ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
+      accessControlExposeHeaders: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Expose-Headers"),
       ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
+      cacheControl: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Cache-Control"),
       ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
+      contentSecurityPolicy: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Content-Security-Policy"),
       ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
+      strictTransportSecurity: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Strict-Transport-Security"),
       ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
+      xContentTypeOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Content-Type-Options"),
       ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      xFrameOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Frame-Options"),
+      ),
+      xAmznErrorType: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("x-amzn-ErrorType"),
+      ),
+      exceptionMessage: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
-    T.HttpError(402),
+    /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class ServiceUnavailable
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailable>()(
     "ServiceUnavailable",
     {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
+      accessControlAllowOrigin: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Allow-Origin"),
       ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
+      accessControlExposeHeaders: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Expose-Headers"),
       ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
+      cacheControl: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Cache-Control"),
       ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
+      contentSecurityPolicy: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Content-Security-Policy"),
       ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
+      strictTransportSecurity: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Strict-Transport-Security"),
       ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
+      xContentTypeOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Content-Type-Options"),
       ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      xFrameOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Frame-Options"),
+      ),
+      xAmznErrorType: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("x-amzn-ErrorType"),
+      ),
+      exceptionMessage: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
-    T.HttpError(503),
+    /*@__PURE__*/ T.HttpError(503),
   ).pipe(C.withServerError) {}
 export class StreamUnavailable
   extends /*@__PURE__*/ S.TaggedError<StreamUnavailable>()(
     "StreamUnavailable",
     {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
+      accessControlAllowOrigin: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Allow-Origin"),
       ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
+      accessControlExposeHeaders: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Expose-Headers"),
       ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
+      cacheControl: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Cache-Control"),
       ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
+      contentSecurityPolicy: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Content-Security-Policy"),
       ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
+      strictTransportSecurity: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Strict-Transport-Security"),
       ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
+      xContentTypeOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Content-Type-Options"),
       ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      xFrameOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Frame-Options"),
+      ),
+      xAmznErrorType: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("x-amzn-ErrorType"),
+      ),
+      exceptionMessage: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
-    T.HttpError(503),
+    /*@__PURE__*/ T.HttpError(503),
   ).pipe(C.withServerError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
     {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
+      accessControlAllowOrigin: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Allow-Origin"),
       ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
+      accessControlExposeHeaders: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Expose-Headers"),
       ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
+      cacheControl: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Cache-Control"),
       ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
+      contentSecurityPolicy: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Content-Security-Policy"),
       ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
+      strictTransportSecurity: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Strict-Transport-Security"),
       ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
+      xContentTypeOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Content-Type-Options"),
       ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      xFrameOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Frame-Options"),
+      ),
+      xAmznErrorType: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("x-amzn-ErrorType"),
+      ),
+      exceptionMessage: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
-    T.HttpError(429),
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
     {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
+      accessControlAllowOrigin: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Allow-Origin"),
       ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
+      accessControlExposeHeaders: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Access-Control-Expose-Headers"),
       ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
+      cacheControl: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Cache-Control"),
       ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
+      contentSecurityPolicy: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Content-Security-Policy"),
       ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
+      strictTransportSecurity: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Strict-Transport-Security"),
       ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
+      xContentTypeOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Content-Type-Options"),
       ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      xFrameOptions: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("X-Frame-Options"),
+      ),
+      xAmznErrorType: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("x-amzn-ErrorType"),
+      ),
+      exceptionMessage: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
-    T.HttpError(400),
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type ChannelArn = string;
 export type ChannelArnList = string[];
-export const ChannelArnList = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetChannelRequest {
   arns: string[];
 }
-export const BatchGetChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arns: ChannelArnList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/BatchGetChannel" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetChannelRequest",
-}) as any as S.Schema<BatchGetChannelRequest>;
 export type ChannelName = string;
 export type ChannelLatencyMode = string;
-export type ChannelType =
-  | "BASIC"
-  | "STANDARD"
-  | "ADVANCED_SD"
-  | "ADVANCED_HD"
-  | (string & {});
-export const ChannelType = S.String;
-
+export type ChannelType = "BASIC" | "STANDARD" | "ADVANCED_SD" | "ADVANCED_HD" | (string & {});
 export type ChannelRecordingConfigurationArn = string;
 export type IngestEndpoint = string;
 export type PlaybackURL = string;
@@ -441,534 +468,227 @@ export type IsAuthorized = boolean;
 export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type InsecureIngest = boolean;
 export type TranscodePreset =
   | "HIGHER_BANDWIDTH_DELIVERY"
   | "CONSTRAINED_BANDWIDTH_DELIVERY"
   | (string & {});
-export const TranscodePreset = S.String;
-
 export type SrtEndpoint = string;
 export type SrtPassphrase = string | redacted.Redacted<string>;
 export interface Srt {
-  endpoint?: string;
-  passphrase?: string | redacted.Redacted<string>;
+  endpoint?: string | undefined;
+  passphrase?: string | redacted.Redacted<string> | undefined;
 }
-export const Srt = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    endpoint: S.optional(S.String),
-    passphrase: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "Srt" }) as any as S.Schema<Srt>;
 export type ChannelPlaybackRestrictionPolicyArn = string;
 export type IsMultitrackInputEnabled = boolean;
 export type MultitrackPolicy = "ALLOW" | "REQUIRE" | (string & {});
-export const MultitrackPolicy = S.String;
-
-export type MultitrackMaximumResolution =
-  | "SD"
-  | "HD"
-  | "FULL_HD"
-  | (string & {});
-export const MultitrackMaximumResolution = S.String;
-
+export type MultitrackMaximumResolution = "SD" | "HD" | "FULL_HD" | (string & {});
 export interface MultitrackInputConfiguration {
-  enabled?: boolean;
-  policy?: MultitrackPolicy;
-  maximumResolution?: MultitrackMaximumResolution;
+  enabled?: boolean | undefined;
+  policy?: MultitrackPolicy | undefined;
+  maximumResolution?: MultitrackMaximumResolution | undefined;
 }
-export const MultitrackInputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabled: S.optional(S.Boolean),
-    policy: S.optional(MultitrackPolicy),
-    maximumResolution: S.optional(MultitrackMaximumResolution),
-  }),
-).annotate({
-  identifier: "MultitrackInputConfiguration",
-}) as any as S.Schema<MultitrackInputConfiguration>;
 export type ContainerFormat = string;
 export type ChannelAdConfigurationArn = string;
+export type ChannelFailoverSlateConfigurationArn = string;
 export interface Channel {
-  arn?: string;
-  name?: string;
-  latencyMode?: string;
-  type?: ChannelType;
-  recordingConfigurationArn?: string;
-  ingestEndpoint?: string;
-  playbackUrl?: string;
-  authorized?: boolean;
-  tags?: { [key: string]: string | undefined };
-  insecureIngest?: boolean;
-  preset?: TranscodePreset;
-  srt?: Srt;
-  playbackRestrictionPolicyArn?: string;
-  multitrackInputConfiguration?: MultitrackInputConfiguration;
-  containerFormat?: string;
-  adConfigurationArn?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
+  latencyMode?: string | undefined;
+  type?: ChannelType | undefined;
+  recordingConfigurationArn?: string | undefined;
+  ingestEndpoint?: string | undefined;
+  playbackUrl?: string | undefined;
+  authorized?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  insecureIngest?: boolean | undefined;
+  preset?: TranscodePreset | undefined;
+  srt?: Srt | undefined;
+  playbackRestrictionPolicyArn?: string | undefined;
+  multitrackInputConfiguration?: MultitrackInputConfiguration | undefined;
+  containerFormat?: string | undefined;
+  adConfigurationArn?: string | undefined;
+  failoverSlateConfigurationArn?: string | undefined;
 }
-export const Channel = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    latencyMode: S.optional(S.String),
-    type: S.optional(ChannelType),
-    recordingConfigurationArn: S.optional(S.String),
-    ingestEndpoint: S.optional(S.String),
-    playbackUrl: S.optional(S.String),
-    authorized: S.optional(S.Boolean),
-    tags: S.optional(Tags),
-    insecureIngest: S.optional(S.Boolean),
-    preset: S.optional(TranscodePreset),
-    srt: S.optional(Srt),
-    playbackRestrictionPolicyArn: S.optional(S.String),
-    multitrackInputConfiguration: S.optional(MultitrackInputConfiguration),
-    containerFormat: S.optional(S.String),
-    adConfigurationArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Channel" }) as any as S.Schema<Channel>;
 export type Channels = Channel[];
-export const Channels = /*@__PURE__*/ S.Array(Channel);
 export type ResourceArn = string;
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface BatchError {
-  arn?: string;
-  code?: string;
-  message?: string;
+  arn?: string | undefined;
+  code?: string | undefined;
+  message?: string | undefined;
 }
-export const BatchError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    code: S.optional(S.String),
-    message: S.optional(S.String),
-  }),
-).annotate({ identifier: "BatchError" }) as any as S.Schema<BatchError>;
 export type BatchErrors = BatchError[];
-export const BatchErrors = /*@__PURE__*/ S.Array(BatchError);
 export interface BatchGetChannelResponse {
-  accessControlAllowOrigin?: string;
-  accessControlExposeHeaders?: string;
-  cacheControl?: string;
-  contentSecurityPolicy?: string;
-  strictTransportSecurity?: string;
-  xContentTypeOptions?: string;
-  xFrameOptions?: string;
-  channels?: Channel[];
-  errors?: BatchError[];
+  accessControlAllowOrigin?: string | undefined;
+  accessControlExposeHeaders?: string | undefined;
+  cacheControl?: string | undefined;
+  contentSecurityPolicy?: string | undefined;
+  strictTransportSecurity?: string | undefined;
+  xContentTypeOptions?: string | undefined;
+  xFrameOptions?: string | undefined;
+  channels?: Channel[] | undefined;
+  errors?: BatchError[] | undefined;
 }
-export const BatchGetChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessControlAllowOrigin: S.optional(S.String).pipe(
-      T.HttpHeader("Access-Control-Allow-Origin"),
-    ),
-    accessControlExposeHeaders: S.optional(S.String).pipe(
-      T.HttpHeader("Access-Control-Expose-Headers"),
-    ),
-    cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    contentSecurityPolicy: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Security-Policy"),
-    ),
-    strictTransportSecurity: S.optional(S.String).pipe(
-      T.HttpHeader("Strict-Transport-Security"),
-    ),
-    xContentTypeOptions: S.optional(S.String).pipe(
-      T.HttpHeader("X-Content-Type-Options"),
-    ),
-    xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-    channels: S.optional(Channels),
-    errors: S.optional(BatchErrors),
-  }),
-).annotate({
-  identifier: "BatchGetChannelResponse",
-}) as any as S.Schema<BatchGetChannelResponse>;
 export type StreamKeyArn = string;
 export type StreamKeyArnList = string[];
-export const StreamKeyArnList = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetStreamKeyRequest {
   arns: string[];
 }
-export const BatchGetStreamKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arns: StreamKeyArnList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/BatchGetStreamKey" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetStreamKeyRequest",
-}) as any as S.Schema<BatchGetStreamKeyRequest>;
 export type StreamKeyValue = string | redacted.Redacted<string>;
 export interface StreamKey {
-  arn?: string;
-  value?: string | redacted.Redacted<string>;
-  channelArn?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  value?: string | redacted.Redacted<string> | undefined;
+  channelArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const StreamKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    value: S.optional(SensitiveString),
-    channelArn: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({ identifier: "StreamKey" }) as any as S.Schema<StreamKey>;
 export type StreamKeys = StreamKey[];
-export const StreamKeys = /*@__PURE__*/ S.Array(StreamKey);
 export interface BatchGetStreamKeyResponse {
-  accessControlAllowOrigin?: string;
-  accessControlExposeHeaders?: string;
-  cacheControl?: string;
-  contentSecurityPolicy?: string;
-  strictTransportSecurity?: string;
-  xContentTypeOptions?: string;
-  xFrameOptions?: string;
-  streamKeys?: StreamKey[];
-  errors?: BatchError[];
+  accessControlAllowOrigin?: string | undefined;
+  accessControlExposeHeaders?: string | undefined;
+  cacheControl?: string | undefined;
+  contentSecurityPolicy?: string | undefined;
+  strictTransportSecurity?: string | undefined;
+  xContentTypeOptions?: string | undefined;
+  xFrameOptions?: string | undefined;
+  streamKeys?: StreamKey[] | undefined;
+  errors?: BatchError[] | undefined;
 }
-export const BatchGetStreamKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessControlAllowOrigin: S.optional(S.String).pipe(
-      T.HttpHeader("Access-Control-Allow-Origin"),
-    ),
-    accessControlExposeHeaders: S.optional(S.String).pipe(
-      T.HttpHeader("Access-Control-Expose-Headers"),
-    ),
-    cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    contentSecurityPolicy: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Security-Policy"),
-    ),
-    strictTransportSecurity: S.optional(S.String).pipe(
-      T.HttpHeader("Strict-Transport-Security"),
-    ),
-    xContentTypeOptions: S.optional(S.String).pipe(
-      T.HttpHeader("X-Content-Type-Options"),
-    ),
-    xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-    streamKeys: S.optional(StreamKeys),
-    errors: S.optional(BatchErrors),
-  }),
-).annotate({
-  identifier: "BatchGetStreamKeyResponse",
-}) as any as S.Schema<BatchGetStreamKeyResponse>;
 export type ViewerId = string;
 export type ViewerSessionVersion = number;
 export interface BatchStartViewerSessionRevocationViewerSession {
   channelArn: string;
   viewerId: string;
-  viewerSessionVersionsLessThanOrEqualTo?: number;
+  viewerSessionVersionsLessThanOrEqualTo?: number | undefined;
 }
-export const BatchStartViewerSessionRevocationViewerSession =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      channelArn: S.String,
-      viewerId: S.String,
-      viewerSessionVersionsLessThanOrEqualTo: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier: "BatchStartViewerSessionRevocationViewerSession",
-  }) as any as S.Schema<BatchStartViewerSessionRevocationViewerSession>;
 export type BatchStartViewerSessionRevocationViewerSessionList =
   BatchStartViewerSessionRevocationViewerSession[];
-export const BatchStartViewerSessionRevocationViewerSessionList =
-  /*@__PURE__*/ S.Array(BatchStartViewerSessionRevocationViewerSession);
 export interface BatchStartViewerSessionRevocationRequest {
   viewerSessions: BatchStartViewerSessionRevocationViewerSession[];
 }
-export const BatchStartViewerSessionRevocationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      viewerSessions: BatchStartViewerSessionRevocationViewerSessionList,
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/BatchStartViewerSessionRevocation" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "BatchStartViewerSessionRevocationRequest",
-}) as any as S.Schema<BatchStartViewerSessionRevocationRequest>;
 export interface BatchStartViewerSessionRevocationError_ {
   channelArn: string;
   viewerId: string;
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
-export const BatchStartViewerSessionRevocationError_ = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      channelArn: S.String,
-      viewerId: S.String,
-      code: S.optional(S.String),
-      message: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "BatchStartViewerSessionRevocationError",
-}) as any as S.Schema<BatchStartViewerSessionRevocationError_>;
-export type BatchStartViewerSessionRevocationErrors =
-  BatchStartViewerSessionRevocationError_[];
-export const BatchStartViewerSessionRevocationErrors = /*@__PURE__*/ S.Array(
-  BatchStartViewerSessionRevocationError_,
-);
+export type BatchStartViewerSessionRevocationErrors = BatchStartViewerSessionRevocationError_[];
 export interface BatchStartViewerSessionRevocationResponse {
-  accessControlAllowOrigin?: string;
-  accessControlExposeHeaders?: string;
-  cacheControl?: string;
-  contentSecurityPolicy?: string;
-  strictTransportSecurity?: string;
-  xContentTypeOptions?: string;
-  xFrameOptions?: string;
-  errors?: BatchStartViewerSessionRevocationError_[];
+  accessControlAllowOrigin?: string | undefined;
+  accessControlExposeHeaders?: string | undefined;
+  cacheControl?: string | undefined;
+  contentSecurityPolicy?: string | undefined;
+  strictTransportSecurity?: string | undefined;
+  xContentTypeOptions?: string | undefined;
+  xFrameOptions?: string | undefined;
+  errors?: BatchStartViewerSessionRevocationError_[] | undefined;
 }
-export const BatchStartViewerSessionRevocationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
-      ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
-      ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
-      ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
-      ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
-      ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      errors: S.optional(BatchStartViewerSessionRevocationErrors),
-    }),
-  ).annotate({
-    identifier: "BatchStartViewerSessionRevocationResponse",
-  }) as any as S.Schema<BatchStartViewerSessionRevocationResponse>;
 export type AdConfigurationName = string;
 export type MediaTailorPlaybackConfigurationArn = string;
 export interface MediaTailorPlaybackConfiguration {
-  playbackConfigurationArn?: string;
+  playbackConfigurationArn?: string | undefined;
 }
-export const MediaTailorPlaybackConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ playbackConfigurationArn: S.optional(S.String) }),
-).annotate({
-  identifier: "MediaTailorPlaybackConfiguration",
-}) as any as S.Schema<MediaTailorPlaybackConfiguration>;
-export type MediaTailorPlaybackConfigurationsList =
-  MediaTailorPlaybackConfiguration[];
-export const MediaTailorPlaybackConfigurationsList = /*@__PURE__*/ S.Array(
-  MediaTailorPlaybackConfiguration,
-);
+export type MediaTailorPlaybackConfigurationsList = MediaTailorPlaybackConfiguration[];
 export type AdDurationSeconds = number;
 export interface PostRollConfiguration {
   durationSeconds: number;
   enabled: boolean;
 }
-export const PostRollConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ durationSeconds: S.Number, enabled: S.Boolean }),
-).annotate({
-  identifier: "PostRollConfiguration",
-}) as any as S.Schema<PostRollConfiguration>;
 export interface CreateAdConfigurationRequest {
-  name?: string;
+  name?: string | undefined;
   mediaTailorPlaybackConfigurations: MediaTailorPlaybackConfiguration[];
-  postRollConfiguration?: PostRollConfiguration;
-  tags?: { [key: string]: string | undefined };
+  postRollConfiguration?: PostRollConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const CreateAdConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    mediaTailorPlaybackConfigurations: MediaTailorPlaybackConfigurationsList,
-    postRollConfiguration: S.optional(PostRollConfiguration),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateAdConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAdConfigurationRequest",
-}) as any as S.Schema<CreateAdConfigurationRequest>;
 export type AdConfigurationArn = string;
 export interface AdConfiguration {
   arn: string;
-  name?: string;
+  name?: string | undefined;
   mediaTailorPlaybackConfigurations: MediaTailorPlaybackConfiguration[];
-  postRollConfiguration?: PostRollConfiguration;
-  tags?: { [key: string]: string | undefined };
+  postRollConfiguration?: PostRollConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const AdConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    mediaTailorPlaybackConfigurations: MediaTailorPlaybackConfigurationsList,
-    postRollConfiguration: S.optional(PostRollConfiguration),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "AdConfiguration",
-}) as any as S.Schema<AdConfiguration>;
 export interface CreateAdConfigurationResponse {
   adConfiguration: AdConfiguration;
 }
-export const CreateAdConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ adConfiguration: AdConfiguration }),
-).annotate({
-  identifier: "CreateAdConfigurationResponse",
-}) as any as S.Schema<CreateAdConfigurationResponse>;
 export interface CreateChannelRequest {
-  name?: string;
-  latencyMode?: string;
-  type?: ChannelType;
-  authorized?: boolean;
-  recordingConfigurationArn?: string;
-  tags?: { [key: string]: string | undefined };
-  insecureIngest?: boolean;
-  preset?: TranscodePreset;
-  playbackRestrictionPolicyArn?: string;
-  multitrackInputConfiguration?: MultitrackInputConfiguration;
-  containerFormat?: string;
-  adConfigurationArn?: string;
+  name?: string | undefined;
+  latencyMode?: string | undefined;
+  type?: ChannelType | undefined;
+  authorized?: boolean | undefined;
+  recordingConfigurationArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  insecureIngest?: boolean | undefined;
+  preset?: TranscodePreset | undefined;
+  playbackRestrictionPolicyArn?: string | undefined;
+  multitrackInputConfiguration?: MultitrackInputConfiguration | undefined;
+  containerFormat?: string | undefined;
+  adConfigurationArn?: string | undefined;
+  failoverSlateConfigurationArn?: string | undefined;
 }
-export const CreateChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    latencyMode: S.optional(S.String),
-    type: S.optional(ChannelType),
-    authorized: S.optional(S.Boolean),
-    recordingConfigurationArn: S.optional(S.String),
-    tags: S.optional(Tags),
-    insecureIngest: S.optional(S.Boolean),
-    preset: S.optional(TranscodePreset),
-    playbackRestrictionPolicyArn: S.optional(S.String),
-    multitrackInputConfiguration: S.optional(MultitrackInputConfiguration),
-    containerFormat: S.optional(S.String),
-    adConfigurationArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateChannel" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateChannelRequest",
-}) as any as S.Schema<CreateChannelRequest>;
 export interface CreateChannelResponse {
-  channel?: Channel;
-  streamKey?: StreamKey;
+  channel?: Channel | undefined;
+  streamKey?: StreamKey | undefined;
 }
-export const CreateChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ channel: S.optional(Channel), streamKey: S.optional(StreamKey) }),
-).annotate({
-  identifier: "CreateChannelResponse",
-}) as any as S.Schema<CreateChannelResponse>;
+export type FailoverSlateConfigurationName = string;
+export type FailoverSlateActivationThresholdSeconds = number;
+export type FailoverSlateMinDisplaySeconds = number;
+export type FailoverSlateMaxDisplaySeconds = number;
+export interface CreateFailoverSlateConfigurationRequest {
+  name?: string | undefined;
+  activationThresholdSeconds?: number | undefined;
+  minSlateDisplaySeconds?: number | undefined;
+  maxSlateDisplaySeconds?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+}
+export type FailoverSlateConfigurationArn = string;
+export type FailoverSlateConfigurationState = string;
+export interface FailoverSlateConfiguration {
+  arn: string;
+  name?: string | undefined;
+  activationThresholdSeconds?: number | undefined;
+  minSlateDisplaySeconds?: number | undefined;
+  maxSlateDisplaySeconds?: number | undefined;
+  state: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+}
+export interface CreateFailoverSlateConfigurationResponse {
+  failoverSlateConfiguration: FailoverSlateConfiguration;
+}
 export type PlaybackRestrictionPolicyAllowedCountry = string;
 export type PlaybackRestrictionPolicyAllowedCountryList = string[];
-export const PlaybackRestrictionPolicyAllowedCountryList =
-  /*@__PURE__*/ S.Array(S.String);
 export type PlaybackRestrictionPolicyAllowedOrigin = string;
 export type PlaybackRestrictionPolicyAllowedOriginList = string[];
-export const PlaybackRestrictionPolicyAllowedOriginList = /*@__PURE__*/ S.Array(
-  S.String,
-);
 export type PlaybackRestrictionPolicyEnableStrictOriginEnforcement = boolean;
 export type PlaybackRestrictionPolicyName = string;
 export interface CreatePlaybackRestrictionPolicyRequest {
-  allowedCountries?: string[];
-  allowedOrigins?: string[];
-  enableStrictOriginEnforcement?: boolean;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  allowedCountries?: string[] | undefined;
+  allowedOrigins?: string[] | undefined;
+  enableStrictOriginEnforcement?: boolean | undefined;
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const CreatePlaybackRestrictionPolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      allowedCountries: S.optional(PlaybackRestrictionPolicyAllowedCountryList),
-      allowedOrigins: S.optional(PlaybackRestrictionPolicyAllowedOriginList),
-      enableStrictOriginEnforcement: S.optional(S.Boolean),
-      name: S.optional(S.String),
-      tags: S.optional(Tags),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/CreatePlaybackRestrictionPolicy" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreatePlaybackRestrictionPolicyRequest",
-}) as any as S.Schema<CreatePlaybackRestrictionPolicyRequest>;
 export type PlaybackRestrictionPolicyArn = string;
 export interface PlaybackRestrictionPolicy {
   arn: string;
   allowedCountries: string[];
   allowedOrigins: string[];
-  enableStrictOriginEnforcement?: boolean;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  enableStrictOriginEnforcement?: boolean | undefined;
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const PlaybackRestrictionPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    allowedCountries: PlaybackRestrictionPolicyAllowedCountryList,
-    allowedOrigins: PlaybackRestrictionPolicyAllowedOriginList,
-    enableStrictOriginEnforcement: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "PlaybackRestrictionPolicy",
-}) as any as S.Schema<PlaybackRestrictionPolicy>;
 export interface CreatePlaybackRestrictionPolicyResponse {
-  playbackRestrictionPolicy?: PlaybackRestrictionPolicy;
+  playbackRestrictionPolicy?: PlaybackRestrictionPolicy | undefined;
 }
-export const CreatePlaybackRestrictionPolicyResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      playbackRestrictionPolicy: S.optional(PlaybackRestrictionPolicy),
-    }),
-).annotate({
-  identifier: "CreatePlaybackRestrictionPolicyResponse",
-}) as any as S.Schema<CreatePlaybackRestrictionPolicyResponse>;
 export type RecordingConfigurationName = string;
 export type S3DestinationBucketName = string;
 export interface S3DestinationConfiguration {
   bucketName: string;
 }
-export const S3DestinationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucketName: S.String }),
-).annotate({
-  identifier: "S3DestinationConfiguration",
-}) as any as S.Schema<S3DestinationConfiguration>;
 export interface DestinationConfiguration {
-  s3?: S3DestinationConfiguration;
+  s3?: S3DestinationConfiguration | undefined;
 }
-export const DestinationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ s3: S.optional(S3DestinationConfiguration) }),
-).annotate({
-  identifier: "DestinationConfiguration",
-}) as any as S.Schema<DestinationConfiguration>;
 export type RecordingMode = string;
 export type TargetIntervalSeconds = number;
 export type ThumbnailConfigurationResolution =
@@ -977,29 +697,14 @@ export type ThumbnailConfigurationResolution =
   | "FULL_HD"
   | "LOWEST_RESOLUTION"
   | (string & {});
-export const ThumbnailConfigurationResolution = S.String;
-
 export type ThumbnailConfigurationStorage = string;
 export type ThumbnailConfigurationStorageList = string[];
-export const ThumbnailConfigurationStorageList = /*@__PURE__*/ S.Array(
-  S.String,
-);
 export interface ThumbnailConfiguration {
-  recordingMode?: string;
-  targetIntervalSeconds?: number;
-  resolution?: ThumbnailConfigurationResolution;
-  storage?: string[];
+  recordingMode?: string | undefined;
+  targetIntervalSeconds?: number | undefined;
+  resolution?: ThumbnailConfigurationResolution | undefined;
+  storage?: string[] | undefined;
 }
-export const ThumbnailConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordingMode: S.optional(S.String),
-    targetIntervalSeconds: S.optional(S.Number),
-    resolution: S.optional(ThumbnailConfigurationResolution),
-    storage: S.optional(ThumbnailConfigurationStorageList),
-  }),
-).annotate({
-  identifier: "ThumbnailConfiguration",
-}) as any as S.Schema<ThumbnailConfiguration>;
 export type RecordingReconnectWindowSeconds = number;
 export type RenditionConfigurationRenditionSelection = string;
 export type RenditionConfigurationRendition =
@@ -1008,1418 +713,465 @@ export type RenditionConfigurationRendition =
   | "FULL_HD"
   | "LOWEST_RESOLUTION"
   | (string & {});
-export const RenditionConfigurationRendition = S.String;
-
-export type RenditionConfigurationRenditionList =
-  RenditionConfigurationRendition[];
-export const RenditionConfigurationRenditionList = /*@__PURE__*/ S.Array(
-  RenditionConfigurationRendition,
-);
+export type RenditionConfigurationRenditionList = RenditionConfigurationRendition[];
 export interface RenditionConfiguration {
-  renditionSelection?: string;
-  renditions?: RenditionConfigurationRendition[];
+  renditionSelection?: string | undefined;
+  renditions?: RenditionConfigurationRendition[] | undefined;
 }
-export const RenditionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    renditionSelection: S.optional(S.String),
-    renditions: S.optional(RenditionConfigurationRenditionList),
-  }),
-).annotate({
-  identifier: "RenditionConfiguration",
-}) as any as S.Schema<RenditionConfiguration>;
 export interface CreateRecordingConfigurationRequest {
-  name?: string;
+  name?: string | undefined;
   destinationConfiguration: DestinationConfiguration;
-  tags?: { [key: string]: string | undefined };
-  thumbnailConfiguration?: ThumbnailConfiguration;
-  recordingReconnectWindowSeconds?: number;
-  renditionConfiguration?: RenditionConfiguration;
+  tags?: { [key: string]: string | undefined } | undefined;
+  thumbnailConfiguration?: ThumbnailConfiguration | undefined;
+  recordingReconnectWindowSeconds?: number | undefined;
+  renditionConfiguration?: RenditionConfiguration | undefined;
 }
-export const CreateRecordingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    destinationConfiguration: DestinationConfiguration,
-    tags: S.optional(Tags),
-    thumbnailConfiguration: S.optional(ThumbnailConfiguration),
-    recordingReconnectWindowSeconds: S.optional(S.Number),
-    renditionConfiguration: S.optional(RenditionConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateRecordingConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateRecordingConfigurationRequest",
-}) as any as S.Schema<CreateRecordingConfigurationRequest>;
 export type RecordingConfigurationArn = string;
 export type RecordingConfigurationState = string;
 export interface RecordingConfiguration {
   arn: string;
-  name?: string;
+  name?: string | undefined;
   destinationConfiguration: DestinationConfiguration;
   state: string;
-  tags?: { [key: string]: string | undefined };
-  thumbnailConfiguration?: ThumbnailConfiguration;
-  recordingReconnectWindowSeconds?: number;
-  renditionConfiguration?: RenditionConfiguration;
+  tags?: { [key: string]: string | undefined } | undefined;
+  thumbnailConfiguration?: ThumbnailConfiguration | undefined;
+  recordingReconnectWindowSeconds?: number | undefined;
+  renditionConfiguration?: RenditionConfiguration | undefined;
 }
-export const RecordingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    destinationConfiguration: DestinationConfiguration,
-    state: S.String,
-    tags: S.optional(Tags),
-    thumbnailConfiguration: S.optional(ThumbnailConfiguration),
-    recordingReconnectWindowSeconds: S.optional(S.Number),
-    renditionConfiguration: S.optional(RenditionConfiguration),
-  }),
-).annotate({
-  identifier: "RecordingConfiguration",
-}) as any as S.Schema<RecordingConfiguration>;
 export interface CreateRecordingConfigurationResponse {
-  recordingConfiguration?: RecordingConfiguration;
+  recordingConfiguration?: RecordingConfiguration | undefined;
 }
-export const CreateRecordingConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ recordingConfiguration: S.optional(RecordingConfiguration) }),
-).annotate({
-  identifier: "CreateRecordingConfigurationResponse",
-}) as any as S.Schema<CreateRecordingConfigurationResponse>;
 export interface CreateStreamKeyRequest {
   channelArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const CreateStreamKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ channelArn: S.String, tags: S.optional(Tags) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateStreamKey" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateStreamKeyRequest",
-}) as any as S.Schema<CreateStreamKeyRequest>;
 export interface CreateStreamKeyResponse {
-  streamKey?: StreamKey;
+  streamKey?: StreamKey | undefined;
 }
-export const CreateStreamKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ streamKey: S.optional(StreamKey) }),
-).annotate({
-  identifier: "CreateStreamKeyResponse",
-}) as any as S.Schema<CreateStreamKeyResponse>;
 export interface DeleteAdConfigurationRequest {
   arn: string;
 }
-export const DeleteAdConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteAdConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAdConfigurationRequest",
-}) as any as S.Schema<DeleteAdConfigurationRequest>;
 export interface DeleteAdConfigurationResponse {}
-export const DeleteAdConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAdConfigurationResponse",
-}) as any as S.Schema<DeleteAdConfigurationResponse>;
 export interface DeleteChannelRequest {
   arn: string;
 }
-export const DeleteChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteChannel" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteChannelRequest",
-}) as any as S.Schema<DeleteChannelRequest>;
 export interface DeleteChannelResponse {}
-export const DeleteChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteChannelResponse",
-}) as any as S.Schema<DeleteChannelResponse>;
+export interface DeleteFailoverSlateConfigurationRequest {
+  arn: string;
+}
+export interface DeleteFailoverSlateConfigurationResponse {}
 export type PlaybackKeyPairArn = string;
 export interface DeletePlaybackKeyPairRequest {
   arn: string;
 }
-export const DeletePlaybackKeyPairRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeletePlaybackKeyPair" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeletePlaybackKeyPairRequest",
-}) as any as S.Schema<DeletePlaybackKeyPairRequest>;
 export interface DeletePlaybackKeyPairResponse {}
-export const DeletePlaybackKeyPairResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeletePlaybackKeyPairResponse",
-}) as any as S.Schema<DeletePlaybackKeyPairResponse>;
 export interface DeletePlaybackRestrictionPolicyRequest {
   arn: string;
 }
-export const DeletePlaybackRestrictionPolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ arn: S.String }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/DeletePlaybackRestrictionPolicy" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeletePlaybackRestrictionPolicyRequest",
-}) as any as S.Schema<DeletePlaybackRestrictionPolicyRequest>;
 export interface DeletePlaybackRestrictionPolicyResponse {}
-export const DeletePlaybackRestrictionPolicyResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "DeletePlaybackRestrictionPolicyResponse",
-}) as any as S.Schema<DeletePlaybackRestrictionPolicyResponse>;
 export interface DeleteRecordingConfigurationRequest {
   arn: string;
 }
-export const DeleteRecordingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteRecordingConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRecordingConfigurationRequest",
-}) as any as S.Schema<DeleteRecordingConfigurationRequest>;
 export interface DeleteRecordingConfigurationResponse {}
-export const DeleteRecordingConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "DeleteRecordingConfigurationResponse",
-}) as any as S.Schema<DeleteRecordingConfigurationResponse>;
 export interface DeleteStreamKeyRequest {
   arn: string;
 }
-export const DeleteStreamKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteStreamKey" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteStreamKeyRequest",
-}) as any as S.Schema<DeleteStreamKeyRequest>;
 export interface DeleteStreamKeyResponse {}
-export const DeleteStreamKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteStreamKeyResponse",
-}) as any as S.Schema<DeleteStreamKeyResponse>;
 export interface GetAdConfigurationRequest {
   arn: string;
 }
-export const GetAdConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetAdConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAdConfigurationRequest",
-}) as any as S.Schema<GetAdConfigurationRequest>;
 export interface GetAdConfigurationResponse {
-  adConfiguration?: AdConfiguration;
+  adConfiguration?: AdConfiguration | undefined;
 }
-export const GetAdConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ adConfiguration: S.optional(AdConfiguration) }),
-).annotate({
-  identifier: "GetAdConfigurationResponse",
-}) as any as S.Schema<GetAdConfigurationResponse>;
 export interface GetChannelRequest {
   arn: string;
 }
-export const GetChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetChannel" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetChannelRequest",
-}) as any as S.Schema<GetChannelRequest>;
 export interface GetChannelResponse {
-  channel?: Channel;
+  channel?: Channel | undefined;
 }
-export const GetChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ channel: S.optional(Channel) }),
-).annotate({
-  identifier: "GetChannelResponse",
-}) as any as S.Schema<GetChannelResponse>;
+export interface GetFailoverSlateConfigurationRequest {
+  arn: string;
+}
+export interface GetFailoverSlateConfigurationResponse {
+  failoverSlateConfiguration: FailoverSlateConfiguration;
+}
 export interface GetPlaybackKeyPairRequest {
   arn: string;
 }
-export const GetPlaybackKeyPairRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetPlaybackKeyPair" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetPlaybackKeyPairRequest",
-}) as any as S.Schema<GetPlaybackKeyPairRequest>;
 export type PlaybackKeyPairName = string;
 export type PlaybackKeyPairFingerprint = string;
 export interface PlaybackKeyPair {
-  arn?: string;
-  name?: string;
-  fingerprint?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  name?: string | undefined;
+  fingerprint?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const PlaybackKeyPair = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    fingerprint: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "PlaybackKeyPair",
-}) as any as S.Schema<PlaybackKeyPair>;
 export interface GetPlaybackKeyPairResponse {
-  keyPair?: PlaybackKeyPair;
+  keyPair?: PlaybackKeyPair | undefined;
 }
-export const GetPlaybackKeyPairResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ keyPair: S.optional(PlaybackKeyPair) }),
-).annotate({
-  identifier: "GetPlaybackKeyPairResponse",
-}) as any as S.Schema<GetPlaybackKeyPairResponse>;
 export interface GetPlaybackRestrictionPolicyRequest {
   arn: string;
 }
-export const GetPlaybackRestrictionPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetPlaybackRestrictionPolicy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetPlaybackRestrictionPolicyRequest",
-}) as any as S.Schema<GetPlaybackRestrictionPolicyRequest>;
 export interface GetPlaybackRestrictionPolicyResponse {
-  playbackRestrictionPolicy?: PlaybackRestrictionPolicy;
+  playbackRestrictionPolicy?: PlaybackRestrictionPolicy | undefined;
 }
-export const GetPlaybackRestrictionPolicyResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      playbackRestrictionPolicy: S.optional(PlaybackRestrictionPolicy),
-    }),
-).annotate({
-  identifier: "GetPlaybackRestrictionPolicyResponse",
-}) as any as S.Schema<GetPlaybackRestrictionPolicyResponse>;
 export interface GetRecordingConfigurationRequest {
   arn: string;
 }
-export const GetRecordingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetRecordingConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRecordingConfigurationRequest",
-}) as any as S.Schema<GetRecordingConfigurationRequest>;
 export interface GetRecordingConfigurationResponse {
-  recordingConfiguration?: RecordingConfiguration;
+  recordingConfiguration?: RecordingConfiguration | undefined;
 }
-export const GetRecordingConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ recordingConfiguration: S.optional(RecordingConfiguration) }),
-).annotate({
-  identifier: "GetRecordingConfigurationResponse",
-}) as any as S.Schema<GetRecordingConfigurationResponse>;
 export interface GetStreamRequest {
   channelArn: string;
 }
-export const GetStreamRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ channelArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetStream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetStreamRequest",
-}) as any as S.Schema<GetStreamRequest>;
 export type StreamId = string;
 export type StreamStartTime = Date;
 export type StreamState = string;
 export type StreamHealth = string;
 export type StreamViewerCount = number;
 export interface Stream {
-  channelArn?: string;
-  streamId?: string;
-  playbackUrl?: string;
-  startTime?: Date;
-  state?: string;
-  health?: string;
-  viewerCount?: number;
+  channelArn?: string | undefined;
+  streamId?: string | undefined;
+  playbackUrl?: string | undefined;
+  startTime?: Date | undefined;
+  state?: string | undefined;
+  health?: string | undefined;
+  viewerCount?: number | undefined;
 }
-export const Stream = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    channelArn: S.optional(S.String),
-    streamId: S.optional(S.String),
-    playbackUrl: S.optional(S.String),
-    startTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    state: S.optional(S.String),
-    health: S.optional(S.String),
-    viewerCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Stream" }) as any as S.Schema<Stream>;
 export interface GetStreamResponse {
-  stream?: Stream;
+  stream?: Stream | undefined;
 }
-export const GetStreamResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ stream: S.optional(Stream) }),
-).annotate({
-  identifier: "GetStreamResponse",
-}) as any as S.Schema<GetStreamResponse>;
 export interface GetStreamKeyRequest {
   arn: string;
 }
-export const GetStreamKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetStreamKey" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetStreamKeyRequest",
-}) as any as S.Schema<GetStreamKeyRequest>;
 export interface GetStreamKeyResponse {
-  streamKey?: StreamKey;
+  streamKey?: StreamKey | undefined;
 }
-export const GetStreamKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ streamKey: S.optional(StreamKey) }),
-).annotate({
-  identifier: "GetStreamKeyResponse",
-}) as any as S.Schema<GetStreamKeyResponse>;
 export interface GetStreamSessionRequest {
   channelArn: string;
-  streamId?: string;
+  streamId?: string | undefined;
 }
-export const GetStreamSessionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ channelArn: S.String, streamId: S.optional(S.String) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetStreamSession" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetStreamSessionRequest",
-}) as any as S.Schema<GetStreamSessionRequest>;
 export interface VideoConfiguration {
-  avcProfile?: string;
-  avcLevel?: string;
-  codec?: string;
-  encoder?: string;
-  targetBitrate?: number;
-  targetFramerate?: number;
-  videoHeight?: number;
-  videoWidth?: number;
-  level?: string;
-  track?: string;
-  profile?: string;
+  avcProfile?: string | undefined;
+  avcLevel?: string | undefined;
+  codec?: string | undefined;
+  encoder?: string | undefined;
+  targetBitrate?: number | undefined;
+  targetFramerate?: number | undefined;
+  videoHeight?: number | undefined;
+  videoWidth?: number | undefined;
+  level?: string | undefined;
+  track?: string | undefined;
+  profile?: string | undefined;
 }
-export const VideoConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    avcProfile: S.optional(S.String),
-    avcLevel: S.optional(S.String),
-    codec: S.optional(S.String),
-    encoder: S.optional(S.String),
-    targetBitrate: S.optional(S.Number),
-    targetFramerate: S.optional(S.Number),
-    videoHeight: S.optional(S.Number),
-    videoWidth: S.optional(S.Number),
-    level: S.optional(S.String),
-    track: S.optional(S.String),
-    profile: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VideoConfiguration",
-}) as any as S.Schema<VideoConfiguration>;
 export interface AudioConfiguration {
-  codec?: string;
-  targetBitrate?: number;
-  sampleRate?: number;
-  channels?: number;
-  track?: string;
+  codec?: string | undefined;
+  targetBitrate?: number | undefined;
+  sampleRate?: number | undefined;
+  channels?: number | undefined;
+  track?: string | undefined;
 }
-export const AudioConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    codec: S.optional(S.String),
-    targetBitrate: S.optional(S.Number),
-    sampleRate: S.optional(S.Number),
-    channels: S.optional(S.Number),
-    track: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AudioConfiguration",
-}) as any as S.Schema<AudioConfiguration>;
 export interface IngestConfiguration {
-  video?: VideoConfiguration;
-  audio?: AudioConfiguration;
+  video?: VideoConfiguration | undefined;
+  audio?: AudioConfiguration | undefined;
 }
-export const IngestConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    video: S.optional(VideoConfiguration),
-    audio: S.optional(AudioConfiguration),
-  }),
-).annotate({
-  identifier: "IngestConfiguration",
-}) as any as S.Schema<IngestConfiguration>;
 export type VideoConfigurationList = VideoConfiguration[];
-export const VideoConfigurationList = /*@__PURE__*/ S.Array(VideoConfiguration);
 export type AudioConfigurationList = AudioConfiguration[];
-export const AudioConfigurationList = /*@__PURE__*/ S.Array(AudioConfiguration);
 export interface IngestConfigurations {
   videoConfigurations: VideoConfiguration[];
   audioConfigurations: AudioConfiguration[];
 }
-export const IngestConfigurations = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    videoConfigurations: VideoConfigurationList,
-    audioConfigurations: AudioConfigurationList,
-  }),
-).annotate({
-  identifier: "IngestConfigurations",
-}) as any as S.Schema<IngestConfigurations>;
 export interface StreamEvent {
-  name?: string;
-  type?: string;
-  eventTime?: Date;
-  code?: string;
+  name?: string | undefined;
+  type?: string | undefined;
+  eventTime?: Date | undefined;
+  code?: string | undefined;
 }
-export const StreamEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    eventTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    code: S.optional(S.String),
-  }),
-).annotate({ identifier: "StreamEvent" }) as any as S.Schema<StreamEvent>;
 export type StreamEvents = StreamEvent[];
-export const StreamEvents = /*@__PURE__*/ S.Array(StreamEvent);
 export interface StreamSession {
-  streamId?: string;
-  startTime?: Date;
-  endTime?: Date;
-  channel?: Channel;
-  ingestConfiguration?: IngestConfiguration;
-  ingestConfigurations?: IngestConfigurations;
-  recordingConfiguration?: RecordingConfiguration;
-  truncatedEvents?: StreamEvent[];
+  streamId?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  channel?: Channel | undefined;
+  ingestConfiguration?: IngestConfiguration | undefined;
+  ingestConfigurations?: IngestConfigurations | undefined;
+  recordingConfiguration?: RecordingConfiguration | undefined;
+  truncatedEvents?: StreamEvent[] | undefined;
+  failoverSlateConfiguration?: FailoverSlateConfiguration | undefined;
 }
-export const StreamSession = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    streamId: S.optional(S.String),
-    startTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    channel: S.optional(Channel),
-    ingestConfiguration: S.optional(IngestConfiguration),
-    ingestConfigurations: S.optional(IngestConfigurations),
-    recordingConfiguration: S.optional(RecordingConfiguration),
-    truncatedEvents: S.optional(StreamEvents),
-  }),
-).annotate({ identifier: "StreamSession" }) as any as S.Schema<StreamSession>;
 export interface GetStreamSessionResponse {
-  streamSession?: StreamSession;
+  streamSession?: StreamSession | undefined;
 }
-export const GetStreamSessionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ streamSession: S.optional(StreamSession) }),
-).annotate({
-  identifier: "GetStreamSessionResponse",
-}) as any as S.Schema<GetStreamSessionResponse>;
 export type PlaybackPublicKeyMaterial = string;
 export interface ImportPlaybackKeyPairRequest {
   publicKeyMaterial: string;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const ImportPlaybackKeyPairRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    publicKeyMaterial: S.String,
-    name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ImportPlaybackKeyPair" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ImportPlaybackKeyPairRequest",
-}) as any as S.Schema<ImportPlaybackKeyPairRequest>;
 export interface ImportPlaybackKeyPairResponse {
-  keyPair?: PlaybackKeyPair;
+  keyPair?: PlaybackKeyPair | undefined;
 }
-export const ImportPlaybackKeyPairResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ keyPair: S.optional(PlaybackKeyPair) }),
-).annotate({
-  identifier: "ImportPlaybackKeyPairResponse",
-}) as any as S.Schema<ImportPlaybackKeyPairResponse>;
+export type AdBreakId = string;
 export interface InsertAdBreakRequest {
   channelArn: string;
   durationSeconds: number;
+  adBreakId?: string | undefined;
+  targetStartAt?: Date | undefined;
 }
-export const InsertAdBreakRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ channelArn: S.String, durationSeconds: S.Number }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/InsertAdBreak" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "InsertAdBreakRequest",
-}) as any as S.Schema<InsertAdBreakRequest>;
-export type AdBreakId = string;
 export interface InsertAdBreakResponse {
-  adBreakId?: string;
+  adBreakId?: string | undefined;
+  targetStartAt?: Date | undefined;
 }
-export const InsertAdBreakResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ adBreakId: S.optional(S.String) }),
-).annotate({
-  identifier: "InsertAdBreakResponse",
-}) as any as S.Schema<InsertAdBreakResponse>;
 export type PaginationToken = string;
 export type MaxAdConfigurationResults = number;
 export interface ListAdConfigurationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListAdConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListAdConfigurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAdConfigurationsRequest",
-}) as any as S.Schema<ListAdConfigurationsRequest>;
 export interface AdConfigurationSummary {
   arn: string;
-  name?: string;
+  name?: string | undefined;
   mediaTailorPlaybackConfigurations: MediaTailorPlaybackConfiguration[];
-  postRollConfiguration?: PostRollConfiguration;
-  tags?: { [key: string]: string | undefined };
+  postRollConfiguration?: PostRollConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const AdConfigurationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    mediaTailorPlaybackConfigurations: MediaTailorPlaybackConfigurationsList,
-    postRollConfiguration: S.optional(PostRollConfiguration),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "AdConfigurationSummary",
-}) as any as S.Schema<AdConfigurationSummary>;
 export type AdConfigurationList = AdConfigurationSummary[];
-export const AdConfigurationList = /*@__PURE__*/ S.Array(
-  AdConfigurationSummary,
-);
 export interface ListAdConfigurationsResponse {
   adConfigurations: AdConfigurationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListAdConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    adConfigurations: AdConfigurationList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAdConfigurationsResponse",
-}) as any as S.Schema<ListAdConfigurationsResponse>;
 export type MaxChannelResults = number;
 export interface ListChannelsRequest {
-  filterByName?: string;
-  filterByRecordingConfigurationArn?: string;
-  filterByPlaybackRestrictionPolicyArn?: string;
-  filterByAdConfigurationArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  filterByName?: string | undefined;
+  filterByRecordingConfigurationArn?: string | undefined;
+  filterByPlaybackRestrictionPolicyArn?: string | undefined;
+  filterByAdConfigurationArn?: string | undefined;
+  filterByFailoverSlateConfigurationArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListChannelsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filterByName: S.optional(S.String),
-    filterByRecordingConfigurationArn: S.optional(S.String),
-    filterByPlaybackRestrictionPolicyArn: S.optional(S.String),
-    filterByAdConfigurationArn: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListChannels" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListChannelsRequest",
-}) as any as S.Schema<ListChannelsRequest>;
 export interface ChannelSummary {
-  arn?: string;
-  name?: string;
-  latencyMode?: string;
-  authorized?: boolean;
-  recordingConfigurationArn?: string;
-  tags?: { [key: string]: string | undefined };
-  insecureIngest?: boolean;
-  type?: ChannelType;
-  preset?: TranscodePreset;
-  playbackRestrictionPolicyArn?: string;
-  adConfigurationArn?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
+  latencyMode?: string | undefined;
+  authorized?: boolean | undefined;
+  recordingConfigurationArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  insecureIngest?: boolean | undefined;
+  type?: ChannelType | undefined;
+  preset?: TranscodePreset | undefined;
+  playbackRestrictionPolicyArn?: string | undefined;
+  adConfigurationArn?: string | undefined;
+  failoverSlateConfigurationArn?: string | undefined;
 }
-export const ChannelSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    latencyMode: S.optional(S.String),
-    authorized: S.optional(S.Boolean),
-    recordingConfigurationArn: S.optional(S.String),
-    tags: S.optional(Tags),
-    insecureIngest: S.optional(S.Boolean),
-    type: S.optional(ChannelType),
-    preset: S.optional(TranscodePreset),
-    playbackRestrictionPolicyArn: S.optional(S.String),
-    adConfigurationArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "ChannelSummary" }) as any as S.Schema<ChannelSummary>;
 export type ChannelList = ChannelSummary[];
-export const ChannelList = /*@__PURE__*/ S.Array(ChannelSummary);
 export interface ListChannelsResponse {
   channels: ChannelSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListChannelsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ channels: ChannelList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListChannelsResponse",
-}) as any as S.Schema<ListChannelsResponse>;
+export type MaxFailoverSlateConfigurationResults = number;
+export interface ListFailoverSlateConfigurationsRequest {
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export interface FailoverSlateConfigurationSummary {
+  arn: string;
+  name?: string | undefined;
+  activationThresholdSeconds?: number | undefined;
+  minSlateDisplaySeconds?: number | undefined;
+  maxSlateDisplaySeconds?: number | undefined;
+  state: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+}
+export type FailoverSlateConfigurationList = FailoverSlateConfigurationSummary[];
+export interface ListFailoverSlateConfigurationsResponse {
+  failoverSlateConfigurations: FailoverSlateConfigurationSummary[];
+  nextToken?: string | undefined;
+}
 export type MaxPlaybackKeyPairResults = number;
 export interface ListPlaybackKeyPairsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListPlaybackKeyPairsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListPlaybackKeyPairs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListPlaybackKeyPairsRequest",
-}) as any as S.Schema<ListPlaybackKeyPairsRequest>;
 export interface PlaybackKeyPairSummary {
-  arn?: string;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const PlaybackKeyPairSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "PlaybackKeyPairSummary",
-}) as any as S.Schema<PlaybackKeyPairSummary>;
 export type PlaybackKeyPairList = PlaybackKeyPairSummary[];
-export const PlaybackKeyPairList = /*@__PURE__*/ S.Array(
-  PlaybackKeyPairSummary,
-);
 export interface ListPlaybackKeyPairsResponse {
   keyPairs: PlaybackKeyPairSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListPlaybackKeyPairsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ keyPairs: PlaybackKeyPairList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListPlaybackKeyPairsResponse",
-}) as any as S.Schema<ListPlaybackKeyPairsResponse>;
 export type MaxPlaybackRestrictionPolicyResults = number;
 export interface ListPlaybackRestrictionPoliciesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListPlaybackRestrictionPoliciesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      nextToken: S.optional(S.String),
-      maxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/ListPlaybackRestrictionPolicies" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListPlaybackRestrictionPoliciesRequest",
-}) as any as S.Schema<ListPlaybackRestrictionPoliciesRequest>;
 export interface PlaybackRestrictionPolicySummary {
   arn: string;
   allowedCountries: string[];
   allowedOrigins: string[];
-  enableStrictOriginEnforcement?: boolean;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  enableStrictOriginEnforcement?: boolean | undefined;
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const PlaybackRestrictionPolicySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    allowedCountries: PlaybackRestrictionPolicyAllowedCountryList,
-    allowedOrigins: PlaybackRestrictionPolicyAllowedOriginList,
-    enableStrictOriginEnforcement: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "PlaybackRestrictionPolicySummary",
-}) as any as S.Schema<PlaybackRestrictionPolicySummary>;
 export type PlaybackRestrictionPolicyList = PlaybackRestrictionPolicySummary[];
-export const PlaybackRestrictionPolicyList = /*@__PURE__*/ S.Array(
-  PlaybackRestrictionPolicySummary,
-);
 export interface ListPlaybackRestrictionPoliciesResponse {
   playbackRestrictionPolicies: PlaybackRestrictionPolicySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListPlaybackRestrictionPoliciesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      playbackRestrictionPolicies: PlaybackRestrictionPolicyList,
-      nextToken: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "ListPlaybackRestrictionPoliciesResponse",
-}) as any as S.Schema<ListPlaybackRestrictionPoliciesResponse>;
 export type MaxRecordingConfigurationResults = number;
 export interface ListRecordingConfigurationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListRecordingConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListRecordingConfigurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRecordingConfigurationsRequest",
-}) as any as S.Schema<ListRecordingConfigurationsRequest>;
 export interface RecordingConfigurationSummary {
   arn: string;
-  name?: string;
+  name?: string | undefined;
   destinationConfiguration: DestinationConfiguration;
   state: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const RecordingConfigurationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    destinationConfiguration: DestinationConfiguration,
-    state: S.String,
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "RecordingConfigurationSummary",
-}) as any as S.Schema<RecordingConfigurationSummary>;
 export type RecordingConfigurationList = RecordingConfigurationSummary[];
-export const RecordingConfigurationList = /*@__PURE__*/ S.Array(
-  RecordingConfigurationSummary,
-);
 export interface ListRecordingConfigurationsResponse {
   recordingConfigurations: RecordingConfigurationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListRecordingConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordingConfigurations: RecordingConfigurationList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRecordingConfigurationsResponse",
-}) as any as S.Schema<ListRecordingConfigurationsResponse>;
 export type MaxStreamKeyResults = number;
 export interface ListStreamKeysRequest {
   channelArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListStreamKeysRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    channelArn: S.String,
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListStreamKeys" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListStreamKeysRequest",
-}) as any as S.Schema<ListStreamKeysRequest>;
 export interface StreamKeySummary {
-  arn?: string;
-  channelArn?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  channelArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const StreamKeySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    channelArn: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "StreamKeySummary",
-}) as any as S.Schema<StreamKeySummary>;
 export type StreamKeyList = StreamKeySummary[];
-export const StreamKeyList = /*@__PURE__*/ S.Array(StreamKeySummary);
 export interface ListStreamKeysResponse {
   streamKeys: StreamKeySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListStreamKeysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ streamKeys: StreamKeyList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListStreamKeysResponse",
-}) as any as S.Schema<ListStreamKeysResponse>;
 export interface StreamFilters {
-  health?: string;
+  health?: string | undefined;
 }
-export const StreamFilters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ health: S.optional(S.String) }),
-).annotate({ identifier: "StreamFilters" }) as any as S.Schema<StreamFilters>;
 export type MaxStreamResults = number;
 export interface ListStreamsRequest {
-  filterBy?: StreamFilters;
-  nextToken?: string;
-  maxResults?: number;
+  filterBy?: StreamFilters | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListStreamsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filterBy: S.optional(StreamFilters),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListStreams" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListStreamsRequest",
-}) as any as S.Schema<ListStreamsRequest>;
 export interface StreamSummary {
-  channelArn?: string;
-  streamId?: string;
-  state?: string;
-  health?: string;
-  viewerCount?: number;
-  startTime?: Date;
+  channelArn?: string | undefined;
+  streamId?: string | undefined;
+  state?: string | undefined;
+  health?: string | undefined;
+  viewerCount?: number | undefined;
+  startTime?: Date | undefined;
 }
-export const StreamSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    channelArn: S.optional(S.String),
-    streamId: S.optional(S.String),
-    state: S.optional(S.String),
-    health: S.optional(S.String),
-    viewerCount: S.optional(S.Number),
-    startTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({ identifier: "StreamSummary" }) as any as S.Schema<StreamSummary>;
 export type StreamList = StreamSummary[];
-export const StreamList = /*@__PURE__*/ S.Array(StreamSummary);
 export interface ListStreamsResponse {
   streams: StreamSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListStreamsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ streams: StreamList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListStreamsResponse",
-}) as any as S.Schema<ListStreamsResponse>;
 export interface ListStreamSessionsRequest {
   channelArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListStreamSessionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    channelArn: S.String,
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListStreamSessions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListStreamSessionsRequest",
-}) as any as S.Schema<ListStreamSessionsRequest>;
 export interface StreamSessionSummary {
-  streamId?: string;
-  startTime?: Date;
-  endTime?: Date;
-  hasErrorEvent?: boolean;
+  streamId?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  hasErrorEvent?: boolean | undefined;
 }
-export const StreamSessionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    streamId: S.optional(S.String),
-    startTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    hasErrorEvent: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "StreamSessionSummary",
-}) as any as S.Schema<StreamSessionSummary>;
 export type StreamSessionList = StreamSessionSummary[];
-export const StreamSessionList = /*@__PURE__*/ S.Array(StreamSessionSummary);
 export interface ListStreamSessionsResponse {
   streamSessions: StreamSessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListStreamSessionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    streamSessions: StreamSessionList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListStreamSessionsResponse",
-}) as any as S.Schema<ListStreamSessionsResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: Tags }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export type StreamMetadata = string | redacted.Redacted<string>;
 export interface PutMetadataRequest {
   channelArn: string;
   metadata: string | redacted.Redacted<string>;
 }
-export const PutMetadataRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ channelArn: S.String, metadata: SensitiveString }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/PutMetadata" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutMetadataRequest",
-}) as any as S.Schema<PutMetadataRequest>;
 export interface PutMetadataResponse {}
-export const PutMetadataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutMetadataResponse",
-}) as any as S.Schema<PutMetadataResponse>;
 export interface StartViewerSessionRevocationRequest {
   channelArn: string;
   viewerId: string;
-  viewerSessionVersionsLessThanOrEqualTo?: number;
+  viewerSessionVersionsLessThanOrEqualTo?: number | undefined;
 }
-export const StartViewerSessionRevocationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    channelArn: S.String,
-    viewerId: S.String,
-    viewerSessionVersionsLessThanOrEqualTo: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StartViewerSessionRevocation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartViewerSessionRevocationRequest",
-}) as any as S.Schema<StartViewerSessionRevocationRequest>;
 export interface StartViewerSessionRevocationResponse {}
-export const StartViewerSessionRevocationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "StartViewerSessionRevocationResponse",
-}) as any as S.Schema<StartViewerSessionRevocationResponse>;
 export interface StopStreamRequest {
   channelArn: string;
 }
-export const StopStreamRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ channelArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StopStream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopStreamRequest",
-}) as any as S.Schema<StopStreamRequest>;
 export interface StopStreamResponse {}
-export const StopStreamResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "StopStreamResponse",
-}) as any as S.Schema<StopStreamResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: Tags,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAdConfigurationRequest {
   arn: string;
-  name?: string;
-  mediaTailorPlaybackConfigurations?: MediaTailorPlaybackConfiguration[];
-  postRollConfiguration?: PostRollConfiguration;
+  name?: string | undefined;
+  mediaTailorPlaybackConfigurations?: MediaTailorPlaybackConfiguration[] | undefined;
+  postRollConfiguration?: PostRollConfiguration | undefined;
 }
-export const UpdateAdConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    mediaTailorPlaybackConfigurations: S.optional(
-      MediaTailorPlaybackConfigurationsList,
-    ),
-    postRollConfiguration: S.optional(PostRollConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UpdateAdConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAdConfigurationRequest",
-}) as any as S.Schema<UpdateAdConfigurationRequest>;
 export interface UpdateAdConfigurationResponse {
   adConfiguration: AdConfiguration;
 }
-export const UpdateAdConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ adConfiguration: AdConfiguration }),
-).annotate({
-  identifier: "UpdateAdConfigurationResponse",
-}) as any as S.Schema<UpdateAdConfigurationResponse>;
 export interface UpdateChannelRequest {
   arn: string;
-  name?: string;
-  latencyMode?: string;
-  type?: ChannelType;
-  authorized?: boolean;
-  recordingConfigurationArn?: string;
-  insecureIngest?: boolean;
-  preset?: TranscodePreset;
-  playbackRestrictionPolicyArn?: string;
-  multitrackInputConfiguration?: MultitrackInputConfiguration;
-  containerFormat?: string;
-  adConfigurationArn?: string;
+  name?: string | undefined;
+  latencyMode?: string | undefined;
+  type?: ChannelType | undefined;
+  authorized?: boolean | undefined;
+  recordingConfigurationArn?: string | undefined;
+  insecureIngest?: boolean | undefined;
+  preset?: TranscodePreset | undefined;
+  playbackRestrictionPolicyArn?: string | undefined;
+  multitrackInputConfiguration?: MultitrackInputConfiguration | undefined;
+  containerFormat?: string | undefined;
+  adConfigurationArn?: string | undefined;
+  failoverSlateConfigurationArn?: string | undefined;
 }
-export const UpdateChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    latencyMode: S.optional(S.String),
-    type: S.optional(ChannelType),
-    authorized: S.optional(S.Boolean),
-    recordingConfigurationArn: S.optional(S.String),
-    insecureIngest: S.optional(S.Boolean),
-    preset: S.optional(TranscodePreset),
-    playbackRestrictionPolicyArn: S.optional(S.String),
-    multitrackInputConfiguration: S.optional(MultitrackInputConfiguration),
-    containerFormat: S.optional(S.String),
-    adConfigurationArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UpdateChannel" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateChannelRequest",
-}) as any as S.Schema<UpdateChannelRequest>;
 export interface UpdateChannelResponse {
-  channel?: Channel;
+  channel?: Channel | undefined;
 }
-export const UpdateChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ channel: S.optional(Channel) }),
-).annotate({
-  identifier: "UpdateChannelResponse",
-}) as any as S.Schema<UpdateChannelResponse>;
+export interface UpdateFailoverSlateConfigurationRequest {
+  arn: string;
+  name?: string | undefined;
+  activationThresholdSeconds?: number | undefined;
+  minSlateDisplaySeconds?: number | undefined;
+  maxSlateDisplaySeconds?: number | undefined;
+}
+export interface UpdateFailoverSlateConfigurationResponse {
+  failoverSlateConfiguration: FailoverSlateConfiguration;
+}
 export interface UpdatePlaybackRestrictionPolicyRequest {
   arn: string;
-  allowedCountries?: string[];
-  allowedOrigins?: string[];
-  enableStrictOriginEnforcement?: boolean;
-  name?: string;
+  allowedCountries?: string[] | undefined;
+  allowedOrigins?: string[] | undefined;
+  enableStrictOriginEnforcement?: boolean | undefined;
+  name?: string | undefined;
 }
-export const UpdatePlaybackRestrictionPolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      arn: S.String,
-      allowedCountries: S.optional(PlaybackRestrictionPolicyAllowedCountryList),
-      allowedOrigins: S.optional(PlaybackRestrictionPolicyAllowedOriginList),
-      enableStrictOriginEnforcement: S.optional(S.Boolean),
-      name: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/UpdatePlaybackRestrictionPolicy" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdatePlaybackRestrictionPolicyRequest",
-}) as any as S.Schema<UpdatePlaybackRestrictionPolicyRequest>;
 export interface UpdatePlaybackRestrictionPolicyResponse {
-  playbackRestrictionPolicy?: PlaybackRestrictionPolicy;
+  playbackRestrictionPolicy?: PlaybackRestrictionPolicy | undefined;
 }
-export const UpdatePlaybackRestrictionPolicyResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      playbackRestrictionPolicy: S.optional(PlaybackRestrictionPolicy),
-    }),
-).annotate({
-  identifier: "UpdatePlaybackRestrictionPolicyResponse",
-}) as any as S.Schema<UpdatePlaybackRestrictionPolicyResponse>;
 export type BatchGetChannelError =
   | AccessDeniedException
   | ServiceUnavailable
@@ -2429,17 +1181,19 @@ export type BatchGetChannelError =
  * Performs GetChannel on multiple ARNs simultaneously.
  */
 export const batchGetChannel: API.OperationMethod<
-  BatchGetChannelRequest,
+  BatchGetChannelRequest & RegionInput,
   BatchGetChannelResponse,
   BatchGetChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetChannelRequest,
-  output: BatchGetChannelResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<BatchGetChannelRequest>,
+  output: __S(2, __c0, 2) as any as S.Schema<BatchGetChannelResponse>,
   errors: [AccessDeniedException, ServiceUnavailable, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetChannel",
+  telemetry: TELEMETRY,
+  span: "BatchGetChannel",
 }));
 
 export type BatchGetStreamKeyError =
@@ -2451,17 +1205,19 @@ export type BatchGetStreamKeyError =
  * Performs GetStreamKey on multiple ARNs simultaneously.
  */
 export const batchGetStreamKey: API.OperationMethod<
-  BatchGetStreamKeyRequest,
+  BatchGetStreamKeyRequest & RegionInput,
   BatchGetStreamKeyResponse,
   BatchGetStreamKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetStreamKeyRequest,
-  output: BatchGetStreamKeyResponse,
+  input: __S(80, __c5, 0) as any as S.Schema<BatchGetStreamKeyRequest>,
+  output: __S(82, __c5, 2) as any as S.Schema<BatchGetStreamKeyResponse>,
   errors: [AccessDeniedException, ServiceUnavailable, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetStreamKey",
+  telemetry: TELEMETRY,
+  span: "BatchGetStreamKey",
 }));
 
 export type BatchStartViewerSessionRevocationError =
@@ -2474,22 +1230,19 @@ export type BatchStartViewerSessionRevocationError =
  * Performs StartViewerSessionRevocation on multiple channel ARN and viewer ID pairs simultaneously.
  */
 export const batchStartViewerSessionRevocation: API.OperationMethod<
-  BatchStartViewerSessionRevocationRequest,
+  BatchStartViewerSessionRevocationRequest & RegionInput,
   BatchStartViewerSessionRevocationResponse,
   BatchStartViewerSessionRevocationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchStartViewerSessionRevocationRequest,
-  output: BatchStartViewerSessionRevocationResponse,
-  errors: [
-    AccessDeniedException,
-    PendingVerification,
-    ThrottlingException,
-    ValidationException,
-  ],
+  input: __S(114, __c7, 2) as any as S.Schema<BatchStartViewerSessionRevocationRequest>,
+  output: __S(117, __c7, 5) as any as S.Schema<BatchStartViewerSessionRevocationResponse>,
+  errors: [AccessDeniedException, PendingVerification, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchStartViewerSessionRevocation",
+  telemetry: TELEMETRY,
+  span: "BatchStartViewerSessionRevocation",
 }));
 
 export type CreateAdConfigurationError =
@@ -2506,13 +1259,13 @@ export type CreateAdConfigurationError =
  * Creates a new ad configuration to be used for server-side ad insertion.
  */
 export const createAdConfiguration: API.OperationMethod<
-  CreateAdConfigurationRequest,
+  CreateAdConfigurationRequest & RegionInput,
   CreateAdConfigurationResponse,
   CreateAdConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAdConfigurationRequest,
-  output: CreateAdConfigurationResponse,
+  input: __S(128, __c8, 0) as any as S.Schema<CreateAdConfigurationRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<CreateAdConfigurationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2526,6 +1279,8 @@ export const createAdConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAdConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateAdConfiguration",
 }));
 
 export type CreateChannelError =
@@ -2540,13 +1295,13 @@ export type CreateChannelError =
  * Creates a new channel and an associated stream key to start streaming.
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
+  CreateChannelRequest & RegionInput,
   CreateChannelResponse,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateChannelRequest,
-  output: CreateChannelResponse,
+  input: __S(176, __c11, 0) as any as S.Schema<CreateChannelRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<CreateChannelResponse>,
   errors: [
     AccessDeniedException,
     PendingVerification,
@@ -2558,6 +1313,42 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
+}));
+
+export type CreateFailoverSlateConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a new failover slate configuration.
+ */
+export const createFailoverSlateConfiguration: API.OperationMethod<
+  CreateFailoverSlateConfigurationRequest & RegionInput,
+  CreateFailoverSlateConfigurationResponse,
+  CreateFailoverSlateConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c12, 0) as any as S.Schema<CreateFailoverSlateConfigurationRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<CreateFailoverSlateConfigurationResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateFailoverSlateConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateFailoverSlateConfiguration",
 }));
 
 export type CreatePlaybackRestrictionPolicyError =
@@ -2571,13 +1362,13 @@ export type CreatePlaybackRestrictionPolicyError =
  * Creates a new playback restriction policy, for constraining playback by countries and/or origins.
  */
 export const createPlaybackRestrictionPolicy: API.OperationMethod<
-  CreatePlaybackRestrictionPolicyRequest,
+  CreatePlaybackRestrictionPolicyRequest & RegionInput,
   CreatePlaybackRestrictionPolicyResponse,
   CreatePlaybackRestrictionPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreatePlaybackRestrictionPolicyRequest,
-  output: CreatePlaybackRestrictionPolicyResponse,
+  input: __S(240, __c15, 0) as any as S.Schema<CreatePlaybackRestrictionPolicyRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<CreatePlaybackRestrictionPolicyResponse>,
   errors: [
     AccessDeniedException,
     PendingVerification,
@@ -2588,6 +1379,8 @@ export const createPlaybackRestrictionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlaybackRestrictionPolicy",
+  telemetry: TELEMETRY,
+  span: "CreatePlaybackRestrictionPolicy",
 }));
 
 export type CreateRecordingConfigurationError =
@@ -2607,13 +1400,13 @@ export type CreateRecordingConfigurationError =
  * **Workaround:** Ensure that your S3 bucket is in the same region as the recording configuration. If you create a recording configuration in a different region as your S3 bucket, delete that recording configuration and create a new one with an S3 bucket from the correct region.
  */
 export const createRecordingConfiguration: API.OperationMethod<
-  CreateRecordingConfigurationRequest,
+  CreateRecordingConfigurationRequest & RegionInput,
   CreateRecordingConfigurationResponse,
   CreateRecordingConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRecordingConfigurationRequest,
-  output: CreateRecordingConfigurationResponse,
+  input: __S(288, __c18, 0) as any as S.Schema<CreateRecordingConfigurationRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<CreateRecordingConfigurationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2626,6 +1419,8 @@ export const createRecordingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecordingConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateRecordingConfiguration",
 }));
 
 export type CreateStreamKeyError =
@@ -2642,13 +1437,13 @@ export type CreateStreamKeyError =
  * Note that CreateChannel creates a stream key. If you subsequently use CreateStreamKey on the same channel, it will fail because a stream key already exists and there is a limit of 1 stream key per channel. To reset the stream key on a channel, use DeleteStreamKey and then CreateStreamKey.
  */
 export const createStreamKey: API.OperationMethod<
-  CreateStreamKeyRequest,
+  CreateStreamKeyRequest & RegionInput,
   CreateStreamKeyResponse,
   CreateStreamKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateStreamKeyRequest,
-  output: CreateStreamKeyResponse,
+  input: __S(352, __c22, 0) as any as S.Schema<CreateStreamKeyRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<CreateStreamKeyResponse>,
   errors: [
     AccessDeniedException,
     PendingVerification,
@@ -2660,6 +1455,8 @@ export const createStreamKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamKey",
+  telemetry: TELEMETRY,
+  span: "CreateStreamKey",
 }));
 
 export type DeleteAdConfigurationError =
@@ -2674,13 +1471,13 @@ export type DeleteAdConfigurationError =
  * Deletes the specified ad configuration.
  */
 export const deleteAdConfiguration: API.OperationMethod<
-  DeleteAdConfigurationRequest,
+  DeleteAdConfigurationRequest & RegionInput,
   DeleteAdConfigurationResponse,
   DeleteAdConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAdConfigurationRequest,
-  output: DeleteAdConfigurationResponse,
+  input: __S(384, __c24, 0) as any as S.Schema<DeleteAdConfigurationRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<DeleteAdConfigurationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2692,6 +1489,8 @@ export const deleteAdConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAdConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteAdConfiguration",
 }));
 
 export type DeleteChannelError =
@@ -2708,13 +1507,13 @@ export type DeleteChannelError =
  * If you try to delete a live channel, you will get an error (409 ConflictException). To delete a channel that is live, call StopStream, wait for the Amazon EventBridge "Stream End" event (to verify that the stream's state is no longer Live), then call DeleteChannel. (See Using EventBridge with Amazon IVS.)
  */
 export const deleteChannel: API.OperationMethod<
-  DeleteChannelRequest,
+  DeleteChannelRequest & RegionInput,
   DeleteChannelResponse,
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteChannelRequest,
-  output: DeleteChannelResponse,
+  input: __S(416, __c26, 0) as any as S.Schema<DeleteChannelRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<DeleteChannelResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2726,6 +1525,40 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteChannel",
+}));
+
+export type DeleteFailoverSlateConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes the specified failover slate configuration.
+ */
+export const deleteFailoverSlateConfiguration: API.OperationMethod<
+  DeleteFailoverSlateConfigurationRequest & RegionInput,
+  DeleteFailoverSlateConfigurationResponse,
+  DeleteFailoverSlateConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(432, __c27, 0) as any as S.Schema<DeleteFailoverSlateConfigurationRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<DeleteFailoverSlateConfigurationResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteFailoverSlateConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteFailoverSlateConfiguration",
 }));
 
 export type DeletePlaybackKeyPairError =
@@ -2737,16 +1570,16 @@ export type DeletePlaybackKeyPairError =
   | InternalServerException
   | CommonErrors;
 /**
- * Deletes a specified authorization key pair. This invalidates future viewer tokens generated using the key pair’s `privateKey`. For more information, see Setting Up Private Channels in the *Amazon IVS User Guide*.
+ * Deletes a specified authorization key pair. This invalidates future viewer tokens generated using the key pair's `privateKey`. For more information, see Setting Up Private Channels in the *Amazon IVS User Guide*.
  */
 export const deletePlaybackKeyPair: API.OperationMethod<
-  DeletePlaybackKeyPairRequest,
+  DeletePlaybackKeyPairRequest & RegionInput,
   DeletePlaybackKeyPairResponse,
   DeletePlaybackKeyPairError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeletePlaybackKeyPairRequest,
-  output: DeletePlaybackKeyPairResponse,
+  input: __S(448, __c28, 0) as any as S.Schema<DeletePlaybackKeyPairRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<DeletePlaybackKeyPairResponse>,
   errors: [
     AccessDeniedException,
     PendingVerification,
@@ -2758,6 +1591,8 @@ export const deletePlaybackKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlaybackKeyPair",
+  telemetry: TELEMETRY,
+  span: "DeletePlaybackKeyPair",
 }));
 
 export type DeletePlaybackRestrictionPolicyError =
@@ -2772,13 +1607,13 @@ export type DeletePlaybackRestrictionPolicyError =
  * Deletes the specified playback restriction policy.
  */
 export const deletePlaybackRestrictionPolicy: API.OperationMethod<
-  DeletePlaybackRestrictionPolicyRequest,
+  DeletePlaybackRestrictionPolicyRequest & RegionInput,
   DeletePlaybackRestrictionPolicyResponse,
   DeletePlaybackRestrictionPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeletePlaybackRestrictionPolicyRequest,
-  output: DeletePlaybackRestrictionPolicyResponse,
+  input: __S(464, __c29, 0) as any as S.Schema<DeletePlaybackRestrictionPolicyRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<DeletePlaybackRestrictionPolicyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2790,6 +1625,8 @@ export const deletePlaybackRestrictionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlaybackRestrictionPolicy",
+  telemetry: TELEMETRY,
+  span: "DeletePlaybackRestrictionPolicy",
 }));
 
 export type DeleteRecordingConfigurationError =
@@ -2806,13 +1643,13 @@ export type DeleteRecordingConfigurationError =
  * If you try to delete a recording configuration that is associated with a channel, you will get an error (409 ConflictException). To avoid this, for all channels that reference the recording configuration, first use UpdateChannel to set the `recordingConfigurationArn` field to an empty string, then use DeleteRecordingConfiguration.
  */
 export const deleteRecordingConfiguration: API.OperationMethod<
-  DeleteRecordingConfigurationRequest,
+  DeleteRecordingConfigurationRequest & RegionInput,
   DeleteRecordingConfigurationResponse,
   DeleteRecordingConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRecordingConfigurationRequest,
-  output: DeleteRecordingConfigurationResponse,
+  input: __S(480, __c30, 0) as any as S.Schema<DeleteRecordingConfigurationRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<DeleteRecordingConfigurationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2824,6 +1661,8 @@ export const deleteRecordingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecordingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteRecordingConfiguration",
 }));
 
 export type DeleteStreamKeyError =
@@ -2837,13 +1676,13 @@ export type DeleteStreamKeyError =
  * Deletes the stream key for the specified ARN, so it can no longer be used to stream.
  */
 export const deleteStreamKey: API.OperationMethod<
-  DeleteStreamKeyRequest,
+  DeleteStreamKeyRequest & RegionInput,
   DeleteStreamKeyResponse,
   DeleteStreamKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteStreamKeyRequest,
-  output: DeleteStreamKeyResponse,
+  input: __S(496, __c31, 0) as any as S.Schema<DeleteStreamKeyRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<DeleteStreamKeyResponse>,
   errors: [
     AccessDeniedException,
     PendingVerification,
@@ -2854,6 +1693,8 @@ export const deleteStreamKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStreamKey",
+  telemetry: TELEMETRY,
+  span: "DeleteStreamKey",
 }));
 
 export type GetAdConfigurationError =
@@ -2867,13 +1708,13 @@ export type GetAdConfigurationError =
  * Gets the ad configuration represented by the specified ARN.
  */
 export const getAdConfiguration: API.OperationMethod<
-  GetAdConfigurationRequest,
+  GetAdConfigurationRequest & RegionInput,
   GetAdConfigurationResponse,
   GetAdConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAdConfigurationRequest,
-  output: GetAdConfigurationResponse,
+  input: __S(512, __c32, 0) as any as S.Schema<GetAdConfigurationRequest>,
+  output: __S(513, __c32, 1) as any as S.Schema<GetAdConfigurationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2884,6 +1725,8 @@ export const getAdConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetAdConfiguration",
 }));
 
 export type GetChannelError =
@@ -2896,13 +1739,13 @@ export type GetChannelError =
  * Gets the channel configuration for the specified channel ARN. See also BatchGetChannel.
  */
 export const getChannel: API.OperationMethod<
-  GetChannelRequest,
+  GetChannelRequest & RegionInput,
   GetChannelResponse,
   GetChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetChannelRequest,
-  output: GetChannelResponse,
+  input: __S(528, __c33, 0) as any as S.Schema<GetChannelRequest>,
+  output: __S(544, __c34, 0) as any as S.Schema<GetChannelResponse>,
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -2912,6 +1755,38 @@ export const getChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannel",
+  telemetry: TELEMETRY,
+  span: "GetChannel",
+}));
+
+export type GetFailoverSlateConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Gets the failover slate configuration for the specified ARN.
+ */
+export const getFailoverSlateConfiguration: API.OperationMethod<
+  GetFailoverSlateConfigurationRequest & RegionInput,
+  GetFailoverSlateConfigurationResponse,
+  GetFailoverSlateConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(560, __c35, 0) as any as S.Schema<GetFailoverSlateConfigurationRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<GetFailoverSlateConfigurationResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetFailoverSlateConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetFailoverSlateConfiguration",
 }));
 
 export type GetPlaybackKeyPairError =
@@ -2924,13 +1799,13 @@ export type GetPlaybackKeyPairError =
  * Gets a specified playback authorization key pair and returns the `arn` and `fingerprint`. The `privateKey` held by the caller can be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see Setting Up Private Channels in the *Amazon IVS User Guide*.
  */
 export const getPlaybackKeyPair: API.OperationMethod<
-  GetPlaybackKeyPairRequest,
+  GetPlaybackKeyPairRequest & RegionInput,
   GetPlaybackKeyPairResponse,
   GetPlaybackKeyPairError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPlaybackKeyPairRequest,
-  output: GetPlaybackKeyPairResponse,
+  input: __S(576, __c36, 0) as any as S.Schema<GetPlaybackKeyPairRequest>,
+  output: __S(593, __c37, 1) as any as S.Schema<GetPlaybackKeyPairResponse>,
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -2940,6 +1815,8 @@ export const getPlaybackKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlaybackKeyPair",
+  telemetry: TELEMETRY,
+  span: "GetPlaybackKeyPair",
 }));
 
 export type GetPlaybackRestrictionPolicyError =
@@ -2953,13 +1830,13 @@ export type GetPlaybackRestrictionPolicyError =
  * Gets the specified playback restriction policy.
  */
 export const getPlaybackRestrictionPolicy: API.OperationMethod<
-  GetPlaybackRestrictionPolicyRequest,
+  GetPlaybackRestrictionPolicyRequest & RegionInput,
   GetPlaybackRestrictionPolicyResponse,
   GetPlaybackRestrictionPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPlaybackRestrictionPolicyRequest,
-  output: GetPlaybackRestrictionPolicyResponse,
+  input: __S(608, __c38, 0) as any as S.Schema<GetPlaybackRestrictionPolicyRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<GetPlaybackRestrictionPolicyResponse>,
   errors: [
     AccessDeniedException,
     PendingVerification,
@@ -2970,6 +1847,8 @@ export const getPlaybackRestrictionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlaybackRestrictionPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPlaybackRestrictionPolicy",
 }));
 
 export type GetRecordingConfigurationError =
@@ -2983,13 +1862,13 @@ export type GetRecordingConfigurationError =
  * Gets the recording configuration for the specified ARN.
  */
 export const getRecordingConfiguration: API.OperationMethod<
-  GetRecordingConfigurationRequest,
+  GetRecordingConfigurationRequest & RegionInput,
   GetRecordingConfigurationResponse,
   GetRecordingConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRecordingConfigurationRequest,
-  output: GetRecordingConfigurationResponse,
+  input: __S(624, __c39, 0) as any as S.Schema<GetRecordingConfigurationRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<GetRecordingConfigurationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3000,6 +1879,8 @@ export const getRecordingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecordingConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetRecordingConfiguration",
 }));
 
 export type GetStreamError =
@@ -3013,13 +1894,13 @@ export type GetStreamError =
  * Gets information about the active (live) stream on a specified channel.
  */
 export const getStream: API.OperationMethod<
-  GetStreamRequest,
+  GetStreamRequest & RegionInput,
   GetStreamResponse,
   GetStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetStreamRequest,
-  output: GetStreamResponse,
+  input: __S(640, __c40, 0) as any as S.Schema<GetStreamRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<GetStreamResponse>,
   errors: [
     AccessDeniedException,
     ChannelNotBroadcasting,
@@ -3030,6 +1911,8 @@ export const getStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStream",
+  telemetry: TELEMETRY,
+  span: "GetStream",
 }));
 
 export type GetStreamKeyError =
@@ -3042,13 +1925,13 @@ export type GetStreamKeyError =
  * Gets stream-key information for a specified ARN.
  */
 export const getStreamKey: API.OperationMethod<
-  GetStreamKeyRequest,
+  GetStreamKeyRequest & RegionInput,
   GetStreamKeyResponse,
   GetStreamKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetStreamKeyRequest,
-  output: GetStreamKeyResponse,
+  input: __S(656, __c41, 0) as any as S.Schema<GetStreamKeyRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<GetStreamKeyResponse>,
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -3058,6 +1941,8 @@ export const getStreamKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamKey",
+  telemetry: TELEMETRY,
+  span: "GetStreamKey",
 }));
 
 export type GetStreamSessionError =
@@ -3070,13 +1955,13 @@ export type GetStreamSessionError =
  * Gets metadata on a specified stream.
  */
 export const getStreamSession: API.OperationMethod<
-  GetStreamSessionRequest,
+  GetStreamSessionRequest & RegionInput,
   GetStreamSessionResponse,
   GetStreamSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetStreamSessionRequest,
-  output: GetStreamSessionResponse,
+  input: __S(672, __c42, 0) as any as S.Schema<GetStreamSessionRequest>,
+  output: __S(682, __c42, 10) as any as S.Schema<GetStreamSessionResponse>,
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -3086,6 +1971,8 @@ export const getStreamSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamSession",
+  telemetry: TELEMETRY,
+  span: "GetStreamSession",
 }));
 
 export type ImportPlaybackKeyPairError =
@@ -3100,13 +1987,13 @@ export type ImportPlaybackKeyPairError =
  * Imports the public portion of a new key pair and returns its `arn` and `fingerprint`. The `privateKey` can then be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see Setting Up Private Channels in the *Amazon IVS User Guide*.
  */
 export const importPlaybackKeyPair: API.OperationMethod<
-  ImportPlaybackKeyPairRequest,
+  ImportPlaybackKeyPairRequest & RegionInput,
   ImportPlaybackKeyPairResponse,
   ImportPlaybackKeyPairError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ImportPlaybackKeyPairRequest,
-  output: ImportPlaybackKeyPairResponse,
+  input: __S(688, __c43, 0) as any as S.Schema<ImportPlaybackKeyPairRequest>,
+  output: __S(593, __c37, 1) as any as S.Schema<ImportPlaybackKeyPairResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3118,6 +2005,8 @@ export const importPlaybackKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportPlaybackKeyPair",
+  telemetry: TELEMETRY,
+  span: "ImportPlaybackKeyPair",
 }));
 
 export type InsertAdBreakError =
@@ -3135,13 +2024,13 @@ export type InsertAdBreakError =
  * **Note:** AWS Elemental MediaTailor (EMT), the service that handles ad requests, provides CloudWatch metrics to help you monitor the success or failure of each InsertAdBreak operation. See Monitoring AWS Elemental MediaTailor with Amazon CloudWatch metrics in the *AWS Elemental MediaTailor User Guide* for details on available metrics.
  */
 export const insertAdBreak: API.OperationMethod<
-  InsertAdBreakRequest,
+  InsertAdBreakRequest & RegionInput,
   InsertAdBreakResponse,
   InsertAdBreakError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: InsertAdBreakRequest,
-  output: InsertAdBreakResponse,
+  input: __S(704, __c44, 0) as any as S.Schema<InsertAdBreakRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<InsertAdBreakResponse>,
   errors: [
     AccessDeniedException,
     ChannelNotBroadcasting,
@@ -3154,6 +2043,8 @@ export const insertAdBreak: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InsertAdBreak",
+  telemetry: TELEMETRY,
+  span: "InsertAdBreak",
 }));
 
 export type ListAdConfigurationsError =
@@ -3166,14 +2057,14 @@ export type ListAdConfigurationsError =
  * Gets summary information about all ad configurations in your account, in the AWS region where the API request is processed.
  */
 export const listAdConfigurations: API.PaginatedOperationMethod<
-  ListAdConfigurationsRequest,
+  ListAdConfigurationsRequest & RegionInput,
   ListAdConfigurationsResponse,
   ListAdConfigurationsError,
   Credentials | HttpClient.HttpClient,
   AdConfigurationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAdConfigurationsRequest,
-  output: ListAdConfigurationsResponse,
+  input: __S(720, __c45, 0) as any as S.Schema<ListAdConfigurationsRequest>,
+  output: __S(722, __c45, 2) as any as S.Schema<ListAdConfigurationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3189,6 +2080,8 @@ export const listAdConfigurations: API.PaginatedOperationMethod<
     items: "adConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAdConfigurations",
 })) as any;
 
 export type ListChannelsError =
@@ -3201,20 +2094,15 @@ export type ListChannelsError =
  * Gets summary information about all channels in your account, in the Amazon Web Services region where the API request is processed. This list can be filtered to match a specified name or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If you try to use both filters, you will get an error (409 ConflictException).
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListChannelsRequest,
-  output: ListChannelsResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ValidationException,
-    ThrottlingException,
-  ],
+  input: __S(736, __c46, 0) as any as S.Schema<ListChannelsRequest>,
+  output: __S(739, __c46, 3) as any as S.Schema<ListChannelsResponse>,
+  errors: [AccessDeniedException, ConflictException, ValidationException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListChannels",
@@ -3223,6 +2111,39 @@ export const listChannels: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
+})) as any;
+
+export type ListFailoverSlateConfigurationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Gets summary information about all failover slate configurations in your account, in the Amazon Web Services region where the API request is processed.
+ */
+export const listFailoverSlateConfigurations: API.PaginatedOperationMethod<
+  ListFailoverSlateConfigurationsRequest & RegionInput,
+  ListFailoverSlateConfigurationsResponse,
+  ListFailoverSlateConfigurationsError,
+  Credentials | HttpClient.HttpClient,
+  FailoverSlateConfigurationSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(752, __c47, 0) as any as S.Schema<ListFailoverSlateConfigurationsRequest>,
+  output: __S(754, __c47, 2) as any as S.Schema<ListFailoverSlateConfigurationsResponse>,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListFailoverSlateConfigurations",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "failoverSlateConfigurations",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListFailoverSlateConfigurations",
 })) as any;
 
 export type ListPlaybackKeyPairsError =
@@ -3234,14 +2155,14 @@ export type ListPlaybackKeyPairsError =
  * Gets summary information about playback key pairs. For more information, see Setting Up Private Channels in the *Amazon IVS User Guide*.
  */
 export const listPlaybackKeyPairs: API.PaginatedOperationMethod<
-  ListPlaybackKeyPairsRequest,
+  ListPlaybackKeyPairsRequest & RegionInput,
   ListPlaybackKeyPairsResponse,
   ListPlaybackKeyPairsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPlaybackKeyPairsRequest,
-  output: ListPlaybackKeyPairsResponse,
+  input: __S(768, __c48, 0) as any as S.Schema<ListPlaybackKeyPairsRequest>,
+  output: __S(771, __c48, 3) as any as S.Schema<ListPlaybackKeyPairsResponse>,
   errors: [AccessDeniedException, ValidationException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3251,6 +2172,8 @@ export const listPlaybackKeyPairs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlaybackKeyPairs",
 })) as any;
 
 export type ListPlaybackRestrictionPoliciesError =
@@ -3264,14 +2187,14 @@ export type ListPlaybackRestrictionPoliciesError =
  * Gets summary information about playback restriction policies.
  */
 export const listPlaybackRestrictionPolicies: API.PaginatedOperationMethod<
-  ListPlaybackRestrictionPoliciesRequest,
+  ListPlaybackRestrictionPoliciesRequest & RegionInput,
   ListPlaybackRestrictionPoliciesResponse,
   ListPlaybackRestrictionPoliciesError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPlaybackRestrictionPoliciesRequest,
-  output: ListPlaybackRestrictionPoliciesResponse,
+  input: __S(784, __c49, 0) as any as S.Schema<ListPlaybackRestrictionPoliciesRequest>,
+  output: __S(786, __c49, 2) as any as S.Schema<ListPlaybackRestrictionPoliciesResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3287,6 +2210,8 @@ export const listPlaybackRestrictionPolicies: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlaybackRestrictionPolicies",
 })) as any;
 
 export type ListRecordingConfigurationsError =
@@ -3299,14 +2224,14 @@ export type ListRecordingConfigurationsError =
  * Gets summary information about all recording configurations in your account, in the Amazon Web Services region where the API request is processed.
  */
 export const listRecordingConfigurations: API.PaginatedOperationMethod<
-  ListRecordingConfigurationsRequest,
+  ListRecordingConfigurationsRequest & RegionInput,
   ListRecordingConfigurationsResponse,
   ListRecordingConfigurationsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRecordingConfigurationsRequest,
-  output: ListRecordingConfigurationsResponse,
+  input: __S(800, __c50, 0) as any as S.Schema<ListRecordingConfigurationsRequest>,
+  output: __S(803, __c50, 3) as any as S.Schema<ListRecordingConfigurationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3321,6 +2246,8 @@ export const listRecordingConfigurations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecordingConfigurations",
 })) as any;
 
 export type ListStreamKeysError =
@@ -3333,14 +2260,14 @@ export type ListStreamKeysError =
  * Gets summary information about stream keys for the specified channel.
  */
 export const listStreamKeys: API.PaginatedOperationMethod<
-  ListStreamKeysRequest,
+  ListStreamKeysRequest & RegionInput,
   ListStreamKeysResponse,
   ListStreamKeysError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListStreamKeysRequest,
-  output: ListStreamKeysResponse,
+  input: __S(816, __c51, 0) as any as S.Schema<ListStreamKeysRequest>,
+  output: __S(819, __c51, 3) as any as S.Schema<ListStreamKeysResponse>,
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -3355,6 +2282,8 @@ export const listStreamKeys: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreamKeys",
 })) as any;
 
 export type ListStreamsError =
@@ -3366,14 +2295,14 @@ export type ListStreamsError =
  * Gets summary information about live streams in your account, in the Amazon Web Services region where the API request is processed.
  */
 export const listStreams: API.PaginatedOperationMethod<
-  ListStreamsRequest,
+  ListStreamsRequest & RegionInput,
   ListStreamsResponse,
   ListStreamsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListStreamsRequest,
-  output: ListStreamsResponse,
+  input: __S(833, __c52, 1) as any as S.Schema<ListStreamsRequest>,
+  output: __S(836, __c52, 4) as any as S.Schema<ListStreamsResponse>,
   errors: [AccessDeniedException, ValidationException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3383,6 +2312,8 @@ export const listStreams: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreams",
 })) as any;
 
 export type ListStreamSessionsError =
@@ -3395,14 +2326,14 @@ export type ListStreamSessionsError =
  * Gets a summary of current and previous streams for a specified channel in your account, in the AWS region where the API request is processed.
  */
 export const listStreamSessions: API.PaginatedOperationMethod<
-  ListStreamSessionsRequest,
+  ListStreamSessionsRequest & RegionInput,
   ListStreamSessionsResponse,
   ListStreamSessionsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListStreamSessionsRequest,
-  output: ListStreamSessionsResponse,
+  input: __S(848, __c53, 0) as any as S.Schema<ListStreamSessionsRequest>,
+  output: __S(851, __c53, 3) as any as S.Schema<ListStreamSessionsResponse>,
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -3417,6 +2348,8 @@ export const listStreamSessions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreamSessions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3429,13 +2362,13 @@ export type ListTagsForResourceError =
  * Gets information about Amazon Web Services tags for the specified ARN.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(864, __c54, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(865, __c54, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -3445,6 +2378,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutMetadataError =
@@ -3458,13 +2393,13 @@ export type PutMetadataError =
  * Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 requests per second per account are allowed. Also see Embedding Metadata within a Video Stream in the *Amazon IVS User Guide*.
  */
 export const putMetadata: API.OperationMethod<
-  PutMetadataRequest,
+  PutMetadataRequest & RegionInput,
   PutMetadataResponse,
   PutMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutMetadataRequest,
-  output: PutMetadataResponse,
+  input: __S(880, __c55, 0) as any as S.Schema<PutMetadataRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<PutMetadataResponse>,
   errors: [
     AccessDeniedException,
     ChannelNotBroadcasting,
@@ -3475,6 +2410,8 @@ export const putMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetadata",
+  telemetry: TELEMETRY,
+  span: "PutMetadata",
 }));
 
 export type StartViewerSessionRevocationError =
@@ -3489,13 +2426,13 @@ export type StartViewerSessionRevocationError =
  * Starts the process of revoking the viewer session associated with a specified channel ARN and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than and including that version. For instructions on associating a viewer ID with a viewer session, see Setting Up Private Channels.
  */
 export const startViewerSessionRevocation: API.OperationMethod<
-  StartViewerSessionRevocationRequest,
+  StartViewerSessionRevocationRequest & RegionInput,
   StartViewerSessionRevocationResponse,
   StartViewerSessionRevocationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartViewerSessionRevocationRequest,
-  output: StartViewerSessionRevocationResponse,
+  input: __S(896, __c56, 0) as any as S.Schema<StartViewerSessionRevocationRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<StartViewerSessionRevocationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3507,6 +2444,8 @@ export const startViewerSessionRevocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartViewerSessionRevocation",
+  telemetry: TELEMETRY,
+  span: "StartViewerSessionRevocation",
 }));
 
 export type StopStreamError =
@@ -3523,13 +2462,13 @@ export type StopStreamError =
  * Many streaming client-software libraries automatically reconnect a dropped RTMPS session, so to stop the stream permanently, you may want to first revoke the `streamKey` attached to the channel.
  */
 export const stopStream: API.OperationMethod<
-  StopStreamRequest,
+  StopStreamRequest & RegionInput,
   StopStreamResponse,
   StopStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopStreamRequest,
-  output: StopStreamResponse,
+  input: __S(912, __c57, 0) as any as S.Schema<StopStreamRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<StopStreamResponse>,
   errors: [
     AccessDeniedException,
     ChannelNotBroadcasting,
@@ -3541,6 +2480,8 @@ export const stopStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopStream",
+  telemetry: TELEMETRY,
+  span: "StopStream",
 }));
 
 export type TagResourceError =
@@ -3553,13 +2494,13 @@ export type TagResourceError =
  * Adds or updates tags for the Amazon Web Services resource with the specified ARN.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(928, __c58, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -3569,6 +2510,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3581,13 +2524,13 @@ export type UntagResourceError =
  * Removes tags from the resource with the specified ARN.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(944, __c59, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -3597,6 +2540,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAdConfigurationError =
@@ -3613,13 +2558,13 @@ export type UpdateAdConfigurationError =
  * Updates a specified ad configuration.
  */
 export const updateAdConfiguration: API.OperationMethod<
-  UpdateAdConfigurationRequest,
+  UpdateAdConfigurationRequest & RegionInput,
   UpdateAdConfigurationResponse,
   UpdateAdConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAdConfigurationRequest,
-  output: UpdateAdConfigurationResponse,
+  input: __S(960, __c60, 0) as any as S.Schema<UpdateAdConfigurationRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<UpdateAdConfigurationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3633,6 +2578,8 @@ export const updateAdConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAdConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateAdConfiguration",
 }));
 
 export type UpdateChannelError =
@@ -3640,31 +2587,69 @@ export type UpdateChannelError =
   | ConflictException
   | PendingVerification
   | ResourceNotFoundException
-  | ValidationException
   | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * Updates a channel's configuration. Live channels cannot be updated. You must stop the ongoing stream, update the channel, and restart the stream for the changes to take effect.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
+  UpdateChannelRequest & RegionInput,
   UpdateChannelResponse,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateChannelRequest,
-  output: UpdateChannelResponse,
+  input: __S(976, __c61, 0) as any as S.Schema<UpdateChannelRequest>,
+  output: __S(544, __c34, 0) as any as S.Schema<UpdateChannelResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
     PendingVerification,
     ResourceNotFoundException,
-    ValidationException,
     ThrottlingException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
+}));
+
+export type UpdateFailoverSlateConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates a specified failover slate configuration.
+ */
+export const updateFailoverSlateConfiguration: API.OperationMethod<
+  UpdateFailoverSlateConfigurationRequest & RegionInput,
+  UpdateFailoverSlateConfigurationResponse,
+  UpdateFailoverSlateConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(992, __c62, 0) as any as S.Schema<UpdateFailoverSlateConfigurationRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<UpdateFailoverSlateConfigurationResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateFailoverSlateConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateFailoverSlateConfiguration",
 }));
 
 export type UpdatePlaybackRestrictionPolicyError =
@@ -3678,13 +2663,13 @@ export type UpdatePlaybackRestrictionPolicyError =
  * Updates a specified playback restriction policy.
  */
 export const updatePlaybackRestrictionPolicy: API.OperationMethod<
-  UpdatePlaybackRestrictionPolicyRequest,
+  UpdatePlaybackRestrictionPolicyRequest & RegionInput,
   UpdatePlaybackRestrictionPolicyResponse,
   UpdatePlaybackRestrictionPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdatePlaybackRestrictionPolicyRequest,
-  output: UpdatePlaybackRestrictionPolicyResponse,
+  input: __S(1008, __c63, 0) as any as S.Schema<UpdatePlaybackRestrictionPolicyRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<UpdatePlaybackRestrictionPolicyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3695,4 +2680,1361 @@ export const updatePlaybackRestrictionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlaybackRestrictionPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdatePlaybackRestrictionPolicy",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arns: __S(48, __c3, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/BatchGetChannel" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "BatchGetChannelRequest" });
+    case 1:
+      return S.Array(__S(66, __c4, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          accessControlAllowOrigin: S.optional(S.String).pipe(
+            T.HttpHeader("Access-Control-Allow-Origin"),
+          ),
+          accessControlExposeHeaders: S.optional(S.String).pipe(
+            T.HttpHeader("Access-Control-Expose-Headers"),
+          ),
+          cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+          contentSecurityPolicy: S.optional(S.String).pipe(T.HttpHeader("Content-Security-Policy")),
+          strictTransportSecurity: S.optional(S.String).pipe(
+            T.HttpHeader("Strict-Transport-Security"),
+          ),
+          xContentTypeOptions: S.optional(S.String).pipe(T.HttpHeader("X-Content-Type-Options")),
+          xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
+          channels: S.optional(__S(1, __c0, 1)),
+          errors: S.optional(__S(17, __c1, 1)),
+        }),
+      ).annotate({ identifier: "BatchGetChannelResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BatchError" });
+    case 1:
+      return S.Array(__S(16, __c1, 0));
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ endpoint: S.optional(S.String), passphrase: S.optional(SensitiveString) }),
+      ).annotate({ identifier: "Srt" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+          policy: S.optional(S.String),
+          maximumResolution: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MultitrackInputConfiguration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          latencyMode: S.optional(S.String),
+          type: S.optional(S.String),
+          recordingConfigurationArn: S.optional(S.String),
+          ingestEndpoint: S.optional(S.String),
+          playbackUrl: S.optional(S.String),
+          authorized: S.optional(S.Boolean),
+          tags: S.optional(__S(32, __c2, 0)),
+          insecureIngest: S.optional(S.Boolean),
+          preset: S.optional(S.String),
+          srt: S.optional(__S(64, __c4, 0)),
+          playbackRestrictionPolicyArn: S.optional(S.String),
+          multitrackInputConfiguration: S.optional(__S(65, __c4, 1)),
+          containerFormat: S.optional(S.String),
+          adConfigurationArn: S.optional(S.String),
+          failoverSlateConfigurationArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Channel" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arns: __S(48, __c3, 0) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/BatchGetStreamKey" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "BatchGetStreamKeyRequest" });
+    case 1:
+      return S.Array(__S(96, __c6, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          accessControlAllowOrigin: S.optional(S.String).pipe(
+            T.HttpHeader("Access-Control-Allow-Origin"),
+          ),
+          accessControlExposeHeaders: S.optional(S.String).pipe(
+            T.HttpHeader("Access-Control-Expose-Headers"),
+          ),
+          cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+          contentSecurityPolicy: S.optional(S.String).pipe(T.HttpHeader("Content-Security-Policy")),
+          strictTransportSecurity: S.optional(S.String).pipe(
+            T.HttpHeader("Strict-Transport-Security"),
+          ),
+          xContentTypeOptions: S.optional(S.String).pipe(T.HttpHeader("X-Content-Type-Options")),
+          xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
+          streamKeys: S.optional(__S(81, __c5, 1)),
+          errors: S.optional(__S(17, __c1, 1)),
+        }),
+      ).annotate({ identifier: "BatchGetStreamKeyResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          value: S.optional(SensitiveString),
+          channelArn: S.optional(S.String),
+          tags: S.optional(__S(32, __c2, 0)),
+        }),
+      ).annotate({ identifier: "StreamKey" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channelArn: S.String,
+          viewerId: S.String,
+          viewerSessionVersionsLessThanOrEqualTo: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "BatchStartViewerSessionRevocationViewerSession" });
+    case 1:
+      return S.Array(__S(112, __c7, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ viewerSessions: __S(113, __c7, 1) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/BatchStartViewerSessionRevocation" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "BatchStartViewerSessionRevocationRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          channelArn: S.String,
+          viewerId: S.String,
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BatchStartViewerSessionRevocationError" });
+    case 4:
+      return S.Array(__S(115, __c7, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          accessControlAllowOrigin: S.optional(S.String).pipe(
+            T.HttpHeader("Access-Control-Allow-Origin"),
+          ),
+          accessControlExposeHeaders: S.optional(S.String).pipe(
+            T.HttpHeader("Access-Control-Expose-Headers"),
+          ),
+          cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+          contentSecurityPolicy: S.optional(S.String).pipe(T.HttpHeader("Content-Security-Policy")),
+          strictTransportSecurity: S.optional(S.String).pipe(
+            T.HttpHeader("Strict-Transport-Security"),
+          ),
+          xContentTypeOptions: S.optional(S.String).pipe(T.HttpHeader("X-Content-Type-Options")),
+          xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
+          errors: S.optional(__S(116, __c7, 4)),
+        }),
+      ).annotate({ identifier: "BatchStartViewerSessionRevocationResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          mediaTailorPlaybackConfigurations: __S(145, __c9, 1),
+          postRollConfiguration: S.optional(__S(146, __c9, 2)),
+          tags: S.optional(__S(32, __c2, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/CreateAdConfiguration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateAdConfigurationRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ playbackConfigurationArn: S.optional(S.String) })).annotate(
+        { identifier: "MediaTailorPlaybackConfiguration" },
+      );
+    case 1:
+      return S.Array(__S(144, __c9, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ durationSeconds: S.Number, enabled: S.Boolean })).annotate({
+        identifier: "PostRollConfiguration",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          name: S.optional(S.String),
+          mediaTailorPlaybackConfigurations: __S(145, __c9, 1),
+          postRollConfiguration: S.optional(__S(146, __c9, 2)),
+          tags: S.optional(__S(32, __c2, 0)),
+        }),
+      ).annotate({ identifier: "AdConfiguration" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ adConfiguration: __S(147, __c9, 3) })).annotate({
+        identifier: "CreateAdConfigurationResponse",
+      });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          latencyMode: S.optional(S.String),
+          type: S.optional(S.String),
+          authorized: S.optional(S.Boolean),
+          recordingConfigurationArn: S.optional(S.String),
+          tags: S.optional(__S(32, __c2, 0)),
+          insecureIngest: S.optional(S.Boolean),
+          preset: S.optional(S.String),
+          playbackRestrictionPolicyArn: S.optional(S.String),
+          multitrackInputConfiguration: S.optional(__S(65, __c4, 1)),
+          containerFormat: S.optional(S.String),
+          adConfigurationArn: S.optional(S.String),
+          failoverSlateConfigurationArn: S.optional(S.String),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/CreateChannel" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateChannelRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          channel: S.optional(__S(66, __c4, 2)),
+          streamKey: S.optional(__S(96, __c6, 0)),
+        }),
+      ).annotate({ identifier: "CreateChannelResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          activationThresholdSeconds: S.optional(S.Number),
+          minSlateDisplaySeconds: S.optional(S.Number),
+          maxSlateDisplaySeconds: S.optional(S.Number),
+          tags: S.optional(__S(32, __c2, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/CreateFailoverSlateConfiguration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateFailoverSlateConfigurationRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          name: S.optional(S.String),
+          activationThresholdSeconds: S.optional(S.Number),
+          minSlateDisplaySeconds: S.optional(S.Number),
+          maxSlateDisplaySeconds: S.optional(S.Number),
+          state: S.String,
+          tags: S.optional(__S(32, __c2, 0)),
+        }),
+      ).annotate({ identifier: "FailoverSlateConfiguration" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ failoverSlateConfiguration: __S(208, __c13, 0) })).annotate(
+        { identifier: "CreateFailoverSlateConfigurationResponse" },
+      );
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allowedCountries: S.optional(__S(48, __c3, 0)),
+          allowedOrigins: S.optional(__S(48, __c3, 0)),
+          enableStrictOriginEnforcement: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          tags: S.optional(__S(32, __c2, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/CreatePlaybackRestrictionPolicy" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreatePlaybackRestrictionPolicyRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          allowedCountries: __S(48, __c3, 0),
+          allowedOrigins: __S(48, __c3, 0),
+          enableStrictOriginEnforcement: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          tags: S.optional(__S(32, __c2, 0)),
+        }),
+      ).annotate({ identifier: "PlaybackRestrictionPolicy" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ playbackRestrictionPolicy: S.optional(__S(256, __c16, 0)) }),
+      ).annotate({ identifier: "CreatePlaybackRestrictionPolicyResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          destinationConfiguration: __S(337, __c21, 1),
+          tags: S.optional(__S(32, __c2, 0)),
+          thumbnailConfiguration: S.optional(__S(320, __c20, 0)),
+          recordingReconnectWindowSeconds: S.optional(S.Number),
+          renditionConfiguration: S.optional(__S(322, __c20, 2)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/CreateRecordingConfiguration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateRecordingConfigurationRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ recordingConfiguration: S.optional(__S(323, __c20, 3)) }),
+      ).annotate({ identifier: "CreateRecordingConfigurationResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          recordingMode: S.optional(S.String),
+          targetIntervalSeconds: S.optional(S.Number),
+          resolution: S.optional(S.String),
+          storage: S.optional(__S(48, __c3, 0)),
+        }),
+      ).annotate({ identifier: "ThumbnailConfiguration" });
+    case 1:
+      return S.Array(S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          renditionSelection: S.optional(S.String),
+          renditions: S.optional(__S(321, __c20, 1)),
+        }),
+      ).annotate({ identifier: "RenditionConfiguration" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          name: S.optional(S.String),
+          destinationConfiguration: __S(337, __c21, 1),
+          state: S.String,
+          tags: S.optional(__S(32, __c2, 0)),
+          thumbnailConfiguration: S.optional(__S(320, __c20, 0)),
+          recordingReconnectWindowSeconds: S.optional(S.Number),
+          renditionConfiguration: S.optional(__S(322, __c20, 2)),
+        }),
+      ).annotate({ identifier: "RecordingConfiguration" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ bucketName: S.String })).annotate({
+        identifier: "S3DestinationConfiguration",
+      });
+    case 1:
+      return S.suspend(() => S.Struct({ s3: S.optional(__S(336, __c21, 0)) })).annotate({
+        identifier: "DestinationConfiguration",
+      });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ channelArn: S.String, tags: S.optional(__S(32, __c2, 0)) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/CreateStreamKey" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateStreamKeyRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ streamKey: S.optional(__S(96, __c6, 0)) })).annotate({
+        identifier: "CreateStreamKeyResponse",
+      });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/DeleteAdConfiguration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteAdConfigurationRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "DeleteAdConfigurationResponse",
+      });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/DeleteChannel" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteChannelRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/DeleteFailoverSlateConfiguration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteFailoverSlateConfigurationRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/DeletePlaybackKeyPair" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeletePlaybackKeyPairRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/DeletePlaybackRestrictionPolicy" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeletePlaybackRestrictionPolicyRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/DeleteRecordingConfiguration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteRecordingConfigurationRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/DeleteStreamKey" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteStreamKeyRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/GetAdConfiguration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetAdConfigurationRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ adConfiguration: S.optional(__S(147, __c9, 3)) })).annotate(
+        { identifier: "GetAdConfigurationResponse" },
+      );
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/GetChannel" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetChannelRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ channel: S.optional(__S(66, __c4, 2)) })).annotate({
+        identifier: "GetChannelResponse",
+      });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/GetFailoverSlateConfiguration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetFailoverSlateConfigurationRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/GetPlaybackKeyPair" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetPlaybackKeyPairRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+          tags: S.optional(__S(32, __c2, 0)),
+        }),
+      ).annotate({ identifier: "PlaybackKeyPair" });
+    case 1:
+      return S.suspend(() => S.Struct({ keyPair: S.optional(__S(592, __c37, 0)) })).annotate({
+        identifier: "GetPlaybackKeyPairResponse",
+      });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/GetPlaybackRestrictionPolicy" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetPlaybackRestrictionPolicyRequest" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/GetRecordingConfiguration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetRecordingConfigurationRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ channelArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/GetStream" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetStreamRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          channelArn: S.optional(S.String),
+          streamId: S.optional(S.String),
+          playbackUrl: S.optional(S.String),
+          startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          state: S.optional(S.String),
+          health: S.optional(S.String),
+          viewerCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Stream" });
+    case 2:
+      return S.suspend(() => S.Struct({ stream: S.optional(__S(641, __c40, 1)) })).annotate({
+        identifier: "GetStreamResponse",
+      });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/GetStreamKey" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetStreamKeyRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ channelArn: S.String, streamId: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/GetStreamSession" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetStreamSessionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          avcProfile: S.optional(S.String),
+          avcLevel: S.optional(S.String),
+          codec: S.optional(S.String),
+          encoder: S.optional(S.String),
+          targetBitrate: S.optional(S.Number),
+          targetFramerate: S.optional(S.Number),
+          videoHeight: S.optional(S.Number),
+          videoWidth: S.optional(S.Number),
+          level: S.optional(S.String),
+          track: S.optional(S.String),
+          profile: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VideoConfiguration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          codec: S.optional(S.String),
+          targetBitrate: S.optional(S.Number),
+          sampleRate: S.optional(S.Number),
+          channels: S.optional(S.Number),
+          track: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AudioConfiguration" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ video: S.optional(__S(673, __c42, 1)), audio: S.optional(__S(674, __c42, 2)) }),
+      ).annotate({ identifier: "IngestConfiguration" });
+    case 4:
+      return S.Array(__S(673, __c42, 1));
+    case 5:
+      return S.Array(__S(674, __c42, 2));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          videoConfigurations: __S(676, __c42, 4),
+          audioConfigurations: __S(677, __c42, 5),
+        }),
+      ).annotate({ identifier: "IngestConfigurations" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          eventTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          code: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StreamEvent" });
+    case 8:
+      return S.Array(__S(679, __c42, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          streamId: S.optional(S.String),
+          startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          channel: S.optional(__S(66, __c4, 2)),
+          ingestConfiguration: S.optional(__S(675, __c42, 3)),
+          ingestConfigurations: S.optional(__S(678, __c42, 6)),
+          recordingConfiguration: S.optional(__S(323, __c20, 3)),
+          truncatedEvents: S.optional(__S(680, __c42, 8)),
+          failoverSlateConfiguration: S.optional(__S(208, __c13, 0)),
+        }),
+      ).annotate({ identifier: "StreamSession" });
+    case 10:
+      return S.suspend(() => S.Struct({ streamSession: S.optional(__S(681, __c42, 9)) })).annotate({
+        identifier: "GetStreamSessionResponse",
+      });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          publicKeyMaterial: S.String,
+          name: S.optional(S.String),
+          tags: S.optional(__S(32, __c2, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ImportPlaybackKeyPair" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ImportPlaybackKeyPairRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channelArn: S.String,
+          durationSeconds: S.Number,
+          adBreakId: S.optional(S.String),
+          targetStartAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/InsertAdBreak" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "InsertAdBreakRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          adBreakId: S.optional(S.String),
+          targetStartAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "InsertAdBreakResponse" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ nextToken: S.optional(S.String), maxResults: S.optional(S.Number) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ListAdConfigurations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListAdConfigurationsRequest" });
+    case 1:
+      return S.Array(__S(147, __c9, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ adConfigurations: __S(721, __c45, 1), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListAdConfigurationsResponse" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filterByName: S.optional(S.String),
+          filterByRecordingConfigurationArn: S.optional(S.String),
+          filterByPlaybackRestrictionPolicyArn: S.optional(S.String),
+          filterByAdConfigurationArn: S.optional(S.String),
+          filterByFailoverSlateConfigurationArn: S.optional(S.String),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/ListChannels" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListChannelsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          latencyMode: S.optional(S.String),
+          authorized: S.optional(S.Boolean),
+          recordingConfigurationArn: S.optional(S.String),
+          tags: S.optional(__S(32, __c2, 0)),
+          insecureIngest: S.optional(S.Boolean),
+          type: S.optional(S.String),
+          preset: S.optional(S.String),
+          playbackRestrictionPolicyArn: S.optional(S.String),
+          adConfigurationArn: S.optional(S.String),
+          failoverSlateConfigurationArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ChannelSummary" });
+    case 2:
+      return S.Array(__S(737, __c46, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ channels: __S(738, __c46, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListChannelsResponse" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ nextToken: S.optional(S.String), maxResults: S.optional(S.Number) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ListFailoverSlateConfigurations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListFailoverSlateConfigurationsRequest" });
+    case 1:
+      return S.Array(__S(208, __c13, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          failoverSlateConfigurations: __S(753, __c47, 1),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListFailoverSlateConfigurationsResponse" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ nextToken: S.optional(S.String), maxResults: S.optional(S.Number) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ListPlaybackKeyPairs" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListPlaybackKeyPairsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          tags: S.optional(__S(32, __c2, 0)),
+        }),
+      ).annotate({ identifier: "PlaybackKeyPairSummary" });
+    case 2:
+      return S.Array(__S(769, __c48, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ keyPairs: __S(770, __c48, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListPlaybackKeyPairsResponse" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ nextToken: S.optional(S.String), maxResults: S.optional(S.Number) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ListPlaybackRestrictionPolicies" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListPlaybackRestrictionPoliciesRequest" });
+    case 1:
+      return S.Array(__S(256, __c16, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          playbackRestrictionPolicies: __S(785, __c49, 1),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListPlaybackRestrictionPoliciesResponse" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ nextToken: S.optional(S.String), maxResults: S.optional(S.Number) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ListRecordingConfigurations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListRecordingConfigurationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          name: S.optional(S.String),
+          destinationConfiguration: __S(337, __c21, 1),
+          state: S.String,
+          tags: S.optional(__S(32, __c2, 0)),
+        }),
+      ).annotate({ identifier: "RecordingConfigurationSummary" });
+    case 2:
+      return S.Array(__S(801, __c50, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ recordingConfigurations: __S(802, __c50, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListRecordingConfigurationsResponse" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channelArn: S.String,
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/ListStreamKeys" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListStreamKeysRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          channelArn: S.optional(S.String),
+          tags: S.optional(__S(32, __c2, 0)),
+        }),
+      ).annotate({ identifier: "StreamKeySummary" });
+    case 2:
+      return S.Array(__S(817, __c51, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ streamKeys: __S(818, __c51, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListStreamKeysResponse" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ health: S.optional(S.String) })).annotate({
+        identifier: "StreamFilters",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          filterBy: S.optional(__S(832, __c52, 0)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/ListStreams" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListStreamsRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          channelArn: S.optional(S.String),
+          streamId: S.optional(S.String),
+          state: S.optional(S.String),
+          health: S.optional(S.String),
+          viewerCount: S.optional(S.Number),
+          startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "StreamSummary" });
+    case 3:
+      return S.Array(__S(834, __c52, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ streams: __S(835, __c52, 3), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListStreamsResponse" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channelArn: S.String,
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ListStreamSessions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListStreamSessionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          streamId: S.optional(S.String),
+          startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          hasErrorEvent: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "StreamSessionSummary" });
+    case 2:
+      return S.Array(__S(849, __c53, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ streamSessions: __S(850, __c53, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListStreamSessionsResponse" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ tags: __S(32, __c2, 0) })).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ channelArn: S.String, metadata: SensitiveString }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/PutMetadata" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutMetadataRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channelArn: S.String,
+          viewerId: S.String,
+          viewerSessionVersionsLessThanOrEqualTo: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/StartViewerSessionRevocation" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartViewerSessionRevocationRequest" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ channelArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/StopStream" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StopStreamRequest" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tags: __S(32, __c2, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tagKeys: __S(48, __c3, 0).pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          name: S.optional(S.String),
+          mediaTailorPlaybackConfigurations: S.optional(__S(145, __c9, 1)),
+          postRollConfiguration: S.optional(__S(146, __c9, 2)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/UpdateAdConfiguration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateAdConfigurationRequest" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          name: S.optional(S.String),
+          latencyMode: S.optional(S.String),
+          type: S.optional(S.String),
+          authorized: S.optional(S.Boolean),
+          recordingConfigurationArn: S.optional(S.String),
+          insecureIngest: S.optional(S.Boolean),
+          preset: S.optional(S.String),
+          playbackRestrictionPolicyArn: S.optional(S.String),
+          multitrackInputConfiguration: S.optional(__S(65, __c4, 1)),
+          containerFormat: S.optional(S.String),
+          adConfigurationArn: S.optional(S.String),
+          failoverSlateConfigurationArn: S.optional(S.String),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/UpdateChannel" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateChannelRequest" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          name: S.optional(S.String),
+          activationThresholdSeconds: S.optional(S.Number),
+          minSlateDisplaySeconds: S.optional(S.Number),
+          maxSlateDisplaySeconds: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/UpdateFailoverSlateConfiguration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateFailoverSlateConfigurationRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          allowedCountries: S.optional(__S(48, __c3, 0)),
+          allowedOrigins: S.optional(__S(48, __c3, 0)),
+          enableStrictOriginEnforcement: S.optional(S.Boolean),
+          name: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/UpdatePlaybackRestrictionPolicy" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdatePlaybackRestrictionPolicyRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

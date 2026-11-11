@@ -1,5 +1,5 @@
 /**
- * Porkbun SDK trait surface — hand-written.
+ * Porkbun SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). Porkbun has no envelope of its own; the

@@ -1,0 +1,138 @@
+{
+  "description": "Type the API-disabled answer (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: 'Rapid Migration Assessment API has not been used in project N before or it is disabled.'). It surfaced as the generic Forbidden, so callers could not tell a disabled service from a missing permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.rapidmigrationassessment_v1#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The Rapid Migration Assessment API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.rapidmigrationassessment_v1#CancelProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.rapidmigrationassessment_v1#CreateProjectsLocationsAnnotations/errors/-",
+      "value": {
+        "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.rapidmigrationassessment_v1#CreateProjectsLocationsCollectors/errors/-",
+      "value": {
+        "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.rapidmigrationassessment_v1#DeleteProjectsLocationsCollectors/errors/-",
+      "value": {
+        "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.rapidmigrationassessment_v1#DeleteProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.rapidmigrationassessment_v1#GetProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.rapidmigrationassessment_v1#GetProjectsLocationsAnnotations/errors/-",
+      "value": {
+        "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.rapidmigrationassessment_v1#GetProjectsLocationsCollectors/errors/-",
+      "value": {
+        "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.rapidmigrationassessment_v1#GetProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.rapidmigrationassessment_v1#ListProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.rapidmigrationassessment_v1#ListProjectsLocationsCollectors/errors/-",
+      "value": {
+        "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.rapidmigrationassessment_v1#ListProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.rapidmigrationassessment_v1#PatchProjectsLocationsCollectors/errors/-",
+      "value": {
+        "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.rapidmigrationassessment_v1#PauseProjectsLocationsCollectors/errors/-",
+      "value": {
+        "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.rapidmigrationassessment_v1#RegisterProjectsLocationsCollectors/errors/-",
+      "value": {
+        "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.rapidmigrationassessment_v1#ResumeProjectsLocationsCollectors/errors/-",
+      "value": {
+        "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
+      }
+    }
+  ]
+}

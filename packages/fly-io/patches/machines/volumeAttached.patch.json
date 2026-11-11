@@ -7,7 +7,9 @@
       "value": {
         "type": "structure",
         "members": {
-          "message": { "target": "smithy.api#String" }
+          "message": {
+            "target": "smithy.api#String"
+          }
         },
         "traits": {
           "smithy.api#error": "client",
@@ -23,8 +25,10 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.flyio.machines#DeleteVolume/errors/-",
-      "value": { "target": "com.flyio.machines#VolumeAttached" }
+      "path": "/shapes/com.flyio.machines#VolumeDelete/errors/-",
+      "value": {
+        "target": "com.flyio.machines#VolumeAttached"
+      }
     }
   ]
 }

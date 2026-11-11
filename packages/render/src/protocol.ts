@@ -1,11 +1,15 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * RenderProtocol — hand-written.
+ * RenderProtocol -- hand-written.
  *
  * Render speaks plain bearer-authenticated JSON REST (no response envelope),
  * so the whole protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <apiKey>` + base URL
+ *   request:  credentials -> `Authorization: Bearer <apiKey>` + base URL
  *             (default https://api.render.com/v1), resolved from the
  *             calling fiber on every request
  *
@@ -15,15 +19,12 @@
  *             HTTP-status classes, then {@link UnknownRenderError}.
  */
 import * as Effect from "effect/Effect";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { Credentials, type Config } from "./credentials.ts";
-import { UnknownRenderError } from "./errors.ts";
+import { UnknownRenderError, RenderParseError } from "./errors.ts";
 
 /**
  * Error channel shared by every generated Render operation. Generated
@@ -35,35 +36,30 @@ export type RenderOpError =
   | InstanceType<(typeof API_ERRORS)[number]>
   | UnknownRenderError
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | RenderParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Render operation. */
 export type RenderOpContext = Credentials | HttpClient.HttpClient;
 
-export const RenderProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // The Credentials service holds an effect — resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const RenderProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    Accept: "application/json",
+  }),
+  // Render's error body is `{ message: string }` -- the factory's default
+  // lenient envelope covers it.
+  unknownError: ({ code, message, body }) =>
+    new UnknownRenderError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-      Accept: "application/json",
-    }),
-    // Render's error body is `{ message: string }` — the factory's default
-    // lenient envelope covers it.
-    unknownError: ({ code, message, body }) =>
-      new UnknownRenderError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        body,
-      }),
-  });
+  parseError: ({ body, cause }) => new RenderParseError({ body, cause }),
+});

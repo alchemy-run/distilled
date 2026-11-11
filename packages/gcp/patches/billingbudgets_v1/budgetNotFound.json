@@ -1,0 +1,47 @@
+{
+  "description": "Type the missing-budget answer on get/patch/delete. Cloud Billing Budgets returns HTTP 403 PERMISSION_DENIED 'The caller does not have permission' (not 404) for a budget id that does not exist, so a missing budget surfaced as the generic Forbidden.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.billingbudgets_v1#BudgetNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The budget does not exist (or is outside the caller's billing scope). The Budget API answers HTTP 403 'The caller does not have permission' for a missing budget id instead of 404.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "The caller does not have permission"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.billingbudgets_v1#DeleteBillingAccountsBudgets/errors/-",
+      "value": {
+        "target": "com.gcp.billingbudgets_v1#BudgetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.billingbudgets_v1#GetBillingAccountsBudgets/errors/-",
+      "value": {
+        "target": "com.gcp.billingbudgets_v1#BudgetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.billingbudgets_v1#PatchBillingAccountsBudgets/errors/-",
+      "value": {
+        "target": "com.gcp.billingbudgets_v1#BudgetNotFound"
+      }
+    }
+  ]
+}

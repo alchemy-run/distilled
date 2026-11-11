@@ -1,0 +1,26 @@
+{
+  "description": "The create and get responses always populate `ssh_key`; the spec leaves the envelope member optional. Required removes phantom-undefined handling in consumers.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#SshKeysCreateResponse/members/ssh_key/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#SshKeysGetResponse/members/ssh_key/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#SshKeysUpdateResponse/members/ssh_key/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    }
+  ]
+}

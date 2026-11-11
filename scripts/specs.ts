@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * specs — the spec-mirror workflow, from a local working copy to a real
  * submodule.
@@ -30,22 +30,15 @@
  *   DISTILLED_SPECS_LOCAL=1 pnpm generate <pkg>
  *
  * which re-roots every spec read into `.local` (see
- * `@distilled.cloud/core/codegen/spec-path`). Nothing in the package's source
+ * `@distilled.cloud/dev/codegen/spec-path`). Nothing in the package's source
  * points at `.local`, so there is no local-only reference to forget to revert
  * — and `specs:check` fails the build if one is ever written by hand.
  */
 import { spawnSync } from "node:child_process";
-import {
-  cpSync,
-  existsSync,
-  mkdirSync,
-  readdirSync,
-  readFileSync,
-  writeFileSync,
-} from "node:fs";
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
 
-const ROOT = join(import.meta.dir, "..");
+const ROOT = join(import.meta.dirname, "..");
 const STACK = join(ROOT, "stacks", "distilled-submodules");
 const PACKAGES = join(ROOT, "packages");
 
@@ -72,8 +65,9 @@ const manifest = (await import(manifestPath)) as {
   repositoryName: (specRepo: SpecRepo) => string;
   SHARED: ReadonlyArray<readonly [string, string]>;
   PER_REPO: ReadonlyArray<readonly [string, string]>;
+  MODELS: readonly [string, string];
 };
-const { SPEC_REPOS, repositoryName, SHARED, PER_REPO } = manifest;
+const { SPEC_REPOS, repositoryName, SHARED, PER_REPO, MODELS } = manifest;
 
 const mirrorUrl = (specRepo: SpecRepo) =>
   `https://github.com/${MIRROR_OWNER}/${repositoryName(specRepo)}.git`;
@@ -90,6 +84,7 @@ const die = (message: string): never => {
 
 const run = (cmd: string[], cwd: string) => {
   const result = spawnSync(cmd[0]!, cmd.slice(1), { cwd, stdio: "inherit" });
+  if (result.error) die(`\n${cmd.join(" ")} could not start in ${cwd}: ${result.error.message}`);
   if (result.status !== 0) {
     die(`\n${cmd.join(" ")} failed in ${cwd} (exit ${result.status})`);
   }
@@ -133,17 +128,23 @@ const local = (pkg: string) => {
     mkdirSync(dirname(target), { recursive: true });
     cpSync(join(source, from), target);
   }
+  if (existsSync(join(source, MODELS[0]))) {
+    rmSync(join(dest, MODELS[1]), { recursive: true, force: true });
+    cpSync(join(source, MODELS[0]), join(dest, MODELS[1]), { recursive: true });
+  }
 
   const meta = join(dest, ".meta");
   // The mirror's own workflow installs before every fetch; here the install is
   // the expensive part and the dependencies never change between runs, so it
-  // happens once and a refetch is just the script.
+  // happens once and a refetch is just the script. Both run the way the
+  // mirror's own workflow does (pnpm + Node), so this tree behaves like the
+  // mirror.
   if (!existsSync(join(meta, "node_modules"))) {
-    console.log(`📦 bun install (${pkg})`);
-    run(["bun", "install"], meta);
+    console.log(`📦 pnpm install (${pkg})`);
+    run(["pnpm", "install", "--ignore-workspace", "--no-frozen-lockfile"], meta);
   }
   console.log(`🌐 fetch-specs (${pkg})`);
-  run(["bun", "run", "fetch-specs.ts"], meta);
+  run(["node", "fetch-specs.ts"], meta);
 
   console.log(
     `\n✅ ${pkg}: generate against it with\n` +
@@ -202,17 +203,7 @@ const link = (pkg: string) => {
       ["path", path],
       ["url", url],
     ] as const) {
-      run(
-        [
-          "git",
-          "config",
-          "-f",
-          ".gitmodules",
-          `submodule.${path}.${key}`,
-          value,
-        ],
-        ROOT,
-      );
+      run(["git", "config", "-f", ".gitmodules", `submodule.${path}.${key}`, value], ROOT);
     }
   }
   // Spec submodules are read-only inputs and several fetch scripts leave the
@@ -223,10 +214,7 @@ const link = (pkg: string) => {
     ["ignore", "dirty"],
     ["shallow", "true"],
   ] as const) {
-    run(
-      ["git", "config", "-f", ".gitmodules", `submodule.${path}.${key}`, value],
-      ROOT,
-    );
+    run(["git", "config", "-f", ".gitmodules", `submodule.${path}.${key}`, value], ROOT);
   }
 
   if (!remoteExists) {
@@ -277,9 +265,7 @@ const check = () => {
   }
   for (const entry of readdirSync(join(STACK, "spec-repos")).sort()) {
     if (!covered.has(entry)) {
-      errors.push(
-        `spec-repos/${entry}/ has no SPEC_REPOS entry — the stack will not deploy it`,
-      );
+      errors.push(`spec-repos/${entry}/ has no SPEC_REPOS entry — the stack will not deploy it`);
     }
   }
 
@@ -288,9 +274,7 @@ const check = () => {
   for (const entry of readdirSync(PACKAGES).sort()) {
     if (covered.has(entry)) continue;
     if (existsSync(join(PACKAGES, entry, "specs"))) {
-      errors.push(
-        `packages/${entry} consumes specs but has no SPEC_REPOS entry`,
-      );
+      errors.push(`packages/${entry} consumes specs but has no SPEC_REPOS entry`);
     }
   }
 
@@ -309,11 +293,10 @@ const check = () => {
       errors.push(`.gitmodules has no entry for ${path}`);
       continue;
     }
-    const shallow = spawnSync(
-      "git",
-      ["config", "-f", ".gitmodules", `submodule.${path}.shallow`],
-      { cwd: ROOT, encoding: "utf8" },
-    ).stdout?.trim();
+    const shallow = spawnSync("git", ["config", "-f", ".gitmodules", `submodule.${path}.shallow`], {
+      cwd: ROOT,
+      encoding: "utf8",
+    }).stdout?.trim();
     if (shallow !== "true") {
       errors.push(
         `.gitmodules: ${path} is not \`shallow = true\` — a full-history ` +
@@ -329,25 +312,19 @@ const check = () => {
       errors.push(`.gitmodules: ${name} has no SPEC_REPOS entry`);
       continue;
     }
-    const path = spawnSync(
-      "git",
-      ["config", "-f", ".gitmodules", `submodule.${name}.path`],
-      { cwd: ROOT, encoding: "utf8" },
-    ).stdout?.trim();
+    const path = spawnSync("git", ["config", "-f", ".gitmodules", `submodule.${name}.path`], {
+      cwd: ROOT,
+      encoding: "utf8",
+    }).stdout?.trim();
     if (path !== submodulePath(specRepo)) {
-      errors.push(
-        `.gitmodules: ${name} path is ${path}, expected ${submodulePath(specRepo)}`,
-      );
+      errors.push(`.gitmodules: ${name} path is ${path}, expected ${submodulePath(specRepo)}`);
     }
-    const url = spawnSync(
-      "git",
-      ["config", "-f", ".gitmodules", `submodule.${name}.url`],
-      { cwd: ROOT, encoding: "utf8" },
-    ).stdout?.trim();
+    const url = spawnSync("git", ["config", "-f", ".gitmodules", `submodule.${name}.url`], {
+      cwd: ROOT,
+      encoding: "utf8",
+    }).stdout?.trim();
     if (url !== mirrorUrl(specRepo)) {
-      errors.push(
-        `.gitmodules: ${name} url is ${url}, expected ${mirrorUrl(specRepo)}`,
-      );
+      errors.push(`.gitmodules: ${name} url is ${url}, expected ${mirrorUrl(specRepo)}`);
     }
   }
 
@@ -375,19 +352,12 @@ const check = () => {
     // Prose, not a path. The workflow is documented in several files and the
     // documentation quotes the directory; only code can actually read from it.
     const code = rest.join(":").trim();
-    if (
-      code.startsWith("*") ||
-      code.startsWith("//") ||
-      code.startsWith("/*")
-    ) {
+    if (code.startsWith("*") || code.startsWith("//") || code.startsWith("/*")) {
       continue;
     }
     // The resolver and this script are where the string is defined; every
     // other mention is a package reading specs from a gitignored directory.
-    if (
-      file === "packages/core/src/codegen/spec-path.ts" ||
-      file === "scripts/specs.ts"
-    ) {
+    if (file === "packages/dev/src/codegen/spec-path.ts" || file === "scripts/specs.ts") {
       continue;
     }
     errors.push(
@@ -411,8 +381,7 @@ const check = () => {
 // ---------------------------------------------------------------------------
 
 const [command, ...args] = process.argv.slice(2);
-const packages = () =>
-  args.length > 0 ? args : die("usage: specs.ts <local|link> <package>...");
+const packages = () => (args.length > 0 ? args : die("usage: specs.ts <local|link> <package>..."));
 
 switch (command) {
   case "local":

@@ -4,7 +4,7 @@
  * Per-service modules live under `@distilled.cloud/google-workspace/<name>_<version>`
  * (preferred versions) and `@distilled.cloud/google-workspace/unstable/<name>_<version>`
  * (non-preferred versions); this root module exports the shared runtime
- * surface only — importing every generated service from one barrel would
+ * surface only -- importing every generated service from one barrel would
  * defeat tree-shaking across the Workspace catalog.
  */
 export * from "./credentials.ts";

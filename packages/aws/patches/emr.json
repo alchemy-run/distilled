@@ -138,18 +138,27 @@
           }
         }
       ]
+    },
+    "runJobFlow": {
+      "syntheticErrors": [
+        {
+          "name": "EmrInstanceProfileNotReady",
+          "from": "ValidationException",
+          "message": {
+            "includes": "Invalid InstanceProfile"
+          }
+        }
+      ]
     }
   },
   "errorCategories": {
     "ClusterNotFound": ["NotFoundError"],
     "SecurityConfigurationNotFound": ["NotFoundError"],
-    "SecurityConfigurationAlreadyExists": [
-      "AlreadyExistsError",
-      "ConflictError"
-    ],
+    "SecurityConfigurationAlreadyExists": ["AlreadyExistsError", "ConflictError"],
     "StudioNotFound": ["NotFoundError"],
     "StudioServiceRoleNotAssumable": ["RetryableError"],
     "StudioServiceRoleMissingS3Access": ["RetryableError"],
-    "JobFlowNotFound": ["NotFoundError"]
+    "JobFlowNotFound": ["NotFoundError"],
+    "EmrInstanceProfileNotReady": ["RetryableError"]
   }
 }

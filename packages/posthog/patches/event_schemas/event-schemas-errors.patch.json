@@ -1,0 +1,136 @@
+{
+  "description": "From event-schemas-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"event_schemas\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.event_schemas#EventSchemasList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.event_schemas#BadRequest"
+        },
+        {
+          "target": "com.posthog.event_schemas#Forbidden"
+        },
+        {
+          "target": "com.posthog.event_schemas#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.event_schemas#EventSchemasCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.event_schemas#BadRequest"
+        },
+        {
+          "target": "com.posthog.event_schemas#Forbidden"
+        },
+        {
+          "target": "com.posthog.event_schemas#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.event_schemas#EventSchemasUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.event_schemas#BadRequest"
+        },
+        {
+          "target": "com.posthog.event_schemas#Forbidden"
+        },
+        {
+          "target": "com.posthog.event_schemas#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.event_schemas#EventSchemasPartialUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.event_schemas#BadRequest"
+        },
+        {
+          "target": "com.posthog.event_schemas#Forbidden"
+        },
+        {
+          "target": "com.posthog.event_schemas#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.event_schemas#EventSchemasDestroy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.event_schemas#Forbidden"
+        },
+        {
+          "target": "com.posthog.event_schemas#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.event_schemas#BadRequest",
+      "before": "com.posthog.event_schemas#EventSchemas",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.event_schemas#Forbidden",
+      "before": "com.posthog.event_schemas#EventSchemas",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.event_schemas#NotFound",
+      "before": "com.posthog.event_schemas#EventSchemas",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

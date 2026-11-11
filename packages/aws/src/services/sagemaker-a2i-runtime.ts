@@ -1,20 +1,25 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "SageMaker A2I Runtime",
   serviceShapeName: "AmazonSageMakerA2IRuntime",
 });
-const auth = T.AwsAuthSigv4({ name: "sagemaker" });
-const ver = T.ServiceVersion("2019-11-07");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "sagemaker" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2019-11-07");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -26,14 +31,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +61,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://a2i-runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,9 +69,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://a2i-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://a2i-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -81,85 +78,66 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://a2i-runtime.sagemaker.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SageMakerA2IRuntime",
+  service: "SageMakerA2IRuntime",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(402),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type HumanLoopName = string;
 export interface DeleteHumanLoopRequest {
   HumanLoopName: string;
 }
-export const DeleteHumanLoopRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ HumanLoopName: S.String.pipe(T.HttpLabel("HumanLoopName")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/human-loops/{HumanLoopName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteHumanLoopRequest",
-}) as any as S.Schema<DeleteHumanLoopRequest>;
 export interface DeleteHumanLoopResponse {}
-export const DeleteHumanLoopResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteHumanLoopResponse",
-}) as any as S.Schema<DeleteHumanLoopResponse>;
 export interface DescribeHumanLoopRequest {
   HumanLoopName: string;
 }
-export const DescribeHumanLoopRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ HumanLoopName: S.String.pipe(T.HttpLabel("HumanLoopName")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/human-loops/{HumanLoopName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeHumanLoopRequest",
-}) as any as S.Schema<DescribeHumanLoopRequest>;
 export type HumanLoopStatus =
   | "InProgress"
   | "Failed"
@@ -167,198 +145,70 @@ export type HumanLoopStatus =
   | "Stopped"
   | "Stopping"
   | (string & {});
-export const HumanLoopStatus = S.String;
-
 export type HumanLoopArn = string;
 export type FlowDefinitionArn = string;
 export interface HumanLoopOutput {
-  OutputS3Uri?: string;
+  OutputS3Uri?: string | undefined;
 }
-export const HumanLoopOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OutputS3Uri: S.optional(S.String) }),
-).annotate({
-  identifier: "HumanLoopOutput",
-}) as any as S.Schema<HumanLoopOutput>;
 export interface DescribeHumanLoopResponse {
   CreationTime: Date;
-  FailureReason?: string;
-  FailureCode?: string;
+  FailureReason?: string | undefined;
+  FailureCode?: string | undefined;
   HumanLoopStatus: HumanLoopStatus;
   HumanLoopName: string;
   HumanLoopArn: string;
   FlowDefinitionArn: string;
-  HumanLoopOutput?: HumanLoopOutput & { OutputS3Uri: string };
+  HumanLoopOutput?: (HumanLoopOutput & { OutputS3Uri: string }) | undefined;
 }
-export const DescribeHumanLoopResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    FailureReason: S.optional(S.String),
-    FailureCode: S.optional(S.String),
-    HumanLoopStatus: S.optional(HumanLoopStatus),
-    HumanLoopName: S.optional(S.String),
-    HumanLoopArn: S.optional(S.String),
-    FlowDefinitionArn: S.optional(S.String),
-    HumanLoopOutput: S.optional(HumanLoopOutput),
-  }),
-).annotate({
-  identifier: "DescribeHumanLoopResponse",
-}) as any as S.Schema<DescribeHumanLoopResponse>;
 export type SortOrder = "Ascending" | "Descending" | (string & {});
-export const SortOrder = S.String;
-
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListHumanLoopsRequest {
-  CreationTimeAfter?: Date;
-  CreationTimeBefore?: Date;
-  FlowDefinitionArn?: string;
-  SortOrder?: SortOrder;
-  NextToken?: string;
-  MaxResults?: number;
+  CreationTimeAfter?: Date | undefined;
+  CreationTimeBefore?: Date | undefined;
+  FlowDefinitionArn?: string | undefined;
+  SortOrder?: SortOrder | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListHumanLoopsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreationTimeAfter: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("CreationTimeAfter")),
-    CreationTimeBefore: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("CreationTimeBefore")),
-    FlowDefinitionArn: S.optional(S.String).pipe(
-      T.HttpQuery("FlowDefinitionArn"),
-    ),
-    SortOrder: S.optional(SortOrder).pipe(T.HttpQuery("SortOrder")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/human-loops" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListHumanLoopsRequest",
-}) as any as S.Schema<ListHumanLoopsRequest>;
 export type FailureReason = string;
 export interface HumanLoopSummary {
-  HumanLoopName?: string;
-  HumanLoopStatus?: HumanLoopStatus;
-  CreationTime?: Date;
-  FailureReason?: string;
-  FlowDefinitionArn?: string;
+  HumanLoopName?: string | undefined;
+  HumanLoopStatus?: HumanLoopStatus | undefined;
+  CreationTime?: Date | undefined;
+  FailureReason?: string | undefined;
+  FlowDefinitionArn?: string | undefined;
 }
-export const HumanLoopSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HumanLoopName: S.optional(S.String),
-    HumanLoopStatus: S.optional(HumanLoopStatus),
-    CreationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    FailureReason: S.optional(S.String),
-    FlowDefinitionArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "HumanLoopSummary",
-}) as any as S.Schema<HumanLoopSummary>;
 export type HumanLoopSummaries = HumanLoopSummary[];
-export const HumanLoopSummaries = /*@__PURE__*/ S.Array(HumanLoopSummary);
 export interface ListHumanLoopsResponse {
   HumanLoopSummaries: HumanLoopSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
-export const ListHumanLoopsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HumanLoopSummaries: S.optional(HumanLoopSummaries),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListHumanLoopsResponse",
-}) as any as S.Schema<ListHumanLoopsResponse>;
 export type InputContent = string;
 export interface HumanLoopInput {
-  InputContent?: string;
+  InputContent?: string | undefined;
 }
-export const HumanLoopInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InputContent: S.optional(S.String) }),
-).annotate({ identifier: "HumanLoopInput" }) as any as S.Schema<HumanLoopInput>;
 export type ContentClassifier =
   | "FreeOfPersonallyIdentifiableInformation"
   | "FreeOfAdultContent"
   | (string & {});
-export const ContentClassifier = S.String;
-
 export type ContentClassifiers = ContentClassifier[];
-export const ContentClassifiers = /*@__PURE__*/ S.Array(ContentClassifier);
 export interface HumanLoopDataAttributes {
-  ContentClassifiers?: ContentClassifier[];
+  ContentClassifiers?: ContentClassifier[] | undefined;
 }
-export const HumanLoopDataAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContentClassifiers: S.optional(ContentClassifiers) }),
-).annotate({
-  identifier: "HumanLoopDataAttributes",
-}) as any as S.Schema<HumanLoopDataAttributes>;
 export interface StartHumanLoopRequest {
-  HumanLoopName?: string;
-  FlowDefinitionArn?: string;
-  HumanLoopInput?: HumanLoopInput;
-  DataAttributes?: HumanLoopDataAttributes;
+  HumanLoopName?: string | undefined;
+  FlowDefinitionArn?: string | undefined;
+  HumanLoopInput?: HumanLoopInput | undefined;
+  DataAttributes?: HumanLoopDataAttributes | undefined;
 }
-export const StartHumanLoopRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HumanLoopName: S.optional(S.String),
-    FlowDefinitionArn: S.optional(S.String),
-    HumanLoopInput: S.optional(HumanLoopInput),
-    DataAttributes: S.optional(HumanLoopDataAttributes),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/human-loops" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartHumanLoopRequest",
-}) as any as S.Schema<StartHumanLoopRequest>;
 export interface StartHumanLoopResponse {
-  HumanLoopArn?: string;
+  HumanLoopArn?: string | undefined;
 }
-export const StartHumanLoopResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ HumanLoopArn: S.optional(S.String) }),
-).annotate({
-  identifier: "StartHumanLoopResponse",
-}) as any as S.Schema<StartHumanLoopResponse>;
 export interface StopHumanLoopRequest {
-  HumanLoopName?: string;
+  HumanLoopName?: string | undefined;
 }
-export const StopHumanLoopRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ HumanLoopName: S.optional(S.String) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/human-loops/stop" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopHumanLoopRequest",
-}) as any as S.Schema<StopHumanLoopRequest>;
 export interface StopHumanLoopResponse {}
-export const StopHumanLoopResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "StopHumanLoopResponse",
-}) as any as S.Schema<StopHumanLoopResponse>;
 export type DeleteHumanLoopError =
   | InternalServerException
   | ResourceNotFoundException
@@ -372,13 +222,13 @@ export type DeleteHumanLoopError =
  * `ResourceNotFoundException`.
  */
 export const deleteHumanLoop: API.OperationMethod<
-  DeleteHumanLoopRequest,
+  DeleteHumanLoopRequest & RegionInput,
   DeleteHumanLoopResponse,
   DeleteHumanLoopError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteHumanLoopRequest,
-  output: DeleteHumanLoopResponse,
+  input: __S(8, __c1, 0) as any as S.Schema<DeleteHumanLoopRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<DeleteHumanLoopResponse>,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -388,6 +238,8 @@ export const deleteHumanLoop: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHumanLoop",
+  telemetry: TELEMETRY,
+  span: "DeleteHumanLoop",
 }));
 
 export type DescribeHumanLoopError =
@@ -401,13 +253,13 @@ export type DescribeHumanLoopError =
  * operation will return a `ResourceNotFoundException` error.
  */
 export const describeHumanLoop: API.OperationMethod<
-  DescribeHumanLoopRequest,
+  DescribeHumanLoopRequest & RegionInput,
   DescribeHumanLoopResponse,
   DescribeHumanLoopError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeHumanLoopRequest,
-  output: DescribeHumanLoopResponse,
+  input: __S(24, __c3, 0) as any as S.Schema<DescribeHumanLoopRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<DescribeHumanLoopResponse>,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -417,6 +269,8 @@ export const describeHumanLoop: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHumanLoop",
+  telemetry: TELEMETRY,
+  span: "DescribeHumanLoop",
 }));
 
 export type ListHumanLoopsError =
@@ -429,14 +283,14 @@ export type ListHumanLoopsError =
  * Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
  */
 export const listHumanLoops: API.PaginatedOperationMethod<
-  ListHumanLoopsRequest,
+  ListHumanLoopsRequest & RegionInput,
   ListHumanLoopsResponse,
   ListHumanLoopsError,
   Credentials | HttpClient.HttpClient,
   HumanLoopSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListHumanLoopsRequest,
-  output: ListHumanLoopsResponse,
+  input: __S(32, __c4, 0) as any as S.Schema<ListHumanLoopsRequest>,
+  output: __S(35, __c4, 3) as any as S.Schema<ListHumanLoopsResponse>,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -452,6 +306,8 @@ export const listHumanLoops: API.PaginatedOperationMethod<
     items: "HumanLoopSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHumanLoops",
 })) as any;
 
 export type StartHumanLoopError =
@@ -465,13 +321,13 @@ export type StartHumanLoopError =
  * Starts a human loop, provided that at least one activation condition is met.
  */
 export const startHumanLoop: API.OperationMethod<
-  StartHumanLoopRequest,
+  StartHumanLoopRequest & RegionInput,
   StartHumanLoopResponse,
   StartHumanLoopError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartHumanLoopRequest,
-  output: StartHumanLoopResponse,
+  input: __S(43, __c5, 3) as any as S.Schema<StartHumanLoopRequest>,
+  output: __S(44, __c5, 4) as any as S.Schema<StartHumanLoopResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -482,6 +338,8 @@ export const startHumanLoop: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartHumanLoop",
+  telemetry: TELEMETRY,
+  span: "StartHumanLoop",
 }));
 
 export type StopHumanLoopError =
@@ -494,13 +352,13 @@ export type StopHumanLoopError =
  * Stops the specified human loop.
  */
 export const stopHumanLoop: API.OperationMethod<
-  StopHumanLoopRequest,
+  StopHumanLoopRequest & RegionInput,
   StopHumanLoopResponse,
   StopHumanLoopError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopHumanLoopRequest,
-  output: StopHumanLoopResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<StopHumanLoopRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<StopHumanLoopResponse>,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -510,4 +368,148 @@ export const stopHumanLoop: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopHumanLoop",
+  telemetry: TELEMETRY,
+  span: "StopHumanLoop",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ HumanLoopName: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/human-loops/stop" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StopHumanLoopRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ HumanLoopName: S.String.pipe(T.HttpLabel("HumanLoopName")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/human-loops/{HumanLoopName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteHumanLoopRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteHumanLoopResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ HumanLoopName: S.String.pipe(T.HttpLabel("HumanLoopName")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/human-loops/{HumanLoopName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeHumanLoopRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ OutputS3Uri: S.optional(S.String) })).annotate({
+        identifier: "HumanLoopOutput",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          CreationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          FailureReason: S.optional(S.String),
+          FailureCode: S.optional(S.String),
+          HumanLoopStatus: S.optional(S.String),
+          HumanLoopName: S.optional(S.String),
+          HumanLoopArn: S.optional(S.String),
+          FlowDefinitionArn: S.optional(S.String),
+          HumanLoopOutput: S.optional(__S(25, __c3, 1)),
+        }),
+      ).annotate({ identifier: "DescribeHumanLoopResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CreationTimeAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+            T.HttpQuery("CreationTimeAfter"),
+          ),
+          CreationTimeBefore: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpQuery("CreationTimeBefore")),
+          FlowDefinitionArn: S.optional(S.String).pipe(T.HttpQuery("FlowDefinitionArn")),
+          SortOrder: S.optional(S.String).pipe(T.HttpQuery("SortOrder")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+        }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/human-loops" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListHumanLoopsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          HumanLoopName: S.optional(S.String),
+          HumanLoopStatus: S.optional(S.String),
+          CreationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          FailureReason: S.optional(S.String),
+          FlowDefinitionArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HumanLoopSummary" });
+    case 2:
+      return S.Array(__S(33, __c4, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          HumanLoopSummaries: S.optional(__S(34, __c4, 2)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListHumanLoopsResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ InputContent: S.optional(S.String) })).annotate({
+        identifier: "HumanLoopInput",
+      });
+    case 1:
+      return S.Array(S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ ContentClassifiers: S.optional(__S(41, __c5, 1)) }),
+      ).annotate({ identifier: "HumanLoopDataAttributes" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          HumanLoopName: S.optional(S.String),
+          FlowDefinitionArn: S.optional(S.String),
+          HumanLoopInput: S.optional(__S(40, __c5, 0)),
+          DataAttributes: S.optional(__S(42, __c5, 2)),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/human-loops" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartHumanLoopRequest" });
+    case 4:
+      return S.suspend(() => S.Struct({ HumanLoopArn: S.optional(S.String) })).annotate({
+        identifier: "StartHumanLoopResponse",
+      });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

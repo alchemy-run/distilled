@@ -1,0 +1,306 @@
+{
+  "description": "Type the missing-OAuth-scope 403 on every Authorized Buyers Marketplace operation. The API requires the authorized-buyers-marketplace scope; a cloud-platform token gets 403 PERMISSION_DENIED (ACCESS_TOKEN_SCOPE_INSUFFICIENT), which surfaced as a generic Forbidden indistinguishable from an IAM denial. Observed live 2026-09-29 on getBuyersClientsUsers/createBuyersClientsUsers.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The access token lacks the `https://www.googleapis.com/auth/authorized-buyers-marketplace` OAuth scope (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). A `cloud-platform` token is not enough. Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#AcceptBuyersProposals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#ActivateBuyersClients/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#ActivateBuyersClientsUsers/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#AddCreativeBuyersFinalizedDeals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#AddNoteBuyersProposals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#BatchUpdateBuyersProposalsDeals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#CancelNegotiationBuyersProposals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#CreateBuyersClients/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#CreateBuyersClientsUsers/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#DeactivateBuyersClients/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#DeactivateBuyersClientsUsers/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#DeleteBuyersClientsUsers/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#GetBuyersAuctionPackages/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#GetBuyersClients/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#GetBuyersClientsUsers/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#GetBuyersFinalizedDeals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#GetBuyersProposals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#GetBuyersProposalsDeals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#GetBuyersPublisherProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#ListBiddersAuctionPackages/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#ListBiddersFinalizedDeals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#ListBuyersAuctionPackages/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#ListBuyersClients/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#ListBuyersClientsUsers/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#ListBuyersFinalizedDeals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#ListBuyersProposals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#ListBuyersProposalsDeals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#ListBuyersPublisherProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#PatchBuyersClients/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#PatchBuyersProposals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#PatchBuyersProposalsDeals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#PauseBuyersFinalizedDeals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#ResumeBuyersFinalizedDeals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#SendRfpBuyersProposals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#SetReadyToServeBiddersFinalizedDeals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#SetReadyToServeBuyersFinalizedDeals/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#SubscribeBuyersAuctionPackages/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#SubscribeClientsBuyersAuctionPackages/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#UnsubscribeBuyersAuctionPackages/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.authorizedbuyersmarketplace_v1#UnsubscribeClientsBuyersAuctionPackages/errors/-",
+      "value": {
+        "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
+      }
+    }
+  ]
+}

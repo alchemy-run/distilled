@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the
  * DigitalOcean Effect SDK.
@@ -7,13 +8,12 @@
  * Output: src/services/digitalocean.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is DigitalOcean's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is DigitalOcean's provider spec.
  * DigitalOcean keeps the wire's snake_case member names on the TS surface
  * (the spelling its own docs, CLI and Terraform provider use), so no member
  * renaming or wire dictionaries appear here.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -55,8 +55,12 @@ const digitaloceanSpec: SdkSpec = {
     `export const ${name} = S.Unknown as any as S.Schema<${name}>;\n`,
   ],
 
-  // Converter-stamped pagination: page-number (`page` / `next_page`) and
-  // cursor (`cursor` / `pagination.cursor`) when the spec carries either.
+  // Pagination is stamped on the Smithy model by patches/*.patch.json
+  // (`smithy.api#paginated` ops under `/shapes`, applied after conversion) —
+  // the OpenAPI spec carries no pagination metadata. Page-number ops
+  // (`page` / `per_page` in, `links.pages.next` URL out) select the `page`
+  // profile; a cursor-stamped op would select `cursor`.
+  paginationProfileFor: (trait) => (trait.mode === "page" ? "page" : "cursor"),
   paginationProfiles: {
     cursor: {
       strategy: "paginateCursor",
@@ -76,22 +80,22 @@ const digitaloceanSpec: SdkSpec = {
     retry: "Retry.Retry",
   },
 
-  sourceNote:
-    ".generated-specs (specs/spec-mirror-digitalocean/specs/openapi.json)",
+  sourceNote: ".generated-specs (specs/spec-mirror-digitalocean/specs/openapi.json)",
 
   // Sensitive member types reference Redacted; pull the import in when used.
   postProcess: (code) =>
     code.includes("Redacted.Redacted<")
       ? code.replace(
-          `import * as S from "@distilled.cloud/core/schema";\n`,
-          `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
         )
       : code,
 };
 
 runGeneratorCli({
   description: "Generate the DigitalOcean Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  convert: () => import("./convert.ts"),
+  root: `${import.meta.dirname}/..`,
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,

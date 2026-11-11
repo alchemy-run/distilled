@@ -12,7 +12,7 @@ npm install @distilled.cloud/argocd effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Argocd from "@distilled.cloud/argocd";
 
 const program = Effect.gen(function* () {

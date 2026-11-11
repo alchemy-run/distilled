@@ -1,0 +1,53 @@
+{
+  "description": "Docs gaps: GET /accounts/{account_id}/workers/durable_objects/namespaces also returns `dispatch_namespace` for namespaces owned by a Workers for Platforms dispatch-namespace script (absent for account-level scripts), and `preview` for a namespace that belongs to a Worker Preview (absent for the script's own namespaces). Without `dispatch_namespace`, a dispatch script's namespaces are indistinguishable from those of an account-level script with the same name. Without `preview`, a Preview's namespace is indistinguishable from its parent script's namespace for the same class: both report the parent's name in `script`. Observed on live listings on 2026-10-09: `{\"id\": \"…\", \"class\": \"Counter\", \"name\": \"<script>_Counter\", \"script\": \"<script>\", \"use_sqlite\": true, \"dispatch_namespace\": \"<namespace>\"}`, and on 2026-11-05: `{\"id\": \"…\", \"class\": \"Counter\", \"name\": \"<script>_<preview>_Counter\", \"script\": \"<script>\", \"use_sqlite\": true, \"use_containers\": true, \"preview\": {\"id\": \"<preview id>\", \"slug\": \"<preview>\", \"name\": \"<preview>\"}}`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.durable_objects#NamespacesListResultItem/members/dispatch_namespace",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Workers for Platforms dispatch namespace of the script that owns this namespace; absent for account-level scripts."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.durable_objects#NamespacesListResultItemPreview",
+      "value": {
+        "type": "structure",
+        "members": {
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The Preview's id."
+            }
+          },
+          "slug": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The Preview's DNS-safe slug."
+            }
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The Preview's name."
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.durable_objects#NamespacesListResultItem/members/preview",
+      "value": {
+        "target": "com.cloudflare.durable_objects#NamespacesListResultItemPreview",
+        "traits": {
+          "smithy.api#documentation": "The Worker Preview this namespace belongs to; absent for the script's own namespaces. `script` names the Preview's parent Worker."
+        }
+      }
+    }
+  ]
+}

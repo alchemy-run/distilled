@@ -1,0 +1,147 @@
+{
+  "description": "TargetServiceBase (polymorphic on `type`: AzureResource, ConfluentBootstrapServer, ConfluentSchemaRegistry, SelfHostedServer) and AuthInfoBase (polymorphic on `authType`: systemAssignedIdentity, userAssignedIdentity, servicePrincipalSecret, servicePrincipalCertificate, secret, accessKey, userAccount, easyAuthMicrosoftEntraID) keep only their discriminators in the converted model, so S.Struct strips the target `id`/`endpoint` and every auth payload on encode and decode and ARM rejects every linker/connector. Flatten the subtype members onto the base shapes (shared by Linker and Connector operations).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicelinker#TargetServiceBase/members/id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The Id of the target Azure resource (`type: AzureResource`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicelinker#TargetServiceBase/members/resourceProperties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Additional target resource properties (`type: AzureResource`), polymorphic on `type`, e.g. `{ type: \"KeyVault\", connectAsKubernetesCsiDriver: true }`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicelinker#TargetServiceBase/members/endpoint",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The endpoint of the service (`type: ConfluentBootstrapServer | ConfluentSchemaRegistry | SelfHostedServer`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicelinker#AuthInfoBase/members/userName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Username created in the database mapped to the identity/user (identity, userAccount, servicePrincipal* auth types)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicelinker#AuthInfoBase/members/deleteOrUpdateBehavior",
+      "value": {
+        "target": "com.azure.servicelinker#DeleteOrUpdateBehavior",
+        "traits": {
+          "smithy.api#documentation": "Indicates whether to clean up previous operation when Linker is updating or deleting."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicelinker#AuthInfoBase/members/roles",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Optional, the RBAC role names to grant on the target (string array)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicelinker#AuthInfoBase/members/clientId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Client Id of the user-assigned identity or service principal (`userAssignedIdentity`, `servicePrincipal*`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicelinker#AuthInfoBase/members/subscriptionId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Subscription id of the user-assigned identity (`userAssignedIdentity`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicelinker#AuthInfoBase/members/principalId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Principal Id of the service principal or user (`servicePrincipal*`, `userAccount`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicelinker#AuthInfoBase/members/secret",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Secret of the service principal (`servicePrincipalSecret`).",
+          "smithy.api#sensitive": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicelinker#AuthInfoBase/members/certificate",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ServicePrincipal certificate (`servicePrincipalCertificate`).",
+          "smithy.api#sensitive": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicelinker#AuthInfoBase/members/name",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Username or account name for secret auth (`secret`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicelinker#AuthInfoBase/members/secretInfo",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Password or key vault secret for secret auth (`secret`), polymorphic on `secretType`: `{ secretType: \"rawValue\", value }`, `{ secretType: \"keyVaultSecretReference\", name, version }`, `{ secretType: \"keyVaultSecretUri\", value }`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicelinker#AuthInfoBase/members/permissions",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Permissions of the accessKey (`accessKey`): string array of `Read`, `Write`, `Listen`, `Send`, `Manage`."
+        }
+      }
+    }
+  ]
+}

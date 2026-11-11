@@ -1,0 +1,176 @@
+{
+  "description": "FirewallPolicyRuleCollection is polymorphic (x-ms-discriminator ruleCollectionType: FirewallPolicyFilterRuleCollection / FirewallPolicyNatRuleCollection) and the converter kept only the base members, so rule collection groups could not send their action or rules. Flatten the subtypes: add `action` and a `rules` list whose element merges the ApplicationRule / NetworkRule / NatRule members (discriminated by ruleType).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.network#FirewallPolicyRuleStringList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.network#FirewallPolicyRuleApplicationProtocol",
+      "value": {
+        "type": "structure",
+        "members": {
+          "protocolType": {
+            "target": "smithy.api#String"
+          },
+          "port": {
+            "target": "smithy.api#Integer"
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.network#FirewallPolicyRuleApplicationProtocolList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.azure.network#FirewallPolicyRuleApplicationProtocol"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.network#FirewallPolicyHttpHeaderToInsert",
+      "value": {
+        "type": "structure",
+        "members": {
+          "headerName": {
+            "target": "smithy.api#String"
+          },
+          "headerValue": {
+            "target": "smithy.api#String"
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.network#FirewallPolicyHttpHeaderToInsertList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.azure.network#FirewallPolicyHttpHeaderToInsert"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.network#FirewallPolicyRule",
+      "value": {
+        "type": "structure",
+        "members": {
+          "ruleType": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "name": {
+            "target": "smithy.api#String"
+          },
+          "description": {
+            "target": "smithy.api#String"
+          },
+          "ipProtocols": {
+            "target": "com.azure.network#FirewallPolicyRuleStringList"
+          },
+          "sourceAddresses": {
+            "target": "com.azure.network#FirewallPolicyRuleStringList"
+          },
+          "destinationAddresses": {
+            "target": "com.azure.network#FirewallPolicyRuleStringList"
+          },
+          "destinationPorts": {
+            "target": "com.azure.network#FirewallPolicyRuleStringList"
+          },
+          "sourceIpGroups": {
+            "target": "com.azure.network#FirewallPolicyRuleStringList"
+          },
+          "destinationIpGroups": {
+            "target": "com.azure.network#FirewallPolicyRuleStringList"
+          },
+          "destinationFqdns": {
+            "target": "com.azure.network#FirewallPolicyRuleStringList"
+          },
+          "translatedAddress": {
+            "target": "smithy.api#String"
+          },
+          "translatedPort": {
+            "target": "smithy.api#String"
+          },
+          "translatedFqdn": {
+            "target": "smithy.api#String"
+          },
+          "protocols": {
+            "target": "com.azure.network#FirewallPolicyRuleApplicationProtocolList"
+          },
+          "targetFqdns": {
+            "target": "com.azure.network#FirewallPolicyRuleStringList"
+          },
+          "targetUrls": {
+            "target": "com.azure.network#FirewallPolicyRuleStringList"
+          },
+          "fqdnTags": {
+            "target": "com.azure.network#FirewallPolicyRuleStringList"
+          },
+          "webCategories": {
+            "target": "com.azure.network#FirewallPolicyRuleStringList"
+          },
+          "terminateTLS": {
+            "target": "smithy.api#Boolean"
+          },
+          "httpHeadersToInsert": {
+            "target": "com.azure.network#FirewallPolicyHttpHeaderToInsertList"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A firewall policy rule (application, network, or NAT; discriminated by ruleType)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.network#FirewallPolicyRuleList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.azure.network#FirewallPolicyRule"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.network#FirewallPolicyRuleCollectionAction",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "smithy.api#String"
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.network#FirewallPolicyRuleCollection/members/action",
+      "value": {
+        "target": "com.azure.network#FirewallPolicyRuleCollectionAction"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.network#FirewallPolicyRuleCollection/members/rules",
+      "value": {
+        "target": "com.azure.network#FirewallPolicyRuleList"
+      }
+    }
+  ]
+}

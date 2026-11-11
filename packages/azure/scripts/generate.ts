@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the per-service Smithy JSON models in .generated-specs
  * into the Azure Effect SDK.
@@ -7,7 +8,7 @@
  * Output: src/services/<service>.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Azure's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is Azure's provider spec.
  *
  * v0 parity notes:
  *   • operation exports keep the ARM operationId casing
@@ -22,8 +23,7 @@
  *   • the operation's `T.Http` trait carries the baked `apiVersion`
  *     (folded in by convert.ts); the protocol appends `?api-version=`
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -82,18 +82,36 @@ const azureSpec: SdkSpec = {
   postProcess: (code) =>
     code.includes("Redacted.Redacted<")
       ? code.replace(
-          `import * as S from "@distilled.cloud/core/schema";\n`,
-          `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
         )
       : code,
 };
 
+/**
+ * A label that is the whole leading path segment (`/{scope}/providers/…`,
+ * `/{resourceUri}/…`, `/{roleAssignmentId}`) carries a full ARM id such as
+ * `/subscriptions/{id}/resourceGroups/{rg}` — the specs mark these
+ * `x-ms-skip-url-encoding`. Rewrite them to greedy `{name+}` labels so the
+ * request builder keeps their `/` separators.
+ */
+const markScopeLabelsGreedy = (model: any): void => {
+  for (const shape of Object.values<any>(model.shapes ?? {})) {
+    const http = shape?.traits?.["smithy.api#http"];
+    if (typeof http?.uri !== "string") continue;
+    http.uri = http.uri.replace(/^\/\{([A-Za-z0-9_]+)\}(?=\/|$)/, "/{$1+}");
+  }
+};
+
 runGeneratorCli({
   description: "Generate the Azure Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
-  // Azure ships no patches (v0 parity — packages/azure/patches did not
-  // exist; all correction logic lives in convert.ts's ref-resolution and
-  // merging preprocessing).
+  convert: () => import("./convert.ts"),
+  root: `${import.meta.dirname}/..`,
+  // patches/<service>/*.json apply in convert (finalizeConvert), so the
+  // models here are already patched.
   patchesDir: false,
+  transformModel: (model) => {
+    markScopeLabelsGreedy(model);
+  },
   spec: () => azureSpec,
 });

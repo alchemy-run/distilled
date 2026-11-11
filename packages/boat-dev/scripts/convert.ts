@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Boat Public API v1 OpenAPI spec into a Smithy 2.0 JSON
  * model.
@@ -7,7 +7,7 @@
  * Output: .generated-specs/boat.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Boat's pipeline
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Boat's pipeline
  * config. `scripts/generate.ts` compiles the model into src/services.
  *
  * Boat's operationIds are already camelCase but several are a bare verb
@@ -16,17 +16,16 @@
  * here via `operationNames` (lookup by `"METHOD path"`).
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
       name: "boat",
       specPath: "specs/spec-mirror-boat-dev/specs/openapi.json",
     },
   ],
-  patchesDir: false,
   options: {
     namespace: "com.boat.api",
     serviceName: "Boat",
@@ -51,6 +50,9 @@ await runOpenApiConvert({
       "GET /sandboxes/{sandboxId}": "getSandbox",
       "PATCH /sandboxes/{sandboxId}": "updateSandbox",
       "POST /sandboxes/{sandboxId}/stop": "stopSandbox",
+      "POST /sandboxes/{sandboxId}/share": "shareSandbox",
+      "POST /sandboxes/{sandboxId}/unshare": "unshareSandbox",
+      "POST /sandboxes/{sandboxId}/recover": "recoverSandbox",
       "POST /sandboxes/{sandboxId}/resume": "resumeSandbox",
       "POST /sandboxes/{sandboxId}/fork": "forkSandbox",
       "POST /sandboxes/{sandboxId}/prompt": "promptSandbox",
@@ -67,6 +69,7 @@ await runOpenApiConvert({
       "POST /sandboxes/{sandboxId}/desktop": "getDesktopStreamingUrl",
       "POST /sandboxes/{sandboxId}/sshkey": "configureSshKey",
       "GET /sandboxes/{sandboxId}/usage": "getSandboxUsage",
+      "GET /sandboxes/{sandboxId}/processes": "listSandboxProcesses",
     },
   },
 });

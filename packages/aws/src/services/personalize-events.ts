@@ -1,22 +1,27 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Personalize Events",
   serviceShapeName: "AmazonPersonalizeEvents",
 });
-const auth = T.AwsAuthSigv4({ name: "personalize" });
-const ver = T.ServiceVersion("2018-03-22");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "personalize" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2018-03-22");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -28,14 +33,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +63,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://personalize-events-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,279 +71,131 @@ const rules = T.EndpointResolver((p, _) => {
               `https://personalize-events.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://personalize-events.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://personalize-events.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://personalize-events.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PersonalizeEvents",
+  service: "PersonalizeEvents",
+  propagate: TxXray.propagate,
+} as const;
 
 export class InvalidInputException
   extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
     "InvalidInputException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ResourceInUseException
   extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()(
     "ResourceInUseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export type StringType = string;
 export type ActionId = string | redacted.Redacted<string>;
 export type UserId = string | redacted.Redacted<string>;
 export type RecommendationId = string;
 export type ActionImpression = (string | redacted.Redacted<string>)[];
-export const ActionImpression = /*@__PURE__*/ S.Array(SensitiveString);
-export type SynthesizedJsonActionInteractionProperties =
-  | string
-  | redacted.Redacted<string>;
+export type SynthesizedJsonActionInteractionProperties = string | redacted.Redacted<string>;
 export interface ActionInteraction {
   actionId: string | redacted.Redacted<string>;
-  userId?: string | redacted.Redacted<string>;
+  userId?: string | redacted.Redacted<string> | undefined;
   sessionId: string;
   timestamp: Date;
   eventType: string;
-  eventId?: string;
-  recommendationId?: string;
-  impression?: (string | redacted.Redacted<string>)[];
-  properties?: string | redacted.Redacted<string>;
+  eventId?: string | undefined;
+  recommendationId?: string | undefined;
+  impression?: (string | redacted.Redacted<string>)[] | undefined;
+  properties?: string | redacted.Redacted<string> | undefined;
 }
-export const ActionInteraction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    actionId: SensitiveString,
-    userId: S.optional(SensitiveString),
-    sessionId: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    eventType: S.String,
-    eventId: S.optional(S.String),
-    recommendationId: S.optional(S.String),
-    impression: S.optional(ActionImpression),
-    properties: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "ActionInteraction",
-}) as any as S.Schema<ActionInteraction>;
 export type ActionInteractionsList = ActionInteraction[];
-export const ActionInteractionsList = /*@__PURE__*/ S.Array(ActionInteraction);
 export interface PutActionInteractionsRequest {
   trackingId: string;
   actionInteractions: ActionInteraction[];
 }
-export const PutActionInteractionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    trackingId: S.String,
-    actionInteractions: ActionInteractionsList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/action-interactions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutActionInteractionsRequest",
-}) as any as S.Schema<PutActionInteractionsRequest>;
 export interface PutActionInteractionsResponse {}
-export const PutActionInteractionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutActionInteractionsResponse",
-}) as any as S.Schema<PutActionInteractionsResponse>;
 export type Arn = string;
-export type SynthesizedJsonActionProperties =
-  | string
-  | redacted.Redacted<string>;
+export type SynthesizedJsonActionProperties = string | redacted.Redacted<string>;
 export interface Action {
   actionId: string;
-  properties?: string | redacted.Redacted<string>;
+  properties?: string | redacted.Redacted<string> | undefined;
 }
-export const Action = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ actionId: S.String, properties: S.optional(SensitiveString) }),
-).annotate({ identifier: "Action" }) as any as S.Schema<Action>;
 export type ActionList = Action[];
-export const ActionList = /*@__PURE__*/ S.Array(Action);
 export interface PutActionsRequest {
   datasetArn: string;
   actions: Action[];
 }
-export const PutActionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ datasetArn: S.String, actions: ActionList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/actions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutActionsRequest",
-}) as any as S.Schema<PutActionsRequest>;
 export interface PutActionsResponse {}
-export const PutActionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutActionsResponse",
-}) as any as S.Schema<PutActionsResponse>;
 export type FloatType = number;
 export type ItemId = string | redacted.Redacted<string>;
-export type SynthesizedJsonEventPropertiesJSON =
-  | string
-  | redacted.Redacted<string>;
+export type SynthesizedJsonEventPropertiesJSON = string | redacted.Redacted<string>;
 export type Impression = (string | redacted.Redacted<string>)[];
-export const Impression = /*@__PURE__*/ S.Array(SensitiveString);
 export type EventAttributionSource = string;
 export interface MetricAttribution {
   eventAttributionSource: string;
 }
-export const MetricAttribution = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ eventAttributionSource: S.String }),
-).annotate({
-  identifier: "MetricAttribution",
-}) as any as S.Schema<MetricAttribution>;
 export interface Event {
-  eventId?: string;
+  eventId?: string | undefined;
   eventType: string;
-  eventValue?: number;
-  itemId?: string | redacted.Redacted<string>;
-  properties?: string | redacted.Redacted<string>;
+  eventValue?: number | undefined;
+  itemId?: string | redacted.Redacted<string> | undefined;
+  properties?: string | redacted.Redacted<string> | undefined;
   sentAt: Date;
-  recommendationId?: string;
-  impression?: (string | redacted.Redacted<string>)[];
-  metricAttribution?: MetricAttribution;
+  recommendationId?: string | undefined;
+  impression?: (string | redacted.Redacted<string>)[] | undefined;
+  metricAttribution?: MetricAttribution | undefined;
 }
-export const Event = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.optional(S.String),
-    eventType: S.String,
-    eventValue: S.optional(S.Number),
-    itemId: S.optional(SensitiveString),
-    properties: S.optional(SensitiveString),
-    sentAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    recommendationId: S.optional(S.String),
-    impression: S.optional(Impression),
-    metricAttribution: S.optional(MetricAttribution),
-  }),
-).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
 export type EventList = Event[];
-export const EventList = /*@__PURE__*/ S.Array(Event);
 export interface PutEventsRequest {
   trackingId: string;
-  userId?: string | redacted.Redacted<string>;
+  userId?: string | redacted.Redacted<string> | undefined;
   sessionId: string;
   eventList: Event[];
 }
-export const PutEventsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    trackingId: S.String,
-    userId: S.optional(SensitiveString),
-    sessionId: S.String,
-    eventList: EventList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/events" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutEventsRequest",
-}) as any as S.Schema<PutEventsRequest>;
 export interface PutEventsResponse {}
-export const PutEventsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutEventsResponse",
-}) as any as S.Schema<PutEventsResponse>;
 export type SynthesizedJsonItemProperties = string | redacted.Redacted<string>;
 export interface Item {
   itemId: string;
-  properties?: string | redacted.Redacted<string>;
+  properties?: string | redacted.Redacted<string> | undefined;
 }
-export const Item = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ itemId: S.String, properties: S.optional(SensitiveString) }),
-).annotate({ identifier: "Item" }) as any as S.Schema<Item>;
 export type ItemList = Item[];
-export const ItemList = /*@__PURE__*/ S.Array(Item);
 export interface PutItemsRequest {
   datasetArn: string;
   items: Item[];
 }
-export const PutItemsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ datasetArn: S.String, items: ItemList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/items" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutItemsRequest",
-}) as any as S.Schema<PutItemsRequest>;
 export interface PutItemsResponse {}
-export const PutItemsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutItemsResponse",
-}) as any as S.Schema<PutItemsResponse>;
 export type SynthesizedJsonUserProperties = string | redacted.Redacted<string>;
 export interface User {
   userId: string;
-  properties?: string | redacted.Redacted<string>;
+  properties?: string | redacted.Redacted<string> | undefined;
 }
-export const User = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ userId: S.String, properties: S.optional(SensitiveString) }),
-).annotate({ identifier: "User" }) as any as S.Schema<User>;
 export type UserList = User[];
-export const UserList = /*@__PURE__*/ S.Array(User);
 export interface PutUsersRequest {
   datasetArn: string;
   users: User[];
 }
-export const PutUsersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ datasetArn: S.String, users: UserList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/users" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutUsersRequest",
-}) as any as S.Schema<PutUsersRequest>;
 export interface PutUsersResponse {}
-export const PutUsersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutUsersResponse",
-}) as any as S.Schema<PutUsersResponse>;
 export type ErrorMessage = string;
 export type PutActionInteractionsError =
   | InvalidInputException
@@ -359,21 +210,19 @@ export type PutActionInteractionsError =
  * For more information about actions in an Actions dataset, see Actions dataset.
  */
 export const putActionInteractions: API.OperationMethod<
-  PutActionInteractionsRequest,
+  PutActionInteractionsRequest & RegionInput,
   PutActionInteractionsResponse,
   PutActionInteractionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutActionInteractionsRequest,
-  output: PutActionInteractionsResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  input: __S(2, __c0, 2) as any as S.Schema<PutActionInteractionsRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<PutActionInteractionsResponse>,
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutActionInteractions",
+  telemetry: TELEMETRY,
+  span: "PutActionInteractions",
 }));
 
 export type PutActionsError =
@@ -386,21 +235,19 @@ export type PutActionsError =
  * Importing actions individually.
  */
 export const putActions: API.OperationMethod<
-  PutActionsRequest,
+  PutActionsRequest & RegionInput,
   PutActionsResponse,
   PutActionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutActionsRequest,
-  output: PutActionsResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  input: __S(14, __c3, 2) as any as S.Schema<PutActionsRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<PutActionsResponse>,
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutActions",
+  telemetry: TELEMETRY,
+  span: "PutActions",
 }));
 
 export type PutEventsError = InvalidInputException | CommonErrors;
@@ -409,17 +256,19 @@ export type PutEventsError = InvalidInputException | CommonErrors;
  * Recording item interaction events.
  */
 export const putEvents: API.OperationMethod<
-  PutEventsRequest,
+  PutEventsRequest & RegionInput,
   PutEventsResponse,
   PutEventsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutEventsRequest,
-  output: PutEventsResponse,
+  input: __S(19, __c4, 3) as any as S.Schema<PutEventsRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<PutEventsResponse>,
   errors: [InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEvents",
+  telemetry: TELEMETRY,
+  span: "PutEvents",
 }));
 
 export type PutItemsError =
@@ -432,21 +281,19 @@ export type PutItemsError =
  * Importing items individually.
  */
 export const putItems: API.OperationMethod<
-  PutItemsRequest,
+  PutItemsRequest & RegionInput,
   PutItemsResponse,
   PutItemsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutItemsRequest,
-  output: PutItemsResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  input: __S(22, __c5, 2) as any as S.Schema<PutItemsRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<PutItemsResponse>,
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutItems",
+  telemetry: TELEMETRY,
+  span: "PutItems",
 }));
 
 export type PutUsersError =
@@ -459,19 +306,151 @@ export type PutUsersError =
  * Importing users individually.
  */
 export const putUsers: API.OperationMethod<
-  PutUsersRequest,
+  PutUsersRequest & RegionInput,
   PutUsersResponse,
   PutUsersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutUsersRequest,
-  output: PutUsersResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  input: __S(26, __c6, 2) as any as S.Schema<PutUsersRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<PutUsersResponse>,
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutUsers",
+  telemetry: TELEMETRY,
+  span: "PutUsers",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          actionId: SensitiveString,
+          userId: S.optional(SensitiveString),
+          sessionId: S.String,
+          timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          eventType: S.String,
+          eventId: S.optional(S.String),
+          recommendationId: S.optional(S.String),
+          impression: S.optional(__S(8, __c2, 0)),
+          properties: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "ActionInteraction" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ trackingId: S.String, actionInteractions: __S(1, __c0, 1) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/action-interactions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "PutActionInteractionsRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "PutActionInteractionsResponse",
+      });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(SensitiveString);
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ actionId: S.String, properties: S.optional(SensitiveString) }),
+      ).annotate({ identifier: "Action" });
+    case 1:
+      return S.Array(__S(12, __c3, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ datasetArn: S.String, actions: __S(13, __c3, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/actions" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutActionsRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ eventAttributionSource: S.String })).annotate({
+        identifier: "MetricAttribution",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          eventId: S.optional(S.String),
+          eventType: S.String,
+          eventValue: S.optional(S.Number),
+          itemId: S.optional(SensitiveString),
+          properties: S.optional(SensitiveString),
+          sentAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          recommendationId: S.optional(S.String),
+          impression: S.optional(__S(8, __c2, 0)),
+          metricAttribution: S.optional(__S(16, __c4, 0)),
+        }),
+      ).annotate({ identifier: "Event" });
+    case 2:
+      return S.Array(__S(17, __c4, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          trackingId: S.String,
+          userId: S.optional(SensitiveString),
+          sessionId: S.String,
+          eventList: __S(18, __c4, 2),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/events" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "PutEventsRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ itemId: S.String, properties: S.optional(SensitiveString) }),
+      ).annotate({ identifier: "Item" });
+    case 1:
+      return S.Array(__S(20, __c5, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ datasetArn: S.String, items: __S(21, __c5, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/items" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutItemsRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ userId: S.String, properties: S.optional(SensitiveString) }),
+      ).annotate({ identifier: "User" });
+    case 1:
+      return S.Array(__S(24, __c6, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ datasetArn: S.String, users: __S(25, __c6, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/users" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutUsersRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

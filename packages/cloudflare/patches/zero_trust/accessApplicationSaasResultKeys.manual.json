@@ -1,0 +1,165 @@
+{
+  "description": "SaaS application responses also carry `domain` and `session_duration`. Without them the self-hosted case out-scored the SaaS case in the opaque union decode (it explains both keys), so `saas_app` was dropped from every decoded SaaS application.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessApplicationsCreateForAccountResultSaaSApplication/members/domain",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessApplicationsCreateForAccountResultSaaSApplication/members/session_duration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessApplicationsCreateForZoneResultSaaSApplication/members/domain",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessApplicationsCreateForZoneResultSaaSApplication/members/session_duration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessApplicationsGetForAccountResultSaaSApplication/members/domain",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessApplicationsGetForAccountResultSaaSApplication/members/session_duration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessApplicationsGetForZoneResultSaaSApplication/members/domain",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessApplicationsGetForZoneResultSaaSApplication/members/session_duration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessApplicationsUpdateForAccountResultSaaSApplication/members/domain",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessApplicationsUpdateForAccountResultSaaSApplication/members/session_duration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessApplicationsUpdateForZoneResultSaaSApplication/members/domain",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessApplicationsUpdateForZoneResultSaaSApplication/members/session_duration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessApplicationsListForAccountResultItemSaaSApplication/members/domain",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessApplicationsListForAccountResultItemSaaSApplication/members/session_duration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessApplicationsListForZoneResultItemSaaSApplication/members/domain",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessApplicationsListForZoneResultItemSaaSApplication/members/session_duration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
+        }
+      }
+    }
+  ]
+}

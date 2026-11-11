@@ -1,10 +1,10 @@
 /**
  * One fixture × one variant, built `runs` times in this process. Spawned by
- * `run.ts` as a fresh `bun` process per fixture so the first build is a true
+ * `run.ts` as a fresh `node` process per fixture so the first build is a true
  * cold start (native binding load, resolver caches, plugin package cache);
  * later builds in the same process are the warm number.
  *
- * Usage: `bun src/build.ts '<BuildRequest json>'` — prints `BuildResult` JSON.
+ * Usage: `node src/build.ts '<BuildRequest json>'` — prints `BuildResult` JSON.
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
@@ -42,8 +42,7 @@ export interface BuildResult {
   readonly warnings: string[];
 }
 
-const SERVICE_MODULE_RE =
-  /\/packages\/[^/]+\/src\/services\/(?!index\.ts$)[^/]+\.ts$/;
+const SERVICE_MODULE_RE = /\/packages\/[^/]+\/src\/services\/(?!index\.ts$)[^/]+\.ts$/;
 
 const emptyStats = (): PurePluginStats => ({
   matchedModules: 0,
@@ -89,9 +88,7 @@ export async function build(req: BuildRequest): Promise<BuildResult> {
     }))
     .filter((m) => m.renderedLength > 0)
     .sort((a, b) => b.renderedLength - a.renderedLength);
-  const rendered = Object.entries(chunk.modules).filter(
-    ([, m]) => m.renderedLength > 0 && m.code,
-  );
+  const rendered = Object.entries(chunk.modules).filter(([, m]) => m.renderedLength > 0 && m.code);
   const services = rendered
     .filter(([id]) => SERVICE_MODULE_RE.test(id))
     .map(([id, m]) =>

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the DigitalOcean OpenAPI spec into a Smithy 2.0 JSON model.
  *
@@ -7,14 +7,14 @@
  * Output: .generated-specs/digitalocean.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is DigitalOcean's
+ * `@distilled.cloud/dev/codegen/openapi`; this script is DigitalOcean's
  * pipeline config. `scripts/generate.ts` compiles the model into src/services.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
       name: "digitalocean",
@@ -28,5 +28,10 @@ await runOpenApiConvert({
     namespace: "com.digitalocean.api",
     serviceName: "DigitalOcean",
     skipDeprecated: true,
+    // Async-accept endpoints (droplet create, firewall create, droplet and
+    // firewall actions) answer 202 with the created resource in the body.
+    // Without it the converter finds no success schema and emits an empty
+    // response struct, so the created id is unreachable.
+    successStatuses: ["200", "201", "202", "204"],
   },
 });

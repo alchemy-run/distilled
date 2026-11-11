@@ -1,0 +1,33 @@
+{
+  "description": "Type the replayed operation id on updateDdl (HTTP 409 ALREADY_EXISTS: 'Operation ID already exists: ...'). A caller that names its DDL operation to make it idempotent replays the same id after a crash and needs to tell that apart from a concurrent schema change, which also surfaces as 409 Conflict.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#DdlOperationIdExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "A DDL operation with this operation_id already exists on the database (HTTP 409 ALREADY_EXISTS: 'Operation ID already exists'). Read `{database}/operations/{operation_id}` for its outcome.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 409,
+              "message": {
+                "includes": "Operation ID already exists"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#UpdateDdlProjectsInstancesDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.spanner_v1#DdlOperationIdExists"
+      }
+    }
+  ]
+}

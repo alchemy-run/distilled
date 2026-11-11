@@ -1,5 +1,10 @@
+import {
+  makeAnnotation,
+  httpSymbol,
+  type HttpTrait as CoreHttpTrait,
+} from "@distilled.cloud/core/trait";
 /**
- * Supabase SDK trait surface — hand-written.
+ * Supabase SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core so generated operations
  * import everything from one place. Supabase's REST protocol needs no
@@ -8,11 +13,6 @@
  * from `core/protocol-rest`.
  */
 import type * as Redacted from "effect/Redacted";
-import {
-  makeAnnotation,
-  httpSymbol,
-  type HttpTrait as CoreHttpTrait,
-} from "@distilled.cloud/core/trait";
 
 export {
   Body,
@@ -58,7 +58,7 @@ export type Sensitive = string | Redacted.Redacted<string>;
 /**
  * Core's `HttpTrait` widened with `"form-urlencoded"`: core `buildRequest`
  * only understands `"multipart"`; the urlencoded re-encode is Supabase's
- * protocol concern (`v1ExchangeOauthToken` — see src/protocol.ts).
+ * protocol concern (`v1ExchangeOauthToken` -- see src/protocol.ts).
  */
 export interface HttpTrait extends Omit<CoreHttpTrait, "contentType"> {
   readonly contentType?: "multipart" | "form-urlencoded";

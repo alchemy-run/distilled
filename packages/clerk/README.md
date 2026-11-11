@@ -12,7 +12,7 @@ npm install @distilled.cloud/clerk effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Clerk from "@distilled.cloud/clerk";
 
 const program = Effect.gen(function* () {

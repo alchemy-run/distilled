@@ -1,20 +1,25 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const ns = T.XmlNamespace("http://amplify.amazonaws.com");
-const svc = T.AwsApiService({ sdkId: "Amplify", serviceShapeName: "Amplify" });
-const auth = T.AwsAuthSigv4({ name: "amplify" });
-const ver = T.ServiceVersion("2017-07-25");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const ns = /*@__PURE__*/ T.XmlNamespace("http://amplify.amazonaws.com");
+const svc = /*@__PURE__*/ T.AwsApiService({ sdkId: "Amplify", serviceShapeName: "Amplify" });
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "amplify" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2017-07-25");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -26,14 +31,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -56,13 +57,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://amplify-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://amplify-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,71 +67,79 @@ const rules = T.EndpointResolver((p, _) => {
               `https://amplify.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://amplify.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://amplify.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://amplify.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Amplify",
+  service: "Amplify",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
     "BadRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class DependentServiceFailureException
   extends /*@__PURE__*/ S.TaggedError<DependentServiceFailureException>()(
     "DependentServiceFailureException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(503),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(503),
   ).pipe(C.withServerError) {}
 export class InternalFailureException
   extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()(
     "InternalFailureException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
     "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { code: S.String, message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { code: S.String, message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class TimeoutException
   extends /*@__PURE__*/ S.TaggedError<TimeoutException>()("TimeoutException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
     "UnauthorizedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(401),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(401),
   ).pipe(C.withAuthError) {}
 export type Name = string;
 export type Description = string;
 export type Repository = string;
 export type Platform = "WEB" | "WEB_DYNAMIC" | "WEB_COMPUTE" | (string & {});
-export const Platform = S.String;
-
 export type ComputeRoleArn = string;
 export type ServiceRoleArn = string;
 export type OauthToken = string | redacted.Redacted<string>;
@@ -142,10 +147,6 @@ export type AccessToken = string | redacted.Redacted<string>;
 export type EnvKey = string;
 export type EnvValue = string;
 export type EnvironmentVariables = { [key: string]: string | undefined };
-export const EnvironmentVariables = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type EnableBranchAutoBuild = boolean;
 export type EnableBranchAutoDeletion = boolean;
 export type EnableBasicAuth = boolean;
@@ -157,32 +158,18 @@ export type Condition = string;
 export interface CustomRule {
   source: string;
   target: string;
-  status?: string;
-  condition?: string;
+  status?: string | undefined;
+  condition?: string | undefined;
 }
-export const CustomRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    source: S.String,
-    target: S.String,
-    status: S.optional(S.String),
-    condition: S.optional(S.String),
-  }),
-).annotate({ identifier: "CustomRule" }) as any as S.Schema<CustomRule>;
 export type CustomRules = CustomRule[];
-export const CustomRules = /*@__PURE__*/ S.Array(CustomRule);
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type BuildSpec = string | redacted.Redacted<string>;
 export type CustomHeaders = string;
 export type EnableAutoBranchCreation = boolean;
 export type AutoBranchCreationPattern = string;
 export type AutoBranchCreationPatterns = string[];
-export const AutoBranchCreationPatterns = /*@__PURE__*/ S.Array(S.String);
 export type Stage =
   | "PRODUCTION"
   | "BETA"
@@ -190,128 +177,55 @@ export type Stage =
   | "EXPERIMENTAL"
   | "PULL_REQUEST"
   | (string & {});
-export const Stage = S.String;
-
 export type Framework = string;
 export type EnableAutoBuild = boolean;
 export type EnablePerformanceMode = boolean;
 export type EnablePullRequestPreview = boolean;
 export type PullRequestEnvironmentName = string;
 export interface AutoBranchCreationConfig {
-  stage?: Stage;
-  framework?: string;
-  enableAutoBuild?: boolean;
-  environmentVariables?: { [key: string]: string | undefined };
-  basicAuthCredentials?: string | redacted.Redacted<string>;
-  enableBasicAuth?: boolean;
-  enablePerformanceMode?: boolean;
-  buildSpec?: string | redacted.Redacted<string>;
-  enablePullRequestPreview?: boolean;
-  pullRequestEnvironmentName?: string;
+  stage?: Stage | undefined;
+  framework?: string | undefined;
+  enableAutoBuild?: boolean | undefined;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  basicAuthCredentials?: string | redacted.Redacted<string> | undefined;
+  enableBasicAuth?: boolean | undefined;
+  enablePerformanceMode?: boolean | undefined;
+  buildSpec?: string | redacted.Redacted<string> | undefined;
+  enablePullRequestPreview?: boolean | undefined;
+  pullRequestEnvironmentName?: string | undefined;
 }
-export const AutoBranchCreationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stage: S.optional(Stage),
-    framework: S.optional(S.String),
-    enableAutoBuild: S.optional(S.Boolean),
-    environmentVariables: S.optional(EnvironmentVariables),
-    basicAuthCredentials: S.optional(SensitiveString),
-    enableBasicAuth: S.optional(S.Boolean),
-    enablePerformanceMode: S.optional(S.Boolean),
-    buildSpec: S.optional(SensitiveString),
-    enablePullRequestPreview: S.optional(S.Boolean),
-    pullRequestEnvironmentName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AutoBranchCreationConfig",
-}) as any as S.Schema<AutoBranchCreationConfig>;
-export type BuildComputeType =
-  | "STANDARD_8GB"
-  | "LARGE_16GB"
-  | "XLARGE_72GB"
-  | (string & {});
-export const BuildComputeType = S.String;
-
+export type BuildComputeType = "STANDARD_8GB" | "LARGE_16GB" | "XLARGE_72GB" | (string & {});
 export interface JobConfig {
   buildComputeType: BuildComputeType;
 }
-export const JobConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ buildComputeType: BuildComputeType }),
-).annotate({ identifier: "JobConfig" }) as any as S.Schema<JobConfig>;
-export type CacheConfigType =
-  | "AMPLIFY_MANAGED"
-  | "AMPLIFY_MANAGED_NO_COOKIES"
-  | (string & {});
-export const CacheConfigType = S.String;
-
+export type CacheConfigType = "AMPLIFY_MANAGED" | "AMPLIFY_MANAGED_NO_COOKIES" | (string & {});
 export interface CacheConfig {
   type: CacheConfigType;
 }
-export const CacheConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: CacheConfigType }),
-).annotate({ identifier: "CacheConfig" }) as any as S.Schema<CacheConfig>;
 export interface CreateAppRequest {
   name: string;
-  description?: string;
-  repository?: string;
-  platform?: Platform;
-  computeRoleArn?: string;
-  iamServiceRoleArn?: string;
-  oauthToken?: string | redacted.Redacted<string>;
-  accessToken?: string | redacted.Redacted<string>;
-  environmentVariables?: { [key: string]: string | undefined };
-  enableBranchAutoBuild?: boolean;
-  enableBranchAutoDeletion?: boolean;
-  enableBasicAuth?: boolean;
-  basicAuthCredentials?: string | redacted.Redacted<string>;
-  customRules?: CustomRule[];
-  tags?: { [key: string]: string | undefined };
-  buildSpec?: string | redacted.Redacted<string>;
-  customHeaders?: string;
-  enableAutoBranchCreation?: boolean;
-  autoBranchCreationPatterns?: string[];
-  autoBranchCreationConfig?: AutoBranchCreationConfig;
-  jobConfig?: JobConfig;
-  cacheConfig?: CacheConfig;
+  description?: string | undefined;
+  repository?: string | undefined;
+  platform?: Platform | undefined;
+  computeRoleArn?: string | undefined;
+  iamServiceRoleArn?: string | undefined;
+  oauthToken?: string | redacted.Redacted<string> | undefined;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  enableBranchAutoBuild?: boolean | undefined;
+  enableBranchAutoDeletion?: boolean | undefined;
+  enableBasicAuth?: boolean | undefined;
+  basicAuthCredentials?: string | redacted.Redacted<string> | undefined;
+  customRules?: CustomRule[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  buildSpec?: string | redacted.Redacted<string> | undefined;
+  customHeaders?: string | undefined;
+  enableAutoBranchCreation?: boolean | undefined;
+  autoBranchCreationPatterns?: string[] | undefined;
+  autoBranchCreationConfig?: AutoBranchCreationConfig | undefined;
+  jobConfig?: JobConfig | undefined;
+  cacheConfig?: CacheConfig | undefined;
 }
-export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    repository: S.optional(S.String),
-    platform: S.optional(Platform),
-    computeRoleArn: S.optional(S.String),
-    iamServiceRoleArn: S.optional(S.String),
-    oauthToken: S.optional(SensitiveString),
-    accessToken: S.optional(SensitiveString),
-    environmentVariables: S.optional(EnvironmentVariables),
-    enableBranchAutoBuild: S.optional(S.Boolean),
-    enableBranchAutoDeletion: S.optional(S.Boolean),
-    enableBasicAuth: S.optional(S.Boolean),
-    basicAuthCredentials: S.optional(SensitiveString),
-    customRules: S.optional(CustomRules),
-    tags: S.optional(TagMap),
-    buildSpec: S.optional(SensitiveString),
-    customHeaders: S.optional(S.String),
-    enableAutoBranchCreation: S.optional(S.Boolean),
-    autoBranchCreationPatterns: S.optional(AutoBranchCreationPatterns),
-    autoBranchCreationConfig: S.optional(AutoBranchCreationConfig),
-    jobConfig: S.optional(JobConfig),
-    cacheConfig: S.optional(CacheConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/apps" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAppRequest",
-}) as any as S.Schema<CreateAppRequest>;
 export type AppId = string;
 export type AppArn = string;
 export type CreateTime = Date;
@@ -321,24 +235,12 @@ export type LastDeployTime = Date;
 export type ThumbnailUrl = string;
 export type BranchName = string;
 export interface ProductionBranch {
-  lastDeployTime?: Date;
-  status?: string;
-  thumbnailUrl?: string;
-  branchName?: string;
+  lastDeployTime?: Date | undefined;
+  status?: string | undefined;
+  thumbnailUrl?: string | undefined;
+  branchName?: string | undefined;
 }
-export const ProductionBranch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lastDeployTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
-    thumbnailUrl: S.optional(S.String),
-    branchName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ProductionBranch",
-}) as any as S.Schema<ProductionBranch>;
 export type RepositoryCloneMethod = "SSH" | "TOKEN" | "SIGV4" | (string & {});
-export const RepositoryCloneMethod = S.String;
-
 export type WebhookCreateTime = Date;
 export type WebAclArn = string;
 export type WafStatus =
@@ -348,364 +250,156 @@ export type WafStatus =
   | "DISASSOCIATING"
   | "DISASSOCIATION_FAILED"
   | (string & {});
-export const WafStatus = S.String;
-
 export type StatusReason = string;
 export interface WafConfiguration {
-  webAclArn?: string;
-  wafStatus?: WafStatus;
-  statusReason?: string;
+  webAclArn?: string | undefined;
+  wafStatus?: WafStatus | undefined;
+  statusReason?: string | undefined;
 }
-export const WafConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    webAclArn: S.optional(S.String),
-    wafStatus: S.optional(WafStatus),
-    statusReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "WafConfiguration",
-}) as any as S.Schema<WafConfiguration>;
 export interface App {
   appId: string;
   appArn: string;
   name: string;
-  tags?: { [key: string]: string | undefined };
-  description?: string;
-  repository?: string;
-  platform?: Platform;
+  tags?: { [key: string]: string | undefined } | undefined;
+  description?: string | undefined;
+  repository?: string | undefined;
+  platform?: Platform | undefined;
   createTime: Date;
   updateTime: Date;
-  computeRoleArn?: string;
-  iamServiceRoleArn?: string;
-  environmentVariables?: { [key: string]: string | undefined };
-  defaultDomain?: string;
-  enableBranchAutoBuild?: boolean;
-  enableBranchAutoDeletion?: boolean;
-  enableBasicAuth?: boolean;
-  basicAuthCredentials?: string | redacted.Redacted<string>;
-  customRules?: CustomRule[];
-  productionBranch?: ProductionBranch;
-  buildSpec?: string | redacted.Redacted<string>;
-  customHeaders?: string;
-  enableAutoBranchCreation?: boolean;
-  autoBranchCreationPatterns?: string[];
-  autoBranchCreationConfig?: AutoBranchCreationConfig;
-  repositoryCloneMethod?: RepositoryCloneMethod;
-  cacheConfig?: CacheConfig;
-  webhookCreateTime?: Date;
-  wafConfiguration?: WafConfiguration;
-  jobConfig?: JobConfig;
+  computeRoleArn?: string | undefined;
+  iamServiceRoleArn?: string | undefined;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  defaultDomain?: string | undefined;
+  enableBranchAutoBuild?: boolean | undefined;
+  enableBranchAutoDeletion?: boolean | undefined;
+  enableBasicAuth?: boolean | undefined;
+  basicAuthCredentials?: string | redacted.Redacted<string> | undefined;
+  customRules?: CustomRule[] | undefined;
+  productionBranch?: ProductionBranch | undefined;
+  buildSpec?: string | redacted.Redacted<string> | undefined;
+  customHeaders?: string | undefined;
+  enableAutoBranchCreation?: boolean | undefined;
+  autoBranchCreationPatterns?: string[] | undefined;
+  autoBranchCreationConfig?: AutoBranchCreationConfig | undefined;
+  repositoryCloneMethod?: RepositoryCloneMethod | undefined;
+  cacheConfig?: CacheConfig | undefined;
+  webhookCreateTime?: Date | undefined;
+  wafConfiguration?: WafConfiguration | undefined;
+  jobConfig?: JobConfig | undefined;
 }
-export const App = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String,
-    appArn: S.String,
-    name: S.String,
-    tags: S.optional(TagMap),
-    description: S.optional(S.String),
-    repository: S.optional(S.String),
-    platform: S.optional(Platform),
-    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    computeRoleArn: S.optional(S.String),
-    iamServiceRoleArn: S.optional(S.String),
-    environmentVariables: S.optional(EnvironmentVariables),
-    defaultDomain: S.optional(S.String),
-    enableBranchAutoBuild: S.optional(S.Boolean),
-    enableBranchAutoDeletion: S.optional(S.Boolean),
-    enableBasicAuth: S.optional(S.Boolean),
-    basicAuthCredentials: S.optional(SensitiveString),
-    customRules: S.optional(CustomRules),
-    productionBranch: S.optional(ProductionBranch),
-    buildSpec: S.optional(SensitiveString),
-    customHeaders: S.optional(S.String),
-    enableAutoBranchCreation: S.optional(S.Boolean),
-    autoBranchCreationPatterns: S.optional(AutoBranchCreationPatterns),
-    autoBranchCreationConfig: S.optional(AutoBranchCreationConfig),
-    repositoryCloneMethod: S.optional(RepositoryCloneMethod),
-    cacheConfig: S.optional(CacheConfig),
-    webhookCreateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    wafConfiguration: S.optional(WafConfiguration),
-    jobConfig: S.optional(JobConfig),
-  }),
-).annotate({ identifier: "App" }) as any as S.Schema<App>;
 export interface CreateAppResult {
   app: App;
 }
-export const CreateAppResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ app: App }).pipe(ns),
-).annotate({
-  identifier: "CreateAppResult",
-}) as any as S.Schema<CreateAppResult>;
 export type EnvironmentName = string;
 export type StackName = string;
 export type DeploymentArtifacts = string;
 export interface CreateBackendEnvironmentRequest {
   appId: string;
   environmentName: string;
-  stackName?: string;
-  deploymentArtifacts?: string;
+  stackName?: string | undefined;
+  deploymentArtifacts?: string | undefined;
 }
-export const CreateBackendEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    environmentName: S.String,
-    stackName: S.optional(S.String),
-    deploymentArtifacts: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/apps/{appId}/backendenvironments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateBackendEnvironmentRequest",
-}) as any as S.Schema<CreateBackendEnvironmentRequest>;
 export type BackendEnvironmentArn = string;
 export interface BackendEnvironment {
   backendEnvironmentArn: string;
   environmentName: string;
-  stackName?: string;
-  deploymentArtifacts?: string;
+  stackName?: string | undefined;
+  deploymentArtifacts?: string | undefined;
   createTime: Date;
   updateTime: Date;
 }
-export const BackendEnvironment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    backendEnvironmentArn: S.String,
-    environmentName: S.String,
-    stackName: S.optional(S.String),
-    deploymentArtifacts: S.optional(S.String),
-    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "BackendEnvironment",
-}) as any as S.Schema<BackendEnvironment>;
 export interface CreateBackendEnvironmentResult {
   backendEnvironment: BackendEnvironment;
 }
-export const CreateBackendEnvironmentResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ backendEnvironment: BackendEnvironment }).pipe(ns),
-).annotate({
-  identifier: "CreateBackendEnvironmentResult",
-}) as any as S.Schema<CreateBackendEnvironmentResult>;
 export type EnableNotification = boolean;
 export type EnableSkewProtection = boolean;
 export type TTL = string;
 export type DisplayName = string;
 export type StackArn = string;
 export interface Backend {
-  stackArn?: string;
+  stackArn?: string | undefined;
 }
-export const Backend = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ stackArn: S.optional(S.String) }),
-).annotate({ identifier: "Backend" }) as any as S.Schema<Backend>;
 export interface CreateBranchRequest {
   appId: string;
   branchName: string;
-  description?: string;
-  stage?: Stage;
-  framework?: string;
-  enableNotification?: boolean;
-  enableAutoBuild?: boolean;
-  enableSkewProtection?: boolean;
-  environmentVariables?: { [key: string]: string | undefined };
-  basicAuthCredentials?: string | redacted.Redacted<string>;
-  enableBasicAuth?: boolean;
-  enablePerformanceMode?: boolean;
-  tags?: { [key: string]: string | undefined };
-  buildSpec?: string | redacted.Redacted<string>;
-  ttl?: string;
-  displayName?: string;
-  enablePullRequestPreview?: boolean;
-  pullRequestEnvironmentName?: string;
-  backendEnvironmentArn?: string;
-  backend?: Backend;
-  computeRoleArn?: string;
+  description?: string | undefined;
+  stage?: Stage | undefined;
+  framework?: string | undefined;
+  enableNotification?: boolean | undefined;
+  enableAutoBuild?: boolean | undefined;
+  enableSkewProtection?: boolean | undefined;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  basicAuthCredentials?: string | redacted.Redacted<string> | undefined;
+  enableBasicAuth?: boolean | undefined;
+  enablePerformanceMode?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  buildSpec?: string | redacted.Redacted<string> | undefined;
+  ttl?: string | undefined;
+  displayName?: string | undefined;
+  enablePullRequestPreview?: boolean | undefined;
+  pullRequestEnvironmentName?: string | undefined;
+  backendEnvironmentArn?: string | undefined;
+  backend?: Backend | undefined;
+  computeRoleArn?: string | undefined;
 }
-export const CreateBranchRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    branchName: S.String,
-    description: S.optional(S.String),
-    stage: S.optional(Stage),
-    framework: S.optional(S.String),
-    enableNotification: S.optional(S.Boolean),
-    enableAutoBuild: S.optional(S.Boolean),
-    enableSkewProtection: S.optional(S.Boolean),
-    environmentVariables: S.optional(EnvironmentVariables),
-    basicAuthCredentials: S.optional(SensitiveString),
-    enableBasicAuth: S.optional(S.Boolean),
-    enablePerformanceMode: S.optional(S.Boolean),
-    tags: S.optional(TagMap),
-    buildSpec: S.optional(SensitiveString),
-    ttl: S.optional(S.String),
-    displayName: S.optional(S.String),
-    enablePullRequestPreview: S.optional(S.Boolean),
-    pullRequestEnvironmentName: S.optional(S.String),
-    backendEnvironmentArn: S.optional(S.String),
-    backend: S.optional(Backend),
-    computeRoleArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/apps/{appId}/branches" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateBranchRequest",
-}) as any as S.Schema<CreateBranchRequest>;
 export type BranchArn = string;
 export type CustomDomain = string;
 export type CustomDomains = string[];
-export const CustomDomains = /*@__PURE__*/ S.Array(S.String);
 export type ActiveJobId = string;
 export type TotalNumberOfJobs = string;
 export type AssociatedResource = string;
 export type AssociatedResources = string[];
-export const AssociatedResources = /*@__PURE__*/ S.Array(S.String);
 export interface Branch {
   branchArn: string;
   branchName: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  stage?: Stage;
-  displayName?: string;
-  enableNotification?: boolean;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  stage?: Stage | undefined;
+  displayName?: string | undefined;
+  enableNotification?: boolean | undefined;
   createTime: Date;
   updateTime: Date;
-  environmentVariables?: { [key: string]: string | undefined };
-  enableAutoBuild?: boolean;
-  enableSkewProtection?: boolean;
-  customDomains?: string[];
-  framework?: string;
-  activeJobId?: string;
-  totalNumberOfJobs?: string;
-  enableBasicAuth?: boolean;
-  enablePerformanceMode?: boolean;
-  thumbnailUrl?: string;
-  basicAuthCredentials?: string | redacted.Redacted<string>;
-  buildSpec?: string | redacted.Redacted<string>;
-  ttl?: string;
-  associatedResources?: string[];
-  enablePullRequestPreview?: boolean;
-  pullRequestEnvironmentName?: string;
-  destinationBranch?: string;
-  sourceBranch?: string;
-  backendEnvironmentArn?: string;
-  backend?: Backend;
-  computeRoleArn?: string;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  enableAutoBuild?: boolean | undefined;
+  enableSkewProtection?: boolean | undefined;
+  customDomains?: string[] | undefined;
+  framework?: string | undefined;
+  activeJobId?: string | undefined;
+  totalNumberOfJobs?: string | undefined;
+  enableBasicAuth?: boolean | undefined;
+  enablePerformanceMode?: boolean | undefined;
+  thumbnailUrl?: string | undefined;
+  basicAuthCredentials?: string | redacted.Redacted<string> | undefined;
+  buildSpec?: string | redacted.Redacted<string> | undefined;
+  ttl?: string | undefined;
+  associatedResources?: string[] | undefined;
+  enablePullRequestPreview?: boolean | undefined;
+  pullRequestEnvironmentName?: string | undefined;
+  destinationBranch?: string | undefined;
+  sourceBranch?: string | undefined;
+  backendEnvironmentArn?: string | undefined;
+  backend?: Backend | undefined;
+  computeRoleArn?: string | undefined;
 }
-export const Branch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    branchArn: S.String,
-    branchName: S.String,
-    description: S.optional(S.String),
-    tags: S.optional(TagMap),
-    stage: S.optional(Stage),
-    displayName: S.optional(S.String),
-    enableNotification: S.optional(S.Boolean),
-    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    environmentVariables: S.optional(EnvironmentVariables),
-    enableAutoBuild: S.optional(S.Boolean),
-    enableSkewProtection: S.optional(S.Boolean),
-    customDomains: S.optional(CustomDomains),
-    framework: S.optional(S.String),
-    activeJobId: S.optional(S.String),
-    totalNumberOfJobs: S.optional(S.String),
-    enableBasicAuth: S.optional(S.Boolean),
-    enablePerformanceMode: S.optional(S.Boolean),
-    thumbnailUrl: S.optional(S.String),
-    basicAuthCredentials: S.optional(SensitiveString),
-    buildSpec: S.optional(SensitiveString),
-    ttl: S.optional(S.String),
-    associatedResources: S.optional(AssociatedResources),
-    enablePullRequestPreview: S.optional(S.Boolean),
-    pullRequestEnvironmentName: S.optional(S.String),
-    destinationBranch: S.optional(S.String),
-    sourceBranch: S.optional(S.String),
-    backendEnvironmentArn: S.optional(S.String),
-    backend: S.optional(Backend),
-    computeRoleArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Branch" }) as any as S.Schema<Branch>;
 export interface CreateBranchResult {
   branch: Branch;
 }
-export const CreateBranchResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ branch: Branch }).pipe(ns),
-).annotate({
-  identifier: "CreateBranchResult",
-}) as any as S.Schema<CreateBranchResult>;
 export type FileName = string;
 export type MD5Hash = string;
 export type FileMap = { [key: string]: string | undefined };
-export const FileMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface CreateDeploymentRequest {
   appId: string;
   branchName: string;
-  fileMap?: { [key: string]: string | undefined };
+  fileMap?: { [key: string]: string | undefined } | undefined;
 }
-export const CreateDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    branchName: S.String.pipe(T.HttpLabel("branchName")),
-    fileMap: S.optional(FileMap),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/apps/{appId}/branches/{branchName}/deployments",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDeploymentRequest",
-}) as any as S.Schema<CreateDeploymentRequest>;
 export type JobId = string;
 export type UploadUrl = string;
 export type FileUploadUrls = { [key: string]: string | undefined };
-export const FileUploadUrls = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface CreateDeploymentResult {
-  jobId?: string;
-  fileUploadUrls?: { [key: string]: string | undefined };
+  jobId?: string | undefined;
+  fileUploadUrls?: { [key: string]: string | undefined } | undefined;
   zipUploadUrl: string;
 }
-export const CreateDeploymentResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.optional(S.String),
-    fileUploadUrls: S.optional(FileUploadUrls),
-    zipUploadUrl: S.String,
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateDeploymentResult",
-}) as any as S.Schema<CreateDeploymentResult>;
 export type DomainName = string;
 export type EnableAutoSubDomain = boolean;
 export type DomainPrefix = string;
@@ -713,65 +407,25 @@ export interface SubDomainSetting {
   prefix: string;
   branchName: string;
 }
-export const SubDomainSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ prefix: S.String, branchName: S.String }),
-).annotate({
-  identifier: "SubDomainSetting",
-}) as any as S.Schema<SubDomainSetting>;
 export type SubDomainSettings = SubDomainSetting[];
-export const SubDomainSettings = /*@__PURE__*/ S.Array(SubDomainSetting);
 export type AutoSubDomainCreationPattern = string;
 export type AutoSubDomainCreationPatterns = string[];
-export const AutoSubDomainCreationPatterns = /*@__PURE__*/ S.Array(S.String);
 export type AutoSubDomainIAMRole = string;
 export type CertificateType = "AMPLIFY_MANAGED" | "CUSTOM" | (string & {});
-export const CertificateType = S.String;
-
 export type CertificateArn = string;
 export interface CertificateSettings {
   type: CertificateType;
-  customCertificateArn?: string;
+  customCertificateArn?: string | undefined;
 }
-export const CertificateSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: CertificateType,
-    customCertificateArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CertificateSettings",
-}) as any as S.Schema<CertificateSettings>;
 export interface CreateDomainAssociationRequest {
   appId: string;
   domainName: string;
-  enableAutoSubDomain?: boolean;
+  enableAutoSubDomain?: boolean | undefined;
   subDomainSettings: SubDomainSetting[];
-  autoSubDomainCreationPatterns?: string[];
-  autoSubDomainIAMRole?: string;
-  certificateSettings?: CertificateSettings;
+  autoSubDomainCreationPatterns?: string[] | undefined;
+  autoSubDomainIAMRole?: string | undefined;
+  certificateSettings?: CertificateSettings | undefined;
 }
-export const CreateDomainAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    domainName: S.String,
-    enableAutoSubDomain: S.optional(S.Boolean),
-    subDomainSettings: SubDomainSettings,
-    autoSubDomainCreationPatterns: S.optional(AutoSubDomainCreationPatterns),
-    autoSubDomainIAMRole: S.optional(S.String),
-    certificateSettings: S.optional(CertificateSettings),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/apps/{appId}/domains" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDomainAssociationRequest",
-}) as any as S.Schema<CreateDomainAssociationRequest>;
 export type DomainAssociationArn = string;
 export type DomainStatus =
   | "PENDING_VERIFICATION"
@@ -785,8 +439,6 @@ export type DomainStatus =
   | "REQUESTING_CERTIFICATE"
   | "UPDATING"
   | (string & {});
-export const DomainStatus = S.String;
-
 export type UpdateStatus =
   | "REQUESTING_CERTIFICATE"
   | "PENDING_VERIFICATION"
@@ -796,8 +448,6 @@ export type UpdateStatus =
   | "UPDATE_COMPLETE"
   | "UPDATE_FAILED"
   | (string & {});
-export const UpdateStatus = S.String;
-
 export type CertificateVerificationDNSRecord = string;
 export type Verified = boolean;
 export type DNSRecord = string;
@@ -806,89 +456,33 @@ export interface SubDomain {
   verified: boolean;
   dnsRecord: string;
 }
-export const SubDomain = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subDomainSetting: SubDomainSetting,
-    verified: S.Boolean,
-    dnsRecord: S.String,
-  }),
-).annotate({ identifier: "SubDomain" }) as any as S.Schema<SubDomain>;
 export type SubDomains = SubDomain[];
-export const SubDomains = /*@__PURE__*/ S.Array(SubDomain);
 export interface Certificate {
   type: CertificateType;
-  customCertificateArn?: string;
-  certificateVerificationDNSRecord?: string;
+  customCertificateArn?: string | undefined;
+  certificateVerificationDNSRecord?: string | undefined;
 }
-export const Certificate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: CertificateType,
-    customCertificateArn: S.optional(S.String),
-    certificateVerificationDNSRecord: S.optional(S.String),
-  }),
-).annotate({ identifier: "Certificate" }) as any as S.Schema<Certificate>;
 export interface DomainAssociation {
   domainAssociationArn: string;
   domainName: string;
   enableAutoSubDomain: boolean;
-  autoSubDomainCreationPatterns?: string[];
-  autoSubDomainIAMRole?: string;
+  autoSubDomainCreationPatterns?: string[] | undefined;
+  autoSubDomainIAMRole?: string | undefined;
   domainStatus: DomainStatus;
-  updateStatus?: UpdateStatus;
+  updateStatus?: UpdateStatus | undefined;
   statusReason: string;
-  certificateVerificationDNSRecord?: string;
+  certificateVerificationDNSRecord?: string | undefined;
   subDomains: SubDomain[];
-  certificate?: Certificate;
+  certificate?: Certificate | undefined;
 }
-export const DomainAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainAssociationArn: S.String,
-    domainName: S.String,
-    enableAutoSubDomain: S.Boolean,
-    autoSubDomainCreationPatterns: S.optional(AutoSubDomainCreationPatterns),
-    autoSubDomainIAMRole: S.optional(S.String),
-    domainStatus: DomainStatus,
-    updateStatus: S.optional(UpdateStatus),
-    statusReason: S.String,
-    certificateVerificationDNSRecord: S.optional(S.String),
-    subDomains: SubDomains,
-    certificate: S.optional(Certificate),
-  }),
-).annotate({
-  identifier: "DomainAssociation",
-}) as any as S.Schema<DomainAssociation>;
 export interface CreateDomainAssociationResult {
   domainAssociation: DomainAssociation;
 }
-export const CreateDomainAssociationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ domainAssociation: DomainAssociation }).pipe(ns),
-).annotate({
-  identifier: "CreateDomainAssociationResult",
-}) as any as S.Schema<CreateDomainAssociationResult>;
 export interface CreateWebhookRequest {
   appId: string;
   branchName: string;
-  description?: string;
+  description?: string | undefined;
 }
-export const CreateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    branchName: S.String,
-    description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/apps/{appId}/webhooks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateWebhookRequest",
-}) as any as S.Schema<CreateWebhookRequest>;
 export type WebhookArn = string;
 export type WebhookId = string;
 export type WebhookUrl = string;
@@ -896,178 +490,47 @@ export interface Webhook {
   webhookArn: string;
   webhookId: string;
   webhookUrl: string;
-  appId?: string;
+  appId?: string | undefined;
   branchName: string;
   description: string;
   createTime: Date;
   updateTime: Date;
 }
-export const Webhook = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    webhookArn: S.String,
-    webhookId: S.String,
-    webhookUrl: S.String,
-    appId: S.optional(S.String),
-    branchName: S.String,
-    description: S.String,
-    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({ identifier: "Webhook" }) as any as S.Schema<Webhook>;
 export interface CreateWebhookResult {
   webhook: Webhook;
 }
-export const CreateWebhookResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ webhook: Webhook }).pipe(ns),
-).annotate({
-  identifier: "CreateWebhookResult",
-}) as any as S.Schema<CreateWebhookResult>;
 export interface DeleteAppRequest {
   appId: string;
 }
-export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ appId: S.String.pipe(T.HttpLabel("appId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/apps/{appId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAppRequest",
-}) as any as S.Schema<DeleteAppRequest>;
 export interface DeleteAppResult {
   app: App;
 }
-export const DeleteAppResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ app: App }).pipe(ns),
-).annotate({
-  identifier: "DeleteAppResult",
-}) as any as S.Schema<DeleteAppResult>;
 export interface DeleteBackendEnvironmentRequest {
   appId: string;
   environmentName: string;
 }
-export const DeleteBackendEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/apps/{appId}/backendenvironments/{environmentName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBackendEnvironmentRequest",
-}) as any as S.Schema<DeleteBackendEnvironmentRequest>;
 export interface DeleteBackendEnvironmentResult {
   backendEnvironment: BackendEnvironment;
 }
-export const DeleteBackendEnvironmentResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ backendEnvironment: BackendEnvironment }).pipe(ns),
-).annotate({
-  identifier: "DeleteBackendEnvironmentResult",
-}) as any as S.Schema<DeleteBackendEnvironmentResult>;
 export interface DeleteBranchRequest {
   appId: string;
   branchName: string;
 }
-export const DeleteBranchRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    branchName: S.String.pipe(T.HttpLabel("branchName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/apps/{appId}/branches/{branchName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBranchRequest",
-}) as any as S.Schema<DeleteBranchRequest>;
 export interface DeleteBranchResult {
   branch: Branch;
 }
-export const DeleteBranchResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ branch: Branch }).pipe(ns),
-).annotate({
-  identifier: "DeleteBranchResult",
-}) as any as S.Schema<DeleteBranchResult>;
 export interface DeleteDomainAssociationRequest {
   appId: string;
   domainName: string;
 }
-export const DeleteDomainAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    domainName: S.String.pipe(T.HttpLabel("domainName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/apps/{appId}/domains/{domainName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDomainAssociationRequest",
-}) as any as S.Schema<DeleteDomainAssociationRequest>;
 export interface DeleteDomainAssociationResult {
   domainAssociation: DomainAssociation;
 }
-export const DeleteDomainAssociationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ domainAssociation: DomainAssociation }).pipe(ns),
-).annotate({
-  identifier: "DeleteDomainAssociationResult",
-}) as any as S.Schema<DeleteDomainAssociationResult>;
 export interface DeleteJobRequest {
   appId: string;
   branchName: string;
   jobId: string;
 }
-export const DeleteJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    branchName: S.String.pipe(T.HttpLabel("branchName")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteJobRequest",
-}) as any as S.Schema<DeleteJobRequest>;
 export type JobArn = string;
 export type CommitId = string;
 export type CommitMessage = string;
@@ -1083,1047 +546,320 @@ export type JobStatus =
   | "CANCELLING"
   | "CANCELLED"
   | (string & {});
-export const JobStatus = S.String;
-
 export type EndTime = Date;
-export type JobType =
-  | "RELEASE"
-  | "RETRY"
-  | "MANUAL"
-  | "WEB_HOOK"
-  | (string & {});
-export const JobType = S.String;
-
+export type JobType = "RELEASE" | "RETRY" | "MANUAL" | "WEB_HOOK" | (string & {});
 export type SourceUrl = string;
 export type SourceUrlType = "ZIP" | "BUCKET_PREFIX" | (string & {});
-export const SourceUrlType = S.String;
-
 export interface JobSummary {
   jobArn: string;
   jobId: string;
-  commitId?: string;
-  commitMessage?: string;
-  commitTime?: Date;
+  commitId?: string | undefined;
+  commitMessage?: string | undefined;
+  commitTime?: Date | undefined;
   startTime: Date;
   status: JobStatus;
-  endTime?: Date;
-  jobType?: JobType;
-  sourceUrl?: string;
-  sourceUrlType?: SourceUrlType;
+  endTime?: Date | undefined;
+  jobType?: JobType | undefined;
+  sourceUrl?: string | undefined;
+  sourceUrlType?: SourceUrlType | undefined;
 }
-export const JobSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobArn: S.String,
-    jobId: S.String,
-    commitId: S.optional(S.String),
-    commitMessage: S.optional(S.String),
-    commitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    status: JobStatus,
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    jobType: S.optional(JobType),
-    sourceUrl: S.optional(S.String),
-    sourceUrlType: S.optional(SourceUrlType),
-  }),
-).annotate({ identifier: "JobSummary" }) as any as S.Schema<JobSummary>;
 export interface DeleteJobResult {
   jobSummary: JobSummary;
 }
-export const DeleteJobResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobSummary: JobSummary }).pipe(ns),
-).annotate({
-  identifier: "DeleteJobResult",
-}) as any as S.Schema<DeleteJobResult>;
 export interface DeleteWebhookRequest {
   webhookId: string;
 }
-export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ webhookId: S.String.pipe(T.HttpLabel("webhookId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/webhooks/{webhookId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteWebhookRequest",
-}) as any as S.Schema<DeleteWebhookRequest>;
 export interface DeleteWebhookResult {
   webhook: Webhook;
 }
-export const DeleteWebhookResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ webhook: Webhook }).pipe(ns),
-).annotate({
-  identifier: "DeleteWebhookResult",
-}) as any as S.Schema<DeleteWebhookResult>;
 export interface GenerateAccessLogsRequest {
-  startTime?: Date;
-  endTime?: Date;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
   domainName: string;
   appId: string;
 }
-export const GenerateAccessLogsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    domainName: S.String,
-    appId: S.String.pipe(T.HttpLabel("appId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/apps/{appId}/accesslogs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GenerateAccessLogsRequest",
-}) as any as S.Schema<GenerateAccessLogsRequest>;
 export type LogUrl = string;
 export interface GenerateAccessLogsResult {
-  logUrl?: string;
+  logUrl?: string | undefined;
 }
-export const GenerateAccessLogsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ logUrl: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GenerateAccessLogsResult",
-}) as any as S.Schema<GenerateAccessLogsResult>;
 export interface GetAppRequest {
   appId: string;
 }
-export const GetAppRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ appId: S.String.pipe(T.HttpLabel("appId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/apps/{appId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetAppRequest" }) as any as S.Schema<GetAppRequest>;
 export interface GetAppResult {
   app: App;
 }
-export const GetAppResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ app: App }).pipe(ns),
-).annotate({ identifier: "GetAppResult" }) as any as S.Schema<GetAppResult>;
 export type ArtifactId = string;
 export interface GetArtifactUrlRequest {
   artifactId: string;
 }
-export const GetArtifactUrlRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ artifactId: S.String.pipe(T.HttpLabel("artifactId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/artifacts/{artifactId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetArtifactUrlRequest",
-}) as any as S.Schema<GetArtifactUrlRequest>;
 export type ArtifactUrl = string;
 export interface GetArtifactUrlResult {
   artifactId: string;
   artifactUrl: string;
 }
-export const GetArtifactUrlResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ artifactId: S.String, artifactUrl: S.String }).pipe(ns),
-).annotate({
-  identifier: "GetArtifactUrlResult",
-}) as any as S.Schema<GetArtifactUrlResult>;
 export interface GetBackendEnvironmentRequest {
   appId: string;
   environmentName: string;
 }
-export const GetBackendEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/apps/{appId}/backendenvironments/{environmentName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBackendEnvironmentRequest",
-}) as any as S.Schema<GetBackendEnvironmentRequest>;
 export interface GetBackendEnvironmentResult {
   backendEnvironment: BackendEnvironment;
 }
-export const GetBackendEnvironmentResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ backendEnvironment: BackendEnvironment }).pipe(ns),
-).annotate({
-  identifier: "GetBackendEnvironmentResult",
-}) as any as S.Schema<GetBackendEnvironmentResult>;
 export interface GetBranchRequest {
   appId: string;
   branchName: string;
 }
-export const GetBranchRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    branchName: S.String.pipe(T.HttpLabel("branchName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/apps/{appId}/branches/{branchName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBranchRequest",
-}) as any as S.Schema<GetBranchRequest>;
 export interface GetBranchResult {
   branch: Branch;
 }
-export const GetBranchResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ branch: Branch }).pipe(ns),
-).annotate({
-  identifier: "GetBranchResult",
-}) as any as S.Schema<GetBranchResult>;
 export interface GetDomainAssociationRequest {
   appId: string;
   domainName: string;
 }
-export const GetDomainAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    domainName: S.String.pipe(T.HttpLabel("domainName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/apps/{appId}/domains/{domainName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDomainAssociationRequest",
-}) as any as S.Schema<GetDomainAssociationRequest>;
 export interface GetDomainAssociationResult {
   domainAssociation: DomainAssociation;
 }
-export const GetDomainAssociationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ domainAssociation: DomainAssociation }).pipe(ns),
-).annotate({
-  identifier: "GetDomainAssociationResult",
-}) as any as S.Schema<GetDomainAssociationResult>;
 export interface GetJobRequest {
   appId: string;
   branchName: string;
   jobId: string;
 }
-export const GetJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    branchName: S.String.pipe(T.HttpLabel("branchName")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetJobRequest" }) as any as S.Schema<GetJobRequest>;
 export type StepName = string;
 export type ArtifactsUrl = string;
 export type TestArtifactsUrl = string;
 export type TestConfigUrl = string;
 export type ThumbnailName = string;
 export type Screenshots = { [key: string]: string | undefined };
-export const Screenshots = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type Context = string;
 export interface Step {
   stepName: string;
   startTime: Date;
   status: JobStatus;
-  endTime?: Date;
-  logUrl?: string;
-  artifactsUrl?: string;
-  testArtifactsUrl?: string;
-  testConfigUrl?: string;
-  screenshots?: { [key: string]: string | undefined };
-  statusReason?: string;
-  context?: string;
+  endTime?: Date | undefined;
+  logUrl?: string | undefined;
+  artifactsUrl?: string | undefined;
+  testArtifactsUrl?: string | undefined;
+  testConfigUrl?: string | undefined;
+  screenshots?: { [key: string]: string | undefined } | undefined;
+  statusReason?: string | undefined;
+  context?: string | undefined;
 }
-export const Step = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stepName: S.String,
-    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    status: JobStatus,
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    logUrl: S.optional(S.String),
-    artifactsUrl: S.optional(S.String),
-    testArtifactsUrl: S.optional(S.String),
-    testConfigUrl: S.optional(S.String),
-    screenshots: S.optional(Screenshots),
-    statusReason: S.optional(S.String),
-    context: S.optional(S.String),
-  }),
-).annotate({ identifier: "Step" }) as any as S.Schema<Step>;
 export type Steps = Step[];
-export const Steps = /*@__PURE__*/ S.Array(Step);
 export interface Job {
   summary: JobSummary;
   steps: Step[];
 }
-export const Job = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ summary: JobSummary, steps: Steps }),
-).annotate({ identifier: "Job" }) as any as S.Schema<Job>;
 export interface GetJobResult {
   job: Job;
 }
-export const GetJobResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ job: Job }).pipe(ns),
-).annotate({ identifier: "GetJobResult" }) as any as S.Schema<GetJobResult>;
 export interface GetWebhookRequest {
   webhookId: string;
 }
-export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ webhookId: S.String.pipe(T.HttpLabel("webhookId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/webhooks/{webhookId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetWebhookRequest",
-}) as any as S.Schema<GetWebhookRequest>;
 export interface GetWebhookResult {
   webhook: Webhook;
 }
-export const GetWebhookResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ webhook: Webhook }).pipe(ns),
-).annotate({
-  identifier: "GetWebhookResult",
-}) as any as S.Schema<GetWebhookResult>;
 export type NextToken = string;
 export type MaxResultsForListApps = number;
 export interface ListAppsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListAppsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/apps" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAppsRequest",
-}) as any as S.Schema<ListAppsRequest>;
 export type Apps = App[];
-export const Apps = /*@__PURE__*/ S.Array(App);
 export interface ListAppsResult {
   apps: App[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListAppsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apps: Apps, nextToken: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "ListAppsResult" }) as any as S.Schema<ListAppsResult>;
 export type MaxResults = number;
 export interface ListArtifactsRequest {
   appId: string;
   branchName: string;
   jobId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListArtifactsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    branchName: S.String.pipe(T.HttpLabel("branchName")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/artifacts",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListArtifactsRequest",
-}) as any as S.Schema<ListArtifactsRequest>;
 export type ArtifactFileName = string;
 export interface Artifact {
   artifactFileName: string;
   artifactId: string;
 }
-export const Artifact = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ artifactFileName: S.String, artifactId: S.String }),
-).annotate({ identifier: "Artifact" }) as any as S.Schema<Artifact>;
 export type Artifacts = Artifact[];
-export const Artifacts = /*@__PURE__*/ S.Array(Artifact);
 export interface ListArtifactsResult {
   artifacts: Artifact[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListArtifactsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ artifacts: Artifacts, nextToken: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "ListArtifactsResult",
-}) as any as S.Schema<ListArtifactsResult>;
 export interface ListBackendEnvironmentsRequest {
   appId: string;
-  environmentName?: string;
-  nextToken?: string;
-  maxResults?: number;
+  environmentName?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListBackendEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    environmentName: S.optional(S.String).pipe(T.HttpQuery("environmentName")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/apps/{appId}/backendenvironments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListBackendEnvironmentsRequest",
-}) as any as S.Schema<ListBackendEnvironmentsRequest>;
 export type BackendEnvironments = BackendEnvironment[];
-export const BackendEnvironments = /*@__PURE__*/ S.Array(BackendEnvironment);
 export interface ListBackendEnvironmentsResult {
   backendEnvironments: BackendEnvironment[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListBackendEnvironmentsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    backendEnvironments: BackendEnvironments,
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListBackendEnvironmentsResult",
-}) as any as S.Schema<ListBackendEnvironmentsResult>;
 export interface ListBranchesRequest {
   appId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListBranchesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/apps/{appId}/branches" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListBranchesRequest",
-}) as any as S.Schema<ListBranchesRequest>;
 export type Branches = Branch[];
-export const Branches = /*@__PURE__*/ S.Array(Branch);
 export interface ListBranchesResult {
   branches: Branch[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListBranchesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ branches: Branches, nextToken: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "ListBranchesResult",
-}) as any as S.Schema<ListBranchesResult>;
 export interface ListDomainAssociationsRequest {
   appId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListDomainAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/apps/{appId}/domains" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDomainAssociationsRequest",
-}) as any as S.Schema<ListDomainAssociationsRequest>;
 export type DomainAssociations = DomainAssociation[];
-export const DomainAssociations = /*@__PURE__*/ S.Array(DomainAssociation);
 export interface ListDomainAssociationsResult {
   domainAssociations: DomainAssociation[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListDomainAssociationsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainAssociations: DomainAssociations,
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDomainAssociationsResult",
-}) as any as S.Schema<ListDomainAssociationsResult>;
 export interface ListJobsRequest {
   appId: string;
   branchName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    branchName: S.String.pipe(T.HttpLabel("branchName")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/apps/{appId}/branches/{branchName}/jobs",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListJobsRequest",
-}) as any as S.Schema<ListJobsRequest>;
 export type JobSummaries = JobSummary[];
-export const JobSummaries = /*@__PURE__*/ S.Array(JobSummary);
 export interface ListJobsResult {
   jobSummaries: JobSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListJobsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobSummaries: JobSummaries,
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({ identifier: "ListJobsResult" }) as any as S.Schema<ListJobsResult>;
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(TagMap) }).pipe(ns),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListWebhooksRequest {
   appId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListWebhooksRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/apps/{appId}/webhooks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListWebhooksRequest",
-}) as any as S.Schema<ListWebhooksRequest>;
 export type Webhooks = Webhook[];
-export const Webhooks = /*@__PURE__*/ S.Array(Webhook);
 export interface ListWebhooksResult {
   webhooks: Webhook[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListWebhooksResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ webhooks: Webhooks, nextToken: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "ListWebhooksResult",
-}) as any as S.Schema<ListWebhooksResult>;
 export interface StartDeploymentRequest {
   appId: string;
   branchName: string;
-  jobId?: string;
-  sourceUrl?: string;
-  sourceUrlType?: SourceUrlType;
+  jobId?: string | undefined;
+  sourceUrl?: string | undefined;
+  sourceUrlType?: SourceUrlType | undefined;
 }
-export const StartDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    branchName: S.String.pipe(T.HttpLabel("branchName")),
-    jobId: S.optional(S.String),
-    sourceUrl: S.optional(S.String),
-    sourceUrlType: S.optional(SourceUrlType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/apps/{appId}/branches/{branchName}/deployments/start",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartDeploymentRequest",
-}) as any as S.Schema<StartDeploymentRequest>;
 export interface StartDeploymentResult {
   jobSummary: JobSummary;
 }
-export const StartDeploymentResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobSummary: JobSummary }).pipe(ns),
-).annotate({
-  identifier: "StartDeploymentResult",
-}) as any as S.Schema<StartDeploymentResult>;
 export type JobReason = string;
 export interface StartJobRequest {
   appId: string;
   branchName: string;
-  jobId?: string;
+  jobId?: string | undefined;
   jobType: JobType;
-  jobReason?: string;
-  commitId?: string;
-  commitMessage?: string;
-  commitTime?: Date;
+  jobReason?: string | undefined;
+  commitId?: string | undefined;
+  commitMessage?: string | undefined;
+  commitTime?: Date | undefined;
 }
-export const StartJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    branchName: S.String.pipe(T.HttpLabel("branchName")),
-    jobId: S.optional(S.String),
-    jobType: JobType,
-    jobReason: S.optional(S.String),
-    commitId: S.optional(S.String),
-    commitMessage: S.optional(S.String),
-    commitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/apps/{appId}/branches/{branchName}/jobs",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartJobRequest",
-}) as any as S.Schema<StartJobRequest>;
 export interface StartJobResult {
   jobSummary: JobSummary;
 }
-export const StartJobResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobSummary: JobSummary }).pipe(ns),
-).annotate({ identifier: "StartJobResult" }) as any as S.Schema<StartJobResult>;
 export interface StopJobRequest {
   appId: string;
   branchName: string;
   jobId: string;
 }
-export const StopJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    branchName: S.String.pipe(T.HttpLabel("branchName")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/stop",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "StopJobRequest" }) as any as S.Schema<StopJobRequest>;
 export interface StopJobResult {
   jobSummary: JobSummary;
 }
-export const StopJobResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobSummary: JobSummary }).pipe(ns),
-).annotate({ identifier: "StopJobResult" }) as any as S.Schema<StopJobResult>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAppRequest {
   appId: string;
-  name?: string;
-  description?: string;
-  platform?: Platform;
-  computeRoleArn?: string;
-  iamServiceRoleArn?: string;
-  environmentVariables?: { [key: string]: string | undefined };
-  enableBranchAutoBuild?: boolean;
-  enableBranchAutoDeletion?: boolean;
-  enableBasicAuth?: boolean;
-  basicAuthCredentials?: string | redacted.Redacted<string>;
-  customRules?: CustomRule[];
-  buildSpec?: string | redacted.Redacted<string>;
-  customHeaders?: string;
-  enableAutoBranchCreation?: boolean;
-  autoBranchCreationPatterns?: string[];
-  autoBranchCreationConfig?: AutoBranchCreationConfig;
-  repository?: string;
-  oauthToken?: string | redacted.Redacted<string>;
-  accessToken?: string | redacted.Redacted<string>;
-  jobConfig?: JobConfig;
-  cacheConfig?: CacheConfig;
+  name?: string | undefined;
+  description?: string | undefined;
+  platform?: Platform | undefined;
+  computeRoleArn?: string | undefined;
+  iamServiceRoleArn?: string | undefined;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  enableBranchAutoBuild?: boolean | undefined;
+  enableBranchAutoDeletion?: boolean | undefined;
+  enableBasicAuth?: boolean | undefined;
+  basicAuthCredentials?: string | redacted.Redacted<string> | undefined;
+  customRules?: CustomRule[] | undefined;
+  buildSpec?: string | redacted.Redacted<string> | undefined;
+  customHeaders?: string | undefined;
+  enableAutoBranchCreation?: boolean | undefined;
+  autoBranchCreationPatterns?: string[] | undefined;
+  autoBranchCreationConfig?: AutoBranchCreationConfig | undefined;
+  repository?: string | undefined;
+  oauthToken?: string | redacted.Redacted<string> | undefined;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  jobConfig?: JobConfig | undefined;
+  cacheConfig?: CacheConfig | undefined;
 }
-export const UpdateAppRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    platform: S.optional(Platform),
-    computeRoleArn: S.optional(S.String),
-    iamServiceRoleArn: S.optional(S.String),
-    environmentVariables: S.optional(EnvironmentVariables),
-    enableBranchAutoBuild: S.optional(S.Boolean),
-    enableBranchAutoDeletion: S.optional(S.Boolean),
-    enableBasicAuth: S.optional(S.Boolean),
-    basicAuthCredentials: S.optional(SensitiveString),
-    customRules: S.optional(CustomRules),
-    buildSpec: S.optional(SensitiveString),
-    customHeaders: S.optional(S.String),
-    enableAutoBranchCreation: S.optional(S.Boolean),
-    autoBranchCreationPatterns: S.optional(AutoBranchCreationPatterns),
-    autoBranchCreationConfig: S.optional(AutoBranchCreationConfig),
-    repository: S.optional(S.String),
-    oauthToken: S.optional(SensitiveString),
-    accessToken: S.optional(SensitiveString),
-    jobConfig: S.optional(JobConfig),
-    cacheConfig: S.optional(CacheConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/apps/{appId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAppRequest",
-}) as any as S.Schema<UpdateAppRequest>;
 export interface UpdateAppResult {
   app: App;
 }
-export const UpdateAppResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ app: App }).pipe(ns),
-).annotate({
-  identifier: "UpdateAppResult",
-}) as any as S.Schema<UpdateAppResult>;
 export interface UpdateBranchRequest {
   appId: string;
   branchName: string;
-  description?: string;
-  framework?: string;
-  stage?: Stage;
-  enableNotification?: boolean;
-  enableAutoBuild?: boolean;
-  enableSkewProtection?: boolean;
-  environmentVariables?: { [key: string]: string | undefined };
-  basicAuthCredentials?: string | redacted.Redacted<string>;
-  enableBasicAuth?: boolean;
-  enablePerformanceMode?: boolean;
-  buildSpec?: string | redacted.Redacted<string>;
-  ttl?: string;
-  displayName?: string;
-  enablePullRequestPreview?: boolean;
-  pullRequestEnvironmentName?: string;
-  backendEnvironmentArn?: string;
-  backend?: Backend;
-  computeRoleArn?: string;
+  description?: string | undefined;
+  framework?: string | undefined;
+  stage?: Stage | undefined;
+  enableNotification?: boolean | undefined;
+  enableAutoBuild?: boolean | undefined;
+  enableSkewProtection?: boolean | undefined;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  basicAuthCredentials?: string | redacted.Redacted<string> | undefined;
+  enableBasicAuth?: boolean | undefined;
+  enablePerformanceMode?: boolean | undefined;
+  buildSpec?: string | redacted.Redacted<string> | undefined;
+  ttl?: string | undefined;
+  displayName?: string | undefined;
+  enablePullRequestPreview?: boolean | undefined;
+  pullRequestEnvironmentName?: string | undefined;
+  backendEnvironmentArn?: string | undefined;
+  backend?: Backend | undefined;
+  computeRoleArn?: string | undefined;
 }
-export const UpdateBranchRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    branchName: S.String.pipe(T.HttpLabel("branchName")),
-    description: S.optional(S.String),
-    framework: S.optional(S.String),
-    stage: S.optional(Stage),
-    enableNotification: S.optional(S.Boolean),
-    enableAutoBuild: S.optional(S.Boolean),
-    enableSkewProtection: S.optional(S.Boolean),
-    environmentVariables: S.optional(EnvironmentVariables),
-    basicAuthCredentials: S.optional(SensitiveString),
-    enableBasicAuth: S.optional(S.Boolean),
-    enablePerformanceMode: S.optional(S.Boolean),
-    buildSpec: S.optional(SensitiveString),
-    ttl: S.optional(S.String),
-    displayName: S.optional(S.String),
-    enablePullRequestPreview: S.optional(S.Boolean),
-    pullRequestEnvironmentName: S.optional(S.String),
-    backendEnvironmentArn: S.optional(S.String),
-    backend: S.optional(Backend),
-    computeRoleArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/apps/{appId}/branches/{branchName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateBranchRequest",
-}) as any as S.Schema<UpdateBranchRequest>;
 export interface UpdateBranchResult {
   branch: Branch;
 }
-export const UpdateBranchResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ branch: Branch }).pipe(ns),
-).annotate({
-  identifier: "UpdateBranchResult",
-}) as any as S.Schema<UpdateBranchResult>;
 export interface UpdateDomainAssociationRequest {
   appId: string;
   domainName: string;
-  enableAutoSubDomain?: boolean;
-  subDomainSettings?: SubDomainSetting[];
-  autoSubDomainCreationPatterns?: string[];
-  autoSubDomainIAMRole?: string;
-  certificateSettings?: CertificateSettings;
+  enableAutoSubDomain?: boolean | undefined;
+  subDomainSettings?: SubDomainSetting[] | undefined;
+  autoSubDomainCreationPatterns?: string[] | undefined;
+  autoSubDomainIAMRole?: string | undefined;
+  certificateSettings?: CertificateSettings | undefined;
 }
-export const UpdateDomainAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String.pipe(T.HttpLabel("appId")),
-    domainName: S.String.pipe(T.HttpLabel("domainName")),
-    enableAutoSubDomain: S.optional(S.Boolean),
-    subDomainSettings: S.optional(SubDomainSettings),
-    autoSubDomainCreationPatterns: S.optional(AutoSubDomainCreationPatterns),
-    autoSubDomainIAMRole: S.optional(S.String),
-    certificateSettings: S.optional(CertificateSettings),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/apps/{appId}/domains/{domainName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDomainAssociationRequest",
-}) as any as S.Schema<UpdateDomainAssociationRequest>;
 export interface UpdateDomainAssociationResult {
   domainAssociation: DomainAssociation;
 }
-export const UpdateDomainAssociationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ domainAssociation: DomainAssociation }).pipe(ns),
-).annotate({
-  identifier: "UpdateDomainAssociationResult",
-}) as any as S.Schema<UpdateDomainAssociationResult>;
 export interface UpdateWebhookRequest {
   webhookId: string;
-  branchName?: string;
-  description?: string;
+  branchName?: string | undefined;
+  description?: string | undefined;
 }
-export const UpdateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    webhookId: S.String.pipe(T.HttpLabel("webhookId")),
-    branchName: S.optional(S.String),
-    description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/webhooks/{webhookId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateWebhookRequest",
-}) as any as S.Schema<UpdateWebhookRequest>;
 export interface UpdateWebhookResult {
   webhook: Webhook;
 }
-export const UpdateWebhookResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ webhook: Webhook }).pipe(ns),
-).annotate({
-  identifier: "UpdateWebhookResult",
-}) as any as S.Schema<UpdateWebhookResult>;
 export type ErrorMessage = string;
 export type Code = string;
 export type CreateAppError =
@@ -2138,13 +874,13 @@ export type CreateAppError =
  * Creates a new Amplify app.
  */
 export const createApp: API.OperationMethod<
-  CreateAppRequest,
+  CreateAppRequest & RegionInput,
   CreateAppResult,
   CreateAppError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAppRequest,
-  output: CreateAppResult,
+  input: __S(360, __c45, 0) as any as S.Schema<CreateAppRequest>,
+  output: __S(392, __c49, 0) as any as S.Schema<CreateAppResult>,
   errors: [
     BadRequestException,
     DependentServiceFailureException,
@@ -2156,6 +892,8 @@ export const createApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApp",
+  telemetry: TELEMETRY,
+  span: "CreateApp",
 }));
 
 export type CreateBackendEnvironmentError =
@@ -2171,18 +909,18 @@ export type CreateBackendEnvironmentError =
  *
  * This API is available only to Amplify Gen 1 applications where the
  * backend is created using Amplify Studio or the Amplify
- * command line interface (CLI). This API isn’t available to Amplify Gen 2
+ * command line interface (CLI). This API isn't available to Amplify Gen 2
  * applications. When you deploy an application with Amplify Gen 2, you provision the app's
  * backend infrastructure using Typescript code.
  */
 export const createBackendEnvironment: API.OperationMethod<
-  CreateBackendEnvironmentRequest,
+  CreateBackendEnvironmentRequest & RegionInput,
   CreateBackendEnvironmentResult,
   CreateBackendEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateBackendEnvironmentRequest,
-  output: CreateBackendEnvironmentResult,
+  input: __S(400, __c50, 0) as any as S.Schema<CreateBackendEnvironmentRequest>,
+  output: __S(408, __c51, 0) as any as S.Schema<CreateBackendEnvironmentResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -2194,6 +932,8 @@ export const createBackendEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackendEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateBackendEnvironment",
 }));
 
 export type CreateBranchError =
@@ -2209,13 +949,13 @@ export type CreateBranchError =
  * Creates a new branch for an Amplify app.
  */
 export const createBranch: API.OperationMethod<
-  CreateBranchRequest,
+  CreateBranchRequest & RegionInput,
   CreateBranchResult,
   CreateBranchError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateBranchRequest,
-  output: CreateBranchResult,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateBranchRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<CreateBranchResult>,
   errors: [
     BadRequestException,
     DependentServiceFailureException,
@@ -2228,6 +968,8 @@ export const createBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBranch",
+  telemetry: TELEMETRY,
+  span: "CreateBranch",
 }));
 
 export type CreateDeploymentError =
@@ -2247,13 +989,13 @@ export type CreateDeploymentError =
  * fail.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
+  CreateDeploymentRequest & RegionInput,
   CreateDeploymentResult,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDeploymentRequest,
-  output: CreateDeploymentResult,
+  input: __S(24, __c3, 0) as any as S.Schema<CreateDeploymentRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<CreateDeploymentResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -2264,6 +1006,8 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
+  telemetry: TELEMETRY,
+  span: "CreateDeployment",
 }));
 
 export type CreateDomainAssociationError =
@@ -2280,13 +1024,13 @@ export type CreateDomainAssociationError =
  * domain with the Amplify app
  */
 export const createDomainAssociation: API.OperationMethod<
-  CreateDomainAssociationRequest,
+  CreateDomainAssociationRequest & RegionInput,
   CreateDomainAssociationResult,
   CreateDomainAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDomainAssociationRequest,
-  output: CreateDomainAssociationResult,
+  input: __S(32, __c4, 0) as any as S.Schema<CreateDomainAssociationRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<CreateDomainAssociationResult>,
   errors: [
     BadRequestException,
     DependentServiceFailureException,
@@ -2299,6 +1043,8 @@ export const createDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateDomainAssociation",
 }));
 
 export type CreateWebhookError =
@@ -2314,13 +1060,13 @@ export type CreateWebhookError =
  * Creates a new webhook on an Amplify app.
  */
 export const createWebhook: API.OperationMethod<
-  CreateWebhookRequest,
+  CreateWebhookRequest & RegionInput,
   CreateWebhookResult,
   CreateWebhookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateWebhookRequest,
-  output: CreateWebhookResult,
+  input: __S(64, __c8, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<CreateWebhookResult>,
   errors: [
     BadRequestException,
     DependentServiceFailureException,
@@ -2333,6 +1079,8 @@ export const createWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebhook",
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type DeleteAppError =
@@ -2347,13 +1095,13 @@ export type DeleteAppError =
  * Deletes an existing Amplify app specified by an app ID.
  */
 export const deleteApp: API.OperationMethod<
-  DeleteAppRequest,
+  DeleteAppRequest & RegionInput,
   DeleteAppResult,
   DeleteAppError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAppRequest,
-  output: DeleteAppResult,
+  input: __S(88, __c11, 0) as any as S.Schema<DeleteAppRequest>,
+  output: __S(392, __c49, 0) as any as S.Schema<DeleteAppResult>,
   errors: [
     BadRequestException,
     DependentServiceFailureException,
@@ -2365,6 +1113,8 @@ export const deleteApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApp",
+  telemetry: TELEMETRY,
+  span: "DeleteApp",
 }));
 
 export type DeleteBackendEnvironmentError =
@@ -2380,18 +1130,18 @@ export type DeleteBackendEnvironmentError =
  *
  * This API is available only to Amplify Gen 1 applications where the
  * backend is created using Amplify Studio or the Amplify
- * command line interface (CLI). This API isn’t available to Amplify Gen 2
+ * command line interface (CLI). This API isn't available to Amplify Gen 2
  * applications. When you deploy an application with Amplify Gen 2, you provision the app's
  * backend infrastructure using Typescript code.
  */
 export const deleteBackendEnvironment: API.OperationMethod<
-  DeleteBackendEnvironmentRequest,
+  DeleteBackendEnvironmentRequest & RegionInput,
   DeleteBackendEnvironmentResult,
   DeleteBackendEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBackendEnvironmentRequest,
-  output: DeleteBackendEnvironmentResult,
+  input: __S(96, __c12, 0) as any as S.Schema<DeleteBackendEnvironmentRequest>,
+  output: __S(408, __c51, 0) as any as S.Schema<DeleteBackendEnvironmentResult>,
   errors: [
     BadRequestException,
     DependentServiceFailureException,
@@ -2403,6 +1153,8 @@ export const deleteBackendEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackendEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteBackendEnvironment",
 }));
 
 export type DeleteBranchError =
@@ -2417,13 +1169,13 @@ export type DeleteBranchError =
  * Deletes a branch for an Amplify app.
  */
 export const deleteBranch: API.OperationMethod<
-  DeleteBranchRequest,
+  DeleteBranchRequest & RegionInput,
   DeleteBranchResult,
   DeleteBranchError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBranchRequest,
-  output: DeleteBranchResult,
+  input: __S(104, __c13, 0) as any as S.Schema<DeleteBranchRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<DeleteBranchResult>,
   errors: [
     BadRequestException,
     DependentServiceFailureException,
@@ -2435,6 +1187,8 @@ export const deleteBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBranch",
+  telemetry: TELEMETRY,
+  span: "DeleteBranch",
 }));
 
 export type DeleteDomainAssociationError =
@@ -2449,13 +1203,13 @@ export type DeleteDomainAssociationError =
  * Deletes a domain association for an Amplify app.
  */
 export const deleteDomainAssociation: API.OperationMethod<
-  DeleteDomainAssociationRequest,
+  DeleteDomainAssociationRequest & RegionInput,
   DeleteDomainAssociationResult,
   DeleteDomainAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDomainAssociationRequest,
-  output: DeleteDomainAssociationResult,
+  input: __S(112, __c14, 0) as any as S.Schema<DeleteDomainAssociationRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<DeleteDomainAssociationResult>,
   errors: [
     BadRequestException,
     DependentServiceFailureException,
@@ -2467,6 +1221,8 @@ export const deleteDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteDomainAssociation",
 }));
 
 export type DeleteJobError =
@@ -2481,13 +1237,13 @@ export type DeleteJobError =
  * Deletes a job for a branch of an Amplify app.
  */
 export const deleteJob: API.OperationMethod<
-  DeleteJobRequest,
+  DeleteJobRequest & RegionInput,
   DeleteJobResult,
   DeleteJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteJobRequest,
-  output: DeleteJobResult,
+  input: __S(120, __c15, 0) as any as S.Schema<DeleteJobRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<DeleteJobResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -2499,6 +1255,8 @@ export const deleteJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJob",
+  telemetry: TELEMETRY,
+  span: "DeleteJob",
 }));
 
 export type DeleteWebhookError =
@@ -2513,13 +1271,13 @@ export type DeleteWebhookError =
  * Deletes a webhook.
  */
 export const deleteWebhook: API.OperationMethod<
-  DeleteWebhookRequest,
+  DeleteWebhookRequest & RegionInput,
   DeleteWebhookResult,
   DeleteWebhookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteWebhookRequest,
-  output: DeleteWebhookResult,
+  input: __S(144, __c18, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<DeleteWebhookResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -2531,6 +1289,8 @@ export const deleteWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebhook",
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type GenerateAccessLogsError =
@@ -2544,13 +1304,13 @@ export type GenerateAccessLogsError =
  * Returns the website access logs for a specific time range using a presigned URL.
  */
 export const generateAccessLogs: API.OperationMethod<
-  GenerateAccessLogsRequest,
+  GenerateAccessLogsRequest & RegionInput,
   GenerateAccessLogsResult,
   GenerateAccessLogsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GenerateAccessLogsRequest,
-  output: GenerateAccessLogsResult,
+  input: __S(152, __c19, 0) as any as S.Schema<GenerateAccessLogsRequest>,
+  output: __S(153, __c19, 1) as any as S.Schema<GenerateAccessLogsResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -2561,6 +1321,8 @@ export const generateAccessLogs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateAccessLogs",
+  telemetry: TELEMETRY,
+  span: "GenerateAccessLogs",
 }));
 
 export type GetAppError =
@@ -2574,13 +1336,13 @@ export type GetAppError =
  * Returns an existing Amplify app specified by an app ID.
  */
 export const getApp: API.OperationMethod<
-  GetAppRequest,
+  GetAppRequest & RegionInput,
   GetAppResult,
   GetAppError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAppRequest,
-  output: GetAppResult,
+  input: __S(160, __c20, 0) as any as S.Schema<GetAppRequest>,
+  output: __S(392, __c49, 0) as any as S.Schema<GetAppResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -2591,6 +1353,8 @@ export const getApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApp",
+  telemetry: TELEMETRY,
+  span: "GetApp",
 }));
 
 export type GetArtifactUrlError =
@@ -2605,13 +1369,13 @@ export type GetArtifactUrlError =
  * Returns the artifact info that corresponds to an artifact id.
  */
 export const getArtifactUrl: API.OperationMethod<
-  GetArtifactUrlRequest,
+  GetArtifactUrlRequest & RegionInput,
   GetArtifactUrlResult,
   GetArtifactUrlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetArtifactUrlRequest,
-  output: GetArtifactUrlResult,
+  input: __S(168, __c21, 0) as any as S.Schema<GetArtifactUrlRequest>,
+  output: __S(169, __c21, 1) as any as S.Schema<GetArtifactUrlResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -2623,6 +1387,8 @@ export const getArtifactUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArtifactUrl",
+  telemetry: TELEMETRY,
+  span: "GetArtifactUrl",
 }));
 
 export type GetBackendEnvironmentError =
@@ -2637,18 +1403,18 @@ export type GetBackendEnvironmentError =
  *
  * This API is available only to Amplify Gen 1 applications where the
  * backend is created using Amplify Studio or the Amplify
- * command line interface (CLI). This API isn’t available to Amplify Gen 2
+ * command line interface (CLI). This API isn't available to Amplify Gen 2
  * applications. When you deploy an application with Amplify Gen 2, you provision the app's
  * backend infrastructure using Typescript code.
  */
 export const getBackendEnvironment: API.OperationMethod<
-  GetBackendEnvironmentRequest,
+  GetBackendEnvironmentRequest & RegionInput,
   GetBackendEnvironmentResult,
   GetBackendEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBackendEnvironmentRequest,
-  output: GetBackendEnvironmentResult,
+  input: __S(176, __c22, 0) as any as S.Schema<GetBackendEnvironmentRequest>,
+  output: __S(408, __c51, 0) as any as S.Schema<GetBackendEnvironmentResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -2659,6 +1425,8 @@ export const getBackendEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetBackendEnvironment",
 }));
 
 export type GetBranchError =
@@ -2672,13 +1440,13 @@ export type GetBranchError =
  * Returns a branch for an Amplify app.
  */
 export const getBranch: API.OperationMethod<
-  GetBranchRequest,
+  GetBranchRequest & RegionInput,
   GetBranchResult,
   GetBranchError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBranchRequest,
-  output: GetBranchResult,
+  input: __S(184, __c23, 0) as any as S.Schema<GetBranchRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<GetBranchResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -2689,6 +1457,8 @@ export const getBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBranch",
+  telemetry: TELEMETRY,
+  span: "GetBranch",
 }));
 
 export type GetDomainAssociationError =
@@ -2702,13 +1472,13 @@ export type GetDomainAssociationError =
  * Returns the domain information for an Amplify app.
  */
 export const getDomainAssociation: API.OperationMethod<
-  GetDomainAssociationRequest,
+  GetDomainAssociationRequest & RegionInput,
   GetDomainAssociationResult,
   GetDomainAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDomainAssociationRequest,
-  output: GetDomainAssociationResult,
+  input: __S(192, __c24, 0) as any as S.Schema<GetDomainAssociationRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<GetDomainAssociationResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -2719,6 +1489,8 @@ export const getDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "GetDomainAssociation",
 }));
 
 export type GetJobError =
@@ -2733,13 +1505,13 @@ export type GetJobError =
  * Returns a job for a branch of an Amplify app.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResult,
   GetJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetJobRequest,
-  output: GetJobResult,
+  input: __S(200, __c25, 0) as any as S.Schema<GetJobRequest>,
+  output: __S(204, __c25, 4) as any as S.Schema<GetJobResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -2751,6 +1523,8 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetWebhookError =
@@ -2765,13 +1539,13 @@ export type GetWebhookError =
  * Returns the webhook information that corresponds to a specified webhook ID.
  */
 export const getWebhook: API.OperationMethod<
-  GetWebhookRequest,
+  GetWebhookRequest & RegionInput,
   GetWebhookResult,
   GetWebhookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetWebhookRequest,
-  output: GetWebhookResult,
+  input: __S(208, __c26, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<GetWebhookResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -2783,6 +1557,8 @@ export const getWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebhook",
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type ListAppsError =
@@ -2795,20 +1571,15 @@ export type ListAppsError =
  * Returns a list of the existing Amplify apps.
  */
 export const listApps: API.PaginatedOperationMethod<
-  ListAppsRequest,
+  ListAppsRequest & RegionInput,
   ListAppsResult,
   ListAppsError,
   Credentials | HttpClient.HttpClient,
   App
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAppsRequest,
-  output: ListAppsResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    UnauthorizedException,
-    TimeoutException,
-  ],
+  input: __S(216, __c27, 0) as any as S.Schema<ListAppsRequest>,
+  output: __S(218, __c27, 2) as any as S.Schema<ListAppsResult>,
+  errors: [BadRequestException, InternalFailureException, UnauthorizedException, TimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListApps",
@@ -2818,6 +1589,8 @@ export const listApps: API.PaginatedOperationMethod<
     items: "apps",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApps",
 })) as any;
 
 export type ListArtifactsError =
@@ -2835,16 +1608,17 @@ export type ListArtifactsError =
  *
  * For more information about Amplify testing support, see Setting up
  * end-to-end Cypress tests for your Amplify application in the
- * *Amplify Hosting User Guide*.
+ *
+ * Amplify Hosting User Guide.
  */
 export const listArtifacts: API.OperationMethod<
-  ListArtifactsRequest,
+  ListArtifactsRequest & RegionInput,
   ListArtifactsResult,
   ListArtifactsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListArtifactsRequest,
-  output: ListArtifactsResult,
+  input: __S(224, __c28, 0) as any as S.Schema<ListArtifactsRequest>,
+  output: __S(227, __c28, 3) as any as S.Schema<ListArtifactsResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -2855,6 +1629,8 @@ export const listArtifacts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListArtifacts",
+  telemetry: TELEMETRY,
+  span: "ListArtifacts",
 }));
 
 export type ListBackendEnvironmentsError =
@@ -2868,27 +1644,24 @@ export type ListBackendEnvironmentsError =
  *
  * This API is available only to Amplify Gen 1 applications where the
  * backend is created using Amplify Studio or the Amplify
- * command line interface (CLI). This API isn’t available to Amplify Gen 2
+ * command line interface (CLI). This API isn't available to Amplify Gen 2
  * applications. When you deploy an application with Amplify Gen 2, you provision the app's
  * backend infrastructure using Typescript code.
  */
 export const listBackendEnvironments: API.OperationMethod<
-  ListBackendEnvironmentsRequest,
+  ListBackendEnvironmentsRequest & RegionInput,
   ListBackendEnvironmentsResult,
   ListBackendEnvironmentsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListBackendEnvironmentsRequest,
-  output: ListBackendEnvironmentsResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    UnauthorizedException,
-    TimeoutException,
-  ],
+  input: __S(232, __c29, 0) as any as S.Schema<ListBackendEnvironmentsRequest>,
+  output: __S(234, __c29, 2) as any as S.Schema<ListBackendEnvironmentsResult>,
+  errors: [BadRequestException, InternalFailureException, UnauthorizedException, TimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBackendEnvironments",
+  telemetry: TELEMETRY,
+  span: "ListBackendEnvironments",
 }));
 
 export type ListBranchesError =
@@ -2901,20 +1674,15 @@ export type ListBranchesError =
  * Lists the branches of an Amplify app.
  */
 export const listBranches: API.PaginatedOperationMethod<
-  ListBranchesRequest,
+  ListBranchesRequest & RegionInput,
   ListBranchesResult,
   ListBranchesError,
   Credentials | HttpClient.HttpClient,
   Branch
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListBranchesRequest,
-  output: ListBranchesResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    UnauthorizedException,
-    TimeoutException,
-  ],
+  input: __S(240, __c30, 0) as any as S.Schema<ListBranchesRequest>,
+  output: __S(242, __c30, 2) as any as S.Schema<ListBranchesResult>,
+  errors: [BadRequestException, InternalFailureException, UnauthorizedException, TimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBranches",
@@ -2924,6 +1692,8 @@ export const listBranches: API.PaginatedOperationMethod<
     items: "branches",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBranches",
 })) as any;
 
 export type ListDomainAssociationsError =
@@ -2936,20 +1706,15 @@ export type ListDomainAssociationsError =
  * Returns the domain associations for an Amplify app.
  */
 export const listDomainAssociations: API.PaginatedOperationMethod<
-  ListDomainAssociationsRequest,
+  ListDomainAssociationsRequest & RegionInput,
   ListDomainAssociationsResult,
   ListDomainAssociationsError,
   Credentials | HttpClient.HttpClient,
   DomainAssociation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDomainAssociationsRequest,
-  output: ListDomainAssociationsResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    UnauthorizedException,
-    TimeoutException,
-  ],
+  input: __S(248, __c31, 0) as any as S.Schema<ListDomainAssociationsRequest>,
+  output: __S(250, __c31, 2) as any as S.Schema<ListDomainAssociationsResult>,
+  errors: [BadRequestException, InternalFailureException, UnauthorizedException, TimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomainAssociations",
@@ -2959,6 +1724,8 @@ export const listDomainAssociations: API.PaginatedOperationMethod<
     items: "domainAssociations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainAssociations",
 })) as any;
 
 export type ListJobsError =
@@ -2972,14 +1739,14 @@ export type ListJobsError =
  * Lists the jobs for a branch of an Amplify app.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResult,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
   JobSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListJobsRequest,
-  output: ListJobsResult,
+  input: __S(256, __c32, 0) as any as S.Schema<ListJobsRequest>,
+  output: __S(258, __c32, 2) as any as S.Schema<ListJobsResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -2996,6 +1763,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "jobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3008,13 +1777,13 @@ export type ListTagsForResourceError =
  * Returns a list of tags for a specified Amazon Resource Name (ARN).
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(264, __c33, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(265, __c33, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3024,6 +1793,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWebhooksError =
@@ -3037,13 +1808,13 @@ export type ListWebhooksError =
  * Returns a list of webhooks for an Amplify app.
  */
 export const listWebhooks: API.OperationMethod<
-  ListWebhooksRequest,
+  ListWebhooksRequest & RegionInput,
   ListWebhooksResult,
   ListWebhooksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListWebhooksRequest,
-  output: ListWebhooksResult,
+  input: __S(272, __c34, 0) as any as S.Schema<ListWebhooksRequest>,
+  output: __S(274, __c34, 2) as any as S.Schema<ListWebhooksResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3054,6 +1825,8 @@ export const listWebhooks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWebhooks",
+  telemetry: TELEMETRY,
+  span: "ListWebhooks",
 }));
 
 export type StartDeploymentError =
@@ -3074,13 +1847,13 @@ export type StartDeploymentError =
  * fail.
  */
 export const startDeployment: API.OperationMethod<
-  StartDeploymentRequest,
+  StartDeploymentRequest & RegionInput,
   StartDeploymentResult,
   StartDeploymentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartDeploymentRequest,
-  output: StartDeploymentResult,
+  input: __S(280, __c35, 0) as any as S.Schema<StartDeploymentRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<StartDeploymentResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3092,6 +1865,8 @@ export const startDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeployment",
+  telemetry: TELEMETRY,
+  span: "StartDeployment",
 }));
 
 export type StartJobError =
@@ -3106,13 +1881,13 @@ export type StartJobError =
  * Starts a new job for a branch of an Amplify app.
  */
 export const startJob: API.OperationMethod<
-  StartJobRequest,
+  StartJobRequest & RegionInput,
   StartJobResult,
   StartJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartJobRequest,
-  output: StartJobResult,
+  input: __S(288, __c36, 0) as any as S.Schema<StartJobRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<StartJobResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3124,6 +1899,8 @@ export const startJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJob",
+  telemetry: TELEMETRY,
+  span: "StartJob",
 }));
 
 export type StopJobError =
@@ -3138,13 +1915,13 @@ export type StopJobError =
  * Stops a job that is in progress for a branch of an Amplify app.
  */
 export const stopJob: API.OperationMethod<
-  StopJobRequest,
+  StopJobRequest & RegionInput,
   StopJobResult,
   StopJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopJobRequest,
-  output: StopJobResult,
+  input: __S(296, __c37, 0) as any as S.Schema<StopJobRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<StopJobResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3156,6 +1933,8 @@ export const stopJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopJob",
+  telemetry: TELEMETRY,
+  span: "StopJob",
 }));
 
 export type TagResourceError =
@@ -3168,13 +1947,13 @@ export type TagResourceError =
  * Tags the resource with a tag key and value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(304, __c38, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3184,6 +1963,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3196,13 +1977,13 @@ export type UntagResourceError =
  * Untags a resource with a specified Amazon Resource Name (ARN).
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(320, __c40, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3212,6 +1993,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAppError =
@@ -3225,13 +2008,13 @@ export type UpdateAppError =
  * Updates an existing Amplify app.
  */
 export const updateApp: API.OperationMethod<
-  UpdateAppRequest,
+  UpdateAppRequest & RegionInput,
   UpdateAppResult,
   UpdateAppError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAppRequest,
-  output: UpdateAppResult,
+  input: __S(328, __c41, 0) as any as S.Schema<UpdateAppRequest>,
+  output: __S(392, __c49, 0) as any as S.Schema<UpdateAppResult>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3242,6 +2025,8 @@ export const updateApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApp",
+  telemetry: TELEMETRY,
+  span: "UpdateApp",
 }));
 
 export type UpdateBranchError =
@@ -3256,13 +2041,13 @@ export type UpdateBranchError =
  * Updates a branch for an Amplify app.
  */
 export const updateBranch: API.OperationMethod<
-  UpdateBranchRequest,
+  UpdateBranchRequest & RegionInput,
   UpdateBranchResult,
   UpdateBranchError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateBranchRequest,
-  output: UpdateBranchResult,
+  input: __S(336, __c42, 0) as any as S.Schema<UpdateBranchRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<UpdateBranchResult>,
   errors: [
     BadRequestException,
     DependentServiceFailureException,
@@ -3274,6 +2059,8 @@ export const updateBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBranch",
+  telemetry: TELEMETRY,
+  span: "UpdateBranch",
 }));
 
 export type UpdateDomainAssociationError =
@@ -3288,13 +2075,13 @@ export type UpdateDomainAssociationError =
  * Creates a new domain association for an Amplify app.
  */
 export const updateDomainAssociation: API.OperationMethod<
-  UpdateDomainAssociationRequest,
+  UpdateDomainAssociationRequest & RegionInput,
   UpdateDomainAssociationResult,
   UpdateDomainAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDomainAssociationRequest,
-  output: UpdateDomainAssociationResult,
+  input: __S(344, __c43, 0) as any as S.Schema<UpdateDomainAssociationRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<UpdateDomainAssociationResult>,
   errors: [
     BadRequestException,
     DependentServiceFailureException,
@@ -3306,6 +2093,8 @@ export const updateDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainAssociation",
 }));
 
 export type UpdateWebhookError =
@@ -3320,13 +2109,13 @@ export type UpdateWebhookError =
  * Updates a webhook.
  */
 export const updateWebhook: API.OperationMethod<
-  UpdateWebhookRequest,
+  UpdateWebhookRequest & RegionInput,
   UpdateWebhookResult,
   UpdateWebhookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateWebhookRequest,
-  output: UpdateWebhookResult,
+  input: __S(352, __c44, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<UpdateWebhookResult>,
   errors: [
     BadRequestException,
     DependentServiceFailureException,
@@ -3338,4 +2127,1255 @@ export const updateWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebhook",
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          branchName: S.String,
+          description: S.optional(S.String),
+          stage: S.optional(S.String),
+          framework: S.optional(S.String),
+          enableNotification: S.optional(S.Boolean),
+          enableAutoBuild: S.optional(S.Boolean),
+          enableSkewProtection: S.optional(S.Boolean),
+          environmentVariables: S.optional(__S(368, __c46, 0)),
+          basicAuthCredentials: S.optional(SensitiveString),
+          enableBasicAuth: S.optional(S.Boolean),
+          enablePerformanceMode: S.optional(S.Boolean),
+          tags: S.optional(__S(368, __c46, 0)),
+          buildSpec: S.optional(SensitiveString),
+          ttl: S.optional(S.String),
+          displayName: S.optional(S.String),
+          enablePullRequestPreview: S.optional(S.Boolean),
+          pullRequestEnvironmentName: S.optional(S.String),
+          backendEnvironmentArn: S.optional(S.String),
+          backend: S.optional(__S(8, __c1, 0)),
+          computeRoleArn: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/apps/{appId}/branches" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateBranchRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ stackArn: S.optional(S.String) })).annotate({
+        identifier: "Backend",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          branchArn: S.String,
+          branchName: S.String,
+          description: S.optional(S.String),
+          tags: S.optional(__S(368, __c46, 0)),
+          stage: S.optional(S.String),
+          displayName: S.optional(S.String),
+          enableNotification: S.optional(S.Boolean),
+          createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          environmentVariables: S.optional(__S(368, __c46, 0)),
+          enableAutoBuild: S.optional(S.Boolean),
+          enableSkewProtection: S.optional(S.Boolean),
+          customDomains: S.optional(__S(376, __c47, 0)),
+          framework: S.optional(S.String),
+          activeJobId: S.optional(S.String),
+          totalNumberOfJobs: S.optional(S.String),
+          enableBasicAuth: S.optional(S.Boolean),
+          enablePerformanceMode: S.optional(S.Boolean),
+          thumbnailUrl: S.optional(S.String),
+          basicAuthCredentials: S.optional(SensitiveString),
+          buildSpec: S.optional(SensitiveString),
+          ttl: S.optional(S.String),
+          associatedResources: S.optional(__S(376, __c47, 0)),
+          enablePullRequestPreview: S.optional(S.Boolean),
+          pullRequestEnvironmentName: S.optional(S.String),
+          destinationBranch: S.optional(S.String),
+          sourceBranch: S.optional(S.String),
+          backendEnvironmentArn: S.optional(S.String),
+          backend: S.optional(__S(8, __c1, 0)),
+          computeRoleArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Branch" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ branch: __S(9, __c1, 1) }).pipe(ns)).annotate({
+        identifier: "CreateBranchResult",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          branchName: S.String.pipe(T.HttpLabel("branchName")),
+          fileMap: S.optional(__S(368, __c46, 0)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/apps/{appId}/branches/{branchName}/deployments" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateDeploymentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          jobId: S.optional(S.String),
+          fileUploadUrls: S.optional(__S(368, __c46, 0)),
+          zipUploadUrl: S.String,
+        }).pipe(ns),
+      ).annotate({ identifier: "CreateDeploymentResult" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          domainName: S.String,
+          enableAutoSubDomain: S.optional(S.Boolean),
+          subDomainSettings: __S(56, __c7, 0),
+          autoSubDomainCreationPatterns: S.optional(__S(376, __c47, 0)),
+          autoSubDomainIAMRole: S.optional(S.String),
+          certificateSettings: S.optional(__S(57, __c7, 1)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/apps/{appId}/domains" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateDomainAssociationRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ prefix: S.String, branchName: S.String })).annotate({
+        identifier: "SubDomainSetting",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ subDomainSetting: __S(40, __c5, 0), verified: S.Boolean, dnsRecord: S.String }),
+      ).annotate({ identifier: "SubDomain" });
+    case 2:
+      return S.Array(__S(41, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          customCertificateArn: S.optional(S.String),
+          certificateVerificationDNSRecord: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Certificate" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          domainAssociationArn: S.String,
+          domainName: S.String,
+          enableAutoSubDomain: S.Boolean,
+          autoSubDomainCreationPatterns: S.optional(__S(376, __c47, 0)),
+          autoSubDomainIAMRole: S.optional(S.String),
+          domainStatus: S.String,
+          updateStatus: S.optional(S.String),
+          statusReason: S.String,
+          certificateVerificationDNSRecord: S.optional(S.String),
+          subDomains: __S(42, __c5, 2),
+          certificate: S.optional(__S(43, __c5, 3)),
+        }),
+      ).annotate({ identifier: "DomainAssociation" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ domainAssociation: __S(44, __c5, 4) }).pipe(ns)).annotate({
+        identifier: "CreateDomainAssociationResult",
+      });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(40, __c5, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ type: S.String, customCertificateArn: S.optional(S.String) }),
+      ).annotate({ identifier: "CertificateSettings" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          branchName: S.String,
+          description: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/apps/{appId}/webhooks" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateWebhookRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          webhookArn: S.String,
+          webhookId: S.String,
+          webhookUrl: S.String,
+          appId: S.optional(S.String),
+          branchName: S.String,
+          description: S.String,
+          createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "Webhook" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ webhook: __S(72, __c9, 0) }).pipe(ns)).annotate({
+        identifier: "CreateWebhookResult",
+      });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ appId: S.String.pipe(T.HttpLabel("appId")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "DELETE", uri: "/apps/{appId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteAppRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          environmentName: S.String.pipe(T.HttpLabel("environmentName")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "DELETE",
+              uri: "/apps/{appId}/backendenvironments/{environmentName}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteBackendEnvironmentRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          branchName: S.String.pipe(T.HttpLabel("branchName")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "DELETE", uri: "/apps/{appId}/branches/{branchName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteBranchRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          domainName: S.String.pipe(T.HttpLabel("domainName")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "DELETE", uri: "/apps/{appId}/domains/{domainName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteDomainAssociationRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          branchName: S.String.pipe(T.HttpLabel("branchName")),
+          jobId: S.String.pipe(T.HttpLabel("jobId")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "DELETE", uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteJobRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          jobArn: S.String,
+          jobId: S.String,
+          commitId: S.optional(S.String),
+          commitMessage: S.optional(S.String),
+          commitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          status: S.String,
+          endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          jobType: S.optional(S.String),
+          sourceUrl: S.optional(S.String),
+          sourceUrlType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JobSummary" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ jobSummary: __S(128, __c16, 0) }).pipe(ns)).annotate({
+        identifier: "DeleteJobResult",
+      });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ webhookId: S.String.pipe(T.HttpLabel("webhookId")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "DELETE", uri: "/webhooks/{webhookId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteWebhookRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          domainName: S.String,
+          appId: S.String.pipe(T.HttpLabel("appId")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/apps/{appId}/accesslogs" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GenerateAccessLogsRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ logUrl: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "GenerateAccessLogsResult",
+      });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ appId: S.String.pipe(T.HttpLabel("appId")) }).pipe(
+          T.all(ns, T.Http({ method: "GET", uri: "/apps/{appId}" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetAppRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ artifactId: S.String.pipe(T.HttpLabel("artifactId")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/artifacts/{artifactId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetArtifactUrlRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ artifactId: S.String, artifactUrl: S.String }).pipe(ns),
+      ).annotate({ identifier: "GetArtifactUrlResult" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          environmentName: S.String.pipe(T.HttpLabel("environmentName")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/apps/{appId}/backendenvironments/{environmentName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetBackendEnvironmentRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          branchName: S.String.pipe(T.HttpLabel("branchName")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/apps/{appId}/branches/{branchName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetBranchRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          domainName: S.String.pipe(T.HttpLabel("domainName")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/apps/{appId}/domains/{domainName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetDomainAssociationRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          branchName: S.String.pipe(T.HttpLabel("branchName")),
+          jobId: S.String.pipe(T.HttpLabel("jobId")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          stepName: S.String,
+          startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          status: S.String,
+          endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          logUrl: S.optional(S.String),
+          artifactsUrl: S.optional(S.String),
+          testArtifactsUrl: S.optional(S.String),
+          testConfigUrl: S.optional(S.String),
+          screenshots: S.optional(__S(368, __c46, 0)),
+          statusReason: S.optional(S.String),
+          context: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Step" });
+    case 2:
+      return S.Array(__S(201, __c25, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ summary: __S(128, __c16, 0), steps: __S(202, __c25, 2) }),
+      ).annotate({ identifier: "Job" });
+    case 4:
+      return S.suspend(() => S.Struct({ job: __S(203, __c25, 3) }).pipe(ns)).annotate({
+        identifier: "GetJobResult",
+      });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ webhookId: S.String.pipe(T.HttpLabel("webhookId")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/webhooks/{webhookId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetWebhookRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(T.all(ns, T.Http({ method: "GET", uri: "/apps" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAppsRequest" });
+    case 1:
+      return S.Array(__S(391, __c48, 7));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ apps: __S(217, __c27, 1), nextToken: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "ListAppsResult" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          branchName: S.String.pipe(T.HttpLabel("branchName")),
+          jobId: S.String.pipe(T.HttpLabel("jobId")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "GET",
+              uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/artifacts",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListArtifactsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ artifactFileName: S.String, artifactId: S.String }),
+      ).annotate({ identifier: "Artifact" });
+    case 2:
+      return S.Array(__S(225, __c28, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ artifacts: __S(226, __c28, 2), nextToken: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "ListArtifactsResult" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          environmentName: S.optional(S.String).pipe(T.HttpQuery("environmentName")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/apps/{appId}/backendenvironments" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListBackendEnvironmentsRequest" });
+    case 1:
+      return S.Array(__S(416, __c52, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ backendEnvironments: __S(233, __c29, 1), nextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListBackendEnvironmentsResult" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/apps/{appId}/branches" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListBranchesRequest" });
+    case 1:
+      return S.Array(__S(9, __c1, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ branches: __S(241, __c30, 1), nextToken: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "ListBranchesResult" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/apps/{appId}/domains" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListDomainAssociationsRequest" });
+    case 1:
+      return S.Array(__S(44, __c5, 4));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ domainAssociations: __S(249, __c31, 1), nextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListDomainAssociationsResult" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          branchName: S.String.pipe(T.HttpLabel("branchName")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/apps/{appId}/branches/{branchName}/jobs" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListJobsRequest" });
+    case 1:
+      return S.Array(__S(128, __c16, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ jobSummaries: __S(257, __c32, 1), nextToken: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "ListJobsResult" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(368, __c46, 0)) }).pipe(ns)).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/apps/{appId}/webhooks" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListWebhooksRequest" });
+    case 1:
+      return S.Array(__S(72, __c9, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ webhooks: __S(273, __c34, 1), nextToken: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "ListWebhooksResult" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          branchName: S.String.pipe(T.HttpLabel("branchName")),
+          jobId: S.optional(S.String),
+          sourceUrl: S.optional(S.String),
+          sourceUrlType: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/apps/{appId}/branches/{branchName}/deployments/start",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartDeploymentRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          branchName: S.String.pipe(T.HttpLabel("branchName")),
+          jobId: S.optional(S.String),
+          jobType: S.String,
+          jobReason: S.optional(S.String),
+          commitId: S.optional(S.String),
+          commitMessage: S.optional(S.String),
+          commitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/apps/{appId}/branches/{branchName}/jobs" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartJobRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          branchName: S.String.pipe(T.HttpLabel("branchName")),
+          jobId: S.String.pipe(T.HttpLabel("jobId")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "DELETE",
+              uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/stop",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StopJobRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tags: __S(368, __c46, 0),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({ identifier: "TagResourceResponse" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tagKeys: __S(376, __c47, 0).pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          platform: S.optional(S.String),
+          computeRoleArn: S.optional(S.String),
+          iamServiceRoleArn: S.optional(S.String),
+          environmentVariables: S.optional(__S(368, __c46, 0)),
+          enableBranchAutoBuild: S.optional(S.Boolean),
+          enableBranchAutoDeletion: S.optional(S.Boolean),
+          enableBasicAuth: S.optional(S.Boolean),
+          basicAuthCredentials: S.optional(SensitiveString),
+          customRules: S.optional(__S(385, __c48, 1)),
+          buildSpec: S.optional(SensitiveString),
+          customHeaders: S.optional(S.String),
+          enableAutoBranchCreation: S.optional(S.Boolean),
+          autoBranchCreationPatterns: S.optional(__S(376, __c47, 0)),
+          autoBranchCreationConfig: S.optional(__S(386, __c48, 2)),
+          repository: S.optional(S.String),
+          oauthToken: S.optional(SensitiveString),
+          accessToken: S.optional(SensitiveString),
+          jobConfig: S.optional(__S(387, __c48, 3)),
+          cacheConfig: S.optional(__S(388, __c48, 4)),
+        }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/apps/{appId}" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateAppRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          branchName: S.String.pipe(T.HttpLabel("branchName")),
+          description: S.optional(S.String),
+          framework: S.optional(S.String),
+          stage: S.optional(S.String),
+          enableNotification: S.optional(S.Boolean),
+          enableAutoBuild: S.optional(S.Boolean),
+          enableSkewProtection: S.optional(S.Boolean),
+          environmentVariables: S.optional(__S(368, __c46, 0)),
+          basicAuthCredentials: S.optional(SensitiveString),
+          enableBasicAuth: S.optional(S.Boolean),
+          enablePerformanceMode: S.optional(S.Boolean),
+          buildSpec: S.optional(SensitiveString),
+          ttl: S.optional(S.String),
+          displayName: S.optional(S.String),
+          enablePullRequestPreview: S.optional(S.Boolean),
+          pullRequestEnvironmentName: S.optional(S.String),
+          backendEnvironmentArn: S.optional(S.String),
+          backend: S.optional(__S(8, __c1, 0)),
+          computeRoleArn: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/apps/{appId}/branches/{branchName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateBranchRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          domainName: S.String.pipe(T.HttpLabel("domainName")),
+          enableAutoSubDomain: S.optional(S.Boolean),
+          subDomainSettings: S.optional(__S(56, __c7, 0)),
+          autoSubDomainCreationPatterns: S.optional(__S(376, __c47, 0)),
+          autoSubDomainIAMRole: S.optional(S.String),
+          certificateSettings: S.optional(__S(57, __c7, 1)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/apps/{appId}/domains/{domainName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateDomainAssociationRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          webhookId: S.String.pipe(T.HttpLabel("webhookId")),
+          branchName: S.optional(S.String),
+          description: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/webhooks/{webhookId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateWebhookRequest" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(S.String),
+          repository: S.optional(S.String),
+          platform: S.optional(S.String),
+          computeRoleArn: S.optional(S.String),
+          iamServiceRoleArn: S.optional(S.String),
+          oauthToken: S.optional(SensitiveString),
+          accessToken: S.optional(SensitiveString),
+          environmentVariables: S.optional(__S(368, __c46, 0)),
+          enableBranchAutoBuild: S.optional(S.Boolean),
+          enableBranchAutoDeletion: S.optional(S.Boolean),
+          enableBasicAuth: S.optional(S.Boolean),
+          basicAuthCredentials: S.optional(SensitiveString),
+          customRules: S.optional(__S(385, __c48, 1)),
+          tags: S.optional(__S(368, __c46, 0)),
+          buildSpec: S.optional(SensitiveString),
+          customHeaders: S.optional(S.String),
+          enableAutoBranchCreation: S.optional(S.Boolean),
+          autoBranchCreationPatterns: S.optional(__S(376, __c47, 0)),
+          autoBranchCreationConfig: S.optional(__S(386, __c48, 2)),
+          jobConfig: S.optional(__S(387, __c48, 3)),
+          cacheConfig: S.optional(__S(388, __c48, 4)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/apps" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateAppRequest" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          source: S.String,
+          target: S.String,
+          status: S.optional(S.String),
+          condition: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomRule" });
+    case 1:
+      return S.Array(__S(384, __c48, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          stage: S.optional(S.String),
+          framework: S.optional(S.String),
+          enableAutoBuild: S.optional(S.Boolean),
+          environmentVariables: S.optional(__S(368, __c46, 0)),
+          basicAuthCredentials: S.optional(SensitiveString),
+          enableBasicAuth: S.optional(S.Boolean),
+          enablePerformanceMode: S.optional(S.Boolean),
+          buildSpec: S.optional(SensitiveString),
+          enablePullRequestPreview: S.optional(S.Boolean),
+          pullRequestEnvironmentName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutoBranchCreationConfig" });
+    case 3:
+      return S.suspend(() => S.Struct({ buildComputeType: S.String })).annotate({
+        identifier: "JobConfig",
+      });
+    case 4:
+      return S.suspend(() => S.Struct({ type: S.String })).annotate({ identifier: "CacheConfig" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          lastDeployTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          status: S.optional(S.String),
+          thumbnailUrl: S.optional(S.String),
+          branchName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProductionBranch" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          webAclArn: S.optional(S.String),
+          wafStatus: S.optional(S.String),
+          statusReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WafConfiguration" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String,
+          appArn: S.String,
+          name: S.String,
+          tags: S.optional(__S(368, __c46, 0)),
+          description: S.optional(S.String),
+          repository: S.optional(S.String),
+          platform: S.optional(S.String),
+          createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          computeRoleArn: S.optional(S.String),
+          iamServiceRoleArn: S.optional(S.String),
+          environmentVariables: S.optional(__S(368, __c46, 0)),
+          defaultDomain: S.optional(S.String),
+          enableBranchAutoBuild: S.optional(S.Boolean),
+          enableBranchAutoDeletion: S.optional(S.Boolean),
+          enableBasicAuth: S.optional(S.Boolean),
+          basicAuthCredentials: S.optional(SensitiveString),
+          customRules: S.optional(__S(385, __c48, 1)),
+          productionBranch: S.optional(__S(389, __c48, 5)),
+          buildSpec: S.optional(SensitiveString),
+          customHeaders: S.optional(S.String),
+          enableAutoBranchCreation: S.optional(S.Boolean),
+          autoBranchCreationPatterns: S.optional(__S(376, __c47, 0)),
+          autoBranchCreationConfig: S.optional(__S(386, __c48, 2)),
+          repositoryCloneMethod: S.optional(S.String),
+          cacheConfig: S.optional(__S(388, __c48, 4)),
+          webhookCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          wafConfiguration: S.optional(__S(390, __c48, 6)),
+          jobConfig: S.optional(__S(387, __c48, 3)),
+        }),
+      ).annotate({ identifier: "App" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ app: __S(391, __c48, 7) }).pipe(ns)).annotate({
+        identifier: "CreateAppResult",
+      });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.HttpLabel("appId")),
+          environmentName: S.String,
+          stackName: S.optional(S.String),
+          deploymentArtifacts: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/apps/{appId}/backendenvironments" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateBackendEnvironmentRequest" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ backendEnvironment: __S(416, __c52, 0) }).pipe(ns),
+      ).annotate({ identifier: "CreateBackendEnvironmentResult" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          backendEnvironmentArn: S.String,
+          environmentName: S.String,
+          stackName: S.optional(S.String),
+          deploymentArtifacts: S.optional(S.String),
+          createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "BackendEnvironment" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

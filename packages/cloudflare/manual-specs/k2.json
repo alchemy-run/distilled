@@ -1,0 +1,1817 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "note": "Hand-authored: K2 is not in the Cloudflare API reference yet. The control plane (/accounts/{account_id}/k2/streams…) is transcribed from cloudflare/api-schemas openapi.json (cloudflare-k2_* schemas); the data plane (https://{stream_id}.k2.cloudflarestorage.com, operations with com.cloudflare.protocols#host) from developers.cloudflare.com/k2/features/{produce,consume}. Both were verified against the live API on 2026-10-05. Delete this file when the docs gain a k2 resource."
+  },
+  "shapes": {
+    "com.cloudflare.k2#AckBatch": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.k2#AckBatchRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.k2#AckBatchResponse"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.k2#K2StreamNotFound"
+        },
+        {
+          "target": "com.cloudflare.k2#K2SubscriptionNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/subscriptions/{subscription_id}/batches/{batch_id}/ack",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mark a batch processed and release its lease. Acknowledging an unknown or already acknowledged batch succeeds.",
+        "com.cloudflare.protocols#host": "https://{stream_id}.k2.cloudflarestorage.com"
+      }
+    },
+    "com.cloudflare.k2#AckBatchRequest": {
+      "type": "structure",
+      "members": {
+        "stream_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "subscription_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "batch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "worker_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The consumer holding (or requesting) the lease, 1 to 256 characters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.k2#AckBatchResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.k2#Consume": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.k2#ConsumeRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.k2#ConsumeResponse"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.k2#K2StreamNotFound"
+        },
+        {
+          "target": "com.cloudflare.k2#K2SubscriptionNotFound"
+        },
+        {
+          "target": "com.cloudflare.k2#K2InvalidRequest"
+        },
+        {
+          "target": "com.cloudflare.k2#K2Unavailable"
+        },
+        {
+          "target": "com.cloudflare.k2#K2ReadFailed"
+        },
+        {
+          "target": "com.cloudflare.k2#K2LeasesExhausted"
+        },
+        {
+          "target": "com.cloudflare.k2#K2BatchPending"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/subscriptions/{subscription_id}/consume",
+          "code": 200
+        },
+        "smithy.api#documentation": "Lease the next batch of records to `worker_id` for five minutes. An empty batch has a null `batch_id`. A worker that already holds a lease gets the same batch back, with the lease refreshed.",
+        "com.cloudflare.protocols#host": "https://{stream_id}.k2.cloudflarestorage.com"
+      }
+    },
+    "com.cloudflare.k2#ConsumedRecord": {
+      "type": "structure",
+      "members": {
+        "timestamp_ms": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "When K2 received the record, in Unix milliseconds."
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The record payload as standard base64.",
+            "smithy.api#required": {}
+          }
+        },
+        "headers": {
+          "target": "com.cloudflare.k2#RecordHeaders",
+          "traits": {
+            "smithy.api#documentation": "The record headers; omitted when it was produced without any."
+          }
+        }
+      }
+    },
+    "com.cloudflare.k2#ConsumedRecordList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.k2#ConsumedRecord"
+      }
+    },
+    "com.cloudflare.k2#ConsumeRequest": {
+      "type": "structure",
+      "members": {
+        "stream_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "subscription_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "worker_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The consumer holding (or requesting) the lease, 1 to 256 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "max_records": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "At most this many records, from 1 to 10000."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.k2#ConsumeResponse": {
+      "type": "structure",
+      "members": {
+        "batch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.cloudflare.protocols#nullable": {},
+            "smithy.api#documentation": "The leased batch, or null when there were no records."
+          }
+        },
+        "leased_until_ms": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "com.cloudflare.protocols#nullable": {},
+            "smithy.api#documentation": "When the lease expires, in Unix milliseconds."
+          }
+        },
+        "records": {
+          "target": "com.cloudflare.k2#ConsumedRecordList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.k2#ConsumerLag": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.cloudflare.k2#ConsumerLagStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "records": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.cloudflare.protocols#nullable": {},
+            "smithy.api#documentation": "Decimal string: records between the subscription's committed position and the stream tail. Null unless `status` is `available`."
+          }
+        }
+      }
+    },
+    "com.cloudflare.k2#ConsumerLagStatus": {
+      "type": "enum",
+      "members": {
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        },
+        "UNSUPPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unsupported"
+          }
+        },
+        "UNAVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unavailable"
+          }
+        }
+      }
+    },
+    "com.cloudflare.k2#CorsOriginList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.k2#CreateStream": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.k2#CreateStreamRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.k2#CreateStreamResponse"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.k2#K2NameAlreadyExists"
+        },
+        {
+          "target": "com.cloudflare.k2#K2InvalidRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/k2/streams",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a K2 stream. At least one of `http` and `worker_binding` must be enabled."
+      }
+    },
+    "com.cloudflare.k2#CreateStreamRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "1 to 128 letters, numbers, or underscores. Unique in the account, not case-sensitive.",
+            "smithy.api#required": {}
+          }
+        },
+        "retention_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "From 3600 (one hour) to 2592000 (30 days). Defaults to 604800 (seven days)."
+          }
+        },
+        "http": {
+          "target": "com.cloudflare.k2#StreamHttpInput",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "worker_binding": {
+          "target": "com.cloudflare.k2#StreamWorkerBindingInput",
+          "traits": {
+            "smithy.api#documentation": "Defaults to enabled."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.k2#CreateStreamResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stream ID: 32 lowercase hexadecimal characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "1 to 128 letters, numbers, or underscores. Unique in the account, not case-sensitive.",
+            "smithy.api#required": {}
+          }
+        },
+        "retention_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "How long records are retained, from 3600 to 2592000 seconds."
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stream's HTTP endpoint, `https://<id>.k2.cloudflarestorage.com`.",
+            "smithy.api#required": {}
+          }
+        },
+        "http": {
+          "target": "com.cloudflare.k2#StreamHttpInput",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "worker_binding": {
+          "target": "com.cloudflare.k2#StreamWorkerBindingInput",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.k2#CreateSubscription": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.k2#CreateSubscriptionRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.k2#CreateSubscriptionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.k2#K2StreamNotFound"
+        },
+        {
+          "target": "com.cloudflare.k2#K2NameAlreadyExists"
+        },
+        {
+          "target": "com.cloudflare.k2#K2InvalidRequest"
+        },
+        {
+          "target": "com.cloudflare.k2#K2SubscriptionLimitExceeded"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/subscriptions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a subscription. Creating one with the same name and settings returns the existing ID.",
+        "com.cloudflare.protocols#host": "https://{stream_id}.k2.cloudflarestorage.com"
+      }
+    },
+    "com.cloudflare.k2#CreateSubscriptionRequest": {
+      "type": "structure",
+      "members": {
+        "stream_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "1 to 128 letters, numbers, underscores, or hyphens. Unique within the stream, not case-sensitive.",
+            "smithy.api#required": {}
+          }
+        },
+        "start_at": {
+          "target": "com.cloudflare.k2#SubscriptionStartAt",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.k2#CreateSubscriptionResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The subscription ID.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.k2#DeleteStream": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.k2#DeleteStreamRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.k2#DeleteStreamResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/k2/streams/{stream_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a stream and all of its records. Deleting a stream that does not exist succeeds."
+      }
+    },
+    "com.cloudflare.k2#DeleteStreamRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "stream_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.k2#DeleteStreamResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.k2#DeleteSubscription": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.k2#DeleteSubscriptionRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.k2#DeleteSubscriptionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.k2#K2StreamNotFound"
+        },
+        {
+          "target": "com.cloudflare.k2#K2SubscriptionNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/subscriptions/{subscription_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a subscription. Deleting one that does not exist fails with K2SubscriptionNotFound.",
+        "com.cloudflare.protocols#host": "https://{stream_id}.k2.cloudflarestorage.com"
+      }
+    },
+    "com.cloudflare.k2#DeleteSubscriptionRequest": {
+      "type": "structure",
+      "members": {
+        "stream_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "subscription_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.k2#DeleteSubscriptionResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deleted subscription's ID.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.k2#ExtendLease": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.k2#ExtendLeaseRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.k2#ExtendLeaseResponse"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.k2#K2StreamNotFound"
+        },
+        {
+          "target": "com.cloudflare.k2#K2SubscriptionNotFound"
+        },
+        {
+          "target": "com.cloudflare.k2#K2LeaseLost"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/subscriptions/{subscription_id}/batches/{batch_id}/extend",
+          "code": 200
+        },
+        "smithy.api#documentation": "Extend a held lease to five minutes from now. Fails with K2LeaseLost when `worker_id` no longer holds it.",
+        "com.cloudflare.protocols#host": "https://{stream_id}.k2.cloudflarestorage.com"
+      }
+    },
+    "com.cloudflare.k2#ExtendLeaseRequest": {
+      "type": "structure",
+      "members": {
+        "stream_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "subscription_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "batch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "worker_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The consumer holding (or requesting) the lease, 1 to 256 characters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.k2#ExtendLeaseResponse": {
+      "type": "structure",
+      "members": {
+        "leased_until_ms": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The new lease expiry, in Unix milliseconds."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.k2#GetStream": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.k2#GetStreamRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.k2#GetStreamResponse"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.k2#K2StreamNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/k2/streams/{stream_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a K2 stream.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.k2#GetStreamRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "stream_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.k2#GetStreamResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stream ID: 32 lowercase hexadecimal characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "1 to 128 letters, numbers, or underscores. Unique in the account, not case-sensitive.",
+            "smithy.api#required": {}
+          }
+        },
+        "retention_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "How long records are retained, from 3600 to 2592000 seconds."
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stream's HTTP endpoint, `https://<id>.k2.cloudflarestorage.com`.",
+            "smithy.api#required": {}
+          }
+        },
+        "http": {
+          "target": "com.cloudflare.k2#StreamHttpInput",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "worker_binding": {
+          "target": "com.cloudflare.k2#StreamWorkerBindingInput",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.k2#GetSubscription": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.k2#GetSubscriptionRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.k2#GetSubscriptionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.k2#K2StreamNotFound"
+        },
+        {
+          "target": "com.cloudflare.k2#K2SubscriptionNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscription_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a subscription.",
+        "smithy.api#readonly": {},
+        "com.cloudflare.protocols#host": "https://{stream_id}.k2.cloudflarestorage.com"
+      }
+    },
+    "com.cloudflare.k2#GetSubscriptionRequest": {
+      "type": "structure",
+      "members": {
+        "stream_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "subscription_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.k2#GetSubscriptionResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The subscription ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "1 to 128 letters, numbers, underscores, or hyphens. Unique within the stream, not case-sensitive.",
+            "smithy.api#required": {}
+          }
+        },
+        "start_at": {
+          "target": "com.cloudflare.k2#SubscriptionStartAt",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.k2#K2AppendOutcomeUnknown": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "server",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10212
+          }
+        ],
+        "smithy.api#documentation": "10212 (HTTP 503): K2 could not append the batch and it MAY have been stored. K2 does not deduplicate, so retrying can store it twice; never retried automatically."
+      }
+    },
+    "com.cloudflare.k2#K2BatchPending": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "smithy.api#retryable": {},
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10217
+          }
+        ],
+        "smithy.api#documentation": "10217: K2 is still reading a batch for this worker_id from an earlier request. Retry to receive it."
+      }
+    },
+    "com.cloudflare.k2#K2InvalidRequest": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10204
+          }
+        ],
+        "smithy.api#documentation": "10204: the request is invalid (malformed JSON or base64, a field out of range, both inputs disabled, an empty batch)."
+      }
+    },
+    "com.cloudflare.k2#K2LeaseLost": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10218
+          }
+        ],
+        "smithy.api#documentation": "10218: the lease is no longer held by this worker (expired, released, acknowledged, or redelivered). Do not retry; consume a new batch."
+      }
+    },
+    "com.cloudflare.k2#K2LeasesExhausted": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 429,
+        "smithy.api#retryable": {
+          "throttling": true
+        },
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10216
+          }
+        ],
+        "smithy.api#documentation": "10216: every one of the subscription's 128 leases is held. Retry after a lease is acknowledged, released, or expires."
+      }
+    },
+    "com.cloudflare.k2#K2NameAlreadyExists": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10201
+          }
+        ],
+        "smithy.api#documentation": "10201: a stream with this name exists, or a subscription with this name exists with different settings."
+      }
+    },
+    "com.cloudflare.k2#K2ReadFailed": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "server",
+        "smithy.api#httpError": 503,
+        "smithy.api#retryable": {},
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10214
+          }
+        ],
+        "smithy.api#documentation": "10214: K2 could not read records from storage. Retry the request."
+      }
+    },
+    "com.cloudflare.k2#K2RecordTooLarge": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 413,
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10207
+          }
+        ],
+        "smithy.api#documentation": "10207: a record exceeds 1 MB (content and headers combined)."
+      }
+    },
+    "com.cloudflare.k2#K2RequestTooLarge": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 413,
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10206
+          }
+        ],
+        "smithy.api#documentation": "10206: the produce request exceeds 5 MB, before or after decompression."
+      }
+    },
+    "com.cloudflare.k2#K2StreamNotFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10200
+          }
+        ],
+        "smithy.api#documentation": "10200: the stream does not exist (or, on produce, the input is not enabled)."
+      }
+    },
+    "com.cloudflare.k2#K2SubscriptionLimitExceeded": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10219
+          }
+        ],
+        "smithy.api#documentation": "10219: the stream already has the maximum of 100 subscriptions."
+      }
+    },
+    "com.cloudflare.k2#K2SubscriptionNotFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10215
+          }
+        ],
+        "smithy.api#documentation": "10215: the subscription does not exist."
+      }
+    },
+    "com.cloudflare.k2#K2Unavailable": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "server",
+        "smithy.api#httpError": 503,
+        "smithy.api#retryable": {},
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10211
+          }
+        ],
+        "smithy.api#documentation": "10211: K2 is temporarily unavailable. On produce the batch was NOT stored; retry it."
+      }
+    },
+    "com.cloudflare.k2#ListMonitoredSubscriptions": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.k2#ListMonitoredSubscriptionsRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.k2#ListMonitoredSubscriptionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.k2#K2StreamNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/k2/streams/{stream_id}/subscriptions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List a stream's subscriptions with their consumer lag (control plane; needs K2 Config Read).",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.k2#ListMonitoredSubscriptionsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "stream_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.k2#ListMonitoredSubscriptionsResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.k2#MonitoredSubscriptionList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.k2#ListStreams": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.k2#ListStreamsRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.k2#ListStreamsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/k2/streams",
+          "code": 200
+        },
+        "smithy.api#documentation": "List the account's K2 streams.",
+        "smithy.api#readonly": {},
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "resultInfo.page",
+          "items": "result",
+          "pageSize": "perPage"
+        }
+      }
+    },
+    "com.cloudflare.k2#ListStreamsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "per_page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.k2#ListStreamsResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.k2#StreamList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.k2#ListSubscriptions": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.k2#ListSubscriptionsRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.k2#ListSubscriptionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.k2#K2StreamNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List a stream's subscriptions, oldest first. With `name`, at most one.",
+        "smithy.api#readonly": {},
+        "com.cloudflare.protocols#host": "https://{stream_id}.k2.cloudflarestorage.com"
+      }
+    },
+    "com.cloudflare.k2#ListSubscriptionsRequest": {
+      "type": "structure",
+      "members": {
+        "stream_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.k2#ListSubscriptionsResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.k2#SubscriptionList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.k2#MonitoredSubscription": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The subscription ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "1 to 128 letters, numbers, underscores, or hyphens. Unique within the stream, not case-sensitive.",
+            "smithy.api#required": {}
+          }
+        },
+        "start_at": {
+          "target": "com.cloudflare.k2#SubscriptionStartAt",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "lag": {
+          "target": "com.cloudflare.k2#ConsumerLag",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.k2#MonitoredSubscriptionList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.k2#MonitoredSubscription"
+      }
+    },
+    "com.cloudflare.k2#NackBatch": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.k2#NackBatchRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.k2#NackBatchResponse"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.k2#K2StreamNotFound"
+        },
+        {
+          "target": "com.cloudflare.k2#K2SubscriptionNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/subscriptions/{subscription_id}/batches/{batch_id}/nack",
+          "code": 200
+        },
+        "smithy.api#documentation": "Release a batch for redelivery in the next consume, under a new batch ID.",
+        "com.cloudflare.protocols#host": "https://{stream_id}.k2.cloudflarestorage.com"
+      }
+    },
+    "com.cloudflare.k2#NackBatchRequest": {
+      "type": "structure",
+      "members": {
+        "stream_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "subscription_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "batch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "worker_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The consumer holding (or requesting) the lease, 1 to 256 characters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.k2#NackBatchResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.k2#Produce": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.k2#ProduceRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.k2#ProduceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.k2#K2StreamNotFound"
+        },
+        {
+          "target": "com.cloudflare.k2#K2InvalidRequest"
+        },
+        {
+          "target": "com.cloudflare.k2#K2RequestTooLarge"
+        },
+        {
+          "target": "com.cloudflare.k2#K2RecordTooLarge"
+        },
+        {
+          "target": "com.cloudflare.k2#K2Unavailable"
+        },
+        {
+          "target": "com.cloudflare.k2#K2AppendOutcomeUnknown"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/produce",
+          "code": 200
+        },
+        "smithy.api#documentation": "Append a batch of records atomically. Needs the stream's HTTP input enabled.",
+        "com.cloudflare.protocols#host": "https://{stream_id}.k2.cloudflarestorage.com"
+      }
+    },
+    "com.cloudflare.k2#ProduceRecord": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The record payload as standard (padded, not URL-safe) base64.",
+            "smithy.api#required": {}
+          }
+        },
+        "headers": {
+          "target": "com.cloudflare.k2#RecordHeaders",
+          "traits": {
+            "smithy.api#documentation": "Up to 32 string headers describing the content."
+          }
+        }
+      }
+    },
+    "com.cloudflare.k2#ProduceRecordList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.k2#ProduceRecord"
+      }
+    },
+    "com.cloudflare.k2#ProduceRequest": {
+      "type": "structure",
+      "members": {
+        "stream_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "records": {
+          "target": "com.cloudflare.k2#ProduceRecordList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.k2#ProduceResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.k2#RecordHeaders": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.k2#StartAtType": {
+      "type": "enum",
+      "members": {
+        "EARLIEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "earliest"
+          }
+        },
+        "LATEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "latest"
+          }
+        }
+      }
+    },
+    "com.cloudflare.k2#Stream": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stream ID: 32 lowercase hexadecimal characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "1 to 128 letters, numbers, or underscores. Unique in the account, not case-sensitive.",
+            "smithy.api#required": {}
+          }
+        },
+        "retention_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "How long records are retained, from 3600 to 2592000 seconds."
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stream's HTTP endpoint, `https://<id>.k2.cloudflarestorage.com`.",
+            "smithy.api#required": {}
+          }
+        },
+        "http": {
+          "target": "com.cloudflare.k2#StreamHttpInput",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "worker_binding": {
+          "target": "com.cloudflare.k2#StreamWorkerBindingInput",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.k2#StreamCors": {
+      "type": "structure",
+      "members": {
+        "origins": {
+          "target": "com.cloudflare.k2#CorsOriginList",
+          "traits": {
+            "smithy.api#documentation": "Origins allowed to produce from a browser: `http(s)://host[:port]` without a path, or `*` alone. Up to five."
+          }
+        }
+      }
+    },
+    "com.cloudflare.k2#StreamHttpInput": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Whether the `/produce` endpoint accepts records."
+          }
+        },
+        "authentication": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Require an API token with the K2 Produce permission. When false or omitted the endpoint is public."
+          }
+        },
+        "cors": {
+          "target": "com.cloudflare.k2#StreamCors"
+        }
+      }
+    },
+    "com.cloudflare.k2#StreamList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.k2#Stream"
+      }
+    },
+    "com.cloudflare.k2#StreamWorkerBindingInput": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Whether Workers can produce to the stream through a `k2` binding."
+          }
+        }
+      }
+    },
+    "com.cloudflare.k2#Subscription": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The subscription ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "1 to 128 letters, numbers, underscores, or hyphens. Unique within the stream, not case-sensitive.",
+            "smithy.api#required": {}
+          }
+        },
+        "start_at": {
+          "target": "com.cloudflare.k2#SubscriptionStartAt",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.k2#SubscriptionList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.k2#Subscription"
+      }
+    },
+    "com.cloudflare.k2#SubscriptionStartAt": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.k2#StartAtType",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "`earliest` reads from the oldest retained record; `latest` from after the newest one."
+          }
+        }
+      }
+    },
+    "com.cloudflare.k2#UpdateStream": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.k2#UpdateStreamRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.k2#UpdateStreamResponse"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.k2#K2StreamNotFound"
+        },
+        {
+          "target": "com.cloudflare.k2#K2InvalidRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/accounts/{account_id}/k2/streams/{stream_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update a stream's retention or inputs. A provided input object replaces the existing one; the name cannot change."
+      }
+    },
+    "com.cloudflare.k2#UpdateStreamRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "stream_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "retention_seconds": {
+          "target": "smithy.api#Integer"
+        },
+        "http": {
+          "target": "com.cloudflare.k2#StreamHttpInput"
+        },
+        "worker_binding": {
+          "target": "com.cloudflare.k2#StreamWorkerBindingInput"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.k2#UpdateStreamResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stream ID: 32 lowercase hexadecimal characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "1 to 128 letters, numbers, or underscores. Unique in the account, not case-sensitive.",
+            "smithy.api#required": {}
+          }
+        },
+        "retention_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "How long records are retained, from 3600 to 2592000 seconds."
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stream's HTTP endpoint, `https://<id>.k2.cloudflarestorage.com`.",
+            "smithy.api#required": {}
+          }
+        },
+        "http": {
+          "target": "com.cloudflare.k2#StreamHttpInput",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "worker_binding": {
+          "target": "com.cloudflare.k2#StreamWorkerBindingInput",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    }
+  }
+}

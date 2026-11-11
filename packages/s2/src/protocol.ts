@@ -1,5 +1,10 @@
+import type * as API from "@distilled.cloud/core/api";
+import { ConfigError, type InvalidInput } from "@distilled.cloud/core/errors";
+import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * S2Protocol — the shared bearer-REST protocol instantiated for S2 (s2.dev).
+ * S2Protocol -- the shared bearer-REST protocol instantiated for S2 (s2.dev).
  *
  * S2 speaks plain JSON with no success envelope. FAILURES are enveloped,
  * and uniformly so: `{ "code": "...", "message": "..." }`, where `code` is
@@ -10,20 +15,16 @@
  * S2 serves TWO endpoints, and the route picks between them: account-level
  * operations (`/basins`, `/access-tokens`, `/locations`, `/metrics`) go to
  * `accountBaseUrl` (`https://a.s2.dev/v1`), while stream and record
- * operations (`/streams`, `/streams/{stream}`, `/streams/{stream}/records…`)
- * go to the basin's own host — `https://{basin}.b.s2.dev/v1` in the spec's
- * per-path `servers` — with the configured `basin` substituted. A
+ * operations (`/streams`, `/streams/{stream}`, `/streams/{stream}/records...`)
+ * go to the basin's own host -- `https://{basin}.b.s2.dev/v1` in the spec's
+ * per-path `servers` -- with the configured `basin` substituted. A
  * basin-scoped call without a configured basin fails with `ConfigError`.
  */
 import * as Effect from "effect/Effect";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import { ConfigError } from "@distilled.cloud/core/errors";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 import { Credentials, type Config } from "./credentials.ts";
 import {
   PreconditionFailed,
@@ -31,6 +32,7 @@ import {
   RequestTimeout,
   UnknownS2Error,
   type DefaultErrors,
+  S2ParseError,
 } from "./errors.ts";
 
 /**
@@ -42,7 +44,9 @@ import {
 export type S2OpError =
   | DefaultErrors
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated S2 operation. */
 export type S2OpContext = Credentials | HttpClient.HttpClient;
@@ -53,29 +57,25 @@ export type S2OpContext = Credentials | HttpClient.HttpClient;
  * (`/metrics/{basin}/{stream}` names a basin in its PATH but stays on the
  * account endpoint.)
  */
-const isBasinScoped = (uri: string): boolean =>
-  uri === "/streams" || uri.startsWith("/streams/");
+const isBasinScoped = (uri: string): boolean => uri === "/streams" || uri.startsWith("/streams/");
 
 const baseUrlFor = (creds: Config, uri: string): string => {
   if (!isBasinScoped(uri)) return creds.accountBaseUrl;
   if (creds.basin === undefined || creds.basin === "") {
     throw new ConfigError({
       message:
-        `S2 operation on ${uri} is basin-scoped (${creds.basinBaseUrl}) — ` +
+        `S2 operation on ${uri} is basin-scoped (${creds.basinBaseUrl}) \u2014 ` +
         `configure a basin (S2_BASIN or credentials({ basin })) to call it`,
     });
   }
   return creds.basinBaseUrl.replace("{basin}", creds.basin);
 };
 
-export const S2Protocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+export const S2Protocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
   // Resolved on the CALLING fiber per request (the layer is memoized per
   // process); the Credentials service holds an effect, so a token rotated
   // between calls is picked up without rebuilding the layer.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.token)}`,
@@ -90,13 +90,9 @@ export const S2Protocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
   },
   unknownError: ({ code, message, body }) =>
     new UnknownS2Error({
-      code:
-        typeof code === "string"
-          ? code
-          : code !== undefined
-            ? String(code)
-            : undefined,
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
       message,
       body,
     }),
+  parseError: ({ body, cause }) => new S2ParseError({ body, cause }),
 });

@@ -1,0 +1,23 @@
+{
+  "description": "Keeps the shape order the converter wrote while these fixes were OpenAPI spec patches: the spec patches changed which error class an operation used first, and so the order the converter created the shapes in.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.flyio.machines#NetworkNotFound",
+      "path": "/shapes/com.flyio.machines#NetworkNotFound",
+      "before": "com.flyio.machines#FlyMachineServiceAutostopMode"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.flyio.machines#UnprocessableEntity",
+      "path": "/shapes/com.flyio.machines#UnprocessableEntity",
+      "before": "com.flyio.machines#GatewayTimeout"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.flyio.machines#Conflict",
+      "path": "/shapes/com.flyio.machines#Conflict",
+      "before": "com.flyio.machines#UnprocessableEntity"
+    }
+  ]
+}

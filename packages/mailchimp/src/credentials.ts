@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Mailchimp credentials — hand-written.
  *
@@ -16,7 +17,6 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export interface Config {
   readonly apiKey: Redacted.Redacted<string>;
@@ -24,10 +24,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config, ConfigError>
->()("MailchimpCredentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "MailchimpCredentials",
+  ) {}
 
 /** The data-centre suffix of an API key (`abc123-us21` → `us21`). */
 export const serverPrefixFromApiKey = (apiKey: string): string | undefined => {
@@ -47,14 +47,11 @@ const resolve = (config: {
   readonly serverPrefix?: string | undefined;
   readonly apiBaseUrl?: string | undefined;
 }): Effect.Effect<Config, ConfigError> => {
-  const apiKey = Redacted.isRedacted(config.apiKey)
-    ? config.apiKey
-    : Redacted.make(config.apiKey);
+  const apiKey = Redacted.isRedacted(config.apiKey) ? config.apiKey : Redacted.make(config.apiKey);
   if (config.apiBaseUrl !== undefined) {
     return Effect.succeed({ apiKey, apiBaseUrl: trimSlash(config.apiBaseUrl) });
   }
-  const server =
-    config.serverPrefix ?? serverPrefixFromApiKey(Redacted.value(apiKey));
+  const server = config.serverPrefix ?? serverPrefixFromApiKey(Redacted.value(apiKey));
   if (server === undefined) {
     return Effect.fail(
       new ConfigError({
@@ -81,13 +78,11 @@ export const fromApiKey = (config: {
  * `MAILCHIMP_SERVER_PREFIX` through Effect `Config`, so it follows whatever
  * `ConfigProvider` is installed — in a Worker, one built from `env`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
   Effect.gen(function* () {
     const apiKey = yield* EffectConfig.Redacted("MAILCHIMP_API_KEY");
-    const serverPrefix = yield* EffectConfig.option(
-      EffectConfig.String("MAILCHIMP_SERVER_PREFIX"),
-    );
+    const serverPrefix = yield* EffectConfig.option(EffectConfig.String("MAILCHIMP_SERVER_PREFIX"));
     return { apiKey, serverPrefix: Option.getOrUndefined(serverPrefix) };
   }).pipe(
     Effect.mapError(
@@ -106,8 +101,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
  * The document's `basePath` is `/api/1.3`; Mailchimp's own clients and docs
  * call `/api/1.0`, and the versions answer identically.
  */
-export const DEFAULT_TRANSACTIONAL_API_BASE_URL =
-  "https://mandrillapp.com/api/1.0";
+export const DEFAULT_TRANSACTIONAL_API_BASE_URL = "https://mandrillapp.com/api/1.0";
 
 export interface TransactionalConfig {
   readonly apiKey: Redacted.Redacted<string>;
@@ -118,21 +112,18 @@ export interface TransactionalConfig {
  * The Transactional API (formerly Mandrill) has its own key, issued in the
  * Transactional app, so it is a separate service from {@link Credentials}.
  */
-export class TransactionalCredentials extends Context.Service<
-  TransactionalCredentials,
-  Effect.Effect<TransactionalConfig, ConfigError>
->()("MailchimpTransactionalCredentials") {}
+export class TransactionalCredentials
+  extends /*@__PURE__*/ Context.Service<
+    TransactionalCredentials,
+    Effect.Effect<TransactionalConfig, ConfigError>
+  >()("MailchimpTransactionalCredentials") {}
 
 const resolveTransactional = (config: {
   readonly apiKey: string | Redacted.Redacted<string>;
   readonly apiBaseUrl?: string | undefined;
 }): TransactionalConfig => ({
-  apiKey: Redacted.isRedacted(config.apiKey)
-    ? config.apiKey
-    : Redacted.make(config.apiKey),
-  apiBaseUrl: trimSlash(
-    config.apiBaseUrl ?? DEFAULT_TRANSACTIONAL_API_BASE_URL,
-  ),
+  apiKey: Redacted.isRedacted(config.apiKey) ? config.apiKey : Redacted.make(config.apiKey),
+  apiBaseUrl: trimSlash(config.apiBaseUrl ?? DEFAULT_TRANSACTIONAL_API_BASE_URL),
 });
 
 /** Layer from a Transactional API key. */
@@ -140,22 +131,17 @@ export const fromTransactionalApiKey = (config: {
   readonly apiKey: string | Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<TransactionalCredentials> =>
-  Layer.succeed(
-    TransactionalCredentials,
-    Effect.succeed(resolveTransactional(config)),
-  );
+  Layer.succeed(TransactionalCredentials, Effect.succeed(resolveTransactional(config)));
 
 /**
  * Reads `MAILCHIMP_TRANSACTIONAL_API_KEY` (or the older `MANDRILL_API_KEY`)
  * through Effect `Config`.
  */
 export const TransactionalCredentialsFromEnv: Layer.Layer<TransactionalCredentials> =
-  Layer.succeed(
+  /*@__PURE__*/ Layer.succeed(
     TransactionalCredentials,
     Effect.gen(function* () {
-      const apiKey = yield* EffectConfig.Redacted(
-        "MAILCHIMP_TRANSACTIONAL_API_KEY",
-      ).pipe(
+      const apiKey = yield* EffectConfig.Redacted("MAILCHIMP_TRANSACTIONAL_API_KEY").pipe(
         EffectConfig.orElse(() => EffectConfig.Redacted("MANDRILL_API_KEY")),
       );
       return resolveTransactional({ apiKey });

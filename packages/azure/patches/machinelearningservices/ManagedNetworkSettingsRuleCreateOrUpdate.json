@@ -1,0 +1,25 @@
+{
+  "description": "OutboundRule is polymorphic on `type` (FQDN, PrivateEndpoint, ServiceTag); the converted model keeps only the base members, so S.Struct strips `destination`. Add it as a document (a string for FQDN, an object otherwise).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#OutboundRuleInput/members/destination",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "FQDN: the host name; PrivateEndpoint: {serviceResourceId, subresourceTarget, sparkEnabled}; ServiceTag: {serviceTag, protocol, portRanges, action}."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#OutboundRule/members/destination",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "FQDN: the host name; PrivateEndpoint: {serviceResourceId, subresourceTarget, sparkEnabled}; ServiceTag: {serviceTag, protocol, portRanges, action}."
+        }
+      }
+    }
+  ]
+}

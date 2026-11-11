@@ -1,22 +1,27 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "ManagedBlockchain",
   serviceShapeName: "TaigaWebService",
 });
-const auth = T.AwsAuthSigv4({ name: "managedblockchain" });
-const ver = T.ServiceVersion("2018-09-24");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "managedblockchain" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2018-09-24");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -28,14 +33,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +63,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://managedblockchain-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,96 +71,100 @@ const rules = T.EndpointResolver((p, _) => {
               `https://managedblockchain.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://managedblockchain.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://managedblockchain.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://managedblockchain.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ManagedBlockchain",
+  service: "ManagedBlockchain",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class IllegalActionException
   extends /*@__PURE__*/ S.TaggedError<IllegalActionException>()(
     "IllegalActionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InternalServiceErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServiceErrorException>()(
     "InternalServiceErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class InvalidRequestException
   extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
     "InvalidRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ResourceAlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<ResourceAlreadyExistsException>()(
     "ResourceAlreadyExistsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
 export class ResourceLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<ResourceLimitExceededException>()(
     "ResourceLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceName: S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      ResourceName: /*@__PURE__*/ S.optional(S.String),
     },
-    T.HttpError(404),
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ResourceNotReadyException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotReadyException>()(
     "ResourceNotReadyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceName: S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      ResourceName: /*@__PURE__*/ S.optional(S.String),
     },
-    T.HttpError(400),
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type ClientRequestTokenString = string;
 export type AccessorType = "BILLING_TOKEN" | (string & {});
-export const AccessorType = S.String;
-
 export type TagKey = string;
 export type TagValue = string;
 export type InputTagMap = { [key: string]: string | undefined };
-export const InputTagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type AccessorNetworkType =
   | "ETHEREUM_GOERLI"
   | "ETHEREUM_MAINNET"
@@ -169,49 +172,19 @@ export type AccessorNetworkType =
   | "POLYGON_MAINNET"
   | "POLYGON_MUMBAI"
   | (string & {});
-export const AccessorNetworkType = S.String;
-
 export interface CreateAccessorInput {
   ClientRequestToken: string;
   AccessorType: AccessorType;
-  Tags?: { [key: string]: string | undefined };
-  NetworkType?: AccessorNetworkType;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  NetworkType?: AccessorNetworkType | undefined;
 }
-export const CreateAccessorInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
-    AccessorType: AccessorType,
-    Tags: S.optional(InputTagMap),
-    NetworkType: S.optional(AccessorNetworkType),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/accessors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAccessorInput",
-}) as any as S.Schema<CreateAccessorInput>;
 export type ResourceIdString = string;
 export type AccessorBillingTokenString = string;
 export interface CreateAccessorOutput {
-  AccessorId?: string;
-  BillingToken?: string;
-  NetworkType?: AccessorNetworkType;
+  AccessorId?: string | undefined;
+  BillingToken?: string | undefined;
+  NetworkType?: AccessorNetworkType | undefined;
 }
-export const CreateAccessorOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessorId: S.optional(S.String),
-    BillingToken: S.optional(S.String),
-    NetworkType: S.optional(AccessorNetworkType),
-  }),
-).annotate({
-  identifier: "CreateAccessorOutput",
-}) as any as S.Schema<CreateAccessorOutput>;
 export type NetworkMemberNameString = string;
 export type DescriptionString = string;
 export type UsernameString = string;
@@ -220,530 +193,170 @@ export interface MemberFabricConfiguration {
   AdminUsername: string;
   AdminPassword: string | redacted.Redacted<string>;
 }
-export const MemberFabricConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AdminUsername: S.String, AdminPassword: SensitiveString }),
-).annotate({
-  identifier: "MemberFabricConfiguration",
-}) as any as S.Schema<MemberFabricConfiguration>;
 export interface MemberFrameworkConfiguration {
-  Fabric?: MemberFabricConfiguration;
+  Fabric?: MemberFabricConfiguration | undefined;
 }
-export const MemberFrameworkConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Fabric: S.optional(MemberFabricConfiguration) }),
-).annotate({
-  identifier: "MemberFrameworkConfiguration",
-}) as any as S.Schema<MemberFrameworkConfiguration>;
 export type Enabled = boolean;
 export interface LogConfiguration {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
-export const LogConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Enabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "LogConfiguration",
-}) as any as S.Schema<LogConfiguration>;
 export interface LogConfigurations {
-  Cloudwatch?: LogConfiguration;
+  Cloudwatch?: LogConfiguration | undefined;
 }
-export const LogConfigurations = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Cloudwatch: S.optional(LogConfiguration) }),
-).annotate({
-  identifier: "LogConfigurations",
-}) as any as S.Schema<LogConfigurations>;
 export interface MemberFabricLogPublishingConfiguration {
-  CaLogs?: LogConfigurations;
+  CaLogs?: LogConfigurations | undefined;
 }
-export const MemberFabricLogPublishingConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ CaLogs: S.optional(LogConfigurations) }),
-).annotate({
-  identifier: "MemberFabricLogPublishingConfiguration",
-}) as any as S.Schema<MemberFabricLogPublishingConfiguration>;
 export interface MemberLogPublishingConfiguration {
-  Fabric?: MemberFabricLogPublishingConfiguration;
+  Fabric?: MemberFabricLogPublishingConfiguration | undefined;
 }
-export const MemberLogPublishingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Fabric: S.optional(MemberFabricLogPublishingConfiguration) }),
-).annotate({
-  identifier: "MemberLogPublishingConfiguration",
-}) as any as S.Schema<MemberLogPublishingConfiguration>;
 export type ArnString = string;
 export interface MemberConfiguration {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   FrameworkConfiguration: MemberFrameworkConfiguration;
-  LogPublishingConfiguration?: MemberLogPublishingConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  KmsKeyArn?: string;
+  LogPublishingConfiguration?: MemberLogPublishingConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  KmsKeyArn?: string | undefined;
 }
-export const MemberConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    FrameworkConfiguration: MemberFrameworkConfiguration,
-    LogPublishingConfiguration: S.optional(MemberLogPublishingConfiguration),
-    Tags: S.optional(InputTagMap),
-    KmsKeyArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MemberConfiguration",
-}) as any as S.Schema<MemberConfiguration>;
 export interface CreateMemberInput {
   ClientRequestToken: string;
   InvitationId: string;
   NetworkId: string;
   MemberConfiguration: MemberConfiguration;
 }
-export const CreateMemberInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
-    InvitationId: S.String,
-    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
-    MemberConfiguration: MemberConfiguration,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/networks/{NetworkId}/members" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateMemberInput",
-}) as any as S.Schema<CreateMemberInput>;
 export interface CreateMemberOutput {
-  MemberId?: string;
+  MemberId?: string | undefined;
 }
-export const CreateMemberOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MemberId: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateMemberOutput",
-}) as any as S.Schema<CreateMemberOutput>;
 export type NameString = string;
 export type Framework = "HYPERLEDGER_FABRIC" | "ETHEREUM" | (string & {});
-export const Framework = S.String;
-
 export type FrameworkVersionString = string;
 export type Edition = "STARTER" | "STANDARD" | (string & {});
-export const Edition = S.String;
-
 export interface NetworkFabricConfiguration {
   Edition: Edition;
 }
-export const NetworkFabricConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Edition: Edition }),
-).annotate({
-  identifier: "NetworkFabricConfiguration",
-}) as any as S.Schema<NetworkFabricConfiguration>;
 export interface NetworkFrameworkConfiguration {
-  Fabric?: NetworkFabricConfiguration;
+  Fabric?: NetworkFabricConfiguration | undefined;
 }
-export const NetworkFrameworkConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Fabric: S.optional(NetworkFabricConfiguration) }),
-).annotate({
-  identifier: "NetworkFrameworkConfiguration",
-}) as any as S.Schema<NetworkFrameworkConfiguration>;
 export type ThresholdPercentageInt = number;
 export type ProposalDurationInt = number;
-export type ThresholdComparator =
-  | "GREATER_THAN"
-  | "GREATER_THAN_OR_EQUAL_TO"
-  | (string & {});
-export const ThresholdComparator = S.String;
-
+export type ThresholdComparator = "GREATER_THAN" | "GREATER_THAN_OR_EQUAL_TO" | (string & {});
 export interface ApprovalThresholdPolicy {
-  ThresholdPercentage?: number;
-  ProposalDurationInHours?: number;
-  ThresholdComparator?: ThresholdComparator;
+  ThresholdPercentage?: number | undefined;
+  ProposalDurationInHours?: number | undefined;
+  ThresholdComparator?: ThresholdComparator | undefined;
 }
-export const ApprovalThresholdPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ThresholdPercentage: S.optional(S.Number),
-    ProposalDurationInHours: S.optional(S.Number),
-    ThresholdComparator: S.optional(ThresholdComparator),
-  }),
-).annotate({
-  identifier: "ApprovalThresholdPolicy",
-}) as any as S.Schema<ApprovalThresholdPolicy>;
 export interface VotingPolicy {
-  ApprovalThresholdPolicy?: ApprovalThresholdPolicy;
+  ApprovalThresholdPolicy?: ApprovalThresholdPolicy | undefined;
 }
-export const VotingPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ApprovalThresholdPolicy: S.optional(ApprovalThresholdPolicy) }),
-).annotate({ identifier: "VotingPolicy" }) as any as S.Schema<VotingPolicy>;
 export interface CreateNetworkInput {
   ClientRequestToken: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Framework: Framework;
   FrameworkVersion: string;
-  FrameworkConfiguration?: NetworkFrameworkConfiguration;
+  FrameworkConfiguration?: NetworkFrameworkConfiguration | undefined;
   VotingPolicy: VotingPolicy;
   MemberConfiguration: MemberConfiguration;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
-export const CreateNetworkInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
-    Name: S.String,
-    Description: S.optional(S.String),
-    Framework: Framework,
-    FrameworkVersion: S.String,
-    FrameworkConfiguration: S.optional(NetworkFrameworkConfiguration),
-    VotingPolicy: VotingPolicy,
-    MemberConfiguration: MemberConfiguration,
-    Tags: S.optional(InputTagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/networks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateNetworkInput",
-}) as any as S.Schema<CreateNetworkInput>;
 export interface CreateNetworkOutput {
-  NetworkId?: string;
-  MemberId?: string;
+  NetworkId?: string | undefined;
+  MemberId?: string | undefined;
 }
-export const CreateNetworkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NetworkId: S.optional(S.String), MemberId: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateNetworkOutput",
-}) as any as S.Schema<CreateNetworkOutput>;
 export type InstanceTypeString = string;
 export type AvailabilityZoneString = string;
 export interface NodeFabricLogPublishingConfiguration {
-  ChaincodeLogs?: LogConfigurations;
-  PeerLogs?: LogConfigurations;
+  ChaincodeLogs?: LogConfigurations | undefined;
+  PeerLogs?: LogConfigurations | undefined;
 }
-export const NodeFabricLogPublishingConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ChaincodeLogs: S.optional(LogConfigurations),
-      PeerLogs: S.optional(LogConfigurations),
-    }),
-).annotate({
-  identifier: "NodeFabricLogPublishingConfiguration",
-}) as any as S.Schema<NodeFabricLogPublishingConfiguration>;
 export interface NodeLogPublishingConfiguration {
-  Fabric?: NodeFabricLogPublishingConfiguration;
+  Fabric?: NodeFabricLogPublishingConfiguration | undefined;
 }
-export const NodeLogPublishingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Fabric: S.optional(NodeFabricLogPublishingConfiguration) }),
-).annotate({
-  identifier: "NodeLogPublishingConfiguration",
-}) as any as S.Schema<NodeLogPublishingConfiguration>;
 export type StateDBType = "LevelDB" | "CouchDB" | (string & {});
-export const StateDBType = S.String;
-
 export interface NodeConfiguration {
   InstanceType: string;
-  AvailabilityZone?: string;
-  LogPublishingConfiguration?: NodeLogPublishingConfiguration;
-  StateDB?: StateDBType;
+  AvailabilityZone?: string | undefined;
+  LogPublishingConfiguration?: NodeLogPublishingConfiguration | undefined;
+  StateDB?: StateDBType | undefined;
 }
-export const NodeConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceType: S.String,
-    AvailabilityZone: S.optional(S.String),
-    LogPublishingConfiguration: S.optional(NodeLogPublishingConfiguration),
-    StateDB: S.optional(StateDBType),
-  }),
-).annotate({
-  identifier: "NodeConfiguration",
-}) as any as S.Schema<NodeConfiguration>;
 export interface CreateNodeInput {
   ClientRequestToken: string;
   NetworkId: string;
-  MemberId?: string;
+  MemberId?: string | undefined;
   NodeConfiguration: NodeConfiguration;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
-export const CreateNodeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
-    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
-    MemberId: S.optional(S.String),
-    NodeConfiguration: NodeConfiguration,
-    Tags: S.optional(InputTagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/networks/{NetworkId}/nodes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateNodeInput",
-}) as any as S.Schema<CreateNodeInput>;
 export interface CreateNodeOutput {
-  NodeId?: string;
+  NodeId?: string | undefined;
 }
-export const CreateNodeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NodeId: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateNodeOutput",
-}) as any as S.Schema<CreateNodeOutput>;
 export type PrincipalString = string;
 export interface InviteAction {
   Principal: string;
 }
-export const InviteAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Principal: S.String }),
-).annotate({ identifier: "InviteAction" }) as any as S.Schema<InviteAction>;
 export type InviteActionList = InviteAction[];
-export const InviteActionList = /*@__PURE__*/ S.Array(InviteAction);
 export interface RemoveAction {
   MemberId: string;
 }
-export const RemoveAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MemberId: S.String }),
-).annotate({ identifier: "RemoveAction" }) as any as S.Schema<RemoveAction>;
 export type RemoveActionList = RemoveAction[];
-export const RemoveActionList = /*@__PURE__*/ S.Array(RemoveAction);
 export interface ProposalActions {
-  Invitations?: InviteAction[];
-  Removals?: RemoveAction[];
+  Invitations?: InviteAction[] | undefined;
+  Removals?: RemoveAction[] | undefined;
 }
-export const ProposalActions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Invitations: S.optional(InviteActionList),
-    Removals: S.optional(RemoveActionList),
-  }),
-).annotate({
-  identifier: "ProposalActions",
-}) as any as S.Schema<ProposalActions>;
 export interface CreateProposalInput {
   ClientRequestToken: string;
   NetworkId: string;
   MemberId: string;
   Actions: ProposalActions;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
-export const CreateProposalInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
-    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
-    MemberId: S.String,
-    Actions: ProposalActions,
-    Description: S.optional(S.String),
-    Tags: S.optional(InputTagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/networks/{NetworkId}/proposals" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateProposalInput",
-}) as any as S.Schema<CreateProposalInput>;
 export interface CreateProposalOutput {
-  ProposalId?: string;
+  ProposalId?: string | undefined;
 }
-export const CreateProposalOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ProposalId: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateProposalOutput",
-}) as any as S.Schema<CreateProposalOutput>;
 export interface DeleteAccessorInput {
   AccessorId: string;
 }
-export const DeleteAccessorInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccessorId: S.String.pipe(T.HttpLabel("AccessorId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/accessors/{AccessorId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAccessorInput",
-}) as any as S.Schema<DeleteAccessorInput>;
 export interface DeleteAccessorOutput {}
-export const DeleteAccessorOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAccessorOutput",
-}) as any as S.Schema<DeleteAccessorOutput>;
 export interface DeleteMemberInput {
   NetworkId: string;
   MemberId: string;
 }
-export const DeleteMemberInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
-    MemberId: S.String.pipe(T.HttpLabel("MemberId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/networks/{NetworkId}/members/{MemberId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteMemberInput",
-}) as any as S.Schema<DeleteMemberInput>;
 export interface DeleteMemberOutput {}
-export const DeleteMemberOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteMemberOutput",
-}) as any as S.Schema<DeleteMemberOutput>;
 export interface DeleteNodeInput {
   NetworkId: string;
-  MemberId?: string;
+  MemberId?: string | undefined;
   NodeId: string;
 }
-export const DeleteNodeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
-    MemberId: S.optional(S.String).pipe(T.HttpQuery("memberId")),
-    NodeId: S.String.pipe(T.HttpLabel("NodeId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/networks/{NetworkId}/nodes/{NodeId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteNodeInput",
-}) as any as S.Schema<DeleteNodeInput>;
 export interface DeleteNodeOutput {}
-export const DeleteNodeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteNodeOutput",
-}) as any as S.Schema<DeleteNodeOutput>;
 export interface GetAccessorInput {
   AccessorId: string;
 }
-export const GetAccessorInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccessorId: S.String.pipe(T.HttpLabel("AccessorId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/accessors/{AccessorId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAccessorInput",
-}) as any as S.Schema<GetAccessorInput>;
-export type AccessorStatus =
-  | "AVAILABLE"
-  | "PENDING_DELETION"
-  | "DELETED"
-  | (string & {});
-export const AccessorStatus = S.String;
-
+export type AccessorStatus = "AVAILABLE" | "PENDING_DELETION" | "DELETED" | (string & {});
 export type OutputTagMap = { [key: string]: string | undefined };
-export const OutputTagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface Accessor {
-  Id?: string;
-  Type?: AccessorType;
-  BillingToken?: string;
-  Status?: AccessorStatus;
-  CreationDate?: Date;
-  Arn?: string;
-  Tags?: { [key: string]: string | undefined };
-  NetworkType?: AccessorNetworkType;
+  Id?: string | undefined;
+  Type?: AccessorType | undefined;
+  BillingToken?: string | undefined;
+  Status?: AccessorStatus | undefined;
+  CreationDate?: Date | undefined;
+  Arn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  NetworkType?: AccessorNetworkType | undefined;
 }
-export const Accessor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Type: S.optional(AccessorType),
-    BillingToken: S.optional(S.String),
-    Status: S.optional(AccessorStatus),
-    CreationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Arn: S.optional(S.String),
-    Tags: S.optional(OutputTagMap),
-    NetworkType: S.optional(AccessorNetworkType),
-  }),
-).annotate({ identifier: "Accessor" }) as any as S.Schema<Accessor>;
 export interface GetAccessorOutput {
-  Accessor?: Accessor;
+  Accessor?: Accessor | undefined;
 }
-export const GetAccessorOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Accessor: S.optional(Accessor) }),
-).annotate({
-  identifier: "GetAccessorOutput",
-}) as any as S.Schema<GetAccessorOutput>;
 export interface GetMemberInput {
   NetworkId: string;
   MemberId: string;
 }
-export const GetMemberInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
-    MemberId: S.String.pipe(T.HttpLabel("MemberId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/networks/{NetworkId}/members/{MemberId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetMemberInput" }) as any as S.Schema<GetMemberInput>;
 export interface MemberFabricAttributes {
-  AdminUsername?: string;
-  CaEndpoint?: string;
+  AdminUsername?: string | undefined;
+  CaEndpoint?: string | undefined;
 }
-export const MemberFabricAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AdminUsername: S.optional(S.String),
-    CaEndpoint: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MemberFabricAttributes",
-}) as any as S.Schema<MemberFabricAttributes>;
 export interface MemberFrameworkAttributes {
-  Fabric?: MemberFabricAttributes;
+  Fabric?: MemberFabricAttributes | undefined;
 }
-export const MemberFrameworkAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Fabric: S.optional(MemberFabricAttributes) }),
-).annotate({
-  identifier: "MemberFrameworkAttributes",
-}) as any as S.Schema<MemberFrameworkAttributes>;
 export type MemberStatus =
   | "CREATING"
   | "AVAILABLE"
@@ -753,95 +366,36 @@ export type MemberStatus =
   | "DELETED"
   | "INACCESSIBLE_ENCRYPTION_KEY"
   | (string & {});
-export const MemberStatus = S.String;
-
 export interface Member {
-  NetworkId?: string;
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  FrameworkAttributes?: MemberFrameworkAttributes;
-  LogPublishingConfiguration?: MemberLogPublishingConfiguration;
-  Status?: MemberStatus;
-  CreationDate?: Date;
-  Tags?: { [key: string]: string | undefined };
-  Arn?: string;
-  KmsKeyArn?: string;
+  NetworkId?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  FrameworkAttributes?: MemberFrameworkAttributes | undefined;
+  LogPublishingConfiguration?: MemberLogPublishingConfiguration | undefined;
+  Status?: MemberStatus | undefined;
+  CreationDate?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Arn?: string | undefined;
+  KmsKeyArn?: string | undefined;
 }
-export const Member = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkId: S.optional(S.String),
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    FrameworkAttributes: S.optional(MemberFrameworkAttributes),
-    LogPublishingConfiguration: S.optional(MemberLogPublishingConfiguration),
-    Status: S.optional(MemberStatus),
-    CreationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Tags: S.optional(OutputTagMap),
-    Arn: S.optional(S.String),
-    KmsKeyArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Member" }) as any as S.Schema<Member>;
 export interface GetMemberOutput {
-  Member?: Member;
+  Member?: Member | undefined;
 }
-export const GetMemberOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Member: S.optional(Member) }),
-).annotate({
-  identifier: "GetMemberOutput",
-}) as any as S.Schema<GetMemberOutput>;
 export interface GetNetworkInput {
   NetworkId: string;
 }
-export const GetNetworkInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NetworkId: S.String.pipe(T.HttpLabel("NetworkId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/networks/{NetworkId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetNetworkInput",
-}) as any as S.Schema<GetNetworkInput>;
 export interface NetworkFabricAttributes {
-  OrderingServiceEndpoint?: string;
-  Edition?: Edition;
+  OrderingServiceEndpoint?: string | undefined;
+  Edition?: Edition | undefined;
 }
-export const NetworkFabricAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OrderingServiceEndpoint: S.optional(S.String),
-    Edition: S.optional(Edition),
-  }),
-).annotate({
-  identifier: "NetworkFabricAttributes",
-}) as any as S.Schema<NetworkFabricAttributes>;
 export interface NetworkEthereumAttributes {
-  ChainId?: string;
+  ChainId?: string | undefined;
 }
-export const NetworkEthereumAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ChainId: S.optional(S.String) }),
-).annotate({
-  identifier: "NetworkEthereumAttributes",
-}) as any as S.Schema<NetworkEthereumAttributes>;
 export interface NetworkFrameworkAttributes {
-  Fabric?: NetworkFabricAttributes;
-  Ethereum?: NetworkEthereumAttributes;
+  Fabric?: NetworkFabricAttributes | undefined;
+  Ethereum?: NetworkEthereumAttributes | undefined;
 }
-export const NetworkFrameworkAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Fabric: S.optional(NetworkFabricAttributes),
-    Ethereum: S.optional(NetworkEthereumAttributes),
-  }),
-).annotate({
-  identifier: "NetworkFrameworkAttributes",
-}) as any as S.Schema<NetworkFrameworkAttributes>;
 export type NetworkStatus =
   | "CREATING"
   | "AVAILABLE"
@@ -849,105 +403,40 @@ export type NetworkStatus =
   | "DELETING"
   | "DELETED"
   | (string & {});
-export const NetworkStatus = S.String;
-
 export interface Network {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  Framework?: Framework;
-  FrameworkVersion?: string;
-  FrameworkAttributes?: NetworkFrameworkAttributes;
-  VpcEndpointServiceName?: string;
-  VotingPolicy?: VotingPolicy;
-  Status?: NetworkStatus;
-  CreationDate?: Date;
-  Tags?: { [key: string]: string | undefined };
-  Arn?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Framework?: Framework | undefined;
+  FrameworkVersion?: string | undefined;
+  FrameworkAttributes?: NetworkFrameworkAttributes | undefined;
+  VpcEndpointServiceName?: string | undefined;
+  VotingPolicy?: VotingPolicy | undefined;
+  Status?: NetworkStatus | undefined;
+  CreationDate?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Arn?: string | undefined;
 }
-export const Network = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    Framework: S.optional(Framework),
-    FrameworkVersion: S.optional(S.String),
-    FrameworkAttributes: S.optional(NetworkFrameworkAttributes),
-    VpcEndpointServiceName: S.optional(S.String),
-    VotingPolicy: S.optional(VotingPolicy),
-    Status: S.optional(NetworkStatus),
-    CreationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Tags: S.optional(OutputTagMap),
-    Arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Network" }) as any as S.Schema<Network>;
 export interface GetNetworkOutput {
-  Network?: Network;
+  Network?: Network | undefined;
 }
-export const GetNetworkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Network: S.optional(Network) }),
-).annotate({
-  identifier: "GetNetworkOutput",
-}) as any as S.Schema<GetNetworkOutput>;
 export interface GetNodeInput {
   NetworkId: string;
-  MemberId?: string;
+  MemberId?: string | undefined;
   NodeId: string;
 }
-export const GetNodeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
-    MemberId: S.optional(S.String).pipe(T.HttpQuery("memberId")),
-    NodeId: S.String.pipe(T.HttpLabel("NodeId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/networks/{NetworkId}/nodes/{NodeId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetNodeInput" }) as any as S.Schema<GetNodeInput>;
 export interface NodeFabricAttributes {
-  PeerEndpoint?: string;
-  PeerEventEndpoint?: string;
+  PeerEndpoint?: string | undefined;
+  PeerEventEndpoint?: string | undefined;
 }
-export const NodeFabricAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PeerEndpoint: S.optional(S.String),
-    PeerEventEndpoint: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NodeFabricAttributes",
-}) as any as S.Schema<NodeFabricAttributes>;
 export interface NodeEthereumAttributes {
-  HttpEndpoint?: string;
-  WebSocketEndpoint?: string;
+  HttpEndpoint?: string | undefined;
+  WebSocketEndpoint?: string | undefined;
 }
-export const NodeEthereumAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HttpEndpoint: S.optional(S.String),
-    WebSocketEndpoint: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NodeEthereumAttributes",
-}) as any as S.Schema<NodeEthereumAttributes>;
 export interface NodeFrameworkAttributes {
-  Fabric?: NodeFabricAttributes;
-  Ethereum?: NodeEthereumAttributes;
+  Fabric?: NodeFabricAttributes | undefined;
+  Ethereum?: NodeEthereumAttributes | undefined;
 }
-export const NodeFrameworkAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Fabric: S.optional(NodeFabricAttributes),
-    Ethereum: S.optional(NodeEthereumAttributes),
-  }),
-).annotate({
-  identifier: "NodeFrameworkAttributes",
-}) as any as S.Schema<NodeFrameworkAttributes>;
 export type NodeStatus =
   | "CREATING"
   | "AVAILABLE"
@@ -959,72 +448,28 @@ export type NodeStatus =
   | "FAILED"
   | "INACCESSIBLE_ENCRYPTION_KEY"
   | (string & {});
-export const NodeStatus = S.String;
-
 export interface Node {
-  NetworkId?: string;
-  MemberId?: string;
-  Id?: string;
-  InstanceType?: string;
-  AvailabilityZone?: string;
-  FrameworkAttributes?: NodeFrameworkAttributes;
-  LogPublishingConfiguration?: NodeLogPublishingConfiguration;
-  StateDB?: StateDBType;
-  Status?: NodeStatus;
-  CreationDate?: Date;
-  Tags?: { [key: string]: string | undefined };
-  Arn?: string;
-  KmsKeyArn?: string;
+  NetworkId?: string | undefined;
+  MemberId?: string | undefined;
+  Id?: string | undefined;
+  InstanceType?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  FrameworkAttributes?: NodeFrameworkAttributes | undefined;
+  LogPublishingConfiguration?: NodeLogPublishingConfiguration | undefined;
+  StateDB?: StateDBType | undefined;
+  Status?: NodeStatus | undefined;
+  CreationDate?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Arn?: string | undefined;
+  KmsKeyArn?: string | undefined;
 }
-export const Node = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkId: S.optional(S.String),
-    MemberId: S.optional(S.String),
-    Id: S.optional(S.String),
-    InstanceType: S.optional(S.String),
-    AvailabilityZone: S.optional(S.String),
-    FrameworkAttributes: S.optional(NodeFrameworkAttributes),
-    LogPublishingConfiguration: S.optional(NodeLogPublishingConfiguration),
-    StateDB: S.optional(StateDBType),
-    Status: S.optional(NodeStatus),
-    CreationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Tags: S.optional(OutputTagMap),
-    Arn: S.optional(S.String),
-    KmsKeyArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Node" }) as any as S.Schema<Node>;
 export interface GetNodeOutput {
-  Node?: Node;
+  Node?: Node | undefined;
 }
-export const GetNodeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Node: S.optional(Node) }),
-).annotate({ identifier: "GetNodeOutput" }) as any as S.Schema<GetNodeOutput>;
 export interface GetProposalInput {
   NetworkId: string;
   ProposalId: string;
 }
-export const GetProposalInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
-    ProposalId: S.String.pipe(T.HttpLabel("ProposalId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/networks/{NetworkId}/proposals/{ProposalId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetProposalInput",
-}) as any as S.Schema<GetProposalInput>;
 export type ProposalStatus =
   | "IN_PROGRESS"
   | "APPROVED"
@@ -1032,140 +477,51 @@ export type ProposalStatus =
   | "EXPIRED"
   | "ACTION_FAILED"
   | (string & {});
-export const ProposalStatus = S.String;
-
 export type VoteCount = number;
 export interface Proposal {
-  ProposalId?: string;
-  NetworkId?: string;
-  Description?: string;
-  Actions?: ProposalActions;
-  ProposedByMemberId?: string;
-  ProposedByMemberName?: string;
-  Status?: ProposalStatus;
-  CreationDate?: Date;
-  ExpirationDate?: Date;
-  YesVoteCount?: number;
-  NoVoteCount?: number;
-  OutstandingVoteCount?: number;
-  Tags?: { [key: string]: string | undefined };
-  Arn?: string;
+  ProposalId?: string | undefined;
+  NetworkId?: string | undefined;
+  Description?: string | undefined;
+  Actions?: ProposalActions | undefined;
+  ProposedByMemberId?: string | undefined;
+  ProposedByMemberName?: string | undefined;
+  Status?: ProposalStatus | undefined;
+  CreationDate?: Date | undefined;
+  ExpirationDate?: Date | undefined;
+  YesVoteCount?: number | undefined;
+  NoVoteCount?: number | undefined;
+  OutstandingVoteCount?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Arn?: string | undefined;
 }
-export const Proposal = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProposalId: S.optional(S.String),
-    NetworkId: S.optional(S.String),
-    Description: S.optional(S.String),
-    Actions: S.optional(ProposalActions),
-    ProposedByMemberId: S.optional(S.String),
-    ProposedByMemberName: S.optional(S.String),
-    Status: S.optional(ProposalStatus),
-    CreationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ExpirationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    YesVoteCount: S.optional(S.Number),
-    NoVoteCount: S.optional(S.Number),
-    OutstandingVoteCount: S.optional(S.Number),
-    Tags: S.optional(OutputTagMap),
-    Arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Proposal" }) as any as S.Schema<Proposal>;
 export interface GetProposalOutput {
-  Proposal?: Proposal;
+  Proposal?: Proposal | undefined;
 }
-export const GetProposalOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Proposal: S.optional(Proposal) }),
-).annotate({
-  identifier: "GetProposalOutput",
-}) as any as S.Schema<GetProposalOutput>;
 export type AccessorListMaxResults = number;
 export type PaginationToken = string;
 export interface ListAccessorsInput {
-  MaxResults?: number;
-  NextToken?: string;
-  NetworkType?: AccessorNetworkType;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  NetworkType?: AccessorNetworkType | undefined;
 }
-export const ListAccessorsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    NetworkType: S.optional(AccessorNetworkType).pipe(
-      T.HttpQuery("networkType"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/accessors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAccessorsInput",
-}) as any as S.Schema<ListAccessorsInput>;
 export interface AccessorSummary {
-  Id?: string;
-  Type?: AccessorType;
-  Status?: AccessorStatus;
-  CreationDate?: Date;
-  Arn?: string;
-  NetworkType?: AccessorNetworkType;
+  Id?: string | undefined;
+  Type?: AccessorType | undefined;
+  Status?: AccessorStatus | undefined;
+  CreationDate?: Date | undefined;
+  Arn?: string | undefined;
+  NetworkType?: AccessorNetworkType | undefined;
 }
-export const AccessorSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Type: S.optional(AccessorType),
-    Status: S.optional(AccessorStatus),
-    CreationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Arn: S.optional(S.String),
-    NetworkType: S.optional(AccessorNetworkType),
-  }),
-).annotate({
-  identifier: "AccessorSummary",
-}) as any as S.Schema<AccessorSummary>;
 export type AccessorSummaryList = AccessorSummary[];
-export const AccessorSummaryList = /*@__PURE__*/ S.Array(AccessorSummary);
 export interface ListAccessorsOutput {
-  Accessors?: AccessorSummary[];
-  NextToken?: string;
+  Accessors?: AccessorSummary[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListAccessorsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Accessors: S.optional(AccessorSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAccessorsOutput",
-}) as any as S.Schema<ListAccessorsOutput>;
 export type ProposalListMaxResults = number;
 export interface ListInvitationsInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListInvitationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/invitations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListInvitationsInput",
-}) as any as S.Schema<ListInvitationsInput>;
 export type InvitationStatus =
   | "PENDING"
   | "ACCEPTED"
@@ -1173,560 +529,165 @@ export type InvitationStatus =
   | "REJECTED"
   | "EXPIRED"
   | (string & {});
-export const InvitationStatus = S.String;
-
 export interface NetworkSummary {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  Framework?: Framework;
-  FrameworkVersion?: string;
-  Status?: NetworkStatus;
-  CreationDate?: Date;
-  Arn?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Framework?: Framework | undefined;
+  FrameworkVersion?: string | undefined;
+  Status?: NetworkStatus | undefined;
+  CreationDate?: Date | undefined;
+  Arn?: string | undefined;
 }
-export const NetworkSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    Framework: S.optional(Framework),
-    FrameworkVersion: S.optional(S.String),
-    Status: S.optional(NetworkStatus),
-    CreationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "NetworkSummary" }) as any as S.Schema<NetworkSummary>;
 export interface Invitation {
-  InvitationId?: string;
-  CreationDate?: Date;
-  ExpirationDate?: Date;
-  Status?: InvitationStatus;
-  NetworkSummary?: NetworkSummary;
-  Arn?: string;
+  InvitationId?: string | undefined;
+  CreationDate?: Date | undefined;
+  ExpirationDate?: Date | undefined;
+  Status?: InvitationStatus | undefined;
+  NetworkSummary?: NetworkSummary | undefined;
+  Arn?: string | undefined;
 }
-export const Invitation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InvitationId: S.optional(S.String),
-    CreationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ExpirationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Status: S.optional(InvitationStatus),
-    NetworkSummary: S.optional(NetworkSummary),
-    Arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Invitation" }) as any as S.Schema<Invitation>;
 export type InvitationList = Invitation[];
-export const InvitationList = /*@__PURE__*/ S.Array(Invitation);
 export interface ListInvitationsOutput {
-  Invitations?: Invitation[];
-  NextToken?: string;
+  Invitations?: Invitation[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListInvitationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Invitations: S.optional(InvitationList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListInvitationsOutput",
-}) as any as S.Schema<ListInvitationsOutput>;
 export type IsOwned = boolean;
 export type MemberListMaxResults = number;
 export interface ListMembersInput {
   NetworkId: string;
-  Name?: string;
-  Status?: MemberStatus;
-  IsOwned?: boolean;
-  MaxResults?: number;
-  NextToken?: string;
+  Name?: string | undefined;
+  Status?: MemberStatus | undefined;
+  IsOwned?: boolean | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListMembersInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
-    Name: S.optional(S.String).pipe(T.HttpQuery("name")),
-    Status: S.optional(MemberStatus).pipe(T.HttpQuery("status")),
-    IsOwned: S.optional(S.Boolean).pipe(T.HttpQuery("isOwned")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/networks/{NetworkId}/members" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListMembersInput",
-}) as any as S.Schema<ListMembersInput>;
 export interface MemberSummary {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  Status?: MemberStatus;
-  CreationDate?: Date;
-  IsOwned?: boolean;
-  Arn?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: MemberStatus | undefined;
+  CreationDate?: Date | undefined;
+  IsOwned?: boolean | undefined;
+  Arn?: string | undefined;
 }
-export const MemberSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    Status: S.optional(MemberStatus),
-    CreationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    IsOwned: S.optional(S.Boolean),
-    Arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "MemberSummary" }) as any as S.Schema<MemberSummary>;
 export type MemberSummaryList = MemberSummary[];
-export const MemberSummaryList = /*@__PURE__*/ S.Array(MemberSummary);
 export interface ListMembersOutput {
-  Members?: MemberSummary[];
-  NextToken?: string;
+  Members?: MemberSummary[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListMembersOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Members: S.optional(MemberSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListMembersOutput",
-}) as any as S.Schema<ListMembersOutput>;
 export type NetworkListMaxResults = number;
 export interface ListNetworksInput {
-  Name?: string;
-  Framework?: Framework;
-  Status?: NetworkStatus;
-  MaxResults?: number;
-  NextToken?: string;
+  Name?: string | undefined;
+  Framework?: Framework | undefined;
+  Status?: NetworkStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListNetworksInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String).pipe(T.HttpQuery("name")),
-    Framework: S.optional(Framework).pipe(T.HttpQuery("framework")),
-    Status: S.optional(NetworkStatus).pipe(T.HttpQuery("status")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/networks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListNetworksInput",
-}) as any as S.Schema<ListNetworksInput>;
 export type NetworkSummaryList = NetworkSummary[];
-export const NetworkSummaryList = /*@__PURE__*/ S.Array(NetworkSummary);
 export interface ListNetworksOutput {
-  Networks?: NetworkSummary[];
-  NextToken?: string;
+  Networks?: NetworkSummary[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListNetworksOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Networks: S.optional(NetworkSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListNetworksOutput",
-}) as any as S.Schema<ListNetworksOutput>;
 export type NodeListMaxResults = number;
 export interface ListNodesInput {
   NetworkId: string;
-  MemberId?: string;
-  Status?: NodeStatus;
-  MaxResults?: number;
-  NextToken?: string;
+  MemberId?: string | undefined;
+  Status?: NodeStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListNodesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
-    MemberId: S.optional(S.String).pipe(T.HttpQuery("memberId")),
-    Status: S.optional(NodeStatus).pipe(T.HttpQuery("status")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/networks/{NetworkId}/nodes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "ListNodesInput" }) as any as S.Schema<ListNodesInput>;
 export interface NodeSummary {
-  Id?: string;
-  Status?: NodeStatus;
-  CreationDate?: Date;
-  AvailabilityZone?: string;
-  InstanceType?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Status?: NodeStatus | undefined;
+  CreationDate?: Date | undefined;
+  AvailabilityZone?: string | undefined;
+  InstanceType?: string | undefined;
+  Arn?: string | undefined;
 }
-export const NodeSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Status: S.optional(NodeStatus),
-    CreationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    AvailabilityZone: S.optional(S.String),
-    InstanceType: S.optional(S.String),
-    Arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "NodeSummary" }) as any as S.Schema<NodeSummary>;
 export type NodeSummaryList = NodeSummary[];
-export const NodeSummaryList = /*@__PURE__*/ S.Array(NodeSummary);
 export interface ListNodesOutput {
-  Nodes?: NodeSummary[];
-  NextToken?: string;
+  Nodes?: NodeSummary[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListNodesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Nodes: S.optional(NodeSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListNodesOutput",
-}) as any as S.Schema<ListNodesOutput>;
 export interface ListProposalsInput {
   NetworkId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListProposalsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/networks/{NetworkId}/proposals" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListProposalsInput",
-}) as any as S.Schema<ListProposalsInput>;
 export interface ProposalSummary {
-  ProposalId?: string;
-  Description?: string;
-  ProposedByMemberId?: string;
-  ProposedByMemberName?: string;
-  Status?: ProposalStatus;
-  CreationDate?: Date;
-  ExpirationDate?: Date;
-  Arn?: string;
+  ProposalId?: string | undefined;
+  Description?: string | undefined;
+  ProposedByMemberId?: string | undefined;
+  ProposedByMemberName?: string | undefined;
+  Status?: ProposalStatus | undefined;
+  CreationDate?: Date | undefined;
+  ExpirationDate?: Date | undefined;
+  Arn?: string | undefined;
 }
-export const ProposalSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProposalId: S.optional(S.String),
-    Description: S.optional(S.String),
-    ProposedByMemberId: S.optional(S.String),
-    ProposedByMemberName: S.optional(S.String),
-    Status: S.optional(ProposalStatus),
-    CreationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ExpirationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Arn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ProposalSummary",
-}) as any as S.Schema<ProposalSummary>;
 export type ProposalSummaryList = ProposalSummary[];
-export const ProposalSummaryList = /*@__PURE__*/ S.Array(ProposalSummary);
 export interface ListProposalsOutput {
-  Proposals?: ProposalSummary[];
-  NextToken?: string;
+  Proposals?: ProposalSummary[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListProposalsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Proposals: S.optional(ProposalSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListProposalsOutput",
-}) as any as S.Schema<ListProposalsOutput>;
 export interface ListProposalVotesInput {
   NetworkId: string;
   ProposalId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListProposalVotesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
-    ProposalId: S.String.pipe(T.HttpLabel("ProposalId")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/networks/{NetworkId}/proposals/{ProposalId}/votes",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListProposalVotesInput",
-}) as any as S.Schema<ListProposalVotesInput>;
 export type VoteValue = "YES" | "NO" | (string & {});
-export const VoteValue = S.String;
-
 export interface VoteSummary {
-  Vote?: VoteValue;
-  MemberName?: string;
-  MemberId?: string;
+  Vote?: VoteValue | undefined;
+  MemberName?: string | undefined;
+  MemberId?: string | undefined;
 }
-export const VoteSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Vote: S.optional(VoteValue),
-    MemberName: S.optional(S.String),
-    MemberId: S.optional(S.String),
-  }),
-).annotate({ identifier: "VoteSummary" }) as any as S.Schema<VoteSummary>;
 export type ProposalVoteList = VoteSummary[];
-export const ProposalVoteList = /*@__PURE__*/ S.Array(VoteSummary);
 export interface ListProposalVotesOutput {
-  ProposalVotes?: VoteSummary[];
-  NextToken?: string;
+  ProposalVotes?: VoteSummary[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListProposalVotesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProposalVotes: S.optional(ProposalVoteList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListProposalVotesOutput",
-}) as any as S.Schema<ListProposalVotesOutput>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(OutputTagMap) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface RejectInvitationInput {
   InvitationId: string;
 }
-export const RejectInvitationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InvitationId: S.String.pipe(T.HttpLabel("InvitationId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/invitations/{InvitationId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RejectInvitationInput",
-}) as any as S.Schema<RejectInvitationInput>;
 export interface RejectInvitationOutput {}
-export const RejectInvitationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "RejectInvitationOutput",
-}) as any as S.Schema<RejectInvitationOutput>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: InputTagMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateMemberInput {
   NetworkId: string;
   MemberId: string;
-  LogPublishingConfiguration?: MemberLogPublishingConfiguration;
+  LogPublishingConfiguration?: MemberLogPublishingConfiguration | undefined;
 }
-export const UpdateMemberInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
-    MemberId: S.String.pipe(T.HttpLabel("MemberId")),
-    LogPublishingConfiguration: S.optional(MemberLogPublishingConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/networks/{NetworkId}/members/{MemberId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateMemberInput",
-}) as any as S.Schema<UpdateMemberInput>;
 export interface UpdateMemberOutput {}
-export const UpdateMemberOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateMemberOutput",
-}) as any as S.Schema<UpdateMemberOutput>;
 export interface UpdateNodeInput {
   NetworkId: string;
-  MemberId?: string;
+  MemberId?: string | undefined;
   NodeId: string;
-  LogPublishingConfiguration?: NodeLogPublishingConfiguration;
+  LogPublishingConfiguration?: NodeLogPublishingConfiguration | undefined;
 }
-export const UpdateNodeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
-    MemberId: S.optional(S.String),
-    NodeId: S.String.pipe(T.HttpLabel("NodeId")),
-    LogPublishingConfiguration: S.optional(NodeLogPublishingConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/networks/{NetworkId}/nodes/{NodeId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateNodeInput",
-}) as any as S.Schema<UpdateNodeInput>;
 export interface UpdateNodeOutput {}
-export const UpdateNodeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateNodeOutput",
-}) as any as S.Schema<UpdateNodeOutput>;
 export interface VoteOnProposalInput {
   NetworkId: string;
   ProposalId: string;
   VoterMemberId: string;
   Vote: VoteValue;
 }
-export const VoteOnProposalInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
-    ProposalId: S.String.pipe(T.HttpLabel("ProposalId")),
-    VoterMemberId: S.String,
-    Vote: VoteValue,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/networks/{NetworkId}/proposals/{ProposalId}/votes",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "VoteOnProposalInput",
-}) as any as S.Schema<VoteOnProposalInput>;
 export interface VoteOnProposalOutput {}
-export const VoteOnProposalOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "VoteOnProposalOutput",
-}) as any as S.Schema<VoteOnProposalOutput>;
 export type ExceptionMessage = string;
 export type CreateAccessorError =
   | AccessDeniedException
@@ -1742,13 +703,13 @@ export type CreateAccessorError =
  * The accessor contains information required for token based access.
  */
 export const createAccessor: API.OperationMethod<
-  CreateAccessorInput,
+  CreateAccessorInput & RegionInput,
   CreateAccessorOutput,
   CreateAccessorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAccessorInput,
-  output: CreateAccessorOutput,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateAccessorInput>,
+  output: __S(1, __c0, 1) as any as S.Schema<CreateAccessorOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1761,6 +722,8 @@ export const createAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessor",
+  telemetry: TELEMETRY,
+  span: "CreateAccessor",
 }));
 
 export type CreateMemberError =
@@ -1780,13 +743,13 @@ export type CreateMemberError =
  * Applies only to Hyperledger Fabric.
  */
 export const createMember: API.OperationMethod<
-  CreateMemberInput,
+  CreateMemberInput & RegionInput,
   CreateMemberOutput,
   CreateMemberError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateMemberInput,
-  output: CreateMemberOutput,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateMemberInput>,
+  output: __S(17, __c2, 1) as any as S.Schema<CreateMemberOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1801,6 +764,8 @@ export const createMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMember",
+  telemetry: TELEMETRY,
+  span: "CreateMember",
 }));
 
 export type CreateNetworkError =
@@ -1818,13 +783,13 @@ export type CreateNetworkError =
  * Applies only to Hyperledger Fabric.
  */
 export const createNetwork: API.OperationMethod<
-  CreateNetworkInput,
+  CreateNetworkInput & RegionInput,
   CreateNetworkOutput,
   CreateNetworkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateNetworkInput,
-  output: CreateNetworkOutput,
+  input: __S(50, __c6, 2) as any as S.Schema<CreateNetworkInput>,
+  output: __S(51, __c6, 3) as any as S.Schema<CreateNetworkOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1837,6 +802,8 @@ export const createNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetwork",
+  telemetry: TELEMETRY,
+  span: "CreateNetwork",
 }));
 
 export type CreateNodeError =
@@ -1856,13 +823,13 @@ export type CreateNodeError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const createNode: API.OperationMethod<
-  CreateNodeInput,
+  CreateNodeInput & RegionInput,
   CreateNodeOutput,
   CreateNodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateNodeInput,
-  output: CreateNodeOutput,
+  input: __S(65, __c8, 1) as any as S.Schema<CreateNodeInput>,
+  output: __S(66, __c8, 2) as any as S.Schema<CreateNodeOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1877,6 +844,8 @@ export const createNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNode",
+  telemetry: TELEMETRY,
+  span: "CreateNode",
 }));
 
 export type CreateProposalError =
@@ -1894,13 +863,13 @@ export type CreateProposalError =
  * Applies only to Hyperledger Fabric.
  */
 export const createProposal: API.OperationMethod<
-  CreateProposalInput,
+  CreateProposalInput & RegionInput,
   CreateProposalOutput,
   CreateProposalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateProposalInput,
-  output: CreateProposalOutput,
+  input: __S(80, __c10, 0) as any as S.Schema<CreateProposalInput>,
+  output: __S(81, __c10, 1) as any as S.Schema<CreateProposalOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1913,6 +882,8 @@ export const createProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProposal",
+  telemetry: TELEMETRY,
+  span: "CreateProposal",
 }));
 
 export type DeleteAccessorError =
@@ -1927,18 +898,18 @@ export type DeleteAccessorError =
  * information required for token based access to your Ethereum nodes including, the
  * `BILLING_TOKEN`. After an accessor is deleted, the status of the accessor changes
  * from `AVAILABLE` to `PENDING_DELETION`. An accessor in the
- * `PENDING_DELETION` state can’t be used for new WebSocket requests or
+ * `PENDING_DELETION` state can't be used for new WebSocket requests or
  * HTTP requests. However, WebSocket connections that were initiated while the accessor was in the
  * `AVAILABLE` state remain open until they expire (up to 2 hours).
  */
 export const deleteAccessor: API.OperationMethod<
-  DeleteAccessorInput,
+  DeleteAccessorInput & RegionInput,
   DeleteAccessorOutput,
   DeleteAccessorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAccessorInput,
-  output: DeleteAccessorOutput,
+  input: __S(96, __c12, 0) as any as S.Schema<DeleteAccessorInput>,
+  output: __S(104, __c13, 0) as any as S.Schema<DeleteAccessorOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1949,6 +920,8 @@ export const deleteAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessor",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessor",
 }));
 
 export type DeleteMemberError =
@@ -1965,13 +938,13 @@ export type DeleteMemberError =
  * Applies only to Hyperledger Fabric.
  */
 export const deleteMember: API.OperationMethod<
-  DeleteMemberInput,
+  DeleteMemberInput & RegionInput,
   DeleteMemberOutput,
   DeleteMemberError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteMemberInput,
-  output: DeleteMemberOutput,
+  input: __S(112, __c14, 0) as any as S.Schema<DeleteMemberInput>,
+  output: __S(104, __c13, 0) as any as S.Schema<DeleteMemberOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1983,6 +956,8 @@ export const deleteMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMember",
+  telemetry: TELEMETRY,
+  span: "DeleteMember",
 }));
 
 export type DeleteNodeError =
@@ -1999,13 +974,13 @@ export type DeleteNodeError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const deleteNode: API.OperationMethod<
-  DeleteNodeInput,
+  DeleteNodeInput & RegionInput,
   DeleteNodeOutput,
   DeleteNodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteNodeInput,
-  output: DeleteNodeOutput,
+  input: __S(120, __c15, 0) as any as S.Schema<DeleteNodeInput>,
+  output: __S(104, __c13, 0) as any as S.Schema<DeleteNodeOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2017,6 +992,8 @@ export const deleteNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNode",
+  telemetry: TELEMETRY,
+  span: "DeleteNode",
 }));
 
 export type GetAccessorError =
@@ -2031,13 +1008,13 @@ export type GetAccessorError =
  * information required for token based access to your Ethereum nodes.
  */
 export const getAccessor: API.OperationMethod<
-  GetAccessorInput,
+  GetAccessorInput & RegionInput,
   GetAccessorOutput,
   GetAccessorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccessorInput,
-  output: GetAccessorOutput,
+  input: __S(128, __c16, 0) as any as S.Schema<GetAccessorInput>,
+  output: __S(130, __c16, 2) as any as S.Schema<GetAccessorOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2048,6 +1025,8 @@ export const getAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessor",
+  telemetry: TELEMETRY,
+  span: "GetAccessor",
 }));
 
 export type GetMemberError =
@@ -2063,13 +1042,13 @@ export type GetMemberError =
  * Applies only to Hyperledger Fabric.
  */
 export const getMember: API.OperationMethod<
-  GetMemberInput,
+  GetMemberInput & RegionInput,
   GetMemberOutput,
   GetMemberError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMemberInput,
-  output: GetMemberOutput,
+  input: __S(136, __c17, 0) as any as S.Schema<GetMemberInput>,
+  output: __S(140, __c17, 4) as any as S.Schema<GetMemberOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2080,6 +1059,8 @@ export const getMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMember",
+  telemetry: TELEMETRY,
+  span: "GetMember",
 }));
 
 export type GetNetworkError =
@@ -2095,13 +1076,13 @@ export type GetNetworkError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const getNetwork: API.OperationMethod<
-  GetNetworkInput,
+  GetNetworkInput & RegionInput,
   GetNetworkOutput,
   GetNetworkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetNetworkInput,
-  output: GetNetworkOutput,
+  input: __S(144, __c18, 0) as any as S.Schema<GetNetworkInput>,
+  output: __S(149, __c18, 5) as any as S.Schema<GetNetworkOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2112,6 +1093,8 @@ export const getNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetwork",
+  telemetry: TELEMETRY,
+  span: "GetNetwork",
 }));
 
 export type GetNodeError =
@@ -2127,13 +1110,13 @@ export type GetNodeError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const getNode: API.OperationMethod<
-  GetNodeInput,
+  GetNodeInput & RegionInput,
   GetNodeOutput,
   GetNodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetNodeInput,
-  output: GetNodeOutput,
+  input: __S(152, __c19, 0) as any as S.Schema<GetNodeInput>,
+  output: __S(157, __c19, 5) as any as S.Schema<GetNodeOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2144,6 +1127,8 @@ export const getNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNode",
+  telemetry: TELEMETRY,
+  span: "GetNode",
 }));
 
 export type GetProposalError =
@@ -2159,13 +1144,13 @@ export type GetProposalError =
  * Applies only to Hyperledger Fabric.
  */
 export const getProposal: API.OperationMethod<
-  GetProposalInput,
+  GetProposalInput & RegionInput,
   GetProposalOutput,
   GetProposalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetProposalInput,
-  output: GetProposalOutput,
+  input: __S(160, __c20, 0) as any as S.Schema<GetProposalInput>,
+  output: __S(162, __c20, 2) as any as S.Schema<GetProposalOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2176,6 +1161,8 @@ export const getProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProposal",
+  telemetry: TELEMETRY,
+  span: "GetProposal",
 }));
 
 export type ListAccessorsError =
@@ -2189,14 +1176,14 @@ export type ListAccessorsError =
  * information required for token based access to your Ethereum nodes.
  */
 export const listAccessors: API.PaginatedOperationMethod<
-  ListAccessorsInput,
+  ListAccessorsInput & RegionInput,
   ListAccessorsOutput,
   ListAccessorsError,
   Credentials | HttpClient.HttpClient,
   AccessorSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAccessorsInput,
-  output: ListAccessorsOutput,
+  input: __S(168, __c21, 0) as any as S.Schema<ListAccessorsInput>,
+  output: __S(171, __c21, 3) as any as S.Schema<ListAccessorsOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2212,6 +1199,8 @@ export const listAccessors: API.PaginatedOperationMethod<
     items: "Accessors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessors",
 })) as any;
 
 export type ListInvitationsError =
@@ -2228,14 +1217,14 @@ export type ListInvitationsError =
  * Applies only to Hyperledger Fabric.
  */
 export const listInvitations: API.PaginatedOperationMethod<
-  ListInvitationsInput,
+  ListInvitationsInput & RegionInput,
   ListInvitationsOutput,
   ListInvitationsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListInvitationsInput,
-  output: ListInvitationsOutput,
+  input: __S(176, __c22, 0) as any as S.Schema<ListInvitationsInput>,
+  output: __S(179, __c22, 3) as any as S.Schema<ListInvitationsOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2252,6 +1241,8 @@ export const listInvitations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvitations",
 })) as any;
 
 export type ListMembersError =
@@ -2266,14 +1257,14 @@ export type ListMembersError =
  * Applies only to Hyperledger Fabric.
  */
 export const listMembers: API.PaginatedOperationMethod<
-  ListMembersInput,
+  ListMembersInput & RegionInput,
   ListMembersOutput,
   ListMembersError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListMembersInput,
-  output: ListMembersOutput,
+  input: __S(192, __c24, 0) as any as S.Schema<ListMembersInput>,
+  output: __S(195, __c24, 3) as any as S.Schema<ListMembersOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2288,6 +1279,8 @@ export const listMembers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMembers",
 })) as any;
 
 export type ListNetworksError =
@@ -2302,14 +1295,14 @@ export type ListNetworksError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const listNetworks: API.PaginatedOperationMethod<
-  ListNetworksInput,
+  ListNetworksInput & RegionInput,
   ListNetworksOutput,
   ListNetworksError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListNetworksInput,
-  output: ListNetworksOutput,
+  input: __S(200, __c25, 0) as any as S.Schema<ListNetworksInput>,
+  output: __S(202, __c25, 2) as any as S.Schema<ListNetworksOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2324,6 +1317,8 @@ export const listNetworks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworks",
 })) as any;
 
 export type ListNodesError =
@@ -2338,14 +1333,14 @@ export type ListNodesError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const listNodes: API.PaginatedOperationMethod<
-  ListNodesInput,
+  ListNodesInput & RegionInput,
   ListNodesOutput,
   ListNodesError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListNodesInput,
-  output: ListNodesOutput,
+  input: __S(208, __c26, 0) as any as S.Schema<ListNodesInput>,
+  output: __S(211, __c26, 3) as any as S.Schema<ListNodesOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2360,6 +1355,8 @@ export const listNodes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNodes",
 })) as any;
 
 export type ListProposalsError =
@@ -2375,14 +1372,14 @@ export type ListProposalsError =
  * Applies only to Hyperledger Fabric.
  */
 export const listProposals: API.PaginatedOperationMethod<
-  ListProposalsInput,
+  ListProposalsInput & RegionInput,
   ListProposalsOutput,
   ListProposalsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProposalsInput,
-  output: ListProposalsOutput,
+  input: __S(216, __c27, 0) as any as S.Schema<ListProposalsInput>,
+  output: __S(219, __c27, 3) as any as S.Schema<ListProposalsOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2398,6 +1395,8 @@ export const listProposals: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProposals",
 })) as any;
 
 export type ListProposalVotesError =
@@ -2412,14 +1411,14 @@ export type ListProposalVotesError =
  * Applies only to Hyperledger Fabric.
  */
 export const listProposalVotes: API.PaginatedOperationMethod<
-  ListProposalVotesInput,
+  ListProposalVotesInput & RegionInput,
   ListProposalVotesOutput,
   ListProposalVotesError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProposalVotesInput,
-  output: ListProposalVotesOutput,
+  input: __S(224, __c28, 0) as any as S.Schema<ListProposalVotesInput>,
+  output: __S(227, __c28, 3) as any as S.Schema<ListProposalVotesOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2434,6 +1433,8 @@ export const listProposalVotes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProposalVotes",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2448,13 +1449,13 @@ export type ListTagsForResourceError =
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(232, __c29, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(233, __c29, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidRequestException,
@@ -2464,6 +1465,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RejectInvitationError =
@@ -2480,13 +1483,13 @@ export type RejectInvitationError =
  * Applies only to Hyperledger Fabric.
  */
 export const rejectInvitation: API.OperationMethod<
-  RejectInvitationInput,
+  RejectInvitationInput & RegionInput,
   RejectInvitationOutput,
   RejectInvitationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RejectInvitationInput,
-  output: RejectInvitationOutput,
+  input: __S(240, __c30, 0) as any as S.Schema<RejectInvitationInput>,
+  output: __S(104, __c13, 0) as any as S.Schema<RejectInvitationOutput>,
   errors: [
     AccessDeniedException,
     IllegalActionException,
@@ -2498,6 +1501,8 @@ export const rejectInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectInvitation",
+  telemetry: TELEMETRY,
+  span: "RejectInvitation",
 }));
 
 export type TagResourceError =
@@ -2517,13 +1522,13 @@ export type TagResourceError =
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(248, __c31, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidRequestException,
@@ -2534,6 +1539,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2548,13 +1555,13 @@ export type UntagResourceError =
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(257, __c32, 1) as any as S.Schema<UntagResourceRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidRequestException,
@@ -2564,6 +1571,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateMemberError =
@@ -2579,13 +1588,13 @@ export type UpdateMemberError =
  * Applies only to Hyperledger Fabric.
  */
 export const updateMember: API.OperationMethod<
-  UpdateMemberInput,
+  UpdateMemberInput & RegionInput,
   UpdateMemberOutput,
   UpdateMemberError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateMemberInput,
-  output: UpdateMemberOutput,
+  input: __S(264, __c33, 0) as any as S.Schema<UpdateMemberInput>,
+  output: __S(104, __c13, 0) as any as S.Schema<UpdateMemberOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2596,6 +1605,8 @@ export const updateMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMember",
+  telemetry: TELEMETRY,
+  span: "UpdateMember",
 }));
 
 export type UpdateNodeError =
@@ -2611,13 +1622,13 @@ export type UpdateNodeError =
  * Applies only to Hyperledger Fabric.
  */
 export const updateNode: API.OperationMethod<
-  UpdateNodeInput,
+  UpdateNodeInput & RegionInput,
   UpdateNodeOutput,
   UpdateNodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateNodeInput,
-  output: UpdateNodeOutput,
+  input: __S(272, __c34, 0) as any as S.Schema<UpdateNodeInput>,
+  output: __S(104, __c13, 0) as any as S.Schema<UpdateNodeOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2628,6 +1639,8 @@ export const updateNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNode",
+  telemetry: TELEMETRY,
+  span: "UpdateNode",
 }));
 
 export type VoteOnProposalError =
@@ -2644,13 +1657,13 @@ export type VoteOnProposalError =
  * Applies only to Hyperledger Fabric.
  */
 export const voteOnProposal: API.OperationMethod<
-  VoteOnProposalInput,
+  VoteOnProposalInput & RegionInput,
   VoteOnProposalOutput,
   VoteOnProposalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: VoteOnProposalInput,
-  output: VoteOnProposalOutput,
+  input: __S(280, __c35, 0) as any as S.Schema<VoteOnProposalInput>,
+  output: __S(104, __c13, 0) as any as S.Schema<VoteOnProposalOutput>,
   errors: [
     AccessDeniedException,
     IllegalActionException,
@@ -2662,4 +1675,962 @@ export const voteOnProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VoteOnProposal",
+  telemetry: TELEMETRY,
+  span: "VoteOnProposal",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          AccessorType: S.String,
+          Tags: S.optional(__S(8, __c1, 0)),
+          NetworkType: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/accessors" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateAccessorInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AccessorId: S.optional(S.String),
+          BillingToken: S.optional(S.String),
+          NetworkType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateAccessorOutput" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          InvitationId: S.String,
+          NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+          MemberConfiguration: __S(26, __c3, 2),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/networks/{NetworkId}/members" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateMemberInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ MemberId: S.optional(S.String) })).annotate({
+        identifier: "CreateMemberOutput",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AdminUsername: S.String, AdminPassword: SensitiveString }),
+      ).annotate({ identifier: "MemberFabricConfiguration" });
+    case 1:
+      return S.suspend(() => S.Struct({ Fabric: S.optional(__S(24, __c3, 0)) })).annotate({
+        identifier: "MemberFrameworkConfiguration",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Description: S.optional(S.String),
+          FrameworkConfiguration: __S(25, __c3, 1),
+          LogPublishingConfiguration: S.optional(__S(41, __c5, 1)),
+          Tags: S.optional(__S(8, __c1, 0)),
+          KmsKeyArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MemberConfiguration" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Enabled: S.optional(S.Boolean) })).annotate({
+        identifier: "LogConfiguration",
+      });
+    case 1:
+      return S.suspend(() => S.Struct({ Cloudwatch: S.optional(__S(32, __c4, 0)) })).annotate({
+        identifier: "LogConfigurations",
+      });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ CaLogs: S.optional(__S(33, __c4, 1)) })).annotate({
+        identifier: "MemberFabricLogPublishingConfiguration",
+      });
+    case 1:
+      return S.suspend(() => S.Struct({ Fabric: S.optional(__S(40, __c5, 0)) })).annotate({
+        identifier: "MemberLogPublishingConfiguration",
+      });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Edition: S.String })).annotate({
+        identifier: "NetworkFabricConfiguration",
+      });
+    case 1:
+      return S.suspend(() => S.Struct({ Fabric: S.optional(__S(48, __c6, 0)) })).annotate({
+        identifier: "NetworkFrameworkConfiguration",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          Name: S.String,
+          Description: S.optional(S.String),
+          Framework: S.String,
+          FrameworkVersion: S.String,
+          FrameworkConfiguration: S.optional(__S(49, __c6, 1)),
+          VotingPolicy: __S(57, __c7, 1),
+          MemberConfiguration: __S(26, __c3, 2),
+          Tags: S.optional(__S(8, __c1, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/networks" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateNetworkInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ NetworkId: S.optional(S.String), MemberId: S.optional(S.String) }),
+      ).annotate({ identifier: "CreateNetworkOutput" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ThresholdPercentage: S.optional(S.Number),
+          ProposalDurationInHours: S.optional(S.Number),
+          ThresholdComparator: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApprovalThresholdPolicy" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ApprovalThresholdPolicy: S.optional(__S(56, __c7, 0)) }),
+      ).annotate({ identifier: "VotingPolicy" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceType: S.String,
+          AvailabilityZone: S.optional(S.String),
+          LogPublishingConfiguration: S.optional(__S(73, __c9, 1)),
+          StateDB: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NodeConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+          MemberId: S.optional(S.String),
+          NodeConfiguration: __S(64, __c8, 0),
+          Tags: S.optional(__S(8, __c1, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/networks/{NetworkId}/nodes" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateNodeInput" });
+    case 2:
+      return S.suspend(() => S.Struct({ NodeId: S.optional(S.String) })).annotate({
+        identifier: "CreateNodeOutput",
+      });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ChaincodeLogs: S.optional(__S(33, __c4, 1)),
+          PeerLogs: S.optional(__S(33, __c4, 1)),
+        }),
+      ).annotate({ identifier: "NodeFabricLogPublishingConfiguration" });
+    case 1:
+      return S.suspend(() => S.Struct({ Fabric: S.optional(__S(72, __c9, 0)) })).annotate({
+        identifier: "NodeLogPublishingConfiguration",
+      });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+          MemberId: S.String,
+          Actions: __S(92, __c11, 4),
+          Description: S.optional(S.String),
+          Tags: S.optional(__S(8, __c1, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/networks/{NetworkId}/proposals" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateProposalInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ ProposalId: S.optional(S.String) })).annotate({
+        identifier: "CreateProposalOutput",
+      });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Principal: S.String })).annotate({
+        identifier: "InviteAction",
+      });
+    case 1:
+      return S.Array(__S(88, __c11, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ MemberId: S.String })).annotate({
+        identifier: "RemoveAction",
+      });
+    case 3:
+      return S.Array(__S(90, __c11, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Invitations: S.optional(__S(89, __c11, 1)),
+          Removals: S.optional(__S(91, __c11, 3)),
+        }),
+      ).annotate({ identifier: "ProposalActions" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AccessorId: S.String.pipe(T.HttpLabel("AccessorId")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/accessors/{AccessorId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteAccessorInput" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAccessorOutput" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+          MemberId: S.String.pipe(T.HttpLabel("MemberId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/networks/{NetworkId}/members/{MemberId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteMemberInput" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+          MemberId: S.optional(S.String).pipe(T.HttpQuery("memberId")),
+          NodeId: S.String.pipe(T.HttpLabel("NodeId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/networks/{NetworkId}/nodes/{NodeId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteNodeInput" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AccessorId: S.String.pipe(T.HttpLabel("AccessorId")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/accessors/{AccessorId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetAccessorInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Type: S.optional(S.String),
+          BillingToken: S.optional(S.String),
+          Status: S.optional(S.String),
+          CreationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Arn: S.optional(S.String),
+          Tags: S.optional(__S(8, __c1, 0)),
+          NetworkType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Accessor" });
+    case 2:
+      return S.suspend(() => S.Struct({ Accessor: S.optional(__S(129, __c16, 1)) })).annotate({
+        identifier: "GetAccessorOutput",
+      });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+          MemberId: S.String.pipe(T.HttpLabel("MemberId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/networks/{NetworkId}/members/{MemberId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetMemberInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ AdminUsername: S.optional(S.String), CaEndpoint: S.optional(S.String) }),
+      ).annotate({ identifier: "MemberFabricAttributes" });
+    case 2:
+      return S.suspend(() => S.Struct({ Fabric: S.optional(__S(137, __c17, 1)) })).annotate({
+        identifier: "MemberFrameworkAttributes",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NetworkId: S.optional(S.String),
+          Id: S.optional(S.String),
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          FrameworkAttributes: S.optional(__S(138, __c17, 2)),
+          LogPublishingConfiguration: S.optional(__S(41, __c5, 1)),
+          Status: S.optional(S.String),
+          CreationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Tags: S.optional(__S(8, __c1, 0)),
+          Arn: S.optional(S.String),
+          KmsKeyArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Member" });
+    case 4:
+      return S.suspend(() => S.Struct({ Member: S.optional(__S(139, __c17, 3)) })).annotate({
+        identifier: "GetMemberOutput",
+      });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ NetworkId: S.String.pipe(T.HttpLabel("NetworkId")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/networks/{NetworkId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetNetworkInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ OrderingServiceEndpoint: S.optional(S.String), Edition: S.optional(S.String) }),
+      ).annotate({ identifier: "NetworkFabricAttributes" });
+    case 2:
+      return S.suspend(() => S.Struct({ ChainId: S.optional(S.String) })).annotate({
+        identifier: "NetworkEthereumAttributes",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Fabric: S.optional(__S(145, __c18, 1)),
+          Ethereum: S.optional(__S(146, __c18, 2)),
+        }),
+      ).annotate({ identifier: "NetworkFrameworkAttributes" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          Framework: S.optional(S.String),
+          FrameworkVersion: S.optional(S.String),
+          FrameworkAttributes: S.optional(__S(147, __c18, 3)),
+          VpcEndpointServiceName: S.optional(S.String),
+          VotingPolicy: S.optional(__S(57, __c7, 1)),
+          Status: S.optional(S.String),
+          CreationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Tags: S.optional(__S(8, __c1, 0)),
+          Arn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Network" });
+    case 5:
+      return S.suspend(() => S.Struct({ Network: S.optional(__S(148, __c18, 4)) })).annotate({
+        identifier: "GetNetworkOutput",
+      });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+          MemberId: S.optional(S.String).pipe(T.HttpQuery("memberId")),
+          NodeId: S.String.pipe(T.HttpLabel("NodeId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/networks/{NetworkId}/nodes/{NodeId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetNodeInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ PeerEndpoint: S.optional(S.String), PeerEventEndpoint: S.optional(S.String) }),
+      ).annotate({ identifier: "NodeFabricAttributes" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ HttpEndpoint: S.optional(S.String), WebSocketEndpoint: S.optional(S.String) }),
+      ).annotate({ identifier: "NodeEthereumAttributes" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Fabric: S.optional(__S(153, __c19, 1)),
+          Ethereum: S.optional(__S(154, __c19, 2)),
+        }),
+      ).annotate({ identifier: "NodeFrameworkAttributes" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          NetworkId: S.optional(S.String),
+          MemberId: S.optional(S.String),
+          Id: S.optional(S.String),
+          InstanceType: S.optional(S.String),
+          AvailabilityZone: S.optional(S.String),
+          FrameworkAttributes: S.optional(__S(155, __c19, 3)),
+          LogPublishingConfiguration: S.optional(__S(73, __c9, 1)),
+          StateDB: S.optional(S.String),
+          Status: S.optional(S.String),
+          CreationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Tags: S.optional(__S(8, __c1, 0)),
+          Arn: S.optional(S.String),
+          KmsKeyArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Node" });
+    case 5:
+      return S.suspend(() => S.Struct({ Node: S.optional(__S(156, __c19, 4)) })).annotate({
+        identifier: "GetNodeOutput",
+      });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+          ProposalId: S.String.pipe(T.HttpLabel("ProposalId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/networks/{NetworkId}/proposals/{ProposalId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetProposalInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ProposalId: S.optional(S.String),
+          NetworkId: S.optional(S.String),
+          Description: S.optional(S.String),
+          Actions: S.optional(__S(92, __c11, 4)),
+          ProposedByMemberId: S.optional(S.String),
+          ProposedByMemberName: S.optional(S.String),
+          Status: S.optional(S.String),
+          CreationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          ExpirationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          YesVoteCount: S.optional(S.Number),
+          NoVoteCount: S.optional(S.Number),
+          OutstandingVoteCount: S.optional(S.Number),
+          Tags: S.optional(__S(8, __c1, 0)),
+          Arn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Proposal" });
+    case 2:
+      return S.suspend(() => S.Struct({ Proposal: S.optional(__S(161, __c20, 1)) })).annotate({
+        identifier: "GetProposalOutput",
+      });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          NetworkType: S.optional(S.String).pipe(T.HttpQuery("networkType")),
+        }).pipe(T.all(T.Http({ method: "GET", uri: "/accessors" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAccessorsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Type: S.optional(S.String),
+          Status: S.optional(S.String),
+          CreationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Arn: S.optional(S.String),
+          NetworkType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AccessorSummary" });
+    case 2:
+      return S.Array(__S(169, __c21, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Accessors: S.optional(__S(170, __c21, 2)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListAccessorsOutput" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/invitations" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListInvitationsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          InvitationId: S.optional(S.String),
+          CreationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          ExpirationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Status: S.optional(S.String),
+          NetworkSummary: S.optional(__S(184, __c23, 0)),
+          Arn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Invitation" });
+    case 2:
+      return S.Array(__S(177, __c22, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Invitations: S.optional(__S(178, __c22, 2)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListInvitationsOutput" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          Framework: S.optional(S.String),
+          FrameworkVersion: S.optional(S.String),
+          Status: S.optional(S.String),
+          CreationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Arn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkSummary" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+          Name: S.optional(S.String).pipe(T.HttpQuery("name")),
+          Status: S.optional(S.String).pipe(T.HttpQuery("status")),
+          IsOwned: S.optional(S.Boolean).pipe(T.HttpQuery("isOwned")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/networks/{NetworkId}/members" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListMembersInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          Status: S.optional(S.String),
+          CreationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          IsOwned: S.optional(S.Boolean),
+          Arn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MemberSummary" });
+    case 2:
+      return S.Array(__S(193, __c24, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Members: S.optional(__S(194, __c24, 2)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListMembersOutput" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String).pipe(T.HttpQuery("name")),
+          Framework: S.optional(S.String).pipe(T.HttpQuery("framework")),
+          Status: S.optional(S.String).pipe(T.HttpQuery("status")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(T.all(T.Http({ method: "GET", uri: "/networks" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListNetworksInput" });
+    case 1:
+      return S.Array(__S(184, __c23, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Networks: S.optional(__S(201, __c25, 1)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListNetworksOutput" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+          MemberId: S.optional(S.String).pipe(T.HttpQuery("memberId")),
+          Status: S.optional(S.String).pipe(T.HttpQuery("status")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/networks/{NetworkId}/nodes" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListNodesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Status: S.optional(S.String),
+          CreationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          AvailabilityZone: S.optional(S.String),
+          InstanceType: S.optional(S.String),
+          Arn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NodeSummary" });
+    case 2:
+      return S.Array(__S(209, __c26, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Nodes: S.optional(__S(210, __c26, 2)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListNodesOutput" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/networks/{NetworkId}/proposals" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListProposalsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ProposalId: S.optional(S.String),
+          Description: S.optional(S.String),
+          ProposedByMemberId: S.optional(S.String),
+          ProposedByMemberName: S.optional(S.String),
+          Status: S.optional(S.String),
+          CreationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          ExpirationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Arn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProposalSummary" });
+    case 2:
+      return S.Array(__S(217, __c27, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Proposals: S.optional(__S(218, __c27, 2)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListProposalsOutput" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+          ProposalId: S.String.pipe(T.HttpLabel("ProposalId")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/networks/{NetworkId}/proposals/{ProposalId}/votes" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListProposalVotesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Vote: S.optional(S.String),
+          MemberName: S.optional(S.String),
+          MemberId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VoteSummary" });
+    case 2:
+      return S.Array(__S(225, __c28, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ProposalVotes: S.optional(__S(226, __c28, 2)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListProposalVotesOutput" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(8, __c1, 0)) })).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ InvitationId: S.String.pipe(T.HttpLabel("InvitationId")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/invitations/{InvitationId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "RejectInvitationInput" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+          Tags: __S(8, __c1, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+          TagKeys: __S(256, __c32, 0).pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+          MemberId: S.String.pipe(T.HttpLabel("MemberId")),
+          LogPublishingConfiguration: S.optional(__S(41, __c5, 1)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/networks/{NetworkId}/members/{MemberId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateMemberInput" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+          MemberId: S.optional(S.String),
+          NodeId: S.String.pipe(T.HttpLabel("NodeId")),
+          LogPublishingConfiguration: S.optional(__S(73, __c9, 1)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/networks/{NetworkId}/nodes/{NodeId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateNodeInput" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+          ProposalId: S.String.pipe(T.HttpLabel("ProposalId")),
+          VoterMemberId: S.String,
+          Vote: S.String,
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/networks/{NetworkId}/proposals/{ProposalId}/votes" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "VoteOnProposalInput" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

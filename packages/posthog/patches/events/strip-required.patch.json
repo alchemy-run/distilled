@@ -1,0 +1,53 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.events#Property/members/values/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.events#PropertyItem/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.events#PropertyItem/members/value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.events#ClickhouseEvent/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.events#ClickhouseEvent/members/distinct_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.events#ClickhouseEvent/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.events#ClickhouseEvent/members/event/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.events#ClickhouseEvent/members/timestamp/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.events#ClickhouseEvent/members/person/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.events#ClickhouseEvent/members/elements/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.events#ClickhouseEvent/members/elements_chain/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.events#EventElement/members/event/traits"
+    }
+  ]
+}

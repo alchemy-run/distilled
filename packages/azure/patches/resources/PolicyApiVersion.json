@@ -1,0 +1,595 @@
+{
+  "description": "ARM has not rolled out api-version 2026-07-01 for Microsoft.Authorization policy types (400 InvalidResourceType: \"The resource type 'policyDefinitions' could not be found in the namespace 'Microsoft.Authorization' for api version '2026-07-01'\"; newest supported GA is 2026-06-01). Pin every policy operation to 2026-06-01.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyAssignmentsCreate/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyAssignmentsCreate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyAssignmentsDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyAssignmentsDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsDeleteAtManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsDeleteAtManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsDeleteAtManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsDeleteAtManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsDeleteAtManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsDeleteAtManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsDeleteAtManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsDeleteAtManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#DataPolicyManifestsGetByPolicyMode/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#DataPolicyManifestsGetByPolicyMode/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyAssignmentsGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyAssignmentsGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsGetAtManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsGetAtManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsGetBuiltIn/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsGetBuiltIn/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsGetAtManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsGetAtManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsGetBuiltIn/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsGetBuiltIn/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsGetAtManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsGetAtManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsGetBuiltIn/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsGetBuiltIn/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsGetAtManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsGetAtManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsGetBuiltIn/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsGetBuiltIn/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#DataPolicyManifestsList/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#DataPolicyManifestsList/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyAssignmentsListForManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyAssignmentsListForManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyAssignmentsListForResource/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyAssignmentsListForResource/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyAssignmentsListForResourceGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyAssignmentsListForResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyAssignmentsList/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyAssignmentsList/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsListBuiltIn/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsListBuiltIn/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsListByManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsListByManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsListAll/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsListAll/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsListAllAtManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsListAllAtManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsListAllBuiltins/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsListAllBuiltins/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsListBuiltIn/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsListBuiltIn/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsListByManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsListByManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsList/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsList/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsList/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsList/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsListBuiltIn/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsListBuiltIn/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsListByManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsListByManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsListAll/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsListAll/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsListAllAtManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsListAllAtManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsListAllBuiltins/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsListAllBuiltins/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsListBuiltIn/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsListBuiltIn/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsListByManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsListByManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsList/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsList/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsList/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsList/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsCreateOrUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsCreateOrUpdateAtManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionVersionsCreateOrUpdateAtManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsCreateOrUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsCreateOrUpdateAtManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyDefinitionsCreateOrUpdateAtManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsCreateOrUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsCreateOrUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsCreateOrUpdateAtManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicySetDefinitionsCreateOrUpdateAtManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyTokensAcquire/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyTokensAcquire/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyTokensAcquireAtManagementGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyTokensAcquireAtManagementGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyTokensAcquireAtResourceGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyTokensAcquireAtResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyAssignmentsUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.resources#PolicyAssignmentsUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    }
+  ]
+}

@@ -1,26 +1,20 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches the Railway API spec(s) to ../specs/.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Sources may be OpenAPI documents (fetched via GET) or GraphQL endpoints
- * (introspected via POST). For GraphQL, both an introspection JSON and an
- * SDL file are written.
+ * (introspected via POST). Either way a single JSON file is written.
  *
  * If a source requires authentication, set SPEC_API_TOKEN in the environment
  * — it will be sent as `Authorization: Bearer <token>`.
  */
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 import YAML from "yaml";
-import {
-  buildClientSchema,
-  getIntrospectionQuery,
-  printSchema,
-  type IntrospectionQuery,
-} from "graphql";
 
 interface SpecSource {
   url: string;
@@ -36,6 +30,37 @@ const SOURCES: SpecSource[] = [
   },
 ];
 const SPECS_DIR = "../specs";
+
+/**
+ * The query `graphql-js` 16.14's `getIntrospectionQuery()` builds with its
+ * default options, spelled out so the mirror needs no `graphql` dependency.
+ */
+const INTROSPECTION_QUERY = `query IntrospectionQuery {
+  __schema {
+    queryType { name kind }
+    mutationType { name kind }
+    subscriptionType { name kind }
+    types { ...FullType }
+    directives { name description locations args { ...InputValue } }
+  }
+}
+fragment FullType on __Type {
+  kind name description
+  fields(includeDeprecated: true) {
+    name description args { ...InputValue } type { ...TypeRef }
+    isDeprecated deprecationReason
+  }
+  inputFields { ...InputValue }
+  interfaces { ...TypeRef }
+  enumValues(includeDeprecated: true) { name description isDeprecated deprecationReason }
+  possibleTypes { ...TypeRef }
+}
+fragment InputValue on __InputValue { name description type { ...TypeRef } defaultValue }
+fragment TypeRef on __Type {
+  kind name
+  ofType { name kind ofType { name kind ofType { name kind ofType { name kind ofType { name kind
+    ofType { name kind ofType { name kind ofType { name kind ofType { name kind } } } } } } } } }
+}`;
 
 if (!existsSync(SPECS_DIR)) {
   mkdirSync(SPECS_DIR, { recursive: true });
@@ -58,14 +83,12 @@ async function fetchOpenApi(src: SpecSource) {
   console.log(`Fetching OpenAPI spec from ${src.url}...`);
   const response = await fetch(src.url, { headers: authHeaders() });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${src.url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${src.url}: ${response.status} ${response.statusText}`);
   }
   const spec = parseSpec(await response.text());
   const outputPath = `${SPECS_DIR}/${src.output}.json`;
   console.log(`Writing ${outputPath}...`);
-  await Bun.write(outputPath, JSON.stringify(spec, null, 2));
+  await writeFile(outputPath, JSON.stringify(spec, null, 2));
 }
 
 async function fetchGraphQL(src: SpecSource) {
@@ -77,7 +100,7 @@ async function fetchGraphQL(src: SpecSource) {
       Accept: "application/json",
       ...authHeaders(),
     },
-    body: JSON.stringify({ query: getIntrospectionQuery() }),
+    body: JSON.stringify({ query: INTROSPECTION_QUERY }),
   });
   if (!response.ok) {
     const body = await response.text();
@@ -86,23 +109,16 @@ async function fetchGraphQL(src: SpecSource) {
     );
   }
   const payload = (await response.json()) as {
-    data?: IntrospectionQuery;
+    data?: { __schema?: { types?: unknown } };
     errors?: unknown;
   };
-  if (payload.errors || !payload.data) {
-    throw new Error(
-      `GraphQL introspection errors: ${JSON.stringify(payload.errors)}`,
-    );
+  if (payload.errors || !Array.isArray(payload.data?.__schema?.types)) {
+    throw new Error(`GraphQL introspection errors: ${JSON.stringify(payload.errors)}`);
   }
   const introspection = payload.data;
   const jsonPath = `${SPECS_DIR}/${src.output}.json`;
   console.log(`Writing ${jsonPath}...`);
-  await Bun.write(jsonPath, JSON.stringify(introspection, null, 2));
-
-  const schema = buildClientSchema(introspection);
-  const sdlPath = `${SPECS_DIR}/${src.output}.graphql`;
-  console.log(`Writing ${sdlPath}...`);
-  await Bun.write(sdlPath, printSchema(schema));
+  await writeFile(jsonPath, JSON.stringify(introspection, null, 2));
 }
 
 async function main() {

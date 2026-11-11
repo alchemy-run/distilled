@@ -1,0 +1,25 @@
+{
+  "description": "The NSDV reference is polymorphic on idType (Open/Secret); the converted model keeps only the discriminator, so the reference `id` is stripped. Add it.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#SiteNetworkServicePropertiesFormatInputNetworkServiceDesignVersionResourceReference/members/id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM resource id of the referenced resource."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#SiteNetworkServicePropertiesFormatNetworkServiceDesignVersionResourceReference/members/id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM resource id of the referenced resource."
+        }
+      }
+    }
+  ]
+}

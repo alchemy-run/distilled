@@ -1,5 +1,5 @@
 /**
- * DigitalOcean SDK trait surface — hand-written.
+ * DigitalOcean SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). DigitalOcean has no envelope of its

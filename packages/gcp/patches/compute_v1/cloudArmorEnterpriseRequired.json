@@ -1,0 +1,33 @@
+{
+  "description": "Type insertNetworkEdgeSecurityServices' Cloud Armor tier gate (HTTP 400 'Network Security Policies require Cloud Armor Managed Protection Plus tier and above to use.'). It surfaced as the generic BadRequest. Observed live 2026-09-29 in us-central1.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#CloudArmorEnterpriseRequired",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The project is not enrolled in Cloud Armor Enterprise (Managed Protection Plus), which network edge security services require (HTTP 400: 'Network Security Policies require Cloud Armor Managed Protection Plus tier and above to use.'). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "require Cloud Armor Managed Protection Plus"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#InsertNetworkEdgeSecurityServices/errors/-",
+      "value": {
+        "target": "com.gcp.compute_v1#CloudArmorEnterpriseRequired"
+      }
+    }
+  ]
+}

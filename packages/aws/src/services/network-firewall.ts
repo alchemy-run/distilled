@@ -1,19 +1,24 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Network Firewall",
   serviceShapeName: "NetworkFirewall_20201112",
 });
-const auth = T.AwsAuthSigv4({ name: "network-firewall" });
-const ver = T.ServiceVersion("2020-11-12");
-const proto = T.AwsProtocolsAwsJson1_0();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "network-firewall" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2020-11-12");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_0();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -25,14 +30,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -59,9 +60,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://network-firewall-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -69,91 +68,87 @@ const rules = T.EndpointResolver((p, _) => {
               `https://network-firewall.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://network-firewall.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://network-firewall.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://network-firewall.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "NetworkFirewall",
+  service: "NetworkFirewall",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class InsufficientCapacityException
   extends /*@__PURE__*/ S.TaggedError<InsufficientCapacityException>()(
     "InsufficientCapacityException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class InternalServerError
-  extends /*@__PURE__*/ S.TaggedError<InternalServerError>()(
-    "InternalServerError",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InternalServerError>()("InternalServerError", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class InvalidOperationException
-  extends /*@__PURE__*/ S.TaggedError<InvalidOperationException>()(
-    "InvalidOperationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidOperationException>()("InvalidOperationException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class InvalidRequestException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
-    "InvalidRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()("InvalidRequestException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class InvalidResourcePolicyException
   extends /*@__PURE__*/ S.TaggedError<InvalidResourcePolicyException>()(
     "InvalidResourcePolicyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class InvalidTokenException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTokenException>()(
-    "InvalidTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidTokenException>()("InvalidTokenException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
-    "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class LogDestinationPermissionException
   extends /*@__PURE__*/ S.TaggedError<LogDestinationPermissionException>()(
     "LogDestinationPermissionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
-    "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class ResourceOwnerCheckException
   extends /*@__PURE__*/ S.TaggedError<ResourceOwnerCheckException>()(
     "ResourceOwnerCheckException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
-    "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()("ThrottlingException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class UnsupportedOperationException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedOperationException>()(
     "UnsupportedOperationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export type TransitGatewayAttachmentId = string;
 export interface AcceptNetworkFirewallTransitGatewayAttachmentRequest {
   TransitGatewayAttachmentId: string;
 }
-export const AcceptNetworkFirewallTransitGatewayAttachmentRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ TransitGatewayAttachmentId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "AcceptNetworkFirewallTransitGatewayAttachmentRequest",
-  }) as any as S.Schema<AcceptNetworkFirewallTransitGatewayAttachmentRequest>;
 export type TransitGatewayAttachmentStatus =
   | "CREATING"
   | "DELETING"
@@ -165,21 +160,10 @@ export type TransitGatewayAttachmentStatus =
   | "REJECTING"
   | "REJECTED"
   | (string & {});
-export const TransitGatewayAttachmentStatus = S.String;
-
 export interface AcceptNetworkFirewallTransitGatewayAttachmentResponse {
   TransitGatewayAttachmentId: string;
   TransitGatewayAttachmentStatus: TransitGatewayAttachmentStatus;
 }
-export const AcceptNetworkFirewallTransitGatewayAttachmentResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      TransitGatewayAttachmentId: S.String,
-      TransitGatewayAttachmentStatus: TransitGatewayAttachmentStatus,
-    }),
-  ).annotate({
-    identifier: "AcceptNetworkFirewallTransitGatewayAttachmentResponse",
-  }) as any as S.Schema<AcceptNetworkFirewallTransitGatewayAttachmentResponse>;
 export type UpdateToken = string;
 export type ResourceArn = string;
 export type ResourceName = string;
@@ -187,524 +171,215 @@ export type AvailabilityZoneMappingString = string;
 export interface AvailabilityZoneMapping {
   AvailabilityZone: string;
 }
-export const AvailabilityZoneMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AvailabilityZone: S.String }),
-).annotate({
-  identifier: "AvailabilityZoneMapping",
-}) as any as S.Schema<AvailabilityZoneMapping>;
 export type AvailabilityZoneMappings = AvailabilityZoneMapping[];
-export const AvailabilityZoneMappings = /*@__PURE__*/ S.Array(
-  AvailabilityZoneMapping,
-);
 export interface AssociateAvailabilityZonesRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   AvailabilityZoneMappings: AvailabilityZoneMapping[];
 }
-export const AssociateAvailabilityZonesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpdateToken: S.optional(S.String),
-    FirewallArn: S.optional(S.String),
-    FirewallName: S.optional(S.String),
-    AvailabilityZoneMappings: AvailabilityZoneMappings,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "AssociateAvailabilityZonesRequest",
-}) as any as S.Schema<AssociateAvailabilityZonesRequest>;
 export interface AssociateAvailabilityZonesResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  AvailabilityZoneMappings?: AvailabilityZoneMapping[];
-  UpdateToken?: string;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  AvailabilityZoneMappings?: AvailabilityZoneMapping[] | undefined;
+  UpdateToken?: string | undefined;
 }
-export const AssociateAvailabilityZonesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.optional(S.String),
-    FirewallName: S.optional(S.String),
-    AvailabilityZoneMappings: S.optional(AvailabilityZoneMappings),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AssociateAvailabilityZonesResponse",
-}) as any as S.Schema<AssociateAvailabilityZonesResponse>;
 export interface AssociateFirewallPolicyRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   FirewallPolicyArn: string;
 }
-export const AssociateFirewallPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpdateToken: S.optional(S.String),
-    FirewallArn: S.optional(S.String),
-    FirewallName: S.optional(S.String),
-    FirewallPolicyArn: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "AssociateFirewallPolicyRequest",
-}) as any as S.Schema<AssociateFirewallPolicyRequest>;
 export interface AssociateFirewallPolicyResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  FirewallPolicyArn?: string;
-  UpdateToken?: string;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  FirewallPolicyArn?: string | undefined;
+  UpdateToken?: string | undefined;
 }
-export const AssociateFirewallPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.optional(S.String),
-    FirewallName: S.optional(S.String),
-    FirewallPolicyArn: S.optional(S.String),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AssociateFirewallPolicyResponse",
-}) as any as S.Schema<AssociateFirewallPolicyResponse>;
 export type CollectionMember_String = string;
 export type IPAddressType = "DUALSTACK" | "IPV4" | "IPV6" | (string & {});
-export const IPAddressType = S.String;
-
 export interface SubnetMapping {
   SubnetId: string;
-  IPAddressType?: IPAddressType;
+  IPAddressType?: IPAddressType | undefined;
 }
-export const SubnetMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SubnetId: S.String, IPAddressType: S.optional(IPAddressType) }),
-).annotate({ identifier: "SubnetMapping" }) as any as S.Schema<SubnetMapping>;
 export type SubnetMappings = SubnetMapping[];
-export const SubnetMappings = /*@__PURE__*/ S.Array(SubnetMapping);
 export interface AssociateSubnetsRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   SubnetMappings: SubnetMapping[];
 }
-export const AssociateSubnetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpdateToken: S.optional(S.String),
-    FirewallArn: S.optional(S.String),
-    FirewallName: S.optional(S.String),
-    SubnetMappings: SubnetMappings,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "AssociateSubnetsRequest",
-}) as any as S.Schema<AssociateSubnetsRequest>;
 export interface AssociateSubnetsResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  SubnetMappings?: SubnetMapping[];
-  UpdateToken?: string;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  SubnetMappings?: SubnetMapping[] | undefined;
+  UpdateToken?: string | undefined;
 }
-export const AssociateSubnetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.optional(S.String),
-    FirewallName: S.optional(S.String),
-    SubnetMappings: S.optional(SubnetMappings),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AssociateSubnetsResponse",
-}) as any as S.Schema<AssociateSubnetsResponse>;
 export type InsertPosition = number;
 export interface ProxyRuleGroupAttachment {
-  ProxyRuleGroupName?: string;
-  InsertPosition?: number;
+  ProxyRuleGroupName?: string | undefined;
+  InsertPosition?: number | undefined;
 }
-export const ProxyRuleGroupAttachment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroupName: S.optional(S.String),
-    InsertPosition: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ProxyRuleGroupAttachment",
-}) as any as S.Schema<ProxyRuleGroupAttachment>;
 export type ProxyRuleGroupAttachmentList = ProxyRuleGroupAttachment[];
-export const ProxyRuleGroupAttachmentList = /*@__PURE__*/ S.Array(
-  ProxyRuleGroupAttachment,
-);
 export interface AttachRuleGroupsToProxyConfigurationRequest {
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
   RuleGroups: ProxyRuleGroupAttachment[];
   UpdateToken: string;
 }
-export const AttachRuleGroupsToProxyConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ProxyConfigurationName: S.optional(S.String),
-      ProxyConfigurationArn: S.optional(S.String),
-      RuleGroups: ProxyRuleGroupAttachmentList,
-      UpdateToken: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "AttachRuleGroupsToProxyConfigurationRequest",
-  }) as any as S.Schema<AttachRuleGroupsToProxyConfigurationRequest>;
 export type Description = string;
 export type CreateTime = Date;
 export type DeleteTime = Date;
 export type ProxyConfigRuleGroupType = string;
 export type ProxyConfigRuleGroupPriority = number;
 export interface ProxyConfigRuleGroup {
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
-  Type?: string;
-  Priority?: number;
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
+  Type?: string | undefined;
+  Priority?: number | undefined;
 }
-export const ProxyConfigRuleGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroupName: S.optional(S.String),
-    ProxyRuleGroupArn: S.optional(S.String),
-    Type: S.optional(S.String),
-    Priority: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ProxyConfigRuleGroup",
-}) as any as S.Schema<ProxyConfigRuleGroup>;
 export type ProxyConfigRuleGroupSet = ProxyConfigRuleGroup[];
-export const ProxyConfigRuleGroupSet =
-  /*@__PURE__*/ S.Array(ProxyConfigRuleGroup);
 export type ProxyRulePhaseAction = "ALLOW" | "DENY" | "ALERT" | (string & {});
-export const ProxyRulePhaseAction = S.String;
-
 export interface ProxyConfigDefaultRulePhaseActionsRequest {
-  PreDNS?: ProxyRulePhaseAction;
-  PreREQUEST?: ProxyRulePhaseAction;
-  PostRESPONSE?: ProxyRulePhaseAction;
+  PreDNS?: ProxyRulePhaseAction | undefined;
+  PreREQUEST?: ProxyRulePhaseAction | undefined;
+  PostRESPONSE?: ProxyRulePhaseAction | undefined;
 }
-export const ProxyConfigDefaultRulePhaseActionsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      PreDNS: S.optional(ProxyRulePhaseAction),
-      PreREQUEST: S.optional(ProxyRulePhaseAction),
-      PostRESPONSE: S.optional(ProxyRulePhaseAction),
-    }),
-  ).annotate({
-    identifier: "ProxyConfigDefaultRulePhaseActionsRequest",
-  }) as any as S.Schema<ProxyConfigDefaultRulePhaseActionsRequest>;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface ProxyConfiguration {
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
-  Description?: string;
-  CreateTime?: Date;
-  DeleteTime?: Date;
-  RuleGroups?: ProxyConfigRuleGroup[];
-  DefaultRulePhaseActions?: ProxyConfigDefaultRulePhaseActionsRequest;
-  Tags?: Tag[];
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
+  Description?: string | undefined;
+  CreateTime?: Date | undefined;
+  DeleteTime?: Date | undefined;
+  RuleGroups?: ProxyConfigRuleGroup[] | undefined;
+  DefaultRulePhaseActions?: ProxyConfigDefaultRulePhaseActionsRequest | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const ProxyConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyConfigurationName: S.optional(S.String),
-    ProxyConfigurationArn: S.optional(S.String),
-    Description: S.optional(S.String),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    RuleGroups: S.optional(ProxyConfigRuleGroupSet),
-    DefaultRulePhaseActions: S.optional(
-      ProxyConfigDefaultRulePhaseActionsRequest,
-    ),
-    Tags: S.optional(TagList),
-  }),
-).annotate({
-  identifier: "ProxyConfiguration",
-}) as any as S.Schema<ProxyConfiguration>;
 export interface AttachRuleGroupsToProxyConfigurationResponse {
-  ProxyConfiguration?: ProxyConfiguration;
-  UpdateToken?: string;
+  ProxyConfiguration?: ProxyConfiguration | undefined;
+  UpdateToken?: string | undefined;
 }
-export const AttachRuleGroupsToProxyConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ProxyConfiguration: S.optional(ProxyConfiguration),
-      UpdateToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "AttachRuleGroupsToProxyConfigurationResponse",
-  }) as any as S.Schema<AttachRuleGroupsToProxyConfigurationResponse>;
 export type ContainerMonitoringType = "ECS" | "EKS" | (string & {});
-export const ContainerMonitoringType = S.String;
-
 export type ContainerAttributeKey = string;
 export type ContainerAttributeValue = string;
 export interface ContainerAttribute {
   Key: string;
   Value: string;
 }
-export const ContainerAttribute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({
-  identifier: "ContainerAttribute",
-}) as any as S.Schema<ContainerAttribute>;
 export type ContainerAttributes = ContainerAttribute[];
-export const ContainerAttributes = /*@__PURE__*/ S.Array(ContainerAttribute);
 export interface ContainerMonitoringConfiguration {
   ClusterArn: string;
-  AttributeFilters?: ContainerAttribute[];
+  AttributeFilters?: ContainerAttribute[] | undefined;
 }
-export const ContainerMonitoringConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClusterArn: S.String,
-    AttributeFilters: S.optional(ContainerAttributes),
-  }),
-).annotate({
-  identifier: "ContainerMonitoringConfiguration",
-}) as any as S.Schema<ContainerMonitoringConfiguration>;
-export type ContainerMonitoringConfigurations =
-  ContainerMonitoringConfiguration[];
-export const ContainerMonitoringConfigurations = /*@__PURE__*/ S.Array(
-  ContainerMonitoringConfiguration,
-);
+export type ContainerMonitoringConfigurations = ContainerMonitoringConfiguration[];
 export interface CreateContainerAssociationRequest {
   ContainerAssociationName: string;
-  Description?: string;
+  Description?: string | undefined;
   Type: ContainerMonitoringType;
   ContainerMonitoringConfigurations: ContainerMonitoringConfiguration[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
-export const CreateContainerAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerAssociationName: S.String,
-    Description: S.optional(S.String),
-    Type: ContainerMonitoringType,
-    ContainerMonitoringConfigurations: ContainerMonitoringConfigurations,
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateContainerAssociationRequest",
-}) as any as S.Schema<CreateContainerAssociationRequest>;
 export type ContainerAssociationStatus =
   | "ACTIVE"
   | "CREATING"
   | "DELETING"
   | "UPDATING"
   | (string & {});
-export const ContainerAssociationStatus = S.String;
-
 export interface CreateContainerAssociationResponse {
-  ContainerAssociationName?: string;
-  ContainerAssociationArn?: string;
-  Description?: string;
-  Type?: ContainerMonitoringType;
-  ContainerMonitoringConfigurations?: ContainerMonitoringConfiguration[];
-  Status?: ContainerAssociationStatus;
-  Tags?: Tag[];
-  UpdateToken?: string;
+  ContainerAssociationName?: string | undefined;
+  ContainerAssociationArn?: string | undefined;
+  Description?: string | undefined;
+  Type?: ContainerMonitoringType | undefined;
+  ContainerMonitoringConfigurations?: ContainerMonitoringConfiguration[] | undefined;
+  Status?: ContainerAssociationStatus | undefined;
+  Tags?: Tag[] | undefined;
+  UpdateToken?: string | undefined;
 }
-export const CreateContainerAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerAssociationName: S.optional(S.String),
-    ContainerAssociationArn: S.optional(S.String),
-    Description: S.optional(S.String),
-    Type: S.optional(ContainerMonitoringType),
-    ContainerMonitoringConfigurations: S.optional(
-      ContainerMonitoringConfigurations,
-    ),
-    Status: S.optional(ContainerAssociationStatus),
-    Tags: S.optional(TagList),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateContainerAssociationResponse",
-}) as any as S.Schema<CreateContainerAssociationResponse>;
 export type VpcId = string;
 export type KeyId = string;
-export type EncryptionType =
-  | "CUSTOMER_KMS"
-  | "AWS_OWNED_KMS_KEY"
-  | (string & {});
-export const EncryptionType = S.String;
-
+export type EncryptionType = "CUSTOMER_KMS" | "AWS_OWNED_KMS_KEY" | (string & {});
 export interface EncryptionConfiguration {
-  KeyId?: string;
+  KeyId?: string | undefined;
   Type: EncryptionType;
 }
-export const EncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ KeyId: S.optional(S.String), Type: EncryptionType }),
-).annotate({
-  identifier: "EncryptionConfiguration",
-}) as any as S.Schema<EncryptionConfiguration>;
 export type EnabledAnalysisType = "TLS_SNI" | "HTTP_HOST" | (string & {});
-export const EnabledAnalysisType = S.String;
-
 export type EnabledAnalysisTypes = EnabledAnalysisType[];
-export const EnabledAnalysisTypes = /*@__PURE__*/ S.Array(EnabledAnalysisType);
 export type TransitGatewayId = string;
 export type NatGatewayId = string;
 export interface NatGatewayMapping {
   NatGatewayId: string;
 }
-export const NatGatewayMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NatGatewayId: S.String }),
-).annotate({
-  identifier: "NatGatewayMapping",
-}) as any as S.Schema<NatGatewayMapping>;
 export type NatGatewayMappingsList = NatGatewayMapping[];
-export const NatGatewayMappingsList = /*@__PURE__*/ S.Array(NatGatewayMapping);
 export type NatGatewayPort = number;
 export type ListenerPropertyType = "HTTP" | "HTTPS" | (string & {});
-export const ListenerPropertyType = S.String;
-
 export interface ListenerProperty {
-  Port?: number;
-  Type?: ListenerPropertyType;
+  Port?: number | undefined;
+  Type?: ListenerPropertyType | undefined;
 }
-export const ListenerProperty = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Port: S.optional(S.Number),
-    Type: S.optional(ListenerPropertyType),
-  }),
-).annotate({
-  identifier: "ListenerProperty",
-}) as any as S.Schema<ListenerProperty>;
 export type ListenerProperties = ListenerProperty[];
-export const ListenerProperties = /*@__PURE__*/ S.Array(ListenerProperty);
 export interface ProxySettings {
   ListenerProperties: ListenerProperty[];
 }
-export const ProxySettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ListenerProperties: ListenerProperties }),
-).annotate({ identifier: "ProxySettings" }) as any as S.Schema<ProxySettings>;
 export interface VpcEndpoint {
   VpcId: string;
   SubnetMappings: SubnetMapping[];
 }
-export const VpcEndpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VpcId: S.String, SubnetMappings: SubnetMappings }),
-).annotate({ identifier: "VpcEndpoint" }) as any as S.Schema<VpcEndpoint>;
 export interface CreateFirewallRequest {
   FirewallName: string;
   FirewallPolicyArn: string;
-  VpcId?: string;
-  SubnetMappings?: SubnetMapping[];
-  DeleteProtection?: boolean;
-  SubnetChangeProtection?: boolean;
-  FirewallPolicyChangeProtection?: boolean;
-  Description?: string;
-  Tags?: Tag[];
-  EncryptionConfiguration?: EncryptionConfiguration;
-  EnabledAnalysisTypes?: EnabledAnalysisType[];
-  TransitGatewayId?: string;
-  AvailabilityZoneMappings?: AvailabilityZoneMapping[];
-  AvailabilityZoneChangeProtection?: boolean;
-  NatGatewayMappings?: NatGatewayMapping[];
-  ProxySettings?: ProxySettings;
-  NoSourcePreservation?: boolean;
-  VpcEndpoint?: VpcEndpoint;
+  VpcId?: string | undefined;
+  SubnetMappings?: SubnetMapping[] | undefined;
+  DeleteProtection?: boolean | undefined;
+  SubnetChangeProtection?: boolean | undefined;
+  FirewallPolicyChangeProtection?: boolean | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  EnabledAnalysisTypes?: EnabledAnalysisType[] | undefined;
+  TransitGatewayId?: string | undefined;
+  AvailabilityZoneMappings?: AvailabilityZoneMapping[] | undefined;
+  AvailabilityZoneChangeProtection?: boolean | undefined;
+  NatGatewayMappings?: NatGatewayMapping[] | undefined;
+  ProxySettings?: ProxySettings | undefined;
+  NoSourcePreservation?: boolean | undefined;
+  VpcEndpoint?: VpcEndpoint | undefined;
 }
-export const CreateFirewallRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallName: S.String,
-    FirewallPolicyArn: S.String,
-    VpcId: S.optional(S.String),
-    SubnetMappings: S.optional(SubnetMappings),
-    DeleteProtection: S.optional(S.Boolean),
-    SubnetChangeProtection: S.optional(S.Boolean),
-    FirewallPolicyChangeProtection: S.optional(S.Boolean),
-    Description: S.optional(S.String),
-    Tags: S.optional(TagList),
-    EncryptionConfiguration: S.optional(EncryptionConfiguration),
-    EnabledAnalysisTypes: S.optional(EnabledAnalysisTypes),
-    TransitGatewayId: S.optional(S.String),
-    AvailabilityZoneMappings: S.optional(AvailabilityZoneMappings),
-    AvailabilityZoneChangeProtection: S.optional(S.Boolean),
-    NatGatewayMappings: S.optional(NatGatewayMappingsList),
-    ProxySettings: S.optional(ProxySettings),
-    NoSourcePreservation: S.optional(S.Boolean),
-    VpcEndpoint: S.optional(VpcEndpoint),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateFirewallRequest",
-}) as any as S.Schema<CreateFirewallRequest>;
 export type ResourceId = string;
 export type NumberOfAssociations = number;
 export type AWSAccountId = string;
 export interface Firewall {
-  FirewallName?: string;
-  FirewallArn?: string;
+  FirewallName?: string | undefined;
+  FirewallArn?: string | undefined;
   FirewallPolicyArn: string;
   VpcId: string;
   SubnetMappings: SubnetMapping[];
-  DeleteProtection?: boolean;
-  SubnetChangeProtection?: boolean;
-  FirewallPolicyChangeProtection?: boolean;
-  Description?: string;
+  DeleteProtection?: boolean | undefined;
+  SubnetChangeProtection?: boolean | undefined;
+  FirewallPolicyChangeProtection?: boolean | undefined;
+  Description?: string | undefined;
   FirewallId: string;
-  Tags?: Tag[];
-  EncryptionConfiguration?: EncryptionConfiguration;
-  NumberOfAssociations?: number;
-  EnabledAnalysisTypes?: EnabledAnalysisType[];
-  TransitGatewayId?: string;
-  TransitGatewayOwnerAccountId?: string;
-  AvailabilityZoneMappings?: AvailabilityZoneMapping[];
-  AvailabilityZoneChangeProtection?: boolean;
-  NatGatewayMappings?: NatGatewayMapping[];
-  ProxySettings?: ProxySettings;
-  NoSourcePreservation?: boolean;
-  VpcEndpoint?: VpcEndpoint;
+  Tags?: Tag[] | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  NumberOfAssociations?: number | undefined;
+  EnabledAnalysisTypes?: EnabledAnalysisType[] | undefined;
+  TransitGatewayId?: string | undefined;
+  TransitGatewayOwnerAccountId?: string | undefined;
+  AvailabilityZoneMappings?: AvailabilityZoneMapping[] | undefined;
+  AvailabilityZoneChangeProtection?: boolean | undefined;
+  NatGatewayMappings?: NatGatewayMapping[] | undefined;
+  ProxySettings?: ProxySettings | undefined;
+  NoSourcePreservation?: boolean | undefined;
+  VpcEndpoint?: VpcEndpoint | undefined;
 }
-export const Firewall = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallName: S.optional(S.String),
-    FirewallArn: S.optional(S.String),
-    FirewallPolicyArn: S.String,
-    VpcId: S.String,
-    SubnetMappings: SubnetMappings,
-    DeleteProtection: S.optional(S.Boolean),
-    SubnetChangeProtection: S.optional(S.Boolean),
-    FirewallPolicyChangeProtection: S.optional(S.Boolean),
-    Description: S.optional(S.String),
-    FirewallId: S.String,
-    Tags: S.optional(TagList),
-    EncryptionConfiguration: S.optional(EncryptionConfiguration),
-    NumberOfAssociations: S.optional(S.Number),
-    EnabledAnalysisTypes: S.optional(EnabledAnalysisTypes),
-    TransitGatewayId: S.optional(S.String),
-    TransitGatewayOwnerAccountId: S.optional(S.String),
-    AvailabilityZoneMappings: S.optional(AvailabilityZoneMappings),
-    AvailabilityZoneChangeProtection: S.optional(S.Boolean),
-    NatGatewayMappings: S.optional(NatGatewayMappingsList),
-    ProxySettings: S.optional(ProxySettings),
-    NoSourcePreservation: S.optional(S.Boolean),
-    VpcEndpoint: S.optional(VpcEndpoint),
-  }),
-).annotate({ identifier: "Firewall" }) as any as S.Schema<Firewall>;
-export type FirewallStatusValue =
-  | "PROVISIONING"
-  | "DELETING"
-  | "READY"
-  | "FAILED"
-  | (string & {});
-export const FirewallStatusValue = S.String;
-
-export type ConfigurationSyncState =
-  | "PENDING"
-  | "IN_SYNC"
-  | "CAPACITY_CONSTRAINED"
-  | (string & {});
-export const ConfigurationSyncState = S.String;
-
+export type FirewallStatusValue = "PROVISIONING" | "DELETING" | "READY" | "FAILED" | (string & {});
+export type ConfigurationSyncState = "PENDING" | "IN_SYNC" | "CAPACITY_CONSTRAINED" | (string & {});
 export type AvailabilityZone = string;
 export type AzSubnet = string;
 export type EndpointId = string;
@@ -716,26 +391,15 @@ export type AttachmentStatus =
   | "SCALING"
   | "READY"
   | (string & {});
-export const AttachmentStatus = S.String;
-
 export type StatusMessage = string;
 export type DnsName = string;
 export interface Attachment {
-  SubnetId?: string;
-  EndpointId?: string;
-  Status?: AttachmentStatus;
-  StatusMessage?: string;
-  DnsName?: string;
+  SubnetId?: string | undefined;
+  EndpointId?: string | undefined;
+  Status?: AttachmentStatus | undefined;
+  StatusMessage?: string | undefined;
+  DnsName?: string | undefined;
 }
-export const Attachment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubnetId: S.optional(S.String),
-    EndpointId: S.optional(S.String),
-    Status: S.optional(AttachmentStatus),
-    StatusMessage: S.optional(S.String),
-    DnsName: S.optional(S.String),
-  }),
-).annotate({ identifier: "Attachment" }) as any as S.Schema<Attachment>;
 export type PerObjectSyncStatus =
   | "PENDING"
   | "IN_SYNC"
@@ -743,25 +407,11 @@ export type PerObjectSyncStatus =
   | "NOT_SUBSCRIBED"
   | "DEPRECATED"
   | (string & {});
-export const PerObjectSyncStatus = S.String;
-
 export interface PerObjectStatus {
-  SyncStatus?: PerObjectSyncStatus;
-  UpdateToken?: string;
+  SyncStatus?: PerObjectSyncStatus | undefined;
+  UpdateToken?: string | undefined;
 }
-export const PerObjectStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SyncStatus: S.optional(PerObjectSyncStatus),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PerObjectStatus",
-}) as any as S.Schema<PerObjectStatus>;
 export type SyncStateConfig = { [key: string]: PerObjectStatus | undefined };
-export const SyncStateConfig = /*@__PURE__*/ S.Record(
-  S.String,
-  PerObjectStatus.pipe(S.optional),
-);
 export type NatGatewayAttachmentStatus =
   | "CREATING"
   | "READY"
@@ -769,412 +419,201 @@ export type NatGatewayAttachmentStatus =
   | "FAILED"
   | "DELETING"
   | (string & {});
-export const NatGatewayAttachmentStatus = S.String;
-
 export type StatusReason = string;
 export interface NatGatewayAttachment {
   NatGatewayId: string;
   Status: NatGatewayAttachmentStatus;
-  StatusMessage?: string;
-  DnsName?: string;
+  StatusMessage?: string | undefined;
+  DnsName?: string | undefined;
 }
-export const NatGatewayAttachment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NatGatewayId: S.String,
-    Status: NatGatewayAttachmentStatus,
-    StatusMessage: S.optional(S.String),
-    DnsName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NatGatewayAttachment",
-}) as any as S.Schema<NatGatewayAttachment>;
 export type NatGatewayAttachmentsList = NatGatewayAttachment[];
-export const NatGatewayAttachmentsList =
-  /*@__PURE__*/ S.Array(NatGatewayAttachment);
 export interface SyncState {
-  Attachment?: Attachment;
-  Config?: { [key: string]: PerObjectStatus | undefined };
-  NatGatewayAttachments?: NatGatewayAttachment[];
+  Attachment?: Attachment | undefined;
+  Config?: { [key: string]: PerObjectStatus | undefined } | undefined;
+  NatGatewayAttachments?: NatGatewayAttachment[] | undefined;
 }
-export const SyncState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Attachment: S.optional(Attachment),
-    Config: S.optional(SyncStateConfig),
-    NatGatewayAttachments: S.optional(NatGatewayAttachmentsList),
-  }),
-).annotate({ identifier: "SyncState" }) as any as S.Schema<SyncState>;
 export type SyncStates = { [key: string]: SyncState | undefined };
-export const SyncStates = /*@__PURE__*/ S.Record(
-  S.String,
-  SyncState.pipe(S.optional),
-);
 export type CIDRCount = number;
 export type IPSetArn = string;
 export interface IPSetMetadata {
-  ResolvedCIDRCount?: number;
+  ResolvedCIDRCount?: number | undefined;
 }
-export const IPSetMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolvedCIDRCount: S.optional(S.Number) }),
-).annotate({ identifier: "IPSetMetadata" }) as any as S.Schema<IPSetMetadata>;
 export type IPSetMetadataMap = { [key: string]: IPSetMetadata | undefined };
-export const IPSetMetadataMap = /*@__PURE__*/ S.Record(
-  S.String,
-  IPSetMetadata.pipe(S.optional),
-);
 export interface CIDRSummary {
-  AvailableCIDRCount?: number;
-  UtilizedCIDRCount?: number;
-  IPSetReferences?: { [key: string]: IPSetMetadata | undefined };
+  AvailableCIDRCount?: number | undefined;
+  UtilizedCIDRCount?: number | undefined;
+  IPSetReferences?: { [key: string]: IPSetMetadata | undefined } | undefined;
 }
-export const CIDRSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AvailableCIDRCount: S.optional(S.Number),
-    UtilizedCIDRCount: S.optional(S.Number),
-    IPSetReferences: S.optional(IPSetMetadataMap),
-  }),
-).annotate({ identifier: "CIDRSummary" }) as any as S.Schema<CIDRSummary>;
 export interface CapacityUsageSummary {
-  CIDRs?: CIDRSummary;
+  CIDRs?: CIDRSummary | undefined;
 }
-export const CapacityUsageSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CIDRs: S.optional(CIDRSummary) }),
-).annotate({
-  identifier: "CapacityUsageSummary",
-}) as any as S.Schema<CapacityUsageSummary>;
 export type AttachmentId = string;
 export type TransitGatewayAttachmentSyncStateMessage = string;
 export interface TransitGatewayAttachmentSyncState {
-  AttachmentId?: string;
-  TransitGatewayAttachmentStatus?: TransitGatewayAttachmentStatus;
-  StatusMessage?: string;
+  AttachmentId?: string | undefined;
+  TransitGatewayAttachmentStatus?: TransitGatewayAttachmentStatus | undefined;
+  StatusMessage?: string | undefined;
 }
-export const TransitGatewayAttachmentSyncState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttachmentId: S.optional(S.String),
-    TransitGatewayAttachmentStatus: S.optional(TransitGatewayAttachmentStatus),
-    StatusMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TransitGatewayAttachmentSyncState",
-}) as any as S.Schema<TransitGatewayAttachmentSyncState>;
 export interface FirewallStatus {
   Status: FirewallStatusValue;
   ConfigurationSyncStateSummary: ConfigurationSyncState;
-  SyncStates?: { [key: string]: SyncState | undefined };
-  CapacityUsageSummary?: CapacityUsageSummary;
-  TransitGatewayAttachmentSyncState?: TransitGatewayAttachmentSyncState;
+  SyncStates?: { [key: string]: SyncState | undefined } | undefined;
+  CapacityUsageSummary?: CapacityUsageSummary | undefined;
+  TransitGatewayAttachmentSyncState?: TransitGatewayAttachmentSyncState | undefined;
 }
-export const FirewallStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: FirewallStatusValue,
-    ConfigurationSyncStateSummary: ConfigurationSyncState,
-    SyncStates: S.optional(SyncStates),
-    CapacityUsageSummary: S.optional(CapacityUsageSummary),
-    TransitGatewayAttachmentSyncState: S.optional(
-      TransitGatewayAttachmentSyncState,
-    ),
-  }),
-).annotate({ identifier: "FirewallStatus" }) as any as S.Schema<FirewallStatus>;
 export interface CreateFirewallResponse {
-  Firewall?: Firewall;
-  FirewallStatus?: FirewallStatus;
+  Firewall?: Firewall | undefined;
+  FirewallStatus?: FirewallStatus | undefined;
 }
-export const CreateFirewallResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Firewall: S.optional(Firewall),
-    FirewallStatus: S.optional(FirewallStatus),
-  }),
-).annotate({
-  identifier: "CreateFirewallResponse",
-}) as any as S.Schema<CreateFirewallResponse>;
 export type Priority = number;
 export interface StatelessRuleGroupReference {
   ResourceArn: string;
   Priority: number;
 }
-export const StatelessRuleGroupReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Priority: S.Number }),
-).annotate({
-  identifier: "StatelessRuleGroupReference",
-}) as any as S.Schema<StatelessRuleGroupReference>;
 export type StatelessRuleGroupReferences = StatelessRuleGroupReference[];
-export const StatelessRuleGroupReferences = /*@__PURE__*/ S.Array(
-  StatelessRuleGroupReference,
-);
 export type StatelessActions = string[];
-export const StatelessActions = /*@__PURE__*/ S.Array(S.String);
 export type ActionName = string;
 export type DimensionValue = string;
 export interface Dimension {
   Value: string;
 }
-export const Dimension = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Value: S.String }),
-).annotate({ identifier: "Dimension" }) as any as S.Schema<Dimension>;
 export type Dimensions = Dimension[];
-export const Dimensions = /*@__PURE__*/ S.Array(Dimension);
 export interface PublishMetricAction {
   Dimensions: Dimension[];
 }
-export const PublishMetricAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Dimensions: Dimensions }),
-).annotate({
-  identifier: "PublishMetricAction",
-}) as any as S.Schema<PublishMetricAction>;
 export interface ActionDefinition {
-  PublishMetricAction?: PublishMetricAction;
+  PublishMetricAction?: PublishMetricAction | undefined;
 }
-export const ActionDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PublishMetricAction: S.optional(PublishMetricAction) }),
-).annotate({
-  identifier: "ActionDefinition",
-}) as any as S.Schema<ActionDefinition>;
 export interface CustomAction {
   ActionName: string;
   ActionDefinition: ActionDefinition;
 }
-export const CustomAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ActionName: S.String, ActionDefinition: ActionDefinition }),
-).annotate({ identifier: "CustomAction" }) as any as S.Schema<CustomAction>;
 export type CustomActions = CustomAction[];
-export const CustomActions = /*@__PURE__*/ S.Array(CustomAction);
 export type OverrideAction = "DROP_TO_ALERT" | (string & {});
-export const OverrideAction = S.String;
-
 export interface StatefulRuleGroupOverride {
-  Action?: OverrideAction;
+  Action?: OverrideAction | undefined;
 }
-export const StatefulRuleGroupOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Action: S.optional(OverrideAction) }),
-).annotate({
-  identifier: "StatefulRuleGroupOverride",
-}) as any as S.Schema<StatefulRuleGroupOverride>;
 export type DeepThreatInspection = boolean;
 export interface StatefulRuleGroupReference {
   ResourceArn: string;
-  Priority?: number;
-  Override?: StatefulRuleGroupOverride;
-  DeepThreatInspection?: boolean;
+  Priority?: number | undefined;
+  Override?: StatefulRuleGroupOverride | undefined;
+  DeepThreatInspection?: boolean | undefined;
 }
-export const StatefulRuleGroupReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String,
-    Priority: S.optional(S.Number),
-    Override: S.optional(StatefulRuleGroupOverride),
-    DeepThreatInspection: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "StatefulRuleGroupReference",
-}) as any as S.Schema<StatefulRuleGroupReference>;
 export type StatefulRuleGroupReferences = StatefulRuleGroupReference[];
-export const StatefulRuleGroupReferences = /*@__PURE__*/ S.Array(
-  StatefulRuleGroupReference,
-);
 export type StatefulActions = string[];
-export const StatefulActions = /*@__PURE__*/ S.Array(S.String);
 export type RuleOrder = "DEFAULT_ACTION_ORDER" | "STRICT_ORDER" | (string & {});
-export const RuleOrder = S.String;
-
-export type StreamExceptionPolicy =
-  | "DROP"
-  | "CONTINUE"
-  | "REJECT"
-  | (string & {});
-export const StreamExceptionPolicy = S.String;
-
+export type StreamExceptionPolicy = "DROP" | "CONTINUE" | "REJECT" | (string & {});
 export type TcpIdleTimeoutRangeBound = number;
 export interface FlowTimeouts {
-  TcpIdleTimeoutSeconds?: number;
+  TcpIdleTimeoutSeconds?: number | undefined;
 }
-export const FlowTimeouts = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TcpIdleTimeoutSeconds: S.optional(S.Number) }),
-).annotate({ identifier: "FlowTimeouts" }) as any as S.Schema<FlowTimeouts>;
 export interface StatefulEngineOptions {
-  RuleOrder?: RuleOrder;
-  StreamExceptionPolicy?: StreamExceptionPolicy;
-  FlowTimeouts?: FlowTimeouts;
+  RuleOrder?: RuleOrder | undefined;
+  StreamExceptionPolicy?: StreamExceptionPolicy | undefined;
+  FlowTimeouts?: FlowTimeouts | undefined;
 }
-export const StatefulEngineOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleOrder: S.optional(RuleOrder),
-    StreamExceptionPolicy: S.optional(StreamExceptionPolicy),
-    FlowTimeouts: S.optional(FlowTimeouts),
-  }),
-).annotate({
-  identifier: "StatefulEngineOptions",
-}) as any as S.Schema<StatefulEngineOptions>;
 export type RuleVariableName = string;
 export type VariableDefinition = string;
 export type VariableDefinitionList = string[];
-export const VariableDefinitionList = /*@__PURE__*/ S.Array(S.String);
 export interface IPSet {
   Definition: string[];
 }
-export const IPSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Definition: VariableDefinitionList }),
-).annotate({ identifier: "IPSet" }) as any as S.Schema<IPSet>;
 export type IPSets = { [key: string]: IPSet | undefined };
-export const IPSets = /*@__PURE__*/ S.Record(S.String, IPSet.pipe(S.optional));
 export interface PolicyVariables {
-  RuleVariables?: { [key: string]: IPSet | undefined };
+  RuleVariables?: { [key: string]: IPSet | undefined } | undefined;
 }
-export const PolicyVariables = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleVariables: S.optional(IPSets) }),
-).annotate({
-  identifier: "PolicyVariables",
-}) as any as S.Schema<PolicyVariables>;
 export type EnableTLSSessionHolding = boolean;
+export type Route53ResolvedIPValidationAction = "REJECT" | "DROP" | "ALERT" | (string & {});
+export type DNSFirewallRuleGroupId = string;
+export type DNSExpiryExceptionPolicy = "REJECT" | "DROP" | "CONTINUE" | (string & {});
+export type AddressDefinition = string;
+export interface Address {
+  AddressDefinition: string;
+}
+export type Route53ResolvedIPValidationAddresses = Address[];
+export interface Route53ResolvedIPValidation {
+  Action: Route53ResolvedIPValidationAction;
+  DNSFirewallRuleGroupId: string;
+  DNSExpiryExceptionPolicy: DNSExpiryExceptionPolicy;
+  BypassDestinationValidationIPRanges?: Address[] | undefined;
+  SourceIPRanges?: Address[] | undefined;
+}
 export interface FirewallPolicy {
-  StatelessRuleGroupReferences?: StatelessRuleGroupReference[];
+  StatelessRuleGroupReferences?: StatelessRuleGroupReference[] | undefined;
   StatelessDefaultActions: string[];
   StatelessFragmentDefaultActions: string[];
-  StatelessCustomActions?: CustomAction[];
-  StatefulRuleGroupReferences?: StatefulRuleGroupReference[];
-  StatefulDefaultActions?: string[];
-  StatefulEngineOptions?: StatefulEngineOptions;
-  TLSInspectionConfigurationArn?: string;
-  PolicyVariables?: PolicyVariables;
-  EnableTLSSessionHolding?: boolean;
+  StatelessCustomActions?: CustomAction[] | undefined;
+  StatefulRuleGroupReferences?: StatefulRuleGroupReference[] | undefined;
+  StatefulDefaultActions?: string[] | undefined;
+  StatefulEngineOptions?: StatefulEngineOptions | undefined;
+  TLSInspectionConfigurationArn?: string | undefined;
+  PolicyVariables?: PolicyVariables | undefined;
+  EnableTLSSessionHolding?: boolean | undefined;
+  Route53ResolvedIPValidation?: Route53ResolvedIPValidation | undefined;
 }
-export const FirewallPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StatelessRuleGroupReferences: S.optional(StatelessRuleGroupReferences),
-    StatelessDefaultActions: StatelessActions,
-    StatelessFragmentDefaultActions: StatelessActions,
-    StatelessCustomActions: S.optional(CustomActions),
-    StatefulRuleGroupReferences: S.optional(StatefulRuleGroupReferences),
-    StatefulDefaultActions: S.optional(StatefulActions),
-    StatefulEngineOptions: S.optional(StatefulEngineOptions),
-    TLSInspectionConfigurationArn: S.optional(S.String),
-    PolicyVariables: S.optional(PolicyVariables),
-    EnableTLSSessionHolding: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "FirewallPolicy" }) as any as S.Schema<FirewallPolicy>;
 export interface CreateFirewallPolicyRequest {
   FirewallPolicyName: string;
   FirewallPolicy: FirewallPolicy;
-  Description?: string;
-  Tags?: Tag[];
-  DryRun?: boolean;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
+  DryRun?: boolean | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
-export const CreateFirewallPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallPolicyName: S.String,
-    FirewallPolicy: FirewallPolicy,
-    Description: S.optional(S.String),
-    Tags: S.optional(TagList),
-    DryRun: S.optional(S.Boolean),
-    EncryptionConfiguration: S.optional(EncryptionConfiguration),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateFirewallPolicyRequest",
-}) as any as S.Schema<CreateFirewallPolicyRequest>;
-export type ResourceStatus = "ACTIVE" | "DELETING" | "ERROR" | (string & {});
-export const ResourceStatus = S.String;
-
+export type ResourceStatus = "ACTIVE" | "DELETING" | "ERROR" | "UPDATING" | (string & {});
+export type ResourceStatusMessage = string;
 export type RuleCapacity = number;
+export type FirewallPolicyErrorCode =
+  | "DNS_FIREWALL_RULE_GROUP_UNAVAILABLE"
+  | "ROUTE53_RESOLVED_IP_VALIDATION_MISSING"
+  | (string & {});
+export type FirewallPolicyErrorResourceId = string;
+export interface FirewallPolicyError {
+  Code: FirewallPolicyErrorCode;
+  Message: string;
+  ResourceId?: string | undefined;
+}
+export type FirewallPolicyErrors = FirewallPolicyError[];
 export type LastUpdateTime = Date;
 export interface FirewallPolicyResponse {
   FirewallPolicyName: string;
   FirewallPolicyArn: string;
   FirewallPolicyId: string;
-  Description?: string;
-  FirewallPolicyStatus?: ResourceStatus;
-  Tags?: Tag[];
-  ConsumedStatelessRuleCapacity?: number;
-  ConsumedStatefulRuleCapacity?: number;
-  ConsumedStatefulDomainCapacity?: number;
-  NumberOfAssociations?: number;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  LastModifiedTime?: Date;
+  Description?: string | undefined;
+  FirewallPolicyStatus?: ResourceStatus | undefined;
+  StatusMessage?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ConsumedStatelessRuleCapacity?: number | undefined;
+  ConsumedStatefulRuleCapacity?: number | undefined;
+  ConsumedStatefulDomainCapacity?: number | undefined;
+  NumberOfAssociations?: number | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  Errors?: FirewallPolicyError[] | undefined;
+  LastModifiedTime?: Date | undefined;
 }
-export const FirewallPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallPolicyName: S.String,
-    FirewallPolicyArn: S.String,
-    FirewallPolicyId: S.String,
-    Description: S.optional(S.String),
-    FirewallPolicyStatus: S.optional(ResourceStatus),
-    Tags: S.optional(TagList),
-    ConsumedStatelessRuleCapacity: S.optional(S.Number),
-    ConsumedStatefulRuleCapacity: S.optional(S.Number),
-    ConsumedStatefulDomainCapacity: S.optional(S.Number),
-    NumberOfAssociations: S.optional(S.Number),
-    EncryptionConfiguration: S.optional(EncryptionConfiguration),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "FirewallPolicyResponse",
-}) as any as S.Schema<FirewallPolicyResponse>;
 export interface CreateFirewallPolicyResponse {
   UpdateToken: string;
   FirewallPolicyResponse: FirewallPolicyResponse;
 }
-export const CreateFirewallPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpdateToken: S.String,
-    FirewallPolicyResponse: FirewallPolicyResponse,
-  }),
-).annotate({
-  identifier: "CreateFirewallPolicyResponse",
-}) as any as S.Schema<CreateFirewallPolicyResponse>;
 export interface ListenerPropertyRequest {
   Port: number;
   Type: ListenerPropertyType;
 }
-export const ListenerPropertyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Port: S.Number, Type: ListenerPropertyType }),
-).annotate({
-  identifier: "ListenerPropertyRequest",
-}) as any as S.Schema<ListenerPropertyRequest>;
 export type ListenerPropertiesRequest = ListenerPropertyRequest[];
-export const ListenerPropertiesRequest = /*@__PURE__*/ S.Array(
-  ListenerPropertyRequest,
-);
 export type TlsInterceptMode = "ENABLED" | "DISABLED" | (string & {});
-export const TlsInterceptMode = S.String;
-
 export interface TlsInterceptPropertiesRequest {
-  PcaArn?: string;
-  TlsInterceptMode?: TlsInterceptMode;
+  PcaArn?: string | undefined;
+  TlsInterceptMode?: TlsInterceptMode | undefined;
 }
-export const TlsInterceptPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PcaArn: S.optional(S.String),
-    TlsInterceptMode: S.optional(TlsInterceptMode),
-  }),
-).annotate({
-  identifier: "TlsInterceptPropertiesRequest",
-}) as any as S.Schema<TlsInterceptPropertiesRequest>;
 export interface CreateProxyRequest {
   ProxyName: string;
   NatGatewayId: string;
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
-  ListenerProperties?: ListenerPropertyRequest[];
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
+  ListenerProperties?: ListenerPropertyRequest[] | undefined;
   TlsInterceptProperties: TlsInterceptPropertiesRequest;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
-export const CreateProxyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyName: S.String,
-    NatGatewayId: S.String,
-    ProxyConfigurationName: S.optional(S.String),
-    ProxyConfigurationArn: S.optional(S.String),
-    ListenerProperties: S.optional(ListenerPropertiesRequest),
-    TlsInterceptProperties: TlsInterceptPropertiesRequest,
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateProxyRequest",
-}) as any as S.Schema<CreateProxyRequest>;
 export type UpdateTime = Date;
 export type FailureCode = string;
 export type FailureMessage = string;
@@ -1186,347 +625,141 @@ export type ProxyState =
   | "ATTACH_FAILED"
   | "DETACH_FAILED"
   | (string & {});
-export const ProxyState = S.String;
-
-export type ProxyModifyState =
-  | "MODIFYING"
-  | "COMPLETED"
-  | "FAILED"
-  | (string & {});
-export const ProxyModifyState = S.String;
-
+export type ProxyModifyState = "MODIFYING" | "COMPLETED" | "FAILED" | (string & {});
 export interface TlsInterceptProperties {
-  PcaArn?: string;
-  TlsInterceptMode?: TlsInterceptMode;
+  PcaArn?: string | undefined;
+  TlsInterceptMode?: TlsInterceptMode | undefined;
 }
-export const TlsInterceptProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PcaArn: S.optional(S.String),
-    TlsInterceptMode: S.optional(TlsInterceptMode),
-  }),
-).annotate({
-  identifier: "TlsInterceptProperties",
-}) as any as S.Schema<TlsInterceptProperties>;
 export interface Proxy {
-  CreateTime?: Date;
-  DeleteTime?: Date;
-  UpdateTime?: Date;
-  FailureCode?: string;
-  FailureMessage?: string;
-  ProxyState?: ProxyState;
-  ProxyModifyState?: ProxyModifyState;
-  NatGatewayId?: string;
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
-  ProxyName?: string;
-  ProxyArn?: string;
-  ListenerProperties?: ListenerProperty[];
-  TlsInterceptProperties?: TlsInterceptProperties;
-  Tags?: Tag[];
+  CreateTime?: Date | undefined;
+  DeleteTime?: Date | undefined;
+  UpdateTime?: Date | undefined;
+  FailureCode?: string | undefined;
+  FailureMessage?: string | undefined;
+  ProxyState?: ProxyState | undefined;
+  ProxyModifyState?: ProxyModifyState | undefined;
+  NatGatewayId?: string | undefined;
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
+  ProxyName?: string | undefined;
+  ProxyArn?: string | undefined;
+  ListenerProperties?: ListenerProperty[] | undefined;
+  TlsInterceptProperties?: TlsInterceptProperties | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const Proxy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    FailureCode: S.optional(S.String),
-    FailureMessage: S.optional(S.String),
-    ProxyState: S.optional(ProxyState),
-    ProxyModifyState: S.optional(ProxyModifyState),
-    NatGatewayId: S.optional(S.String),
-    ProxyConfigurationName: S.optional(S.String),
-    ProxyConfigurationArn: S.optional(S.String),
-    ProxyName: S.optional(S.String),
-    ProxyArn: S.optional(S.String),
-    ListenerProperties: S.optional(ListenerProperties),
-    TlsInterceptProperties: S.optional(TlsInterceptProperties),
-    Tags: S.optional(TagList),
-  }),
-).annotate({ identifier: "Proxy" }) as any as S.Schema<Proxy>;
 export interface CreateProxyResponse {
-  Proxy?: Proxy;
-  UpdateToken?: string;
+  Proxy?: Proxy | undefined;
+  UpdateToken?: string | undefined;
 }
-export const CreateProxyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Proxy: S.optional(Proxy), UpdateToken: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateProxyResponse",
-}) as any as S.Schema<CreateProxyResponse>;
 export type ResourceNameList = string[];
-export const ResourceNameList = /*@__PURE__*/ S.Array(S.String);
 export type ResourceArnList = string[];
-export const ResourceArnList = /*@__PURE__*/ S.Array(S.String);
 export interface CreateProxyConfigurationRequest {
   ProxyConfigurationName: string;
-  Description?: string;
-  RuleGroupNames?: string[];
-  RuleGroupArns?: string[];
+  Description?: string | undefined;
+  RuleGroupNames?: string[] | undefined;
+  RuleGroupArns?: string[] | undefined;
   DefaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
-export const CreateProxyConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyConfigurationName: S.String,
-    Description: S.optional(S.String),
-    RuleGroupNames: S.optional(ResourceNameList),
-    RuleGroupArns: S.optional(ResourceArnList),
-    DefaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest,
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateProxyConfigurationRequest",
-}) as any as S.Schema<CreateProxyConfigurationRequest>;
 export interface CreateProxyConfigurationResponse {
-  ProxyConfiguration?: ProxyConfiguration;
-  UpdateToken?: string;
+  ProxyConfiguration?: ProxyConfiguration | undefined;
+  UpdateToken?: string | undefined;
 }
-export const CreateProxyConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyConfiguration: S.optional(ProxyConfiguration),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateProxyConfigurationResponse",
-}) as any as S.Schema<CreateProxyConfigurationResponse>;
 export type ConditionOperator = string;
 export type ConditionKey = string;
 export type ProxyConditionValue = string;
 export type ProxyConditionValueList = string[];
-export const ProxyConditionValueList = /*@__PURE__*/ S.Array(S.String);
 export interface ProxyRuleCondition {
-  ConditionOperator?: string;
-  ConditionKey?: string;
-  ConditionValues?: string[];
+  ConditionOperator?: string | undefined;
+  ConditionKey?: string | undefined;
+  ConditionValues?: string[] | undefined;
 }
-export const ProxyRuleCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConditionOperator: S.optional(S.String),
-    ConditionKey: S.optional(S.String),
-    ConditionValues: S.optional(ProxyConditionValueList),
-  }),
-).annotate({
-  identifier: "ProxyRuleCondition",
-}) as any as S.Schema<ProxyRuleCondition>;
 export type ProxyRuleConditionList = ProxyRuleCondition[];
-export const ProxyRuleConditionList = /*@__PURE__*/ S.Array(ProxyRuleCondition);
 export interface ProxyRule {
-  ProxyRuleName?: string;
-  Description?: string;
-  Action?: ProxyRulePhaseAction;
-  Conditions?: ProxyRuleCondition[];
+  ProxyRuleName?: string | undefined;
+  Description?: string | undefined;
+  Action?: ProxyRulePhaseAction | undefined;
+  Conditions?: ProxyRuleCondition[] | undefined;
 }
-export const ProxyRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleName: S.optional(S.String),
-    Description: S.optional(S.String),
-    Action: S.optional(ProxyRulePhaseAction),
-    Conditions: S.optional(ProxyRuleConditionList),
-  }),
-).annotate({ identifier: "ProxyRule" }) as any as S.Schema<ProxyRule>;
 export type ProxyRuleList = ProxyRule[];
-export const ProxyRuleList = /*@__PURE__*/ S.Array(ProxyRule);
 export interface ProxyRulesByRequestPhase {
-  PreDNS?: ProxyRule[];
-  PreREQUEST?: ProxyRule[];
-  PostRESPONSE?: ProxyRule[];
+  PreDNS?: ProxyRule[] | undefined;
+  PreREQUEST?: ProxyRule[] | undefined;
+  PostRESPONSE?: ProxyRule[] | undefined;
 }
-export const ProxyRulesByRequestPhase = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PreDNS: S.optional(ProxyRuleList),
-    PreREQUEST: S.optional(ProxyRuleList),
-    PostRESPONSE: S.optional(ProxyRuleList),
-  }),
-).annotate({
-  identifier: "ProxyRulesByRequestPhase",
-}) as any as S.Schema<ProxyRulesByRequestPhase>;
 export interface CreateProxyRuleGroupRequest {
   ProxyRuleGroupName: string;
-  Description?: string;
-  Rules?: ProxyRulesByRequestPhase;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Rules?: ProxyRulesByRequestPhase | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateProxyRuleGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroupName: S.String,
-    Description: S.optional(S.String),
-    Rules: S.optional(ProxyRulesByRequestPhase),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateProxyRuleGroupRequest",
-}) as any as S.Schema<CreateProxyRuleGroupRequest>;
 export interface ProxyRuleGroup {
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
-  CreateTime?: Date;
-  DeleteTime?: Date;
-  Rules?: ProxyRulesByRequestPhase;
-  Description?: string;
-  Tags?: Tag[];
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
+  CreateTime?: Date | undefined;
+  DeleteTime?: Date | undefined;
+  Rules?: ProxyRulesByRequestPhase | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const ProxyRuleGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroupName: S.optional(S.String),
-    ProxyRuleGroupArn: S.optional(S.String),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Rules: S.optional(ProxyRulesByRequestPhase),
-    Description: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }),
-).annotate({ identifier: "ProxyRuleGroup" }) as any as S.Schema<ProxyRuleGroup>;
 export interface CreateProxyRuleGroupResponse {
-  ProxyRuleGroup?: ProxyRuleGroup;
-  UpdateToken?: string;
+  ProxyRuleGroup?: ProxyRuleGroup | undefined;
+  UpdateToken?: string | undefined;
 }
-export const CreateProxyRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroup: S.optional(ProxyRuleGroup),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateProxyRuleGroupResponse",
-}) as any as S.Schema<CreateProxyRuleGroupResponse>;
 export interface CreateProxyRule {
-  ProxyRuleName?: string;
-  Description?: string;
-  Action?: ProxyRulePhaseAction;
-  Conditions?: ProxyRuleCondition[];
-  InsertPosition?: number;
+  ProxyRuleName?: string | undefined;
+  Description?: string | undefined;
+  Action?: ProxyRulePhaseAction | undefined;
+  Conditions?: ProxyRuleCondition[] | undefined;
+  InsertPosition?: number | undefined;
 }
-export const CreateProxyRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleName: S.optional(S.String),
-    Description: S.optional(S.String),
-    Action: S.optional(ProxyRulePhaseAction),
-    Conditions: S.optional(ProxyRuleConditionList),
-    InsertPosition: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CreateProxyRule",
-}) as any as S.Schema<CreateProxyRule>;
 export type CreateProxyRuleList = CreateProxyRule[];
-export const CreateProxyRuleList = /*@__PURE__*/ S.Array(CreateProxyRule);
 export interface CreateProxyRulesByRequestPhase {
-  PreDNS?: CreateProxyRule[];
-  PreREQUEST?: CreateProxyRule[];
-  PostRESPONSE?: CreateProxyRule[];
+  PreDNS?: CreateProxyRule[] | undefined;
+  PreREQUEST?: CreateProxyRule[] | undefined;
+  PostRESPONSE?: CreateProxyRule[] | undefined;
 }
-export const CreateProxyRulesByRequestPhase = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PreDNS: S.optional(CreateProxyRuleList),
-    PreREQUEST: S.optional(CreateProxyRuleList),
-    PostRESPONSE: S.optional(CreateProxyRuleList),
-  }),
-).annotate({
-  identifier: "CreateProxyRulesByRequestPhase",
-}) as any as S.Schema<CreateProxyRulesByRequestPhase>;
 export interface CreateProxyRulesRequest {
-  ProxyRuleGroupArn?: string;
-  ProxyRuleGroupName?: string;
+  ProxyRuleGroupArn?: string | undefined;
+  ProxyRuleGroupName?: string | undefined;
   Rules: CreateProxyRulesByRequestPhase;
 }
-export const CreateProxyRulesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroupArn: S.optional(S.String),
-    ProxyRuleGroupName: S.optional(S.String),
-    Rules: CreateProxyRulesByRequestPhase,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateProxyRulesRequest",
-}) as any as S.Schema<CreateProxyRulesRequest>;
 export interface CreateProxyRulesResponse {
-  ProxyRuleGroup?: ProxyRuleGroup;
-  UpdateToken?: string;
+  ProxyRuleGroup?: ProxyRuleGroup | undefined;
+  UpdateToken?: string | undefined;
 }
-export const CreateProxyRulesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroup: S.optional(ProxyRuleGroup),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateProxyRulesResponse",
-}) as any as S.Schema<CreateProxyRulesResponse>;
 export interface PortSet {
-  Definition?: string[];
+  Definition?: string[] | undefined;
 }
-export const PortSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Definition: S.optional(VariableDefinitionList) }),
-).annotate({ identifier: "PortSet" }) as any as S.Schema<PortSet>;
 export type PortSets = { [key: string]: PortSet | undefined };
-export const PortSets = /*@__PURE__*/ S.Record(
-  S.String,
-  PortSet.pipe(S.optional),
-);
 export interface RuleVariables {
-  IPSets?: { [key: string]: IPSet | undefined };
-  PortSets?: { [key: string]: PortSet | undefined };
+  IPSets?: { [key: string]: IPSet | undefined } | undefined;
+  PortSets?: { [key: string]: PortSet | undefined } | undefined;
 }
-export const RuleVariables = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IPSets: S.optional(IPSets), PortSets: S.optional(PortSets) }),
-).annotate({ identifier: "RuleVariables" }) as any as S.Schema<RuleVariables>;
 export type IPSetReferenceName = string;
 export interface IPSetReference {
-  ReferenceArn?: string;
+  ReferenceArn?: string | undefined;
 }
-export const IPSetReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReferenceArn: S.optional(S.String) }),
-).annotate({ identifier: "IPSetReference" }) as any as S.Schema<IPSetReference>;
 export type IPSetReferenceMap = { [key: string]: IPSetReference | undefined };
-export const IPSetReferenceMap = /*@__PURE__*/ S.Record(
-  S.String,
-  IPSetReference.pipe(S.optional),
-);
 export interface ReferenceSets {
-  IPSetReferences?: { [key: string]: IPSetReference | undefined };
+  IPSetReferences?: { [key: string]: IPSetReference | undefined } | undefined;
 }
-export const ReferenceSets = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IPSetReferences: S.optional(IPSetReferenceMap) }),
-).annotate({ identifier: "ReferenceSets" }) as any as S.Schema<ReferenceSets>;
 export type RulesString = string;
 export type RuleTargets = string[];
-export const RuleTargets = /*@__PURE__*/ S.Array(S.String);
-export type TargetType = "TLS_SNI" | "HTTP_HOST" | (string & {});
-export const TargetType = S.String;
-
+export type TargetType = "TLS_SNI" | "HTTP_HOST" | "AWS_ROUTE_53_RESOLVED_DOMAIN" | (string & {});
 export type TargetTypes = TargetType[];
-export const TargetTypes = /*@__PURE__*/ S.Array(TargetType);
 export type GeneratedRulesType =
   | "ALLOWLIST"
   | "DENYLIST"
   | "REJECTLIST"
   | "ALERTLIST"
   | (string & {});
-export const GeneratedRulesType = S.String;
-
 export interface RulesSourceList {
   Targets: string[];
   TargetTypes: TargetType[];
   GeneratedRulesType: GeneratedRulesType;
 }
-export const RulesSourceList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Targets: RuleTargets,
-    TargetTypes: TargetTypes,
-    GeneratedRulesType: GeneratedRulesType,
-  }),
-).annotate({
-  identifier: "RulesSourceList",
-}) as any as S.Schema<RulesSourceList>;
-export type StatefulAction =
-  | "PASS"
-  | "DROP"
-  | "ALERT"
-  | "REJECT"
-  | (string & {});
-export const StatefulAction = S.String;
-
+export type StatefulAction = "PASS" | "DROP" | "ALERT" | "REJECT" | (string & {});
 export type StatefulRuleProtocol =
   | "IP"
   | "TCP"
@@ -1550,13 +783,9 @@ export type StatefulRuleProtocol =
   | "HTTP2"
   | "QUIC"
   | (string & {});
-export const StatefulRuleProtocol = S.String;
-
 export type Source = string;
 export type Port = string;
 export type StatefulRuleDirection = "FORWARD" | "ANY" | (string & {});
-export const StatefulRuleDirection = S.String;
-
 export type Destination = string;
 export interface Header {
   Protocol: StatefulRuleProtocol;
@@ -1566,1650 +795,600 @@ export interface Header {
   Destination: string;
   DestinationPort: string;
 }
-export const Header = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Protocol: StatefulRuleProtocol,
-    Source: S.String,
-    SourcePort: S.String,
-    Direction: StatefulRuleDirection,
-    Destination: S.String,
-    DestinationPort: S.String,
-  }),
-).annotate({ identifier: "Header" }) as any as S.Schema<Header>;
 export type Keyword = string;
 export type Setting = string;
 export type Settings = string[];
-export const Settings = /*@__PURE__*/ S.Array(S.String);
 export interface RuleOption {
   Keyword: string;
-  Settings?: string[];
+  Settings?: string[] | undefined;
 }
-export const RuleOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Keyword: S.String, Settings: S.optional(Settings) }),
-).annotate({ identifier: "RuleOption" }) as any as S.Schema<RuleOption>;
 export type RuleOptions = RuleOption[];
-export const RuleOptions = /*@__PURE__*/ S.Array(RuleOption);
 export interface StatefulRule {
   Action: StatefulAction;
   Header: Header;
   RuleOptions: RuleOption[];
 }
-export const StatefulRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Action: StatefulAction,
-    Header: Header,
-    RuleOptions: RuleOptions,
-  }),
-).annotate({ identifier: "StatefulRule" }) as any as S.Schema<StatefulRule>;
 export type StatefulRules = StatefulRule[];
-export const StatefulRules = /*@__PURE__*/ S.Array(StatefulRule);
-export type AddressDefinition = string;
-export interface Address {
-  AddressDefinition: string;
-}
-export const Address = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AddressDefinition: S.String }),
-).annotate({ identifier: "Address" }) as any as S.Schema<Address>;
 export type Addresses = Address[];
-export const Addresses = /*@__PURE__*/ S.Array(Address);
 export type PortRangeBound = number;
 export interface PortRange {
   FromPort: number;
   ToPort: number;
 }
-export const PortRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FromPort: S.Number, ToPort: S.Number }),
-).annotate({ identifier: "PortRange" }) as any as S.Schema<PortRange>;
 export type PortRanges = PortRange[];
-export const PortRanges = /*@__PURE__*/ S.Array(PortRange);
 export type ProtocolNumber = number;
 export type ProtocolNumbers = number[];
-export const ProtocolNumbers = /*@__PURE__*/ S.Array(S.Number);
-export type TCPFlag =
-  | "FIN"
-  | "SYN"
-  | "RST"
-  | "PSH"
-  | "ACK"
-  | "URG"
-  | "ECE"
-  | "CWR"
-  | (string & {});
-export const TCPFlag = S.String;
-
+export type TCPFlag = "FIN" | "SYN" | "RST" | "PSH" | "ACK" | "URG" | "ECE" | "CWR" | (string & {});
 export type Flags = TCPFlag[];
-export const Flags = /*@__PURE__*/ S.Array(TCPFlag);
 export interface TCPFlagField {
   Flags: TCPFlag[];
-  Masks?: TCPFlag[];
+  Masks?: TCPFlag[] | undefined;
 }
-export const TCPFlagField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Flags: Flags, Masks: S.optional(Flags) }),
-).annotate({ identifier: "TCPFlagField" }) as any as S.Schema<TCPFlagField>;
 export type TCPFlags = TCPFlagField[];
-export const TCPFlags = /*@__PURE__*/ S.Array(TCPFlagField);
 export interface MatchAttributes {
-  Sources?: Address[];
-  Destinations?: Address[];
-  SourcePorts?: PortRange[];
-  DestinationPorts?: PortRange[];
-  Protocols?: number[];
-  TCPFlags?: TCPFlagField[];
+  Sources?: Address[] | undefined;
+  Destinations?: Address[] | undefined;
+  SourcePorts?: PortRange[] | undefined;
+  DestinationPorts?: PortRange[] | undefined;
+  Protocols?: number[] | undefined;
+  TCPFlags?: TCPFlagField[] | undefined;
 }
-export const MatchAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Sources: S.optional(Addresses),
-    Destinations: S.optional(Addresses),
-    SourcePorts: S.optional(PortRanges),
-    DestinationPorts: S.optional(PortRanges),
-    Protocols: S.optional(ProtocolNumbers),
-    TCPFlags: S.optional(TCPFlags),
-  }),
-).annotate({
-  identifier: "MatchAttributes",
-}) as any as S.Schema<MatchAttributes>;
 export interface RuleDefinition {
   MatchAttributes: MatchAttributes;
   Actions: string[];
 }
-export const RuleDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MatchAttributes: MatchAttributes, Actions: StatelessActions }),
-).annotate({ identifier: "RuleDefinition" }) as any as S.Schema<RuleDefinition>;
 export interface StatelessRule {
   RuleDefinition: RuleDefinition;
   Priority: number;
 }
-export const StatelessRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleDefinition: RuleDefinition, Priority: S.Number }),
-).annotate({ identifier: "StatelessRule" }) as any as S.Schema<StatelessRule>;
 export type StatelessRules = StatelessRule[];
-export const StatelessRules = /*@__PURE__*/ S.Array(StatelessRule);
 export interface StatelessRulesAndCustomActions {
   StatelessRules: StatelessRule[];
-  CustomActions?: CustomAction[];
+  CustomActions?: CustomAction[] | undefined;
 }
-export const StatelessRulesAndCustomActions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StatelessRules: StatelessRules,
-    CustomActions: S.optional(CustomActions),
-  }),
-).annotate({
-  identifier: "StatelessRulesAndCustomActions",
-}) as any as S.Schema<StatelessRulesAndCustomActions>;
 export interface RulesSource {
-  RulesString?: string;
-  RulesSourceList?: RulesSourceList;
-  StatefulRules?: StatefulRule[];
-  StatelessRulesAndCustomActions?: StatelessRulesAndCustomActions;
+  RulesString?: string | undefined;
+  RulesSourceList?: RulesSourceList | undefined;
+  StatefulRules?: StatefulRule[] | undefined;
+  StatelessRulesAndCustomActions?: StatelessRulesAndCustomActions | undefined;
 }
-export const RulesSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RulesString: S.optional(S.String),
-    RulesSourceList: S.optional(RulesSourceList),
-    StatefulRules: S.optional(StatefulRules),
-    StatelessRulesAndCustomActions: S.optional(StatelessRulesAndCustomActions),
-  }),
-).annotate({ identifier: "RulesSource" }) as any as S.Schema<RulesSource>;
 export interface StatefulRuleOptions {
-  RuleOrder?: RuleOrder;
+  RuleOrder?: RuleOrder | undefined;
 }
-export const StatefulRuleOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleOrder: S.optional(RuleOrder) }),
-).annotate({
-  identifier: "StatefulRuleOptions",
-}) as any as S.Schema<StatefulRuleOptions>;
 export interface RuleGroup {
-  RuleVariables?: RuleVariables;
-  ReferenceSets?: ReferenceSets;
+  RuleVariables?: RuleVariables | undefined;
+  ReferenceSets?: ReferenceSets | undefined;
   RulesSource: RulesSource;
-  StatefulRuleOptions?: StatefulRuleOptions;
+  StatefulRuleOptions?: StatefulRuleOptions | undefined;
 }
-export const RuleGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleVariables: S.optional(RuleVariables),
-    ReferenceSets: S.optional(ReferenceSets),
-    RulesSource: RulesSource,
-    StatefulRuleOptions: S.optional(StatefulRuleOptions),
-  }),
-).annotate({ identifier: "RuleGroup" }) as any as S.Schema<RuleGroup>;
-export type RuleGroupType =
-  | "STATELESS"
-  | "STATEFUL"
-  | "STATEFUL_DOMAIN"
-  | (string & {});
-export const RuleGroupType = S.String;
-
+export type RuleGroupType = "STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN" | (string & {});
 export interface SourceMetadata {
-  SourceArn?: string;
-  SourceUpdateToken?: string;
+  SourceArn?: string | undefined;
+  SourceUpdateToken?: string | undefined;
 }
-export const SourceMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceArn: S.optional(S.String),
-    SourceUpdateToken: S.optional(S.String),
-  }),
-).annotate({ identifier: "SourceMetadata" }) as any as S.Schema<SourceMetadata>;
 export type SummaryRuleOption = "SID" | "MSG" | "METADATA" | (string & {});
-export const SummaryRuleOption = S.String;
-
 export type SummaryRuleOptions = SummaryRuleOption[];
-export const SummaryRuleOptions = /*@__PURE__*/ S.Array(SummaryRuleOption);
 export interface SummaryConfiguration {
-  RuleOptions?: SummaryRuleOption[];
+  RuleOptions?: SummaryRuleOption[] | undefined;
 }
-export const SummaryConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleOptions: S.optional(SummaryRuleOptions) }),
-).annotate({
-  identifier: "SummaryConfiguration",
-}) as any as S.Schema<SummaryConfiguration>;
 export interface CreateRuleGroupRequest {
   RuleGroupName: string;
-  RuleGroup?: RuleGroup;
-  Rules?: string;
+  RuleGroup?: RuleGroup | undefined;
+  Rules?: string | undefined;
   Type: RuleGroupType;
-  Description?: string;
+  Description?: string | undefined;
   Capacity: number;
-  Tags?: Tag[];
-  DryRun?: boolean;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  SourceMetadata?: SourceMetadata;
-  AnalyzeRuleGroup?: boolean;
-  SummaryConfiguration?: SummaryConfiguration;
+  Tags?: Tag[] | undefined;
+  DryRun?: boolean | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  SourceMetadata?: SourceMetadata | undefined;
+  AnalyzeRuleGroup?: boolean | undefined;
+  SummaryConfiguration?: SummaryConfiguration | undefined;
 }
-export const CreateRuleGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleGroupName: S.String,
-    RuleGroup: S.optional(RuleGroup),
-    Rules: S.optional(S.String),
-    Type: RuleGroupType,
-    Description: S.optional(S.String),
-    Capacity: S.Number,
-    Tags: S.optional(TagList),
-    DryRun: S.optional(S.Boolean),
-    EncryptionConfiguration: S.optional(EncryptionConfiguration),
-    SourceMetadata: S.optional(SourceMetadata),
-    AnalyzeRuleGroup: S.optional(S.Boolean),
-    SummaryConfiguration: S.optional(SummaryConfiguration),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateRuleGroupRequest",
-}) as any as S.Schema<CreateRuleGroupRequest>;
 export type RuleIdList = string[];
-export const RuleIdList = /*@__PURE__*/ S.Array(S.String);
 export type IdentifiedType =
   | "STATELESS_RULE_FORWARDING_ASYMMETRICALLY"
   | "STATELESS_RULE_CONTAINS_TCP_FLAGS"
   | (string & {});
-export const IdentifiedType = S.String;
-
 export interface AnalysisResult {
-  IdentifiedRuleIds?: string[];
-  IdentifiedType?: IdentifiedType;
-  AnalysisDetail?: string;
+  IdentifiedRuleIds?: string[] | undefined;
+  IdentifiedType?: IdentifiedType | undefined;
+  AnalysisDetail?: string | undefined;
 }
-export const AnalysisResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IdentifiedRuleIds: S.optional(RuleIdList),
-    IdentifiedType: S.optional(IdentifiedType),
-    AnalysisDetail: S.optional(S.String),
-  }),
-).annotate({ identifier: "AnalysisResult" }) as any as S.Schema<AnalysisResult>;
 export type AnalysisResultList = AnalysisResult[];
-export const AnalysisResultList = /*@__PURE__*/ S.Array(AnalysisResult);
 export interface RuleGroupResponse {
   RuleGroupArn: string;
   RuleGroupName: string;
   RuleGroupId: string;
-  Description?: string;
-  Type?: RuleGroupType;
-  Capacity?: number;
-  RuleGroupStatus?: ResourceStatus;
-  Tags?: Tag[];
-  ConsumedCapacity?: number;
-  NumberOfAssociations?: number;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  SourceMetadata?: SourceMetadata;
-  SnsTopic?: string;
-  LastModifiedTime?: Date;
-  AnalysisResults?: AnalysisResult[];
-  SummaryConfiguration?: SummaryConfiguration;
+  Description?: string | undefined;
+  Type?: RuleGroupType | undefined;
+  Capacity?: number | undefined;
+  RuleGroupStatus?: ResourceStatus | undefined;
+  Tags?: Tag[] | undefined;
+  ConsumedCapacity?: number | undefined;
+  NumberOfAssociations?: number | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  SourceMetadata?: SourceMetadata | undefined;
+  SnsTopic?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  AnalysisResults?: AnalysisResult[] | undefined;
+  SummaryConfiguration?: SummaryConfiguration | undefined;
 }
-export const RuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleGroupArn: S.String,
-    RuleGroupName: S.String,
-    RuleGroupId: S.String,
-    Description: S.optional(S.String),
-    Type: S.optional(RuleGroupType),
-    Capacity: S.optional(S.Number),
-    RuleGroupStatus: S.optional(ResourceStatus),
-    Tags: S.optional(TagList),
-    ConsumedCapacity: S.optional(S.Number),
-    NumberOfAssociations: S.optional(S.Number),
-    EncryptionConfiguration: S.optional(EncryptionConfiguration),
-    SourceMetadata: S.optional(SourceMetadata),
-    SnsTopic: S.optional(S.String),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    AnalysisResults: S.optional(AnalysisResultList),
-    SummaryConfiguration: S.optional(SummaryConfiguration),
-  }),
-).annotate({
-  identifier: "RuleGroupResponse",
-}) as any as S.Schema<RuleGroupResponse>;
 export interface CreateRuleGroupResponse {
   UpdateToken: string;
   RuleGroupResponse: RuleGroupResponse;
 }
-export const CreateRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UpdateToken: S.String, RuleGroupResponse: RuleGroupResponse }),
-).annotate({
-  identifier: "CreateRuleGroupResponse",
-}) as any as S.Schema<CreateRuleGroupResponse>;
 export interface ServerCertificate {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
-export const ServerCertificate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.optional(S.String) }),
-).annotate({
-  identifier: "ServerCertificate",
-}) as any as S.Schema<ServerCertificate>;
 export type ServerCertificates = ServerCertificate[];
-export const ServerCertificates = /*@__PURE__*/ S.Array(ServerCertificate);
 export interface ServerCertificateScope {
-  Sources?: Address[];
-  Destinations?: Address[];
-  SourcePorts?: PortRange[];
-  DestinationPorts?: PortRange[];
-  Protocols?: number[];
+  Sources?: Address[] | undefined;
+  Destinations?: Address[] | undefined;
+  SourcePorts?: PortRange[] | undefined;
+  DestinationPorts?: PortRange[] | undefined;
+  Protocols?: number[] | undefined;
 }
-export const ServerCertificateScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Sources: S.optional(Addresses),
-    Destinations: S.optional(Addresses),
-    SourcePorts: S.optional(PortRanges),
-    DestinationPorts: S.optional(PortRanges),
-    Protocols: S.optional(ProtocolNumbers),
-  }),
-).annotate({
-  identifier: "ServerCertificateScope",
-}) as any as S.Schema<ServerCertificateScope>;
 export type ServerCertificateScopes = ServerCertificateScope[];
-export const ServerCertificateScopes = /*@__PURE__*/ S.Array(
-  ServerCertificateScope,
-);
 export type RevocationCheckAction = "PASS" | "DROP" | "REJECT" | (string & {});
-export const RevocationCheckAction = S.String;
-
 export interface CheckCertificateRevocationStatusActions {
-  RevokedStatusAction?: RevocationCheckAction;
-  UnknownStatusAction?: RevocationCheckAction;
+  RevokedStatusAction?: RevocationCheckAction | undefined;
+  UnknownStatusAction?: RevocationCheckAction | undefined;
 }
-export const CheckCertificateRevocationStatusActions = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RevokedStatusAction: S.optional(RevocationCheckAction),
-      UnknownStatusAction: S.optional(RevocationCheckAction),
-    }),
-).annotate({
-  identifier: "CheckCertificateRevocationStatusActions",
-}) as any as S.Schema<CheckCertificateRevocationStatusActions>;
 export interface ServerCertificateConfiguration {
-  ServerCertificates?: ServerCertificate[];
-  Scopes?: ServerCertificateScope[];
-  CertificateAuthorityArn?: string;
-  CheckCertificateRevocationStatus?: CheckCertificateRevocationStatusActions;
+  ServerCertificates?: ServerCertificate[] | undefined;
+  Scopes?: ServerCertificateScope[] | undefined;
+  CertificateAuthorityArn?: string | undefined;
+  CheckCertificateRevocationStatus?: CheckCertificateRevocationStatusActions | undefined;
 }
-export const ServerCertificateConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerCertificates: S.optional(ServerCertificates),
-    Scopes: S.optional(ServerCertificateScopes),
-    CertificateAuthorityArn: S.optional(S.String),
-    CheckCertificateRevocationStatus: S.optional(
-      CheckCertificateRevocationStatusActions,
-    ),
-  }),
-).annotate({
-  identifier: "ServerCertificateConfiguration",
-}) as any as S.Schema<ServerCertificateConfiguration>;
 export type ServerCertificateConfigurations = ServerCertificateConfiguration[];
-export const ServerCertificateConfigurations = /*@__PURE__*/ S.Array(
-  ServerCertificateConfiguration,
-);
 export interface TLSInspectionConfiguration {
-  ServerCertificateConfigurations?: ServerCertificateConfiguration[];
+  ServerCertificateConfigurations?: ServerCertificateConfiguration[] | undefined;
 }
-export const TLSInspectionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerCertificateConfigurations: S.optional(
-      ServerCertificateConfigurations,
-    ),
-  }),
-).annotate({
-  identifier: "TLSInspectionConfiguration",
-}) as any as S.Schema<TLSInspectionConfiguration>;
 export interface CreateTLSInspectionConfigurationRequest {
   TLSInspectionConfigurationName: string;
   TLSInspectionConfiguration: TLSInspectionConfiguration;
-  Description?: string;
-  Tags?: Tag[];
-  EncryptionConfiguration?: EncryptionConfiguration;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
-export const CreateTLSInspectionConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      TLSInspectionConfigurationName: S.String,
-      TLSInspectionConfiguration: TLSInspectionConfiguration,
-      Description: S.optional(S.String),
-      Tags: S.optional(TagList),
-      EncryptionConfiguration: S.optional(EncryptionConfiguration),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-).annotate({
-  identifier: "CreateTLSInspectionConfigurationRequest",
-}) as any as S.Schema<CreateTLSInspectionConfigurationRequest>;
 export interface TlsCertificateData {
-  CertificateArn?: string;
-  CertificateSerial?: string;
-  Status?: string;
-  StatusMessage?: string;
+  CertificateArn?: string | undefined;
+  CertificateSerial?: string | undefined;
+  Status?: string | undefined;
+  StatusMessage?: string | undefined;
 }
-export const TlsCertificateData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateArn: S.optional(S.String),
-    CertificateSerial: S.optional(S.String),
-    Status: S.optional(S.String),
-    StatusMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TlsCertificateData",
-}) as any as S.Schema<TlsCertificateData>;
 export type Certificates = TlsCertificateData[];
-export const Certificates = /*@__PURE__*/ S.Array(TlsCertificateData);
 export interface TLSInspectionConfigurationResponse {
   TLSInspectionConfigurationArn: string;
   TLSInspectionConfigurationName: string;
   TLSInspectionConfigurationId: string;
-  TLSInspectionConfigurationStatus?: ResourceStatus;
-  Description?: string;
-  Tags?: Tag[];
-  LastModifiedTime?: Date;
-  NumberOfAssociations?: number;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  Certificates?: TlsCertificateData[];
-  CertificateAuthority?: TlsCertificateData;
+  TLSInspectionConfigurationStatus?: ResourceStatus | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
+  LastModifiedTime?: Date | undefined;
+  NumberOfAssociations?: number | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  Certificates?: TlsCertificateData[] | undefined;
+  CertificateAuthority?: TlsCertificateData | undefined;
 }
-export const TLSInspectionConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TLSInspectionConfigurationArn: S.String,
-    TLSInspectionConfigurationName: S.String,
-    TLSInspectionConfigurationId: S.String,
-    TLSInspectionConfigurationStatus: S.optional(ResourceStatus),
-    Description: S.optional(S.String),
-    Tags: S.optional(TagList),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    NumberOfAssociations: S.optional(S.Number),
-    EncryptionConfiguration: S.optional(EncryptionConfiguration),
-    Certificates: S.optional(Certificates),
-    CertificateAuthority: S.optional(TlsCertificateData),
-  }),
-).annotate({
-  identifier: "TLSInspectionConfigurationResponse",
-}) as any as S.Schema<TLSInspectionConfigurationResponse>;
 export interface CreateTLSInspectionConfigurationResponse {
   UpdateToken: string;
   TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse;
 }
-export const CreateTLSInspectionConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      UpdateToken: S.String,
-      TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse,
-    }),
-).annotate({
-  identifier: "CreateTLSInspectionConfigurationResponse",
-}) as any as S.Schema<CreateTLSInspectionConfigurationResponse>;
 export interface CreateVpcEndpointAssociationRequest {
   FirewallArn: string;
   VpcId: string;
   SubnetMapping: SubnetMapping;
-  Description?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateVpcEndpointAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.String,
-    VpcId: S.String,
-    SubnetMapping: SubnetMapping,
-    Description: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateVpcEndpointAssociationRequest",
-}) as any as S.Schema<CreateVpcEndpointAssociationRequest>;
 export interface VpcEndpointAssociation {
-  VpcEndpointAssociationId?: string;
+  VpcEndpointAssociationId?: string | undefined;
   VpcEndpointAssociationArn: string;
   FirewallArn: string;
   VpcId: string;
   SubnetMapping: SubnetMapping;
-  Description?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const VpcEndpointAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcEndpointAssociationId: S.optional(S.String),
-    VpcEndpointAssociationArn: S.String,
-    FirewallArn: S.String,
-    VpcId: S.String,
-    SubnetMapping: SubnetMapping,
-    Description: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }),
-).annotate({
-  identifier: "VpcEndpointAssociation",
-}) as any as S.Schema<VpcEndpointAssociation>;
 export interface AZSyncState {
-  Attachment?: Attachment;
+  Attachment?: Attachment | undefined;
 }
-export const AZSyncState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Attachment: S.optional(Attachment) }),
-).annotate({ identifier: "AZSyncState" }) as any as S.Schema<AZSyncState>;
 export type AssociationSyncState = { [key: string]: AZSyncState | undefined };
-export const AssociationSyncState = /*@__PURE__*/ S.Record(
-  S.String,
-  AZSyncState.pipe(S.optional),
-);
 export interface VpcEndpointAssociationStatus {
   Status: FirewallStatusValue;
-  AssociationSyncState?: { [key: string]: AZSyncState | undefined };
+  AssociationSyncState?: { [key: string]: AZSyncState | undefined } | undefined;
 }
-export const VpcEndpointAssociationStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: FirewallStatusValue,
-    AssociationSyncState: S.optional(AssociationSyncState),
-  }),
-).annotate({
-  identifier: "VpcEndpointAssociationStatus",
-}) as any as S.Schema<VpcEndpointAssociationStatus>;
 export interface CreateVpcEndpointAssociationResponse {
-  VpcEndpointAssociation?: VpcEndpointAssociation;
-  VpcEndpointAssociationStatus?: VpcEndpointAssociationStatus;
+  VpcEndpointAssociation?: VpcEndpointAssociation | undefined;
+  VpcEndpointAssociationStatus?: VpcEndpointAssociationStatus | undefined;
 }
-export const CreateVpcEndpointAssociationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      VpcEndpointAssociation: S.optional(VpcEndpointAssociation),
-      VpcEndpointAssociationStatus: S.optional(VpcEndpointAssociationStatus),
-    }),
-).annotate({
-  identifier: "CreateVpcEndpointAssociationResponse",
-}) as any as S.Schema<CreateVpcEndpointAssociationResponse>;
 export interface DeleteContainerAssociationRequest {
-  ContainerAssociationName?: string;
-  ContainerAssociationArn?: string;
+  ContainerAssociationName?: string | undefined;
+  ContainerAssociationArn?: string | undefined;
 }
-export const DeleteContainerAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerAssociationName: S.optional(S.String),
-    ContainerAssociationArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteContainerAssociationRequest",
-}) as any as S.Schema<DeleteContainerAssociationRequest>;
 export interface DeleteContainerAssociationResponse {
-  ContainerAssociationName?: string;
-  ContainerAssociationArn?: string;
-  Status?: ContainerAssociationStatus;
+  ContainerAssociationName?: string | undefined;
+  ContainerAssociationArn?: string | undefined;
+  Status?: ContainerAssociationStatus | undefined;
 }
-export const DeleteContainerAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerAssociationName: S.optional(S.String),
-    ContainerAssociationArn: S.optional(S.String),
-    Status: S.optional(ContainerAssociationStatus),
-  }),
-).annotate({
-  identifier: "DeleteContainerAssociationResponse",
-}) as any as S.Schema<DeleteContainerAssociationResponse>;
 export interface DeleteFirewallRequest {
-  FirewallName?: string;
-  FirewallArn?: string;
+  FirewallName?: string | undefined;
+  FirewallArn?: string | undefined;
 }
-export const DeleteFirewallRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallName: S.optional(S.String),
-    FirewallArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteFirewallRequest",
-}) as any as S.Schema<DeleteFirewallRequest>;
 export interface DeleteFirewallResponse {
-  Firewall?: Firewall;
-  FirewallStatus?: FirewallStatus;
+  Firewall?: Firewall | undefined;
+  FirewallStatus?: FirewallStatus | undefined;
 }
-export const DeleteFirewallResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Firewall: S.optional(Firewall),
-    FirewallStatus: S.optional(FirewallStatus),
-  }),
-).annotate({
-  identifier: "DeleteFirewallResponse",
-}) as any as S.Schema<DeleteFirewallResponse>;
 export interface DeleteFirewallPolicyRequest {
-  FirewallPolicyName?: string;
-  FirewallPolicyArn?: string;
+  FirewallPolicyName?: string | undefined;
+  FirewallPolicyArn?: string | undefined;
 }
-export const DeleteFirewallPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallPolicyName: S.optional(S.String),
-    FirewallPolicyArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteFirewallPolicyRequest",
-}) as any as S.Schema<DeleteFirewallPolicyRequest>;
 export interface DeleteFirewallPolicyResponse {
   FirewallPolicyResponse: FirewallPolicyResponse;
 }
-export const DeleteFirewallPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallPolicyResponse: FirewallPolicyResponse }),
-).annotate({
-  identifier: "DeleteFirewallPolicyResponse",
-}) as any as S.Schema<DeleteFirewallPolicyResponse>;
 export interface DeleteNetworkFirewallTransitGatewayAttachmentRequest {
   TransitGatewayAttachmentId: string;
 }
-export const DeleteNetworkFirewallTransitGatewayAttachmentRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ TransitGatewayAttachmentId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DeleteNetworkFirewallTransitGatewayAttachmentRequest",
-  }) as any as S.Schema<DeleteNetworkFirewallTransitGatewayAttachmentRequest>;
 export interface DeleteNetworkFirewallTransitGatewayAttachmentResponse {
   TransitGatewayAttachmentId: string;
   TransitGatewayAttachmentStatus: TransitGatewayAttachmentStatus;
 }
-export const DeleteNetworkFirewallTransitGatewayAttachmentResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      TransitGatewayAttachmentId: S.String,
-      TransitGatewayAttachmentStatus: TransitGatewayAttachmentStatus,
-    }),
-  ).annotate({
-    identifier: "DeleteNetworkFirewallTransitGatewayAttachmentResponse",
-  }) as any as S.Schema<DeleteNetworkFirewallTransitGatewayAttachmentResponse>;
 export interface DeleteProxyRequest {
   NatGatewayId: string;
-  ProxyName?: string;
-  ProxyArn?: string;
+  ProxyName?: string | undefined;
+  ProxyArn?: string | undefined;
 }
-export const DeleteProxyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NatGatewayId: S.String,
-    ProxyName: S.optional(S.String),
-    ProxyArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteProxyRequest",
-}) as any as S.Schema<DeleteProxyRequest>;
 export interface DeleteProxyResponse {
-  NatGatewayId?: string;
-  ProxyName?: string;
-  ProxyArn?: string;
+  NatGatewayId?: string | undefined;
+  ProxyName?: string | undefined;
+  ProxyArn?: string | undefined;
 }
-export const DeleteProxyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NatGatewayId: S.optional(S.String),
-    ProxyName: S.optional(S.String),
-    ProxyArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeleteProxyResponse",
-}) as any as S.Schema<DeleteProxyResponse>;
 export interface DeleteProxyConfigurationRequest {
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
 }
-export const DeleteProxyConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyConfigurationName: S.optional(S.String),
-    ProxyConfigurationArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteProxyConfigurationRequest",
-}) as any as S.Schema<DeleteProxyConfigurationRequest>;
 export interface DeleteProxyConfigurationResponse {
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
 }
-export const DeleteProxyConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyConfigurationName: S.optional(S.String),
-    ProxyConfigurationArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeleteProxyConfigurationResponse",
-}) as any as S.Schema<DeleteProxyConfigurationResponse>;
 export interface DeleteProxyRuleGroupRequest {
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
 }
-export const DeleteProxyRuleGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroupName: S.optional(S.String),
-    ProxyRuleGroupArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteProxyRuleGroupRequest",
-}) as any as S.Schema<DeleteProxyRuleGroupRequest>;
 export interface DeleteProxyRuleGroupResponse {
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
 }
-export const DeleteProxyRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroupName: S.optional(S.String),
-    ProxyRuleGroupArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeleteProxyRuleGroupResponse",
-}) as any as S.Schema<DeleteProxyRuleGroupResponse>;
 export interface DeleteProxyRulesRequest {
-  ProxyRuleGroupArn?: string;
-  ProxyRuleGroupName?: string;
+  ProxyRuleGroupArn?: string | undefined;
+  ProxyRuleGroupName?: string | undefined;
   Rules: string[];
 }
-export const DeleteProxyRulesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroupArn: S.optional(S.String),
-    ProxyRuleGroupName: S.optional(S.String),
-    Rules: ResourceNameList,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteProxyRulesRequest",
-}) as any as S.Schema<DeleteProxyRulesRequest>;
 export interface DeleteProxyRulesResponse {
-  ProxyRuleGroup?: ProxyRuleGroup;
+  ProxyRuleGroup?: ProxyRuleGroup | undefined;
 }
-export const DeleteProxyRulesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ProxyRuleGroup: S.optional(ProxyRuleGroup) }),
-).annotate({
-  identifier: "DeleteProxyRulesResponse",
-}) as any as S.Schema<DeleteProxyRulesResponse>;
 export interface DeleteResourcePolicyRequest {
   ResourceArn: string;
 }
-export const DeleteResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteResourcePolicyRequest",
-}) as any as S.Schema<DeleteResourcePolicyRequest>;
 export interface DeleteResourcePolicyResponse {}
-export const DeleteResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteResourcePolicyResponse",
-}) as any as S.Schema<DeleteResourcePolicyResponse>;
 export interface DeleteRuleGroupRequest {
-  RuleGroupName?: string;
-  RuleGroupArn?: string;
-  Type?: RuleGroupType;
+  RuleGroupName?: string | undefined;
+  RuleGroupArn?: string | undefined;
+  Type?: RuleGroupType | undefined;
 }
-export const DeleteRuleGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleGroupName: S.optional(S.String),
-    RuleGroupArn: S.optional(S.String),
-    Type: S.optional(RuleGroupType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteRuleGroupRequest",
-}) as any as S.Schema<DeleteRuleGroupRequest>;
 export interface DeleteRuleGroupResponse {
   RuleGroupResponse: RuleGroupResponse;
 }
-export const DeleteRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleGroupResponse: RuleGroupResponse }),
-).annotate({
-  identifier: "DeleteRuleGroupResponse",
-}) as any as S.Schema<DeleteRuleGroupResponse>;
 export interface DeleteTLSInspectionConfigurationRequest {
-  TLSInspectionConfigurationArn?: string;
-  TLSInspectionConfigurationName?: string;
+  TLSInspectionConfigurationArn?: string | undefined;
+  TLSInspectionConfigurationName?: string | undefined;
 }
-export const DeleteTLSInspectionConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      TLSInspectionConfigurationArn: S.optional(S.String),
-      TLSInspectionConfigurationName: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-).annotate({
-  identifier: "DeleteTLSInspectionConfigurationRequest",
-}) as any as S.Schema<DeleteTLSInspectionConfigurationRequest>;
 export interface DeleteTLSInspectionConfigurationResponse {
   TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse;
 }
-export const DeleteTLSInspectionConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse,
-    }),
-).annotate({
-  identifier: "DeleteTLSInspectionConfigurationResponse",
-}) as any as S.Schema<DeleteTLSInspectionConfigurationResponse>;
 export interface DeleteVpcEndpointAssociationRequest {
   VpcEndpointAssociationArn: string;
 }
-export const DeleteVpcEndpointAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VpcEndpointAssociationArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteVpcEndpointAssociationRequest",
-}) as any as S.Schema<DeleteVpcEndpointAssociationRequest>;
 export interface DeleteVpcEndpointAssociationResponse {
-  VpcEndpointAssociation?: VpcEndpointAssociation;
-  VpcEndpointAssociationStatus?: VpcEndpointAssociationStatus;
+  VpcEndpointAssociation?: VpcEndpointAssociation | undefined;
+  VpcEndpointAssociationStatus?: VpcEndpointAssociationStatus | undefined;
 }
-export const DeleteVpcEndpointAssociationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      VpcEndpointAssociation: S.optional(VpcEndpointAssociation),
-      VpcEndpointAssociationStatus: S.optional(VpcEndpointAssociationStatus),
-    }),
-).annotate({
-  identifier: "DeleteVpcEndpointAssociationResponse",
-}) as any as S.Schema<DeleteVpcEndpointAssociationResponse>;
 export interface DescribeContainerAssociationRequest {
-  ContainerAssociationName?: string;
-  ContainerAssociationArn?: string;
+  ContainerAssociationName?: string | undefined;
+  ContainerAssociationArn?: string | undefined;
 }
-export const DescribeContainerAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerAssociationName: S.optional(S.String),
-    ContainerAssociationArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeContainerAssociationRequest",
-}) as any as S.Schema<DescribeContainerAssociationRequest>;
 export type ContainerAssociationLastUpdatedTime = Date;
 export interface DescribeContainerAssociationResponse {
-  ContainerAssociationName?: string;
-  ContainerAssociationArn?: string;
-  Description?: string;
-  Type?: ContainerMonitoringType;
-  ContainerMonitoringConfigurations?: ContainerMonitoringConfiguration[];
-  Status?: ContainerAssociationStatus;
-  ResolvedCidrCount?: number;
-  LastUpdatedTime?: Date;
-  Tags?: Tag[];
-  UpdateToken?: string;
+  ContainerAssociationName?: string | undefined;
+  ContainerAssociationArn?: string | undefined;
+  Description?: string | undefined;
+  Type?: ContainerMonitoringType | undefined;
+  ContainerMonitoringConfigurations?: ContainerMonitoringConfiguration[] | undefined;
+  Status?: ContainerAssociationStatus | undefined;
+  ResolvedCidrCount?: number | undefined;
+  LastUpdatedTime?: Date | undefined;
+  Tags?: Tag[] | undefined;
+  UpdateToken?: string | undefined;
 }
-export const DescribeContainerAssociationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ContainerAssociationName: S.optional(S.String),
-      ContainerAssociationArn: S.optional(S.String),
-      Description: S.optional(S.String),
-      Type: S.optional(ContainerMonitoringType),
-      ContainerMonitoringConfigurations: S.optional(
-        ContainerMonitoringConfigurations,
-      ),
-      Status: S.optional(ContainerAssociationStatus),
-      ResolvedCidrCount: S.optional(S.Number),
-      LastUpdatedTime: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-      Tags: S.optional(TagList),
-      UpdateToken: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "DescribeContainerAssociationResponse",
-}) as any as S.Schema<DescribeContainerAssociationResponse>;
 export interface DescribeFirewallRequest {
-  FirewallName?: string;
-  FirewallArn?: string;
+  FirewallName?: string | undefined;
+  FirewallArn?: string | undefined;
 }
-export const DescribeFirewallRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallName: S.optional(S.String),
-    FirewallArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeFirewallRequest",
-}) as any as S.Schema<DescribeFirewallRequest>;
 export interface DescribeFirewallResponse {
-  UpdateToken?: string;
-  Firewall?: Firewall;
-  FirewallStatus?: FirewallStatus;
+  UpdateToken?: string | undefined;
+  Firewall?: Firewall | undefined;
+  FirewallStatus?: FirewallStatus | undefined;
 }
-export const DescribeFirewallResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpdateToken: S.optional(S.String),
-    Firewall: S.optional(Firewall),
-    FirewallStatus: S.optional(FirewallStatus),
-  }),
-).annotate({
-  identifier: "DescribeFirewallResponse",
-}) as any as S.Schema<DescribeFirewallResponse>;
 export interface DescribeFirewallMetadataRequest {
-  FirewallArn?: string;
+  FirewallArn?: string | undefined;
 }
-export const DescribeFirewallMetadataRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallArn: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeFirewallMetadataRequest",
-}) as any as S.Schema<DescribeFirewallMetadataRequest>;
 export interface AvailabilityZoneMetadata {
-  IPAddressType?: IPAddressType;
+  IPAddressType?: IPAddressType | undefined;
 }
-export const AvailabilityZoneMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IPAddressType: S.optional(IPAddressType) }),
-).annotate({
-  identifier: "AvailabilityZoneMetadata",
-}) as any as S.Schema<AvailabilityZoneMetadata>;
-export type SupportedAvailabilityZones = {
-  [key: string]: AvailabilityZoneMetadata | undefined;
-};
-export const SupportedAvailabilityZones = /*@__PURE__*/ S.Record(
-  S.String,
-  AvailabilityZoneMetadata.pipe(S.optional),
-);
+export type SupportedAvailabilityZones = { [key: string]: AvailabilityZoneMetadata | undefined };
 export interface DescribeFirewallMetadataResponse {
-  FirewallArn?: string;
-  FirewallPolicyArn?: string;
-  Description?: string;
-  Status?: FirewallStatusValue;
-  SupportedAvailabilityZones?: {
-    [key: string]: AvailabilityZoneMetadata | undefined;
-  };
-  TransitGatewayAttachmentId?: string;
+  FirewallArn?: string | undefined;
+  FirewallPolicyArn?: string | undefined;
+  Description?: string | undefined;
+  Status?: FirewallStatusValue | undefined;
+  SupportedAvailabilityZones?: { [key: string]: AvailabilityZoneMetadata | undefined } | undefined;
+  TransitGatewayAttachmentId?: string | undefined;
 }
-export const DescribeFirewallMetadataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.optional(S.String),
-    FirewallPolicyArn: S.optional(S.String),
-    Description: S.optional(S.String),
-    Status: S.optional(FirewallStatusValue),
-    SupportedAvailabilityZones: S.optional(SupportedAvailabilityZones),
-    TransitGatewayAttachmentId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeFirewallMetadataResponse",
-}) as any as S.Schema<DescribeFirewallMetadataResponse>;
 export interface DescribeFirewallPolicyRequest {
-  FirewallPolicyName?: string;
-  FirewallPolicyArn?: string;
+  FirewallPolicyName?: string | undefined;
+  FirewallPolicyArn?: string | undefined;
 }
-export const DescribeFirewallPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallPolicyName: S.optional(S.String),
-    FirewallPolicyArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeFirewallPolicyRequest",
-}) as any as S.Schema<DescribeFirewallPolicyRequest>;
 export interface DescribeFirewallPolicyResponse {
   UpdateToken: string;
   FirewallPolicyResponse: FirewallPolicyResponse;
-  FirewallPolicy?: FirewallPolicy;
+  FirewallPolicy?: FirewallPolicy | undefined;
 }
-export const DescribeFirewallPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpdateToken: S.String,
-    FirewallPolicyResponse: FirewallPolicyResponse,
-    FirewallPolicy: S.optional(FirewallPolicy),
-  }),
-).annotate({
-  identifier: "DescribeFirewallPolicyResponse",
-}) as any as S.Schema<DescribeFirewallPolicyResponse>;
+export type AvailabilityZoneId = string;
 export type VpcEndpointId = string;
 export type FlowOperationId = string;
 export interface DescribeFlowOperationRequest {
   FirewallArn: string;
-  AvailabilityZone?: string;
-  VpcEndpointAssociationArn?: string;
-  VpcEndpointId?: string;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
+  VpcEndpointAssociationArn?: string | undefined;
+  VpcEndpointId?: string | undefined;
   FlowOperationId: string;
 }
-export const DescribeFlowOperationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.String,
-    AvailabilityZone: S.optional(S.String),
-    VpcEndpointAssociationArn: S.optional(S.String),
-    VpcEndpointId: S.optional(S.String),
-    FlowOperationId: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeFlowOperationRequest",
-}) as any as S.Schema<DescribeFlowOperationRequest>;
 export type FlowOperationType = "FLOW_FLUSH" | "FLOW_CAPTURE" | (string & {});
-export const FlowOperationType = S.String;
-
 export type FlowOperationStatus =
   | "COMPLETED"
   | "IN_PROGRESS"
   | "FAILED"
   | "COMPLETED_WITH_ERRORS"
   | (string & {});
-export const FlowOperationStatus = S.String;
-
 export type FlowRequestTimestamp = Date;
 export type Age = number;
 export type ProtocolString = string;
 export type ProtocolStrings = string[];
-export const ProtocolStrings = /*@__PURE__*/ S.Array(S.String);
 export interface FlowFilter {
-  SourceAddress?: Address;
-  DestinationAddress?: Address;
-  SourcePort?: string;
-  DestinationPort?: string;
-  Protocols?: string[];
+  SourceAddress?: Address | undefined;
+  DestinationAddress?: Address | undefined;
+  SourcePort?: string | undefined;
+  DestinationPort?: string | undefined;
+  Protocols?: string[] | undefined;
 }
-export const FlowFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceAddress: S.optional(Address),
-    DestinationAddress: S.optional(Address),
-    SourcePort: S.optional(S.String),
-    DestinationPort: S.optional(S.String),
-    Protocols: S.optional(ProtocolStrings),
-  }),
-).annotate({ identifier: "FlowFilter" }) as any as S.Schema<FlowFilter>;
 export type FlowFilters = FlowFilter[];
-export const FlowFilters = /*@__PURE__*/ S.Array(FlowFilter);
 export interface FlowOperation {
-  MinimumFlowAgeInSeconds?: number;
-  FlowFilters?: FlowFilter[];
+  MinimumFlowAgeInSeconds?: number | undefined;
+  FlowFilters?: FlowFilter[] | undefined;
 }
-export const FlowOperation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MinimumFlowAgeInSeconds: S.optional(S.Number),
-    FlowFilters: S.optional(FlowFilters),
-  }),
-).annotate({ identifier: "FlowOperation" }) as any as S.Schema<FlowOperation>;
 export interface DescribeFlowOperationResponse {
-  FirewallArn?: string;
-  AvailabilityZone?: string;
-  VpcEndpointAssociationArn?: string;
-  VpcEndpointId?: string;
-  FlowOperationId?: string;
-  FlowOperationType?: FlowOperationType;
-  FlowOperationStatus?: FlowOperationStatus;
-  StatusMessage?: string;
-  FlowRequestTimestamp?: Date;
-  FlowOperation?: FlowOperation;
+  FirewallArn?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
+  VpcEndpointAssociationArn?: string | undefined;
+  VpcEndpointId?: string | undefined;
+  FlowOperationId?: string | undefined;
+  FlowOperationType?: FlowOperationType | undefined;
+  FlowOperationStatus?: FlowOperationStatus | undefined;
+  StatusMessage?: string | undefined;
+  FlowRequestTimestamp?: Date | undefined;
+  FlowOperation?: FlowOperation | undefined;
 }
-export const DescribeFlowOperationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.optional(S.String),
-    AvailabilityZone: S.optional(S.String),
-    VpcEndpointAssociationArn: S.optional(S.String),
-    VpcEndpointId: S.optional(S.String),
-    FlowOperationId: S.optional(S.String),
-    FlowOperationType: S.optional(FlowOperationType),
-    FlowOperationStatus: S.optional(FlowOperationStatus),
-    StatusMessage: S.optional(S.String),
-    FlowRequestTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    FlowOperation: S.optional(FlowOperation),
-  }),
-).annotate({
-  identifier: "DescribeFlowOperationResponse",
-}) as any as S.Schema<DescribeFlowOperationResponse>;
 export interface DescribeLoggingConfigurationRequest {
-  FirewallArn?: string;
-  FirewallName?: string;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
 }
-export const DescribeLoggingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.optional(S.String),
-    FirewallName: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeLoggingConfigurationRequest",
-}) as any as S.Schema<DescribeLoggingConfigurationRequest>;
 export type LogType = "ALERT" | "FLOW" | "TLS" | (string & {});
-export const LogType = S.String;
-
-export type LogDestinationType =
-  | "S3"
-  | "CloudWatchLogs"
-  | "KinesisDataFirehose"
-  | (string & {});
-export const LogDestinationType = S.String;
-
+export type LogDestinationType = "S3" | "CloudWatchLogs" | "KinesisDataFirehose" | (string & {});
 export type HashMapKey = string;
 export type HashMapValue = string;
 export type LogDestinationMap = { [key: string]: string | undefined };
-export const LogDestinationMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface LogDestinationConfig {
   LogType: LogType;
   LogDestinationType: LogDestinationType;
   LogDestination: { [key: string]: string | undefined };
 }
-export const LogDestinationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LogType: LogType,
-    LogDestinationType: LogDestinationType,
-    LogDestination: LogDestinationMap,
-  }),
-).annotate({
-  identifier: "LogDestinationConfig",
-}) as any as S.Schema<LogDestinationConfig>;
 export type LogDestinationConfigs = LogDestinationConfig[];
-export const LogDestinationConfigs =
-  /*@__PURE__*/ S.Array(LogDestinationConfig);
 export interface LoggingConfiguration {
   LogDestinationConfigs: LogDestinationConfig[];
 }
-export const LoggingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LogDestinationConfigs: LogDestinationConfigs }),
-).annotate({
-  identifier: "LoggingConfiguration",
-}) as any as S.Schema<LoggingConfiguration>;
 export type EnableMonitoringDashboard = boolean;
 export interface DescribeLoggingConfigurationResponse {
-  FirewallArn?: string;
-  LoggingConfiguration?: LoggingConfiguration;
-  EnableMonitoringDashboard?: boolean;
+  FirewallArn?: string | undefined;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
+  EnableMonitoringDashboard?: boolean | undefined;
 }
-export const DescribeLoggingConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FirewallArn: S.optional(S.String),
-      LoggingConfiguration: S.optional(LoggingConfiguration),
-      EnableMonitoringDashboard: S.optional(S.Boolean),
-    }),
-).annotate({
-  identifier: "DescribeLoggingConfigurationResponse",
-}) as any as S.Schema<DescribeLoggingConfigurationResponse>;
 export interface DescribeProxyRequest {
-  ProxyName?: string;
-  ProxyArn?: string;
+  ProxyName?: string | undefined;
+  ProxyArn?: string | undefined;
 }
-export const DescribeProxyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyName: S.optional(S.String),
-    ProxyArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeProxyRequest",
-}) as any as S.Schema<DescribeProxyRequest>;
 export type VpcEndpointServiceName = string;
 export type PrivateDNSName = string;
 export interface DescribeProxyResource {
-  ProxyName?: string;
-  ProxyArn?: string;
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
-  NatGatewayId?: string;
-  ProxyState?: ProxyState;
-  ProxyModifyState?: ProxyModifyState;
-  ListenerProperties?: ListenerProperty[];
-  TlsInterceptProperties?: TlsInterceptProperties;
-  VpcEndpointServiceName?: string;
-  PrivateDNSName?: string;
-  CreateTime?: Date;
-  DeleteTime?: Date;
-  UpdateTime?: Date;
-  FailureCode?: string;
-  FailureMessage?: string;
-  Tags?: Tag[];
+  ProxyName?: string | undefined;
+  ProxyArn?: string | undefined;
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
+  NatGatewayId?: string | undefined;
+  ProxyState?: ProxyState | undefined;
+  ProxyModifyState?: ProxyModifyState | undefined;
+  ListenerProperties?: ListenerProperty[] | undefined;
+  TlsInterceptProperties?: TlsInterceptProperties | undefined;
+  VpcEndpointServiceName?: string | undefined;
+  PrivateDNSName?: string | undefined;
+  CreateTime?: Date | undefined;
+  DeleteTime?: Date | undefined;
+  UpdateTime?: Date | undefined;
+  FailureCode?: string | undefined;
+  FailureMessage?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const DescribeProxyResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyName: S.optional(S.String),
-    ProxyArn: S.optional(S.String),
-    ProxyConfigurationName: S.optional(S.String),
-    ProxyConfigurationArn: S.optional(S.String),
-    NatGatewayId: S.optional(S.String),
-    ProxyState: S.optional(ProxyState),
-    ProxyModifyState: S.optional(ProxyModifyState),
-    ListenerProperties: S.optional(ListenerProperties),
-    TlsInterceptProperties: S.optional(TlsInterceptProperties),
-    VpcEndpointServiceName: S.optional(S.String),
-    PrivateDNSName: S.optional(S.String),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    FailureCode: S.optional(S.String),
-    FailureMessage: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }),
-).annotate({
-  identifier: "DescribeProxyResource",
-}) as any as S.Schema<DescribeProxyResource>;
 export interface DescribeProxyResponse {
-  Proxy?: DescribeProxyResource;
-  UpdateToken?: string;
+  Proxy?: DescribeProxyResource | undefined;
+  UpdateToken?: string | undefined;
 }
-export const DescribeProxyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Proxy: S.optional(DescribeProxyResource),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeProxyResponse",
-}) as any as S.Schema<DescribeProxyResponse>;
 export interface DescribeProxyConfigurationRequest {
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
 }
-export const DescribeProxyConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyConfigurationName: S.optional(S.String),
-    ProxyConfigurationArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeProxyConfigurationRequest",
-}) as any as S.Schema<DescribeProxyConfigurationRequest>;
 export interface DescribeProxyConfigurationResponse {
-  ProxyConfiguration?: ProxyConfiguration;
-  UpdateToken?: string;
+  ProxyConfiguration?: ProxyConfiguration | undefined;
+  UpdateToken?: string | undefined;
 }
-export const DescribeProxyConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyConfiguration: S.optional(ProxyConfiguration),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeProxyConfigurationResponse",
-}) as any as S.Schema<DescribeProxyConfigurationResponse>;
 export interface DescribeProxyRuleRequest {
   ProxyRuleName: string;
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
 }
-export const DescribeProxyRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleName: S.String,
-    ProxyRuleGroupName: S.optional(S.String),
-    ProxyRuleGroupArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeProxyRuleRequest",
-}) as any as S.Schema<DescribeProxyRuleRequest>;
 export interface DescribeProxyRuleResponse {
-  ProxyRule?: ProxyRule;
-  UpdateToken?: string;
+  ProxyRule?: ProxyRule | undefined;
+  UpdateToken?: string | undefined;
 }
-export const DescribeProxyRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRule: S.optional(ProxyRule),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeProxyRuleResponse",
-}) as any as S.Schema<DescribeProxyRuleResponse>;
 export interface DescribeProxyRuleGroupRequest {
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
 }
-export const DescribeProxyRuleGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroupName: S.optional(S.String),
-    ProxyRuleGroupArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeProxyRuleGroupRequest",
-}) as any as S.Schema<DescribeProxyRuleGroupRequest>;
 export interface DescribeProxyRuleGroupResponse {
-  ProxyRuleGroup?: ProxyRuleGroup;
-  UpdateToken?: string;
+  ProxyRuleGroup?: ProxyRuleGroup | undefined;
+  UpdateToken?: string | undefined;
 }
-export const DescribeProxyRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroup: S.optional(ProxyRuleGroup),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeProxyRuleGroupResponse",
-}) as any as S.Schema<DescribeProxyRuleGroupResponse>;
 export interface DescribeResourcePolicyRequest {
   ResourceArn: string;
 }
-export const DescribeResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeResourcePolicyRequest",
-}) as any as S.Schema<DescribeResourcePolicyRequest>;
 export type PolicyString = string;
 export interface DescribeResourcePolicyResponse {
-  Policy?: string;
+  Policy?: string | undefined;
 }
-export const DescribeResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.optional(S.String) }),
-).annotate({
-  identifier: "DescribeResourcePolicyResponse",
-}) as any as S.Schema<DescribeResourcePolicyResponse>;
 export interface DescribeRuleGroupRequest {
-  RuleGroupName?: string;
-  RuleGroupArn?: string;
-  Type?: RuleGroupType;
-  AnalyzeRuleGroup?: boolean;
+  RuleGroupName?: string | undefined;
+  RuleGroupArn?: string | undefined;
+  Type?: RuleGroupType | undefined;
+  AnalyzeRuleGroup?: boolean | undefined;
 }
-export const DescribeRuleGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleGroupName: S.optional(S.String),
-    RuleGroupArn: S.optional(S.String),
-    Type: S.optional(RuleGroupType),
-    AnalyzeRuleGroup: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeRuleGroupRequest",
-}) as any as S.Schema<DescribeRuleGroupRequest>;
 export interface DescribeRuleGroupResponse {
   UpdateToken: string;
-  RuleGroup?: RuleGroup;
+  RuleGroup?: RuleGroup | undefined;
   RuleGroupResponse: RuleGroupResponse;
 }
-export const DescribeRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpdateToken: S.String,
-    RuleGroup: S.optional(RuleGroup),
-    RuleGroupResponse: RuleGroupResponse,
-  }),
-).annotate({
-  identifier: "DescribeRuleGroupResponse",
-}) as any as S.Schema<DescribeRuleGroupResponse>;
 export interface DescribeRuleGroupMetadataRequest {
-  RuleGroupName?: string;
-  RuleGroupArn?: string;
-  Type?: RuleGroupType;
+  RuleGroupName?: string | undefined;
+  RuleGroupArn?: string | undefined;
+  Type?: RuleGroupType | undefined;
 }
-export const DescribeRuleGroupMetadataRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleGroupName: S.optional(S.String),
-    RuleGroupArn: S.optional(S.String),
-    Type: S.optional(RuleGroupType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeRuleGroupMetadataRequest",
-}) as any as S.Schema<DescribeRuleGroupMetadataRequest>;
 export type VendorName = string;
 export type ProductId = string;
 export type ListingName = string;
 export interface DescribeRuleGroupMetadataResponse {
   RuleGroupArn: string;
   RuleGroupName: string;
-  Description?: string;
-  Type?: RuleGroupType;
-  Capacity?: number;
-  StatefulRuleOptions?: StatefulRuleOptions;
-  LastModifiedTime?: Date;
-  VendorName?: string;
-  ProductId?: string;
-  ListingName?: string;
+  Description?: string | undefined;
+  Type?: RuleGroupType | undefined;
+  Capacity?: number | undefined;
+  StatefulRuleOptions?: StatefulRuleOptions | undefined;
+  LastModifiedTime?: Date | undefined;
+  VendorName?: string | undefined;
+  ProductId?: string | undefined;
+  ListingName?: string | undefined;
 }
-export const DescribeRuleGroupMetadataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleGroupArn: S.String,
-    RuleGroupName: S.String,
-    Description: S.optional(S.String),
-    Type: S.optional(RuleGroupType),
-    Capacity: S.optional(S.Number),
-    StatefulRuleOptions: S.optional(StatefulRuleOptions),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    VendorName: S.optional(S.String),
-    ProductId: S.optional(S.String),
-    ListingName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeRuleGroupMetadataResponse",
-}) as any as S.Schema<DescribeRuleGroupMetadataResponse>;
 export interface DescribeRuleGroupSummaryRequest {
-  RuleGroupName?: string;
-  RuleGroupArn?: string;
-  Type?: RuleGroupType;
+  RuleGroupName?: string | undefined;
+  RuleGroupArn?: string | undefined;
+  Type?: RuleGroupType | undefined;
 }
-export const DescribeRuleGroupSummaryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleGroupName: S.optional(S.String),
-    RuleGroupArn: S.optional(S.String),
-    Type: S.optional(RuleGroupType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeRuleGroupSummaryRequest",
-}) as any as S.Schema<DescribeRuleGroupSummaryRequest>;
 export interface RuleSummary {
-  SID?: string;
-  Msg?: string;
-  Metadata?: string;
+  SID?: string | undefined;
+  Msg?: string | undefined;
+  Metadata?: string | undefined;
 }
-export const RuleSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SID: S.optional(S.String),
-    Msg: S.optional(S.String),
-    Metadata: S.optional(S.String),
-  }),
-).annotate({ identifier: "RuleSummary" }) as any as S.Schema<RuleSummary>;
 export type RuleSummaries = RuleSummary[];
-export const RuleSummaries = /*@__PURE__*/ S.Array(RuleSummary);
 export interface Summary {
-  RuleSummaries?: RuleSummary[];
+  RuleSummaries?: RuleSummary[] | undefined;
 }
-export const Summary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleSummaries: S.optional(RuleSummaries) }),
-).annotate({ identifier: "Summary" }) as any as S.Schema<Summary>;
 export interface DescribeRuleGroupSummaryResponse {
   RuleGroupName: string;
-  Description?: string;
-  Summary?: Summary;
+  Description?: string | undefined;
+  Summary?: Summary | undefined;
 }
-export const DescribeRuleGroupSummaryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleGroupName: S.String,
-    Description: S.optional(S.String),
-    Summary: S.optional(Summary),
-  }),
-).annotate({
-  identifier: "DescribeRuleGroupSummaryResponse",
-}) as any as S.Schema<DescribeRuleGroupSummaryResponse>;
 export interface DescribeTLSInspectionConfigurationRequest {
-  TLSInspectionConfigurationArn?: string;
-  TLSInspectionConfigurationName?: string;
+  TLSInspectionConfigurationArn?: string | undefined;
+  TLSInspectionConfigurationName?: string | undefined;
 }
-export const DescribeTLSInspectionConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      TLSInspectionConfigurationArn: S.optional(S.String),
-      TLSInspectionConfigurationName: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DescribeTLSInspectionConfigurationRequest",
-  }) as any as S.Schema<DescribeTLSInspectionConfigurationRequest>;
 export interface DescribeTLSInspectionConfigurationResponse {
   UpdateToken: string;
-  TLSInspectionConfiguration?: TLSInspectionConfiguration;
+  TLSInspectionConfiguration?: TLSInspectionConfiguration | undefined;
   TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse;
 }
-export const DescribeTLSInspectionConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      UpdateToken: S.String,
-      TLSInspectionConfiguration: S.optional(TLSInspectionConfiguration),
-      TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse,
-    }),
-  ).annotate({
-    identifier: "DescribeTLSInspectionConfigurationResponse",
-  }) as any as S.Schema<DescribeTLSInspectionConfigurationResponse>;
 export interface DescribeVpcEndpointAssociationRequest {
   VpcEndpointAssociationArn: string;
 }
-export const DescribeVpcEndpointAssociationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ VpcEndpointAssociationArn: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-).annotate({
-  identifier: "DescribeVpcEndpointAssociationRequest",
-}) as any as S.Schema<DescribeVpcEndpointAssociationRequest>;
 export interface DescribeVpcEndpointAssociationResponse {
-  VpcEndpointAssociation?: VpcEndpointAssociation;
-  VpcEndpointAssociationStatus?: VpcEndpointAssociationStatus;
+  VpcEndpointAssociation?: VpcEndpointAssociation | undefined;
+  VpcEndpointAssociationStatus?: VpcEndpointAssociationStatus | undefined;
 }
-export const DescribeVpcEndpointAssociationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      VpcEndpointAssociation: S.optional(VpcEndpointAssociation),
-      VpcEndpointAssociationStatus: S.optional(VpcEndpointAssociationStatus),
-    }),
-).annotate({
-  identifier: "DescribeVpcEndpointAssociationResponse",
-}) as any as S.Schema<DescribeVpcEndpointAssociationResponse>;
 export interface DetachRuleGroupsFromProxyConfigurationRequest {
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
-  RuleGroupNames?: string[];
-  RuleGroupArns?: string[];
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
+  RuleGroupNames?: string[] | undefined;
+  RuleGroupArns?: string[] | undefined;
   UpdateToken: string;
 }
-export const DetachRuleGroupsFromProxyConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ProxyConfigurationName: S.optional(S.String),
-      ProxyConfigurationArn: S.optional(S.String),
-      RuleGroupNames: S.optional(ResourceNameList),
-      RuleGroupArns: S.optional(ResourceArnList),
-      UpdateToken: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DetachRuleGroupsFromProxyConfigurationRequest",
-  }) as any as S.Schema<DetachRuleGroupsFromProxyConfigurationRequest>;
 export interface DetachRuleGroupsFromProxyConfigurationResponse {
-  ProxyConfiguration?: ProxyConfiguration;
-  UpdateToken?: string;
+  ProxyConfiguration?: ProxyConfiguration | undefined;
+  UpdateToken?: string | undefined;
 }
-export const DetachRuleGroupsFromProxyConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ProxyConfiguration: S.optional(ProxyConfiguration),
-      UpdateToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "DetachRuleGroupsFromProxyConfigurationResponse",
-  }) as any as S.Schema<DetachRuleGroupsFromProxyConfigurationResponse>;
 export interface DisassociateAvailabilityZonesRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   AvailabilityZoneMappings: AvailabilityZoneMapping[];
 }
-export const DisassociateAvailabilityZonesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      UpdateToken: S.optional(S.String),
-      FirewallArn: S.optional(S.String),
-      FirewallName: S.optional(S.String),
-      AvailabilityZoneMappings: AvailabilityZoneMappings,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-).annotate({
-  identifier: "DisassociateAvailabilityZonesRequest",
-}) as any as S.Schema<DisassociateAvailabilityZonesRequest>;
 export interface DisassociateAvailabilityZonesResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  AvailabilityZoneMappings?: AvailabilityZoneMapping[];
-  UpdateToken?: string;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  AvailabilityZoneMappings?: AvailabilityZoneMapping[] | undefined;
+  UpdateToken?: string | undefined;
 }
-export const DisassociateAvailabilityZonesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FirewallArn: S.optional(S.String),
-      FirewallName: S.optional(S.String),
-      AvailabilityZoneMappings: S.optional(AvailabilityZoneMappings),
-      UpdateToken: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "DisassociateAvailabilityZonesResponse",
-}) as any as S.Schema<DisassociateAvailabilityZonesResponse>;
 export type AzSubnets = string[];
-export const AzSubnets = /*@__PURE__*/ S.Array(S.String);
 export interface DisassociateSubnetsRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   SubnetIds: string[];
 }
-export const DisassociateSubnetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpdateToken: S.optional(S.String),
-    FirewallArn: S.optional(S.String),
-    FirewallName: S.optional(S.String),
-    SubnetIds: AzSubnets,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DisassociateSubnetsRequest",
-}) as any as S.Schema<DisassociateSubnetsRequest>;
 export interface DisassociateSubnetsResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  SubnetMappings?: SubnetMapping[];
-  UpdateToken?: string;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  SubnetMappings?: SubnetMapping[] | undefined;
+  UpdateToken?: string | undefined;
 }
-export const DisassociateSubnetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.optional(S.String),
-    FirewallName: S.optional(S.String),
-    SubnetMappings: S.optional(SubnetMappings),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DisassociateSubnetsResponse",
-}) as any as S.Schema<DisassociateSubnetsResponse>;
 export type AnalysisReportId = string;
 export type AnalysisReportNextToken = string;
 export type PaginationMaxResults = number;
 export interface GetAnalysisReportResultsRequest {
-  FirewallName?: string;
+  FirewallName?: string | undefined;
   AnalysisReportId: string;
-  FirewallArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  FirewallArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const GetAnalysisReportResultsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallName: S.optional(S.String),
-    AnalysisReportId: S.String,
-    FirewallArn: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetAnalysisReportResultsRequest",
-}) as any as S.Schema<GetAnalysisReportResultsRequest>;
 export type Status = string;
 export type StartTime = Date;
 export type EndTime = Date;
@@ -3219,1532 +1398,555 @@ export type LastAccessed = Date;
 export type Domain = string;
 export type Count = number;
 export interface Hits {
-  Count?: number;
+  Count?: number | undefined;
 }
-export const Hits = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Count: S.optional(S.Number) }),
-).annotate({ identifier: "Hits" }) as any as S.Schema<Hits>;
 export interface UniqueSources {
-  Count?: number;
+  Count?: number | undefined;
 }
-export const UniqueSources = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Count: S.optional(S.Number) }),
-).annotate({ identifier: "UniqueSources" }) as any as S.Schema<UniqueSources>;
 export interface AnalysisTypeReportResult {
-  Protocol?: string;
-  FirstAccessed?: Date;
-  LastAccessed?: Date;
-  Domain?: string;
-  Hits?: Hits;
-  UniqueSources?: UniqueSources;
+  Protocol?: string | undefined;
+  FirstAccessed?: Date | undefined;
+  LastAccessed?: Date | undefined;
+  Domain?: string | undefined;
+  Hits?: Hits | undefined;
+  UniqueSources?: UniqueSources | undefined;
 }
-export const AnalysisTypeReportResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Protocol: S.optional(S.String),
-    FirstAccessed: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastAccessed: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Domain: S.optional(S.String),
-    Hits: S.optional(Hits),
-    UniqueSources: S.optional(UniqueSources),
-  }),
-).annotate({
-  identifier: "AnalysisTypeReportResult",
-}) as any as S.Schema<AnalysisTypeReportResult>;
 export type AnalysisReportResults = AnalysisTypeReportResult[];
-export const AnalysisReportResults = /*@__PURE__*/ S.Array(
-  AnalysisTypeReportResult,
-);
 export interface GetAnalysisReportResultsResponse {
-  Status?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  ReportTime?: Date;
-  AnalysisType?: EnabledAnalysisType;
-  NextToken?: string;
-  AnalysisReportResults?: AnalysisTypeReportResult[];
+  Status?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  ReportTime?: Date | undefined;
+  AnalysisType?: EnabledAnalysisType | undefined;
+  NextToken?: string | undefined;
+  AnalysisReportResults?: AnalysisTypeReportResult[] | undefined;
 }
-export const GetAnalysisReportResultsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ReportTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    AnalysisType: S.optional(EnabledAnalysisType),
-    NextToken: S.optional(S.String),
-    AnalysisReportResults: S.optional(AnalysisReportResults),
-  }),
-).annotate({
-  identifier: "GetAnalysisReportResultsResponse",
-}) as any as S.Schema<GetAnalysisReportResultsResponse>;
 export type PaginationToken = string;
 export interface ListAnalysisReportsRequest {
-  FirewallName?: string;
-  FirewallArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  FirewallName?: string | undefined;
+  FirewallArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListAnalysisReportsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallName: S.optional(S.String),
-    FirewallArn: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListAnalysisReportsRequest",
-}) as any as S.Schema<ListAnalysisReportsRequest>;
 export interface AnalysisReport {
-  AnalysisReportId?: string;
-  AnalysisType?: EnabledAnalysisType;
-  ReportTime?: Date;
-  Status?: string;
+  AnalysisReportId?: string | undefined;
+  AnalysisType?: EnabledAnalysisType | undefined;
+  ReportTime?: Date | undefined;
+  Status?: string | undefined;
 }
-export const AnalysisReport = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AnalysisReportId: S.optional(S.String),
-    AnalysisType: S.optional(EnabledAnalysisType),
-    ReportTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
-  }),
-).annotate({ identifier: "AnalysisReport" }) as any as S.Schema<AnalysisReport>;
 export type AnalysisReports = AnalysisReport[];
-export const AnalysisReports = /*@__PURE__*/ S.Array(AnalysisReport);
 export interface ListAnalysisReportsResponse {
-  AnalysisReports?: AnalysisReport[];
-  NextToken?: string;
+  AnalysisReports?: AnalysisReport[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListAnalysisReportsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AnalysisReports: S.optional(AnalysisReports),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAnalysisReportsResponse",
-}) as any as S.Schema<ListAnalysisReportsResponse>;
 export interface ListContainerAssociationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListContainerAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListContainerAssociationsRequest",
-}) as any as S.Schema<ListContainerAssociationsRequest>;
 export interface ContainerAssociationSummary {
-  Arn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
 }
-export const ContainerAssociationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }),
-).annotate({
-  identifier: "ContainerAssociationSummary",
-}) as any as S.Schema<ContainerAssociationSummary>;
 export type ContainerAssociations = ContainerAssociationSummary[];
-export const ContainerAssociations = /*@__PURE__*/ S.Array(
-  ContainerAssociationSummary,
-);
 export interface ListContainerAssociationsResponse {
-  ContainerAssociations?: ContainerAssociationSummary[];
-  NextToken?: string;
+  ContainerAssociations?: ContainerAssociationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListContainerAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerAssociations: S.optional(ContainerAssociations),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListContainerAssociationsResponse",
-}) as any as S.Schema<ListContainerAssociationsResponse>;
 export interface ListFirewallPoliciesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListFirewallPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListFirewallPoliciesRequest",
-}) as any as S.Schema<ListFirewallPoliciesRequest>;
 export interface FirewallPolicyMetadata {
-  Name?: string;
-  Arn?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
 }
-export const FirewallPolicyMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "FirewallPolicyMetadata",
-}) as any as S.Schema<FirewallPolicyMetadata>;
 export type FirewallPolicies = FirewallPolicyMetadata[];
-export const FirewallPolicies = /*@__PURE__*/ S.Array(FirewallPolicyMetadata);
 export interface ListFirewallPoliciesResponse {
-  NextToken?: string;
-  FirewallPolicies?: FirewallPolicyMetadata[];
+  NextToken?: string | undefined;
+  FirewallPolicies?: FirewallPolicyMetadata[] | undefined;
 }
-export const ListFirewallPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    FirewallPolicies: S.optional(FirewallPolicies),
-  }),
-).annotate({
-  identifier: "ListFirewallPoliciesResponse",
-}) as any as S.Schema<ListFirewallPoliciesResponse>;
 export type VpcIds = string[];
-export const VpcIds = /*@__PURE__*/ S.Array(S.String);
 export interface ListFirewallsRequest {
-  NextToken?: string;
-  VpcIds?: string[];
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  VpcIds?: string[] | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListFirewallsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    VpcIds: S.optional(VpcIds),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListFirewallsRequest",
-}) as any as S.Schema<ListFirewallsRequest>;
 export interface FirewallMetadata {
-  FirewallName?: string;
-  FirewallArn?: string;
-  TransitGatewayAttachmentId?: string;
+  FirewallName?: string | undefined;
+  FirewallArn?: string | undefined;
+  TransitGatewayAttachmentId?: string | undefined;
 }
-export const FirewallMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallName: S.optional(S.String),
-    FirewallArn: S.optional(S.String),
-    TransitGatewayAttachmentId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FirewallMetadata",
-}) as any as S.Schema<FirewallMetadata>;
 export type Firewalls = FirewallMetadata[];
-export const Firewalls = /*@__PURE__*/ S.Array(FirewallMetadata);
 export interface ListFirewallsResponse {
-  NextToken?: string;
-  Firewalls?: FirewallMetadata[];
+  NextToken?: string | undefined;
+  Firewalls?: FirewallMetadata[] | undefined;
 }
-export const ListFirewallsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Firewalls: S.optional(Firewalls),
-  }),
-).annotate({
-  identifier: "ListFirewallsResponse",
-}) as any as S.Schema<ListFirewallsResponse>;
 export interface ListFlowOperationResultsRequest {
   FirewallArn: string;
   FlowOperationId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  AvailabilityZone?: string;
-  VpcEndpointId?: string;
-  VpcEndpointAssociationArn?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
+  VpcEndpointId?: string | undefined;
+  VpcEndpointAssociationArn?: string | undefined;
 }
-export const ListFlowOperationResultsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.String,
-    FlowOperationId: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    AvailabilityZone: S.optional(S.String),
-    VpcEndpointId: S.optional(S.String),
-    VpcEndpointAssociationArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListFlowOperationResultsRequest",
-}) as any as S.Schema<ListFlowOperationResultsRequest>;
 export type PacketCount = number;
 export type ByteCount = number;
 export interface Flow {
-  SourceAddress?: Address;
-  DestinationAddress?: Address;
-  SourcePort?: string;
-  DestinationPort?: string;
-  Protocol?: string;
-  Age?: number;
-  PacketCount?: number;
-  ByteCount?: number;
+  SourceAddress?: Address | undefined;
+  DestinationAddress?: Address | undefined;
+  SourcePort?: string | undefined;
+  DestinationPort?: string | undefined;
+  Protocol?: string | undefined;
+  Age?: number | undefined;
+  PacketCount?: number | undefined;
+  ByteCount?: number | undefined;
 }
-export const Flow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceAddress: S.optional(Address),
-    DestinationAddress: S.optional(Address),
-    SourcePort: S.optional(S.String),
-    DestinationPort: S.optional(S.String),
-    Protocol: S.optional(S.String),
-    Age: S.optional(S.Number),
-    PacketCount: S.optional(S.Number),
-    ByteCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Flow" }) as any as S.Schema<Flow>;
 export type Flows = Flow[];
-export const Flows = /*@__PURE__*/ S.Array(Flow);
 export interface ListFlowOperationResultsResponse {
-  FirewallArn?: string;
-  AvailabilityZone?: string;
-  VpcEndpointAssociationArn?: string;
-  VpcEndpointId?: string;
-  FlowOperationId?: string;
-  FlowOperationStatus?: FlowOperationStatus;
-  StatusMessage?: string;
-  FlowRequestTimestamp?: Date;
-  Flows?: Flow[];
-  NextToken?: string;
+  FirewallArn?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
+  VpcEndpointAssociationArn?: string | undefined;
+  VpcEndpointId?: string | undefined;
+  FlowOperationId?: string | undefined;
+  FlowOperationStatus?: FlowOperationStatus | undefined;
+  StatusMessage?: string | undefined;
+  FlowRequestTimestamp?: Date | undefined;
+  Flows?: Flow[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListFlowOperationResultsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.optional(S.String),
-    AvailabilityZone: S.optional(S.String),
-    VpcEndpointAssociationArn: S.optional(S.String),
-    VpcEndpointId: S.optional(S.String),
-    FlowOperationId: S.optional(S.String),
-    FlowOperationStatus: S.optional(FlowOperationStatus),
-    StatusMessage: S.optional(S.String),
-    FlowRequestTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Flows: S.optional(Flows),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListFlowOperationResultsResponse",
-}) as any as S.Schema<ListFlowOperationResultsResponse>;
 export interface ListFlowOperationsRequest {
   FirewallArn: string;
-  AvailabilityZone?: string;
-  VpcEndpointAssociationArn?: string;
-  VpcEndpointId?: string;
-  FlowOperationType?: FlowOperationType;
-  NextToken?: string;
-  MaxResults?: number;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
+  VpcEndpointAssociationArn?: string | undefined;
+  VpcEndpointId?: string | undefined;
+  FlowOperationType?: FlowOperationType | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListFlowOperationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.String,
-    AvailabilityZone: S.optional(S.String),
-    VpcEndpointAssociationArn: S.optional(S.String),
-    VpcEndpointId: S.optional(S.String),
-    FlowOperationType: S.optional(FlowOperationType),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListFlowOperationsRequest",
-}) as any as S.Schema<ListFlowOperationsRequest>;
 export interface FlowOperationMetadata {
-  FlowOperationId?: string;
-  FlowOperationType?: FlowOperationType;
-  FlowRequestTimestamp?: Date;
-  FlowOperationStatus?: FlowOperationStatus;
+  FlowOperationId?: string | undefined;
+  FlowOperationType?: FlowOperationType | undefined;
+  FlowRequestTimestamp?: Date | undefined;
+  FlowOperationStatus?: FlowOperationStatus | undefined;
 }
-export const FlowOperationMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowOperationId: S.optional(S.String),
-    FlowOperationType: S.optional(FlowOperationType),
-    FlowRequestTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    FlowOperationStatus: S.optional(FlowOperationStatus),
-  }),
-).annotate({
-  identifier: "FlowOperationMetadata",
-}) as any as S.Schema<FlowOperationMetadata>;
 export type FlowOperations = FlowOperationMetadata[];
-export const FlowOperations = /*@__PURE__*/ S.Array(FlowOperationMetadata);
 export interface ListFlowOperationsResponse {
-  FlowOperations?: FlowOperationMetadata[];
-  NextToken?: string;
+  FlowOperations?: FlowOperationMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListFlowOperationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowOperations: S.optional(FlowOperations),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListFlowOperationsResponse",
-}) as any as S.Schema<ListFlowOperationsResponse>;
 export interface ListProxiesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListProxiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListProxiesRequest",
-}) as any as S.Schema<ListProxiesRequest>;
 export interface ProxyMetadata {
-  Name?: string;
-  Arn?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
 }
-export const ProxyMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Arn: S.optional(S.String) }),
-).annotate({ identifier: "ProxyMetadata" }) as any as S.Schema<ProxyMetadata>;
 export type Proxies = ProxyMetadata[];
-export const Proxies = /*@__PURE__*/ S.Array(ProxyMetadata);
 export interface ListProxiesResponse {
-  Proxies?: ProxyMetadata[];
-  NextToken?: string;
+  Proxies?: ProxyMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListProxiesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Proxies: S.optional(Proxies), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListProxiesResponse",
-}) as any as S.Schema<ListProxiesResponse>;
 export interface ListProxyConfigurationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListProxyConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListProxyConfigurationsRequest",
-}) as any as S.Schema<ListProxyConfigurationsRequest>;
 export interface ProxyConfigurationMetadata {
-  Name?: string;
-  Arn?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
 }
-export const ProxyConfigurationMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "ProxyConfigurationMetadata",
-}) as any as S.Schema<ProxyConfigurationMetadata>;
 export type ProxyConfigurations = ProxyConfigurationMetadata[];
-export const ProxyConfigurations = /*@__PURE__*/ S.Array(
-  ProxyConfigurationMetadata,
-);
 export interface ListProxyConfigurationsResponse {
-  ProxyConfigurations?: ProxyConfigurationMetadata[];
-  NextToken?: string;
+  ProxyConfigurations?: ProxyConfigurationMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListProxyConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyConfigurations: S.optional(ProxyConfigurations),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListProxyConfigurationsResponse",
-}) as any as S.Schema<ListProxyConfigurationsResponse>;
 export interface ListProxyRuleGroupsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListProxyRuleGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListProxyRuleGroupsRequest",
-}) as any as S.Schema<ListProxyRuleGroupsRequest>;
 export interface ProxyRuleGroupMetadata {
-  Name?: string;
-  Arn?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
 }
-export const ProxyRuleGroupMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "ProxyRuleGroupMetadata",
-}) as any as S.Schema<ProxyRuleGroupMetadata>;
 export type ProxyRuleGroups = ProxyRuleGroupMetadata[];
-export const ProxyRuleGroups = /*@__PURE__*/ S.Array(ProxyRuleGroupMetadata);
 export interface ListProxyRuleGroupsResponse {
-  ProxyRuleGroups?: ProxyRuleGroupMetadata[];
-  NextToken?: string;
+  ProxyRuleGroups?: ProxyRuleGroupMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListProxyRuleGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroups: S.optional(ProxyRuleGroups),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListProxyRuleGroupsResponse",
-}) as any as S.Schema<ListProxyRuleGroupsResponse>;
 export type ResourceManagedStatus = "MANAGED" | "ACCOUNT" | (string & {});
-export const ResourceManagedStatus = S.String;
-
 export type ResourceManagedType =
   | "AWS_MANAGED_THREAT_SIGNATURES"
   | "AWS_MANAGED_DOMAIN_LISTS"
   | "ACTIVE_THREAT_DEFENSE"
   | "PARTNER_MANAGED"
   | (string & {});
-export const ResourceManagedType = S.String;
-
-export type SubscriptionStatus =
-  | "NOT_SUBSCRIBED"
-  | "SUBSCRIBED"
-  | (string & {});
-export const SubscriptionStatus = S.String;
-
+export type SubscriptionStatus = "NOT_SUBSCRIBED" | "SUBSCRIBED" | (string & {});
 export interface ListRuleGroupsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Scope?: ResourceManagedStatus;
-  ManagedType?: ResourceManagedType;
-  SubscriptionStatus?: SubscriptionStatus;
-  Type?: RuleGroupType;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Scope?: ResourceManagedStatus | undefined;
+  ManagedType?: ResourceManagedType | undefined;
+  SubscriptionStatus?: SubscriptionStatus | undefined;
+  Type?: RuleGroupType | undefined;
 }
-export const ListRuleGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    Scope: S.optional(ResourceManagedStatus),
-    ManagedType: S.optional(ResourceManagedType),
-    SubscriptionStatus: S.optional(SubscriptionStatus),
-    Type: S.optional(RuleGroupType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListRuleGroupsRequest",
-}) as any as S.Schema<ListRuleGroupsRequest>;
 export interface RuleGroupMetadata {
-  Name?: string;
-  Arn?: string;
-  VendorName?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  VendorName?: string | undefined;
 }
-export const RuleGroupMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Arn: S.optional(S.String),
-    VendorName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RuleGroupMetadata",
-}) as any as S.Schema<RuleGroupMetadata>;
 export type RuleGroups = RuleGroupMetadata[];
-export const RuleGroups = /*@__PURE__*/ S.Array(RuleGroupMetadata);
 export interface ListRuleGroupsResponse {
-  NextToken?: string;
-  RuleGroups?: RuleGroupMetadata[];
+  NextToken?: string | undefined;
+  RuleGroups?: RuleGroupMetadata[] | undefined;
 }
-export const ListRuleGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    RuleGroups: S.optional(RuleGroups),
-  }),
-).annotate({
-  identifier: "ListRuleGroupsResponse",
-}) as any as S.Schema<ListRuleGroupsResponse>;
 export type TagsPaginationMaxResults = number;
 export interface ListTagsForResourceRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    ResourceArn: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
-  NextToken?: string;
-  Tags?: Tag[];
+  NextToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), Tags: S.optional(TagList) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListTLSInspectionConfigurationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListTLSInspectionConfigurationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-).annotate({
-  identifier: "ListTLSInspectionConfigurationsRequest",
-}) as any as S.Schema<ListTLSInspectionConfigurationsRequest>;
 export interface TLSInspectionConfigurationMetadata {
-  Name?: string;
-  Arn?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
 }
-export const TLSInspectionConfigurationMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "TLSInspectionConfigurationMetadata",
-}) as any as S.Schema<TLSInspectionConfigurationMetadata>;
 export type TLSInspectionConfigurations = TLSInspectionConfigurationMetadata[];
-export const TLSInspectionConfigurations = /*@__PURE__*/ S.Array(
-  TLSInspectionConfigurationMetadata,
-);
 export interface ListTLSInspectionConfigurationsResponse {
-  NextToken?: string;
-  TLSInspectionConfigurations?: TLSInspectionConfigurationMetadata[];
+  NextToken?: string | undefined;
+  TLSInspectionConfigurations?: TLSInspectionConfigurationMetadata[] | undefined;
 }
-export const ListTLSInspectionConfigurationsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      TLSInspectionConfigurations: S.optional(TLSInspectionConfigurations),
-    }),
-).annotate({
-  identifier: "ListTLSInspectionConfigurationsResponse",
-}) as any as S.Schema<ListTLSInspectionConfigurationsResponse>;
 export interface ListVpcEndpointAssociationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  FirewallArn?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  FirewallArn?: string | undefined;
 }
-export const ListVpcEndpointAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    FirewallArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListVpcEndpointAssociationsRequest",
-}) as any as S.Schema<ListVpcEndpointAssociationsRequest>;
 export interface VpcEndpointAssociationMetadata {
-  VpcEndpointAssociationArn?: string;
+  VpcEndpointAssociationArn?: string | undefined;
 }
-export const VpcEndpointAssociationMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VpcEndpointAssociationArn: S.optional(S.String) }),
-).annotate({
-  identifier: "VpcEndpointAssociationMetadata",
-}) as any as S.Schema<VpcEndpointAssociationMetadata>;
 export type VpcEndpointAssociations = VpcEndpointAssociationMetadata[];
-export const VpcEndpointAssociations = /*@__PURE__*/ S.Array(
-  VpcEndpointAssociationMetadata,
-);
 export interface ListVpcEndpointAssociationsResponse {
-  NextToken?: string;
-  VpcEndpointAssociations?: VpcEndpointAssociationMetadata[];
+  NextToken?: string | undefined;
+  VpcEndpointAssociations?: VpcEndpointAssociationMetadata[] | undefined;
 }
-export const ListVpcEndpointAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    VpcEndpointAssociations: S.optional(VpcEndpointAssociations),
-  }),
-).annotate({
-  identifier: "ListVpcEndpointAssociationsResponse",
-}) as any as S.Schema<ListVpcEndpointAssociationsResponse>;
 export interface PutResourcePolicyRequest {
   ResourceArn: string;
   Policy: string;
 }
-export const PutResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Policy: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "PutResourcePolicyRequest",
-}) as any as S.Schema<PutResourcePolicyRequest>;
 export interface PutResourcePolicyResponse {}
-export const PutResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutResourcePolicyResponse",
-}) as any as S.Schema<PutResourcePolicyResponse>;
 export interface RejectNetworkFirewallTransitGatewayAttachmentRequest {
   TransitGatewayAttachmentId: string;
 }
-export const RejectNetworkFirewallTransitGatewayAttachmentRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ TransitGatewayAttachmentId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "RejectNetworkFirewallTransitGatewayAttachmentRequest",
-  }) as any as S.Schema<RejectNetworkFirewallTransitGatewayAttachmentRequest>;
 export interface RejectNetworkFirewallTransitGatewayAttachmentResponse {
   TransitGatewayAttachmentId: string;
   TransitGatewayAttachmentStatus: TransitGatewayAttachmentStatus;
 }
-export const RejectNetworkFirewallTransitGatewayAttachmentResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      TransitGatewayAttachmentId: S.String,
-      TransitGatewayAttachmentStatus: TransitGatewayAttachmentStatus,
-    }),
-  ).annotate({
-    identifier: "RejectNetworkFirewallTransitGatewayAttachmentResponse",
-  }) as any as S.Schema<RejectNetworkFirewallTransitGatewayAttachmentResponse>;
 export interface StartAnalysisReportRequest {
-  FirewallName?: string;
-  FirewallArn?: string;
+  FirewallName?: string | undefined;
+  FirewallArn?: string | undefined;
   AnalysisType: EnabledAnalysisType;
 }
-export const StartAnalysisReportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallName: S.optional(S.String),
-    FirewallArn: S.optional(S.String),
-    AnalysisType: EnabledAnalysisType,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StartAnalysisReportRequest",
-}) as any as S.Schema<StartAnalysisReportRequest>;
 export interface StartAnalysisReportResponse {
   AnalysisReportId: string;
 }
-export const StartAnalysisReportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AnalysisReportId: S.String }),
-).annotate({
-  identifier: "StartAnalysisReportResponse",
-}) as any as S.Schema<StartAnalysisReportResponse>;
 export interface StartFlowCaptureRequest {
   FirewallArn: string;
-  AvailabilityZone?: string;
-  VpcEndpointAssociationArn?: string;
-  VpcEndpointId?: string;
-  MinimumFlowAgeInSeconds?: number;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
+  VpcEndpointAssociationArn?: string | undefined;
+  VpcEndpointId?: string | undefined;
+  MinimumFlowAgeInSeconds?: number | undefined;
   FlowFilters: FlowFilter[];
 }
-export const StartFlowCaptureRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.String,
-    AvailabilityZone: S.optional(S.String),
-    VpcEndpointAssociationArn: S.optional(S.String),
-    VpcEndpointId: S.optional(S.String),
-    MinimumFlowAgeInSeconds: S.optional(S.Number),
-    FlowFilters: FlowFilters,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StartFlowCaptureRequest",
-}) as any as S.Schema<StartFlowCaptureRequest>;
 export interface StartFlowCaptureResponse {
-  FirewallArn?: string;
-  FlowOperationId?: string;
-  FlowOperationStatus?: FlowOperationStatus;
+  FirewallArn?: string | undefined;
+  FlowOperationId?: string | undefined;
+  FlowOperationStatus?: FlowOperationStatus | undefined;
 }
-export const StartFlowCaptureResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.optional(S.String),
-    FlowOperationId: S.optional(S.String),
-    FlowOperationStatus: S.optional(FlowOperationStatus),
-  }),
-).annotate({
-  identifier: "StartFlowCaptureResponse",
-}) as any as S.Schema<StartFlowCaptureResponse>;
 export interface StartFlowFlushRequest {
   FirewallArn: string;
-  AvailabilityZone?: string;
-  VpcEndpointAssociationArn?: string;
-  VpcEndpointId?: string;
-  MinimumFlowAgeInSeconds?: number;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
+  VpcEndpointAssociationArn?: string | undefined;
+  VpcEndpointId?: string | undefined;
+  MinimumFlowAgeInSeconds?: number | undefined;
   FlowFilters: FlowFilter[];
 }
-export const StartFlowFlushRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.String,
-    AvailabilityZone: S.optional(S.String),
-    VpcEndpointAssociationArn: S.optional(S.String),
-    VpcEndpointId: S.optional(S.String),
-    MinimumFlowAgeInSeconds: S.optional(S.Number),
-    FlowFilters: FlowFilters,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StartFlowFlushRequest",
-}) as any as S.Schema<StartFlowFlushRequest>;
 export interface StartFlowFlushResponse {
-  FirewallArn?: string;
-  FlowOperationId?: string;
-  FlowOperationStatus?: FlowOperationStatus;
+  FirewallArn?: string | undefined;
+  FlowOperationId?: string | undefined;
+  FlowOperationStatus?: FlowOperationStatus | undefined;
 }
-export const StartFlowFlushResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.optional(S.String),
-    FlowOperationId: S.optional(S.String),
-    FlowOperationStatus: S.optional(FlowOperationStatus),
-  }),
-).annotate({
-  identifier: "StartFlowFlushResponse",
-}) as any as S.Schema<StartFlowFlushResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: Tag[];
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAvailabilityZoneChangeProtectionRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   AvailabilityZoneChangeProtection: boolean;
 }
-export const UpdateAvailabilityZoneChangeProtectionRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      UpdateToken: S.optional(S.String),
-      FirewallArn: S.optional(S.String),
-      FirewallName: S.optional(S.String),
-      AvailabilityZoneChangeProtection: S.Boolean,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "UpdateAvailabilityZoneChangeProtectionRequest",
-  }) as any as S.Schema<UpdateAvailabilityZoneChangeProtectionRequest>;
 export interface UpdateAvailabilityZoneChangeProtectionResponse {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
-  AvailabilityZoneChangeProtection?: boolean;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  AvailabilityZoneChangeProtection?: boolean | undefined;
 }
-export const UpdateAvailabilityZoneChangeProtectionResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      UpdateToken: S.optional(S.String),
-      FirewallArn: S.optional(S.String),
-      FirewallName: S.optional(S.String),
-      AvailabilityZoneChangeProtection: S.optional(S.Boolean),
-    }),
-  ).annotate({
-    identifier: "UpdateAvailabilityZoneChangeProtectionResponse",
-  }) as any as S.Schema<UpdateAvailabilityZoneChangeProtectionResponse>;
 export interface UpdateContainerAssociationRequest {
-  ContainerAssociationName?: string;
-  ContainerAssociationArn?: string;
-  Description?: string;
+  ContainerAssociationName?: string | undefined;
+  ContainerAssociationArn?: string | undefined;
+  Description?: string | undefined;
   Type: ContainerMonitoringType;
   ContainerMonitoringConfigurations: ContainerMonitoringConfiguration[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   UpdateToken: string;
 }
-export const UpdateContainerAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerAssociationName: S.optional(S.String),
-    ContainerAssociationArn: S.optional(S.String),
-    Description: S.optional(S.String),
-    Type: ContainerMonitoringType,
-    ContainerMonitoringConfigurations: ContainerMonitoringConfigurations,
-    Tags: S.optional(TagList),
-    UpdateToken: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateContainerAssociationRequest",
-}) as any as S.Schema<UpdateContainerAssociationRequest>;
 export interface UpdateContainerAssociationResponse {
-  ContainerAssociationName?: string;
-  ContainerAssociationArn?: string;
-  Description?: string;
-  Type?: ContainerMonitoringType;
-  ContainerMonitoringConfigurations?: ContainerMonitoringConfiguration[];
-  Status?: ContainerAssociationStatus;
-  Tags?: Tag[];
-  UpdateToken?: string;
+  ContainerAssociationName?: string | undefined;
+  ContainerAssociationArn?: string | undefined;
+  Description?: string | undefined;
+  Type?: ContainerMonitoringType | undefined;
+  ContainerMonitoringConfigurations?: ContainerMonitoringConfiguration[] | undefined;
+  Status?: ContainerAssociationStatus | undefined;
+  Tags?: Tag[] | undefined;
+  UpdateToken?: string | undefined;
 }
-export const UpdateContainerAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerAssociationName: S.optional(S.String),
-    ContainerAssociationArn: S.optional(S.String),
-    Description: S.optional(S.String),
-    Type: S.optional(ContainerMonitoringType),
-    ContainerMonitoringConfigurations: S.optional(
-      ContainerMonitoringConfigurations,
-    ),
-    Status: S.optional(ContainerAssociationStatus),
-    Tags: S.optional(TagList),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateContainerAssociationResponse",
-}) as any as S.Schema<UpdateContainerAssociationResponse>;
 export interface UpdateFirewallAnalysisSettingsRequest {
-  EnabledAnalysisTypes?: EnabledAnalysisType[];
-  FirewallArn?: string;
-  FirewallName?: string;
-  UpdateToken?: string;
+  EnabledAnalysisTypes?: EnabledAnalysisType[] | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  UpdateToken?: string | undefined;
 }
-export const UpdateFirewallAnalysisSettingsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EnabledAnalysisTypes: S.optional(EnabledAnalysisTypes),
-      FirewallArn: S.optional(S.String),
-      FirewallName: S.optional(S.String),
-      UpdateToken: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-).annotate({
-  identifier: "UpdateFirewallAnalysisSettingsRequest",
-}) as any as S.Schema<UpdateFirewallAnalysisSettingsRequest>;
 export interface UpdateFirewallAnalysisSettingsResponse {
-  EnabledAnalysisTypes?: EnabledAnalysisType[];
-  FirewallArn?: string;
-  FirewallName?: string;
-  UpdateToken?: string;
+  EnabledAnalysisTypes?: EnabledAnalysisType[] | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  UpdateToken?: string | undefined;
 }
-export const UpdateFirewallAnalysisSettingsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EnabledAnalysisTypes: S.optional(EnabledAnalysisTypes),
-      FirewallArn: S.optional(S.String),
-      FirewallName: S.optional(S.String),
-      UpdateToken: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "UpdateFirewallAnalysisSettingsResponse",
-}) as any as S.Schema<UpdateFirewallAnalysisSettingsResponse>;
 export interface UpdateFirewallDeleteProtectionRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   DeleteProtection: boolean;
 }
-export const UpdateFirewallDeleteProtectionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      UpdateToken: S.optional(S.String),
-      FirewallArn: S.optional(S.String),
-      FirewallName: S.optional(S.String),
-      DeleteProtection: S.Boolean,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-).annotate({
-  identifier: "UpdateFirewallDeleteProtectionRequest",
-}) as any as S.Schema<UpdateFirewallDeleteProtectionRequest>;
 export interface UpdateFirewallDeleteProtectionResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  DeleteProtection?: boolean;
-  UpdateToken?: string;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  DeleteProtection?: boolean | undefined;
+  UpdateToken?: string | undefined;
 }
-export const UpdateFirewallDeleteProtectionResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FirewallArn: S.optional(S.String),
-      FirewallName: S.optional(S.String),
-      DeleteProtection: S.optional(S.Boolean),
-      UpdateToken: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "UpdateFirewallDeleteProtectionResponse",
-}) as any as S.Schema<UpdateFirewallDeleteProtectionResponse>;
 export interface UpdateFirewallDescriptionRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
-  Description?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  Description?: string | undefined;
 }
-export const UpdateFirewallDescriptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpdateToken: S.optional(S.String),
-    FirewallArn: S.optional(S.String),
-    FirewallName: S.optional(S.String),
-    Description: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateFirewallDescriptionRequest",
-}) as any as S.Schema<UpdateFirewallDescriptionRequest>;
 export interface UpdateFirewallDescriptionResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  Description?: string;
-  UpdateToken?: string;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  Description?: string | undefined;
+  UpdateToken?: string | undefined;
 }
-export const UpdateFirewallDescriptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.optional(S.String),
-    FirewallName: S.optional(S.String),
-    Description: S.optional(S.String),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateFirewallDescriptionResponse",
-}) as any as S.Schema<UpdateFirewallDescriptionResponse>;
 export interface UpdateFirewallEncryptionConfigurationRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
-export const UpdateFirewallEncryptionConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      UpdateToken: S.optional(S.String),
-      FirewallArn: S.optional(S.String),
-      FirewallName: S.optional(S.String),
-      EncryptionConfiguration: S.optional(EncryptionConfiguration),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "UpdateFirewallEncryptionConfigurationRequest",
-  }) as any as S.Schema<UpdateFirewallEncryptionConfigurationRequest>;
 export interface UpdateFirewallEncryptionConfigurationResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  UpdateToken?: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  UpdateToken?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
-export const UpdateFirewallEncryptionConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      FirewallArn: S.optional(S.String),
-      FirewallName: S.optional(S.String),
-      UpdateToken: S.optional(S.String),
-      EncryptionConfiguration: S.optional(EncryptionConfiguration),
-    }),
-  ).annotate({
-    identifier: "UpdateFirewallEncryptionConfigurationResponse",
-  }) as any as S.Schema<UpdateFirewallEncryptionConfigurationResponse>;
 export interface UpdateFirewallPolicyRequest {
   UpdateToken: string;
-  FirewallPolicyArn?: string;
-  FirewallPolicyName?: string;
+  FirewallPolicyArn?: string | undefined;
+  FirewallPolicyName?: string | undefined;
   FirewallPolicy: FirewallPolicy;
-  Description?: string;
-  DryRun?: boolean;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  Description?: string | undefined;
+  DryRun?: boolean | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
-export const UpdateFirewallPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpdateToken: S.String,
-    FirewallPolicyArn: S.optional(S.String),
-    FirewallPolicyName: S.optional(S.String),
-    FirewallPolicy: FirewallPolicy,
-    Description: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-    EncryptionConfiguration: S.optional(EncryptionConfiguration),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateFirewallPolicyRequest",
-}) as any as S.Schema<UpdateFirewallPolicyRequest>;
 export interface UpdateFirewallPolicyResponse {
   UpdateToken: string;
   FirewallPolicyResponse: FirewallPolicyResponse;
 }
-export const UpdateFirewallPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpdateToken: S.String,
-    FirewallPolicyResponse: FirewallPolicyResponse,
-  }),
-).annotate({
-  identifier: "UpdateFirewallPolicyResponse",
-}) as any as S.Schema<UpdateFirewallPolicyResponse>;
 export interface UpdateFirewallPolicyChangeProtectionRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   FirewallPolicyChangeProtection: boolean;
 }
-export const UpdateFirewallPolicyChangeProtectionRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      UpdateToken: S.optional(S.String),
-      FirewallArn: S.optional(S.String),
-      FirewallName: S.optional(S.String),
-      FirewallPolicyChangeProtection: S.Boolean,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "UpdateFirewallPolicyChangeProtectionRequest",
-  }) as any as S.Schema<UpdateFirewallPolicyChangeProtectionRequest>;
 export interface UpdateFirewallPolicyChangeProtectionResponse {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
-  FirewallPolicyChangeProtection?: boolean;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  FirewallPolicyChangeProtection?: boolean | undefined;
 }
-export const UpdateFirewallPolicyChangeProtectionResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      UpdateToken: S.optional(S.String),
-      FirewallArn: S.optional(S.String),
-      FirewallName: S.optional(S.String),
-      FirewallPolicyChangeProtection: S.optional(S.Boolean),
-    }),
-  ).annotate({
-    identifier: "UpdateFirewallPolicyChangeProtectionResponse",
-  }) as any as S.Schema<UpdateFirewallPolicyChangeProtectionResponse>;
 export interface UpdateLoggingConfigurationRequest {
-  FirewallArn?: string;
-  FirewallName?: string;
-  LoggingConfiguration?: LoggingConfiguration;
-  EnableMonitoringDashboard?: boolean;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
+  EnableMonitoringDashboard?: boolean | undefined;
 }
-export const UpdateLoggingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.optional(S.String),
-    FirewallName: S.optional(S.String),
-    LoggingConfiguration: S.optional(LoggingConfiguration),
-    EnableMonitoringDashboard: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateLoggingConfigurationRequest",
-}) as any as S.Schema<UpdateLoggingConfigurationRequest>;
 export interface UpdateLoggingConfigurationResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  LoggingConfiguration?: LoggingConfiguration;
-  EnableMonitoringDashboard?: boolean;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
+  EnableMonitoringDashboard?: boolean | undefined;
 }
-export const UpdateLoggingConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.optional(S.String),
-    FirewallName: S.optional(S.String),
-    LoggingConfiguration: S.optional(LoggingConfiguration),
-    EnableMonitoringDashboard: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "UpdateLoggingConfigurationResponse",
-}) as any as S.Schema<UpdateLoggingConfigurationResponse>;
 export interface UpdateProxyRequest {
   NatGatewayId: string;
-  ProxyName?: string;
-  ProxyArn?: string;
-  ListenerPropertiesToAdd?: ListenerPropertyRequest[];
-  ListenerPropertiesToRemove?: ListenerPropertyRequest[];
-  TlsInterceptProperties?: TlsInterceptPropertiesRequest;
+  ProxyName?: string | undefined;
+  ProxyArn?: string | undefined;
+  ListenerPropertiesToAdd?: ListenerPropertyRequest[] | undefined;
+  ListenerPropertiesToRemove?: ListenerPropertyRequest[] | undefined;
+  TlsInterceptProperties?: TlsInterceptPropertiesRequest | undefined;
   UpdateToken: string;
 }
-export const UpdateProxyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NatGatewayId: S.String,
-    ProxyName: S.optional(S.String),
-    ProxyArn: S.optional(S.String),
-    ListenerPropertiesToAdd: S.optional(ListenerPropertiesRequest),
-    ListenerPropertiesToRemove: S.optional(ListenerPropertiesRequest),
-    TlsInterceptProperties: S.optional(TlsInterceptPropertiesRequest),
-    UpdateToken: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateProxyRequest",
-}) as any as S.Schema<UpdateProxyRequest>;
 export interface UpdateProxyResponse {
-  Proxy?: Proxy;
-  UpdateToken?: string;
+  Proxy?: Proxy | undefined;
+  UpdateToken?: string | undefined;
 }
-export const UpdateProxyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Proxy: S.optional(Proxy), UpdateToken: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateProxyResponse",
-}) as any as S.Schema<UpdateProxyResponse>;
 export interface UpdateProxyConfigurationRequest {
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
   DefaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest;
   UpdateToken: string;
 }
-export const UpdateProxyConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyConfigurationName: S.optional(S.String),
-    ProxyConfigurationArn: S.optional(S.String),
-    DefaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest,
-    UpdateToken: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateProxyConfigurationRequest",
-}) as any as S.Schema<UpdateProxyConfigurationRequest>;
 export interface UpdateProxyConfigurationResponse {
-  ProxyConfiguration?: ProxyConfiguration;
-  UpdateToken?: string;
+  ProxyConfiguration?: ProxyConfiguration | undefined;
+  UpdateToken?: string | undefined;
 }
-export const UpdateProxyConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyConfiguration: S.optional(ProxyConfiguration),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateProxyConfigurationResponse",
-}) as any as S.Schema<UpdateProxyConfigurationResponse>;
 export interface UpdateProxyRuleRequest {
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
   ProxyRuleName: string;
-  Description?: string;
-  Action?: ProxyRulePhaseAction;
-  AddConditions?: ProxyRuleCondition[];
-  RemoveConditions?: ProxyRuleCondition[];
+  Description?: string | undefined;
+  Action?: ProxyRulePhaseAction | undefined;
+  AddConditions?: ProxyRuleCondition[] | undefined;
+  RemoveConditions?: ProxyRuleCondition[] | undefined;
   UpdateToken: string;
 }
-export const UpdateProxyRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroupName: S.optional(S.String),
-    ProxyRuleGroupArn: S.optional(S.String),
-    ProxyRuleName: S.String,
-    Description: S.optional(S.String),
-    Action: S.optional(ProxyRulePhaseAction),
-    AddConditions: S.optional(ProxyRuleConditionList),
-    RemoveConditions: S.optional(ProxyRuleConditionList),
-    UpdateToken: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateProxyRuleRequest",
-}) as any as S.Schema<UpdateProxyRuleRequest>;
 export interface UpdateProxyRuleResponse {
-  ProxyRule?: ProxyRule;
-  RemovedConditions?: ProxyRuleCondition[];
-  UpdateToken?: string;
+  ProxyRule?: ProxyRule | undefined;
+  RemovedConditions?: ProxyRuleCondition[] | undefined;
+  UpdateToken?: string | undefined;
 }
-export const UpdateProxyRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRule: S.optional(ProxyRule),
-    RemovedConditions: S.optional(ProxyRuleConditionList),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateProxyRuleResponse",
-}) as any as S.Schema<UpdateProxyRuleResponse>;
 export interface ProxyRuleGroupPriority {
-  ProxyRuleGroupName?: string;
-  NewPosition?: number;
+  ProxyRuleGroupName?: string | undefined;
+  NewPosition?: number | undefined;
 }
-export const ProxyRuleGroupPriority = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroupName: S.optional(S.String),
-    NewPosition: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ProxyRuleGroupPriority",
-}) as any as S.Schema<ProxyRuleGroupPriority>;
 export type ProxyRuleGroupPriorityList = ProxyRuleGroupPriority[];
-export const ProxyRuleGroupPriorityList = /*@__PURE__*/ S.Array(
-  ProxyRuleGroupPriority,
-);
 export interface UpdateProxyRuleGroupPrioritiesRequest {
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
   RuleGroups: ProxyRuleGroupPriority[];
   UpdateToken: string;
 }
-export const UpdateProxyRuleGroupPrioritiesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProxyConfigurationName: S.optional(S.String),
-      ProxyConfigurationArn: S.optional(S.String),
-      RuleGroups: ProxyRuleGroupPriorityList,
-      UpdateToken: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-).annotate({
-  identifier: "UpdateProxyRuleGroupPrioritiesRequest",
-}) as any as S.Schema<UpdateProxyRuleGroupPrioritiesRequest>;
 export type ProxyRuleGroupPriorityResultPriority = number;
 export interface ProxyRuleGroupPriorityResult {
-  ProxyRuleGroupName?: string;
-  Priority?: number;
+  ProxyRuleGroupName?: string | undefined;
+  Priority?: number | undefined;
 }
-export const ProxyRuleGroupPriorityResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroupName: S.optional(S.String),
-    Priority: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ProxyRuleGroupPriorityResult",
-}) as any as S.Schema<ProxyRuleGroupPriorityResult>;
 export type ProxyRuleGroupPriorityResultList = ProxyRuleGroupPriorityResult[];
-export const ProxyRuleGroupPriorityResultList = /*@__PURE__*/ S.Array(
-  ProxyRuleGroupPriorityResult,
-);
 export interface UpdateProxyRuleGroupPrioritiesResponse {
-  ProxyRuleGroups?: ProxyRuleGroupPriorityResult[];
-  UpdateToken?: string;
+  ProxyRuleGroups?: ProxyRuleGroupPriorityResult[] | undefined;
+  UpdateToken?: string | undefined;
 }
-export const UpdateProxyRuleGroupPrioritiesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProxyRuleGroups: S.optional(ProxyRuleGroupPriorityResultList),
-      UpdateToken: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "UpdateProxyRuleGroupPrioritiesResponse",
-}) as any as S.Schema<UpdateProxyRuleGroupPrioritiesResponse>;
-export type RuleGroupRequestPhase =
-  | "PRE_DNS"
-  | "PRE_REQ"
-  | "POST_RES"
-  | (string & {});
-export const RuleGroupRequestPhase = S.String;
-
+export type RuleGroupRequestPhase = "PRE_DNS" | "PRE_REQ" | "POST_RES" | (string & {});
 export interface ProxyRulePriority {
-  ProxyRuleName?: string;
-  NewPosition?: number;
+  ProxyRuleName?: string | undefined;
+  NewPosition?: number | undefined;
 }
-export const ProxyRulePriority = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleName: S.optional(S.String),
-    NewPosition: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ProxyRulePriority",
-}) as any as S.Schema<ProxyRulePriority>;
 export type ProxyRulePriorityList = ProxyRulePriority[];
-export const ProxyRulePriorityList = /*@__PURE__*/ S.Array(ProxyRulePriority);
 export interface UpdateProxyRulePrioritiesRequest {
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
   RuleGroupRequestPhase: RuleGroupRequestPhase;
   Rules: ProxyRulePriority[];
   UpdateToken: string;
 }
-export const UpdateProxyRulePrioritiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroupName: S.optional(S.String),
-    ProxyRuleGroupArn: S.optional(S.String),
-    RuleGroupRequestPhase: RuleGroupRequestPhase,
-    Rules: ProxyRulePriorityList,
-    UpdateToken: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateProxyRulePrioritiesRequest",
-}) as any as S.Schema<UpdateProxyRulePrioritiesRequest>;
 export interface UpdateProxyRulePrioritiesResponse {
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
-  RuleGroupRequestPhase?: RuleGroupRequestPhase;
-  Rules?: ProxyRulePriority[];
-  UpdateToken?: string;
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
+  RuleGroupRequestPhase?: RuleGroupRequestPhase | undefined;
+  Rules?: ProxyRulePriority[] | undefined;
+  UpdateToken?: string | undefined;
 }
-export const UpdateProxyRulePrioritiesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProxyRuleGroupName: S.optional(S.String),
-    ProxyRuleGroupArn: S.optional(S.String),
-    RuleGroupRequestPhase: S.optional(RuleGroupRequestPhase),
-    Rules: S.optional(ProxyRulePriorityList),
-    UpdateToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateProxyRulePrioritiesResponse",
-}) as any as S.Schema<UpdateProxyRulePrioritiesResponse>;
 export interface UpdateProxySettingsRequest {
-  FirewallArn?: string;
-  FirewallName?: string;
-  UpdateToken?: string;
-  ProxySettings?: ProxySettings;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  UpdateToken?: string | undefined;
+  ProxySettings?: ProxySettings | undefined;
 }
-export const UpdateProxySettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.optional(S.String),
-    FirewallName: S.optional(S.String),
-    UpdateToken: S.optional(S.String),
-    ProxySettings: S.optional(ProxySettings),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateProxySettingsRequest",
-}) as any as S.Schema<UpdateProxySettingsRequest>;
 export interface UpdateProxySettingsResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  UpdateToken?: string;
-  ProxySettings?: ProxySettings;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  UpdateToken?: string | undefined;
+  ProxySettings?: ProxySettings | undefined;
 }
-export const UpdateProxySettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallArn: S.optional(S.String),
-    FirewallName: S.optional(S.String),
-    UpdateToken: S.optional(S.String),
-    ProxySettings: S.optional(ProxySettings),
-  }),
-).annotate({
-  identifier: "UpdateProxySettingsResponse",
-}) as any as S.Schema<UpdateProxySettingsResponse>;
 export interface UpdateRuleGroupRequest {
   UpdateToken: string;
-  RuleGroupArn?: string;
-  RuleGroupName?: string;
-  RuleGroup?: RuleGroup;
-  Rules?: string;
-  Type?: RuleGroupType;
-  Description?: string;
-  DryRun?: boolean;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  SourceMetadata?: SourceMetadata;
-  AnalyzeRuleGroup?: boolean;
-  SummaryConfiguration?: SummaryConfiguration;
+  RuleGroupArn?: string | undefined;
+  RuleGroupName?: string | undefined;
+  RuleGroup?: RuleGroup | undefined;
+  Rules?: string | undefined;
+  Type?: RuleGroupType | undefined;
+  Description?: string | undefined;
+  DryRun?: boolean | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  SourceMetadata?: SourceMetadata | undefined;
+  AnalyzeRuleGroup?: boolean | undefined;
+  SummaryConfiguration?: SummaryConfiguration | undefined;
 }
-export const UpdateRuleGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpdateToken: S.String,
-    RuleGroupArn: S.optional(S.String),
-    RuleGroupName: S.optional(S.String),
-    RuleGroup: S.optional(RuleGroup),
-    Rules: S.optional(S.String),
-    Type: S.optional(RuleGroupType),
-    Description: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-    EncryptionConfiguration: S.optional(EncryptionConfiguration),
-    SourceMetadata: S.optional(SourceMetadata),
-    AnalyzeRuleGroup: S.optional(S.Boolean),
-    SummaryConfiguration: S.optional(SummaryConfiguration),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateRuleGroupRequest",
-}) as any as S.Schema<UpdateRuleGroupRequest>;
 export interface UpdateRuleGroupResponse {
   UpdateToken: string;
   RuleGroupResponse: RuleGroupResponse;
 }
-export const UpdateRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UpdateToken: S.String, RuleGroupResponse: RuleGroupResponse }),
-).annotate({
-  identifier: "UpdateRuleGroupResponse",
-}) as any as S.Schema<UpdateRuleGroupResponse>;
 export interface UpdateSubnetChangeProtectionRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   SubnetChangeProtection: boolean;
 }
-export const UpdateSubnetChangeProtectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpdateToken: S.optional(S.String),
-    FirewallArn: S.optional(S.String),
-    FirewallName: S.optional(S.String),
-    SubnetChangeProtection: S.Boolean,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateSubnetChangeProtectionRequest",
-}) as any as S.Schema<UpdateSubnetChangeProtectionRequest>;
 export interface UpdateSubnetChangeProtectionResponse {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
-  SubnetChangeProtection?: boolean;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  SubnetChangeProtection?: boolean | undefined;
 }
-export const UpdateSubnetChangeProtectionResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      UpdateToken: S.optional(S.String),
-      FirewallArn: S.optional(S.String),
-      FirewallName: S.optional(S.String),
-      SubnetChangeProtection: S.optional(S.Boolean),
-    }),
-).annotate({
-  identifier: "UpdateSubnetChangeProtectionResponse",
-}) as any as S.Schema<UpdateSubnetChangeProtectionResponse>;
 export interface UpdateTLSInspectionConfigurationRequest {
-  TLSInspectionConfigurationArn?: string;
-  TLSInspectionConfigurationName?: string;
+  TLSInspectionConfigurationArn?: string | undefined;
+  TLSInspectionConfigurationName?: string | undefined;
   TLSInspectionConfiguration: TLSInspectionConfiguration;
-  Description?: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  Description?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
   UpdateToken: string;
 }
-export const UpdateTLSInspectionConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      TLSInspectionConfigurationArn: S.optional(S.String),
-      TLSInspectionConfigurationName: S.optional(S.String),
-      TLSInspectionConfiguration: TLSInspectionConfiguration,
-      Description: S.optional(S.String),
-      EncryptionConfiguration: S.optional(EncryptionConfiguration),
-      UpdateToken: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-).annotate({
-  identifier: "UpdateTLSInspectionConfigurationRequest",
-}) as any as S.Schema<UpdateTLSInspectionConfigurationRequest>;
 export interface UpdateTLSInspectionConfigurationResponse {
   UpdateToken: string;
   TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse;
 }
-export const UpdateTLSInspectionConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      UpdateToken: S.String,
-      TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse,
-    }),
-).annotate({
-  identifier: "UpdateTLSInspectionConfigurationResponse",
-}) as any as S.Schema<UpdateTLSInspectionConfigurationResponse>;
 export type ErrorMessage = string;
 export type AcceptNetworkFirewallTransitGatewayAttachmentError =
   | InternalServerError
@@ -4762,13 +1964,17 @@ export type AcceptNetworkFirewallTransitGatewayAttachmentError =
  * It can take several minutes for the attachment acceptance to complete and the firewall to become available.
  */
 export const acceptNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
-  AcceptNetworkFirewallTransitGatewayAttachmentRequest,
+  AcceptNetworkFirewallTransitGatewayAttachmentRequest & RegionInput,
   AcceptNetworkFirewallTransitGatewayAttachmentResponse,
   AcceptNetworkFirewallTransitGatewayAttachmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AcceptNetworkFirewallTransitGatewayAttachmentRequest,
-  output: AcceptNetworkFirewallTransitGatewayAttachmentResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<AcceptNetworkFirewallTransitGatewayAttachmentRequest>,
+  output: __S(
+    32,
+    __c1,
+    0,
+  ) as any as S.Schema<AcceptNetworkFirewallTransitGatewayAttachmentResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -4778,6 +1984,8 @@ export const acceptNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptNetworkFirewallTransitGatewayAttachment",
+  telemetry: TELEMETRY,
+  span: "AcceptNetworkFirewallTransitGatewayAttachment",
 }));
 
 export type AssociateAvailabilityZonesError =
@@ -4795,13 +2003,13 @@ export type AssociateAvailabilityZonesError =
  * After adding Availability Zones, you must update your transit gateway route tables to direct traffic through the new firewall endpoints. Use DescribeFirewall to monitor the status of the new endpoints.
  */
 export const associateAvailabilityZones: API.OperationMethod<
-  AssociateAvailabilityZonesRequest,
+  AssociateAvailabilityZonesRequest & RegionInput,
   AssociateAvailabilityZonesResponse,
   AssociateAvailabilityZonesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateAvailabilityZonesRequest,
-  output: AssociateAvailabilityZonesResponse,
+  input: __S(64, __c2, 0) as any as S.Schema<AssociateAvailabilityZonesRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<AssociateAvailabilityZonesResponse>,
   errors: [
     InsufficientCapacityException,
     InternalServerError,
@@ -4814,6 +2022,8 @@ export const associateAvailabilityZones: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAvailabilityZones",
+  telemetry: TELEMETRY,
+  span: "AssociateAvailabilityZones",
 }));
 
 export type AssociateFirewallPolicyError =
@@ -4833,13 +2043,13 @@ export type AssociateFirewallPolicyError =
  * firewalls.
  */
 export const associateFirewallPolicy: API.OperationMethod<
-  AssociateFirewallPolicyRequest,
+  AssociateFirewallPolicyRequest & RegionInput,
   AssociateFirewallPolicyResponse,
   AssociateFirewallPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateFirewallPolicyRequest,
-  output: AssociateFirewallPolicyResponse,
+  input: __S(160, __c5, 0) as any as S.Schema<AssociateFirewallPolicyRequest>,
+  output: __S(161, __c5, 1) as any as S.Schema<AssociateFirewallPolicyResponse>,
   errors: [
     InternalServerError,
     InvalidOperationException,
@@ -4851,6 +2061,8 @@ export const associateFirewallPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFirewallPolicy",
+  telemetry: TELEMETRY,
+  span: "AssociateFirewallPolicy",
 }));
 
 export type AssociateSubnetsError =
@@ -4872,13 +2084,13 @@ export type AssociateSubnetsError =
  * zone through the firewall endpoint.
  */
 export const associateSubnets: API.OperationMethod<
-  AssociateSubnetsRequest,
+  AssociateSubnetsRequest & RegionInput,
   AssociateSubnetsResponse,
   AssociateSubnetsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateSubnetsRequest,
-  output: AssociateSubnetsResponse,
+  input: __S(192, __c6, 0) as any as S.Schema<AssociateSubnetsRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<AssociateSubnetsResponse>,
   errors: [
     InsufficientCapacityException,
     InternalServerError,
@@ -4891,6 +2103,8 @@ export const associateSubnets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSubnets",
+  telemetry: TELEMETRY,
+  span: "AssociateSubnets",
 }));
 
 export type AttachRuleGroupsToProxyConfigurationError =
@@ -4905,13 +2119,13 @@ export type AttachRuleGroupsToProxyConfigurationError =
  * A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
  */
 export const attachRuleGroupsToProxyConfiguration: API.OperationMethod<
-  AttachRuleGroupsToProxyConfigurationRequest,
+  AttachRuleGroupsToProxyConfigurationRequest & RegionInput,
   AttachRuleGroupsToProxyConfigurationResponse,
   AttachRuleGroupsToProxyConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AttachRuleGroupsToProxyConfigurationRequest,
-  output: AttachRuleGroupsToProxyConfigurationResponse,
+  input: __S(322, __c10, 2) as any as S.Schema<AttachRuleGroupsToProxyConfigurationRequest>,
+  output: __S(388, __c12, 4) as any as S.Schema<AttachRuleGroupsToProxyConfigurationResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -4921,6 +2135,8 @@ export const attachRuleGroupsToProxyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachRuleGroupsToProxyConfiguration",
+  telemetry: TELEMETRY,
+  span: "AttachRuleGroupsToProxyConfiguration",
 }));
 
 export type CreateContainerAssociationError =
@@ -4935,13 +2151,13 @@ export type CreateContainerAssociationError =
  * Amazon ECS or Amazon EKS clusters and resolves running container addresses for use in firewall rules.
  */
 export const createContainerAssociation: API.OperationMethod<
-  CreateContainerAssociationRequest,
+  CreateContainerAssociationRequest & RegionInput,
   CreateContainerAssociationResponse,
   CreateContainerAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateContainerAssociationRequest,
-  output: CreateContainerAssociationResponse,
+  input: __S(416, __c13, 0) as any as S.Schema<CreateContainerAssociationRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<CreateContainerAssociationResponse>,
   errors: [
     InsufficientCapacityException,
     InternalServerError,
@@ -4952,6 +2168,8 @@ export const createContainerAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateContainerAssociation",
 }));
 
 export type CreateFirewallError =
@@ -4979,13 +2197,13 @@ export type CreateFirewallError =
  * To generate a report on the last 30 days of traffic monitored by a firewall, use StartAnalysisReport.
  */
 export const createFirewall: API.OperationMethod<
-  CreateFirewallRequest,
+  CreateFirewallRequest & RegionInput,
   CreateFirewallResponse,
   CreateFirewallError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFirewallRequest,
-  output: CreateFirewallResponse,
+  input: __S(512, __c16, 0) as any as S.Schema<CreateFirewallRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<CreateFirewallResponse>,
   errors: [
     InsufficientCapacityException,
     InternalServerError,
@@ -4997,11 +2215,14 @@ export const createFirewall: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewall",
+  telemetry: TELEMETRY,
+  span: "CreateFirewall",
 }));
 
 export type CreateFirewallPolicyError =
   | InsufficientCapacityException
   | InternalServerError
+  | InvalidOperationException
   | InvalidRequestException
   | LimitExceededException
   | ThrottlingException
@@ -5014,16 +2235,17 @@ export type CreateFirewallPolicyError =
  * multiple firewalls.
  */
 export const createFirewallPolicy: API.OperationMethod<
-  CreateFirewallPolicyRequest,
+  CreateFirewallPolicyRequest & RegionInput,
   CreateFirewallPolicyResponse,
   CreateFirewallPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFirewallPolicyRequest,
-  output: CreateFirewallPolicyResponse,
+  input: __S(768, __c24, 0) as any as S.Schema<CreateFirewallPolicyRequest>,
+  output: __S(992, __c31, 0) as any as S.Schema<CreateFirewallPolicyResponse>,
   errors: [
     InsufficientCapacityException,
     InternalServerError,
+    InvalidOperationException,
     InvalidRequestException,
     LimitExceededException,
     ThrottlingException,
@@ -5031,6 +2253,8 @@ export const createFirewallPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateFirewallPolicy",
 }));
 
 export type CreateProxyError =
@@ -5051,13 +2275,13 @@ export type CreateProxyError =
  * To retrieve information about proxies, use ListProxies and DescribeProxy.
  */
 export const createProxy: API.OperationMethod<
-  CreateProxyRequest,
+  CreateProxyRequest & RegionInput,
   CreateProxyResponse,
   CreateProxyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateProxyRequest,
-  output: CreateProxyResponse,
+  input: __S(1024, __c32, 0) as any as S.Schema<CreateProxyRequest>,
+  output: __S(1091, __c34, 3) as any as S.Schema<CreateProxyResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5069,6 +2293,8 @@ export const createProxy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProxy",
+  telemetry: TELEMETRY,
+  span: "CreateProxy",
 }));
 
 export type CreateProxyConfigurationError =
@@ -5088,13 +2314,13 @@ export type CreateProxyConfigurationError =
  * To retrieve information about proxies, use ListProxyConfigurations and DescribeProxyConfiguration.
  */
 export const createProxyConfiguration: API.OperationMethod<
-  CreateProxyConfigurationRequest,
+  CreateProxyConfigurationRequest & RegionInput,
   CreateProxyConfigurationResponse,
   CreateProxyConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateProxyConfigurationRequest,
-  output: CreateProxyConfigurationResponse,
+  input: __S(1120, __c35, 0) as any as S.Schema<CreateProxyConfigurationRequest>,
+  output: __S(388, __c12, 4) as any as S.Schema<CreateProxyConfigurationResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5105,6 +2331,8 @@ export const createProxyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProxyConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateProxyConfiguration",
 }));
 
 export type CreateProxyRuleGroupError =
@@ -5125,13 +2353,13 @@ export type CreateProxyRuleGroupError =
  * To retrieve information about individual proxy rules, use DescribeProxyRuleGroup and DescribeProxyRule.
  */
 export const createProxyRuleGroup: API.OperationMethod<
-  CreateProxyRuleGroupRequest,
+  CreateProxyRuleGroupRequest & RegionInput,
   CreateProxyRuleGroupResponse,
   CreateProxyRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateProxyRuleGroupRequest,
-  output: CreateProxyRuleGroupResponse,
+  input: __S(1152, __c36, 0) as any as S.Schema<CreateProxyRuleGroupRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<CreateProxyRuleGroupResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5141,6 +2369,8 @@ export const createProxyRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProxyRuleGroup",
+  telemetry: TELEMETRY,
+  span: "CreateProxyRuleGroup",
 }));
 
 export type CreateProxyRulesError =
@@ -5156,17 +2386,19 @@ export type CreateProxyRulesError =
  * To retrieve information about individual proxy rules, use DescribeProxyRuleGroup and DescribeProxyRule.
  */
 export const createProxyRules: API.OperationMethod<
-  CreateProxyRulesRequest,
+  CreateProxyRulesRequest & RegionInput,
   CreateProxyRulesResponse,
   CreateProxyRulesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateProxyRulesRequest,
-  output: CreateProxyRulesResponse,
+  input: __S(1283, __c40, 3) as any as S.Schema<CreateProxyRulesRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<CreateProxyRulesResponse>,
   errors: [InternalServerError, InvalidRequestException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProxyRules",
+  telemetry: TELEMETRY,
+  span: "CreateProxyRules",
 }));
 
 export type CreateRuleGroupError =
@@ -5184,13 +2416,13 @@ export type CreateRuleGroupError =
  * `RuleGroup` or `Rules`.
  */
 export const createRuleGroup: API.OperationMethod<
-  CreateRuleGroupRequest,
+  CreateRuleGroupRequest & RegionInput,
   CreateRuleGroupResponse,
   CreateRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRuleGroupRequest,
-  output: CreateRuleGroupResponse,
+  input: __S(1312, __c41, 0) as any as S.Schema<CreateRuleGroupRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<CreateRuleGroupResponse>,
   errors: [
     InsufficientCapacityException,
     InternalServerError,
@@ -5201,6 +2433,8 @@ export const createRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleGroup",
+  telemetry: TELEMETRY,
+  span: "CreateRuleGroup",
 }));
 
 export type CreateTLSInspectionConfigurationError =
@@ -5223,13 +2457,13 @@ export type CreateTLSInspectionConfigurationError =
  * inspection configurations in the *Network Firewall Developer Guide*.
  */
 export const createTLSInspectionConfiguration: API.OperationMethod<
-  CreateTLSInspectionConfigurationRequest,
+  CreateTLSInspectionConfigurationRequest & RegionInput,
   CreateTLSInspectionConfigurationResponse,
   CreateTLSInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTLSInspectionConfigurationRequest,
-  output: CreateTLSInspectionConfigurationResponse,
+  input: __S(1504, __c47, 0) as any as S.Schema<CreateTLSInspectionConfigurationRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<CreateTLSInspectionConfigurationResponse>,
   errors: [
     InsufficientCapacityException,
     InternalServerError,
@@ -5240,6 +2474,8 @@ export const createTLSInspectionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTLSInspectionConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateTLSInspectionConfiguration",
 }));
 
 export type CreateVpcEndpointAssociationError =
@@ -5255,13 +2491,13 @@ export type CreateVpcEndpointAssociationError =
  * Creates a firewall endpoint for an Network Firewall firewall. This type of firewall endpoint is independent of the firewall endpoints that you specify in the `Firewall` itself, and you define it in addition to those endpoints after the firewall has been created. You can define a VPC endpoint association using a different VPC than the one you used in the firewall specifications.
  */
 export const createVpcEndpointAssociation: API.OperationMethod<
-  CreateVpcEndpointAssociationRequest,
+  CreateVpcEndpointAssociationRequest & RegionInput,
   CreateVpcEndpointAssociationResponse,
   CreateVpcEndpointAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateVpcEndpointAssociationRequest,
-  output: CreateVpcEndpointAssociationResponse,
+  input: __S(1632, __c51, 0) as any as S.Schema<CreateVpcEndpointAssociationRequest>,
+  output: __S(1668, __c52, 4) as any as S.Schema<CreateVpcEndpointAssociationResponse>,
   errors: [
     InsufficientCapacityException,
     InternalServerError,
@@ -5274,6 +2510,8 @@ export const createVpcEndpointAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcEndpointAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateVpcEndpointAssociation",
 }));
 
 export type DeleteContainerAssociationError =
@@ -5289,13 +2527,13 @@ export type DeleteContainerAssociationError =
  * container association while a rule group references it.
  */
 export const deleteContainerAssociation: API.OperationMethod<
-  DeleteContainerAssociationRequest,
+  DeleteContainerAssociationRequest & RegionInput,
   DeleteContainerAssociationResponse,
   DeleteContainerAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteContainerAssociationRequest,
-  output: DeleteContainerAssociationResponse,
+  input: __S(1696, __c53, 0) as any as S.Schema<DeleteContainerAssociationRequest>,
+  output: __S(1697, __c53, 1) as any as S.Schema<DeleteContainerAssociationResponse>,
   errors: [
     InternalServerError,
     InvalidOperationException,
@@ -5306,6 +2544,8 @@ export const deleteContainerAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteContainerAssociation",
 }));
 
 export type DeleteFirewallError =
@@ -5332,13 +2572,13 @@ export type DeleteFirewallError =
  * then delete the firewall by calling DeleteFirewall.
  */
 export const deleteFirewall: API.OperationMethod<
-  DeleteFirewallRequest,
+  DeleteFirewallRequest & RegionInput,
   DeleteFirewallResponse,
   DeleteFirewallError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFirewallRequest,
-  output: DeleteFirewallResponse,
+  input: __S(1728, __c54, 0) as any as S.Schema<DeleteFirewallRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<DeleteFirewallResponse>,
   errors: [
     InternalServerError,
     InvalidOperationException,
@@ -5350,6 +2590,8 @@ export const deleteFirewall: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewall",
+  telemetry: TELEMETRY,
+  span: "DeleteFirewall",
 }));
 
 export type DeleteFirewallPolicyError =
@@ -5364,13 +2606,13 @@ export type DeleteFirewallPolicyError =
  * Deletes the specified FirewallPolicy.
  */
 export const deleteFirewallPolicy: API.OperationMethod<
-  DeleteFirewallPolicyRequest,
+  DeleteFirewallPolicyRequest & RegionInput,
   DeleteFirewallPolicyResponse,
   DeleteFirewallPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFirewallPolicyRequest,
-  output: DeleteFirewallPolicyResponse,
+  input: __S(1760, __c55, 0) as any as S.Schema<DeleteFirewallPolicyRequest>,
+  output: __S(1761, __c55, 1) as any as S.Schema<DeleteFirewallPolicyResponse>,
   errors: [
     InternalServerError,
     InvalidOperationException,
@@ -5382,6 +2624,8 @@ export const deleteFirewallPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallPolicy",
 }));
 
 export type DeleteNetworkFirewallTransitGatewayAttachmentError =
@@ -5398,13 +2642,21 @@ export type DeleteNetworkFirewallTransitGatewayAttachmentError =
  * After you initiate the delete operation, use DescribeFirewall to monitor the deletion status.
  */
 export const deleteNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
-  DeleteNetworkFirewallTransitGatewayAttachmentRequest,
+  DeleteNetworkFirewallTransitGatewayAttachmentRequest & RegionInput,
   DeleteNetworkFirewallTransitGatewayAttachmentResponse,
   DeleteNetworkFirewallTransitGatewayAttachmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteNetworkFirewallTransitGatewayAttachmentRequest,
-  output: DeleteNetworkFirewallTransitGatewayAttachmentResponse,
+  input: __S(
+    1792,
+    __c56,
+    0,
+  ) as any as S.Schema<DeleteNetworkFirewallTransitGatewayAttachmentRequest>,
+  output: __S(
+    32,
+    __c1,
+    0,
+  ) as any as S.Schema<DeleteNetworkFirewallTransitGatewayAttachmentResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5414,6 +2666,8 @@ export const deleteNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkFirewallTransitGatewayAttachment",
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkFirewallTransitGatewayAttachment",
 }));
 
 export type DeleteProxyError =
@@ -5429,13 +2683,13 @@ export type DeleteProxyError =
  * Detaches a Proxy configuration from a NAT Gateway.
  */
 export const deleteProxy: API.OperationMethod<
-  DeleteProxyRequest,
+  DeleteProxyRequest & RegionInput,
   DeleteProxyResponse,
   DeleteProxyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteProxyRequest,
-  output: DeleteProxyResponse,
+  input: __S(1824, __c57, 0) as any as S.Schema<DeleteProxyRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<DeleteProxyResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5446,6 +2700,8 @@ export const deleteProxy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProxy",
+  telemetry: TELEMETRY,
+  span: "DeleteProxy",
 }));
 
 export type DeleteProxyConfigurationError =
@@ -5458,13 +2714,13 @@ export type DeleteProxyConfigurationError =
  * Deletes the specified ProxyConfiguration.
  */
 export const deleteProxyConfiguration: API.OperationMethod<
-  DeleteProxyConfigurationRequest,
+  DeleteProxyConfigurationRequest & RegionInput,
   DeleteProxyConfigurationResponse,
   DeleteProxyConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteProxyConfigurationRequest,
-  output: DeleteProxyConfigurationResponse,
+  input: __S(1856, __c58, 0) as any as S.Schema<DeleteProxyConfigurationRequest>,
+  output: __S(1857, __c58, 1) as any as S.Schema<DeleteProxyConfigurationResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5474,6 +2730,8 @@ export const deleteProxyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProxyConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteProxyConfiguration",
 }));
 
 export type DeleteProxyRuleGroupError =
@@ -5486,13 +2744,13 @@ export type DeleteProxyRuleGroupError =
  * Deletes the specified ProxyRuleGroup.
  */
 export const deleteProxyRuleGroup: API.OperationMethod<
-  DeleteProxyRuleGroupRequest,
+  DeleteProxyRuleGroupRequest & RegionInput,
   DeleteProxyRuleGroupResponse,
   DeleteProxyRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteProxyRuleGroupRequest,
-  output: DeleteProxyRuleGroupResponse,
+  input: __S(1888, __c59, 0) as any as S.Schema<DeleteProxyRuleGroupRequest>,
+  output: __S(1889, __c59, 1) as any as S.Schema<DeleteProxyRuleGroupResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5502,6 +2760,8 @@ export const deleteProxyRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProxyRuleGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteProxyRuleGroup",
 }));
 
 export type DeleteProxyRulesError =
@@ -5514,13 +2774,13 @@ export type DeleteProxyRulesError =
  * Deletes the specified ProxyRule(s). currently attached to a ProxyRuleGroup
  */
 export const deleteProxyRules: API.OperationMethod<
-  DeleteProxyRulesRequest,
+  DeleteProxyRulesRequest & RegionInput,
   DeleteProxyRulesResponse,
   DeleteProxyRulesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteProxyRulesRequest,
-  output: DeleteProxyRulesResponse,
+  input: __S(1920, __c60, 0) as any as S.Schema<DeleteProxyRulesRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<DeleteProxyRulesResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5530,6 +2790,8 @@ export const deleteProxyRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProxyRules",
+  telemetry: TELEMETRY,
+  span: "DeleteProxyRules",
 }));
 
 export type DeleteResourcePolicyError =
@@ -5543,13 +2805,13 @@ export type DeleteResourcePolicyError =
  * Deletes a resource policy that you created in a PutResourcePolicy request.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResourcePolicyRequest,
-  output: DeleteResourcePolicyResponse,
+  input: __S(1952, __c61, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<DeleteResourcePolicyResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5560,6 +2822,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteRuleGroupError =
@@ -5574,13 +2838,13 @@ export type DeleteRuleGroupError =
  * Deletes the specified RuleGroup.
  */
 export const deleteRuleGroup: API.OperationMethod<
-  DeleteRuleGroupRequest,
+  DeleteRuleGroupRequest & RegionInput,
   DeleteRuleGroupResponse,
   DeleteRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRuleGroupRequest,
-  output: DeleteRuleGroupResponse,
+  input: __S(2016, __c63, 0) as any as S.Schema<DeleteRuleGroupRequest>,
+  output: __S(2017, __c63, 1) as any as S.Schema<DeleteRuleGroupResponse>,
   errors: [
     InternalServerError,
     InvalidOperationException,
@@ -5592,6 +2856,8 @@ export const deleteRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteRuleGroup",
 }));
 
 export type DeleteTLSInspectionConfigurationError =
@@ -5605,13 +2871,13 @@ export type DeleteTLSInspectionConfigurationError =
  * Deletes the specified TLSInspectionConfiguration.
  */
 export const deleteTLSInspectionConfiguration: API.OperationMethod<
-  DeleteTLSInspectionConfigurationRequest,
+  DeleteTLSInspectionConfigurationRequest & RegionInput,
   DeleteTLSInspectionConfigurationResponse,
   DeleteTLSInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTLSInspectionConfigurationRequest,
-  output: DeleteTLSInspectionConfigurationResponse,
+  input: __S(2048, __c64, 0) as any as S.Schema<DeleteTLSInspectionConfigurationRequest>,
+  output: __S(2049, __c64, 1) as any as S.Schema<DeleteTLSInspectionConfigurationResponse>,
   errors: [
     InternalServerError,
     InvalidOperationException,
@@ -5622,6 +2888,8 @@ export const deleteTLSInspectionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTLSInspectionConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteTLSInspectionConfiguration",
 }));
 
 export type DeleteVpcEndpointAssociationError =
@@ -5642,13 +2910,13 @@ export type DeleteVpcEndpointAssociationError =
  * you can remove the endpoint association safely.
  */
 export const deleteVpcEndpointAssociation: API.OperationMethod<
-  DeleteVpcEndpointAssociationRequest,
+  DeleteVpcEndpointAssociationRequest & RegionInput,
   DeleteVpcEndpointAssociationResponse,
   DeleteVpcEndpointAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteVpcEndpointAssociationRequest,
-  output: DeleteVpcEndpointAssociationResponse,
+  input: __S(2080, __c65, 0) as any as S.Schema<DeleteVpcEndpointAssociationRequest>,
+  output: __S(1668, __c52, 4) as any as S.Schema<DeleteVpcEndpointAssociationResponse>,
   errors: [
     InternalServerError,
     InvalidOperationException,
@@ -5659,6 +2927,8 @@ export const deleteVpcEndpointAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcEndpointAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcEndpointAssociation",
 }));
 
 export type DescribeContainerAssociationError =
@@ -5671,13 +2941,13 @@ export type DescribeContainerAssociationError =
  * Retrieves the configuration and status of a container association.
  */
 export const describeContainerAssociation: API.OperationMethod<
-  DescribeContainerAssociationRequest,
+  DescribeContainerAssociationRequest & RegionInput,
   DescribeContainerAssociationResponse,
   DescribeContainerAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeContainerAssociationRequest,
-  output: DescribeContainerAssociationResponse,
+  input: __S(2112, __c66, 0) as any as S.Schema<DescribeContainerAssociationRequest>,
+  output: __S(2113, __c66, 1) as any as S.Schema<DescribeContainerAssociationResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5687,6 +2957,8 @@ export const describeContainerAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContainerAssociation",
+  telemetry: TELEMETRY,
+  span: "DescribeContainerAssociation",
 }));
 
 export type DescribeFirewallError =
@@ -5699,13 +2971,13 @@ export type DescribeFirewallError =
  * Returns the data objects for the specified firewall.
  */
 export const describeFirewall: API.OperationMethod<
-  DescribeFirewallRequest,
+  DescribeFirewallRequest & RegionInput,
   DescribeFirewallResponse,
   DescribeFirewallError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeFirewallRequest,
-  output: DescribeFirewallResponse,
+  input: __S(2144, __c67, 0) as any as S.Schema<DescribeFirewallRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<DescribeFirewallResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5715,6 +2987,8 @@ export const describeFirewall: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFirewall",
+  telemetry: TELEMETRY,
+  span: "DescribeFirewall",
 }));
 
 export type DescribeFirewallMetadataError =
@@ -5728,13 +3002,13 @@ export type DescribeFirewallMetadataError =
  * currently in use.
  */
 export const describeFirewallMetadata: API.OperationMethod<
-  DescribeFirewallMetadataRequest,
+  DescribeFirewallMetadataRequest & RegionInput,
   DescribeFirewallMetadataResponse,
   DescribeFirewallMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeFirewallMetadataRequest,
-  output: DescribeFirewallMetadataResponse,
+  input: __S(2176, __c68, 0) as any as S.Schema<DescribeFirewallMetadataRequest>,
+  output: __S(2179, __c68, 3) as any as S.Schema<DescribeFirewallMetadataResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5744,6 +3018,8 @@ export const describeFirewallMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFirewallMetadata",
+  telemetry: TELEMETRY,
+  span: "DescribeFirewallMetadata",
 }));
 
 export type DescribeFirewallPolicyError =
@@ -5756,13 +3032,13 @@ export type DescribeFirewallPolicyError =
  * Returns the data objects for the specified firewall policy.
  */
 export const describeFirewallPolicy: API.OperationMethod<
-  DescribeFirewallPolicyRequest,
+  DescribeFirewallPolicyRequest & RegionInput,
   DescribeFirewallPolicyResponse,
   DescribeFirewallPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeFirewallPolicyRequest,
-  output: DescribeFirewallPolicyResponse,
+  input: __S(2208, __c69, 0) as any as S.Schema<DescribeFirewallPolicyRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<DescribeFirewallPolicyResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5772,6 +3048,8 @@ export const describeFirewallPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFirewallPolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeFirewallPolicy",
 }));
 
 export type DescribeFlowOperationError =
@@ -5784,13 +3062,13 @@ export type DescribeFlowOperationError =
  * Returns key information about a specific flow operation.
  */
 export const describeFlowOperation: API.OperationMethod<
-  DescribeFlowOperationRequest,
+  DescribeFlowOperationRequest & RegionInput,
   DescribeFlowOperationResponse,
   DescribeFlowOperationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeFlowOperationRequest,
-  output: DescribeFlowOperationResponse,
+  input: __S(2240, __c70, 0) as any as S.Schema<DescribeFlowOperationRequest>,
+  output: __S(2242, __c70, 2) as any as S.Schema<DescribeFlowOperationResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5800,6 +3078,8 @@ export const describeFlowOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlowOperation",
+  telemetry: TELEMETRY,
+  span: "DescribeFlowOperation",
 }));
 
 export type DescribeLoggingConfigurationError =
@@ -5812,13 +3092,13 @@ export type DescribeLoggingConfigurationError =
  * Returns the logging configuration for the specified firewall.
  */
 export const describeLoggingConfiguration: API.OperationMethod<
-  DescribeLoggingConfigurationRequest,
+  DescribeLoggingConfigurationRequest & RegionInput,
   DescribeLoggingConfigurationResponse,
   DescribeLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeLoggingConfigurationRequest,
-  output: DescribeLoggingConfigurationResponse,
+  input: __S(2304, __c72, 0) as any as S.Schema<DescribeLoggingConfigurationRequest>,
+  output: __S(2305, __c72, 1) as any as S.Schema<DescribeLoggingConfigurationResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5828,6 +3108,8 @@ export const describeLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeLoggingConfiguration",
 }));
 
 export type DescribeProxyError =
@@ -5840,13 +3122,13 @@ export type DescribeProxyError =
  * Returns the data objects for the specified proxy.
  */
 export const describeProxy: API.OperationMethod<
-  DescribeProxyRequest,
+  DescribeProxyRequest & RegionInput,
   DescribeProxyResponse,
   DescribeProxyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeProxyRequest,
-  output: DescribeProxyResponse,
+  input: __S(2368, __c74, 0) as any as S.Schema<DescribeProxyRequest>,
+  output: __S(2370, __c74, 2) as any as S.Schema<DescribeProxyResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5856,6 +3138,8 @@ export const describeProxy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProxy",
+  telemetry: TELEMETRY,
+  span: "DescribeProxy",
 }));
 
 export type DescribeProxyConfigurationError =
@@ -5868,13 +3152,13 @@ export type DescribeProxyConfigurationError =
  * Returns the data objects for the specified proxy configuration.
  */
 export const describeProxyConfiguration: API.OperationMethod<
-  DescribeProxyConfigurationRequest,
+  DescribeProxyConfigurationRequest & RegionInput,
   DescribeProxyConfigurationResponse,
   DescribeProxyConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeProxyConfigurationRequest,
-  output: DescribeProxyConfigurationResponse,
+  input: __S(2400, __c75, 0) as any as S.Schema<DescribeProxyConfigurationRequest>,
+  output: __S(388, __c12, 4) as any as S.Schema<DescribeProxyConfigurationResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5884,6 +3168,8 @@ export const describeProxyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProxyConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeProxyConfiguration",
 }));
 
 export type DescribeProxyRuleError =
@@ -5896,13 +3182,13 @@ export type DescribeProxyRuleError =
  * Returns the data objects for the specified proxy configuration for the specified proxy rule group.
  */
 export const describeProxyRule: API.OperationMethod<
-  DescribeProxyRuleRequest,
+  DescribeProxyRuleRequest & RegionInput,
   DescribeProxyRuleResponse,
   DescribeProxyRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeProxyRuleRequest,
-  output: DescribeProxyRuleResponse,
+  input: __S(2432, __c76, 0) as any as S.Schema<DescribeProxyRuleRequest>,
+  output: __S(2433, __c76, 1) as any as S.Schema<DescribeProxyRuleResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5912,6 +3198,8 @@ export const describeProxyRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProxyRule",
+  telemetry: TELEMETRY,
+  span: "DescribeProxyRule",
 }));
 
 export type DescribeProxyRuleGroupError =
@@ -5924,13 +3212,13 @@ export type DescribeProxyRuleGroupError =
  * Returns the data objects for the specified proxy rule group.
  */
 export const describeProxyRuleGroup: API.OperationMethod<
-  DescribeProxyRuleGroupRequest,
+  DescribeProxyRuleGroupRequest & RegionInput,
   DescribeProxyRuleGroupResponse,
   DescribeProxyRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeProxyRuleGroupRequest,
-  output: DescribeProxyRuleGroupResponse,
+  input: __S(2464, __c77, 0) as any as S.Schema<DescribeProxyRuleGroupRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<DescribeProxyRuleGroupResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5940,6 +3228,8 @@ export const describeProxyRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProxyRuleGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeProxyRuleGroup",
 }));
 
 export type DescribeResourcePolicyError =
@@ -5952,13 +3242,13 @@ export type DescribeResourcePolicyError =
  * Retrieves a resource policy that you created in a PutResourcePolicy request.
  */
 export const describeResourcePolicy: API.OperationMethod<
-  DescribeResourcePolicyRequest,
+  DescribeResourcePolicyRequest & RegionInput,
   DescribeResourcePolicyResponse,
   DescribeResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeResourcePolicyRequest,
-  output: DescribeResourcePolicyResponse,
+  input: __S(2496, __c78, 0) as any as S.Schema<DescribeResourcePolicyRequest>,
+  output: __S(2497, __c78, 1) as any as S.Schema<DescribeResourcePolicyResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5968,6 +3258,8 @@ export const describeResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeResourcePolicy",
 }));
 
 export type DescribeRuleGroupError =
@@ -5980,13 +3272,13 @@ export type DescribeRuleGroupError =
  * Returns the data objects for the specified rule group.
  */
 export const describeRuleGroup: API.OperationMethod<
-  DescribeRuleGroupRequest,
+  DescribeRuleGroupRequest & RegionInput,
   DescribeRuleGroupResponse,
   DescribeRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeRuleGroupRequest,
-  output: DescribeRuleGroupResponse,
+  input: __S(2528, __c79, 0) as any as S.Schema<DescribeRuleGroupRequest>,
+  output: __S(2529, __c79, 1) as any as S.Schema<DescribeRuleGroupResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -5996,6 +3288,8 @@ export const describeRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuleGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeRuleGroup",
 }));
 
 export type DescribeRuleGroupMetadataError =
@@ -6010,13 +3304,13 @@ export type DescribeRuleGroupMetadataError =
  * You can retrieve all objects for a rule group by calling DescribeRuleGroup.
  */
 export const describeRuleGroupMetadata: API.OperationMethod<
-  DescribeRuleGroupMetadataRequest,
+  DescribeRuleGroupMetadataRequest & RegionInput,
   DescribeRuleGroupMetadataResponse,
   DescribeRuleGroupMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeRuleGroupMetadataRequest,
-  output: DescribeRuleGroupMetadataResponse,
+  input: __S(2560, __c80, 0) as any as S.Schema<DescribeRuleGroupMetadataRequest>,
+  output: __S(2561, __c80, 1) as any as S.Schema<DescribeRuleGroupMetadataResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6026,6 +3320,8 @@ export const describeRuleGroupMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuleGroupMetadata",
+  telemetry: TELEMETRY,
+  span: "DescribeRuleGroupMetadata",
 }));
 
 export type DescribeRuleGroupSummaryError =
@@ -6042,13 +3338,13 @@ export type DescribeRuleGroupSummaryError =
  * To modify how threat information appears in summaries, use the `SummaryConfiguration` parameter in UpdateRuleGroup.
  */
 export const describeRuleGroupSummary: API.OperationMethod<
-  DescribeRuleGroupSummaryRequest,
+  DescribeRuleGroupSummaryRequest & RegionInput,
   DescribeRuleGroupSummaryResponse,
   DescribeRuleGroupSummaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeRuleGroupSummaryRequest,
-  output: DescribeRuleGroupSummaryResponse,
+  input: __S(2592, __c81, 0) as any as S.Schema<DescribeRuleGroupSummaryRequest>,
+  output: __S(2596, __c81, 4) as any as S.Schema<DescribeRuleGroupSummaryResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6058,6 +3354,8 @@ export const describeRuleGroupSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuleGroupSummary",
+  telemetry: TELEMETRY,
+  span: "DescribeRuleGroupSummary",
 }));
 
 export type DescribeTLSInspectionConfigurationError =
@@ -6070,13 +3368,13 @@ export type DescribeTLSInspectionConfigurationError =
  * Returns the data objects for the specified TLS inspection configuration.
  */
 export const describeTLSInspectionConfiguration: API.OperationMethod<
-  DescribeTLSInspectionConfigurationRequest,
+  DescribeTLSInspectionConfigurationRequest & RegionInput,
   DescribeTLSInspectionConfigurationResponse,
   DescribeTLSInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeTLSInspectionConfigurationRequest,
-  output: DescribeTLSInspectionConfigurationResponse,
+  input: __S(2624, __c82, 0) as any as S.Schema<DescribeTLSInspectionConfigurationRequest>,
+  output: __S(2625, __c82, 1) as any as S.Schema<DescribeTLSInspectionConfigurationResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6086,6 +3384,8 @@ export const describeTLSInspectionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTLSInspectionConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeTLSInspectionConfiguration",
 }));
 
 export type DescribeVpcEndpointAssociationError =
@@ -6098,13 +3398,13 @@ export type DescribeVpcEndpointAssociationError =
  * Returns the data object for the specified VPC endpoint association.
  */
 export const describeVpcEndpointAssociation: API.OperationMethod<
-  DescribeVpcEndpointAssociationRequest,
+  DescribeVpcEndpointAssociationRequest & RegionInput,
   DescribeVpcEndpointAssociationResponse,
   DescribeVpcEndpointAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeVpcEndpointAssociationRequest,
-  output: DescribeVpcEndpointAssociationResponse,
+  input: __S(2656, __c83, 0) as any as S.Schema<DescribeVpcEndpointAssociationRequest>,
+  output: __S(1668, __c52, 4) as any as S.Schema<DescribeVpcEndpointAssociationResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6114,6 +3414,8 @@ export const describeVpcEndpointAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcEndpointAssociation",
+  telemetry: TELEMETRY,
+  span: "DescribeVpcEndpointAssociation",
 }));
 
 export type DetachRuleGroupsFromProxyConfigurationError =
@@ -6128,13 +3430,13 @@ export type DetachRuleGroupsFromProxyConfigurationError =
  * A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
  */
 export const detachRuleGroupsFromProxyConfiguration: API.OperationMethod<
-  DetachRuleGroupsFromProxyConfigurationRequest,
+  DetachRuleGroupsFromProxyConfigurationRequest & RegionInput,
   DetachRuleGroupsFromProxyConfigurationResponse,
   DetachRuleGroupsFromProxyConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DetachRuleGroupsFromProxyConfigurationRequest,
-  output: DetachRuleGroupsFromProxyConfigurationResponse,
+  input: __S(2688, __c84, 0) as any as S.Schema<DetachRuleGroupsFromProxyConfigurationRequest>,
+  output: __S(388, __c12, 4) as any as S.Schema<DetachRuleGroupsFromProxyConfigurationResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6144,6 +3446,8 @@ export const detachRuleGroupsFromProxyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachRuleGroupsFromProxyConfiguration",
+  telemetry: TELEMETRY,
+  span: "DetachRuleGroupsFromProxyConfiguration",
 }));
 
 export type DisassociateAvailabilityZonesError =
@@ -6162,13 +3466,13 @@ export type DisassociateAvailabilityZonesError =
  * To verify the status of your Availability Zone changes, use DescribeFirewall.
  */
 export const disassociateAvailabilityZones: API.OperationMethod<
-  DisassociateAvailabilityZonesRequest,
+  DisassociateAvailabilityZonesRequest & RegionInput,
   DisassociateAvailabilityZonesResponse,
   DisassociateAvailabilityZonesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateAvailabilityZonesRequest,
-  output: DisassociateAvailabilityZonesResponse,
+  input: __S(2720, __c85, 0) as any as S.Schema<DisassociateAvailabilityZonesRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<DisassociateAvailabilityZonesResponse>,
   errors: [
     InternalServerError,
     InvalidOperationException,
@@ -6180,6 +3484,8 @@ export const disassociateAvailabilityZones: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAvailabilityZones",
+  telemetry: TELEMETRY,
+  span: "DisassociateAvailabilityZones",
 }));
 
 export type DisassociateSubnetsError =
@@ -6196,13 +3502,13 @@ export type DisassociateSubnetsError =
  * were providing.
  */
 export const disassociateSubnets: API.OperationMethod<
-  DisassociateSubnetsRequest,
+  DisassociateSubnetsRequest & RegionInput,
   DisassociateSubnetsResponse,
   DisassociateSubnetsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateSubnetsRequest,
-  output: DisassociateSubnetsResponse,
+  input: __S(2752, __c86, 0) as any as S.Schema<DisassociateSubnetsRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<DisassociateSubnetsResponse>,
   errors: [
     InternalServerError,
     InvalidOperationException,
@@ -6214,6 +3520,8 @@ export const disassociateSubnets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSubnets",
+  telemetry: TELEMETRY,
+  span: "DisassociateSubnets",
 }));
 
 export type GetAnalysisReportResultsError =
@@ -6228,14 +3536,14 @@ export type GetAnalysisReportResultsError =
  * For more information, see AnalysisTypeReportResult.
  */
 export const getAnalysisReportResults: API.PaginatedOperationMethod<
-  GetAnalysisReportResultsRequest,
+  GetAnalysisReportResultsRequest & RegionInput,
   GetAnalysisReportResultsResponse,
   GetAnalysisReportResultsError,
   Credentials | HttpClient.HttpClient,
   AnalysisTypeReportResult
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetAnalysisReportResultsRequest,
-  output: GetAnalysisReportResultsResponse,
+  input: __S(2784, __c87, 0) as any as S.Schema<GetAnalysisReportResultsRequest>,
+  output: __S(2788, __c87, 4) as any as S.Schema<GetAnalysisReportResultsResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6251,6 +3559,8 @@ export const getAnalysisReportResults: API.PaginatedOperationMethod<
     items: "AnalysisReportResults",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetAnalysisReportResults",
 })) as any;
 
 export type ListAnalysisReportsError =
@@ -6263,14 +3573,14 @@ export type ListAnalysisReportsError =
  * Returns a list of all traffic analysis reports generated within the last 30 days.
  */
 export const listAnalysisReports: API.PaginatedOperationMethod<
-  ListAnalysisReportsRequest,
+  ListAnalysisReportsRequest & RegionInput,
   ListAnalysisReportsResponse,
   ListAnalysisReportsError,
   Credentials | HttpClient.HttpClient,
   AnalysisReport
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAnalysisReportsRequest,
-  output: ListAnalysisReportsResponse,
+  input: __S(2816, __c88, 0) as any as S.Schema<ListAnalysisReportsRequest>,
+  output: __S(2819, __c88, 3) as any as S.Schema<ListAnalysisReportsResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6286,6 +3596,8 @@ export const listAnalysisReports: API.PaginatedOperationMethod<
     items: "AnalysisReports",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnalysisReports",
 })) as any;
 
 export type ListContainerAssociationsError =
@@ -6298,14 +3610,14 @@ export type ListContainerAssociationsError =
  * parameter in subsequent requests to retrieve additional results.
  */
 export const listContainerAssociations: API.PaginatedOperationMethod<
-  ListContainerAssociationsRequest,
+  ListContainerAssociationsRequest & RegionInput,
   ListContainerAssociationsResponse,
   ListContainerAssociationsError,
   Credentials | HttpClient.HttpClient,
   ContainerAssociationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListContainerAssociationsRequest,
-  output: ListContainerAssociationsResponse,
+  input: __S(2848, __c89, 0) as any as S.Schema<ListContainerAssociationsRequest>,
+  output: __S(2851, __c89, 3) as any as S.Schema<ListContainerAssociationsResponse>,
   errors: [InternalServerError, InvalidRequestException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6316,6 +3628,8 @@ export const listContainerAssociations: API.PaginatedOperationMethod<
     items: "ContainerAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContainerAssociations",
 })) as any;
 
 export type ListFirewallPoliciesError =
@@ -6329,14 +3643,14 @@ export type ListFirewallPoliciesError =
  * return the full list.
  */
 export const listFirewallPolicies: API.PaginatedOperationMethod<
-  ListFirewallPoliciesRequest,
+  ListFirewallPoliciesRequest & RegionInput,
   ListFirewallPoliciesResponse,
   ListFirewallPoliciesError,
   Credentials | HttpClient.HttpClient,
   FirewallPolicyMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFirewallPoliciesRequest,
-  output: ListFirewallPoliciesResponse,
+  input: __S(2880, __c90, 0) as any as S.Schema<ListFirewallPoliciesRequest>,
+  output: __S(2881, __c90, 1) as any as S.Schema<ListFirewallPoliciesResponse>,
   errors: [InternalServerError, InvalidRequestException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6347,6 +3661,8 @@ export const listFirewallPolicies: API.PaginatedOperationMethod<
     items: "FirewallPolicies",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallPolicies",
 })) as any;
 
 export type ListFirewallsError =
@@ -6362,14 +3678,14 @@ export type ListFirewallsError =
  * might not return the full list.
  */
 export const listFirewalls: API.PaginatedOperationMethod<
-  ListFirewallsRequest,
+  ListFirewallsRequest & RegionInput,
   ListFirewallsResponse,
   ListFirewallsError,
   Credentials | HttpClient.HttpClient,
   FirewallMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFirewallsRequest,
-  output: ListFirewallsResponse,
+  input: __S(2944, __c92, 0) as any as S.Schema<ListFirewallsRequest>,
+  output: __S(2947, __c92, 3) as any as S.Schema<ListFirewallsResponse>,
   errors: [InternalServerError, InvalidRequestException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6380,6 +3696,8 @@ export const listFirewalls: API.PaginatedOperationMethod<
     items: "Firewalls",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewalls",
 })) as any;
 
 export type ListFlowOperationResultsError =
@@ -6397,14 +3715,14 @@ export type ListFlowOperationResultsError =
  * For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
  */
 export const listFlowOperationResults: API.PaginatedOperationMethod<
-  ListFlowOperationResultsRequest,
+  ListFlowOperationResultsRequest & RegionInput,
   ListFlowOperationResultsResponse,
   ListFlowOperationResultsError,
   Credentials | HttpClient.HttpClient,
   Flow
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFlowOperationResultsRequest,
-  output: ListFlowOperationResultsResponse,
+  input: __S(2976, __c93, 0) as any as S.Schema<ListFlowOperationResultsRequest>,
+  output: __S(2979, __c93, 3) as any as S.Schema<ListFlowOperationResultsResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6420,6 +3738,8 @@ export const listFlowOperationResults: API.PaginatedOperationMethod<
     items: "Flows",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlowOperationResults",
 })) as any;
 
 export type ListFlowOperationsError =
@@ -6438,14 +3758,14 @@ export type ListFlowOperationsError =
  * For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
  */
 export const listFlowOperations: API.PaginatedOperationMethod<
-  ListFlowOperationsRequest,
+  ListFlowOperationsRequest & RegionInput,
   ListFlowOperationsResponse,
   ListFlowOperationsError,
   Credentials | HttpClient.HttpClient,
   FlowOperationMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFlowOperationsRequest,
-  output: ListFlowOperationsResponse,
+  input: __S(3008, __c94, 0) as any as S.Schema<ListFlowOperationsRequest>,
+  output: __S(3011, __c94, 3) as any as S.Schema<ListFlowOperationsResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6461,6 +3781,8 @@ export const listFlowOperations: API.PaginatedOperationMethod<
     items: "FlowOperations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlowOperations",
 })) as any;
 
 export type ListProxiesError =
@@ -6474,14 +3796,14 @@ export type ListProxiesError =
  * return the full list.
  */
 export const listProxies: API.PaginatedOperationMethod<
-  ListProxiesRequest,
+  ListProxiesRequest & RegionInput,
   ListProxiesResponse,
   ListProxiesError,
   Credentials | HttpClient.HttpClient,
   ProxyMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProxiesRequest,
-  output: ListProxiesResponse,
+  input: __S(3040, __c95, 0) as any as S.Schema<ListProxiesRequest>,
+  output: __S(3041, __c95, 1) as any as S.Schema<ListProxiesResponse>,
   errors: [InternalServerError, InvalidRequestException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6492,6 +3814,8 @@ export const listProxies: API.PaginatedOperationMethod<
     items: "Proxies",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProxies",
 })) as any;
 
 export type ListProxyConfigurationsError =
@@ -6506,14 +3830,14 @@ export type ListProxyConfigurationsError =
  * return the full list.
  */
 export const listProxyConfigurations: API.PaginatedOperationMethod<
-  ListProxyConfigurationsRequest,
+  ListProxyConfigurationsRequest & RegionInput,
   ListProxyConfigurationsResponse,
   ListProxyConfigurationsError,
   Credentials | HttpClient.HttpClient,
   ProxyConfigurationMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProxyConfigurationsRequest,
-  output: ListProxyConfigurationsResponse,
+  input: __S(3072, __c96, 0) as any as S.Schema<ListProxyConfigurationsRequest>,
+  output: __S(3073, __c96, 1) as any as S.Schema<ListProxyConfigurationsResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6529,6 +3853,8 @@ export const listProxyConfigurations: API.PaginatedOperationMethod<
     items: "ProxyConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProxyConfigurations",
 })) as any;
 
 export type ListProxyRuleGroupsError =
@@ -6543,14 +3869,14 @@ export type ListProxyRuleGroupsError =
  * return the full list.
  */
 export const listProxyRuleGroups: API.PaginatedOperationMethod<
-  ListProxyRuleGroupsRequest,
+  ListProxyRuleGroupsRequest & RegionInput,
   ListProxyRuleGroupsResponse,
   ListProxyRuleGroupsError,
   Credentials | HttpClient.HttpClient,
   ProxyRuleGroupMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProxyRuleGroupsRequest,
-  output: ListProxyRuleGroupsResponse,
+  input: __S(3104, __c97, 0) as any as S.Schema<ListProxyRuleGroupsRequest>,
+  output: __S(3105, __c97, 1) as any as S.Schema<ListProxyRuleGroupsResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6566,6 +3892,8 @@ export const listProxyRuleGroups: API.PaginatedOperationMethod<
     items: "ProxyRuleGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProxyRuleGroups",
 })) as any;
 
 export type ListRuleGroupsError =
@@ -6579,14 +3907,14 @@ export type ListRuleGroupsError =
  * full list.
  */
 export const listRuleGroups: API.PaginatedOperationMethod<
-  ListRuleGroupsRequest,
+  ListRuleGroupsRequest & RegionInput,
   ListRuleGroupsResponse,
   ListRuleGroupsError,
   Credentials | HttpClient.HttpClient,
   RuleGroupMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRuleGroupsRequest,
-  output: ListRuleGroupsResponse,
+  input: __S(3136, __c98, 0) as any as S.Schema<ListRuleGroupsRequest>,
+  output: __S(3139, __c98, 3) as any as S.Schema<ListRuleGroupsResponse>,
   errors: [InternalServerError, InvalidRequestException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6597,6 +3925,8 @@ export const listRuleGroups: API.PaginatedOperationMethod<
     items: "RuleGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRuleGroups",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -6616,14 +3946,14 @@ export type ListTagsForResourceError =
  * policies, and rule groups.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(3168, __c99, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(3169, __c99, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6639,6 +3969,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ListTLSInspectionConfigurationsError =
@@ -6650,14 +3982,14 @@ export type ListTLSInspectionConfigurationsError =
  * Retrieves the metadata for the TLS inspection configurations that you have defined. Depending on your setting for max results and the number of TLS inspection configurations, a single call might not return the full list.
  */
 export const listTLSInspectionConfigurations: API.PaginatedOperationMethod<
-  ListTLSInspectionConfigurationsRequest,
+  ListTLSInspectionConfigurationsRequest & RegionInput,
   ListTLSInspectionConfigurationsResponse,
   ListTLSInspectionConfigurationsError,
   Credentials | HttpClient.HttpClient,
   TLSInspectionConfigurationMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTLSInspectionConfigurationsRequest,
-  output: ListTLSInspectionConfigurationsResponse,
+  input: __S(3200, __c100, 0) as any as S.Schema<ListTLSInspectionConfigurationsRequest>,
+  output: __S(3201, __c100, 1) as any as S.Schema<ListTLSInspectionConfigurationsResponse>,
   errors: [InternalServerError, InvalidRequestException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6668,6 +4000,8 @@ export const listTLSInspectionConfigurations: API.PaginatedOperationMethod<
     items: "TLSInspectionConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTLSInspectionConfigurations",
 })) as any;
 
 export type ListVpcEndpointAssociationsError =
@@ -6683,14 +4017,14 @@ export type ListVpcEndpointAssociationsError =
  * might not return the full list.
  */
 export const listVpcEndpointAssociations: API.PaginatedOperationMethod<
-  ListVpcEndpointAssociationsRequest,
+  ListVpcEndpointAssociationsRequest & RegionInput,
   ListVpcEndpointAssociationsResponse,
   ListVpcEndpointAssociationsError,
   Credentials | HttpClient.HttpClient,
   VpcEndpointAssociationMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListVpcEndpointAssociationsRequest,
-  output: ListVpcEndpointAssociationsResponse,
+  input: __S(3232, __c101, 0) as any as S.Schema<ListVpcEndpointAssociationsRequest>,
+  output: __S(3235, __c101, 3) as any as S.Schema<ListVpcEndpointAssociationsResponse>,
   errors: [InternalServerError, InvalidRequestException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6701,6 +4035,8 @@ export const listVpcEndpointAssociations: API.PaginatedOperationMethod<
     items: "VpcEndpointAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVpcEndpointAssociations",
 })) as any;
 
 export type PutResourcePolicyError =
@@ -6727,13 +4063,13 @@ export type PutResourcePolicyError =
  * For additional information about resource sharing using RAM, see Resource Access Manager User Guide.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyRequest,
-  output: PutResourcePolicyResponse,
+  input: __S(3264, __c102, 0) as any as S.Schema<PutResourcePolicyRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<PutResourcePolicyResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6744,6 +4080,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RejectNetworkFirewallTransitGatewayAttachmentError =
@@ -6762,13 +4100,21 @@ export type RejectNetworkFirewallTransitGatewayAttachmentError =
  * Once rejected, you cannot reverse this action. To establish connectivity, you must create a new transit gateway-attached firewall.
  */
 export const rejectNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
-  RejectNetworkFirewallTransitGatewayAttachmentRequest,
+  RejectNetworkFirewallTransitGatewayAttachmentRequest & RegionInput,
   RejectNetworkFirewallTransitGatewayAttachmentResponse,
   RejectNetworkFirewallTransitGatewayAttachmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RejectNetworkFirewallTransitGatewayAttachmentRequest,
-  output: RejectNetworkFirewallTransitGatewayAttachmentResponse,
+  input: __S(
+    3296,
+    __c103,
+    0,
+  ) as any as S.Schema<RejectNetworkFirewallTransitGatewayAttachmentRequest>,
+  output: __S(
+    32,
+    __c1,
+    0,
+  ) as any as S.Schema<RejectNetworkFirewallTransitGatewayAttachmentResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6778,6 +4124,8 @@ export const rejectNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectNetworkFirewallTransitGatewayAttachment",
+  telemetry: TELEMETRY,
+  span: "RejectNetworkFirewallTransitGatewayAttachment",
 }));
 
 export type StartAnalysisReportError =
@@ -6792,13 +4140,13 @@ export type StartAnalysisReportError =
  * For information on the contents of a traffic analysis report, see AnalysisReport.
  */
 export const startAnalysisReport: API.OperationMethod<
-  StartAnalysisReportRequest,
+  StartAnalysisReportRequest & RegionInput,
   StartAnalysisReportResponse,
   StartAnalysisReportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartAnalysisReportRequest,
-  output: StartAnalysisReportResponse,
+  input: __S(3328, __c104, 0) as any as S.Schema<StartAnalysisReportRequest>,
+  output: __S(3329, __c104, 1) as any as S.Schema<StartAnalysisReportResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6808,6 +4156,8 @@ export const startAnalysisReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAnalysisReport",
+  telemetry: TELEMETRY,
+  span: "StartAnalysisReport",
 }));
 
 export type StartFlowCaptureError =
@@ -6828,13 +4178,13 @@ export type StartFlowCaptureError =
  * Instead, we recommend you define more specific criteria with `FlowFilters`, like narrow IP ranges, ports, or protocols.
  */
 export const startFlowCapture: API.OperationMethod<
-  StartFlowCaptureRequest,
+  StartFlowCaptureRequest & RegionInput,
   StartFlowCaptureResponse,
   StartFlowCaptureError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartFlowCaptureRequest,
-  output: StartFlowCaptureResponse,
+  input: __S(3360, __c105, 0) as any as S.Schema<StartFlowCaptureRequest>,
+  output: __S(3392, __c106, 0) as any as S.Schema<StartFlowCaptureResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6844,6 +4194,8 @@ export const startFlowCapture: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlowCapture",
+  telemetry: TELEMETRY,
+  span: "StartFlowCapture",
 }));
 
 export type StartFlowFlushError =
@@ -6862,13 +4214,13 @@ export type StartFlowFlushError =
  * before you perform a flush operation.
  */
 export const startFlowFlush: API.OperationMethod<
-  StartFlowFlushRequest,
+  StartFlowFlushRequest & RegionInput,
   StartFlowFlushResponse,
   StartFlowFlushError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartFlowFlushRequest,
-  output: StartFlowFlushResponse,
+  input: __S(3424, __c107, 0) as any as S.Schema<StartFlowFlushRequest>,
+  output: __S(3392, __c106, 0) as any as S.Schema<StartFlowFlushResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6878,6 +4230,8 @@ export const startFlowFlush: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlowFlush",
+  telemetry: TELEMETRY,
+  span: "StartFlowFlush",
 }));
 
 export type TagResourceError =
@@ -6896,13 +4250,13 @@ export type TagResourceError =
  * policies, and rule groups.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(3456, __c108, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6912,6 +4266,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -6931,13 +4287,13 @@ export type UntagResourceError =
  * firewalls, firewall policies, and rule groups.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(3488, __c109, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6947,6 +4303,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAvailabilityZoneChangeProtectionError =
@@ -6963,13 +4321,13 @@ export type UpdateAvailabilityZoneChangeProtectionError =
  * When enabled, you must disable this protection before using AssociateAvailabilityZones or DisassociateAvailabilityZones to modify the firewall's Availability Zone configuration.
  */
 export const updateAvailabilityZoneChangeProtection: API.OperationMethod<
-  UpdateAvailabilityZoneChangeProtectionRequest,
+  UpdateAvailabilityZoneChangeProtectionRequest & RegionInput,
   UpdateAvailabilityZoneChangeProtectionResponse,
   UpdateAvailabilityZoneChangeProtectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAvailabilityZoneChangeProtectionRequest,
-  output: UpdateAvailabilityZoneChangeProtectionResponse,
+  input: __S(3520, __c110, 0) as any as S.Schema<UpdateAvailabilityZoneChangeProtectionRequest>,
+  output: __S(3521, __c110, 1) as any as S.Schema<UpdateAvailabilityZoneChangeProtectionResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -6981,12 +4339,15 @@ export const updateAvailabilityZoneChangeProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAvailabilityZoneChangeProtection",
+  telemetry: TELEMETRY,
+  span: "UpdateAvailabilityZoneChangeProtection",
 }));
 
 export type UpdateContainerAssociationError =
   | InternalServerError
   | InvalidRequestException
   | InvalidTokenException
+  | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
   | CommonErrors;
@@ -6995,23 +4356,26 @@ export type UpdateContainerAssociationError =
  * type after creation. Provide an update token to enable optimistic concurrency control.
  */
 export const updateContainerAssociation: API.OperationMethod<
-  UpdateContainerAssociationRequest,
+  UpdateContainerAssociationRequest & RegionInput,
   UpdateContainerAssociationResponse,
   UpdateContainerAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateContainerAssociationRequest,
-  output: UpdateContainerAssociationResponse,
+  input: __S(3552, __c111, 0) as any as S.Schema<UpdateContainerAssociationRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<UpdateContainerAssociationResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
     InvalidTokenException,
+    LimitExceededException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContainerAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateContainerAssociation",
 }));
 
 export type UpdateFirewallAnalysisSettingsError =
@@ -7025,13 +4389,13 @@ export type UpdateFirewallAnalysisSettingsError =
  * Enables specific types of firewall analysis on a specific firewall you define.
  */
 export const updateFirewallAnalysisSettings: API.OperationMethod<
-  UpdateFirewallAnalysisSettingsRequest,
+  UpdateFirewallAnalysisSettingsRequest & RegionInput,
   UpdateFirewallAnalysisSettingsResponse,
   UpdateFirewallAnalysisSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFirewallAnalysisSettingsRequest,
-  output: UpdateFirewallAnalysisSettingsResponse,
+  input: __S(3584, __c112, 0) as any as S.Schema<UpdateFirewallAnalysisSettingsRequest>,
+  output: __S(3585, __c112, 1) as any as S.Schema<UpdateFirewallAnalysisSettingsResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -7042,6 +4406,8 @@ export const updateFirewallAnalysisSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallAnalysisSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallAnalysisSettings",
 }));
 
 export type UpdateFirewallDeleteProtectionError =
@@ -7059,13 +4425,13 @@ export type UpdateFirewallDeleteProtectionError =
  * that's in use.
  */
 export const updateFirewallDeleteProtection: API.OperationMethod<
-  UpdateFirewallDeleteProtectionRequest,
+  UpdateFirewallDeleteProtectionRequest & RegionInput,
   UpdateFirewallDeleteProtectionResponse,
   UpdateFirewallDeleteProtectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFirewallDeleteProtectionRequest,
-  output: UpdateFirewallDeleteProtectionResponse,
+  input: __S(3616, __c113, 0) as any as S.Schema<UpdateFirewallDeleteProtectionRequest>,
+  output: __S(3617, __c113, 1) as any as S.Schema<UpdateFirewallDeleteProtectionResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -7077,6 +4443,8 @@ export const updateFirewallDeleteProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallDeleteProtection",
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallDeleteProtection",
 }));
 
 export type UpdateFirewallDescriptionError =
@@ -7091,13 +4459,13 @@ export type UpdateFirewallDescriptionError =
  * identify the firewall when you're working with it.
  */
 export const updateFirewallDescription: API.OperationMethod<
-  UpdateFirewallDescriptionRequest,
+  UpdateFirewallDescriptionRequest & RegionInput,
   UpdateFirewallDescriptionResponse,
   UpdateFirewallDescriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFirewallDescriptionRequest,
-  output: UpdateFirewallDescriptionResponse,
+  input: __S(3648, __c114, 0) as any as S.Schema<UpdateFirewallDescriptionRequest>,
+  output: __S(3649, __c114, 1) as any as S.Schema<UpdateFirewallDescriptionResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -7108,6 +4476,8 @@ export const updateFirewallDescription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallDescription",
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallDescription",
 }));
 
 export type UpdateFirewallEncryptionConfigurationError =
@@ -7122,13 +4492,13 @@ export type UpdateFirewallEncryptionConfigurationError =
  * A complex type that contains settings for encryption of your firewall resources.
  */
 export const updateFirewallEncryptionConfiguration: API.OperationMethod<
-  UpdateFirewallEncryptionConfigurationRequest,
+  UpdateFirewallEncryptionConfigurationRequest & RegionInput,
   UpdateFirewallEncryptionConfigurationResponse,
   UpdateFirewallEncryptionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFirewallEncryptionConfigurationRequest,
-  output: UpdateFirewallEncryptionConfigurationResponse,
+  input: __S(3680, __c115, 0) as any as S.Schema<UpdateFirewallEncryptionConfigurationRequest>,
+  output: __S(3681, __c115, 1) as any as S.Schema<UpdateFirewallEncryptionConfigurationResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -7140,10 +4510,13 @@ export const updateFirewallEncryptionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallEncryptionConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallEncryptionConfiguration",
 }));
 
 export type UpdateFirewallPolicyError =
   | InternalServerError
+  | InvalidOperationException
   | InvalidRequestException
   | InvalidTokenException
   | ResourceNotFoundException
@@ -7153,15 +4526,16 @@ export type UpdateFirewallPolicyError =
  * Updates the properties of the specified firewall policy.
  */
 export const updateFirewallPolicy: API.OperationMethod<
-  UpdateFirewallPolicyRequest,
+  UpdateFirewallPolicyRequest & RegionInput,
   UpdateFirewallPolicyResponse,
   UpdateFirewallPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFirewallPolicyRequest,
-  output: UpdateFirewallPolicyResponse,
+  input: __S(3712, __c116, 0) as any as S.Schema<UpdateFirewallPolicyRequest>,
+  output: __S(992, __c31, 0) as any as S.Schema<UpdateFirewallPolicyResponse>,
   errors: [
     InternalServerError,
+    InvalidOperationException,
     InvalidRequestException,
     InvalidTokenException,
     ResourceNotFoundException,
@@ -7170,6 +4544,8 @@ export const updateFirewallPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallPolicy",
 }));
 
 export type UpdateFirewallPolicyChangeProtectionError =
@@ -7186,13 +4562,13 @@ export type UpdateFirewallPolicyChangeProtectionError =
  * from changes. This setting helps protect against accidentally changing a firewall that's in use.
  */
 export const updateFirewallPolicyChangeProtection: API.OperationMethod<
-  UpdateFirewallPolicyChangeProtectionRequest,
+  UpdateFirewallPolicyChangeProtectionRequest & RegionInput,
   UpdateFirewallPolicyChangeProtectionResponse,
   UpdateFirewallPolicyChangeProtectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFirewallPolicyChangeProtectionRequest,
-  output: UpdateFirewallPolicyChangeProtectionResponse,
+  input: __S(3744, __c117, 0) as any as S.Schema<UpdateFirewallPolicyChangeProtectionRequest>,
+  output: __S(3745, __c117, 1) as any as S.Schema<UpdateFirewallPolicyChangeProtectionResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -7204,6 +4580,8 @@ export const updateFirewallPolicyChangeProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallPolicyChangeProtection",
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallPolicyChangeProtection",
 }));
 
 export type UpdateLoggingConfigurationError =
@@ -7241,13 +4619,13 @@ export type UpdateLoggingConfigurationError =
  * to this update operation.
  */
 export const updateLoggingConfiguration: API.OperationMethod<
-  UpdateLoggingConfigurationRequest,
+  UpdateLoggingConfigurationRequest & RegionInput,
   UpdateLoggingConfigurationResponse,
   UpdateLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateLoggingConfigurationRequest,
-  output: UpdateLoggingConfigurationResponse,
+  input: __S(3776, __c118, 0) as any as S.Schema<UpdateLoggingConfigurationRequest>,
+  output: __S(3777, __c118, 1) as any as S.Schema<UpdateLoggingConfigurationResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -7259,6 +4637,8 @@ export const updateLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateLoggingConfiguration",
 }));
 
 export type UpdateProxyError =
@@ -7272,13 +4652,13 @@ export type UpdateProxyError =
  * Updates the properties of the specified proxy.
  */
 export const updateProxy: API.OperationMethod<
-  UpdateProxyRequest,
+  UpdateProxyRequest & RegionInput,
   UpdateProxyResponse,
   UpdateProxyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateProxyRequest,
-  output: UpdateProxyResponse,
+  input: __S(3808, __c119, 0) as any as S.Schema<UpdateProxyRequest>,
+  output: __S(1091, __c34, 3) as any as S.Schema<UpdateProxyResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -7289,6 +4669,8 @@ export const updateProxy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProxy",
+  telemetry: TELEMETRY,
+  span: "UpdateProxy",
 }));
 
 export type UpdateProxyConfigurationError =
@@ -7301,13 +4683,13 @@ export type UpdateProxyConfigurationError =
  * Updates the properties of the specified proxy configuration.
  */
 export const updateProxyConfiguration: API.OperationMethod<
-  UpdateProxyConfigurationRequest,
+  UpdateProxyConfigurationRequest & RegionInput,
   UpdateProxyConfigurationResponse,
   UpdateProxyConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateProxyConfigurationRequest,
-  output: UpdateProxyConfigurationResponse,
+  input: __S(3840, __c120, 0) as any as S.Schema<UpdateProxyConfigurationRequest>,
+  output: __S(388, __c12, 4) as any as S.Schema<UpdateProxyConfigurationResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -7317,6 +4699,8 @@ export const updateProxyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProxyConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateProxyConfiguration",
 }));
 
 export type UpdateProxyRuleError =
@@ -7329,13 +4713,13 @@ export type UpdateProxyRuleError =
  * Updates the properties of the specified proxy rule.
  */
 export const updateProxyRule: API.OperationMethod<
-  UpdateProxyRuleRequest,
+  UpdateProxyRuleRequest & RegionInput,
   UpdateProxyRuleResponse,
   UpdateProxyRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateProxyRuleRequest,
-  output: UpdateProxyRuleResponse,
+  input: __S(3872, __c121, 0) as any as S.Schema<UpdateProxyRuleRequest>,
+  output: __S(3873, __c121, 1) as any as S.Schema<UpdateProxyRuleResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -7345,6 +4729,8 @@ export const updateProxyRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProxyRule",
+  telemetry: TELEMETRY,
+  span: "UpdateProxyRule",
 }));
 
 export type UpdateProxyRuleGroupPrioritiesError =
@@ -7357,13 +4743,13 @@ export type UpdateProxyRuleGroupPrioritiesError =
  * Updates proxy rule group priorities within a proxy configuration.
  */
 export const updateProxyRuleGroupPriorities: API.OperationMethod<
-  UpdateProxyRuleGroupPrioritiesRequest,
+  UpdateProxyRuleGroupPrioritiesRequest & RegionInput,
   UpdateProxyRuleGroupPrioritiesResponse,
   UpdateProxyRuleGroupPrioritiesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateProxyRuleGroupPrioritiesRequest,
-  output: UpdateProxyRuleGroupPrioritiesResponse,
+  input: __S(3906, __c122, 2) as any as S.Schema<UpdateProxyRuleGroupPrioritiesRequest>,
+  output: __S(3909, __c122, 5) as any as S.Schema<UpdateProxyRuleGroupPrioritiesResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -7373,6 +4759,8 @@ export const updateProxyRuleGroupPriorities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProxyRuleGroupPriorities",
+  telemetry: TELEMETRY,
+  span: "UpdateProxyRuleGroupPriorities",
 }));
 
 export type UpdateProxyRulePrioritiesError =
@@ -7385,13 +4773,13 @@ export type UpdateProxyRulePrioritiesError =
  * Updates proxy rule priorities within a proxy rule group.
  */
 export const updateProxyRulePriorities: API.OperationMethod<
-  UpdateProxyRulePrioritiesRequest,
+  UpdateProxyRulePrioritiesRequest & RegionInput,
   UpdateProxyRulePrioritiesResponse,
   UpdateProxyRulePrioritiesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateProxyRulePrioritiesRequest,
-  output: UpdateProxyRulePrioritiesResponse,
+  input: __S(3938, __c123, 2) as any as S.Schema<UpdateProxyRulePrioritiesRequest>,
+  output: __S(3939, __c123, 3) as any as S.Schema<UpdateProxyRulePrioritiesResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -7401,6 +4789,8 @@ export const updateProxyRulePriorities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProxyRulePriorities",
+  telemetry: TELEMETRY,
+  span: "UpdateProxyRulePriorities",
 }));
 
 export type UpdateProxySettingsError =
@@ -7416,13 +4806,13 @@ export type UpdateProxySettingsError =
  * Modifies the proxy listener configuration of a proxy mode firewall. Proxy mode firewalls are created with `NoSourcePreservation` set to `TRUE`. Use this operation to change the ports and protocols on which the firewall's proxy listens for traffic.
  */
 export const updateProxySettings: API.OperationMethod<
-  UpdateProxySettingsRequest,
+  UpdateProxySettingsRequest & RegionInput,
   UpdateProxySettingsResponse,
   UpdateProxySettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateProxySettingsRequest,
-  output: UpdateProxySettingsResponse,
+  input: __S(3968, __c124, 0) as any as S.Schema<UpdateProxySettingsRequest>,
+  output: __S(3969, __c124, 1) as any as S.Schema<UpdateProxySettingsResponse>,
   errors: [
     InternalServerError,
     InvalidOperationException,
@@ -7435,6 +4825,8 @@ export const updateProxySettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProxySettings",
+  telemetry: TELEMETRY,
+  span: "UpdateProxySettings",
 }));
 
 export type UpdateRuleGroupError =
@@ -7454,13 +4846,13 @@ export type UpdateRuleGroupError =
  * the updated object to this call.
  */
 export const updateRuleGroup: API.OperationMethod<
-  UpdateRuleGroupRequest,
+  UpdateRuleGroupRequest & RegionInput,
   UpdateRuleGroupResponse,
   UpdateRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRuleGroupRequest,
-  output: UpdateRuleGroupResponse,
+  input: __S(4000, __c125, 0) as any as S.Schema<UpdateRuleGroupRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<UpdateRuleGroupResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -7471,6 +4863,8 @@ export const updateRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateRuleGroup",
 }));
 
 export type UpdateSubnetChangeProtectionError =
@@ -7485,13 +4879,13 @@ export type UpdateSubnetChangeProtectionError =
  *
  */
 export const updateSubnetChangeProtection: API.OperationMethod<
-  UpdateSubnetChangeProtectionRequest,
+  UpdateSubnetChangeProtectionRequest & RegionInput,
   UpdateSubnetChangeProtectionResponse,
   UpdateSubnetChangeProtectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSubnetChangeProtectionRequest,
-  output: UpdateSubnetChangeProtectionResponse,
+  input: __S(4032, __c126, 0) as any as S.Schema<UpdateSubnetChangeProtectionRequest>,
+  output: __S(4033, __c126, 1) as any as S.Schema<UpdateSubnetChangeProtectionResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -7503,6 +4897,8 @@ export const updateSubnetChangeProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubnetChangeProtection",
+  telemetry: TELEMETRY,
+  span: "UpdateSubnetChangeProtection",
 }));
 
 export type UpdateTLSInspectionConfigurationError =
@@ -7522,13 +4918,13 @@ export type UpdateTLSInspectionConfigurationError =
  * the updated object to this call.
  */
 export const updateTLSInspectionConfiguration: API.OperationMethod<
-  UpdateTLSInspectionConfigurationRequest,
+  UpdateTLSInspectionConfigurationRequest & RegionInput,
   UpdateTLSInspectionConfigurationResponse,
   UpdateTLSInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateTLSInspectionConfigurationRequest,
-  output: UpdateTLSInspectionConfigurationResponse,
+  input: __S(4064, __c127, 0) as any as S.Schema<UpdateTLSInspectionConfigurationRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<UpdateTLSInspectionConfigurationResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -7539,4 +4935,2587 @@ export const updateTLSInspectionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTLSInspectionConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateTLSInspectionConfiguration",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TransitGatewayAttachmentId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AcceptNetworkFirewallTransitGatewayAttachmentRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TransitGatewayAttachmentId: S.String,
+          TransitGatewayAttachmentStatus: S.String,
+        }),
+      ).annotate({ identifier: "AcceptNetworkFirewallTransitGatewayAttachmentResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          AvailabilityZoneMappings: __S(97, __c3, 1),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "AssociateAvailabilityZonesRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ AvailabilityZone: S.String })).annotate({
+        identifier: "AvailabilityZoneMapping",
+      });
+    case 1:
+      return S.Array(__S(96, __c3, 0));
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          AvailabilityZoneMappings: S.optional(__S(97, __c3, 1)),
+          UpdateToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AssociateAvailabilityZonesResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          FirewallPolicyArn: S.String,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "AssociateFirewallPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          FirewallPolicyArn: S.optional(S.String),
+          UpdateToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AssociateFirewallPolicyResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          SubnetMappings: __S(256, __c8, 0),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "AssociateSubnetsRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SubnetId: S.String, IPAddressType: S.optional(S.String) }),
+      ).annotate({ identifier: "SubnetMapping" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(224, __c7, 0));
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          SubnetMappings: S.optional(__S(256, __c8, 0)),
+          UpdateToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AssociateSubnetsResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleGroupName: S.optional(S.String),
+          InsertPosition: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ProxyRuleGroupAttachment" });
+    case 1:
+      return S.Array(__S(320, __c10, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyConfigurationName: S.optional(S.String),
+          ProxyConfigurationArn: S.optional(S.String),
+          RuleGroups: __S(321, __c10, 1),
+          UpdateToken: S.String,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "AttachRuleGroupsToProxyConfigurationRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Key: S.String, Value: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(352, __c11, 0));
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleGroupName: S.optional(S.String),
+          ProxyRuleGroupArn: S.optional(S.String),
+          Type: S.optional(S.String),
+          Priority: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ProxyConfigRuleGroup" });
+    case 1:
+      return S.Array(__S(384, __c12, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          PreDNS: S.optional(S.String),
+          PreREQUEST: S.optional(S.String),
+          PostRESPONSE: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProxyConfigDefaultRulePhaseActionsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyConfigurationName: S.optional(S.String),
+          ProxyConfigurationArn: S.optional(S.String),
+          Description: S.optional(S.String),
+          CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          RuleGroups: S.optional(__S(385, __c12, 1)),
+          DefaultRulePhaseActions: S.optional(__S(386, __c12, 2)),
+          Tags: S.optional(__S(353, __c11, 1)),
+        }),
+      ).annotate({ identifier: "ProxyConfiguration" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyConfiguration: S.optional(__S(387, __c12, 3)),
+          UpdateToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AttachRuleGroupsToProxyConfigurationResponse" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerAssociationName: S.String,
+          Description: S.optional(S.String),
+          Type: S.String,
+          ContainerMonitoringConfigurations: __S(449, __c14, 1),
+          Tags: S.optional(__S(353, __c11, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateContainerAssociationRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ClusterArn: S.String, AttributeFilters: S.optional(__S(353, __c11, 1)) }),
+      ).annotate({ identifier: "ContainerMonitoringConfiguration" });
+    case 1:
+      return S.Array(__S(448, __c14, 0));
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerAssociationName: S.optional(S.String),
+          ContainerAssociationArn: S.optional(S.String),
+          Description: S.optional(S.String),
+          Type: S.optional(S.String),
+          ContainerMonitoringConfigurations: S.optional(__S(449, __c14, 1)),
+          Status: S.optional(S.String),
+          Tags: S.optional(__S(353, __c11, 1)),
+          UpdateToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateContainerAssociationResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallName: S.String,
+          FirewallPolicyArn: S.String,
+          VpcId: S.optional(S.String),
+          SubnetMappings: S.optional(__S(256, __c8, 0)),
+          DeleteProtection: S.optional(S.Boolean),
+          SubnetChangeProtection: S.optional(S.Boolean),
+          FirewallPolicyChangeProtection: S.optional(S.Boolean),
+          Description: S.optional(S.String),
+          Tags: S.optional(__S(353, __c11, 1)),
+          EncryptionConfiguration: S.optional(__S(544, __c17, 0)),
+          EnabledAnalysisTypes: S.optional(__S(608, __c19, 0)),
+          TransitGatewayId: S.optional(S.String),
+          AvailabilityZoneMappings: S.optional(__S(97, __c3, 1)),
+          AvailabilityZoneChangeProtection: S.optional(S.Boolean),
+          NatGatewayMappings: S.optional(__S(705, __c22, 1)),
+          ProxySettings: S.optional(__S(736, __c23, 0)),
+          NoSourcePreservation: S.optional(S.Boolean),
+          VpcEndpoint: S.optional(__S(706, __c22, 2)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateFirewallRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ KeyId: S.optional(S.String), Type: S.String })).annotate({
+        identifier: "EncryptionConfiguration",
+      });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Port: S.optional(S.Number), Type: S.optional(S.String) }),
+      ).annotate({ identifier: "ListenerProperty" });
+    case 1:
+      return S.Array(__S(576, __c18, 0));
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SubnetId: S.optional(S.String),
+          EndpointId: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          DnsName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Attachment" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Firewall: S.optional(__S(707, __c22, 3)),
+          FirewallStatus: S.optional(__S(719, __c22, 15)),
+        }),
+      ).annotate({ identifier: "CreateFirewallResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ NatGatewayId: S.String })).annotate({
+        identifier: "NatGatewayMapping",
+      });
+    case 1:
+      return S.Array(__S(704, __c22, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ VpcId: S.String, SubnetMappings: __S(256, __c8, 0) }),
+      ).annotate({ identifier: "VpcEndpoint" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallName: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          FirewallPolicyArn: S.String,
+          VpcId: S.String,
+          SubnetMappings: __S(256, __c8, 0),
+          DeleteProtection: S.optional(S.Boolean),
+          SubnetChangeProtection: S.optional(S.Boolean),
+          FirewallPolicyChangeProtection: S.optional(S.Boolean),
+          Description: S.optional(S.String),
+          FirewallId: S.String,
+          Tags: S.optional(__S(353, __c11, 1)),
+          EncryptionConfiguration: S.optional(__S(544, __c17, 0)),
+          NumberOfAssociations: S.optional(S.Number),
+          EnabledAnalysisTypes: S.optional(__S(608, __c19, 0)),
+          TransitGatewayId: S.optional(S.String),
+          TransitGatewayOwnerAccountId: S.optional(S.String),
+          AvailabilityZoneMappings: S.optional(__S(97, __c3, 1)),
+          AvailabilityZoneChangeProtection: S.optional(S.Boolean),
+          NatGatewayMappings: S.optional(__S(705, __c22, 1)),
+          ProxySettings: S.optional(__S(736, __c23, 0)),
+          NoSourcePreservation: S.optional(S.Boolean),
+          VpcEndpoint: S.optional(__S(706, __c22, 2)),
+        }),
+      ).annotate({ identifier: "Firewall" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ SyncStatus: S.optional(S.String), UpdateToken: S.optional(S.String) }),
+      ).annotate({ identifier: "PerObjectStatus" });
+    case 5:
+      return S.Record(S.String, /*@__PURE__*/ __S(708, __c22, 4).pipe(S.optional));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          NatGatewayId: S.String,
+          Status: S.String,
+          StatusMessage: S.optional(S.String),
+          DnsName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NatGatewayAttachment" });
+    case 7:
+      return S.Array(__S(710, __c22, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          Attachment: S.optional(__S(640, __c20, 0)),
+          Config: S.optional(__S(709, __c22, 5)),
+          NatGatewayAttachments: S.optional(__S(711, __c22, 7)),
+        }),
+      ).annotate({ identifier: "SyncState" });
+    case 9:
+      return S.Record(S.String, /*@__PURE__*/ __S(712, __c22, 8).pipe(S.optional));
+    case 10:
+      return S.suspend(() => S.Struct({ ResolvedCIDRCount: S.optional(S.Number) })).annotate({
+        identifier: "IPSetMetadata",
+      });
+    case 11:
+      return S.Record(S.String, /*@__PURE__*/ __S(714, __c22, 10).pipe(S.optional));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          AvailableCIDRCount: S.optional(S.Number),
+          UtilizedCIDRCount: S.optional(S.Number),
+          IPSetReferences: S.optional(__S(715, __c22, 11)),
+        }),
+      ).annotate({ identifier: "CIDRSummary" });
+    case 13:
+      return S.suspend(() => S.Struct({ CIDRs: S.optional(__S(716, __c22, 12)) })).annotate({
+        identifier: "CapacityUsageSummary",
+      });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          AttachmentId: S.optional(S.String),
+          TransitGatewayAttachmentStatus: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TransitGatewayAttachmentSyncState" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          Status: S.String,
+          ConfigurationSyncStateSummary: S.String,
+          SyncStates: S.optional(__S(713, __c22, 9)),
+          CapacityUsageSummary: S.optional(__S(717, __c22, 13)),
+          TransitGatewayAttachmentSyncState: S.optional(__S(718, __c22, 14)),
+        }),
+      ).annotate({ identifier: "FirewallStatus" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ListenerProperties: __S(577, __c18, 1) })).annotate({
+        identifier: "ProxySettings",
+      });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallPolicyName: S.String,
+          FirewallPolicy: __S(969, __c30, 9),
+          Description: S.optional(S.String),
+          Tags: S.optional(__S(353, __c11, 1)),
+          DryRun: S.optional(S.Boolean),
+          EncryptionConfiguration: S.optional(__S(544, __c17, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateFirewallPolicyRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ AddressDefinition: S.String })).annotate({
+        identifier: "Address",
+      });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(832, __c26, 0));
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Value: S.String })).annotate({ identifier: "Dimension" });
+    case 1:
+      return S.Array(__S(896, __c28, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ Dimensions: __S(897, __c28, 1) })).annotate({
+        identifier: "PublishMetricAction",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ PublishMetricAction: S.optional(__S(898, __c28, 2)) }),
+      ).annotate({ identifier: "ActionDefinition" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ ActionName: S.String, ActionDefinition: __S(899, __c28, 3) }),
+      ).annotate({ identifier: "CustomAction" });
+    case 5:
+      return S.Array(__S(900, __c28, 4));
+    case 6:
+      return S.suspend(() => S.Struct({ Definition: __S(800, __c25, 0) })).annotate({
+        identifier: "IPSet",
+      });
+    case 7:
+      return S.Record(S.String, /*@__PURE__*/ __S(902, __c28, 6).pipe(S.optional));
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Code: S.String, Message: S.String, ResourceId: S.optional(S.String) }),
+      ).annotate({ identifier: "FirewallPolicyError" });
+    case 1:
+      return S.Array(__S(928, __c29, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallPolicyName: S.String,
+          FirewallPolicyArn: S.String,
+          FirewallPolicyId: S.String,
+          Description: S.optional(S.String),
+          FirewallPolicyStatus: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          Tags: S.optional(__S(353, __c11, 1)),
+          ConsumedStatelessRuleCapacity: S.optional(S.Number),
+          ConsumedStatefulRuleCapacity: S.optional(S.Number),
+          ConsumedStatefulDomainCapacity: S.optional(S.Number),
+          NumberOfAssociations: S.optional(S.Number),
+          EncryptionConfiguration: S.optional(__S(544, __c17, 0)),
+          Errors: S.optional(__S(929, __c29, 1)),
+          LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "FirewallPolicyResponse" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ResourceArn: S.String, Priority: S.Number })).annotate({
+        identifier: "StatelessRuleGroupReference",
+      });
+    case 1:
+      return S.Array(__S(960, __c30, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ Action: S.optional(S.String) })).annotate({
+        identifier: "StatefulRuleGroupOverride",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String,
+          Priority: S.optional(S.Number),
+          Override: S.optional(__S(962, __c30, 2)),
+          DeepThreatInspection: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "StatefulRuleGroupReference" });
+    case 4:
+      return S.Array(__S(963, __c30, 3));
+    case 5:
+      return S.suspend(() => S.Struct({ TcpIdleTimeoutSeconds: S.optional(S.Number) })).annotate({
+        identifier: "FlowTimeouts",
+      });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          RuleOrder: S.optional(S.String),
+          StreamExceptionPolicy: S.optional(S.String),
+          FlowTimeouts: S.optional(__S(965, __c30, 5)),
+        }),
+      ).annotate({ identifier: "StatefulEngineOptions" });
+    case 7:
+      return S.suspend(() => S.Struct({ RuleVariables: S.optional(__S(903, __c28, 7)) })).annotate({
+        identifier: "PolicyVariables",
+      });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          Action: S.String,
+          DNSFirewallRuleGroupId: S.String,
+          DNSExpiryExceptionPolicy: S.String,
+          BypassDestinationValidationIPRanges: S.optional(__S(864, __c27, 0)),
+          SourceIPRanges: S.optional(__S(864, __c27, 0)),
+        }),
+      ).annotate({ identifier: "Route53ResolvedIPValidation" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          StatelessRuleGroupReferences: S.optional(__S(961, __c30, 1)),
+          StatelessDefaultActions: __S(800, __c25, 0),
+          StatelessFragmentDefaultActions: __S(800, __c25, 0),
+          StatelessCustomActions: S.optional(__S(901, __c28, 5)),
+          StatefulRuleGroupReferences: S.optional(__S(964, __c30, 4)),
+          StatefulDefaultActions: S.optional(__S(800, __c25, 0)),
+          StatefulEngineOptions: S.optional(__S(966, __c30, 6)),
+          TLSInspectionConfigurationArn: S.optional(S.String),
+          PolicyVariables: S.optional(__S(967, __c30, 7)),
+          EnableTLSSessionHolding: S.optional(S.Boolean),
+          Route53ResolvedIPValidation: S.optional(__S(968, __c30, 8)),
+        }),
+      ).annotate({ identifier: "FirewallPolicy" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ UpdateToken: S.String, FirewallPolicyResponse: __S(930, __c29, 2) }),
+      ).annotate({ identifier: "CreateFirewallPolicyResponse" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyName: S.String,
+          NatGatewayId: S.String,
+          ProxyConfigurationName: S.optional(S.String),
+          ProxyConfigurationArn: S.optional(S.String),
+          ListenerProperties: S.optional(__S(1089, __c34, 1)),
+          TlsInterceptProperties: __S(1056, __c33, 0),
+          Tags: S.optional(__S(353, __c11, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateProxyRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ PcaArn: S.optional(S.String), TlsInterceptMode: S.optional(S.String) }),
+      ).annotate({ identifier: "TlsInterceptPropertiesRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Port: S.Number, Type: S.String })).annotate({
+        identifier: "ListenerPropertyRequest",
+      });
+    case 1:
+      return S.Array(__S(1088, __c34, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          FailureCode: S.optional(S.String),
+          FailureMessage: S.optional(S.String),
+          ProxyState: S.optional(S.String),
+          ProxyModifyState: S.optional(S.String),
+          NatGatewayId: S.optional(S.String),
+          ProxyConfigurationName: S.optional(S.String),
+          ProxyConfigurationArn: S.optional(S.String),
+          ProxyName: S.optional(S.String),
+          ProxyArn: S.optional(S.String),
+          ListenerProperties: S.optional(__S(577, __c18, 1)),
+          TlsInterceptProperties: S.optional(__S(1056, __c33, 0)),
+          Tags: S.optional(__S(353, __c11, 1)),
+        }),
+      ).annotate({ identifier: "Proxy" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Proxy: S.optional(__S(1090, __c34, 2)), UpdateToken: S.optional(S.String) }),
+      ).annotate({ identifier: "CreateProxyResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyConfigurationName: S.String,
+          Description: S.optional(S.String),
+          RuleGroupNames: S.optional(__S(800, __c25, 0)),
+          RuleGroupArns: S.optional(__S(800, __c25, 0)),
+          DefaultRulePhaseActions: __S(386, __c12, 2),
+          Tags: S.optional(__S(353, __c11, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateProxyConfigurationRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleGroupName: S.String,
+          Description: S.optional(S.String),
+          Rules: S.optional(__S(1217, __c38, 1)),
+          Tags: S.optional(__S(353, __c11, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateProxyRuleGroupRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ConditionOperator: S.optional(S.String),
+          ConditionKey: S.optional(S.String),
+          ConditionValues: S.optional(__S(800, __c25, 0)),
+        }),
+      ).annotate({ identifier: "ProxyRuleCondition" });
+    case 1:
+      return S.Array(__S(1184, __c37, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleName: S.optional(S.String),
+          Description: S.optional(S.String),
+          Action: S.optional(S.String),
+          Conditions: S.optional(__S(1185, __c37, 1)),
+        }),
+      ).annotate({ identifier: "ProxyRule" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1186, __c37, 2));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PreDNS: S.optional(__S(1216, __c38, 0)),
+          PreREQUEST: S.optional(__S(1216, __c38, 0)),
+          PostRESPONSE: S.optional(__S(1216, __c38, 0)),
+        }),
+      ).annotate({ identifier: "ProxyRulesByRequestPhase" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleGroupName: S.optional(S.String),
+          ProxyRuleGroupArn: S.optional(S.String),
+          CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Rules: S.optional(__S(1217, __c38, 1)),
+          Description: S.optional(S.String),
+          Tags: S.optional(__S(353, __c11, 1)),
+        }),
+      ).annotate({ identifier: "ProxyRuleGroup" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleGroup: S.optional(__S(1218, __c38, 2)),
+          UpdateToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateProxyRuleGroupResponse" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleName: S.optional(S.String),
+          Description: S.optional(S.String),
+          Action: S.optional(S.String),
+          Conditions: S.optional(__S(1185, __c37, 1)),
+          InsertPosition: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CreateProxyRule" });
+    case 1:
+      return S.Array(__S(1280, __c40, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          PreDNS: S.optional(__S(1281, __c40, 1)),
+          PreREQUEST: S.optional(__S(1281, __c40, 1)),
+          PostRESPONSE: S.optional(__S(1281, __c40, 1)),
+        }),
+      ).annotate({ identifier: "CreateProxyRulesByRequestPhase" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleGroupArn: S.optional(S.String),
+          ProxyRuleGroupName: S.optional(S.String),
+          Rules: __S(1282, __c40, 2),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateProxyRulesRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RuleGroupName: S.String,
+          RuleGroup: S.optional(__S(1460, __c45, 20)),
+          Rules: S.optional(S.String),
+          Type: S.String,
+          Description: S.optional(S.String),
+          Capacity: S.Number,
+          Tags: S.optional(__S(353, __c11, 1)),
+          DryRun: S.optional(S.Boolean),
+          EncryptionConfiguration: S.optional(__S(544, __c17, 0)),
+          SourceMetadata: S.optional(__S(1376, __c43, 0)),
+          AnalyzeRuleGroup: S.optional(S.Boolean),
+          SummaryConfiguration: S.optional(__S(1377, __c43, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateRuleGroupRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ FromPort: S.Number, ToPort: S.Number })).annotate({
+        identifier: "PortRange",
+      });
+    case 1:
+      return S.Array(__S(1344, __c42, 0));
+    case 2:
+      return S.Array(S.Number);
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SourceArn: S.optional(S.String), SourceUpdateToken: S.optional(S.String) }),
+      ).annotate({ identifier: "SourceMetadata" });
+    case 1:
+      return S.suspend(() => S.Struct({ RuleOptions: S.optional(__S(608, __c19, 0)) })).annotate({
+        identifier: "SummaryConfiguration",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          IdentifiedRuleIds: S.optional(__S(800, __c25, 0)),
+          IdentifiedType: S.optional(S.String),
+          AnalysisDetail: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AnalysisResult" });
+    case 3:
+      return S.Array(__S(1378, __c43, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          RuleGroupArn: S.String,
+          RuleGroupName: S.String,
+          RuleGroupId: S.String,
+          Description: S.optional(S.String),
+          Type: S.optional(S.String),
+          Capacity: S.optional(S.Number),
+          RuleGroupStatus: S.optional(S.String),
+          Tags: S.optional(__S(353, __c11, 1)),
+          ConsumedCapacity: S.optional(S.Number),
+          NumberOfAssociations: S.optional(S.Number),
+          EncryptionConfiguration: S.optional(__S(544, __c17, 0)),
+          SourceMetadata: S.optional(__S(1376, __c43, 0)),
+          SnsTopic: S.optional(S.String),
+          LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          AnalysisResults: S.optional(__S(1379, __c43, 3)),
+          SummaryConfiguration: S.optional(__S(1377, __c43, 1)),
+        }),
+      ).annotate({ identifier: "RuleGroupResponse" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ RuleOrder: S.optional(S.String) })).annotate({
+        identifier: "StatefulRuleOptions",
+      });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Definition: S.optional(__S(800, __c25, 0)) })).annotate({
+        identifier: "PortSet",
+      });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ __S(1440, __c45, 0).pipe(S.optional));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          IPSets: S.optional(__S(903, __c28, 7)),
+          PortSets: S.optional(__S(1441, __c45, 1)),
+        }),
+      ).annotate({ identifier: "RuleVariables" });
+    case 3:
+      return S.suspend(() => S.Struct({ ReferenceArn: S.optional(S.String) })).annotate({
+        identifier: "IPSetReference",
+      });
+    case 4:
+      return S.Record(S.String, /*@__PURE__*/ __S(1443, __c45, 3).pipe(S.optional));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ IPSetReferences: S.optional(__S(1444, __c45, 4)) }),
+      ).annotate({ identifier: "ReferenceSets" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          Targets: __S(800, __c25, 0),
+          TargetTypes: __S(608, __c19, 0),
+          GeneratedRulesType: S.String,
+        }),
+      ).annotate({ identifier: "RulesSourceList" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          Protocol: S.String,
+          Source: S.String,
+          SourcePort: S.String,
+          Direction: S.String,
+          Destination: S.String,
+          DestinationPort: S.String,
+        }),
+      ).annotate({ identifier: "Header" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({ Keyword: S.String, Settings: S.optional(__S(800, __c25, 0)) }),
+      ).annotate({ identifier: "RuleOption" });
+    case 9:
+      return S.Array(__S(1448, __c45, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          Action: S.String,
+          Header: __S(1447, __c45, 7),
+          RuleOptions: __S(1449, __c45, 9),
+        }),
+      ).annotate({ identifier: "StatefulRule" });
+    case 11:
+      return S.Array(__S(1450, __c45, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({ Flags: __S(608, __c19, 0), Masks: S.optional(__S(608, __c19, 0)) }),
+      ).annotate({ identifier: "TCPFlagField" });
+    case 13:
+      return S.Array(__S(1452, __c45, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          Sources: S.optional(__S(864, __c27, 0)),
+          Destinations: S.optional(__S(864, __c27, 0)),
+          SourcePorts: S.optional(__S(1345, __c42, 1)),
+          DestinationPorts: S.optional(__S(1345, __c42, 1)),
+          Protocols: S.optional(__S(1346, __c42, 2)),
+          TCPFlags: S.optional(__S(1453, __c45, 13)),
+        }),
+      ).annotate({ identifier: "MatchAttributes" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({ MatchAttributes: __S(1454, __c45, 14), Actions: __S(800, __c25, 0) }),
+      ).annotate({ identifier: "RuleDefinition" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({ RuleDefinition: __S(1455, __c45, 15), Priority: S.Number }),
+      ).annotate({ identifier: "StatelessRule" });
+    case 17:
+      return S.Array(__S(1456, __c45, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          StatelessRules: __S(1457, __c45, 17),
+          CustomActions: S.optional(__S(901, __c28, 5)),
+        }),
+      ).annotate({ identifier: "StatelessRulesAndCustomActions" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          RulesString: S.optional(S.String),
+          RulesSourceList: S.optional(__S(1446, __c45, 6)),
+          StatefulRules: S.optional(__S(1451, __c45, 11)),
+          StatelessRulesAndCustomActions: S.optional(__S(1458, __c45, 18)),
+        }),
+      ).annotate({ identifier: "RulesSource" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          RuleVariables: S.optional(__S(1442, __c45, 2)),
+          ReferenceSets: S.optional(__S(1445, __c45, 5)),
+          RulesSource: __S(1459, __c45, 19),
+          StatefulRuleOptions: S.optional(__S(1408, __c44, 0)),
+        }),
+      ).annotate({ identifier: "RuleGroup" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ UpdateToken: S.String, RuleGroupResponse: __S(1380, __c43, 4) }),
+      ).annotate({ identifier: "CreateRuleGroupResponse" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TLSInspectionConfigurationName: S.String,
+          TLSInspectionConfiguration: __S(1575, __c49, 7),
+          Description: S.optional(S.String),
+          Tags: S.optional(__S(353, __c11, 1)),
+          EncryptionConfiguration: S.optional(__S(544, __c17, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateTLSInspectionConfigurationRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CertificateArn: S.optional(S.String),
+          CertificateSerial: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TlsCertificateData" });
+    case 1:
+      return S.Array(__S(1536, __c48, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          TLSInspectionConfigurationArn: S.String,
+          TLSInspectionConfigurationName: S.String,
+          TLSInspectionConfigurationId: S.String,
+          TLSInspectionConfigurationStatus: S.optional(S.String),
+          Description: S.optional(S.String),
+          Tags: S.optional(__S(353, __c11, 1)),
+          LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          NumberOfAssociations: S.optional(S.Number),
+          EncryptionConfiguration: S.optional(__S(544, __c17, 0)),
+          Certificates: S.optional(__S(1537, __c48, 1)),
+          CertificateAuthority: S.optional(__S(1536, __c48, 0)),
+        }),
+      ).annotate({ identifier: "TLSInspectionConfigurationResponse" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ResourceArn: S.optional(S.String) })).annotate({
+        identifier: "ServerCertificate",
+      });
+    case 1:
+      return S.Array(__S(1568, __c49, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Sources: S.optional(__S(864, __c27, 0)),
+          Destinations: S.optional(__S(864, __c27, 0)),
+          SourcePorts: S.optional(__S(1345, __c42, 1)),
+          DestinationPorts: S.optional(__S(1345, __c42, 1)),
+          Protocols: S.optional(__S(1346, __c42, 2)),
+        }),
+      ).annotate({ identifier: "ServerCertificateScope" });
+    case 3:
+      return S.Array(__S(1570, __c49, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          RevokedStatusAction: S.optional(S.String),
+          UnknownStatusAction: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CheckCertificateRevocationStatusActions" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          ServerCertificates: S.optional(__S(1569, __c49, 1)),
+          Scopes: S.optional(__S(1571, __c49, 3)),
+          CertificateAuthorityArn: S.optional(S.String),
+          CheckCertificateRevocationStatus: S.optional(__S(1572, __c49, 4)),
+        }),
+      ).annotate({ identifier: "ServerCertificateConfiguration" });
+    case 6:
+      return S.Array(__S(1573, __c49, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ ServerCertificateConfigurations: S.optional(__S(1574, __c49, 6)) }),
+      ).annotate({ identifier: "TLSInspectionConfiguration" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.String,
+          TLSInspectionConfigurationResponse: __S(1538, __c48, 2),
+        }),
+      ).annotate({ identifier: "CreateTLSInspectionConfigurationResponse" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.String,
+          VpcId: S.String,
+          SubnetMapping: __S(224, __c7, 0),
+          Description: S.optional(S.String),
+          Tags: S.optional(__S(353, __c11, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateVpcEndpointAssociationRequest" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          VpcEndpointAssociationId: S.optional(S.String),
+          VpcEndpointAssociationArn: S.String,
+          FirewallArn: S.String,
+          VpcId: S.String,
+          SubnetMapping: __S(224, __c7, 0),
+          Description: S.optional(S.String),
+          Tags: S.optional(__S(353, __c11, 1)),
+        }),
+      ).annotate({ identifier: "VpcEndpointAssociation" });
+    case 1:
+      return S.suspend(() => S.Struct({ Attachment: S.optional(__S(640, __c20, 0)) })).annotate({
+        identifier: "AZSyncState",
+      });
+    case 2:
+      return S.Record(S.String, /*@__PURE__*/ __S(1665, __c52, 1).pipe(S.optional));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Status: S.String, AssociationSyncState: S.optional(__S(1666, __c52, 2)) }),
+      ).annotate({ identifier: "VpcEndpointAssociationStatus" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          VpcEndpointAssociation: S.optional(__S(1664, __c52, 0)),
+          VpcEndpointAssociationStatus: S.optional(__S(1667, __c52, 3)),
+        }),
+      ).annotate({ identifier: "CreateVpcEndpointAssociationResponse" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerAssociationName: S.optional(S.String),
+          ContainerAssociationArn: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteContainerAssociationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerAssociationName: S.optional(S.String),
+          ContainerAssociationArn: S.optional(S.String),
+          Status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteContainerAssociationResponse" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FirewallName: S.optional(S.String), FirewallArn: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteFirewallRequest" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallPolicyName: S.optional(S.String),
+          FirewallPolicyArn: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteFirewallPolicyRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ FirewallPolicyResponse: __S(930, __c29, 2) })).annotate({
+        identifier: "DeleteFirewallPolicyResponse",
+      });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TransitGatewayAttachmentId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteNetworkFirewallTransitGatewayAttachmentRequest" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NatGatewayId: S.String,
+          ProxyName: S.optional(S.String),
+          ProxyArn: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteProxyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          NatGatewayId: S.optional(S.String),
+          ProxyName: S.optional(S.String),
+          ProxyArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteProxyResponse" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyConfigurationName: S.optional(S.String),
+          ProxyConfigurationArn: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteProxyConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyConfigurationName: S.optional(S.String),
+          ProxyConfigurationArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteProxyConfigurationResponse" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleGroupName: S.optional(S.String),
+          ProxyRuleGroupArn: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteProxyRuleGroupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleGroupName: S.optional(S.String),
+          ProxyRuleGroupArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteProxyRuleGroupResponse" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleGroupArn: S.optional(S.String),
+          ProxyRuleGroupName: S.optional(S.String),
+          Rules: __S(800, __c25, 0),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteProxyRulesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ProxyRuleGroup: S.optional(__S(1218, __c38, 2)) }),
+      ).annotate({ identifier: "DeleteProxyRulesResponse" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteResourcePolicyRequest" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteResourcePolicyResponse" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RuleGroupName: S.optional(S.String),
+          RuleGroupArn: S.optional(S.String),
+          Type: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteRuleGroupRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ RuleGroupResponse: __S(1380, __c43, 4) })).annotate({
+        identifier: "DeleteRuleGroupResponse",
+      });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TLSInspectionConfigurationArn: S.optional(S.String),
+          TLSInspectionConfigurationName: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteTLSInspectionConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ TLSInspectionConfigurationResponse: __S(1538, __c48, 2) }),
+      ).annotate({ identifier: "DeleteTLSInspectionConfigurationResponse" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VpcEndpointAssociationArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteVpcEndpointAssociationRequest" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerAssociationName: S.optional(S.String),
+          ContainerAssociationArn: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeContainerAssociationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerAssociationName: S.optional(S.String),
+          ContainerAssociationArn: S.optional(S.String),
+          Description: S.optional(S.String),
+          Type: S.optional(S.String),
+          ContainerMonitoringConfigurations: S.optional(__S(449, __c14, 1)),
+          Status: S.optional(S.String),
+          ResolvedCidrCount: S.optional(S.Number),
+          LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Tags: S.optional(__S(353, __c11, 1)),
+          UpdateToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeContainerAssociationResponse" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FirewallName: S.optional(S.String), FirewallArn: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeFirewallRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.optional(S.String),
+          Firewall: S.optional(__S(707, __c22, 3)),
+          FirewallStatus: S.optional(__S(719, __c22, 15)),
+        }),
+      ).annotate({ identifier: "DescribeFirewallResponse" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FirewallArn: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeFirewallMetadataRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ IPAddressType: S.optional(S.String) })).annotate({
+        identifier: "AvailabilityZoneMetadata",
+      });
+    case 2:
+      return S.Record(S.String, /*@__PURE__*/ __S(2177, __c68, 1).pipe(S.optional));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.optional(S.String),
+          FirewallPolicyArn: S.optional(S.String),
+          Description: S.optional(S.String),
+          Status: S.optional(S.String),
+          SupportedAvailabilityZones: S.optional(__S(2178, __c68, 2)),
+          TransitGatewayAttachmentId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeFirewallMetadataResponse" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallPolicyName: S.optional(S.String),
+          FirewallPolicyArn: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeFirewallPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.String,
+          FirewallPolicyResponse: __S(930, __c29, 2),
+          FirewallPolicy: S.optional(__S(969, __c30, 9)),
+        }),
+      ).annotate({ identifier: "DescribeFirewallPolicyResponse" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.String,
+          AvailabilityZone: S.optional(S.String),
+          AvailabilityZoneId: S.optional(S.String),
+          VpcEndpointAssociationArn: S.optional(S.String),
+          VpcEndpointId: S.optional(S.String),
+          FlowOperationId: S.String,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeFlowOperationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          MinimumFlowAgeInSeconds: S.optional(S.Number),
+          FlowFilters: S.optional(__S(2273, __c71, 1)),
+        }),
+      ).annotate({ identifier: "FlowOperation" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.optional(S.String),
+          AvailabilityZone: S.optional(S.String),
+          AvailabilityZoneId: S.optional(S.String),
+          VpcEndpointAssociationArn: S.optional(S.String),
+          VpcEndpointId: S.optional(S.String),
+          FlowOperationId: S.optional(S.String),
+          FlowOperationType: S.optional(S.String),
+          FlowOperationStatus: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          FlowRequestTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          FlowOperation: S.optional(__S(2241, __c70, 1)),
+        }),
+      ).annotate({ identifier: "DescribeFlowOperationResponse" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SourceAddress: S.optional(__S(832, __c26, 0)),
+          DestinationAddress: S.optional(__S(832, __c26, 0)),
+          SourcePort: S.optional(S.String),
+          DestinationPort: S.optional(S.String),
+          Protocols: S.optional(__S(800, __c25, 0)),
+        }),
+      ).annotate({ identifier: "FlowFilter" });
+    case 1:
+      return S.Array(__S(2272, __c71, 0));
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FirewallArn: S.optional(S.String), FirewallName: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeLoggingConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.optional(S.String),
+          LoggingConfiguration: S.optional(__S(2339, __c73, 3)),
+          EnableMonitoringDashboard: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DescribeLoggingConfigurationResponse" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LogType: S.String,
+          LogDestinationType: S.String,
+          LogDestination: __S(2336, __c73, 0),
+        }),
+      ).annotate({ identifier: "LogDestinationConfig" });
+    case 2:
+      return S.Array(__S(2337, __c73, 1));
+    case 3:
+      return S.suspend(() => S.Struct({ LogDestinationConfigs: __S(2338, __c73, 2) })).annotate({
+        identifier: "LoggingConfiguration",
+      });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ProxyName: S.optional(S.String), ProxyArn: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeProxyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyName: S.optional(S.String),
+          ProxyArn: S.optional(S.String),
+          ProxyConfigurationName: S.optional(S.String),
+          ProxyConfigurationArn: S.optional(S.String),
+          NatGatewayId: S.optional(S.String),
+          ProxyState: S.optional(S.String),
+          ProxyModifyState: S.optional(S.String),
+          ListenerProperties: S.optional(__S(577, __c18, 1)),
+          TlsInterceptProperties: S.optional(__S(1056, __c33, 0)),
+          VpcEndpointServiceName: S.optional(S.String),
+          PrivateDNSName: S.optional(S.String),
+          CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          FailureCode: S.optional(S.String),
+          FailureMessage: S.optional(S.String),
+          Tags: S.optional(__S(353, __c11, 1)),
+        }),
+      ).annotate({ identifier: "DescribeProxyResource" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Proxy: S.optional(__S(2369, __c74, 1)), UpdateToken: S.optional(S.String) }),
+      ).annotate({ identifier: "DescribeProxyResponse" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyConfigurationName: S.optional(S.String),
+          ProxyConfigurationArn: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeProxyConfigurationRequest" });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleName: S.String,
+          ProxyRuleGroupName: S.optional(S.String),
+          ProxyRuleGroupArn: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeProxyRuleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ProxyRule: S.optional(__S(1186, __c37, 2)), UpdateToken: S.optional(S.String) }),
+      ).annotate({ identifier: "DescribeProxyRuleResponse" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleGroupName: S.optional(S.String),
+          ProxyRuleGroupArn: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeProxyRuleGroupRequest" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeResourcePolicyRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Policy: S.optional(S.String) })).annotate({
+        identifier: "DescribeResourcePolicyResponse",
+      });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RuleGroupName: S.optional(S.String),
+          RuleGroupArn: S.optional(S.String),
+          Type: S.optional(S.String),
+          AnalyzeRuleGroup: S.optional(S.Boolean),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeRuleGroupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.String,
+          RuleGroup: S.optional(__S(1460, __c45, 20)),
+          RuleGroupResponse: __S(1380, __c43, 4),
+        }),
+      ).annotate({ identifier: "DescribeRuleGroupResponse" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RuleGroupName: S.optional(S.String),
+          RuleGroupArn: S.optional(S.String),
+          Type: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeRuleGroupMetadataRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          RuleGroupArn: S.String,
+          RuleGroupName: S.String,
+          Description: S.optional(S.String),
+          Type: S.optional(S.String),
+          Capacity: S.optional(S.Number),
+          StatefulRuleOptions: S.optional(__S(1408, __c44, 0)),
+          LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          VendorName: S.optional(S.String),
+          ProductId: S.optional(S.String),
+          ListingName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeRuleGroupMetadataResponse" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RuleGroupName: S.optional(S.String),
+          RuleGroupArn: S.optional(S.String),
+          Type: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeRuleGroupSummaryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SID: S.optional(S.String),
+          Msg: S.optional(S.String),
+          Metadata: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RuleSummary" });
+    case 2:
+      return S.Array(__S(2593, __c81, 1));
+    case 3:
+      return S.suspend(() => S.Struct({ RuleSummaries: S.optional(__S(2594, __c81, 2)) })).annotate(
+        { identifier: "Summary" },
+      );
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          RuleGroupName: S.String,
+          Description: S.optional(S.String),
+          Summary: S.optional(__S(2595, __c81, 3)),
+        }),
+      ).annotate({ identifier: "DescribeRuleGroupSummaryResponse" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TLSInspectionConfigurationArn: S.optional(S.String),
+          TLSInspectionConfigurationName: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeTLSInspectionConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.String,
+          TLSInspectionConfiguration: S.optional(__S(1575, __c49, 7)),
+          TLSInspectionConfigurationResponse: __S(1538, __c48, 2),
+        }),
+      ).annotate({ identifier: "DescribeTLSInspectionConfigurationResponse" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VpcEndpointAssociationArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeVpcEndpointAssociationRequest" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyConfigurationName: S.optional(S.String),
+          ProxyConfigurationArn: S.optional(S.String),
+          RuleGroupNames: S.optional(__S(800, __c25, 0)),
+          RuleGroupArns: S.optional(__S(800, __c25, 0)),
+          UpdateToken: S.String,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DetachRuleGroupsFromProxyConfigurationRequest" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          AvailabilityZoneMappings: __S(97, __c3, 1),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DisassociateAvailabilityZonesRequest" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          SubnetIds: __S(800, __c25, 0),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DisassociateSubnetsRequest" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallName: S.optional(S.String),
+          AnalysisReportId: S.String,
+          FirewallArn: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetAnalysisReportResultsRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Count: S.optional(S.Number) })).annotate({
+        identifier: "Hits",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Protocol: S.optional(S.String),
+          FirstAccessed: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastAccessed: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Domain: S.optional(S.String),
+          Hits: S.optional(__S(2785, __c87, 1)),
+          UniqueSources: S.optional(__S(2785, __c87, 1)),
+        }),
+      ).annotate({ identifier: "AnalysisTypeReportResult" });
+    case 3:
+      return S.Array(__S(2786, __c87, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Status: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ReportTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          AnalysisType: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          AnalysisReportResults: S.optional(__S(2787, __c87, 3)),
+        }),
+      ).annotate({ identifier: "GetAnalysisReportResultsResponse" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallName: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAnalysisReportsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AnalysisReportId: S.optional(S.String),
+          AnalysisType: S.optional(S.String),
+          ReportTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AnalysisReport" });
+    case 2:
+      return S.Array(__S(2817, __c88, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          AnalysisReports: S.optional(__S(2818, __c88, 2)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListAnalysisReportsResponse" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListContainerAssociationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }),
+      ).annotate({ identifier: "ContainerAssociationSummary" });
+    case 2:
+      return S.Array(__S(2849, __c89, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerAssociations: S.optional(__S(2850, __c89, 2)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListContainerAssociationsResponse" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListFirewallPoliciesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          FirewallPolicies: S.optional(__S(2913, __c91, 1)),
+        }),
+      ).annotate({ identifier: "ListFirewallPoliciesResponse" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Arn: S.optional(S.String) }),
+      ).annotate({ identifier: "FirewallPolicyMetadata" });
+    case 1:
+      return S.Array(__S(2912, __c91, 0));
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          VpcIds: S.optional(__S(800, __c25, 0)),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListFirewallsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallName: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          TransitGatewayAttachmentId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FirewallMetadata" });
+    case 2:
+      return S.Array(__S(2945, __c92, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), Firewalls: S.optional(__S(2946, __c92, 2)) }),
+      ).annotate({ identifier: "ListFirewallsResponse" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.String,
+          FlowOperationId: S.String,
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          AvailabilityZone: S.optional(S.String),
+          AvailabilityZoneId: S.optional(S.String),
+          VpcEndpointId: S.optional(S.String),
+          VpcEndpointAssociationArn: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListFlowOperationResultsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SourceAddress: S.optional(__S(832, __c26, 0)),
+          DestinationAddress: S.optional(__S(832, __c26, 0)),
+          SourcePort: S.optional(S.String),
+          DestinationPort: S.optional(S.String),
+          Protocol: S.optional(S.String),
+          Age: S.optional(S.Number),
+          PacketCount: S.optional(S.Number),
+          ByteCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Flow" });
+    case 2:
+      return S.Array(__S(2977, __c93, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.optional(S.String),
+          AvailabilityZone: S.optional(S.String),
+          AvailabilityZoneId: S.optional(S.String),
+          VpcEndpointAssociationArn: S.optional(S.String),
+          VpcEndpointId: S.optional(S.String),
+          FlowOperationId: S.optional(S.String),
+          FlowOperationStatus: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          FlowRequestTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Flows: S.optional(__S(2978, __c93, 2)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListFlowOperationResultsResponse" });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.String,
+          AvailabilityZone: S.optional(S.String),
+          AvailabilityZoneId: S.optional(S.String),
+          VpcEndpointAssociationArn: S.optional(S.String),
+          VpcEndpointId: S.optional(S.String),
+          FlowOperationType: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListFlowOperationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FlowOperationId: S.optional(S.String),
+          FlowOperationType: S.optional(S.String),
+          FlowRequestTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          FlowOperationStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FlowOperationMetadata" });
+    case 2:
+      return S.Array(__S(3009, __c94, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          FlowOperations: S.optional(__S(3010, __c94, 2)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListFlowOperationsResponse" });
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListProxiesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Proxies: S.optional(__S(2913, __c91, 1)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListProxiesResponse" });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListProxyConfigurationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyConfigurations: S.optional(__S(2913, __c91, 1)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListProxyConfigurationsResponse" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListProxyRuleGroupsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleGroups: S.optional(__S(2913, __c91, 1)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListProxyRuleGroupsResponse" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          Scope: S.optional(S.String),
+          ManagedType: S.optional(S.String),
+          SubscriptionStatus: S.optional(S.String),
+          Type: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListRuleGroupsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Arn: S.optional(S.String),
+          VendorName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RuleGroupMetadata" });
+    case 2:
+      return S.Array(__S(3137, __c98, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), RuleGroups: S.optional(__S(3138, __c98, 2)) }),
+      ).annotate({ identifier: "ListRuleGroupsResponse" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          ResourceArn: S.String,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), Tags: S.optional(__S(353, __c11, 1)) }),
+      ).annotate({ identifier: "ListTagsForResourceResponse" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListTLSInspectionConfigurationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          TLSInspectionConfigurations: S.optional(__S(2913, __c91, 1)),
+        }),
+      ).annotate({ identifier: "ListTLSInspectionConfigurationsResponse" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          FirewallArn: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListVpcEndpointAssociationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ VpcEndpointAssociationArn: S.optional(S.String) }),
+      ).annotate({ identifier: "VpcEndpointAssociationMetadata" });
+    case 2:
+      return S.Array(__S(3233, __c101, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          VpcEndpointAssociations: S.optional(__S(3234, __c101, 2)),
+        }),
+      ).annotate({ identifier: "ListVpcEndpointAssociationsResponse" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String, Policy: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutResourcePolicyRequest" });
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TransitGatewayAttachmentId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "RejectNetworkFirewallTransitGatewayAttachmentRequest" });
+  }
+}
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallName: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          AnalysisType: S.String,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartAnalysisReportRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ AnalysisReportId: S.String })).annotate({
+        identifier: "StartAnalysisReportResponse",
+      });
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.String,
+          AvailabilityZone: S.optional(S.String),
+          AvailabilityZoneId: S.optional(S.String),
+          VpcEndpointAssociationArn: S.optional(S.String),
+          VpcEndpointId: S.optional(S.String),
+          MinimumFlowAgeInSeconds: S.optional(S.Number),
+          FlowFilters: __S(2273, __c71, 1),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartFlowCaptureRequest" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.optional(S.String),
+          FlowOperationId: S.optional(S.String),
+          FlowOperationStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StartFlowCaptureResponse" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.String,
+          AvailabilityZone: S.optional(S.String),
+          AvailabilityZoneId: S.optional(S.String),
+          VpcEndpointAssociationArn: S.optional(S.String),
+          VpcEndpointId: S.optional(S.String),
+          MinimumFlowAgeInSeconds: S.optional(S.Number),
+          FlowFilters: __S(2273, __c71, 1),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartFlowFlushRequest" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String, Tags: __S(353, __c11, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String, TagKeys: __S(800, __c25, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          AvailabilityZoneChangeProtection: S.Boolean,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateAvailabilityZoneChangeProtectionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          AvailabilityZoneChangeProtection: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "UpdateAvailabilityZoneChangeProtectionResponse" });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerAssociationName: S.optional(S.String),
+          ContainerAssociationArn: S.optional(S.String),
+          Description: S.optional(S.String),
+          Type: S.String,
+          ContainerMonitoringConfigurations: __S(449, __c14, 1),
+          Tags: S.optional(__S(353, __c11, 1)),
+          UpdateToken: S.String,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateContainerAssociationRequest" });
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EnabledAnalysisTypes: S.optional(__S(608, __c19, 0)),
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          UpdateToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateFirewallAnalysisSettingsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          EnabledAnalysisTypes: S.optional(__S(608, __c19, 0)),
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          UpdateToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateFirewallAnalysisSettingsResponse" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          DeleteProtection: S.Boolean,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateFirewallDeleteProtectionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          DeleteProtection: S.optional(S.Boolean),
+          UpdateToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateFirewallDeleteProtectionResponse" });
+  }
+}
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          Description: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateFirewallDescriptionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          Description: S.optional(S.String),
+          UpdateToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateFirewallDescriptionResponse" });
+  }
+}
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          EncryptionConfiguration: S.optional(__S(544, __c17, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateFirewallEncryptionConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          UpdateToken: S.optional(S.String),
+          EncryptionConfiguration: S.optional(__S(544, __c17, 0)),
+        }),
+      ).annotate({ identifier: "UpdateFirewallEncryptionConfigurationResponse" });
+  }
+}
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.String,
+          FirewallPolicyArn: S.optional(S.String),
+          FirewallPolicyName: S.optional(S.String),
+          FirewallPolicy: __S(969, __c30, 9),
+          Description: S.optional(S.String),
+          DryRun: S.optional(S.Boolean),
+          EncryptionConfiguration: S.optional(__S(544, __c17, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateFirewallPolicyRequest" });
+  }
+}
+function __c117(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          FirewallPolicyChangeProtection: S.Boolean,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateFirewallPolicyChangeProtectionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          FirewallPolicyChangeProtection: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "UpdateFirewallPolicyChangeProtectionResponse" });
+  }
+}
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          LoggingConfiguration: S.optional(__S(2339, __c73, 3)),
+          EnableMonitoringDashboard: S.optional(S.Boolean),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateLoggingConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          LoggingConfiguration: S.optional(__S(2339, __c73, 3)),
+          EnableMonitoringDashboard: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "UpdateLoggingConfigurationResponse" });
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NatGatewayId: S.String,
+          ProxyName: S.optional(S.String),
+          ProxyArn: S.optional(S.String),
+          ListenerPropertiesToAdd: S.optional(__S(1089, __c34, 1)),
+          ListenerPropertiesToRemove: S.optional(__S(1089, __c34, 1)),
+          TlsInterceptProperties: S.optional(__S(1056, __c33, 0)),
+          UpdateToken: S.String,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateProxyRequest" });
+  }
+}
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyConfigurationName: S.optional(S.String),
+          ProxyConfigurationArn: S.optional(S.String),
+          DefaultRulePhaseActions: __S(386, __c12, 2),
+          UpdateToken: S.String,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateProxyConfigurationRequest" });
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleGroupName: S.optional(S.String),
+          ProxyRuleGroupArn: S.optional(S.String),
+          ProxyRuleName: S.String,
+          Description: S.optional(S.String),
+          Action: S.optional(S.String),
+          AddConditions: S.optional(__S(1185, __c37, 1)),
+          RemoveConditions: S.optional(__S(1185, __c37, 1)),
+          UpdateToken: S.String,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateProxyRuleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRule: S.optional(__S(1186, __c37, 2)),
+          RemovedConditions: S.optional(__S(1185, __c37, 1)),
+          UpdateToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateProxyRuleResponse" });
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ProxyRuleGroupName: S.optional(S.String), NewPosition: S.optional(S.Number) }),
+      ).annotate({ identifier: "ProxyRuleGroupPriority" });
+    case 1:
+      return S.Array(__S(3904, __c122, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyConfigurationName: S.optional(S.String),
+          ProxyConfigurationArn: S.optional(S.String),
+          RuleGroups: __S(3905, __c122, 1),
+          UpdateToken: S.String,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateProxyRuleGroupPrioritiesRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ ProxyRuleGroupName: S.optional(S.String), Priority: S.optional(S.Number) }),
+      ).annotate({ identifier: "ProxyRuleGroupPriorityResult" });
+    case 4:
+      return S.Array(__S(3907, __c122, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleGroups: S.optional(__S(3908, __c122, 4)),
+          UpdateToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateProxyRuleGroupPrioritiesResponse" });
+  }
+}
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ProxyRuleName: S.optional(S.String), NewPosition: S.optional(S.Number) }),
+      ).annotate({ identifier: "ProxyRulePriority" });
+    case 1:
+      return S.Array(__S(3936, __c123, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleGroupName: S.optional(S.String),
+          ProxyRuleGroupArn: S.optional(S.String),
+          RuleGroupRequestPhase: S.String,
+          Rules: __S(3937, __c123, 1),
+          UpdateToken: S.String,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateProxyRulePrioritiesRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ProxyRuleGroupName: S.optional(S.String),
+          ProxyRuleGroupArn: S.optional(S.String),
+          RuleGroupRequestPhase: S.optional(S.String),
+          Rules: S.optional(__S(3937, __c123, 1)),
+          UpdateToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateProxyRulePrioritiesResponse" });
+  }
+}
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          UpdateToken: S.optional(S.String),
+          ProxySettings: S.optional(__S(736, __c23, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateProxySettingsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          UpdateToken: S.optional(S.String),
+          ProxySettings: S.optional(__S(736, __c23, 0)),
+        }),
+      ).annotate({ identifier: "UpdateProxySettingsResponse" });
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.String,
+          RuleGroupArn: S.optional(S.String),
+          RuleGroupName: S.optional(S.String),
+          RuleGroup: S.optional(__S(1460, __c45, 20)),
+          Rules: S.optional(S.String),
+          Type: S.optional(S.String),
+          Description: S.optional(S.String),
+          DryRun: S.optional(S.Boolean),
+          EncryptionConfiguration: S.optional(__S(544, __c17, 0)),
+          SourceMetadata: S.optional(__S(1376, __c43, 0)),
+          AnalyzeRuleGroup: S.optional(S.Boolean),
+          SummaryConfiguration: S.optional(__S(1377, __c43, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateRuleGroupRequest" });
+  }
+}
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          SubnetChangeProtection: S.Boolean,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateSubnetChangeProtectionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          UpdateToken: S.optional(S.String),
+          FirewallArn: S.optional(S.String),
+          FirewallName: S.optional(S.String),
+          SubnetChangeProtection: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "UpdateSubnetChangeProtectionResponse" });
+  }
+}
+function __c127(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TLSInspectionConfigurationArn: S.optional(S.String),
+          TLSInspectionConfigurationName: S.optional(S.String),
+          TLSInspectionConfiguration: __S(1575, __c49, 7),
+          Description: S.optional(S.String),
+          EncryptionConfiguration: S.optional(__S(544, __c17, 0)),
+          UpdateToken: S.String,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateTLSInspectionConfigurationRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

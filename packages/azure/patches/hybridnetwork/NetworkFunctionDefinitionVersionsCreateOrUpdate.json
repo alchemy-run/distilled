@@ -1,0 +1,25 @@
+{
+  "description": "NetworkFunctionDefinitionVersion properties are polymorphic on networkFunctionType; the converted model keeps only base members, so `networkFunctionTemplate` is stripped. Add it as an untyped document.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionVersionPropertiesFormatInput/members/networkFunctionTemplate",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Network function template (polymorphic on `nfviType`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionVersionPropertiesFormat/members/networkFunctionTemplate",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Network function template (polymorphic on `nfviType`)."
+        }
+      }
+    }
+  ]
+}

@@ -1,18 +1,27 @@
+import * as Effect from "effect/Effect";
+import * as Headers from "effect/http/Headers";
+import * as HttpBody from "effect/http/HttpBody";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
 /**
  * Generic REST protocol machinery, shared by SDK protocol layers.
  *
  * Everything here is driven purely by the trait annotations in
- * `core/trait.ts` — nothing is provider-specific. An SDK protocol (e.g.
+ * `core/trait.ts` -- nothing is provider-specific. An SDK protocol (e.g.
  * cloudflare's) supplies credentials/base-URL, calls {@link buildRequest} to
  * encode, and layers its own response-envelope handling on top of the
  * decode-side helpers ({@link getProps}/{@link mapKeys}/
  * {@link matchTypedError}).
  */
 import type * as AST from "effect/SchemaAST";
-import * as HttpBody from "effect/unstable/http/HttpBody";
-import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
+import { getAnn, getProps, resolveNode } from "./annotations.ts";
+import * as Category from "./category.ts";
+import { isOpaqueValue } from "./plain-values.ts";
+import * as Schema from "./schema-lite-typed.ts";
+import { SdkError } from "./sdk-error.ts";
+import { restoreStack, suppressStack } from "./telemetry.ts";
 import {
   bodySymbol,
+  commaDelimitedSymbol,
   deepQuerySymbol,
   formDataFileSymbol,
   getErrorMatchers,
@@ -21,10 +30,12 @@ import {
   httpSymbol,
   keyDictionarySymbol,
   labelSymbol,
+  labelEncodingSymbol,
   querySymbol,
   stringEncodedSymbol,
   unionCasesSymbol,
   type ErrorMatcher,
+  type ErrorTextMatcher,
   type HttpTrait,
   type KeyDictionaryEntries,
   type UnionDiscriminator,
@@ -32,74 +43,80 @@ import {
 
 //#region AST helpers (survive S.optional / Suspend / transforms)
 
-export const getProps = (ast: AST.AST): readonly AST.PropertySignature[] => {
-  if (ast._tag === "Objects") return ast.propertySignatures;
-  if (ast._tag === "Suspend") return getProps(ast.thunk());
-  if (ast.encoding && ast.encoding.length > 0)
-    return getProps(ast.encoding[0]!.to);
-  return [];
-};
+export { getAnn, getProps, resolveNode } from "./annotations.ts";
 
-export const getAnn = (ast: AST.AST, symbol: symbol): unknown => {
-  const direct = (ast.annotations as Record<symbol, unknown> | undefined)?.[
-    symbol
-  ];
-  if (direct !== undefined) return direct;
-  if (ast._tag === "Suspend") return getAnn(ast.thunk(), symbol);
-  if (ast.encoding && ast.encoding.length > 0)
-    return getAnn(ast.encoding[0]!.to, symbol);
-  // S.optional → Union[self, Undefined]; descend into the single real member.
-  if (ast._tag === "Union") {
-    const real = (ast as AST.Union).types.filter(
-      (t) =>
-        t._tag !== "Undefined" &&
-        !(t._tag === "Literal" && (t as any).literal === null),
-    );
-    if (real.length === 1) return getAnn(real[0]!, symbol);
-  }
-  return undefined;
-};
-
-export const getPropAnn = (
-  prop: AST.PropertySignature,
-  symbol: symbol,
-): unknown => getAnn(prop.type, symbol);
-export const hasPropAnn = (
-  prop: AST.PropertySignature,
-  symbol: symbol,
-): boolean => getPropAnn(prop, symbol) !== undefined;
+export const getPropAnn = (prop: AST.PropertySignature, symbol: symbol): unknown =>
+  getAnn(prop.type, symbol);
+export const hasPropAnn = (prop: AST.PropertySignature, symbol: symbol): boolean =>
+  getPropAnn(prop, symbol) !== undefined;
 export const nameOf = (prop: AST.PropertySignature, symbol: symbol): string => {
   const v = getPropAnn(prop, symbol);
   return typeof v === "string" ? v : String(prop.name);
 };
 
-/** Resolve wrappers to the real node: Suspend, encoding, optional/null unions. */
-export const resolveNode = (ast: AST.AST): AST.AST => {
-  if (ast._tag === "Suspend") return resolveNode(ast.thunk());
-  if (ast.encoding && ast.encoding.length > 0)
-    return resolveNode(ast.encoding[0]!.to);
-  if (ast._tag === "Union") {
-    const real = (ast as AST.Union).types.filter(
-      (t) =>
-        t._tag !== "Undefined" &&
-        t._tag !== "Null" &&
-        !(t._tag === "Literal" && (t as any).literal === null),
-    );
-    if (real.length === 1) return resolveNode(real[0]!);
+//#endregion
+
+//#region Response headers on outputs
+
+/** An output member read from a response header (`T.Header`). */
+export interface ResponseHeaderMember {
+  readonly key: string;
+  /** Lowercase header name. */
+  readonly wire: string;
+  /** The member is a number; the header's text is parsed. */
+  readonly number: boolean;
+}
+
+const noHeaderMembers: ReadonlyArray<ResponseHeaderMember> = [];
+const headerMemberCache = /*@__PURE__*/ new WeakMap<AST.AST, ReadonlyArray<ResponseHeaderMember>>();
+
+/** The output's header-bound members, read from the schema once. */
+export const responseHeaderMembers = (outputAst: AST.AST): ReadonlyArray<ResponseHeaderMember> => {
+  let members = headerMemberCache.get(outputAst);
+  if (members !== undefined) return members;
+  const found: ResponseHeaderMember[] = [];
+  for (const prop of getProps(outputAst)) {
+    if (!hasPropAnn(prop, headerSymbol)) continue;
+    found.push({
+      key: String(prop.name),
+      wire: nameOf(prop, headerSymbol).toLowerCase(),
+      number: resolveNode(prop.type)._tag === "Number",
+    });
   }
-  return ast;
+  members = found.length === 0 ? noHeaderMembers : found;
+  headerMemberCache.set(outputAst, members);
+  return members;
+};
+
+/**
+ * Copy the response headers an output declares onto its decoded body. A
+ * number member gets the header parsed; text that is not a number is kept
+ * as sent, so strict validation reports it. A body that is not an object
+ * (a raw root) is returned as is -- generators bind no headers there.
+ */
+export const withResponseHeaders = (
+  members: ReadonlyArray<ResponseHeaderMember>,
+  body: unknown,
+  headers: Record<string, string | undefined>,
+): unknown => {
+  if (members.length === 0 || body === null || typeof body !== "object" || Array.isArray(body)) {
+    return body;
+  }
+  let result: Record<string, unknown> | undefined;
+  for (const m of members) {
+    const raw = headers[m.wire];
+    if (raw === undefined) continue;
+    result ??= { ...(body as Record<string, unknown>) };
+    const parsed = m.number && raw.trim() !== "" ? Number(raw) : Number.NaN;
+    result[m.key] = Number.isNaN(parsed) ? raw : parsed;
+  }
+  return result ?? body;
 };
 //#endregion
 
 //#region Recursive wire-name mapping
 
-/** Binary/opaque values that must never be treated as key-value objects. */
-export const isOpaqueValue = (v: unknown): boolean =>
-  v instanceof Blob ||
-  v instanceof File ||
-  v instanceof ArrayBuffer ||
-  v instanceof Uint8Array ||
-  v instanceof Date;
+export { isOpaqueValue };
 
 /**
  * Deep-rename keys via a plain dictionary (see `T.KeyDictionary`). An entry
@@ -121,9 +138,7 @@ export const mapKeysByDictionary = (
     direction === "decode"
       ? Object.fromEntries(
           Object.entries(dict).flatMap(([ts, wire]) =>
-            typeof wire === "string"
-              ? [[wire, ts] as const]
-              : wire.map((w) => [w, ts] as const),
+            typeof wire === "string" ? [[wire, ts] as const] : wire.map((w) => [w, ts] as const),
           ),
         )
       : Object.fromEntries(
@@ -143,7 +158,7 @@ export const mapKeysByDictionary = (
 /**
  * Recursively rename keys between TS names and wire names, per the schema.
  *
- * `fallback` is the nearest ancestor `T.KeyDictionary` — schema-known members
+ * `fallback` is the nearest ancestor `T.KeyDictionary` -- schema-known members
  * always map via their own annotations, but opaque values (Document members,
  * keys the schema doesn't know) deep-rename via the dictionary so nested
  * TS-cased content still reaches the wire in wire case. Content with no
@@ -151,15 +166,65 @@ export const mapKeysByDictionary = (
  */
 /**
  * Value form for a `StringEncoded()` member: the string spelling of the
- * value, element-wise for lists. `null` stays `null` — an API that models a
+ * value, element-wise for lists. `null` stays `null` -- an API that models a
  * flag as `"true" | "false"` still means "unset" by null, not `"null"`.
  */
 const stringEncode = (value: unknown): unknown =>
-  value === null
-    ? null
-    : Array.isArray(value)
-      ? value.map(stringEncode)
-      : String(value);
+  value === null ? null : Array.isArray(value) ? value.map(stringEncode) : String(value);
+
+/**
+ * Whether {@link mapKeys} returns every value of `root` unchanged (as a deep
+ * copy) in `direction` with no fallback dictionary: no member is renamed,
+ * string-encoded (encode) or picked by `T.UnionCases` (decode), and no
+ * `T.KeyDictionary` is in scope anywhere below `root`. Protocols use it to
+ * skip the walk. Computed once per schema node and direction.
+ */
+export const mapsVerbatim = (root: AST.AST, direction: "encode" | "decode"): boolean => {
+  const cache = direction === "encode" ? verbatimEncode : verbatimDecode;
+  let result = cache.get(root);
+  if (result !== undefined) return result;
+  result = true;
+  const seen = new Set<AST.AST>();
+  const stack: AST.AST[] = [root];
+  walk: while (stack.length > 0) {
+    const ast = stack.pop()!;
+    if (seen.has(ast)) continue;
+    seen.add(ast);
+    if (getAnn(ast, keyDictionarySymbol) !== undefined) {
+      result = false;
+      break;
+    }
+    if (direction === "decode" && getAnn(ast, unionCasesSymbol) !== undefined) {
+      result = false;
+      break;
+    }
+    const node = resolveNode(ast);
+    if (node._tag === "Union") {
+      for (const t of (node as AST.Union).types) stack.push(resolveNode(t));
+    } else if (node._tag === "Arrays") {
+      const elem = (node as any).rest?.[0] as AST.AST | undefined;
+      if (elem) stack.push(elem);
+    } else if (node._tag === "Objects") {
+      for (const p of (node as any).propertySignatures as readonly AST.PropertySignature[]) {
+        if (
+          nameOf(p, bodySymbol) !== String(p.name) ||
+          (direction === "encode" && hasPropAnn(p, stringEncodedSymbol))
+        ) {
+          result = false;
+          break walk;
+        }
+        stack.push(p.type);
+      }
+      for (const s of ((node as any).indexSignatures ?? []) as readonly { type: AST.AST }[]) {
+        stack.push(s.type);
+      }
+    }
+  }
+  cache.set(root, result);
+  return result;
+};
+const verbatimEncode = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
+const verbatimDecode = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
 
 export const mapKeys = (
   ast: AST.AST,
@@ -167,25 +232,18 @@ export const mapKeys = (
   direction: "encode" | "decode",
   fallback?: KeyDictionaryEntries,
 ): unknown => {
-  if (
-    value === null ||
-    value === undefined ||
-    typeof value !== "object" ||
-    isOpaqueValue(value)
-  ) {
+  if (value === null || value === undefined || typeof value !== "object" || isOpaqueValue(value)) {
     return value;
   }
-  const dict =
-    (getAnn(ast, keyDictionarySymbol) as KeyDictionaryEntries | undefined) ??
-    fallback;
+  const dict = (getAnn(ast, keyDictionarySymbol) as KeyDictionaryEntries | undefined) ?? fallback;
 
   // Discriminated union whose cases the API returns merged (every case's
   // keys present, `null` for the inactive ones). Map wire names, then keep
   // only the active case's keys. The case is read off the union's
-  // discriminator when it has one — cases that share a key set (every
+  // discriminator when it has one -- cases that share a key set (every
   // resource kind of `resource_tagging`, every page-rule action) are
   // indistinguishable by keys alone. Without one, a case does NOT need every
-  // key present — arms carry optional members the wire may omit — so the
+  // key present -- arms carry optional members the wire may omit -- so the
   // active case is the one that best EXPLAINS the value: most present,
   // non-null keys covered, minus present keys the case cannot explain (ties
   // break by coverage, then declaration order).
@@ -196,18 +254,15 @@ export const mapKeys = (
       }
     | undefined;
   if (unionCases && direction === "decode" && !Array.isArray(value)) {
-    const obj = (
-      dict ? mapKeysByDictionary(dict, value, "decode") : value
-    ) as Record<string, unknown>;
-    const present = Object.keys(obj).filter(
-      (k) => obj[k] !== undefined && obj[k] !== null,
-    );
+    const obj = (dict ? mapKeysByDictionary(dict, value, "decode") : value) as Record<
+      string,
+      unknown
+    >;
+    const present = Object.keys(obj).filter((k) => obj[k] !== undefined && obj[k] !== null);
     const disc = unionCases.discriminator;
     const tag = disc ? obj[disc.key] : undefined;
     const tagged = typeof tag === "string" ? disc!.values.indexOf(tag) : -1;
-    let best:
-      | { keys: ReadonlyArray<string>; score: number; matched: number }
-      | undefined;
+    let best: { keys: ReadonlyArray<string>; score: number; matched: number } | undefined;
     if (tagged >= 0) {
       best = { keys: unionCases.cases[tagged]!, score: 0, matched: 0 };
     } else {
@@ -222,9 +277,7 @@ export const mapKeys = (
         const score = matched - excess;
         if (
           matched > 0 &&
-          (!best ||
-            score > best.score ||
-            (score === best.score && matched > best.matched))
+          (!best || score > best.score || (score === best.score && matched > best.matched))
         ) {
           best = { keys, score, matched };
         }
@@ -241,12 +294,12 @@ export const mapKeys = (
   const node = resolveNode(ast);
 
   // Schema-level union member (a merged response struct whose arms disagree
-  // on a member's type — see the codegen's response-union merge): pick the
+  // on a member's type -- see the codegen's response-union merge): pick the
   // arm that explains the value best and map with it. Object values score
   // arms by how many of their declared keys are present; array values take
   // the first array arm. Anything unmatched deep-renames via the dictionary
-  // fallback, like other opaque content. (Single-real-member unions —
-  // optional/null wrappers — were already collapsed by resolveNode; the
+  // fallback, like other opaque content. (Single-real-member unions --
+  // optional/null wrappers -- were already collapsed by resolveNode; the
   // opaque `T.UnionCases` mechanism never produces a Union node and is
   // handled above.)
   if (node._tag === "Union") {
@@ -260,10 +313,8 @@ export const mapKeys = (
       for (const t of arms) {
         if (t._tag !== "Objects") continue;
         let score = 0;
-        for (const p of (t as any)
-          .propertySignatures as readonly AST.PropertySignature[]) {
-          const from =
-            direction === "encode" ? String(p.name) : nameOf(p, bodySymbol);
+        for (const p of (t as any).propertySignatures as readonly AST.PropertySignature[]) {
+          const from = direction === "encode" ? String(p.name) : nameOf(p, bodySymbol);
           if ((value as Record<string, unknown>)[from] !== undefined) score++;
         }
         if (score > bestScore) {
@@ -287,13 +338,10 @@ export const mapKeys = (
   }
 
   if (node._tag === "Objects" && !Array.isArray(value)) {
-    const props = (node as any)
-      .propertySignatures as readonly AST.PropertySignature[];
-    const isigs = (node as any).indexSignatures as
-      | readonly { type: AST.AST }[]
-      | undefined;
+    const props = (node as any).propertySignatures as readonly AST.PropertySignature[];
+    const isigs = (node as any).indexSignatures as readonly { type: AST.AST }[] | undefined;
     if (props.length === 0 && !(isigs && isigs.length)) {
-      // opaque object — dictionary fallback or verbatim
+      // opaque object -- dictionary fallback or verbatim
       return dict ? mapKeysByDictionary(dict, value, direction) : value;
     }
     const out: Record<string, unknown> = {};
@@ -307,7 +355,7 @@ export const mapKeys = (
       const v = (value as Record<string, unknown>)[from];
       if (v === undefined) continue;
       // A `StringEncoded()` member nested in a body struct (e.g. Azure's
-      // `hardwareProfile.dynamicMemoryEnabled`) stringifies here — the
+      // `hardwareProfile.dynamicMemoryEnabled`) stringifies here -- the
       // top-level pass in `buildRequest` only sees the outermost member.
       out[to] =
         direction === "encode" && hasPropAnn(p, stringEncodedSymbol)
@@ -332,7 +380,7 @@ export const mapKeys = (
     return out;
   }
 
-  // Scalar-typed schema node holding object content (spec drift) —
+  // Scalar-typed schema node holding object content (spec drift) --
   // dictionary fallback or verbatim.
   return dict ? mapKeysByDictionary(dict, value, direction) : value;
 };
@@ -340,30 +388,22 @@ export const mapKeys = (
 
 //#region Request building
 
-const BODYLESS = new Set(["GET", "HEAD"]);
+const BODYLESS = /*@__PURE__*/ new Set(["GET", "HEAD"]);
 
 /**
  * Serialize one query member. Scalars go as `k=v`, arrays as repeated `k=v`
- * pairs, and nested plain objects recurse as DOTTED params — several list
+ * pairs, and nested plain objects recurse as DOTTED params -- several list
  * endpoints model their filters as structs (e.g. Cloudflare DNS listRecords
  * takes `name: { exact, contains, ... }`) that must go over the wire as
  * `name.exact=value`. Without this they fell through to `String(value)` and
  * were sent as `name=[object Object]`, which servers happily treat as a
- * filter matching nothing — the call "succeeds" with zero results and the
+ * filter matching nothing -- the call "succeeds" with zero results and the
  * bug is invisible to the caller.
  */
-const appendQuery = (
-  query: URLSearchParams,
-  name: string,
-  value: unknown,
-): void => {
+const appendQuery = (query: URLSearchParams, name: string, value: unknown): void => {
   if (Array.isArray(value)) {
     for (const v of value) appendQuery(query, name, v);
-  } else if (
-    value !== null &&
-    typeof value === "object" &&
-    !(value instanceof Date)
-  ) {
+  } else if (value !== null && typeof value === "object" && !(value instanceof Date)) {
     for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
       if (v !== undefined) appendQuery(query, `${name}.${k}`, v);
     }
@@ -385,12 +425,199 @@ export interface BuildRequestOptions {
    */
   readonly mapMemberHeader?: (name: string, value: string) => string;
   /**
-   * Wire name for input keys the schema doesn't declare (spec drift —
+   * Wire name for input keys the schema doesn't declare (spec drift --
    * unknown keys pass through as body fields rather than being dropped).
    * Defaults to the key verbatim.
    */
   readonly unknownKeyToWire?: (key: string) => string;
+  /**
+   * Send `{}` on a method that takes a body even when the input declares no
+   * body members. Connect unary RPCs (E2B's envd) POST JSON for every call,
+   * and refuse a bodyless one with 415.
+   */
+  readonly emptyJsonBody?: boolean;
 }
+
+/**
+ * Encode a greedy `{name+}` label: the value may span several path
+ * segments (e.g. an Azure scope `/subscriptions/{id}/resourceGroups/{rg}`),
+ * so each segment is encoded on its own and the `/` separators are kept.
+ * Leading slashes are dropped because the URI template already supplies one.
+ */
+export const encodeGreedyLabel = (value: string): string =>
+  value.replace(/^\/+/, "").split("/").map(encodeURIComponent).join("/");
+
+/**
+ * Flatten a nested object into Stripe-style bracket notation pairs for
+ * form-urlencoded bodies: nested objects become `a[b][c]`, arrays index as
+ * `a[0]`; null/undefined dropped, booleans as "true"/"false".
+ */
+const flattenToFormPairs = (obj: Record<string, unknown>, prefix = ""): Array<[string, string]> => {
+  const pairs: Array<[string, string]> = [];
+  for (const [key, value] of Object.entries(obj)) {
+    if (value === undefined || value === null) continue;
+    const fullKey = prefix ? `${prefix}[${key}]` : key;
+    if (Array.isArray(value)) {
+      for (let i = 0; i < value.length; i++) {
+        const item = value[i];
+        if (item === undefined || item === null) continue;
+        if (typeof item === "object" && !Array.isArray(item)) {
+          pairs.push(...flattenToFormPairs(item as Record<string, unknown>, `${fullKey}[${i}]`));
+        } else {
+          pairs.push([`${fullKey}[${i}]`, String(item)]);
+        }
+      }
+    } else if (typeof value === "object") {
+      pairs.push(...flattenToFormPairs(value as Record<string, unknown>, fullKey));
+    } else {
+      pairs.push([fullKey, String(value)]);
+    }
+  }
+  return pairs;
+};
+
+/** How an input member binds to the request. */
+type Bind = "label" | "header" | "query" | "deepQuery" | "file" | "httpBody" | "body";
+
+/** One input member, with its binding read from the schema once. */
+interface MemberPlan {
+  readonly key: string;
+  readonly bind: Bind;
+  /** Label token, lower-cased header name, query name or body wire name. */
+  readonly name: string;
+  readonly type: AST.AST;
+  /** `LabelEncoding` characters kept unescaped. */
+  readonly preserve: string | undefined;
+  /** `{name+}` placeholder. */
+  readonly greedy: boolean;
+  readonly stringEncoded: boolean;
+  /** A list query member sent as one comma-separated parameter. */
+  readonly commaDelimited: boolean;
+  /** `mapKeys(type, value, "encode", rootDict)` returns the value unchanged. */
+  readonly verbatim: boolean;
+}
+
+/** What `buildRequest` reads from an input schema, computed once per schema. */
+interface RequestPlan {
+  readonly http: HttpTrait;
+  readonly rootDict: KeyDictionaryEntries | undefined;
+  readonly members: ReadonlyArray<MemberPlan>;
+  readonly known: ReadonlySet<string>;
+  /** The schema declares a member that is sent in the body. */
+  readonly hasBodyMembers: boolean;
+}
+
+const plans = /*@__PURE__*/ new WeakMap<AST.AST, RequestPlan>();
+
+const planFor = (inputAst: AST.AST): RequestPlan | SdkError => {
+  let plan = plans.get(inputAst);
+  if (plan !== undefined) return plan;
+  const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
+  if (!http) {
+    return new SdkError({ message: "operation input is missing the Http() trait" });
+  }
+  const rootDict = getAnn(inputAst, keyDictionarySymbol) as KeyDictionaryEntries | undefined;
+  const members: MemberPlan[] = [];
+  const known = new Set<string>();
+  let hasBodyMembers = false;
+  for (const prop of getProps(inputAst)) {
+    const key = String(prop.name);
+    known.add(key);
+    let bind: Bind;
+    let name: string;
+    let greedy = false;
+    if (hasPropAnn(prop, labelSymbol)) {
+      bind = "label";
+      name = nameOf(prop, labelSymbol);
+      greedy = http.uri.includes(`{${name}+}`);
+    } else if (hasPropAnn(prop, headerSymbol)) {
+      bind = "header";
+      name = nameOf(prop, headerSymbol).toLowerCase();
+    } else if (hasPropAnn(prop, querySymbol)) {
+      bind = "query";
+      name = nameOf(prop, querySymbol);
+    } else if (hasPropAnn(prop, deepQuerySymbol)) {
+      bind = "deepQuery";
+      name = nameOf(prop, deepQuerySymbol);
+    } else {
+      hasBodyMembers = true;
+      bind = hasPropAnn(prop, formDataFileSymbol)
+        ? "file"
+        : hasPropAnn(prop, httpBodySymbol)
+          ? "httpBody"
+          : "body";
+      name = nameOf(prop, bodySymbol);
+    }
+    const preserve = getPropAnn(prop, labelEncodingSymbol);
+    members.push({
+      key,
+      bind,
+      name,
+      type: prop.type,
+      preserve: typeof preserve === "string" ? preserve : undefined,
+      greedy,
+      stringEncoded: hasPropAnn(prop, stringEncodedSymbol),
+      commaDelimited: hasPropAnn(prop, commaDelimitedSymbol),
+      verbatim: rootDict === undefined && mapsVerbatim(prop.type, "encode"),
+    });
+  }
+  plan = { http, rootDict, members, known, hasBodyMembers };
+  plans.set(inputAst, plan);
+  return plan;
+};
+
+const emptyRequest = /*@__PURE__*/ HttpClientRequest.get("");
+
+/**
+ * `HttpClientRequest.make(method)(url)` with `headers` set, in one object:
+ * the same request as `make(...).pipe(setHeaders(headers))` without the
+ * intermediate copies. `url` may carry a query string.
+ */
+export const makeRequest = (
+  method: HttpTrait["method"],
+  url: string,
+  headers: Record<string, string>,
+): HttpClientRequest.HttpClientRequest =>
+  HttpClientRequest.makeWith(
+    method,
+    url,
+    emptyRequest.urlParams,
+    emptyRequest.hash,
+    Headers.fromInput(headers),
+    HttpBody.empty,
+  );
+
+/**
+ * The input cannot be sent: a path label whose value would address another
+ * resource (`.` or `..`, which the URL parser resolves to the parent path).
+ * Raised before anything is sent.
+ */
+export class InvalidInput
+  extends /*@__PURE__*/ Schema.TaggedError<InvalidInput>()("InvalidInput", {
+    member: Schema.String,
+    message: Schema.String,
+  }).pipe(Category.withBadRequestError) {}
+
+/**
+ * The refusal for a path label value that would address another resource,
+ * or `undefined`. The URL parser resolves a `.` or `..` segment,
+ * percent-encoded or not, so no encoding can carry one
+ * (`/projects/p1/branches/..` -> `/projects/p1/`). A greedy label keeps its
+ * `/`, so each of its segments counts.
+ */
+export const invalidLabel = (
+  member: string,
+  value: unknown,
+  greedy?: boolean,
+): InvalidInput | undefined => {
+  const text = String(value);
+  return (greedy ? text.split("/") : [text]).some((s) => s === "." || s === "..")
+    ? new InvalidInput({
+        member,
+        message: `Input member ${member} cannot be ${JSON.stringify(text)}: as a path label it would address another resource`,
+      })
+    : undefined;
+};
 
 /**
  * Build an HTTP request from an operation input and its schema, driven by
@@ -401,153 +628,143 @@ export interface BuildRequestOptions {
  * `FormDataFile()` members become multipart file parts, and everything else
  * is a JSON body field (wire-named via `Body()` / `KeyDictionary`).
  *
- * Throws when the input schema is missing the `Http()` trait — a codegen
- * bug, surfaced as a defect by the calling protocol's Effect context.
+ * The schema is read once per input schema (see `planFor`); later calls only
+ * walk the input value.
+ *
+ * Fails with {@link InvalidInput}, before anything is sent, when a label is
+ * `.` or `..` (for a greedy `{name+}` label, when any of its segments is).
+ * Fails with {@link SdkError} when the input schema is missing the `Http()`
+ * trait (a codegen bug the generator refuses).
  */
-/**
- * Flatten a nested object into Stripe-style bracket notation pairs for
- * form-urlencoded bodies: nested objects become `a[b][c]`, arrays index as
- * `a[0]`; null/undefined dropped, booleans as "true"/"false".
- */
-const flattenToFormPairs = (
-  obj: Record<string, unknown>,
-  prefix = "",
-): Array<[string, string]> => {
-  const pairs: Array<[string, string]> = [];
-  for (const [key, value] of Object.entries(obj)) {
-    if (value === undefined || value === null) continue;
-    const fullKey = prefix ? `${prefix}[${key}]` : key;
-    if (Array.isArray(value)) {
-      for (let i = 0; i < value.length; i++) {
-        const item = value[i];
-        if (item === undefined || item === null) continue;
-        if (typeof item === "object" && !Array.isArray(item)) {
-          pairs.push(
-            ...flattenToFormPairs(
-              item as Record<string, unknown>,
-              `${fullKey}[${i}]`,
-            ),
-          );
-        } else {
-          pairs.push([`${fullKey}[${i}]`, String(item)]);
-        }
-      }
-    } else if (typeof value === "object") {
-      pairs.push(
-        ...flattenToFormPairs(value as Record<string, unknown>, fullKey),
-      );
-    } else {
-      pairs.push([fullKey, String(value)]);
-    }
-  }
-  return pairs;
+export const buildRequest = (
+  options: BuildRequestOptions,
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput | SdkError> => {
+  const request = requestOrInvalid(options);
+  return request instanceof InvalidInput || request instanceof SdkError
+    ? Effect.fail(request)
+    : Effect.succeed(request);
 };
 
-export const buildRequest = ({
+const requestOrInvalid = ({
   input,
   inputAst,
   baseUrl,
   headers: baseHeaders,
   mapMemberHeader,
   unknownKeyToWire,
-}: BuildRequestOptions): HttpClientRequest.HttpClientRequest => {
+  emptyJsonBody,
+}: BuildRequestOptions): HttpClientRequest.HttpClientRequest | InvalidInput | SdkError => {
   const inputObj = (input ?? {}) as Record<string, unknown>;
-  const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
-  if (!http) {
-    throw new Error("operation input is missing the Http() trait");
-  }
-  // Root key dictionary: fallback wire mapping for opaque/unknown content
-  // the schema doesn't model.
-  const rootDict = getAnn(inputAst, keyDictionarySymbol) as
-    | KeyDictionaryEntries
-    | undefined;
+  const plan = planFor(inputAst);
+  if (plan instanceof SdkError) return plan;
+  const { http, rootDict, members, known } = plan;
+  let hasBodyMembers = plan.hasBodyMembers;
 
   const headers: Record<string, string> = { ...baseHeaders };
   const body: Record<string, unknown> = {};
-  let rawBody: unknown; // whole-body member (T.HttpBody) — sent as-is
-  const files: Array<Blob | File> = [];
-  const query = new URLSearchParams();
+  let bodyKeys = 0;
+  let rawBody: unknown; // whole-body member (T.HttpBody) -- sent as-is
+  let files: Array<Blob | File> | undefined;
+  let query: URLSearchParams | undefined;
   let uri = http.uri;
-  const consumed = new Set<string>();
-  let hasBodyMembers = false;
+  // Value of a modeled `Content-Type` header member, e.g. R2 putObject's
+  // `contentType`. A raw body is sent under it (see below).
+  let memberContentType: string | undefined;
 
-  for (const prop of getProps(inputAst)) {
-    const key = String(prop.name);
-    consumed.add(key);
-    const value = inputObj[key];
-    const isBodyMember =
-      !hasPropAnn(prop, labelSymbol) &&
-      !hasPropAnn(prop, headerSymbol) &&
-      !hasPropAnn(prop, querySymbol) &&
-      !hasPropAnn(prop, deepQuerySymbol);
-    if (isBodyMember) hasBodyMembers = true;
+  for (let i = 0; i < members.length; i++) {
+    const m = members[i]!;
+    const value = inputObj[m.key];
     if (value === undefined) continue;
-
-    if (hasPropAnn(prop, labelSymbol)) {
-      const token = nameOf(prop, labelSymbol);
-      uri = uri.replace(`{${token}}`, encodeURIComponent(String(value)));
-    } else if (hasPropAnn(prop, headerSymbol)) {
-      const hName = nameOf(prop, headerSymbol).toLowerCase();
-      const hVal = String(value);
-      headers[hName] = mapMemberHeader ? mapMemberHeader(hName, hVal) : hVal;
-    } else if (hasPropAnn(prop, querySymbol)) {
-      appendQuery(query, nameOf(prop, querySymbol), value);
-    } else if (hasPropAnn(prop, deepQuerySymbol)) {
-      // Deep-object query member (T.DeepQuery): a nested struct expands into
-      // dotted query keys (`account.id=…`) under the member's wire name.
-      // Wire-name the nested content via the schema first, skip null/
-      // undefined entries; deeper nesting recurses through appendQuery.
-      const base = nameOf(prop, deepQuerySymbol);
-      const mapped = mapKeys(prop.type, value, "encode", rootDict);
-      if (mapped !== null && typeof mapped === "object") {
-        for (const [k, v] of Object.entries(
-          mapped as Record<string, unknown>,
-        )) {
-          if (v !== undefined && v !== null) {
-            appendQuery(query, `${base}.${k}`, v);
+    switch (m.bind) {
+      case "label": {
+        const invalid = invalidLabel(m.key, value, m.greedy);
+        if (invalid) return invalid;
+        const encoded = encodeURIComponent(String(value));
+        const preserve = m.preserve;
+        const label =
+          preserve !== undefined
+            ? encoded.replace(/%[0-9A-F]{2}/g, (escape) => {
+                const character = String.fromCharCode(Number.parseInt(escape.slice(1), 16));
+                return preserve.includes(character) ? character : escape;
+              })
+            : encoded;
+        uri = m.greedy
+          ? uri.replace(`{${m.name}+}`, () => encodeGreedyLabel(String(value)))
+          : uri.replace(`{${m.name}}`, () => label);
+        break;
+      }
+      case "header": {
+        const hVal = String(value);
+        headers[m.name] = mapMemberHeader ? mapMemberHeader(m.name, hVal) : hVal;
+        if (m.name === "content-type") memberContentType = headers[m.name];
+        break;
+      }
+      case "query":
+        if (m.commaDelimited && Array.isArray(value)) {
+          (query ??= new URLSearchParams()).append(m.name, value.map(String).join(","));
+        } else {
+          appendQuery((query ??= new URLSearchParams()), m.name, value);
+        }
+        break;
+      case "deepQuery": {
+        // Deep-object query member (T.DeepQuery): a nested struct expands into
+        // dotted query keys (`account.id=...`) under the member's wire name.
+        // Wire-name the nested content via the schema first, skip null/
+        // undefined entries; deeper nesting recurses through appendQuery.
+        const mapped = m.verbatim ? value : mapKeys(m.type, value, "encode", rootDict);
+        if (mapped !== null && typeof mapped === "object") {
+          for (const [k, v] of Object.entries(mapped as Record<string, unknown>)) {
+            if (v !== undefined && v !== null) {
+              appendQuery((query ??= new URLSearchParams()), `${m.name}.${k}`, v);
+            }
           }
         }
+        break;
       }
-    } else if (hasPropAnn(prop, formDataFileSymbol)) {
-      for (const f of Array.isArray(value) ? value : [value]) {
-        files.push(f as Blob | File);
-      }
-    } else if (hasPropAnn(prop, httpBodySymbol)) {
-      rawBody = mapKeys(prop.type, value, "encode", rootDict);
-    } else {
-      // T.StringEncoded(): the API takes this member's value only as its
-      // string spelling (`true` → `"true"`), while the TS surface keeps the
-      // natural type. Explicit here so a JSON body carries the string too,
-      // rather than relying on the multipart encoder's own `String()`.
-      body[nameOf(prop, bodySymbol)] = hasPropAnn(prop, stringEncodedSymbol)
-        ? stringEncode(value)
-        : mapKeys(prop.type, value, "encode", rootDict);
+      case "file":
+        files ??= [];
+        for (const f of Array.isArray(value) ? value : [value]) {
+          files.push(f as Blob | File);
+        }
+        break;
+      case "httpBody":
+        rawBody = m.verbatim ? value : mapKeys(m.type, value, "encode", rootDict);
+        break;
+      default:
+        // T.StringEncoded(): the API takes this member's value only as its
+        // string spelling (`true` -> `"true"`), while the TS surface keeps the
+        // natural type. Explicit here so a JSON body carries the string too,
+        // rather than relying on the multipart encoder's own `String()`.
+        body[m.name] = m.stringEncoded
+          ? stringEncode(value)
+          : m.verbatim
+            ? value
+            : mapKeys(m.type, value, "encode", rootDict);
+        bodyKeys++;
     }
   }
 
-  // Input keys the schema doesn't know pass through as body fields — the
+  // Input keys the schema doesn't know pass through as body fields -- the
   // generated schemas can lag the real API, and silently dropping them
   // would break working callers. The key dictionary maps them when it knows
   // the key, otherwise `unknownKeyToWire` decides the wire name.
-  for (const [key, value] of Object.entries(inputObj)) {
-    if (consumed.has(key) || value === undefined) continue;
-    const wire =
-      rootDict?.[key] ?? (unknownKeyToWire ? unknownKeyToWire(key) : key);
+  for (const key in inputObj) {
+    if (known.has(key) || !Object.hasOwn(inputObj, key)) continue;
+    const value = inputObj[key];
+    if (value === undefined) continue;
+    const wire = rootDict?.[key] ?? (unknownKeyToWire ? unknownKeyToWire(key) : key);
     body[typeof wire === "string" ? wire : wire[0]] = rootDict
       ? mapKeysByDictionary(rootDict, value, "encode")
       : value;
+    bodyKeys++;
     hasBodyMembers = true;
   }
 
-  const qs = query.toString();
-  const url = `${baseUrl}${uri}${qs ? `?${qs}` : ""}`;
-  if (process.env.DISTILLED_DEBUG_HTTP) {
-    console.error(`[distilled] -> ${http.method} ${http.uri}`);
-  }
+  const qs = query === undefined ? "" : query.toString();
+  const url = qs ? `${baseUrl}${uri}?${qs}` : `${baseUrl}${uri}`;
 
-  let request = HttpClientRequest.make(http.method)(url).pipe(
-    HttpClientRequest.setHeaders(headers),
-  );
+  const request = makeRequest(http.method, url, headers);
+  const bodied = !BODYLESS.has(http.method);
   if (http.contentType === "multipart") {
     // Multipart upload: each body member is a form part (objects
     // JSON-encoded under their wire name), each file appends under its own
@@ -559,21 +776,15 @@ export const buildRequest = ({
       rawBody !== undefined && typeof rawBody === "object"
         ? (rawBody as Record<string, unknown>)
         : body;
-    const isFileOrBlob = (v: unknown): v is Blob =>
-      v instanceof Blob || v instanceof File;
+    const isFileOrBlob = (v: unknown): v is Blob => v instanceof Blob || v instanceof File;
     for (const [key, value] of Object.entries(parts)) {
       if (value === undefined || value === null) continue;
       if (isFileOrBlob(value)) {
         form.append(key, value, value instanceof File ? value.name : key);
       } else if (value instanceof Uint8Array || value instanceof ArrayBuffer) {
-        const bytes =
-          value instanceof Uint8Array ? new Uint8Array(value).buffer : value;
+        const bytes = value instanceof Uint8Array ? new Uint8Array(value).buffer : value;
         form.append(key, new Blob([bytes]), key);
-      } else if (
-        Array.isArray(value) &&
-        value.length > 0 &&
-        isFileOrBlob(value[0])
-      ) {
+      } else if (Array.isArray(value) && value.length > 0 && isFileOrBlob(value[0])) {
         for (const file of value as Blob[]) {
           if (isFileOrBlob(file)) {
             form.append(
@@ -589,80 +800,72 @@ export const buildRequest = ({
         form.append(key, String(value));
       }
     }
-    for (const f of files) {
+    for (const f of files ?? []) {
       const filename = (f as File).name ?? "file";
       form.append(filename, f, filename);
     }
-    request = request.pipe(HttpClientRequest.bodyFormData(form));
-  } else if (
-    http.contentType === "form-urlencoded" &&
-    !BODYLESS.has(http.method)
-  ) {
+    return HttpClientRequest.setBody(request, HttpBody.formData(form));
+  }
+  if (http.contentType === "form-urlencoded" && bodied) {
     // application/x-www-form-urlencoded with Stripe-style deepObject bracket
-    // notation: { shipping: { address: { city } } } → shipping[address][city],
-    // arrays indexed ({ expand: ["a"] } → expand[0]=a).
+    // notation: { shipping: { address: { city } } } -> shipping[address][city],
+    // arrays indexed ({ expand: ["a"] } -> expand[0]=a).
     const source =
       rawBody !== undefined && typeof rawBody === "object"
         ? (rawBody as Record<string, unknown>)
         : body;
     const params = new URLSearchParams();
     for (const [k, v] of flattenToFormPairs(source)) params.append(k, v);
-    request = request.pipe(
-      HttpClientRequest.setBody(
-        HttpBody.text(params.toString(), "application/x-www-form-urlencoded"),
-      ),
+    return HttpClientRequest.setBody(
+      request,
+      HttpBody.text(params.toString(), "application/x-www-form-urlencoded"),
     );
-  } else if (rawBody !== undefined && !BODYLESS.has(http.method)) {
-    // Whole-body member (raw arrays/scalars) — sent as the body itself.
+  }
+  if (rawBody !== undefined && bodied) {
+    // Whole-body member (raw arrays/scalars) -- sent as the body itself.
     // Binary payloads (Blob / ArrayBuffer / Uint8Array) send verbatim
-    // (raw object uploads — the Content-Type header member, when modeled,
-    // rides alongside). With a bodyMediaType, the member is a
-    // preserialized payload (string / bytes) sent verbatim under that
-    // media type (e.g. application/x-ndjson for Vectorize
-    // insert/upsert); otherwise it's JSON.
+    // (raw object uploads). With a bodyMediaType, the member is a
+    // preserialized payload (string / bytes) sent verbatim; otherwise it's
+    // JSON.
+    //
+    // `setBody` overwrites the Content-Type header with the body's media
+    // type (and removes it when that is undefined), so the body carries the
+    // modeled Content-Type member when the caller set one, else the declared
+    // bodyMediaType (e.g. application/x-ndjson for Vectorize insert/upsert).
+    const mediaType = memberContentType ?? http.bodyMediaType;
     if (rawBody instanceof Blob || rawBody instanceof ArrayBuffer) {
-      // Honor the declared media type (e.g. application/x-ndjson for
-      // Vectorize insert/upsert) — without it the server may fall back to
-      // JSON parsing. When no bodyMediaType is modeled the header is left
-      // untouched (a modeled Content-Type header member rides alongside).
-      request = request.pipe(
-        HttpClientRequest.setBody(
-          HttpBody.raw(rawBody, { contentType: http.bodyMediaType }),
-        ),
-      );
-    } else if (rawBody instanceof Uint8Array) {
-      request = request.pipe(
-        HttpClientRequest.setBody(
-          HttpBody.uint8Array(rawBody, http.bodyMediaType),
-        ),
-      );
-    } else if (http.bodyMediaType) {
-      request = request.pipe(
-        HttpClientRequest.setBody(
-          typeof rawBody === "string"
-            ? HttpBody.text(rawBody, http.bodyMediaType)
-            : HttpBody.uint8Array(rawBody as Uint8Array, http.bodyMediaType),
-        ),
-      );
-    } else {
-      request = request.pipe(HttpClientRequest.bodyJsonUnsafe(rawBody));
+      // With no media type at all, fetch falls back to the Blob's own type.
+      return HttpClientRequest.setBody(request, HttpBody.raw(rawBody, { contentType: mediaType }));
     }
-  } else if (
+    if (rawBody instanceof Uint8Array) {
+      return HttpClientRequest.setBody(request, HttpBody.uint8Array(rawBody, mediaType));
+    }
+    if (http.bodyMediaType) {
+      return HttpClientRequest.setBody(
+        request,
+        typeof rawBody === "string"
+          ? HttpBody.text(rawBody, mediaType)
+          : HttpBody.uint8Array(rawBody as Uint8Array, mediaType),
+      );
+    }
+    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(rawBody));
+  }
+  if (
     // A GET/HEAD sends a body only when body members actually carry values.
     // Some APIs really do document GET-with-body: MongoDB Atlas's
-    // `…/lineItems:search` declares a `requestBody` on `get`, and AWS EFS's
+    // `.../lineItems:search` declares a `requestBody` on `get`, and AWS EFS's
     // DescribeAccountPreferences takes `{ MaxResults, NextToken }` on a GET.
-    // Suppressing it outright dropped those members silently — the request
+    // Suppressing it outright dropped those members silently -- the request
     // succeeded, unfiltered, with nothing on the wire to show why.
     //
     // The `{}`-when-empty rule below stays limited to methods that expect a
     // body, so a bodyless method with nothing set still sends nothing.
-    Object.keys(body).length > 0 ||
-    (hasBodyMembers && !BODYLESS.has(http.method) && http.method !== "DELETE")
+    bodyKeys > 0 ||
+    ((hasBodyMembers || emptyJsonBody === true) && bodied && http.method !== "DELETE")
   ) {
-    // Send `{}` rather than no body when the schema declares body members —
+    // Send `{}` rather than no body when the schema declares body members --
     // some endpoints reject a missing JSON body outright.
-    request = request.pipe(HttpClientRequest.bodyJsonUnsafe(body));
+    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(body));
   }
   return request;
 };
@@ -670,59 +873,109 @@ export const buildRequest = ({
 
 //#region Typed error matching
 
-/**
- * Whether one matcher matches one wire error: every present field must
- * match; a matcher (or a message object) with no constraints matches
- * nothing.
- */
-export const matchesExpression = (
-  m: ErrorMatcher,
-  code: number | undefined,
-  status: number,
-  message: string,
-): boolean => {
-  if (m.code === undefined && m.status === undefined && m.message === undefined)
-    return false;
-  if (m.code !== undefined && m.code !== code) return false;
-  if (m.status !== undefined && m.status !== status) return false;
-  if (m.message !== undefined) {
-    if (typeof m.message === "string") {
-      if (m.message !== message) return false;
-    } else {
-      const { includes, matches } = m.message;
-      if (includes === undefined && matches === undefined) return false;
-      if (includes !== undefined && !message.includes(includes)) return false;
-      if (matches !== undefined && !new RegExp(matches).test(message))
-        return false;
-    }
+/** Parsed response metadata supplied by a protocol after it detects a failure. */
+export interface ErrorResponse {
+  readonly body?: unknown;
+  readonly headers?: Readonly<Record<string, string | undefined>>;
+}
+
+const matchesText = (matcher: ErrorTextMatcher, value: unknown): boolean => {
+  if (typeof value !== "string") return false;
+  if (typeof matcher === "string") return matcher === value;
+  const { includes, matches } = matcher;
+  return (
+    (includes !== undefined || matches !== undefined) &&
+    (includes === undefined || value.includes(includes)) &&
+    (matches === undefined || new RegExp(matches).test(value))
+  );
+};
+
+// Own properties only: inherited properties are not JSON response members.
+const atPointer = (body: unknown, pointer: string): unknown => {
+  if (pointer === "") return body;
+  if (!pointer.startsWith("/") || /~(?![01])/u.test(pointer)) return undefined;
+  let value = body;
+  for (const segment of pointer.slice(1).split("/")) {
+    const key = segment.replace(/~1/g, "/").replace(/~0/g, "~");
+    if (
+      value === null ||
+      typeof value !== "object" ||
+      !Object.hasOwn(value, key) ||
+      (Array.isArray(value) && !/^(0|[1-9][0-9]*)$/.test(key))
+    )
+      return undefined;
+    value = (value as Record<string, unknown>)[key];
   }
-  return true;
+  return value;
 };
 
 const matcherSpecificity = (m: ErrorMatcher): number =>
   (m.code !== undefined ? 1 : 0) +
   (m.status !== undefined ? 1 : 0) +
-  (m.message !== undefined ? 1 : 0);
+  (m.message !== undefined ? 1 : 0) +
+  (m.body === undefined ? 0 : Object.keys(m.body).length) +
+  (m.headers === undefined ? 0 : Object.keys(m.headers).length);
+
+/** Every supplied constraint must match; an unconstrained matcher matches nothing. */
+export const matchesExpression = (
+  m: ErrorMatcher,
+  code: number | undefined,
+  status: number,
+  message: string,
+  response: ErrorResponse = {},
+): boolean => {
+  if (
+    m.code === undefined &&
+    m.status === undefined &&
+    m.message === undefined &&
+    matcherSpecificity(m) === 0
+  )
+    return false;
+  if (m.code !== undefined && m.code !== code) return false;
+  if (m.status !== undefined && m.status !== status) return false;
+  if (m.message !== undefined && !matchesText(m.message, message)) return false;
+  if (m.body !== undefined) {
+    for (const [pointer, expected] of Object.entries(m.body)) {
+      const actual = atPointer(response.body, pointer);
+      if (typeof expected === "string" || (expected !== null && typeof expected === "object")) {
+        if (!matchesText(expected, actual)) return false;
+      } else if (actual !== expected) return false;
+    }
+  }
+  if (m.headers !== undefined) {
+    for (const [name, expected] of Object.entries(m.headers)) {
+      if (response.headers === undefined) return false;
+      const actual = Object.entries(response.headers).find(
+        ([key]) => key.toLowerCase() === name.toLowerCase(),
+      )?.[1];
+      if (!matchesText(expected, actual)) return false;
+    }
+  }
+  return true;
+};
 
 /**
  * Pick the operation's typed error class for a failed response: among all
  * declared classes whose matchers (see `applyErrorMatchers`) match the wire
  * failure, the most specific matcher wins (ties break by declaration order).
+ * Empty error lists use an HTTP-status message so body/header-only failures can
+ * still match. The constructor receives the raw body and headers as well as
+ * code/message; error schemas can declare these fields to expose them to callers.
  */
 export const matchTypedError = (
   errorClasses: ReadonlyArray<unknown>,
   status: number,
   errors: ReadonlyArray<{ code?: number; message: string }>,
+  response: ErrorResponse = {},
 ): unknown | undefined => {
-  let best:
-    | { cls: unknown; specificity: number; code?: number; message: string }
-    | undefined;
+  let best: { cls: unknown; specificity: number; code?: number; message: string } | undefined;
+  const wireErrors = errors.length > 0 ? errors : [{ message: `HTTP ${status}` }];
   for (const cls of errorClasses) {
     const matchers = getErrorMatchers(cls);
     if (!matchers) continue;
     for (const m of matchers) {
-      for (const e of errors) {
-        if (!matchesExpression(m, e.code, status, e.message)) continue;
+      for (const e of wireErrors) {
+        if (!matchesExpression(m, e.code, status, e.message, response)) continue;
         const specificity = matcherSpecificity(m);
         if (!best || specificity > best.specificity) {
           best = { cls, specificity, code: e.code, message: e.message };
@@ -731,9 +984,16 @@ export const matchTypedError = (
     }
   }
   if (!best) return undefined;
-  return new (best.cls as new (args: any) => unknown)({
-    code: best.code ?? 0,
-    message: best.message,
-  });
+  const saved = suppressStack();
+  try {
+    return new (best.cls as new (args: any) => unknown)({
+      code: best.code ?? 0,
+      message: best.message,
+      body: response.body,
+      headers: response.headers,
+    });
+  } finally {
+    restoreStack(saved);
+  }
 };
 //#endregion

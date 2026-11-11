@@ -1,0 +1,110 @@
+{
+  "description": "Type the expired/unknown session error on session-scoped Spanner operations (HTTP 404 'Session not found'). It surfaced as the generic NotFound, which callers could not distinguish from a missing database, so session pools could not recreate an expired session.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#SessionNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The session does not exist: it expired after an hour idle, was deleted, or the server garbage-collected it (HTTP 404 NOT_FOUND: 'Session not found: projects/.../sessions/...'). Create a new session and retry.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "includes": "Session not found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ExecuteSqlProjectsInstancesDatabasesSessions/errors/-",
+      "value": {
+        "target": "com.gcp.spanner_v1#SessionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ExecuteStreamingSqlProjectsInstancesDatabasesSessions/errors/-",
+      "value": {
+        "target": "com.gcp.spanner_v1#SessionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ExecuteBatchDmlProjectsInstancesDatabasesSessions/errors/-",
+      "value": {
+        "target": "com.gcp.spanner_v1#SessionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ReadProjectsInstancesDatabasesSessions/errors/-",
+      "value": {
+        "target": "com.gcp.spanner_v1#SessionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#StreamingReadProjectsInstancesDatabasesSessions/errors/-",
+      "value": {
+        "target": "com.gcp.spanner_v1#SessionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#CommitProjectsInstancesDatabasesSessions/errors/-",
+      "value": {
+        "target": "com.gcp.spanner_v1#SessionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#BeginTransactionProjectsInstancesDatabasesSessions/errors/-",
+      "value": {
+        "target": "com.gcp.spanner_v1#SessionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#RollbackProjectsInstancesDatabasesSessions/errors/-",
+      "value": {
+        "target": "com.gcp.spanner_v1#SessionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#PartitionQueryProjectsInstancesDatabasesSessions/errors/-",
+      "value": {
+        "target": "com.gcp.spanner_v1#SessionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#PartitionReadProjectsInstancesDatabasesSessions/errors/-",
+      "value": {
+        "target": "com.gcp.spanner_v1#SessionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#GetProjectsInstancesDatabasesSessions/errors/-",
+      "value": {
+        "target": "com.gcp.spanner_v1#SessionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#DeleteProjectsInstancesDatabasesSessions/errors/-",
+      "value": {
+        "target": "com.gcp.spanner_v1#SessionNotFound"
+      }
+    }
+  ]
+}

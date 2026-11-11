@@ -1,0 +1,40 @@
+{
+  "description": "Type the AI Platform deprecation rejection on model/version creates (HTTP 400 'Cloud AI Platform has been deprecated. Please use Vertex AI instead.'). It surfaced as the generic BadRequest, indistinguishable from a malformed request.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#AiPlatformDeprecated",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "Cloud AI Platform (ML Engine) no longer accepts new models or versions for this project; use Vertex AI (HTTP 400).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Cloud AI Platform has been deprecated"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#CreateProjectsModels/errors/-",
+      "value": {
+        "target": "com.gcp.ml_v1#AiPlatformDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#CreateProjectsModelsVersions/errors/-",
+      "value": {
+        "target": "com.gcp.ml_v1#AiPlatformDeprecated"
+      }
+    }
+  ]
+}

@@ -11,6 +11,10 @@ const HEADLINE: ReadonlyArray<readonly [string, string]> = [
   ["combined-worker", "S3 + Workers together"],
 ];
 
+/** The runtime the recording was made on, as `<name> <version>`. */
+const runtimeOf = (b: BundleBench): string | undefined =>
+  b.runtime ?? (b.node ? `node ${b.node}` : b.bun ? `bun ${b.bun}` : undefined);
+
 /** Rows that are not the "one imported operation" shape, marked with a `*`. */
 const FOOTNOTED: Record<string, string> = {
   "aws-services-index": "imports all ~430 AWS services as namespaces",
@@ -24,9 +28,7 @@ const Row = (props: { r: BundleRow; maxBytes: number }) => {
     <li class="panel grid gap-[0.55rem] px-5 py-4">
       <div class="flex flex-wrap items-baseline gap-x-[0.9rem] gap-y-1">
         <span>
-          <code class="text-[0.95rem] font-medium text-fg">
-            {props.r.fixture}
-          </code>
+          <code class="text-[0.95rem] font-medium text-fg">{props.r.fixture}</code>
           <Show when={FOOTNOTED[props.r.fixture]}>
             {(note) => (
               <sup class="ml-[0.1rem] text-fg-3" title={note()}>
@@ -99,46 +101,36 @@ export const BundleSection = (props: { b: BundleBench }) => {
   const maxBytes = () => Math.max(...props.b.rows.map((r) => r.bytes));
   const headline = () =>
     HEADLINE.flatMap(([fixture, label]) => {
-      const r = props.b.rows.find(
-        (x) => x.fixture === fixture && x.variant === "bun",
-      );
+      const r = props.b.rows.find((x) => x.fixture === fixture && x.variant === "bun");
       return r ? [{ n: kb(r.gzipBytes), label: `gzipped, ${label}` }] : [];
     });
   return (
-    <section
-      id="bundle"
-      class="pt-[clamp(3rem,7vw,5rem)]"
-      aria-labelledby="bundle-title"
-    >
+    <section id="bundle" class="pt-[clamp(3rem,7vw,5rem)]" aria-labelledby="bundle-title">
       <SectionHead
         eyebrow="Bundle size"
         id="bundle-title"
         title={
           <>
-            Import one operation, pay for <em class="text-teal-2">one</em>{" "}
-            operation.
+            Import one operation, pay for <em class="text-teal-2">one</em> operation.
           </>
         }
       >
-        Each row is a small worker that imports a single Distilled operation and
-        calls it, bundled the way Alchemy bundles for Cloudflare Workers. Deep
-        and barrel imports produce the same bytes; the two rows marked{" "}
-        <sup>*</sup> import more than that on purpose.
+        Each row is a small worker that imports a single Distilled operation and calls it, bundled
+        the way Alchemy bundles for Cloudflare Workers. Deep and barrel imports produce the same
+        bytes; the two rows marked <sup>*</sup> import more than that on purpose.
       </SectionHead>
       <StatRow class="mb-8" tone="teal" stats={headline()} label="Headline" />
       <ul class="m-0 grid list-none gap-2 p-0">
-        <For each={props.b.rows}>
-          {(r) => <Row r={r} maxBytes={maxBytes()} />}
-        </For>
+        <For each={props.b.rows}>{(r) => <Row r={r} maxBytes={maxBytes()} />}</For>
       </ul>
       <p class="mt-4 text-[0.84rem] text-fg-3 [&_code]:text-fg-2">
-        <sup>*</sup> <code>aws-services-index</code> imports all ~430 AWS
-        services as namespaces; <code>combined-worker</code> calls two
-        operations, one per provider. Every other row imports and calls exactly
-        one.
+        <sup>*</sup> <code>aws-services-index</code> imports all ~430 AWS services as namespaces;{" "}
+        <code>combined-worker</code> calls two operations, one per provider. Every other row imports
+        and calls exactly one.
       </p>
       <p class="mt-2 font-mono text-[0.74rem] text-fg-3 [&_code]:text-fg-2">
-        rolldown {props.b.rolldown} · bun {props.b.bun}
+        rolldown {props.b.rolldown}
+        {runtimeOf(props.b) ? ` · ${runtimeOf(props.b)}` : ""}
         {props.b.host?.cpu ? ` · ${props.b.host.cpu}` : ""} · {props.b.runs} run
         {props.b.runs === 1 ? "" : "s"} · {shortDate(props.b.generatedAt)} ·{" "}
         <code>{props.b.commit}</code>

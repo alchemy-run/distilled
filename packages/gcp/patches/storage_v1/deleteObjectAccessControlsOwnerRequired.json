@@ -1,0 +1,31 @@
+{
+  "description": "Type objectAccessControls.delete's HTTP 403 when the entry is the object owner's own OWNER ACL ('The owner of the resource is required to have OWNER access.'). It surfaced as a generic Forbidden, indistinguishable from a missing permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#ObjectOwnerAclRequired",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The ACL entry is the object owner's OWNER grant, which Cloud Storage never removes (HTTP 403). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "owner of the resource is required to have OWNER access"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#DeleteObjectAccessControls/errors/-",
+      "value": { "target": "com.gcp.storage_v1#ObjectOwnerAclRequired" }
+    }
+  ]
+}

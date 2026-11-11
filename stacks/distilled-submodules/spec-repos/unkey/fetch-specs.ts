@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors Unkey's OpenAPI spec and vendor API docs into ../specs/.
  *
@@ -12,7 +12,7 @@
  * never crawls the live docs site.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.json
@@ -21,6 +21,8 @@
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
+import YAML from "yaml";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "unkeyed/unkey";
@@ -77,9 +79,7 @@ const rawUrl = (path: string) =>
 async function fetchText(url: string): Promise<string> {
   const response = await fetch(url, { headers });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return await response.text();
 }
@@ -89,36 +89,30 @@ async function main() {
   console.log(`Fetching OpenAPI spec from ${url}...`);
 
   const yaml = await fetchText(url);
-  const spec = Bun.YAML.parse(yaml) as Record<string, unknown>;
+  const spec = YAML.parse(yaml) as Record<string, unknown>;
 
   // Fail here rather than three steps later in the generator: a login page
   // or a gutted response is still valid YAML, but it is not an OpenAPI
   // document.
   if (typeof spec.openapi !== "string" || spec.paths === undefined) {
-    throw new Error(
-      `${url} returned YAML without \`openapi\`/\`paths\` — not an OpenAPI document`,
-    );
+    throw new Error(`${url} returned YAML without \`openapi\`/\`paths\` — not an OpenAPI document`);
   }
 
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
   for (const doc of DOCS) {
     console.log(`Fetching ${doc.url}...`);
     const body = await fetchText(doc.url);
     if (body.trim().length === 0 || /^\s*<(!DOCTYPE|html)/i.test(body)) {
-      throw new Error(
-        `${doc.url} returned an empty or HTML body — not vendor docs`,
-      );
+      throw new Error(`${doc.url} returned an empty or HTML body — not vendor docs`);
     }
     const outputPath = `${SPECS_DIR}/${doc.output}`;
     console.log(`Writing ${outputPath}...`);
-    await Bun.write(outputPath, body.endsWith("\n") ? body : body + "\n");
+    await writeFile(outputPath, body.endsWith("\n") ? body : body + "\n");
   }
 
-  console.log(
-    `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 main().catch((err) => {

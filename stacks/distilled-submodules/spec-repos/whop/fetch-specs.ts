@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches everything `packages/whop` reads out of `specs/` to ../specs/.
  *
@@ -39,7 +39,7 @@
  * byte-for-byte.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The specs are saved to:
  *   ../specs/api-v1-native.json
@@ -81,14 +81,15 @@ const DOCUMENTS = [
 // ============================================================================
 
 class FetchError extends Error {
-  constructor(
-    readonly url: string,
-    readonly status?: number,
-    readonly reason?: unknown,
-  ) {
-    super(
-      `${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`,
-    );
+  readonly url: string;
+  readonly status?: number;
+  readonly reason?: unknown;
+
+  constructor(url: string, status?: number, reason?: unknown) {
+    super(`${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`);
+    this.url = url;
+    this.status = status;
+    this.reason = reason;
   }
 }
 
@@ -112,10 +113,7 @@ async function fetchText(url: string, attempts = 4): Promise<string> {
       error = new FetchError(url, response.status);
       if (response.status < 500) throw error;
     } catch (cause) {
-      error =
-        cause instanceof FetchError
-          ? cause
-          : new FetchError(url, undefined, cause);
+      error = cause instanceof FetchError ? cause : new FetchError(url, undefined, cause);
       if (error.status !== undefined && error.status < 500) throw error;
     }
     lastError = error;
@@ -177,9 +175,7 @@ async function fetchOpenApiDocuments() {
     // this field — a document without one would ship an SDK pinned to nothing.
     const date = spec.info?.["x-api-version-date"];
     if (typeof date !== "string") {
-      throw new Error(
-        `${url} has no \`info.x-api-version-date\` — nothing to pin the SDK to`,
-      );
+      throw new Error(`${url} has no \`info.x-api-version-date\` — nothing to pin the SDK to`);
     }
     versionDates[doc.surface] = date;
 
@@ -271,17 +267,13 @@ function extractFromSitemap(xml: string): string[] {
  * The fence uses FOUR backticks (its payload contains three-backtick
  * examples), and is always the last block on the page.
  */
-const OPENAPI_FENCE =
-  /^````yaml (\/openapi\/(\S+))((?: \S+)*)\n[\s\S]*?^````[ \t]*$/gm;
+const OPENAPI_FENCE = /^````yaml (\/openapi\/(\S+))((?: \S+)*)\n[\s\S]*?^````[ \t]*$/gm;
 
 function stripOpenApiFence(markdown: string): string {
-  return markdown.replace(
-    OPENAPI_FENCE,
-    (_all, _ref: string, file: string, route: string) => {
-      const where = route.trim() ? `\`${route.trim()}\` in ` : "";
-      return `<!-- OpenAPI source: ${where}specs/${file} (inlined by docs.whop.com; stripped on download) -->`;
-    },
-  );
+  return markdown.replace(OPENAPI_FENCE, (_all, _ref: string, file: string, route: string) => {
+    const where = route.trim() ? `\`${route.trim()}\` in ` : "";
+    return `<!-- OpenAPI source: ${where}specs/${file} (inlined by docs.whop.com; stripped on download) -->`;
+  });
 }
 
 interface PageEntry {
@@ -300,16 +292,13 @@ async function mapConcurrent<T, R>(
 ): Promise<R[]> {
   const results = Array.from<R>({ length: items.length });
   let next = 0;
-  const runners = Array.from(
-    { length: Math.min(limit, items.length) },
-    async () => {
-      while (true) {
-        const index = next++;
-        if (index >= items.length) return;
-        results[index] = await worker(items[index]!);
-      }
-    },
-  );
+  const runners = Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (true) {
+      const index = next++;
+      if (index >= items.length) return;
+      results[index] = await worker(items[index]!);
+    }
+  });
   await Promise.all(runners);
   return results;
 }
@@ -344,10 +333,7 @@ async function fetchDocs() {
   const sitemapUrl = `${ORIGIN}/sitemap.xml`;
   console.log(`\nFetching ${llmsUrl} and ${sitemapUrl}...`);
 
-  const [llmsTxt, sitemapXml] = await Promise.all([
-    fetchText(llmsUrl),
-    fetchText(sitemapUrl),
-  ]);
+  const [llmsTxt, sitemapXml] = await Promise.all([fetchText(llmsUrl), fetchText(sitemapUrl)]);
 
   const fromLlms = new Set(extractFromLlmsTxt(llmsTxt));
   const fromSitemap = new Set(extractFromSitemap(sitemapXml));
@@ -374,10 +360,7 @@ async function fetchDocs() {
       pagePath,
       pageUrl,
       markdownUrl: `${pageUrl}.md`,
-      localPath: join(
-        DOCS_DIR,
-        ...`${pagePath.replace(/^\//, "")}.md`.split("/"),
-      ),
+      localPath: join(DOCS_DIR, ...`${pagePath.replace(/^\//, "")}.md`.split("/")),
       indexes: [
         ...(fromLlms.has(pagePath) ? ["llms.txt"] : []),
         ...(fromSitemap.has(pagePath) ? ["sitemap"] : []),
@@ -404,9 +387,7 @@ async function fetchDocs() {
     ) + "\n",
   );
 
-  console.log(
-    `\nDownloading ${entries.length} markdown pages (concurrency ${CONCURRENCY})...`,
-  );
+  console.log(`\nDownloading ${entries.length} markdown pages (concurrency ${CONCURRENCY})...`);
 
   // A page that fails is warned about and skipped: llms.txt keeps a few stale
   // slugs, and one dead link must not fail the whole nightly refresh.
@@ -415,9 +396,7 @@ async function fetchDocs() {
     try {
       markdown = await fetchText(entry.markdownUrl);
     } catch (cause) {
-      console.warn(
-        `  Failed to download ${entry.markdownUrl} (${cause}) — skipping`,
-      );
+      console.warn(`  Failed to download ${entry.markdownUrl} (${cause}) — skipping`);
       return undefined;
     }
     await mkdir(dirname(entry.localPath), { recursive: true });
@@ -427,17 +406,13 @@ async function fetchDocs() {
 
   const kept = saved.filter((path): path is string => path !== undefined);
   const failed = entries.length - kept.length;
-  console.log(
-    `  ${kept.length} downloaded` + (failed > 0 ? `, ${failed} failed` : ""),
-  );
+  console.log(`  ${kept.length} downloaded` + (failed > 0 ? `, ${failed} failed` : ""));
 
   // Only the pages that actually came down this run are kept. Pruning against
   // a partial crawl would delete pages that are merely unreachable today, so
   // a run that lost more than a sliver keeps everything and warns instead.
   if (failed / entries.length > MAX_FAILURE_RATE_FOR_PRUNE) {
-    console.warn(
-      `  ${failed}/${entries.length} pages failed — skipping the prune this run`,
-    );
+    console.warn(`  ${failed}/${entries.length} pages failed — skipping the prune this run`);
     return;
   }
   await prune(new Set(kept));

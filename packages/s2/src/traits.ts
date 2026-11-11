@@ -1,5 +1,5 @@
 /**
- * S2 (s2.dev) SDK trait surface — hand-written.
+ * S2 (s2.dev) SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core so generated operations
  * import everything from one place. S2 speaks plain bearer-REST JSON with no

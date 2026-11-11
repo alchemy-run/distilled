@@ -1,0 +1,45 @@
+{
+  "description": "Type the duplicate-detection rejection: creating (or updating to) a custom detection whose username+password expressions already exist on the zone returns HTTP 400 'custom detection for given username and password already exists' (previously the untyped BadRequest).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.leaked_credential_checks#DetectionAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "already exists"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.leaked_credential_checks#CreateDetection/errors/-",
+      "value": {
+        "target": "com.cloudflare.leaked_credential_checks#DetectionAlreadyExists"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.leaked_credential_checks#UpdateDetection/errors/-",
+      "value": {
+        "target": "com.cloudflare.leaked_credential_checks#DetectionAlreadyExists"
+      }
+    }
+  ]
+}

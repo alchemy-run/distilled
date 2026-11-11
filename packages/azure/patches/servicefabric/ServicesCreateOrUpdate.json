@@ -1,0 +1,288 @@
+{
+  "description": "PartitionSchemeDescription and the service resource properties are polymorphic (partitionScheme / serviceKind); the converted model keeps only the discriminators, so S.Struct strips partition counts/keys/names and the Stateless/Stateful fields (instanceCount, targetReplicaSetSize, ...) and ARM rejects every service. Add the subtype members.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#PartitionNamesList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        },
+        "traits": {
+          "smithy.api#documentation": "Partition names (Named scheme)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#PartitionSchemeDescription/members/count",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "Number of partitions (UniformInt64Range / Named)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#PartitionSchemeDescription/members/lowKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Lower bound of the partition key range (UniformInt64Range)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#PartitionSchemeDescription/members/highKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Upper bound of the partition key range (UniformInt64Range)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#PartitionSchemeDescription/members/names",
+      "value": {
+        "target": "com.azure.servicefabric#PartitionNamesList",
+        "traits": {
+          "smithy.api#documentation": "Partition names (Named)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourcePropertiesInput/members/instanceCount",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "Stateless: number of instances per partition (-1 = one on every node)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourcePropertiesInput/members/instanceCloseDelayDuration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Stateless: delay before closing instances during upgrade (ISO 8601 duration)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourcePropertiesInput/members/targetReplicaSetSize",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "Stateful: target replica set size."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourcePropertiesInput/members/minReplicaSetSize",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "Stateful: minimum replica set size."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourcePropertiesInput/members/replicaRestartWaitDuration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Stateful: wait before a down replica is replaced (ISO 8601 duration)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourcePropertiesInput/members/quorumLossWaitDuration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Stateful: maximum time a partition may be in quorum loss (ISO 8601 duration)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourcePropertiesInput/members/standByReplicaKeepDuration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Stateful: how long standby replicas are kept (ISO 8601 duration)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourcePropertiesInput/members/hasPersistedState",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Stateful: whether the service persists state on local disk."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourceProperties/members/instanceCount",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "Stateless: number of instances per partition (-1 = one on every node)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourceProperties/members/instanceCloseDelayDuration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Stateless: delay before closing instances during upgrade (ISO 8601 duration)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourceProperties/members/targetReplicaSetSize",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "Stateful: target replica set size."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourceProperties/members/minReplicaSetSize",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "Stateful: minimum replica set size."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourceProperties/members/replicaRestartWaitDuration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Stateful: wait before a down replica is replaced (ISO 8601 duration)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourceProperties/members/quorumLossWaitDuration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Stateful: maximum time a partition may be in quorum loss (ISO 8601 duration)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourceProperties/members/standByReplicaKeepDuration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Stateful: how long standby replicas are kept (ISO 8601 duration)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourceProperties/members/hasPersistedState",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Stateful: whether the service persists state on local disk."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourceUpdateProperties/members/instanceCount",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "Stateless: number of instances per partition (-1 = one on every node)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourceUpdateProperties/members/instanceCloseDelayDuration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Stateless: delay before closing instances during upgrade (ISO 8601 duration)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourceUpdateProperties/members/targetReplicaSetSize",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "Stateful: target replica set size."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourceUpdateProperties/members/minReplicaSetSize",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "Stateful: minimum replica set size."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourceUpdateProperties/members/replicaRestartWaitDuration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Stateful: wait before a down replica is replaced (ISO 8601 duration)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourceUpdateProperties/members/quorumLossWaitDuration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Stateful: maximum time a partition may be in quorum loss (ISO 8601 duration)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicefabric#ServiceResourceUpdateProperties/members/standByReplicaKeepDuration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Stateful: how long standby replicas are kept (ISO 8601 duration)."
+        }
+      }
+    }
+  ]
+}

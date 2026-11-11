@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Azure ARM Swagger 2.0 specs into Smithy 2.0 JSON models,
  * one merged model per Azure service.
@@ -37,19 +37,21 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
 import {
   API_VERSION_TRAIT,
   convertOpenApiToSmithy,
   type SmithyModel,
-} from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+} from "@distilled.cloud/dev/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import {
+  RENAME_METADATA_KEY,
+  renameShapes,
+} from "@distilled.cloud/dev/codegen/rewrite-operation-ids";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
-const rootDir = path.resolve(import.meta.dir, "..");
-const specsRoot = resolveSpecPath(
-  rootDir,
-  "specs/spec-mirror-azure/specs/specification",
-);
+const rootDir = path.resolve(import.meta.dirname, "..");
+const specsRoot = resolveSpecPath(rootDir, "specs/spec-mirror-azure/specs/specification");
 const outDir = path.join(rootDir, ".generated-specs");
 
 // ============================================================================
@@ -115,10 +117,7 @@ function transplantMissingDefinitions(
 
   if (typeof obj.$ref === "string" && obj.$ref.startsWith("#/definitions/")) {
     const defName = obj.$ref.slice("#/definitions/".length);
-    if (
-      !ctx.mainSpec.definitions?.[defName] &&
-      !ctx.transplanting.has(defName)
-    ) {
+    if (!ctx.mainSpec.definitions?.[defName] && !ctx.transplanting.has(defName)) {
       // Look for the definition in the external doc
       const externalDef = externalDoc?.definitions?.[defName];
       if (externalDef) {
@@ -135,12 +134,7 @@ function transplantMissingDefinitions(
         ctx.mainSpec.definitions[defName] = resolvedDef;
 
         // Recursively transplant any #/definitions/ refs within this new definition
-        transplantMissingDefinitions(
-          resolvedDef,
-          externalDoc,
-          externalDir,
-          ctx,
-        );
+        transplantMissingDefinitions(resolvedDef, externalDoc, externalDir, ctx);
       }
     }
     return;
@@ -252,11 +246,7 @@ function collectMissingDefinitions(
         const docDir = findFileDir(doc);
         const cloned = JSON.parse(JSON.stringify(doc.definitions[defName]));
         // Resolve any external refs within the transplanted definition
-        const resolved = resolveExternalRefs(
-          cloned,
-          docDir || specDir,
-          new Set(),
-        );
+        const resolved = resolveExternalRefs(cloned, docDir || specDir, new Set());
         root.definitions[defName] = resolved;
 
         // Also transplant any definitions this one references
@@ -308,18 +298,12 @@ function findMissingDefRefs(obj: any, root: any, missing: Set<string>): void {
 function mergeSiblingDefinitions(spec: any, versionDir: string): any {
   const jsonFiles = fs
     .readdirSync(versionDir)
-    .filter(
-      (f) =>
-        f.endsWith(".json") && !f.startsWith("examples") && f !== "examples",
-    )
+    .filter((f) => f.endsWith(".json") && !f.startsWith("examples") && f !== "examples")
     .sort();
 
   for (const jsonFile of jsonFiles) {
     const filePath = path.join(versionDir, jsonFile);
-    if (
-      filePath.includes(`${path.sep}examples${path.sep}`) ||
-      filePath.includes("/examples/")
-    ) {
+    if (filePath.includes(`${path.sep}examples${path.sep}`) || filePath.includes("/examples/")) {
       continue;
     }
 
@@ -373,7 +357,7 @@ function discoverSpecs(): SpecFile[] {
   const specs: SpecFile[] = [];
 
   if (!fs.existsSync(specsRoot)) {
-    console.error("Azure specs not found. Run `bun run specs:fetch` first.");
+    console.error("Azure specs not found. Run `pnpm run specs:fetch` first.");
     process.exit(1);
   }
 
@@ -386,10 +370,7 @@ function discoverSpecs(): SpecFile[] {
     if (!fs.existsSync(rmPath) || !fs.statSync(rmPath).isDirectory()) continue;
 
     for (const provider of fs.readdirSync(rmPath).sort()) {
-      if (
-        !provider.startsWith("Microsoft.") &&
-        !provider.startsWith("microsoft.")
-      ) {
+      if (!provider.startsWith("Microsoft.") && !provider.startsWith("microsoft.")) {
         continue;
       }
       const providerPath = path.join(rmPath, provider);
@@ -398,9 +379,7 @@ function discoverSpecs(): SpecFile[] {
       // Pattern A: flat stable/
       const stablePath = path.join(providerPath, "stable");
       if (fs.existsSync(stablePath) && fs.statSync(stablePath).isDirectory()) {
-        specs.push(
-          ...findLatestStableSpecs(stablePath, service, provider, undefined),
-        );
+        specs.push(...findLatestStableSpecs(stablePath, service, provider, undefined));
       }
 
       // Pattern B: nested sub-service dirs
@@ -410,13 +389,8 @@ function discoverSpecs(): SpecFile[] {
         if (!fs.statSync(subPath).isDirectory()) continue;
 
         const subStablePath = path.join(subPath, "stable");
-        if (
-          fs.existsSync(subStablePath) &&
-          fs.statSync(subStablePath).isDirectory()
-        ) {
-          specs.push(
-            ...findLatestStableSpecs(subStablePath, service, provider, sub),
-          );
+        if (fs.existsSync(subStablePath) && fs.statSync(subStablePath).isDirectory()) {
+          specs.push(...findLatestStableSpecs(subStablePath, service, provider, sub));
         }
       }
     }
@@ -446,10 +420,7 @@ function findLatestStableSpecs(
 
   const jsonFiles = fs
     .readdirSync(versionDir)
-    .filter(
-      (f) =>
-        f.endsWith(".json") && !f.startsWith("examples") && f !== "examples",
-    )
+    .filter((f) => f.endsWith(".json") && !f.startsWith("examples") && f !== "examples")
     .sort();
 
   const results: SpecFile[] = [];
@@ -579,13 +550,7 @@ function graphEq(
     case "enum":
       return eqMemberBag(a.members, b.members);
     case "list":
-      return graphEq(
-        shapesA,
-        a.member?.target,
-        shapesB,
-        b.member?.target,
-        visited,
-      );
+      return graphEq(shapesA, a.member?.target, shapesB, b.member?.target, visited);
     case "map":
       return (
         graphEq(shapesA, a.key?.target, shapesB, b.key?.target, visited) &&
@@ -604,6 +569,11 @@ interface MergedService {
   /** Operation shape ids, in merge order. */
   ops: string[];
   skippedOps: number;
+  /**
+   * Merged shape id → the upstream id it came from (its spec's
+   * deferred-naming map), so the written model can carry upstream names.
+   */
+  upstream: Map<string, string>;
 }
 
 /**
@@ -614,7 +584,11 @@ interface MergedService {
  * processed wins. Non-operation shapes that collide are structurally
  * deduplicated when graph-equal, renamed (`Name_2`, `Name_3`, …) otherwise.
  */
-function mergeSpecModel(merged: MergedService, model: SmithyModel): void {
+function mergeSpecModel(
+  merged: MergedService,
+  model: SmithyModel,
+  upstreamOf: ReadonlyMap<string, string>,
+): void {
   const shapes = model.shapes;
 
   // The converter's per-spec service shape is dropped; the merged service
@@ -664,10 +638,7 @@ function mergeSpecModel(merged: MergedService, model: SmithyModel): void {
     if (def.type === "operation") continue;
     if (!merged.taken.has(name)) continue;
     const mergedId = id; // same namespace — ids align by local name
-    if (
-      merged.shapes[mergedId] &&
-      graphEq(shapes, id, merged.shapes, mergedId, new Set())
-    ) {
+    if (merged.shapes[mergedId] && graphEq(shapes, id, merged.shapes, mergedId, new Set())) {
       renameMap.set(id, mergedId); // dedupe
       continue;
     }
@@ -707,9 +678,44 @@ function mergeSpecModel(merged: MergedService, model: SmithyModel): void {
     const target = renameMap.get(id) ?? id;
     if (merged.shapes[target]) continue; // deduplicated
     merged.shapes[target] = rewrite(shapes[id]);
+    merged.upstream.set(target, upstreamOf.get(id) ?? id);
     merged.taken.add(local(target));
     if (shapes[id].type === "operation") merged.ops.push(target);
   }
+}
+
+/**
+ * The merged model under upstream names, its final names deferred to
+ * finalizeConvert (`metadata[RENAME_METADATA_KEY]`) so patches target the
+ * names the specs give. A shape keeps its final name when its upstream one
+ * is taken in the merged model. Throws unless renaming the result gives
+ * back exactly `model`.
+ */
+function withUpstreamNames(model: SmithyModel, upstream: ReadonlyMap<string, string>): SmithyModel {
+  const ids = Object.keys(model.shapes);
+  const taken = new Set(ids.filter((id) => (upstream.get(id) ?? id) === id));
+  const toUpstream = new Map<string, string>();
+  for (const id of ids) {
+    const want = upstream.get(id) ?? id;
+    if (want === id) continue;
+    if (taken.has(want)) {
+      taken.add(id);
+      continue;
+    }
+    taken.add(want);
+    toUpstream.set(id, want);
+  }
+  const out: SmithyModel = structuredClone(model);
+  renameShapes(out, toUpstream);
+  const deferred = Object.fromEntries([...toUpstream].map(([to, from]) => [from, to]));
+  if (toUpstream.size > 0) out.metadata = { ...out.metadata, [RENAME_METADATA_KEY]: deferred };
+  const check = structuredClone(out);
+  delete check.metadata[RENAME_METADATA_KEY];
+  renameShapes(check, new Map(Object.entries(deferred)));
+  if (JSON.stringify(check) !== JSON.stringify(model)) {
+    throw new Error("upstream-named merged model does not rename back to the merged model");
+  }
+  return out;
 }
 
 /**
@@ -741,12 +747,11 @@ async function main() {
 
   if (specs.length === 0) {
     console.error("No specs found. Ensure the submodule is fetched:");
-    console.error("  bun run specs:fetch");
+    console.error("  pnpm run specs:fetch");
     process.exit(1);
   }
 
-  fs.rmSync(outDir, { recursive: true, force: true });
-  fs.mkdirSync(outDir, { recursive: true });
+  clearModels(outDir);
 
   // Group by service, preserving discovery order.
   const byService = new Map<string, SpecFile[]>();
@@ -769,6 +774,7 @@ async function main() {
       taken: new Set(),
       ops: [],
       skippedOps: 0,
+      upstream: new Map(),
     };
 
     for (const spec of serviceSpecs) {
@@ -817,7 +823,10 @@ async function main() {
         // weren't caught during the first resolve pass
         collectMissingDefinitions(resolved, specDir, resolved);
 
+        // Merging resolves collisions by final name (v0 semantics), so name
+        // first and keep the way back to the upstream names.
         const model = convertOpenApiToSmithy(resolved, {
+          deferNaming: true,
           namespace: ns,
           serviceName: pascal(service),
           // v0 parity: includeOperationErrors=false — no per-op error
@@ -828,9 +837,17 @@ async function main() {
           // `?api-version=` on every call). Drops the api-version query
           // param from the user-facing input schema.
           apiVersion: spec.apiVersion,
+          // ARM answers long-running operations with 202 and the status
+          // monitor in `Azure-AsyncOperation` / `Location`; expose them so
+          // callers can follow the operation (distilled does not poll).
+          responseHeaders: ["Azure-AsyncOperation", "Location", "Retry-After"],
         });
+        const rename: Record<string, string> = model.metadata?.[RENAME_METADATA_KEY] ?? {};
+        delete model.metadata?.[RENAME_METADATA_KEY];
+        renameShapes(model, new Map(Object.entries(rename)));
+        const upstreamOf = new Map(Object.entries(rename).map(([from, to]) => [to, from]));
         foldApiVersion(model);
-        mergeSpecModel(merged, model);
+        mergeSpecModel(merged, model, upstreamOf);
 
         specSuccessCount++;
       } catch (error: any) {
@@ -869,9 +886,10 @@ async function main() {
       },
       shapes: merged.shapes,
     };
+    const upstreamModel = withUpstreamNames(model, merged.upstream);
 
     const outPath = path.join(outDir, `${sanitizeNsSegment(service)}.json`);
-    fs.writeFileSync(outPath, JSON.stringify(model, null, 2) + "\n");
+    writeModel(outPath, upstreamModel);
     serviceCount++;
     totalOps += merged.ops.length;
     totalSkipped += merged.skippedOps;
@@ -888,12 +906,12 @@ async function main() {
   console.log(`  Errors: ${specErrorCount}`);
   console.log(`  Service models: ${serviceCount}`);
   console.log(`  Total operations: ${totalOps}`);
-  console.log(
-    `  Colliding operations skipped (first spec wins): ${totalSkipped}`,
-  );
+  console.log(`  Colliding operations skipped (first spec wins): ${totalSkipped}`);
   console.log(`  Elapsed: ${((Date.now() - started) / 1000).toFixed(1)}s`);
   console.log(`  Output: ${outDir}`);
+  // patches/<service>/*.json are Smithy ops on upstream names; finalize
+  // applies them, then the deferred verbNoun names.
   await finalizeConvert({ root: rootDir });
 }
 
-main();
+await main();

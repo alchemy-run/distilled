@@ -1,11 +1,15 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * ChronosphereProtocol — hand-written.
+ * ChronosphereProtocol -- hand-written.
  *
  * Chronosphere speaks token-authenticated JSON REST (no response envelope),
  * so the whole protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials → `API-Token` + `Authorization: Bearer <apiKey>`
+ *   request:  credentials -> `API-Token` + `Authorization: Bearer <apiKey>`
  *             + optional `Chronosphere-Actor`, resolved from the calling
  *             fiber on every request. The instance origin is tenant-specific
  *             (`https://<instance>.chronosphere.io`).
@@ -16,15 +20,12 @@
  *             HTTP-status classes, then {@link UnknownChronosphereError}.
  */
 import * as Effect from "effect/Effect";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { Credentials, type Config } from "./credentials.ts";
-import { UnknownChronosphereError } from "./errors.ts";
+import { UnknownChronosphereError, ChronosphereParseError } from "./errors.ts";
 
 /**
  * Error channel shared by every generated Chronosphere operation. Generated
@@ -36,19 +37,19 @@ export type ChronosphereOpError =
   | InstanceType<(typeof API_ERRORS)[number]>
   | UnknownChronosphereError
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | ChronosphereParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Chronosphere operation. */
 export type ChronosphereOpContext = Credentials | HttpClient.HttpClient;
 
 export const ChronosphereProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // The Credentials service holds an effect — resolving it here (per
+  /*@__PURE__*/ makeRestProtocol<Config>({
+    // The Credentials service holds an effect -- resolving it here (per
     // request, on the calling fiber) picks up context-provided credentials.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
-    }),
+    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
     baseUrl: (creds) => creds.apiBaseUrl,
     headers: (creds) => {
       const token = Redacted.value(creds.apiKey);
@@ -62,13 +63,9 @@ export const ChronosphereProtocol: Layer.Layer<API.Protocol> =
     },
     unknownError: ({ code, message, body }) =>
       new UnknownChronosphereError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
+        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
         message,
         body,
       }),
+    parseError: ({ body, cause }) => new ChronosphereParseError({ body, cause }),
   });

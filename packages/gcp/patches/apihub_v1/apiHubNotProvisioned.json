@@ -1,0 +1,698 @@
+{
+  "description": "Type calls against a project without an API hub instance. It surfaced as a generic BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ApiHubNotProvisioned",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The project has no provisioned API hub instance (HTTP 400 FAILED_PRECONDITION: \"Invalid resource state for ...: API Hub instance is not provisioned for this project\").",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "API Hub instance is not provisioned"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#CancelProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#CollectApiDataProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ConfigureAndDeployServerProjectsLocationsServers/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#CreateProjectsLocationsApiHubInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#CreateProjectsLocationsApis/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#CreateProjectsLocationsApisVersions/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#CreateProjectsLocationsApisVersionsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#CreateProjectsLocationsApisVersionsSpecs/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#CreateProjectsLocationsAttributes/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#CreateProjectsLocationsCurations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#CreateProjectsLocationsDependencies/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#CreateProjectsLocationsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#CreateProjectsLocationsExternalApis/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#CreateProjectsLocationsHostProjectRegistrations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#CreateProjectsLocationsPlugins/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#CreateProjectsLocationsPluginsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#CreateProjectsLocationsRuntimeProjectAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#DeleteProjectsLocationsApiHubInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#DeleteProjectsLocationsApis/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#DeleteProjectsLocationsApisVersions/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#DeleteProjectsLocationsApisVersionsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#DeleteProjectsLocationsApisVersionsSpecs/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#DeleteProjectsLocationsAttributes/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#DeleteProjectsLocationsCurations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#DeleteProjectsLocationsDependencies/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#DeleteProjectsLocationsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#DeleteProjectsLocationsExternalApis/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#DeleteProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#DeleteProjectsLocationsPlugins/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#DeleteProjectsLocationsPluginsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#DeleteProjectsLocationsRuntimeProjectAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#DisableActionProjectsLocationsPluginsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#DisableProjectsLocationsPlugins/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#EnableActionProjectsLocationsPluginsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#EnableProjectsLocationsPlugins/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ExecuteActionProjectsLocationsPluginsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#FetchAdditionalSpecContentProjectsLocationsApisVersionsSpecs/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetContentsProjectsLocationsApisVersionsSpecs/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetContentsProjectsLocationsPluginsStyleGuide/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsAddons/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsApiHubInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsApis/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsApisVersions/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsApisVersionsDefinitions/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsApisVersionsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsApisVersionsSpecs/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsAttributes/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsCurations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsDependencies/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsDiscoveredApiObservations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsExternalApis/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsHostProjectRegistrations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsPlugins/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsPluginsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsRuntimeProjectAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetStyleGuideProjectsLocationsPlugins/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#LintProjectsLocationsApisVersionsSpecs/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsAddons/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsApis/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsApisVersions/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsApisVersionsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsApisVersionsSpecs/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsAttributes/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsCurations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsDependencies/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsDiscoveredApiObservations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsExternalApis/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsHostProjectRegistrations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsPlugins/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsPluginsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsRuntimeProjectAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#LookupProjectsLocationsApiHubInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#LookupRuntimeProjectAttachmentProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ManageConfigProjectsLocationsAddons/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ManageSourceDataProjectsLocationsPluginsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#PatchProjectsLocationsApiHubInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#PatchProjectsLocationsApis/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#PatchProjectsLocationsApisVersions/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#PatchProjectsLocationsApisVersionsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#PatchProjectsLocationsApisVersionsSpecs/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#PatchProjectsLocationsAttributes/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#PatchProjectsLocationsCurations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#PatchProjectsLocationsDependencies/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#PatchProjectsLocationsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#PatchProjectsLocationsExternalApis/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#PatchProjectsLocationsPluginsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#SearchResourcesProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#UpdateStyleGuideProjectsLocationsPlugins/errors/-",
+      "value": {
+        "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
+      }
+    }
+  ]
+}

@@ -1,20 +1,25 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Kinesis Video Media",
   serviceShapeName: "AWSAcuityInletService",
 });
-const auth = T.AwsAuthSigv4({ name: "kinesisvideo" });
-const ver = T.ServiceVersion("2017-09-30");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "kinesisvideo" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2017-09-30");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -26,14 +31,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +61,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://kinesisvideo-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,54 +69,64 @@ const rules = T.EndpointResolver((p, _) => {
               `https://kinesisvideo.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://kinesisvideo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://kinesisvideo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://kinesisvideo.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "KinesisVideoMedia",
+  service: "KinesisVideoMedia",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ClientLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<ClientLimitExceededException>()(
     "ClientLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ConnectionLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<ConnectionLimitExceededException>()(
     "ConnectionLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InvalidArgumentException
   extends /*@__PURE__*/ S.TaggedError<InvalidArgumentException>()(
     "InvalidArgumentException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InvalidEndpointException
   extends /*@__PURE__*/ S.TaggedError<InvalidEndpointException>()(
     "InvalidEndpointException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class NotAuthorizedException
   extends /*@__PURE__*/ S.TaggedError<NotAuthorizedException>()(
     "NotAuthorizedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(401),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(401),
   ).pipe(C.withAuthError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export type StreamName = string;
 export type ResourceARN = string;
@@ -129,56 +138,24 @@ export type StartSelectorType =
   | "EARLIEST"
   | "CONTINUATION_TOKEN"
   | (string & {});
-export const StartSelectorType = S.String;
-
 export type FragmentNumberString = string;
 export type ContinuationToken = string;
 export interface StartSelector {
   StartSelectorType: StartSelectorType;
-  AfterFragmentNumber?: string;
-  StartTimestamp?: Date;
-  ContinuationToken?: string;
+  AfterFragmentNumber?: string | undefined;
+  StartTimestamp?: Date | undefined;
+  ContinuationToken?: string | undefined;
 }
-export const StartSelector = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartSelectorType: StartSelectorType,
-    AfterFragmentNumber: S.optional(S.String),
-    StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ContinuationToken: S.optional(S.String),
-  }),
-).annotate({ identifier: "StartSelector" }) as any as S.Schema<StartSelector>;
 export interface GetMediaInput {
-  StreamName?: string;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
   StartSelector: StartSelector;
 }
-export const GetMediaInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-    StartSelector: StartSelector,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/getMedia" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetMediaInput" }) as any as S.Schema<GetMediaInput>;
 export type ContentType = string;
 export interface GetMediaOutput {
-  ContentType?: string;
-  Payload?: T.StreamingOutputBody;
+  ContentType?: string | undefined;
+  Payload?: T.StreamingOutputBody | undefined;
 }
-export const GetMediaOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    Payload: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-  }),
-).annotate({ identifier: "GetMediaOutput" }) as any as S.Schema<GetMediaOutput>;
 export type ErrorMessage = string;
 export type GetMediaError =
   | ClientLimitExceededException
@@ -211,10 +188,10 @@ export type GetMediaError =
  * If an error is thrown after invoking a Kinesis Video Streams media API, in addition to
  * the HTTP status code and the response body, it includes the following pieces of information:
  *
- * - `x-amz-ErrorType` HTTP header – contains a more specific error type in
+ * - `x-amz-ErrorType` HTTP header - contains a more specific error type in
  * addition to what the HTTP status code provides.
  *
- * - `x-amz-RequestId` HTTP header – if you want to report an issue to AWS,
+ * - `x-amz-RequestId` HTTP header - if you want to report an issue to AWS,
  * the support team can better diagnose the problem if given the Request Id.
  *
  * Both the HTTP status code and the ErrorType header can be utilized to make programmatic
@@ -226,13 +203,13 @@ export type GetMediaError =
  * bottom of this topic, as well as Common Errors.
  */
 export const getMedia: API.OperationMethod<
-  GetMediaInput,
+  GetMediaInput & RegionInput,
   GetMediaOutput,
   GetMediaError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMediaInput,
-  output: GetMediaOutput,
+  input: __S(1, __c0, 1) as any as S.Schema<GetMediaInput>,
+  output: __S(2, __c0, 2) as any as S.Schema<GetMediaOutput>,
   errors: [
     ClientLimitExceededException,
     ConnectionLimitExceededException,
@@ -244,4 +221,40 @@ export const getMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMedia",
+  telemetry: TELEMETRY,
+  span: "GetMedia",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          StartSelectorType: S.String,
+          AfterFragmentNumber: S.optional(S.String),
+          StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ContinuationToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StartSelector" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          StreamName: S.optional(S.String),
+          StreamARN: S.optional(S.String),
+          StartSelector: __S(0, __c0, 0),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/getMedia" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetMediaInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+          Payload: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
+        }),
+      ).annotate({ identifier: "GetMediaOutput" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

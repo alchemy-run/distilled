@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into an Effect
  * SDK.
@@ -8,15 +9,14 @@
  * Output: src/services/<service>.ts  +  services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is PostHog's provider spec:
+ * `@distilled.cloud/dev/codegen`; this script is PostHog's provider spec:
  * the `com.distilled.openapi` trait vocabulary (nullable members, bare-body
  * responses, error status matchers, sensitive strings), a passthrough union
  * style, and the protocol/retry/error names. PostHog keeps wire member names
  * verbatim (snake_case, v0 parity) and emits NO pagination — its DRF
  * offset/limit lists stay plain operations, exactly like distilled v0.
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -82,8 +82,8 @@ const spec: SdkSpec = {
     let out = code.replace(/import \{\s*\} from "\.\.\/errors\.ts";\n/, "");
     if (out.includes("Redacted.Redacted<")) {
       out = out.replace(
-        `import * as S from "@distilled.cloud/core/schema";`,
-        `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";`,
+        `import * as S from "@distilled.cloud/core/schema-lite";`,
+        `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";`,
       );
     }
     return out;
@@ -92,7 +92,8 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the PostHog Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  convert: () => import("./convert.ts"),
+  root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain in patches/ applies to the OpenAPI document in
   // scripts/convert.ts — never to the Smithy models.
   patchesDir: false,

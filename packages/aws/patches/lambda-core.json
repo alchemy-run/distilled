@@ -1,0 +1,26 @@
+{
+  "operations": {
+    "createNetworkConnector": {
+      "syntheticErrors": [
+        {
+          "name": "OperatorRoleNotAssumable",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "matches": "unable to assume the provided NetworkConnectorOperatorRole|invalid ConnectorOperatorRole permissions"
+          }
+        }
+      ]
+    },
+    "updateNetworkConnector": {
+      "syntheticErrors": [
+        {
+          "name": "OperatorRoleNotAssumable",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "matches": "unable to assume the provided NetworkConnectorOperatorRole|invalid ConnectorOperatorRole permissions"
+          }
+        }
+      ]
+    }
+  }
+}

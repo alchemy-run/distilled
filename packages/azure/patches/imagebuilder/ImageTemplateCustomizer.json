@@ -1,0 +1,145 @@
+{
+  "description": "ImageTemplateCustomizer is polymorphic on `type`; the converted model keeps only the base members, so S.Struct strips the subtype payload on encode and decode. Add the subtype members as optional fields.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateCustomizer/members/scriptUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Shell/PowerShell: URI of the script to run."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateCustomizer/members/sha256Checksum",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Shell/PowerShell/File: SHA256 checksum of the script or file."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateCustomizer/members/inline",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Shell/PowerShell: array of inline commands."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateCustomizer/members/validExitCodes",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "PowerShell: array of valid exit codes."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateCustomizer/members/runElevated",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "PowerShell: run with elevated privileges."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateCustomizer/members/runAsSystem",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "PowerShell: run as the Local System user."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateCustomizer/members/restartCommand",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "WindowsRestart: command to execute the restart."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateCustomizer/members/restartCheckCommand",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "WindowsRestart: command to check whether the restart succeeded."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateCustomizer/members/restartTimeout",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "WindowsRestart: restart timeout, e.g. `5m`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateCustomizer/members/searchCriteria",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "WindowsUpdate: update search criteria."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateCustomizer/members/filters",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "WindowsUpdate: array of update filters."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateCustomizer/members/updateLimit",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "WindowsUpdate: maximum number of updates to apply at a time."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateCustomizer/members/sourceUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "File: URI of the file to download."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateCustomizer/members/destination",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "File: absolute destination path on the build VM."
+        }
+      }
+    }
+  ]
+}

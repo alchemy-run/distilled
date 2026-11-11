@@ -1,5 +1,5 @@
 /**
- * Redis Cloud pagination — hand-written.
+ * Redis Cloud pagination -- hand-written.
  *
  * A few list operations take `offset`/`limit` query parameters; they stay
  * ordinary optional input fields (the spec does not declare a next-page

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches Forgejo's Swagger 2.0 API description to ../specs/.
  *
@@ -17,7 +17,7 @@
  * `/api/v1`. Bump FORGEJO_VERSION to move the SDK to a newer release.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The spec is saved to:
  *   ../specs/forgejo.spec.json
@@ -29,6 +29,7 @@ const SPECS_DIR = "../specs";
 const OUTPUT_PATH = `${SPECS_DIR}/forgejo.spec.json`;
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 // Ensure the specs directory exists
 if (!existsSync(SPECS_DIR)) {
@@ -36,9 +37,7 @@ if (!existsSync(SPECS_DIR)) {
 }
 
 async function main() {
-  console.log(
-    `Fetching Forgejo ${FORGEJO_VERSION} swagger template from ${TEMPLATE_URL}...`,
-  );
+  console.log(`Fetching Forgejo ${FORGEJO_VERSION} swagger template from ${TEMPLATE_URL}...`);
 
   const response = await fetch(TEMPLATE_URL, {
     headers: {
@@ -48,9 +47,7 @@ async function main() {
   });
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch swagger template: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch swagger template: ${response.status} ${response.statusText}`);
   }
 
   const rendered = (await response.text())
@@ -70,7 +67,7 @@ async function main() {
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
   // 2-space indent + trailing newline, so a whitespace-only change upstream
   // produces no diff.
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
   const info = spec.info as { version?: string } | undefined;
   console.log(

@@ -1,0 +1,201 @@
+{
+  "description": "Type the Agent Registry API-disabled answer (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: 'Agent Registry API has not been used in project N before or it is disabled.'). It surfaced as the generic Forbidden, so callers could not tell an unactivated service from a missing permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The Agent Registry API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#CancelProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#CreateProjectsLocationsBindings/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#CreateProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#DeleteProjectsLocationsBindings/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#DeleteProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#DeleteProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#FetchAvailableProjectsLocationsBindings/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#GetProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#GetProjectsLocationsAgents/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#GetProjectsLocationsBindings/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#GetProjectsLocationsEndpoints/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#GetProjectsLocationsMcpServers/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#GetProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#GetProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#ListProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#ListProjectsLocationsAgents/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#ListProjectsLocationsBindings/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#ListProjectsLocationsEndpoints/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#ListProjectsLocationsMcpServers/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#ListProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#ListProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#PatchProjectsLocationsBindings/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#PatchProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#SearchProjectsLocationsAgents/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#SearchProjectsLocationsMcpServers/errors/-",
+      "value": {
+        "target": "com.gcp.agentregistry_v1#ServiceDisabled"
+      }
+    }
+  ]
+}

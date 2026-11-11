@@ -1,5 +1,6 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Auth0 credentials — hand-written.
+ * Auth0 credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
@@ -10,7 +11,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /** Build the Management API base URL for a tenant domain. */
 export const apiBaseUrlForDomain = (domain: string): string => {
@@ -24,21 +24,21 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("Auth0Credentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "Auth0Credentials",
+  ) {}
 
 /** Layer from a Management API token + tenant domain. */
 export const fromToken = (config: {
-  readonly token: string;
+  readonly token: Redacted.Redacted<string>;
   readonly domain: string;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: Redacted.make(config.token),
+      token: config.token,
       domain: config.domain,
       apiBaseUrl: config.apiBaseUrl ?? apiBaseUrlForDomain(config.domain),
     }),
@@ -48,16 +48,15 @@ export const fromToken = (config: {
  * Reads AUTH0_DOMAIN and AUTH0_MANAGEMENT_TOKEN (required) and
  * AUTH0_API_BASE_URL (optional override of `https://{domain}/api/v2`).
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const domain = process.env.AUTH0_DOMAIN;
     const token = process.env.AUTH0_MANAGEMENT_TOKEN;
 
     if (!domain || !token) {
       return yield* new ConfigError({
-        message:
-          "AUTH0_DOMAIN and AUTH0_MANAGEMENT_TOKEN environment variables are required",
+        message: "AUTH0_DOMAIN and AUTH0_MANAGEMENT_TOKEN environment variables are required",
       });
     }
 
@@ -66,5 +65,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
       domain,
       apiBaseUrl: process.env.AUTH0_API_BASE_URL ?? apiBaseUrlForDomain(domain),
     };
-  }).pipe(Effect.orDie),
+  }),
 );

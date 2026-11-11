@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors the subset of Azure/azure-rest-api-specs the distilled azure
  * generator reads into ../specs/.
@@ -29,12 +29,14 @@
  * superseded stable version are never transferred.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/specification/...  (upstream layout preserved, so $refs resolve)
  */
 
+import { spawn } from "child_process";
+import { once } from "events";
 import { mkdtempSync, rmSync } from "fs";
 import { cp, mkdir, readFile, rm } from "fs/promises";
 import { tmpdir } from "os";
@@ -56,18 +58,18 @@ const COMMON_TYPES = `${ROOT}/common-types/`;
 const SPECS_DIR = "../specs";
 
 const git = async (cwd: string, args: string[], stdin?: string) => {
-  const proc = Bun.spawn(["git", ...args], {
+  const proc = spawn("git", args, {
     cwd,
-    stdin: stdin === undefined ? "ignore" : new TextEncoder().encode(stdin),
-    stdout: "pipe",
-    stderr: "inherit",
+    stdio: [stdin === undefined ? "ignore" : "pipe", "pipe", "inherit"],
   });
-  const stdout = await new Response(proc.stdout).text();
-  const code = await proc.exited;
+  proc.stdin?.end(stdin);
+  const chunks: Buffer[] = [];
+  proc.stdout!.on("data", (chunk: Buffer) => chunks.push(chunk));
+  const [code] = await once(proc, "close");
   if (code !== 0) {
     throw new Error(`git ${args.join(" ")} failed with exit code ${code}`);
   }
-  return stdout;
+  return Buffer.concat(chunks).toString("utf8");
 };
 
 /** `YYYY-MM-DD[suffix]` — the api-version directory names ARM uses. */
@@ -102,10 +104,7 @@ function selectSpecs(allPaths: string[]): Set<string> {
 
     const provider = segments[3];
     if (provider === undefined) continue;
-    if (
-      !provider.startsWith("Microsoft.") &&
-      !provider.startsWith("microsoft.")
-    ) {
+    if (!provider.startsWith("Microsoft.") && !provider.startsWith("microsoft.")) {
       continue;
     }
 
@@ -130,9 +129,7 @@ function selectSpecs(allPaths: string[]): Set<string> {
 
   for (const versions of stables.values()) {
     // Same ordering as the converter: plain lexicographic, last wins.
-    const latest = [...versions.keys()]
-      .sort((a, b) => a.localeCompare(b))
-      .at(-1)!;
+    const latest = [...versions.keys()].sort((a, b) => a.localeCompare(b)).at(-1)!;
     for (const path of versions.get(latest)!) wanted.add(path);
   }
 

@@ -1,25 +1,28 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const ns = T.XmlNamespace(
-  "http://machinelearning.amazonaws.com/doc/2014-12-12/",
-);
-const svc = T.AwsApiService({
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const ns = /*@__PURE__*/ T.XmlNamespace("http://machinelearning.amazonaws.com/doc/2014-12-12/");
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Machine Learning",
   serviceShapeName: "AmazonML_20141212",
 });
-const auth = T.AwsAuthSigv4({ name: "machinelearning" });
-const ver = T.ServiceVersion("2014-12-12");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "machinelearning" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2014-12-12");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -31,14 +34,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -65,9 +64,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://machinelearning-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -75,91 +72,96 @@ const rules = T.EndpointResolver((p, _) => {
               `https://machinelearning.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://machinelearning.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://machinelearning.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://machinelearning.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MachineLearning",
+  service: "MachineLearning",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class IdempotentParameterMismatchException
   extends /*@__PURE__*/ S.TaggedError<IdempotentParameterMismatchException>()(
     "IdempotentParameterMismatchException",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      code: S.optional(S.Number),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      code: /*@__PURE__*/ S.optional(S.Number),
     },
-    T.HttpError(400),
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      code: S.optional(S.Number),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      code: /*@__PURE__*/ S.optional(S.Number),
     },
-    T.HttpError(500),
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class InvalidInputException
   extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
     "InvalidInputException",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      code: S.optional(S.Number),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      code: /*@__PURE__*/ S.optional(S.Number),
     },
-    T.HttpError(400),
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InvalidTagException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTagException>()(
-    "InvalidTagException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidTagException>()("InvalidTagException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
     "LimitExceededException",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      code: S.optional(S.Number),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      code: /*@__PURE__*/ S.optional(S.Number),
     },
-    T.HttpError(417),
+    /*@__PURE__*/ T.HttpError(417),
   ) {}
 export class PredictorNotMountedException
   extends /*@__PURE__*/ S.TaggedError<PredictorNotMountedException>()(
     "PredictorNotMountedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      code: S.optional(S.Number),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      code: /*@__PURE__*/ S.optional(S.Number),
     },
-    T.HttpError(404),
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class TagLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<TagLimitExceededException>()(
-    "TagLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<TagLimitExceededException>()("TagLimitExceededException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export type EntityId = string;
 export type TaggableResourceType =
   | "BatchPrediction"
@@ -167,87 +169,33 @@ export type TaggableResourceType =
   | "Evaluation"
   | "MLModel"
   | (string & {});
-export const TaggableResourceType = S.String;
-
 export interface AddTagsInput {
   Tags: Tag[];
   ResourceId: string;
   ResourceType: TaggableResourceType;
 }
-export const AddTagsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Tags: TagList,
-    ResourceId: S.String,
-    ResourceType: TaggableResourceType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "AddTagsInput" }) as any as S.Schema<AddTagsInput>;
 export interface AddTagsOutput {
-  ResourceId?: string;
-  ResourceType?: TaggableResourceType;
+  ResourceId?: string | undefined;
+  ResourceType?: TaggableResourceType | undefined;
 }
-export const AddTagsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceId: S.optional(S.String),
-    ResourceType: S.optional(TaggableResourceType),
-  }).pipe(ns),
-).annotate({ identifier: "AddTagsOutput" }) as any as S.Schema<AddTagsOutput>;
 export type EntityName = string;
 export type S3Url = string;
 export interface CreateBatchPredictionInput {
   BatchPredictionId: string;
-  BatchPredictionName?: string;
+  BatchPredictionName?: string | undefined;
   MLModelId: string;
   BatchPredictionDataSourceId: string;
   OutputUri: string;
 }
-export const CreateBatchPredictionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BatchPredictionId: S.String,
-    BatchPredictionName: S.optional(S.String),
-    MLModelId: S.String,
-    BatchPredictionDataSourceId: S.String,
-    OutputUri: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateBatchPredictionInput",
-}) as any as S.Schema<CreateBatchPredictionInput>;
 export interface CreateBatchPredictionOutput {
-  BatchPredictionId?: string;
+  BatchPredictionId?: string | undefined;
 }
-export const CreateBatchPredictionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BatchPredictionId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateBatchPredictionOutput",
-}) as any as S.Schema<CreateBatchPredictionOutput>;
 export type RDSInstanceIdentifier = string;
 export type RDSDatabaseName = string;
 export interface RDSDatabase {
   InstanceIdentifier: string;
   DatabaseName: string;
 }
-export const RDSDatabase = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InstanceIdentifier: S.String, DatabaseName: S.String }),
-).annotate({ identifier: "RDSDatabase" }) as any as S.Schema<RDSDatabase>;
 export type RDSSelectSqlQuery = string;
 export type RDSDatabaseUsername = string;
 export type RDSDatabasePassword = string | redacted.Redacted<string>;
@@ -255,11 +203,6 @@ export interface RDSDatabaseCredentials {
   Username: string;
   Password: string | redacted.Redacted<string>;
 }
-export const RDSDatabaseCredentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Username: S.String, Password: SensitiveString }),
-).annotate({
-  identifier: "RDSDatabaseCredentials",
-}) as any as S.Schema<RDSDatabaseCredentials>;
 export type DataRearrangement = string;
 export type DataSchema = string;
 export type EDPResourceRole = string;
@@ -267,84 +210,37 @@ export type EDPServiceRole = string;
 export type EDPSubnetId = string;
 export type EDPSecurityGroupId = string;
 export type EDPSecurityGroupIds = string[];
-export const EDPSecurityGroupIds = /*@__PURE__*/ S.Array(S.String);
 export interface RDSDataSpec {
   DatabaseInformation: RDSDatabase;
   SelectSqlQuery: string;
   DatabaseCredentials: RDSDatabaseCredentials;
   S3StagingLocation: string;
-  DataRearrangement?: string;
-  DataSchema?: string;
-  DataSchemaUri?: string;
+  DataRearrangement?: string | undefined;
+  DataSchema?: string | undefined;
+  DataSchemaUri?: string | undefined;
   ResourceRole: string;
   ServiceRole: string;
   SubnetId: string;
   SecurityGroupIds: string[];
 }
-export const RDSDataSpec = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DatabaseInformation: RDSDatabase,
-    SelectSqlQuery: S.String,
-    DatabaseCredentials: RDSDatabaseCredentials,
-    S3StagingLocation: S.String,
-    DataRearrangement: S.optional(S.String),
-    DataSchema: S.optional(S.String),
-    DataSchemaUri: S.optional(S.String),
-    ResourceRole: S.String,
-    ServiceRole: S.String,
-    SubnetId: S.String,
-    SecurityGroupIds: EDPSecurityGroupIds,
-  }),
-).annotate({ identifier: "RDSDataSpec" }) as any as S.Schema<RDSDataSpec>;
 export type RoleARN = string;
 export type ComputeStatistics = boolean;
 export interface CreateDataSourceFromRDSInput {
   DataSourceId: string;
-  DataSourceName?: string;
+  DataSourceName?: string | undefined;
   RDSData: RDSDataSpec;
   RoleARN: string;
-  ComputeStatistics?: boolean;
+  ComputeStatistics?: boolean | undefined;
 }
-export const CreateDataSourceFromRDSInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataSourceId: S.String,
-    DataSourceName: S.optional(S.String),
-    RDSData: RDSDataSpec,
-    RoleARN: S.String,
-    ComputeStatistics: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDataSourceFromRDSInput",
-}) as any as S.Schema<CreateDataSourceFromRDSInput>;
 export interface CreateDataSourceFromRDSOutput {
-  DataSourceId?: string;
+  DataSourceId?: string | undefined;
 }
-export const CreateDataSourceFromRDSOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataSourceId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateDataSourceFromRDSOutput",
-}) as any as S.Schema<CreateDataSourceFromRDSOutput>;
 export type RedshiftDatabaseName = string;
 export type RedshiftClusterIdentifier = string;
 export interface RedshiftDatabase {
   DatabaseName: string;
   ClusterIdentifier: string;
 }
-export const RedshiftDatabase = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DatabaseName: S.String, ClusterIdentifier: S.String }),
-).annotate({
-  identifier: "RedshiftDatabase",
-}) as any as S.Schema<RedshiftDatabase>;
 export type RedshiftSelectSqlQuery = string;
 export type RedshiftDatabaseUsername = string;
 export type RedshiftDatabasePassword = string | redacted.Redacted<string>;
@@ -352,434 +248,123 @@ export interface RedshiftDatabaseCredentials {
   Username: string;
   Password: string | redacted.Redacted<string>;
 }
-export const RedshiftDatabaseCredentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Username: S.String, Password: SensitiveString }),
-).annotate({
-  identifier: "RedshiftDatabaseCredentials",
-}) as any as S.Schema<RedshiftDatabaseCredentials>;
 export interface RedshiftDataSpec {
   DatabaseInformation: RedshiftDatabase;
   SelectSqlQuery: string;
   DatabaseCredentials: RedshiftDatabaseCredentials;
   S3StagingLocation: string;
-  DataRearrangement?: string;
-  DataSchema?: string;
-  DataSchemaUri?: string;
+  DataRearrangement?: string | undefined;
+  DataSchema?: string | undefined;
+  DataSchemaUri?: string | undefined;
 }
-export const RedshiftDataSpec = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DatabaseInformation: RedshiftDatabase,
-    SelectSqlQuery: S.String,
-    DatabaseCredentials: RedshiftDatabaseCredentials,
-    S3StagingLocation: S.String,
-    DataRearrangement: S.optional(S.String),
-    DataSchema: S.optional(S.String),
-    DataSchemaUri: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RedshiftDataSpec",
-}) as any as S.Schema<RedshiftDataSpec>;
 export interface CreateDataSourceFromRedshiftInput {
   DataSourceId: string;
-  DataSourceName?: string;
+  DataSourceName?: string | undefined;
   DataSpec: RedshiftDataSpec;
   RoleARN: string;
-  ComputeStatistics?: boolean;
+  ComputeStatistics?: boolean | undefined;
 }
-export const CreateDataSourceFromRedshiftInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataSourceId: S.String,
-    DataSourceName: S.optional(S.String),
-    DataSpec: RedshiftDataSpec,
-    RoleARN: S.String,
-    ComputeStatistics: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDataSourceFromRedshiftInput",
-}) as any as S.Schema<CreateDataSourceFromRedshiftInput>;
 export interface CreateDataSourceFromRedshiftOutput {
-  DataSourceId?: string;
+  DataSourceId?: string | undefined;
 }
-export const CreateDataSourceFromRedshiftOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataSourceId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateDataSourceFromRedshiftOutput",
-}) as any as S.Schema<CreateDataSourceFromRedshiftOutput>;
 export interface S3DataSpec {
   DataLocationS3: string;
-  DataRearrangement?: string;
-  DataSchema?: string;
-  DataSchemaLocationS3?: string;
+  DataRearrangement?: string | undefined;
+  DataSchema?: string | undefined;
+  DataSchemaLocationS3?: string | undefined;
 }
-export const S3DataSpec = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataLocationS3: S.String,
-    DataRearrangement: S.optional(S.String),
-    DataSchema: S.optional(S.String),
-    DataSchemaLocationS3: S.optional(S.String),
-  }),
-).annotate({ identifier: "S3DataSpec" }) as any as S.Schema<S3DataSpec>;
 export interface CreateDataSourceFromS3Input {
   DataSourceId: string;
-  DataSourceName?: string;
+  DataSourceName?: string | undefined;
   DataSpec: S3DataSpec;
-  ComputeStatistics?: boolean;
+  ComputeStatistics?: boolean | undefined;
 }
-export const CreateDataSourceFromS3Input = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataSourceId: S.String,
-    DataSourceName: S.optional(S.String),
-    DataSpec: S3DataSpec,
-    ComputeStatistics: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDataSourceFromS3Input",
-}) as any as S.Schema<CreateDataSourceFromS3Input>;
 export interface CreateDataSourceFromS3Output {
-  DataSourceId?: string;
+  DataSourceId?: string | undefined;
 }
-export const CreateDataSourceFromS3Output = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataSourceId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateDataSourceFromS3Output",
-}) as any as S.Schema<CreateDataSourceFromS3Output>;
 export interface CreateEvaluationInput {
   EvaluationId: string;
-  EvaluationName?: string;
+  EvaluationName?: string | undefined;
   MLModelId: string;
   EvaluationDataSourceId: string;
 }
-export const CreateEvaluationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EvaluationId: S.String,
-    EvaluationName: S.optional(S.String),
-    MLModelId: S.String,
-    EvaluationDataSourceId: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateEvaluationInput",
-}) as any as S.Schema<CreateEvaluationInput>;
 export interface CreateEvaluationOutput {
-  EvaluationId?: string;
+  EvaluationId?: string | undefined;
 }
-export const CreateEvaluationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EvaluationId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateEvaluationOutput",
-}) as any as S.Schema<CreateEvaluationOutput>;
-export type MLModelType =
-  | "REGRESSION"
-  | "BINARY"
-  | "MULTICLASS"
-  | (string & {});
-export const MLModelType = S.String;
-
+export type MLModelType = "REGRESSION" | "BINARY" | "MULTICLASS" | (string & {});
 export type StringType = string;
 export type TrainingParameters = { [key: string]: string | undefined };
-export const TrainingParameters = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type Recipe = string;
 export interface CreateMLModelInput {
   MLModelId: string;
-  MLModelName?: string;
+  MLModelName?: string | undefined;
   MLModelType: MLModelType;
-  Parameters?: { [key: string]: string | undefined };
+  Parameters?: { [key: string]: string | undefined } | undefined;
   TrainingDataSourceId: string;
-  Recipe?: string;
-  RecipeUri?: string;
+  Recipe?: string | undefined;
+  RecipeUri?: string | undefined;
 }
-export const CreateMLModelInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MLModelId: S.String,
-    MLModelName: S.optional(S.String),
-    MLModelType: MLModelType,
-    Parameters: S.optional(TrainingParameters),
-    TrainingDataSourceId: S.String,
-    Recipe: S.optional(S.String),
-    RecipeUri: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateMLModelInput",
-}) as any as S.Schema<CreateMLModelInput>;
 export interface CreateMLModelOutput {
-  MLModelId?: string;
+  MLModelId?: string | undefined;
 }
-export const CreateMLModelOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MLModelId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateMLModelOutput",
-}) as any as S.Schema<CreateMLModelOutput>;
 export interface CreateRealtimeEndpointInput {
   MLModelId: string;
 }
-export const CreateRealtimeEndpointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MLModelId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateRealtimeEndpointInput",
-}) as any as S.Schema<CreateRealtimeEndpointInput>;
 export type IntegerType = number;
 export type EpochTime = Date;
 export type VipURL = string;
-export type RealtimeEndpointStatus =
-  | "NONE"
-  | "READY"
-  | "UPDATING"
-  | "FAILED"
-  | (string & {});
-export const RealtimeEndpointStatus = S.String;
-
+export type RealtimeEndpointStatus = "NONE" | "READY" | "UPDATING" | "FAILED" | (string & {});
 export interface RealtimeEndpointInfo {
-  PeakRequestsPerSecond?: number;
-  CreatedAt?: Date;
-  EndpointUrl?: string;
-  EndpointStatus?: RealtimeEndpointStatus;
+  PeakRequestsPerSecond?: number | undefined;
+  CreatedAt?: Date | undefined;
+  EndpointUrl?: string | undefined;
+  EndpointStatus?: RealtimeEndpointStatus | undefined;
 }
-export const RealtimeEndpointInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PeakRequestsPerSecond: S.optional(S.Number),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndpointUrl: S.optional(S.String),
-    EndpointStatus: S.optional(RealtimeEndpointStatus),
-  }),
-).annotate({
-  identifier: "RealtimeEndpointInfo",
-}) as any as S.Schema<RealtimeEndpointInfo>;
 export interface CreateRealtimeEndpointOutput {
-  MLModelId?: string;
-  RealtimeEndpointInfo?: RealtimeEndpointInfo;
+  MLModelId?: string | undefined;
+  RealtimeEndpointInfo?: RealtimeEndpointInfo | undefined;
 }
-export const CreateRealtimeEndpointOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MLModelId: S.optional(S.String),
-    RealtimeEndpointInfo: S.optional(RealtimeEndpointInfo),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateRealtimeEndpointOutput",
-}) as any as S.Schema<CreateRealtimeEndpointOutput>;
 export interface DeleteBatchPredictionInput {
   BatchPredictionId: string;
 }
-export const DeleteBatchPredictionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BatchPredictionId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBatchPredictionInput",
-}) as any as S.Schema<DeleteBatchPredictionInput>;
 export interface DeleteBatchPredictionOutput {
-  BatchPredictionId?: string;
+  BatchPredictionId?: string | undefined;
 }
-export const DeleteBatchPredictionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BatchPredictionId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DeleteBatchPredictionOutput",
-}) as any as S.Schema<DeleteBatchPredictionOutput>;
 export interface DeleteDataSourceInput {
   DataSourceId: string;
 }
-export const DeleteDataSourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataSourceId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDataSourceInput",
-}) as any as S.Schema<DeleteDataSourceInput>;
 export interface DeleteDataSourceOutput {
-  DataSourceId?: string;
+  DataSourceId?: string | undefined;
 }
-export const DeleteDataSourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataSourceId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DeleteDataSourceOutput",
-}) as any as S.Schema<DeleteDataSourceOutput>;
 export interface DeleteEvaluationInput {
   EvaluationId: string;
 }
-export const DeleteEvaluationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EvaluationId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteEvaluationInput",
-}) as any as S.Schema<DeleteEvaluationInput>;
 export interface DeleteEvaluationOutput {
-  EvaluationId?: string;
+  EvaluationId?: string | undefined;
 }
-export const DeleteEvaluationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EvaluationId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DeleteEvaluationOutput",
-}) as any as S.Schema<DeleteEvaluationOutput>;
 export interface DeleteMLModelInput {
   MLModelId: string;
 }
-export const DeleteMLModelInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MLModelId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteMLModelInput",
-}) as any as S.Schema<DeleteMLModelInput>;
 export interface DeleteMLModelOutput {
-  MLModelId?: string;
+  MLModelId?: string | undefined;
 }
-export const DeleteMLModelOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MLModelId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DeleteMLModelOutput",
-}) as any as S.Schema<DeleteMLModelOutput>;
 export interface DeleteRealtimeEndpointInput {
   MLModelId: string;
 }
-export const DeleteRealtimeEndpointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MLModelId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRealtimeEndpointInput",
-}) as any as S.Schema<DeleteRealtimeEndpointInput>;
 export interface DeleteRealtimeEndpointOutput {
-  MLModelId?: string;
-  RealtimeEndpointInfo?: RealtimeEndpointInfo;
+  MLModelId?: string | undefined;
+  RealtimeEndpointInfo?: RealtimeEndpointInfo | undefined;
 }
-export const DeleteRealtimeEndpointOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MLModelId: S.optional(S.String),
-    RealtimeEndpointInfo: S.optional(RealtimeEndpointInfo),
-  }).pipe(ns),
-).annotate({
-  identifier: "DeleteRealtimeEndpointOutput",
-}) as any as S.Schema<DeleteRealtimeEndpointOutput>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface DeleteTagsInput {
   TagKeys: string[];
   ResourceId: string;
   ResourceType: TaggableResourceType;
 }
-export const DeleteTagsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TagKeys: TagKeyList,
-    ResourceId: S.String,
-    ResourceType: TaggableResourceType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteTagsInput",
-}) as any as S.Schema<DeleteTagsInput>;
 export interface DeleteTagsOutput {
-  ResourceId?: string;
-  ResourceType?: TaggableResourceType;
+  ResourceId?: string | undefined;
+  ResourceType?: TaggableResourceType | undefined;
 }
-export const DeleteTagsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceId: S.optional(S.String),
-    ResourceType: S.optional(TaggableResourceType),
-  }).pipe(ns),
-).annotate({
-  identifier: "DeleteTagsOutput",
-}) as any as S.Schema<DeleteTagsOutput>;
 export type BatchPredictionFilterVariable =
   | "CreatedAt"
   | "LastUpdatedAt"
@@ -790,53 +375,22 @@ export type BatchPredictionFilterVariable =
   | "DataSourceId"
   | "DataURI"
   | (string & {});
-export const BatchPredictionFilterVariable = S.String;
-
 export type ComparatorValue = string;
 export type SortOrder = "asc" | "dsc" | (string & {});
-export const SortOrder = S.String;
-
 export type PageLimit = number;
 export interface DescribeBatchPredictionsInput {
-  FilterVariable?: BatchPredictionFilterVariable;
-  EQ?: string;
-  GT?: string;
-  LT?: string;
-  GE?: string;
-  LE?: string;
-  NE?: string;
-  Prefix?: string;
-  SortOrder?: SortOrder;
-  NextToken?: string;
-  Limit?: number;
+  FilterVariable?: BatchPredictionFilterVariable | undefined;
+  EQ?: string | undefined;
+  GT?: string | undefined;
+  LT?: string | undefined;
+  GE?: string | undefined;
+  LE?: string | undefined;
+  NE?: string | undefined;
+  Prefix?: string | undefined;
+  SortOrder?: SortOrder | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
-export const DescribeBatchPredictionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FilterVariable: S.optional(BatchPredictionFilterVariable),
-    EQ: S.optional(S.String),
-    GT: S.optional(S.String),
-    LT: S.optional(S.String),
-    GE: S.optional(S.String),
-    LE: S.optional(S.String),
-    NE: S.optional(S.String),
-    Prefix: S.optional(S.String),
-    SortOrder: S.optional(SortOrder),
-    NextToken: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeBatchPredictionsInput",
-}) as any as S.Schema<DescribeBatchPredictionsInput>;
 export type AwsUserArn = string;
 export type EntityStatus =
   | "PENDING"
@@ -845,64 +399,31 @@ export type EntityStatus =
   | "COMPLETED"
   | "DELETED"
   | (string & {});
-export const EntityStatus = S.String;
-
 export type Message = string;
 export type LongType = number;
 export interface BatchPrediction {
-  BatchPredictionId?: string;
-  MLModelId?: string;
-  BatchPredictionDataSourceId?: string;
-  InputDataLocationS3?: string;
-  CreatedByIamUser?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Name?: string;
-  Status?: EntityStatus;
-  OutputUri?: string;
-  Message?: string;
-  ComputeTime?: number;
-  FinishedAt?: Date;
-  StartedAt?: Date;
-  TotalRecordCount?: number;
-  InvalidRecordCount?: number;
+  BatchPredictionId?: string | undefined;
+  MLModelId?: string | undefined;
+  BatchPredictionDataSourceId?: string | undefined;
+  InputDataLocationS3?: string | undefined;
+  CreatedByIamUser?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Name?: string | undefined;
+  Status?: EntityStatus | undefined;
+  OutputUri?: string | undefined;
+  Message?: string | undefined;
+  ComputeTime?: number | undefined;
+  FinishedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
+  TotalRecordCount?: number | undefined;
+  InvalidRecordCount?: number | undefined;
 }
-export const BatchPrediction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BatchPredictionId: S.optional(S.String),
-    MLModelId: S.optional(S.String),
-    BatchPredictionDataSourceId: S.optional(S.String),
-    InputDataLocationS3: S.optional(S.String),
-    CreatedByIamUser: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Name: S.optional(S.String),
-    Status: S.optional(EntityStatus),
-    OutputUri: S.optional(S.String),
-    Message: S.optional(S.String),
-    ComputeTime: S.optional(S.Number),
-    FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    TotalRecordCount: S.optional(S.Number),
-    InvalidRecordCount: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "BatchPrediction",
-}) as any as S.Schema<BatchPrediction>;
 export type BatchPredictions = BatchPrediction[];
-export const BatchPredictions = /*@__PURE__*/ S.Array(BatchPrediction);
 export interface DescribeBatchPredictionsOutput {
-  Results?: BatchPrediction[];
-  NextToken?: string;
+  Results?: BatchPrediction[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeBatchPredictionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Results: S.optional(BatchPredictions),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeBatchPredictionsOutput",
-}) as any as S.Schema<DescribeBatchPredictionsOutput>;
 export type DataSourceFilterVariable =
   | "CreatedAt"
   | "LastUpdatedAt"
@@ -911,137 +432,58 @@ export type DataSourceFilterVariable =
   | "DataLocationS3"
   | "IAMUser"
   | (string & {});
-export const DataSourceFilterVariable = S.String;
-
 export interface DescribeDataSourcesInput {
-  FilterVariable?: DataSourceFilterVariable;
-  EQ?: string;
-  GT?: string;
-  LT?: string;
-  GE?: string;
-  LE?: string;
-  NE?: string;
-  Prefix?: string;
-  SortOrder?: SortOrder;
-  NextToken?: string;
-  Limit?: number;
+  FilterVariable?: DataSourceFilterVariable | undefined;
+  EQ?: string | undefined;
+  GT?: string | undefined;
+  LT?: string | undefined;
+  GE?: string | undefined;
+  LE?: string | undefined;
+  NE?: string | undefined;
+  Prefix?: string | undefined;
+  SortOrder?: SortOrder | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
-export const DescribeDataSourcesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FilterVariable: S.optional(DataSourceFilterVariable),
-    EQ: S.optional(S.String),
-    GT: S.optional(S.String),
-    LT: S.optional(S.String),
-    GE: S.optional(S.String),
-    LE: S.optional(S.String),
-    NE: S.optional(S.String),
-    Prefix: S.optional(S.String),
-    SortOrder: S.optional(SortOrder),
-    NextToken: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeDataSourcesInput",
-}) as any as S.Schema<DescribeDataSourcesInput>;
 export interface RedshiftMetadata {
-  RedshiftDatabase?: RedshiftDatabase;
-  DatabaseUserName?: string;
-  SelectSqlQuery?: string;
+  RedshiftDatabase?: RedshiftDatabase | undefined;
+  DatabaseUserName?: string | undefined;
+  SelectSqlQuery?: string | undefined;
 }
-export const RedshiftMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RedshiftDatabase: S.optional(RedshiftDatabase),
-    DatabaseUserName: S.optional(S.String),
-    SelectSqlQuery: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RedshiftMetadata",
-}) as any as S.Schema<RedshiftMetadata>;
 export type EDPPipelineId = string;
 export interface RDSMetadata {
-  Database?: RDSDatabase;
-  DatabaseUserName?: string;
-  SelectSqlQuery?: string;
-  ResourceRole?: string;
-  ServiceRole?: string;
-  DataPipelineId?: string;
+  Database?: RDSDatabase | undefined;
+  DatabaseUserName?: string | undefined;
+  SelectSqlQuery?: string | undefined;
+  ResourceRole?: string | undefined;
+  ServiceRole?: string | undefined;
+  DataPipelineId?: string | undefined;
 }
-export const RDSMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Database: S.optional(RDSDatabase),
-    DatabaseUserName: S.optional(S.String),
-    SelectSqlQuery: S.optional(S.String),
-    ResourceRole: S.optional(S.String),
-    ServiceRole: S.optional(S.String),
-    DataPipelineId: S.optional(S.String),
-  }),
-).annotate({ identifier: "RDSMetadata" }) as any as S.Schema<RDSMetadata>;
 export interface DataSource {
-  DataSourceId?: string;
-  DataLocationS3?: string;
-  DataRearrangement?: string;
-  CreatedByIamUser?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  DataSizeInBytes?: number;
-  NumberOfFiles?: number;
-  Name?: string;
-  Status?: EntityStatus;
-  Message?: string;
-  RedshiftMetadata?: RedshiftMetadata;
-  RDSMetadata?: RDSMetadata;
-  RoleARN?: string;
-  ComputeStatistics?: boolean;
-  ComputeTime?: number;
-  FinishedAt?: Date;
-  StartedAt?: Date;
+  DataSourceId?: string | undefined;
+  DataLocationS3?: string | undefined;
+  DataRearrangement?: string | undefined;
+  CreatedByIamUser?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  DataSizeInBytes?: number | undefined;
+  NumberOfFiles?: number | undefined;
+  Name?: string | undefined;
+  Status?: EntityStatus | undefined;
+  Message?: string | undefined;
+  RedshiftMetadata?: RedshiftMetadata | undefined;
+  RDSMetadata?: RDSMetadata | undefined;
+  RoleARN?: string | undefined;
+  ComputeStatistics?: boolean | undefined;
+  ComputeTime?: number | undefined;
+  FinishedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
 }
-export const DataSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataSourceId: S.optional(S.String),
-    DataLocationS3: S.optional(S.String),
-    DataRearrangement: S.optional(S.String),
-    CreatedByIamUser: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DataSizeInBytes: S.optional(S.Number),
-    NumberOfFiles: S.optional(S.Number),
-    Name: S.optional(S.String),
-    Status: S.optional(EntityStatus),
-    Message: S.optional(S.String),
-    RedshiftMetadata: S.optional(RedshiftMetadata),
-    RDSMetadata: S.optional(RDSMetadata),
-    RoleARN: S.optional(S.String),
-    ComputeStatistics: S.optional(S.Boolean),
-    ComputeTime: S.optional(S.Number),
-    FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
 export type DataSources = DataSource[];
-export const DataSources = /*@__PURE__*/ S.Array(DataSource);
 export interface DescribeDataSourcesOutput {
-  Results?: DataSource[];
-  NextToken?: string;
+  Results?: DataSource[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeDataSourcesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Results: S.optional(DataSources),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeDataSourcesOutput",
-}) as any as S.Schema<DescribeDataSourcesOutput>;
 export type EvaluationFilterVariable =
   | "CreatedAt"
   | "LastUpdatedAt"
@@ -1052,113 +494,46 @@ export type EvaluationFilterVariable =
   | "DataSourceId"
   | "DataURI"
   | (string & {});
-export const EvaluationFilterVariable = S.String;
-
 export interface DescribeEvaluationsInput {
-  FilterVariable?: EvaluationFilterVariable;
-  EQ?: string;
-  GT?: string;
-  LT?: string;
-  GE?: string;
-  LE?: string;
-  NE?: string;
-  Prefix?: string;
-  SortOrder?: SortOrder;
-  NextToken?: string;
-  Limit?: number;
+  FilterVariable?: EvaluationFilterVariable | undefined;
+  EQ?: string | undefined;
+  GT?: string | undefined;
+  LT?: string | undefined;
+  GE?: string | undefined;
+  LE?: string | undefined;
+  NE?: string | undefined;
+  Prefix?: string | undefined;
+  SortOrder?: SortOrder | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
-export const DescribeEvaluationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FilterVariable: S.optional(EvaluationFilterVariable),
-    EQ: S.optional(S.String),
-    GT: S.optional(S.String),
-    LT: S.optional(S.String),
-    GE: S.optional(S.String),
-    LE: S.optional(S.String),
-    NE: S.optional(S.String),
-    Prefix: S.optional(S.String),
-    SortOrder: S.optional(SortOrder),
-    NextToken: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeEvaluationsInput",
-}) as any as S.Schema<DescribeEvaluationsInput>;
 export type PerformanceMetricsPropertyKey = string;
 export type PerformanceMetricsPropertyValue = string;
-export type PerformanceMetricsProperties = {
-  [key: string]: string | undefined;
-};
-export const PerformanceMetricsProperties = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export type PerformanceMetricsProperties = { [key: string]: string | undefined };
 export interface PerformanceMetrics {
-  Properties?: { [key: string]: string | undefined };
+  Properties?: { [key: string]: string | undefined } | undefined;
 }
-export const PerformanceMetrics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Properties: S.optional(PerformanceMetricsProperties) }),
-).annotate({
-  identifier: "PerformanceMetrics",
-}) as any as S.Schema<PerformanceMetrics>;
 export interface Evaluation {
-  EvaluationId?: string;
-  MLModelId?: string;
-  EvaluationDataSourceId?: string;
-  InputDataLocationS3?: string;
-  CreatedByIamUser?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Name?: string;
-  Status?: EntityStatus;
-  PerformanceMetrics?: PerformanceMetrics;
-  Message?: string;
-  ComputeTime?: number;
-  FinishedAt?: Date;
-  StartedAt?: Date;
+  EvaluationId?: string | undefined;
+  MLModelId?: string | undefined;
+  EvaluationDataSourceId?: string | undefined;
+  InputDataLocationS3?: string | undefined;
+  CreatedByIamUser?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Name?: string | undefined;
+  Status?: EntityStatus | undefined;
+  PerformanceMetrics?: PerformanceMetrics | undefined;
+  Message?: string | undefined;
+  ComputeTime?: number | undefined;
+  FinishedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
 }
-export const Evaluation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EvaluationId: S.optional(S.String),
-    MLModelId: S.optional(S.String),
-    EvaluationDataSourceId: S.optional(S.String),
-    InputDataLocationS3: S.optional(S.String),
-    CreatedByIamUser: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Name: S.optional(S.String),
-    Status: S.optional(EntityStatus),
-    PerformanceMetrics: S.optional(PerformanceMetrics),
-    Message: S.optional(S.String),
-    ComputeTime: S.optional(S.Number),
-    FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "Evaluation" }) as any as S.Schema<Evaluation>;
 export type Evaluations = Evaluation[];
-export const Evaluations = /*@__PURE__*/ S.Array(Evaluation);
 export interface DescribeEvaluationsOutput {
-  Results?: Evaluation[];
-  NextToken?: string;
+  Results?: Evaluation[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeEvaluationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Results: S.optional(Evaluations),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeEvaluationsOutput",
-}) as any as S.Schema<DescribeEvaluationsOutput>;
 export type MLModelFilterVariable =
   | "CreatedAt"
   | "LastUpdatedAt"
@@ -1171,584 +546,207 @@ export type MLModelFilterVariable =
   | "Algorithm"
   | "TrainingDataURI"
   | (string & {});
-export const MLModelFilterVariable = S.String;
-
 export interface DescribeMLModelsInput {
-  FilterVariable?: MLModelFilterVariable;
-  EQ?: string;
-  GT?: string;
-  LT?: string;
-  GE?: string;
-  LE?: string;
-  NE?: string;
-  Prefix?: string;
-  SortOrder?: SortOrder;
-  NextToken?: string;
-  Limit?: number;
+  FilterVariable?: MLModelFilterVariable | undefined;
+  EQ?: string | undefined;
+  GT?: string | undefined;
+  LT?: string | undefined;
+  GE?: string | undefined;
+  LE?: string | undefined;
+  NE?: string | undefined;
+  Prefix?: string | undefined;
+  SortOrder?: SortOrder | undefined;
+  NextToken?: string | undefined;
+  Limit?: number | undefined;
 }
-export const DescribeMLModelsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FilterVariable: S.optional(MLModelFilterVariable),
-    EQ: S.optional(S.String),
-    GT: S.optional(S.String),
-    LT: S.optional(S.String),
-    GE: S.optional(S.String),
-    LE: S.optional(S.String),
-    NE: S.optional(S.String),
-    Prefix: S.optional(S.String),
-    SortOrder: S.optional(SortOrder),
-    NextToken: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeMLModelsInput",
-}) as any as S.Schema<DescribeMLModelsInput>;
 export type MLModelName = string;
 export type Algorithm = "sgd" | (string & {});
-export const Algorithm = S.String;
-
 export type ScoreThreshold = number;
 export interface MLModel {
-  MLModelId?: string;
-  TrainingDataSourceId?: string;
-  CreatedByIamUser?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Name?: string;
-  Status?: EntityStatus;
-  SizeInBytes?: number;
-  EndpointInfo?: RealtimeEndpointInfo;
-  TrainingParameters?: { [key: string]: string | undefined };
-  InputDataLocationS3?: string;
-  Algorithm?: Algorithm;
-  MLModelType?: MLModelType;
-  ScoreThreshold?: number;
-  ScoreThresholdLastUpdatedAt?: Date;
-  Message?: string;
-  ComputeTime?: number;
-  FinishedAt?: Date;
-  StartedAt?: Date;
+  MLModelId?: string | undefined;
+  TrainingDataSourceId?: string | undefined;
+  CreatedByIamUser?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Name?: string | undefined;
+  Status?: EntityStatus | undefined;
+  SizeInBytes?: number | undefined;
+  EndpointInfo?: RealtimeEndpointInfo | undefined;
+  TrainingParameters?: { [key: string]: string | undefined } | undefined;
+  InputDataLocationS3?: string | undefined;
+  Algorithm?: Algorithm | undefined;
+  MLModelType?: MLModelType | undefined;
+  ScoreThreshold?: number | undefined;
+  ScoreThresholdLastUpdatedAt?: Date | undefined;
+  Message?: string | undefined;
+  ComputeTime?: number | undefined;
+  FinishedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
 }
-export const MLModel = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MLModelId: S.optional(S.String),
-    TrainingDataSourceId: S.optional(S.String),
-    CreatedByIamUser: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Name: S.optional(S.String),
-    Status: S.optional(EntityStatus),
-    SizeInBytes: S.optional(S.Number),
-    EndpointInfo: S.optional(RealtimeEndpointInfo),
-    TrainingParameters: S.optional(TrainingParameters),
-    InputDataLocationS3: S.optional(S.String),
-    Algorithm: S.optional(Algorithm),
-    MLModelType: S.optional(MLModelType),
-    ScoreThreshold: S.optional(S.Number),
-    ScoreThresholdLastUpdatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Message: S.optional(S.String),
-    ComputeTime: S.optional(S.Number),
-    FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "MLModel" }) as any as S.Schema<MLModel>;
 export type MLModels = MLModel[];
-export const MLModels = /*@__PURE__*/ S.Array(MLModel);
 export interface DescribeMLModelsOutput {
-  Results?: MLModel[];
-  NextToken?: string;
+  Results?: MLModel[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeMLModelsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Results: S.optional(MLModels),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeMLModelsOutput",
-}) as any as S.Schema<DescribeMLModelsOutput>;
 export interface DescribeTagsInput {
   ResourceId: string;
   ResourceType: TaggableResourceType;
 }
-export const DescribeTagsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceId: S.String, ResourceType: TaggableResourceType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeTagsInput",
-}) as any as S.Schema<DescribeTagsInput>;
 export interface DescribeTagsOutput {
-  ResourceId?: string;
-  ResourceType?: TaggableResourceType;
-  Tags?: Tag[];
+  ResourceId?: string | undefined;
+  ResourceType?: TaggableResourceType | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const DescribeTagsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceId: S.optional(S.String),
-    ResourceType: S.optional(TaggableResourceType),
-    Tags: S.optional(TagList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeTagsOutput",
-}) as any as S.Schema<DescribeTagsOutput>;
 export interface GetBatchPredictionInput {
   BatchPredictionId: string;
 }
-export const GetBatchPredictionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BatchPredictionId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBatchPredictionInput",
-}) as any as S.Schema<GetBatchPredictionInput>;
 export type PresignedS3Url = string;
 export interface GetBatchPredictionOutput {
-  BatchPredictionId?: string;
-  MLModelId?: string;
-  BatchPredictionDataSourceId?: string;
-  InputDataLocationS3?: string;
-  CreatedByIamUser?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Name?: string;
-  Status?: EntityStatus;
-  OutputUri?: string;
-  LogUri?: string;
-  Message?: string;
-  ComputeTime?: number;
-  FinishedAt?: Date;
-  StartedAt?: Date;
-  TotalRecordCount?: number;
-  InvalidRecordCount?: number;
+  BatchPredictionId?: string | undefined;
+  MLModelId?: string | undefined;
+  BatchPredictionDataSourceId?: string | undefined;
+  InputDataLocationS3?: string | undefined;
+  CreatedByIamUser?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Name?: string | undefined;
+  Status?: EntityStatus | undefined;
+  OutputUri?: string | undefined;
+  LogUri?: string | undefined;
+  Message?: string | undefined;
+  ComputeTime?: number | undefined;
+  FinishedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
+  TotalRecordCount?: number | undefined;
+  InvalidRecordCount?: number | undefined;
 }
-export const GetBatchPredictionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BatchPredictionId: S.optional(S.String),
-    MLModelId: S.optional(S.String),
-    BatchPredictionDataSourceId: S.optional(S.String),
-    InputDataLocationS3: S.optional(S.String),
-    CreatedByIamUser: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Name: S.optional(S.String),
-    Status: S.optional(EntityStatus),
-    OutputUri: S.optional(S.String),
-    LogUri: S.optional(S.String),
-    Message: S.optional(S.String),
-    ComputeTime: S.optional(S.Number),
-    FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    TotalRecordCount: S.optional(S.Number),
-    InvalidRecordCount: S.optional(S.Number),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetBatchPredictionOutput",
-}) as any as S.Schema<GetBatchPredictionOutput>;
 export type Verbose = boolean;
 export interface GetDataSourceInput {
   DataSourceId: string;
-  Verbose?: boolean;
+  Verbose?: boolean | undefined;
 }
-export const GetDataSourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataSourceId: S.String, Verbose: S.optional(S.Boolean) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDataSourceInput",
-}) as any as S.Schema<GetDataSourceInput>;
 export interface GetDataSourceOutput {
-  DataSourceId?: string;
-  DataLocationS3?: string;
-  DataRearrangement?: string;
-  CreatedByIamUser?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  DataSizeInBytes?: number;
-  NumberOfFiles?: number;
-  Name?: string;
-  Status?: EntityStatus;
-  LogUri?: string;
-  Message?: string;
-  RedshiftMetadata?: RedshiftMetadata;
-  RDSMetadata?: RDSMetadata;
-  RoleARN?: string;
-  ComputeStatistics?: boolean;
-  ComputeTime?: number;
-  FinishedAt?: Date;
-  StartedAt?: Date;
-  DataSourceSchema?: string;
+  DataSourceId?: string | undefined;
+  DataLocationS3?: string | undefined;
+  DataRearrangement?: string | undefined;
+  CreatedByIamUser?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  DataSizeInBytes?: number | undefined;
+  NumberOfFiles?: number | undefined;
+  Name?: string | undefined;
+  Status?: EntityStatus | undefined;
+  LogUri?: string | undefined;
+  Message?: string | undefined;
+  RedshiftMetadata?: RedshiftMetadata | undefined;
+  RDSMetadata?: RDSMetadata | undefined;
+  RoleARN?: string | undefined;
+  ComputeStatistics?: boolean | undefined;
+  ComputeTime?: number | undefined;
+  FinishedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
+  DataSourceSchema?: string | undefined;
 }
-export const GetDataSourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataSourceId: S.optional(S.String),
-    DataLocationS3: S.optional(S.String),
-    DataRearrangement: S.optional(S.String),
-    CreatedByIamUser: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DataSizeInBytes: S.optional(S.Number),
-    NumberOfFiles: S.optional(S.Number),
-    Name: S.optional(S.String),
-    Status: S.optional(EntityStatus),
-    LogUri: S.optional(S.String),
-    Message: S.optional(S.String),
-    RedshiftMetadata: S.optional(RedshiftMetadata),
-    RDSMetadata: S.optional(RDSMetadata),
-    RoleARN: S.optional(S.String),
-    ComputeStatistics: S.optional(S.Boolean),
-    ComputeTime: S.optional(S.Number),
-    FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DataSourceSchema: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetDataSourceOutput",
-}) as any as S.Schema<GetDataSourceOutput>;
 export interface GetEvaluationInput {
   EvaluationId: string;
 }
-export const GetEvaluationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EvaluationId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEvaluationInput",
-}) as any as S.Schema<GetEvaluationInput>;
 export interface GetEvaluationOutput {
-  EvaluationId?: string;
-  MLModelId?: string;
-  EvaluationDataSourceId?: string;
-  InputDataLocationS3?: string;
-  CreatedByIamUser?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Name?: string;
-  Status?: EntityStatus;
-  PerformanceMetrics?: PerformanceMetrics;
-  LogUri?: string;
-  Message?: string;
-  ComputeTime?: number;
-  FinishedAt?: Date;
-  StartedAt?: Date;
+  EvaluationId?: string | undefined;
+  MLModelId?: string | undefined;
+  EvaluationDataSourceId?: string | undefined;
+  InputDataLocationS3?: string | undefined;
+  CreatedByIamUser?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Name?: string | undefined;
+  Status?: EntityStatus | undefined;
+  PerformanceMetrics?: PerformanceMetrics | undefined;
+  LogUri?: string | undefined;
+  Message?: string | undefined;
+  ComputeTime?: number | undefined;
+  FinishedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
 }
-export const GetEvaluationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EvaluationId: S.optional(S.String),
-    MLModelId: S.optional(S.String),
-    EvaluationDataSourceId: S.optional(S.String),
-    InputDataLocationS3: S.optional(S.String),
-    CreatedByIamUser: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Name: S.optional(S.String),
-    Status: S.optional(EntityStatus),
-    PerformanceMetrics: S.optional(PerformanceMetrics),
-    LogUri: S.optional(S.String),
-    Message: S.optional(S.String),
-    ComputeTime: S.optional(S.Number),
-    FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetEvaluationOutput",
-}) as any as S.Schema<GetEvaluationOutput>;
 export interface GetMLModelInput {
   MLModelId: string;
-  Verbose?: boolean;
+  Verbose?: boolean | undefined;
 }
-export const GetMLModelInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MLModelId: S.String, Verbose: S.optional(S.Boolean) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetMLModelInput",
-}) as any as S.Schema<GetMLModelInput>;
 export interface GetMLModelOutput {
-  MLModelId?: string;
-  TrainingDataSourceId?: string;
-  CreatedByIamUser?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Name?: string;
-  Status?: EntityStatus;
-  SizeInBytes?: number;
-  EndpointInfo?: RealtimeEndpointInfo;
-  TrainingParameters?: { [key: string]: string | undefined };
-  InputDataLocationS3?: string;
-  MLModelType?: MLModelType;
-  ScoreThreshold?: number;
-  ScoreThresholdLastUpdatedAt?: Date;
-  LogUri?: string;
-  Message?: string;
-  ComputeTime?: number;
-  FinishedAt?: Date;
-  StartedAt?: Date;
-  Recipe?: string;
-  Schema?: string;
+  MLModelId?: string | undefined;
+  TrainingDataSourceId?: string | undefined;
+  CreatedByIamUser?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Name?: string | undefined;
+  Status?: EntityStatus | undefined;
+  SizeInBytes?: number | undefined;
+  EndpointInfo?: RealtimeEndpointInfo | undefined;
+  TrainingParameters?: { [key: string]: string | undefined } | undefined;
+  InputDataLocationS3?: string | undefined;
+  MLModelType?: MLModelType | undefined;
+  ScoreThreshold?: number | undefined;
+  ScoreThresholdLastUpdatedAt?: Date | undefined;
+  LogUri?: string | undefined;
+  Message?: string | undefined;
+  ComputeTime?: number | undefined;
+  FinishedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
+  Recipe?: string | undefined;
+  Schema?: string | undefined;
 }
-export const GetMLModelOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MLModelId: S.optional(S.String),
-    TrainingDataSourceId: S.optional(S.String),
-    CreatedByIamUser: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Name: S.optional(S.String),
-    Status: S.optional(EntityStatus),
-    SizeInBytes: S.optional(S.Number),
-    EndpointInfo: S.optional(RealtimeEndpointInfo),
-    TrainingParameters: S.optional(TrainingParameters),
-    InputDataLocationS3: S.optional(S.String),
-    MLModelType: S.optional(MLModelType),
-    ScoreThreshold: S.optional(S.Number),
-    ScoreThresholdLastUpdatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LogUri: S.optional(S.String),
-    Message: S.optional(S.String),
-    ComputeTime: S.optional(S.Number),
-    FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Recipe: S.optional(S.String),
-    Schema: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetMLModelOutput",
-}) as any as S.Schema<GetMLModelOutput>;
 export type VariableName = string;
 export type VariableValue = string;
 export type Record = { [key: string]: string | undefined };
-export const Record = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface PredictInput {
   MLModelId: string;
   Record: { [key: string]: string | undefined };
   PredictEndpoint: string;
 }
-export const PredictInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MLModelId: S.String,
-    Record: Record,
-    PredictEndpoint: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "PredictInput" }) as any as S.Schema<PredictInput>;
 export type Label = string;
 export type FloatLabel = number;
 export type ScoreValue = number;
 export type ScoreValuePerLabelMap = { [key: string]: number | undefined };
-export const ScoreValuePerLabelMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Number.pipe(S.optional),
-);
-export type DetailsAttributes =
-  | "PredictiveModelType"
-  | "Algorithm"
-  | (string & {});
-export const DetailsAttributes = S.String;
-
+export type DetailsAttributes = "PredictiveModelType" | "Algorithm" | (string & {});
 export type DetailsValue = string;
-export type DetailsMap = { [key in DetailsAttributes]?: string };
-export const DetailsMap = /*@__PURE__*/ S.Record(
-  DetailsAttributes,
-  S.String.pipe(S.optional),
-);
+export type DetailsMap = { [key in DetailsAttributes]?: string | undefined };
 export interface Prediction {
-  predictedLabel?: string;
-  predictedValue?: number;
-  predictedScores?: { [key: string]: number | undefined };
-  details?: { [key: string]: string | undefined };
+  predictedLabel?: string | undefined;
+  predictedValue?: number | undefined;
+  predictedScores?: { [key: string]: number | undefined } | undefined;
+  details?: { [key: string]: string | undefined } | undefined;
 }
-export const Prediction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    predictedLabel: S.optional(S.String),
-    predictedValue: S.optional(S.Number),
-    predictedScores: S.optional(ScoreValuePerLabelMap),
-    details: S.optional(DetailsMap),
-  }),
-).annotate({ identifier: "Prediction" }) as any as S.Schema<Prediction>;
 export interface PredictOutput {
-  Prediction?: Prediction;
+  Prediction?: Prediction | undefined;
 }
-export const PredictOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Prediction: S.optional(Prediction) }).pipe(ns),
-).annotate({ identifier: "PredictOutput" }) as any as S.Schema<PredictOutput>;
 export interface UpdateBatchPredictionInput {
   BatchPredictionId: string;
   BatchPredictionName: string;
 }
-export const UpdateBatchPredictionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BatchPredictionId: S.String, BatchPredictionName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateBatchPredictionInput",
-}) as any as S.Schema<UpdateBatchPredictionInput>;
 export interface UpdateBatchPredictionOutput {
-  BatchPredictionId?: string;
+  BatchPredictionId?: string | undefined;
 }
-export const UpdateBatchPredictionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BatchPredictionId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateBatchPredictionOutput",
-}) as any as S.Schema<UpdateBatchPredictionOutput>;
 export interface UpdateDataSourceInput {
   DataSourceId: string;
   DataSourceName: string;
 }
-export const UpdateDataSourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataSourceId: S.String, DataSourceName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDataSourceInput",
-}) as any as S.Schema<UpdateDataSourceInput>;
 export interface UpdateDataSourceOutput {
-  DataSourceId?: string;
+  DataSourceId?: string | undefined;
 }
-export const UpdateDataSourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataSourceId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateDataSourceOutput",
-}) as any as S.Schema<UpdateDataSourceOutput>;
 export interface UpdateEvaluationInput {
   EvaluationId: string;
   EvaluationName: string;
 }
-export const UpdateEvaluationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EvaluationId: S.String, EvaluationName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateEvaluationInput",
-}) as any as S.Schema<UpdateEvaluationInput>;
 export interface UpdateEvaluationOutput {
-  EvaluationId?: string;
+  EvaluationId?: string | undefined;
 }
-export const UpdateEvaluationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EvaluationId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateEvaluationOutput",
-}) as any as S.Schema<UpdateEvaluationOutput>;
 export interface UpdateMLModelInput {
   MLModelId: string;
-  MLModelName?: string;
-  ScoreThreshold?: number;
+  MLModelName?: string | undefined;
+  ScoreThreshold?: number | undefined;
 }
-export const UpdateMLModelInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MLModelId: S.String,
-    MLModelName: S.optional(S.String),
-    ScoreThreshold: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateMLModelInput",
-}) as any as S.Schema<UpdateMLModelInput>;
 export interface UpdateMLModelOutput {
-  MLModelId?: string;
+  MLModelId?: string | undefined;
 }
-export const UpdateMLModelOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MLModelId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateMLModelOutput",
-}) as any as S.Schema<UpdateMLModelOutput>;
 export type ErrorMessage = string;
 export type ErrorCode = number;
 export type AddTagsError =
@@ -1764,13 +762,13 @@ export type AddTagsError =
  * `AddTags` updates the tag's value.
  */
 export const addTags: API.OperationMethod<
-  AddTagsInput,
+  AddTagsInput & RegionInput,
   AddTagsOutput,
   AddTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddTagsInput,
-  output: AddTagsOutput,
+  input: __S(304, __c38, 0) as any as S.Schema<AddTagsInput>,
+  output: __S(312, __c39, 0) as any as S.Schema<AddTagsOutput>,
   errors: [
     InternalServerException,
     InvalidInputException,
@@ -1781,6 +779,8 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
+  telemetry: TELEMETRY,
+  span: "AddTags",
 }));
 
 export type CreateBatchPredictionError =
@@ -1801,21 +801,19 @@ export type CreateBatchPredictionError =
  * the results are available in the location specified by the `OutputUri` parameter.
  */
 export const createBatchPrediction: API.OperationMethod<
-  CreateBatchPredictionInput,
+  CreateBatchPredictionInput & RegionInput,
   CreateBatchPredictionOutput,
   CreateBatchPredictionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateBatchPredictionInput,
-  output: CreateBatchPredictionOutput,
-  errors: [
-    IdempotentParameterMismatchException,
-    InternalServerException,
-    InvalidInputException,
-  ],
+  input: __S(328, __c41, 0) as any as S.Schema<CreateBatchPredictionInput>,
+  output: __S(336, __c42, 0) as any as S.Schema<CreateBatchPredictionOutput>,
+  errors: [IdempotentParameterMismatchException, InternalServerException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchPrediction",
+  telemetry: TELEMETRY,
+  span: "CreateBatchPrediction",
 }));
 
 export type CreateDataSourceFromRDSError =
@@ -1835,21 +833,19 @@ export type CreateDataSourceFromRDSError =
  * If Amazon ML cannot accept the input source, it sets the `Status` parameter to `FAILED` and includes an error message in the `Message` attribute of the `GetDataSource` operation response.
  */
 export const createDataSourceFromRDS: API.OperationMethod<
-  CreateDataSourceFromRDSInput,
+  CreateDataSourceFromRDSInput & RegionInput,
   CreateDataSourceFromRDSOutput,
   CreateDataSourceFromRDSError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDataSourceFromRDSInput,
-  output: CreateDataSourceFromRDSOutput,
-  errors: [
-    IdempotentParameterMismatchException,
-    InternalServerException,
-    InvalidInputException,
-  ],
+  input: __S(1, __c0, 1) as any as S.Schema<CreateDataSourceFromRDSInput>,
+  output: __S(16, __c2, 0) as any as S.Schema<CreateDataSourceFromRDSOutput>,
+  errors: [IdempotentParameterMismatchException, InternalServerException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSourceFromRDS",
+  telemetry: TELEMETRY,
+  span: "CreateDataSourceFromRDS",
 }));
 
 export type CreateDataSourceFromRedshiftError =
@@ -1890,21 +886,19 @@ export type CreateDataSourceFromRedshiftError =
  * make sure that all required fields have the appropriate values.
  */
 export const createDataSourceFromRedshift: API.OperationMethod<
-  CreateDataSourceFromRedshiftInput,
+  CreateDataSourceFromRedshiftInput & RegionInput,
   CreateDataSourceFromRedshiftOutput,
   CreateDataSourceFromRedshiftError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDataSourceFromRedshiftInput,
-  output: CreateDataSourceFromRedshiftOutput,
-  errors: [
-    IdempotentParameterMismatchException,
-    InternalServerException,
-    InvalidInputException,
-  ],
+  input: __S(41, __c5, 1) as any as S.Schema<CreateDataSourceFromRedshiftInput>,
+  output: __S(16, __c2, 0) as any as S.Schema<CreateDataSourceFromRedshiftOutput>,
+  errors: [IdempotentParameterMismatchException, InternalServerException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSourceFromRedshift",
+  telemetry: TELEMETRY,
+  span: "CreateDataSourceFromRedshift",
 }));
 
 export type CreateDataSourceFromS3Error =
@@ -1946,21 +940,19 @@ export type CreateDataSourceFromS3Error =
  * word combinations? The recipe provides answers to these questions.
  */
 export const createDataSourceFromS3: API.OperationMethod<
-  CreateDataSourceFromS3Input,
+  CreateDataSourceFromS3Input & RegionInput,
   CreateDataSourceFromS3Output,
   CreateDataSourceFromS3Error,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDataSourceFromS3Input,
-  output: CreateDataSourceFromS3Output,
-  errors: [
-    IdempotentParameterMismatchException,
-    InternalServerException,
-    InvalidInputException,
-  ],
+  input: __S(57, __c7, 1) as any as S.Schema<CreateDataSourceFromS3Input>,
+  output: __S(16, __c2, 0) as any as S.Schema<CreateDataSourceFromS3Output>,
+  errors: [IdempotentParameterMismatchException, InternalServerException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSourceFromS3",
+  telemetry: TELEMETRY,
+  span: "CreateDataSourceFromS3",
 }));
 
 export type CreateEvaluationError =
@@ -1981,21 +973,19 @@ export type CreateEvaluationError =
  * You can use the `GetEvaluation` operation to check progress of the evaluation during the creation operation.
  */
 export const createEvaluation: API.OperationMethod<
-  CreateEvaluationInput,
+  CreateEvaluationInput & RegionInput,
   CreateEvaluationOutput,
   CreateEvaluationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateEvaluationInput,
-  output: CreateEvaluationOutput,
-  errors: [
-    IdempotentParameterMismatchException,
-    InternalServerException,
-    InvalidInputException,
-  ],
+  input: __S(64, __c8, 0) as any as S.Schema<CreateEvaluationInput>,
+  output: __S(72, __c9, 0) as any as S.Schema<CreateEvaluationOutput>,
+  errors: [IdempotentParameterMismatchException, InternalServerException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEvaluation",
+  telemetry: TELEMETRY,
+  span: "CreateEvaluation",
 }));
 
 export type CreateMLModelError =
@@ -2026,21 +1016,19 @@ export type CreateMLModelError =
  * `CreateDataSourceFromRedshift` operations.
  */
 export const createMLModel: API.OperationMethod<
-  CreateMLModelInput,
+  CreateMLModelInput & RegionInput,
   CreateMLModelOutput,
   CreateMLModelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateMLModelInput,
-  output: CreateMLModelOutput,
-  errors: [
-    IdempotentParameterMismatchException,
-    InternalServerException,
-    InvalidInputException,
-  ],
+  input: __S(80, __c10, 0) as any as S.Schema<CreateMLModelInput>,
+  output: __S(88, __c11, 0) as any as S.Schema<CreateMLModelOutput>,
+  errors: [IdempotentParameterMismatchException, InternalServerException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMLModel",
+  telemetry: TELEMETRY,
+  span: "CreateMLModel",
 }));
 
 export type CreateRealtimeEndpointError =
@@ -2052,21 +1040,19 @@ export type CreateRealtimeEndpointError =
  * Creates a real-time endpoint for the `MLModel`. The endpoint contains the URI of the `MLModel`; that is, the location to send real-time prediction requests for the specified `MLModel`.
  */
 export const createRealtimeEndpoint: API.OperationMethod<
-  CreateRealtimeEndpointInput,
+  CreateRealtimeEndpointInput & RegionInput,
   CreateRealtimeEndpointOutput,
   CreateRealtimeEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRealtimeEndpointInput,
-  output: CreateRealtimeEndpointOutput,
-  errors: [
-    InternalServerException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  input: __S(104, __c13, 0) as any as S.Schema<CreateRealtimeEndpointInput>,
+  output: __S(112, __c14, 0) as any as S.Schema<CreateRealtimeEndpointOutput>,
+  errors: [InternalServerException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRealtimeEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateRealtimeEndpoint",
 }));
 
 export type DeleteBatchPredictionError =
@@ -2083,21 +1069,19 @@ export type DeleteBatchPredictionError =
  * **Caution:** The result of the `DeleteBatchPrediction` operation is irreversible.
  */
 export const deleteBatchPrediction: API.OperationMethod<
-  DeleteBatchPredictionInput,
+  DeleteBatchPredictionInput & RegionInput,
   DeleteBatchPredictionOutput,
   DeleteBatchPredictionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBatchPredictionInput,
-  output: DeleteBatchPredictionOutput,
-  errors: [
-    InternalServerException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  input: __S(128, __c16, 0) as any as S.Schema<DeleteBatchPredictionInput>,
+  output: __S(336, __c42, 0) as any as S.Schema<DeleteBatchPredictionOutput>,
+  errors: [InternalServerException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBatchPrediction",
+  telemetry: TELEMETRY,
+  span: "DeleteBatchPrediction",
 }));
 
 export type DeleteDataSourceError =
@@ -2113,21 +1097,19 @@ export type DeleteDataSourceError =
  * **Caution:** The results of the `DeleteDataSource` operation are irreversible.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceInput,
+  DeleteDataSourceInput & RegionInput,
   DeleteDataSourceOutput,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDataSourceInput,
-  output: DeleteDataSourceOutput,
-  errors: [
-    InternalServerException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  input: __S(136, __c17, 0) as any as S.Schema<DeleteDataSourceInput>,
+  output: __S(16, __c2, 0) as any as S.Schema<DeleteDataSourceOutput>,
+  errors: [InternalServerException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
+  telemetry: TELEMETRY,
+  span: "DeleteDataSource",
 }));
 
 export type DeleteEvaluationError =
@@ -2144,21 +1126,19 @@ export type DeleteEvaluationError =
  * **Caution:** The results of the `DeleteEvaluation` operation are irreversible.
  */
 export const deleteEvaluation: API.OperationMethod<
-  DeleteEvaluationInput,
+  DeleteEvaluationInput & RegionInput,
   DeleteEvaluationOutput,
   DeleteEvaluationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEvaluationInput,
-  output: DeleteEvaluationOutput,
-  errors: [
-    InternalServerException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  input: __S(144, __c18, 0) as any as S.Schema<DeleteEvaluationInput>,
+  output: __S(72, __c9, 0) as any as S.Schema<DeleteEvaluationOutput>,
+  errors: [InternalServerException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvaluation",
+  telemetry: TELEMETRY,
+  span: "DeleteEvaluation",
 }));
 
 export type DeleteMLModelError =
@@ -2175,21 +1155,19 @@ export type DeleteMLModelError =
  * **Caution:** The result of the `DeleteMLModel` operation is irreversible.
  */
 export const deleteMLModel: API.OperationMethod<
-  DeleteMLModelInput,
+  DeleteMLModelInput & RegionInput,
   DeleteMLModelOutput,
   DeleteMLModelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteMLModelInput,
-  output: DeleteMLModelOutput,
-  errors: [
-    InternalServerException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  input: __S(152, __c19, 0) as any as S.Schema<DeleteMLModelInput>,
+  output: __S(88, __c11, 0) as any as S.Schema<DeleteMLModelOutput>,
+  errors: [InternalServerException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMLModel",
+  telemetry: TELEMETRY,
+  span: "DeleteMLModel",
 }));
 
 export type DeleteRealtimeEndpointError =
@@ -2201,21 +1179,19 @@ export type DeleteRealtimeEndpointError =
  * Deletes a real time endpoint of an `MLModel`.
  */
 export const deleteRealtimeEndpoint: API.OperationMethod<
-  DeleteRealtimeEndpointInput,
+  DeleteRealtimeEndpointInput & RegionInput,
   DeleteRealtimeEndpointOutput,
   DeleteRealtimeEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRealtimeEndpointInput,
-  output: DeleteRealtimeEndpointOutput,
-  errors: [
-    InternalServerException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  input: __S(160, __c20, 0) as any as S.Schema<DeleteRealtimeEndpointInput>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteRealtimeEndpointOutput>,
+  errors: [InternalServerException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRealtimeEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteRealtimeEndpoint",
 }));
 
 export type DeleteTagsError =
@@ -2230,13 +1206,13 @@ export type DeleteTagsError =
  * If you specify a tag that doesn't exist, Amazon ML ignores it.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsInput,
+  DeleteTagsInput & RegionInput,
   DeleteTagsOutput,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTagsInput,
-  output: DeleteTagsOutput,
+  input: __S(168, __c21, 0) as any as S.Schema<DeleteTagsInput>,
+  output: __S(312, __c39, 0) as any as S.Schema<DeleteTagsOutput>,
   errors: [
     InternalServerException,
     InvalidInputException,
@@ -2246,6 +1222,8 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  telemetry: TELEMETRY,
+  span: "DeleteTags",
 }));
 
 export type DescribeBatchPredictionsError =
@@ -2256,14 +1234,14 @@ export type DescribeBatchPredictionsError =
  * Returns a list of `BatchPrediction` operations that match the search criteria in the request.
  */
 export const describeBatchPredictions: API.PaginatedOperationMethod<
-  DescribeBatchPredictionsInput,
+  DescribeBatchPredictionsInput & RegionInput,
   DescribeBatchPredictionsOutput,
   DescribeBatchPredictionsError,
   Credentials | HttpClient.HttpClient,
   BatchPrediction
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeBatchPredictionsInput,
-  output: DescribeBatchPredictionsOutput,
+  input: __S(176, __c22, 0) as any as S.Schema<DescribeBatchPredictionsInput>,
+  output: __S(179, __c22, 3) as any as S.Schema<DescribeBatchPredictionsOutput>,
   errors: [InternalServerException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2274,6 +1252,8 @@ export const describeBatchPredictions: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeBatchPredictions",
 })) as any;
 
 export type DescribeDataSourcesError =
@@ -2284,14 +1264,14 @@ export type DescribeDataSourcesError =
  * Returns a list of `DataSource` that match the search criteria in the request.
  */
 export const describeDataSources: API.PaginatedOperationMethod<
-  DescribeDataSourcesInput,
+  DescribeDataSourcesInput & RegionInput,
   DescribeDataSourcesOutput,
   DescribeDataSourcesError,
   Credentials | HttpClient.HttpClient,
   DataSource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeDataSourcesInput,
-  output: DescribeDataSourcesOutput,
+  input: __S(184, __c23, 0) as any as S.Schema<DescribeDataSourcesInput>,
+  output: __S(187, __c23, 3) as any as S.Schema<DescribeDataSourcesOutput>,
   errors: [InternalServerException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2302,6 +1282,8 @@ export const describeDataSources: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDataSources",
 })) as any;
 
 export type DescribeEvaluationsError =
@@ -2312,14 +1294,14 @@ export type DescribeEvaluationsError =
  * Returns a list of `DescribeEvaluations` that match the search criteria in the request.
  */
 export const describeEvaluations: API.PaginatedOperationMethod<
-  DescribeEvaluationsInput,
+  DescribeEvaluationsInput & RegionInput,
   DescribeEvaluationsOutput,
   DescribeEvaluationsError,
   Credentials | HttpClient.HttpClient,
   Evaluation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeEvaluationsInput,
-  output: DescribeEvaluationsOutput,
+  input: __S(200, __c25, 0) as any as S.Schema<DescribeEvaluationsInput>,
+  output: __S(203, __c25, 3) as any as S.Schema<DescribeEvaluationsOutput>,
   errors: [InternalServerException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2330,24 +1312,23 @@ export const describeEvaluations: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEvaluations",
 })) as any;
 
-export type DescribeMLModelsError =
-  | InternalServerException
-  | InvalidInputException
-  | CommonErrors;
+export type DescribeMLModelsError = InternalServerException | InvalidInputException | CommonErrors;
 /**
  * Returns a list of `MLModel` that match the search criteria in the request.
  */
 export const describeMLModels: API.PaginatedOperationMethod<
-  DescribeMLModelsInput,
+  DescribeMLModelsInput & RegionInput,
   DescribeMLModelsOutput,
   DescribeMLModelsError,
   Credentials | HttpClient.HttpClient,
   MLModel
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeMLModelsInput,
-  output: DescribeMLModelsOutput,
+  input: __S(216, __c27, 0) as any as S.Schema<DescribeMLModelsInput>,
+  output: __S(219, __c27, 3) as any as S.Schema<DescribeMLModelsOutput>,
   errors: [InternalServerException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2358,6 +1339,8 @@ export const describeMLModels: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMLModels",
 })) as any;
 
 export type DescribeTagsError =
@@ -2369,21 +1352,19 @@ export type DescribeTagsError =
  * Describes one or more of the tags for your Amazon ML object.
  */
 export const describeTags: API.OperationMethod<
-  DescribeTagsInput,
+  DescribeTagsInput & RegionInput,
   DescribeTagsOutput,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeTagsInput,
-  output: DescribeTagsOutput,
-  errors: [
-    InternalServerException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  input: __S(224, __c28, 0) as any as S.Schema<DescribeTagsInput>,
+  output: __S(225, __c28, 1) as any as S.Schema<DescribeTagsOutput>,
+  errors: [InternalServerException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTags",
+  telemetry: TELEMETRY,
+  span: "DescribeTags",
 }));
 
 export type GetBatchPredictionError =
@@ -2396,21 +1377,19 @@ export type GetBatchPredictionError =
  * `Batch Prediction` request.
  */
 export const getBatchPrediction: API.OperationMethod<
-  GetBatchPredictionInput,
+  GetBatchPredictionInput & RegionInput,
   GetBatchPredictionOutput,
   GetBatchPredictionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBatchPredictionInput,
-  output: GetBatchPredictionOutput,
-  errors: [
-    InternalServerException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  input: __S(232, __c29, 0) as any as S.Schema<GetBatchPredictionInput>,
+  output: __S(233, __c29, 1) as any as S.Schema<GetBatchPredictionOutput>,
+  errors: [InternalServerException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBatchPrediction",
+  telemetry: TELEMETRY,
+  span: "GetBatchPrediction",
 }));
 
 export type GetDataSourceError =
@@ -2425,21 +1404,19 @@ export type GetDataSourceError =
  * adds the schema description and the list of files pointed to by the DataSource to the normal format.
  */
 export const getDataSource: API.OperationMethod<
-  GetDataSourceInput,
+  GetDataSourceInput & RegionInput,
   GetDataSourceOutput,
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDataSourceInput,
-  output: GetDataSourceOutput,
-  errors: [
-    InternalServerException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  input: __S(240, __c30, 0) as any as S.Schema<GetDataSourceInput>,
+  output: __S(241, __c30, 1) as any as S.Schema<GetDataSourceOutput>,
+  errors: [InternalServerException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSource",
+  telemetry: TELEMETRY,
+  span: "GetDataSource",
 }));
 
 export type GetEvaluationError =
@@ -2451,21 +1428,19 @@ export type GetEvaluationError =
  * Returns an `Evaluation` that includes metadata as well as the current status of the `Evaluation`.
  */
 export const getEvaluation: API.OperationMethod<
-  GetEvaluationInput,
+  GetEvaluationInput & RegionInput,
   GetEvaluationOutput,
   GetEvaluationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEvaluationInput,
-  output: GetEvaluationOutput,
-  errors: [
-    InternalServerException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  input: __S(248, __c31, 0) as any as S.Schema<GetEvaluationInput>,
+  output: __S(249, __c31, 1) as any as S.Schema<GetEvaluationOutput>,
+  errors: [InternalServerException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvaluation",
+  telemetry: TELEMETRY,
+  span: "GetEvaluation",
 }));
 
 export type GetMLModelError =
@@ -2479,21 +1454,19 @@ export type GetMLModelError =
  * `GetMLModel` provides results in normal or verbose format.
  */
 export const getMLModel: API.OperationMethod<
-  GetMLModelInput,
+  GetMLModelInput & RegionInput,
   GetMLModelOutput,
   GetMLModelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMLModelInput,
-  output: GetMLModelOutput,
-  errors: [
-    InternalServerException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  input: __S(256, __c32, 0) as any as S.Schema<GetMLModelInput>,
+  output: __S(257, __c32, 1) as any as S.Schema<GetMLModelOutput>,
+  errors: [InternalServerException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMLModel",
+  telemetry: TELEMETRY,
+  span: "GetMLModel",
 }));
 
 export type PredictError =
@@ -2510,13 +1483,13 @@ export type PredictError =
  * response parameter is populated depends on the type of model requested.
  */
 export const predict: API.OperationMethod<
-  PredictInput,
+  PredictInput & RegionInput,
   PredictOutput,
   PredictError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PredictInput,
-  output: PredictOutput,
+  input: __S(264, __c33, 0) as any as S.Schema<PredictInput>,
+  output: __S(268, __c33, 4) as any as S.Schema<PredictOutput>,
   errors: [
     InternalServerException,
     InvalidInputException,
@@ -2527,6 +1500,8 @@ export const predict: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Predict",
+  telemetry: TELEMETRY,
+  span: "Predict",
 }));
 
 export type UpdateBatchPredictionError =
@@ -2540,21 +1515,19 @@ export type UpdateBatchPredictionError =
  * You can use the `GetBatchPrediction` operation to view the contents of the updated data element.
  */
 export const updateBatchPrediction: API.OperationMethod<
-  UpdateBatchPredictionInput,
+  UpdateBatchPredictionInput & RegionInput,
   UpdateBatchPredictionOutput,
   UpdateBatchPredictionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateBatchPredictionInput,
-  output: UpdateBatchPredictionOutput,
-  errors: [
-    InternalServerException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  input: __S(272, __c34, 0) as any as S.Schema<UpdateBatchPredictionInput>,
+  output: __S(336, __c42, 0) as any as S.Schema<UpdateBatchPredictionOutput>,
+  errors: [InternalServerException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBatchPrediction",
+  telemetry: TELEMETRY,
+  span: "UpdateBatchPrediction",
 }));
 
 export type UpdateDataSourceError =
@@ -2568,21 +1541,19 @@ export type UpdateDataSourceError =
  * You can use the `GetDataSource` operation to view the contents of the updated data element.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceInput,
+  UpdateDataSourceInput & RegionInput,
   UpdateDataSourceOutput,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDataSourceInput,
-  output: UpdateDataSourceOutput,
-  errors: [
-    InternalServerException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  input: __S(280, __c35, 0) as any as S.Schema<UpdateDataSourceInput>,
+  output: __S(16, __c2, 0) as any as S.Schema<UpdateDataSourceOutput>,
+  errors: [InternalServerException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
+  telemetry: TELEMETRY,
+  span: "UpdateDataSource",
 }));
 
 export type UpdateEvaluationError =
@@ -2596,21 +1567,19 @@ export type UpdateEvaluationError =
  * You can use the `GetEvaluation` operation to view the contents of the updated data element.
  */
 export const updateEvaluation: API.OperationMethod<
-  UpdateEvaluationInput,
+  UpdateEvaluationInput & RegionInput,
   UpdateEvaluationOutput,
   UpdateEvaluationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateEvaluationInput,
-  output: UpdateEvaluationOutput,
-  errors: [
-    InternalServerException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  input: __S(288, __c36, 0) as any as S.Schema<UpdateEvaluationInput>,
+  output: __S(72, __c9, 0) as any as S.Schema<UpdateEvaluationOutput>,
+  errors: [InternalServerException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEvaluation",
+  telemetry: TELEMETRY,
+  span: "UpdateEvaluation",
 }));
 
 export type UpdateMLModelError =
@@ -2624,19 +1593,786 @@ export type UpdateMLModelError =
  * You can use the `GetMLModel` operation to view the contents of the updated data element.
  */
 export const updateMLModel: API.OperationMethod<
-  UpdateMLModelInput,
+  UpdateMLModelInput & RegionInput,
   UpdateMLModelOutput,
   UpdateMLModelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateMLModelInput,
-  output: UpdateMLModelOutput,
-  errors: [
-    InternalServerException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  input: __S(296, __c37, 0) as any as S.Schema<UpdateMLModelInput>,
+  output: __S(88, __c11, 0) as any as S.Schema<UpdateMLModelOutput>,
+  errors: [InternalServerException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMLModel",
+  telemetry: TELEMETRY,
+  span: "UpdateMLModel",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DatabaseInformation: __S(32, __c4, 0),
+          SelectSqlQuery: S.String,
+          DatabaseCredentials: __S(8, __c1, 0),
+          S3StagingLocation: S.String,
+          DataRearrangement: S.optional(S.String),
+          DataSchema: S.optional(S.String),
+          DataSchemaUri: S.optional(S.String),
+          ResourceRole: S.String,
+          ServiceRole: S.String,
+          SubnetId: S.String,
+          SecurityGroupIds: __S(24, __c3, 0),
+        }),
+      ).annotate({ identifier: "RDSDataSpec" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DataSourceId: S.String,
+          DataSourceName: S.optional(S.String),
+          RDSData: __S(0, __c0, 0),
+          RoleARN: S.String,
+          ComputeStatistics: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateDataSourceFromRDSInput" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Username: S.String, Password: SensitiveString })).annotate({
+        identifier: "RDSDatabaseCredentials",
+      });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ DataSourceId: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "CreateDataSourceFromRDSOutput",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ InstanceIdentifier: S.String, DatabaseName: S.String }),
+      ).annotate({ identifier: "RDSDatabase" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DatabaseInformation: __S(48, __c6, 0),
+          SelectSqlQuery: S.String,
+          DatabaseCredentials: __S(8, __c1, 0),
+          S3StagingLocation: S.String,
+          DataRearrangement: S.optional(S.String),
+          DataSchema: S.optional(S.String),
+          DataSchemaUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RedshiftDataSpec" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DataSourceId: S.String,
+          DataSourceName: S.optional(S.String),
+          DataSpec: __S(40, __c5, 0),
+          RoleARN: S.String,
+          ComputeStatistics: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateDataSourceFromRedshiftInput" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DatabaseName: S.String, ClusterIdentifier: S.String }),
+      ).annotate({ identifier: "RedshiftDatabase" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DataLocationS3: S.String,
+          DataRearrangement: S.optional(S.String),
+          DataSchema: S.optional(S.String),
+          DataSchemaLocationS3: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "S3DataSpec" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DataSourceId: S.String,
+          DataSourceName: S.optional(S.String),
+          DataSpec: __S(56, __c7, 0),
+          ComputeStatistics: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateDataSourceFromS3Input" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EvaluationId: S.String,
+          EvaluationName: S.optional(S.String),
+          MLModelId: S.String,
+          EvaluationDataSourceId: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateEvaluationInput" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ EvaluationId: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "CreateEvaluationOutput",
+      });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MLModelId: S.String,
+          MLModelName: S.optional(S.String),
+          MLModelType: S.String,
+          Parameters: S.optional(__S(96, __c12, 0)),
+          TrainingDataSourceId: S.String,
+          Recipe: S.optional(S.String),
+          RecipeUri: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateMLModelInput" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ MLModelId: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "CreateMLModelOutput",
+      });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MLModelId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateRealtimeEndpointInput" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MLModelId: S.optional(S.String),
+          RealtimeEndpointInfo: S.optional(__S(120, __c15, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "CreateRealtimeEndpointOutput" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PeakRequestsPerSecond: S.optional(S.Number),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndpointUrl: S.optional(S.String),
+          EndpointStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RealtimeEndpointInfo" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ BatchPredictionId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteBatchPredictionInput" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DataSourceId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteDataSourceInput" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ EvaluationId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteEvaluationInput" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MLModelId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteMLModelInput" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MLModelId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteRealtimeEndpointInput" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TagKeys: __S(24, __c3, 0), ResourceId: S.String, ResourceType: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteTagsInput" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FilterVariable: S.optional(S.String),
+          EQ: S.optional(S.String),
+          GT: S.optional(S.String),
+          LT: S.optional(S.String),
+          GE: S.optional(S.String),
+          LE: S.optional(S.String),
+          NE: S.optional(S.String),
+          Prefix: S.optional(S.String),
+          SortOrder: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeBatchPredictionsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          BatchPredictionId: S.optional(S.String),
+          MLModelId: S.optional(S.String),
+          BatchPredictionDataSourceId: S.optional(S.String),
+          InputDataLocationS3: S.optional(S.String),
+          CreatedByIamUser: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          OutputUri: S.optional(S.String),
+          Message: S.optional(S.String),
+          ComputeTime: S.optional(S.Number),
+          FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          TotalRecordCount: S.optional(S.Number),
+          InvalidRecordCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "BatchPrediction" });
+    case 2:
+      return S.Array(__S(177, __c22, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Results: S.optional(__S(178, __c22, 2)), NextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "DescribeBatchPredictionsOutput" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FilterVariable: S.optional(S.String),
+          EQ: S.optional(S.String),
+          GT: S.optional(S.String),
+          LT: S.optional(S.String),
+          GE: S.optional(S.String),
+          LE: S.optional(S.String),
+          NE: S.optional(S.String),
+          Prefix: S.optional(S.String),
+          SortOrder: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeDataSourcesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DataSourceId: S.optional(S.String),
+          DataLocationS3: S.optional(S.String),
+          DataRearrangement: S.optional(S.String),
+          CreatedByIamUser: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          DataSizeInBytes: S.optional(S.Number),
+          NumberOfFiles: S.optional(S.Number),
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          Message: S.optional(S.String),
+          RedshiftMetadata: S.optional(__S(192, __c24, 0)),
+          RDSMetadata: S.optional(__S(193, __c24, 1)),
+          RoleARN: S.optional(S.String),
+          ComputeStatistics: S.optional(S.Boolean),
+          ComputeTime: S.optional(S.Number),
+          FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "DataSource" });
+    case 2:
+      return S.Array(__S(185, __c23, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Results: S.optional(__S(186, __c23, 2)), NextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "DescribeDataSourcesOutput" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RedshiftDatabase: S.optional(__S(48, __c6, 0)),
+          DatabaseUserName: S.optional(S.String),
+          SelectSqlQuery: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RedshiftMetadata" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Database: S.optional(__S(32, __c4, 0)),
+          DatabaseUserName: S.optional(S.String),
+          SelectSqlQuery: S.optional(S.String),
+          ResourceRole: S.optional(S.String),
+          ServiceRole: S.optional(S.String),
+          DataPipelineId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RDSMetadata" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FilterVariable: S.optional(S.String),
+          EQ: S.optional(S.String),
+          GT: S.optional(S.String),
+          LT: S.optional(S.String),
+          GE: S.optional(S.String),
+          LE: S.optional(S.String),
+          NE: S.optional(S.String),
+          Prefix: S.optional(S.String),
+          SortOrder: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEvaluationsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          EvaluationId: S.optional(S.String),
+          MLModelId: S.optional(S.String),
+          EvaluationDataSourceId: S.optional(S.String),
+          InputDataLocationS3: S.optional(S.String),
+          CreatedByIamUser: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          PerformanceMetrics: S.optional(__S(208, __c26, 0)),
+          Message: S.optional(S.String),
+          ComputeTime: S.optional(S.Number),
+          FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "Evaluation" });
+    case 2:
+      return S.Array(__S(201, __c25, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Results: S.optional(__S(202, __c25, 2)), NextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "DescribeEvaluationsOutput" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Properties: S.optional(__S(96, __c12, 0)) })).annotate({
+        identifier: "PerformanceMetrics",
+      });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FilterVariable: S.optional(S.String),
+          EQ: S.optional(S.String),
+          GT: S.optional(S.String),
+          LT: S.optional(S.String),
+          GE: S.optional(S.String),
+          LE: S.optional(S.String),
+          NE: S.optional(S.String),
+          Prefix: S.optional(S.String),
+          SortOrder: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeMLModelsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          MLModelId: S.optional(S.String),
+          TrainingDataSourceId: S.optional(S.String),
+          CreatedByIamUser: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          SizeInBytes: S.optional(S.Number),
+          EndpointInfo: S.optional(__S(120, __c15, 0)),
+          TrainingParameters: S.optional(__S(96, __c12, 0)),
+          InputDataLocationS3: S.optional(S.String),
+          Algorithm: S.optional(S.String),
+          MLModelType: S.optional(S.String),
+          ScoreThreshold: S.optional(S.Number),
+          ScoreThresholdLastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Message: S.optional(S.String),
+          ComputeTime: S.optional(S.Number),
+          FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "MLModel" });
+    case 2:
+      return S.Array(__S(217, __c27, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Results: S.optional(__S(218, __c27, 2)), NextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "DescribeMLModelsOutput" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceId: S.String, ResourceType: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeTagsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceId: S.optional(S.String),
+          ResourceType: S.optional(S.String),
+          Tags: S.optional(__S(321, __c40, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeTagsOutput" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ BatchPredictionId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetBatchPredictionInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          BatchPredictionId: S.optional(S.String),
+          MLModelId: S.optional(S.String),
+          BatchPredictionDataSourceId: S.optional(S.String),
+          InputDataLocationS3: S.optional(S.String),
+          CreatedByIamUser: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          OutputUri: S.optional(S.String),
+          LogUri: S.optional(S.String),
+          Message: S.optional(S.String),
+          ComputeTime: S.optional(S.Number),
+          FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          TotalRecordCount: S.optional(S.Number),
+          InvalidRecordCount: S.optional(S.Number),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetBatchPredictionOutput" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DataSourceId: S.String, Verbose: S.optional(S.Boolean) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetDataSourceInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DataSourceId: S.optional(S.String),
+          DataLocationS3: S.optional(S.String),
+          DataRearrangement: S.optional(S.String),
+          CreatedByIamUser: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          DataSizeInBytes: S.optional(S.Number),
+          NumberOfFiles: S.optional(S.Number),
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          LogUri: S.optional(S.String),
+          Message: S.optional(S.String),
+          RedshiftMetadata: S.optional(__S(192, __c24, 0)),
+          RDSMetadata: S.optional(__S(193, __c24, 1)),
+          RoleARN: S.optional(S.String),
+          ComputeStatistics: S.optional(S.Boolean),
+          ComputeTime: S.optional(S.Number),
+          FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          DataSourceSchema: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetDataSourceOutput" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ EvaluationId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetEvaluationInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          EvaluationId: S.optional(S.String),
+          MLModelId: S.optional(S.String),
+          EvaluationDataSourceId: S.optional(S.String),
+          InputDataLocationS3: S.optional(S.String),
+          CreatedByIamUser: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          PerformanceMetrics: S.optional(__S(208, __c26, 0)),
+          LogUri: S.optional(S.String),
+          Message: S.optional(S.String),
+          ComputeTime: S.optional(S.Number),
+          FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetEvaluationOutput" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MLModelId: S.String, Verbose: S.optional(S.Boolean) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetMLModelInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          MLModelId: S.optional(S.String),
+          TrainingDataSourceId: S.optional(S.String),
+          CreatedByIamUser: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          SizeInBytes: S.optional(S.Number),
+          EndpointInfo: S.optional(__S(120, __c15, 0)),
+          TrainingParameters: S.optional(__S(96, __c12, 0)),
+          InputDataLocationS3: S.optional(S.String),
+          MLModelType: S.optional(S.String),
+          ScoreThreshold: S.optional(S.Number),
+          ScoreThresholdLastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LogUri: S.optional(S.String),
+          Message: S.optional(S.String),
+          ComputeTime: S.optional(S.Number),
+          FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Recipe: S.optional(S.String),
+          Schema: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetMLModelOutput" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MLModelId: S.String,
+          Record: __S(96, __c12, 0),
+          PredictEndpoint: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "PredictInput" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ S.Number.pipe(S.optional));
+    case 2:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          predictedLabel: S.optional(S.String),
+          predictedValue: S.optional(S.Number),
+          predictedScores: S.optional(__S(265, __c33, 1)),
+          details: S.optional(__S(266, __c33, 2)),
+        }),
+      ).annotate({ identifier: "Prediction" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ Prediction: S.optional(__S(267, __c33, 3)) }).pipe(ns),
+      ).annotate({ identifier: "PredictOutput" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ BatchPredictionId: S.String, BatchPredictionName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateBatchPredictionInput" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DataSourceId: S.String, DataSourceName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateDataSourceInput" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ EvaluationId: S.String, EvaluationName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateEvaluationInput" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MLModelId: S.String,
+          MLModelName: S.optional(S.String),
+          ScoreThreshold: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateMLModelInput" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Tags: __S(321, __c40, 1), ResourceId: S.String, ResourceType: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AddTagsInput" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceId: S.optional(S.String), ResourceType: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "AddTagsOutput" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+      ).annotate({ identifier: "Tag" });
+    case 1:
+      return S.Array(__S(320, __c40, 0));
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BatchPredictionId: S.String,
+          BatchPredictionName: S.optional(S.String),
+          MLModelId: S.String,
+          BatchPredictionDataSourceId: S.String,
+          OutputUri: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateBatchPredictionInput" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ BatchPredictionId: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "CreateBatchPredictionOutput" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

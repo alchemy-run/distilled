@@ -1,0 +1,33 @@
+{
+  "description": "Type the not-ready-for-backups precondition on backup create (HTTP 400 FAILED_PRECONDITION: 'Cluster ... isn't ready for backups yet. Either the cluster doesn't have an instance or the instance was created too recently'). The cluster becomes backup-ready a few minutes after its primary instance is created, so callers need a tag to retry on instead of an out-of-union BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#ClusterNotReadyForBackup",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The cluster has no instance yet, or its instance was created too recently, to take a backup (HTTP 400 FAILED_PRECONDITION). Retrying after a few minutes succeeds.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "isn't ready for backups yet"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#CreateProjectsLocationsBackups/errors/-",
+      "value": {
+        "target": "com.gcp.alloydb_v1#ClusterNotReadyForBackup"
+      }
+    }
+  ]
+}

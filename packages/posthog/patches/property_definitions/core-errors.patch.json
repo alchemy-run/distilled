@@ -1,0 +1,162 @@
+{
+  "description": "From core-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"core\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.property_definitions#BadRequest"
+        },
+        {
+          "target": "com.posthog.property_definitions#Forbidden"
+        },
+        {
+          "target": "com.posthog.property_definitions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.property_definitions#Forbidden"
+        },
+        {
+          "target": "com.posthog.property_definitions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.property_definitions#BadRequest"
+        },
+        {
+          "target": "com.posthog.property_definitions#Forbidden"
+        },
+        {
+          "target": "com.posthog.property_definitions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsPartialUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.property_definitions#BadRequest"
+        },
+        {
+          "target": "com.posthog.property_definitions#Forbidden"
+        },
+        {
+          "target": "com.posthog.property_definitions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsDestroy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.property_definitions#Forbidden"
+        },
+        {
+          "target": "com.posthog.property_definitions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsBulkUpdateTagsCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.property_definitions#BadRequest"
+        },
+        {
+          "target": "com.posthog.property_definitions#Forbidden"
+        },
+        {
+          "target": "com.posthog.property_definitions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsSeenTogetherRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.property_definitions#Forbidden"
+        },
+        {
+          "target": "com.posthog.property_definitions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#BadRequest",
+      "before": "com.posthog.property_definitions#PropertyDefinitions",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#Forbidden",
+      "before": "com.posthog.property_definitions#PropertyDefinitions",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#NotFound",
+      "before": "com.posthog.property_definitions#PropertyDefinitions",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -11,9 +11,7 @@ export const Footer = () => (
   <footer class="border-t border-line bg-bg">
     <div class="mx-auto flex max-w-wrap flex-wrap justify-between gap-x-8 gap-y-3 px-gutter pt-6 pb-8 text-[0.88rem] text-fg-3 [&_a]:text-fg-2 [&_a:hover]:text-fg">
       <p>
-        <span class="display-48 text-[1.05rem] font-medium text-fg">
-          Distilled
-        </span>
+        <span class="display-48 text-[1.05rem] font-medium text-fg">Distilled</span>
         <Sep />
         Apache-2.0
         <Sep />

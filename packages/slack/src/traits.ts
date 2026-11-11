@@ -1,5 +1,5 @@
 /**
- * Slack SDK trait surface — hand-written.
+ * Slack SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core so generated operations
  * import everything from one place. Slack speaks bearer-token JSON with the

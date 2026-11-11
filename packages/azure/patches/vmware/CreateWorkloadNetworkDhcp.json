@@ -1,0 +1,65 @@
+{
+  "description": "DHCP entities are a discriminated union on dhcpType in ARM (SERVER serverAddress/leaseTime, RELAY serverAddresses); the converted model only kept the base fields, so add the variant fields as optional members on input and output.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworkDhcpEntityInput/members/serverAddress",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SERVER: DHCP server address (CIDR), e.g. `40.1.5.1/24`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworkDhcpEntityInput/members/leaseTime",
+      "value": {
+        "target": "smithy.api#Long",
+        "traits": {
+          "smithy.api#documentation": "SERVER: DHCP lease time in seconds."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworkDhcpEntityInput/members/serverAddresses",
+      "value": {
+        "target": "com.azure.vmware#WorkloadNetworkDnsZonePropertiesInputDnsServerIpsList",
+        "traits": {
+          "smithy.api#documentation": "RELAY: DHCP relay server addresses."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworkDhcpEntity/members/serverAddress",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SERVER: DHCP server address (CIDR), e.g. `40.1.5.1/24`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworkDhcpEntity/members/leaseTime",
+      "value": {
+        "target": "smithy.api#Long",
+        "traits": {
+          "smithy.api#documentation": "SERVER: DHCP lease time in seconds."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#WorkloadNetworkDhcpEntity/members/serverAddresses",
+      "value": {
+        "target": "com.azure.vmware#WorkloadNetworkDnsZonePropertiesInputDnsServerIpsList",
+        "traits": {
+          "smithy.api#documentation": "RELAY: DHCP relay server addresses."
+        }
+      }
+    }
+  ]
+}

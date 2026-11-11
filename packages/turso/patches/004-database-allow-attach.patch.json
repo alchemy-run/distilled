@@ -1,0 +1,15 @@
+{
+  "description": "The Database object returned by getDatabase/listDatabases carries allow_attach on the wire, but the spec omits it. Discovered via live API testing.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.turso.api#Database/members/allow_attach",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Whether other databases may be attached to this database with `ATTACH`."
+        }
+      }
+    }
+  ]
+}

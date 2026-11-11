@@ -1,10 +1,11 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — Whop's two OpenAPI descriptions → Smithy JSON models in
  * .generated-specs.
  *
  * Whop documents ONE HTTP API through TWO reference surfaces, each with its
- * own OpenAPI 3.1 document (both downloaded by `scripts/download-spec.ts`):
+ * own OpenAPI 3.1 document (both snapshotted daily by the spec mirror,
+ * `specs/spec-mirror-whop`):
  *
  *   • VERSIONED — `specs/api-v1-native.json`, the `/api-reference/beta`
  *     reference. Whop calls it "the default reference for new integrations".
@@ -19,10 +20,9 @@
  * and the merge rule is: **versioned wins**.
  *
  *   1. Read both documents.
- *   2. Apply each surface's `patches/<surface>/*.patch.json` chain ONCE to
- *      that document (RFC-6902, sorted name order; stale targets warn+skip —
- *      the specs are refetched from a live URL and drift — malformed patches
- *      fail the run).
+ *   2. Patches are Smithy ops on the converted models, under the names the
+ *      spec gives; the finalizeConvert at the end applies them, then the
+ *      deferred verbNoun names (see `@distilled.cloud/dev/codegen/patches`).
  *   3. Rename every LEGACY schema whose name the versioned document also
  *      defines ({@link LEGACY_SCHEMA_PREFIX}) and rewrite the legacy half's
  *      `$ref`s. All 17 such names describe genuinely different shapes; left
@@ -48,22 +48,18 @@
  * lowerCamels them for export: `listPlans`, `uploadDisputeEvidence`). A
  * collision would otherwise be silently renamed, so it fails the run instead.
  *
- * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false` — the
- * patches apply HERE, to the OpenAPI documents) then compiles the models.
+ * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false`) then
+ * compiles the already-patched models.
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import {
-  applyOperation,
-  isStaleTargetError,
-  type PatchFile,
-} from "@distilled.cloud/core/json-patch";
-import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
+import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
-const rootDir = path.resolve(import.meta.dir, "..");
-const specDir = path.join(rootDir, "specs");
-const patchDir = path.join(rootDir, "patches");
+const rootDir = path.resolve(import.meta.dirname, "..");
+const specDir = resolveSpecPath(rootDir, "specs/spec-mirror-whop/specs");
 const outDir = path.join(rootDir, ".generated-specs");
 
 /** Generated: the version pin `src/credentials.ts` defaults to. */
@@ -145,7 +141,7 @@ for (const surface of SURFACES) {
   const specPath = path.join(specDir, surface.file);
   if (!fs.existsSync(specPath)) {
     throw new Error(
-      `${specPath} not found — run \`bun run spec:download\` to fetch the OpenAPI documents`,
+      `${specPath} not found — run \`pnpm --filter @distilled.cloud/whop run specs:fetch\``,
     );
   }
   documents.set(surface.id, JSON.parse(fs.readFileSync(specPath, "utf-8")));
@@ -153,55 +149,6 @@ for (const surface of SURFACES) {
 
 const versioned = documents.get("versioned");
 const legacy = documents.get("legacy");
-
-// ============================================================================
-// 2. Apply each surface's patch chain
-// ============================================================================
-
-let patchFiles = 0;
-let staleOps = 0;
-const badPatches: string[] = [];
-for (const surface of SURFACES) {
-  const dir = path.join(patchDir, surface.id);
-  if (!fs.existsSync(dir)) continue;
-  const doc = documents.get(surface.id);
-  for (const pf of fs
-    .readdirSync(dir)
-    .filter((f) => f.endsWith(".patch.json"))
-    .sort((a, b) => a.localeCompare(b))) {
-    const parsed = JSON.parse(
-      fs.readFileSync(path.join(dir, pf), "utf-8"),
-    ) as PatchFile;
-    for (const patchOp of parsed.patches ?? []) {
-      try {
-        applyOperation(doc, patchOp);
-      } catch (e) {
-        const msg = e instanceof Error ? e.message : String(e);
-        if (isStaleTargetError(msg)) {
-          staleOps++;
-          console.warn(
-            `   ⚠️  stale: ${surface.id}/${pf} [${patchOp.op} ${patchOp.path}]`,
-          );
-        } else {
-          badPatches.push(
-            `${surface.id}/${pf} [${patchOp.op} ${patchOp.path}]: ${msg}`,
-          );
-        }
-      }
-    }
-    patchFiles++;
-  }
-}
-if (badPatches.length) {
-  for (const b of badPatches) console.error(`❌ bad patch: ${b}`);
-  throw new Error(
-    `${badPatches.length} malformed patch operation(s) — fix or remove them`,
-  );
-}
-console.log(
-  `🩹 ${patchFiles} patch files applied` +
-    (staleOps ? ` (${staleOps} stale op(s) skipped)` : ""),
-);
 
 // ============================================================================
 // The version pin
@@ -236,9 +183,7 @@ const renames = new Map<string, string>(
 );
 for (const [from, to] of renames) {
   if (to in legacy.components.schemas || to in versioned.components.schemas) {
-    throw new Error(
-      `renaming legacy schema ${from} → ${to} would collide with an existing shape`,
-    );
+    throw new Error(`renaming legacy schema ${from} → ${to} would collide with an existing shape`);
   }
 }
 
@@ -309,9 +254,7 @@ const addRoute = (
 ): void => {
   if (!merged.paths[pathTemplate]) {
     // Carry any path-level params into the merged item.
-    merged.paths[pathTemplate] = pathItem.parameters
-      ? { parameters: pathItem.parameters }
-      : {};
+    merged.paths[pathTemplate] = pathItem.parameters ? { parameters: pathItem.parameters } : {};
   }
   merged.paths[pathTemplate][method] = op;
   routeSurface.set(routeKey(method, pathTemplate), surface.id);
@@ -395,9 +338,7 @@ for (const [pathTemplate, pathItem] of Object.entries<any>(merged.paths)) {
     if (surface === "legacy") {
       op.description =
         `[Legacy API — https://docs.whop.com/api-reference]` +
-        (typeof op.description === "string" && op.description
-          ? `\n\n${op.description}`
-          : "");
+        (typeof op.description === "string" && op.description ? `\n\n${op.description}` : "");
     }
 
     const rawTag: string | undefined =
@@ -412,9 +353,7 @@ for (const [pathTemplate, pathItem] of Object.entries<any>(merged.paths)) {
     if (!tagBuckets.has(slug)) tagBuckets.set(slug, {});
     const bucketPaths = tagBuckets.get(slug)!;
     if (!bucketPaths[pathTemplate]) {
-      bucketPaths[pathTemplate] = pathItem.parameters
-        ? { parameters: pathItem.parameters }
-        : {};
+      bucketPaths[pathTemplate] = pathItem.parameters ? { parameters: pathItem.parameters } : {};
     }
     bucketPaths[pathTemplate][method] = op;
   }
@@ -432,9 +371,7 @@ const collisions: string[] = [];
 for (const [slug, claims] of nameClaims) {
   for (const [name, keys] of claims) {
     if (keys.length > 1) {
-      collisions.push(
-        `${slug} :: ${name}\n` + keys.map((k) => `  ${k}`).join("\n"),
-      );
+      collisions.push(`${slug} :: ${name}\n` + keys.map((k) => `  ${k}`).join("\n"));
     }
   }
 }
@@ -463,10 +400,7 @@ const deref = (node: any): any =>
     ? node.$ref
         .split("/")
         .slice(1)
-        .reduce(
-          (acc: any, key: string) => acc?.[key.replace(/~1/g, "/")],
-          merged,
-        )
+        .reduce((acc: any, key: string) => acc?.[key.replace(/~1/g, "/")], merged)
     : node;
 
 /**
@@ -528,8 +462,7 @@ const paginationFor = (op: any): Record<string, string> | undefined => {
 // 7–8. Convert each bucket, stamp pagination
 // ============================================================================
 
-fs.rmSync(outDir, { recursive: true, force: true });
-fs.mkdirSync(outDir, { recursive: true });
+clearModels(outDir);
 
 let written = 0;
 let totalOps = 0;
@@ -541,6 +474,7 @@ for (const slug of [...tagBuckets.keys()].sort()) {
   const paths = tagBuckets.get(slug)!;
   const subSpec = { ...merged, paths };
   const model = convertOpenApiToSmithy(subSpec, {
+    deferNaming: true,
     namespace: `com.whop.${slug}`,
     serviceName: toPascal(slug),
     // Neither document deprecates anything today; the flag keeps a future
@@ -568,9 +502,7 @@ for (const slug of [...tagBuckets.keys()].sort()) {
     // ride the common error channel instead of every operation's own union.
   });
 
-  const operations = Object.entries<any>(model.shapes).filter(
-    ([, s]) => s.type === "operation",
-  );
+  const operations = Object.entries<any>(model.shapes).filter(([, s]) => s.type === "operation");
   if (operations.length === 0) continue; // all-deprecated bucket
 
   // Spell the idempotency header input like the rest of the input.
@@ -622,19 +554,14 @@ for (const slug of [...tagBuckets.keys()].sort()) {
   );
   if (surfaces.size > 1) mixedBuckets.push(slug);
 
-  fs.writeFileSync(
-    path.join(outDir, `${slug}.json`),
-    JSON.stringify(model, null, 2) + "\n",
-  );
+  writeModel(path.join(outDir, `${slug}.json`), model);
   written++;
   totalOps += operations.length;
   totalPaginated += paginated;
 }
 
 if (mixedBuckets.length) {
-  console.log(
-    `🔗 ${mixedBuckets.length} module(s) hold both surfaces: ${mixedBuckets.join(", ")}`,
-  );
+  console.log(`🔗 ${mixedBuckets.length} module(s) hold both surfaces: ${mixedBuckets.join(", ")}`);
 }
 
 // ============================================================================
@@ -648,7 +575,7 @@ fs.writeFileSync(
  * The dated API version these services were generated from.
  *
  * Whop pins request and response SHAPES to a date, and defaults an unpinned
- * caller to the original \`2025-01-01\` ones — which are NOT the shapes the
+ * caller to the original \`2025-01-01\` ones -- which are NOT the shapes the
  * generated schemas describe. WhopProtocol therefore sends this on every
  * request, exactly as Whop's own generated SDKs do.
  *

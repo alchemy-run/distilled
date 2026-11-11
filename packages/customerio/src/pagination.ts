@@ -1,5 +1,5 @@
 /**
- * Customer.io pagination — hand-written.
+ * Customer.io pagination -- hand-written.
  *
  * Paginated list operations that the converter stamps as cursor-mode
  * (`cursor` in, `pagination.cursor` out) pass core's {@link paginateCursor}

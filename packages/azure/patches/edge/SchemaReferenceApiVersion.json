@@ -1,0 +1,55 @@
+{
+  "description": "ARM has not rolled out api-version 2026-03-01 for Microsoft.Edge/schemaReferences (InvalidResourceType; supported 2024-06-01-preview..2025-08-01). Pin every schema reference operation to 2025-08-01.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#SchemaReferencesDelete/traits/smithy.api#http/apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#SchemaReferencesDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#SchemaReferencesGet/traits/smithy.api#http/apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#SchemaReferencesGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#SchemaReferencesListByResourceGroup/traits/smithy.api#http/apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#SchemaReferencesListByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#SchemaReferencesCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#SchemaReferencesCreateOrUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#SchemaReferencesUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#SchemaReferencesUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-08-01"
+    }
+  ]
+}

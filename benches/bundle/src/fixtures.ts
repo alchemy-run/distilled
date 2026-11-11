@@ -74,22 +74,14 @@ const cfD1: ShakeMarker = {
 const awsS3: ServiceRef = { pkg: "aws", file: "s3.ts" };
 const cfWorkers: ServiceRef = { pkg: "cloudflare", file: "workers.ts" };
 
-const awsForbid = [
-  s3PutObject,
-  s3ListBuckets,
-  ddbPutItem,
-  lambdaInvoke,
-  cfKv,
-  cfD1,
-];
+const awsForbid = [s3PutObject, s3ListBuckets, ddbPutItem, lambdaInvoke, cfKv, cfD1];
 const cfForbid = [cfScriptSecrets, cfKv, cfD1, ddbPutItem, lambdaInvoke];
 
 export const fixtures: ReadonlyArray<Fixture> = [
   {
     name: "aws-s3-deep",
     entry: "fixtures/aws-s3-deep.ts",
-    description:
-      "`@distilled.cloud/aws/s3` + `/Credentials`, one op (GetObject)",
+    description: "`@distilled.cloud/aws/s3` + `/Credentials`, one op (GetObject)",
     expect: [s3GetObject],
     forbid: [...awsForbid, cfListScripts],
     services: [awsS3],
@@ -123,8 +115,7 @@ export const fixtures: ReadonlyArray<Fixture> = [
   {
     name: "cf-barrel",
     entry: "fixtures/cf-barrel.ts",
-    description:
-      "`@distilled.cloud/cloudflare` root barrel (Services.* — ~120 services), same op",
+    description: "`@distilled.cloud/cloudflare` root barrel (Services.* — ~120 services), same op",
     expect: [cfListScripts],
     forbid: [...cfForbid, s3GetObject],
     services: [cfWorkers],
@@ -132,18 +123,9 @@ export const fixtures: ReadonlyArray<Fixture> = [
   {
     name: "combined-worker",
     entry: "fixtures/combined-worker.ts",
-    description:
-      "alchemy-worker-shaped: s3.getObject + workers.listScripts (two deep imports)",
+    description: "alchemy-worker-shaped: s3.getObject + workers.listScripts (two deep imports)",
     expect: [s3GetObject, cfListScripts],
-    forbid: [
-      s3PutObject,
-      s3ListBuckets,
-      ddbPutItem,
-      lambdaInvoke,
-      cfScriptSecrets,
-      cfKv,
-      cfD1,
-    ],
+    forbid: [s3PutObject, s3ListBuckets, ddbPutItem, lambdaInvoke, cfScriptSecrets, cfKv, cfD1],
     services: [awsS3, cfWorkers],
   },
 ];

@@ -17,18 +17,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: oven-sh/setup-bun@v2
+      # pnpm comes from `packageManager` in .meta/package.json.
+      - name: Setup pnpm and Node.js
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          working-directory: .meta
+          runtime: node@24
+          install: false
 
-      # Not --frozen-lockfile: .meta/bun.lock is not managed by the stack, so
-      # a repo scaffolded with a new dependency has no lockfile entry for it
-      # until the first run commits one.
+      # --no-frozen-lockfile: .meta/pnpm-lock.yaml is not managed by the stack,
+      # so a repo scaffolded with a new dependency has no lockfile entry for it
+      # until the first run commits one, and pnpm freezes the lockfile in CI by
+      # default.
       - name: Install dependencies
         working-directory: .meta
-        run: bun install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Fetch specs
         working-directory: .meta
-        run: bun run fetch-specs
+        run: pnpm run fetch-specs
 
       - name: Commit and push if changed
         run: |

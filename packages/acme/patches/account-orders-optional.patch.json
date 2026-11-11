@@ -1,0 +1,9 @@
+{
+  "description": "RFC 8555 \u00a77.1.2 marks an account's `orders` URL required, but Let's Encrypt (Boulder) does not return it, so requiring it would fail every account response from the most used CA.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/org.ietf.acme#AccountResponse/members/orders/traits/smithy.api#required"
+    }
+  ]
+}

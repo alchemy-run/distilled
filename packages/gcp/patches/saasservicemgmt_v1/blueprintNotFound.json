@@ -1,0 +1,40 @@
+{
+  "description": "Type the 400 INVALID_ARGUMENT release create/patch return when the blueprint package image cannot be read from Artifact Registry (\"invalid argument reader.DigestBasedURI() failed to read for img path: ... NAME_UNKNOWN\"). It surfaced as a generic BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#BlueprintNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The release's blueprint package image does not exist or is not readable (HTTP 400 INVALID_ARGUMENT: \"... failed to read for img path: ...\"). Push the blueprint image first.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "failed to read for img path"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#CreateProjectsLocationsReleases/errors/-",
+      "value": {
+        "target": "com.gcp.saasservicemgmt_v1#BlueprintNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#PatchProjectsLocationsReleases/errors/-",
+      "value": {
+        "target": "com.gcp.saasservicemgmt_v1#BlueprintNotFound"
+      }
+    }
+  ]
+}

@@ -12,7 +12,7 @@ npm install @distilled.cloud/mailchimp effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Mailchimp from "@distilled.cloud/mailchimp";
 
 const email = "ada@example.com";
@@ -79,8 +79,9 @@ Required: `MAILCHIMP_TRANSACTIONAL_API_KEY` (`MANDRILL_API_KEY` is read as a
 fallback), or `fromTransactionalApiKey({ apiKey })`. The key is sent in each
 request body; it is never part of an operation's input. Failures arrive as
 `{ status: "error", code, name, message }` under a real HTTP status and map
-onto the shared classes, with the vendor's `name` kept in the message
-(`Invalid_Key: Invalid API key`). Each operation's error channel lists only
+by status onto the operation's declared error classes (exported from
+`Mailchimp.Transactional`) or the shared ones, with the vendor's `name` kept
+in the message (`Invalid_Key: Invalid API key`). Each operation's error channel lists only
 what Mailchimp declares for that route: `getTemplate` can fail with
 `NotFound`, `sendMessage` with `PaymentRequired` (a 402, with the vendor
 `code`) and `NotFound`, `ping` with the defaults alone. A status outside the

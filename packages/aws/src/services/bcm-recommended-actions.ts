@@ -1,168 +1,178 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "BCM Recommended Actions",
   serviceShapeName: "AWSBillingAndCostManagementRecommendedActions",
 });
-const auth = T.AwsAuthSigv4({ name: "bcm-recommended-actions" });
-const ver = T.ServiceVersion("2024-11-14");
-const proto = T.AwsProtocolsAwsJson1_0();
-const rules = T.EndpointResolver((p, _) => {
-  const { UseFIPS = false, Endpoint, Region } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  const _p0 = (_0: unknown) => ({
-    authSchemes: [
-      {
-        name: "sigv4",
-        signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}`,
-      },
-    ],
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "bcm-recommended-actions" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2024-11-14");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_0();
+const rules = /*@__PURE__*/ T.EndpointResolver(
+  (p, _) => {
+    const { UseFIPS = false, Endpoint, Region } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    const _p0 = (_0: unknown) => ({
+      authSchemes: [{ name: "sigv4", signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}` }],
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+      }
+      return e(Endpoint);
     }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true) {
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true) {
+            return e(
+              `https://bcm-recommended-actions-fips.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              _p0(PartitionResult),
+              {},
+            );
+          }
           return e(
-            `https://bcm-recommended-actions-fips.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            `https://bcm-recommended-actions.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             _p0(PartitionResult),
             {},
           );
         }
-        return e(
-          `https://bcm-recommended-actions.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          _p0(PartitionResult),
-          {},
-        );
       }
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    return err("Invalid Configuration: Missing Region");
+  },
+  '{"url":"https://bcm-recommended-actions.us-east-1.api.aws","properties":{"authSchemes":[{"name":"sigv4","signingRegion":"us-east-1"}]},"headers":{}}',
+  [
+    "us-gov-west-1",
+    "us-gov-east-1",
+    "aws-us-gov-global",
+    "cn-north-1",
+    "cn-northwest-1",
+    "aws-cn-global",
+    "us-iso-east-1",
+    "us-iso-west-1",
+    "aws-iso-global",
+    "us-isob-east-1",
+    "aws-iso-b-global",
+    "aws-iso-f-global",
+    "us-isof-east-1",
+    "us-isof-south-1",
+    "eusc-de-east-1",
+  ],
+);
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "BCMRecommendedActions",
+  service: "BCMRecommendedActions",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "BCMRecommendedActionsAccessDenied",
         httpResponseCode: 403,
       }),
-      T.HttpError(403),
+      /*@__PURE__*/ T.HttpError(403),
     ),
   ).pipe(C.withAuthError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "BCMRecommendedActionsInternalServer",
         httpResponseCode: 500,
       }),
-      T.HttpError(500),
+      /*@__PURE__*/ T.HttpError(500),
     ),
   ).pipe(C.withServerError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "BCMRecommendedActionsThrottling",
         httpResponseCode: 429,
       }),
-      T.HttpError(429),
+      /*@__PURE__*/ T.HttpError(429),
     ),
   ).pipe(C.withThrottlingError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      reason: S.suspend(() => ValidationExceptionReason).annotate({
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      reason: /*@__PURE__*/ S.suspend(() => S.String).annotate({
         identifier: "ValidationExceptionReason",
       }),
-      fieldList: S.optional(
-        S.suspend(() => ValidationExceptionFieldList).annotate({
+      fieldList: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
     },
-    T.all(
-      T.AwsQueryError({
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "BCMRecommendedActionsValidation",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export type FilterName = "FEATURE" | "SEVERITY" | "TYPE" | (string & {});
-export const FilterName = S.String;
-
 export type MatchOption = "EQUALS" | "NOT_EQUALS" | (string & {});
-export const MatchOption = S.String;
-
 export type FilterValue = string;
 export type FilterValues = string[];
-export const FilterValues = /*@__PURE__*/ S.Array(S.String);
 export interface ActionFilter {
   key: FilterName;
   matchOption: MatchOption;
   values: string[];
 }
-export const ActionFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ key: FilterName, matchOption: MatchOption, values: FilterValues }),
-).annotate({ identifier: "ActionFilter" }) as any as S.Schema<ActionFilter>;
 export type ActionFilterList = ActionFilter[];
-export const ActionFilterList = /*@__PURE__*/ S.Array(ActionFilter);
 export interface RequestFilter {
-  actions?: ActionFilter[];
+  actions?: ActionFilter[] | undefined;
 }
-export const RequestFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ actions: S.optional(ActionFilterList) }),
-).annotate({ identifier: "RequestFilter" }) as any as S.Schema<RequestFilter>;
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListRecommendedActionsRequest {
-  filter?: RequestFilter;
-  maxResults?: number;
-  nextToken?: string;
+  filter?: RequestFilter | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
-export const ListRecommendedActionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filter: S.optional(RequestFilter),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListRecommendedActionsRequest",
-}) as any as S.Schema<ListRecommendedActionsRequest>;
 export type ActionType =
   | "ADD_ALTERNATE_BILLING_CONTACT"
   | "CREATE_ANOMALY_MONITOR"
@@ -185,12 +195,8 @@ export type ActionType =
   | "UPDATE_TAX_EXEMPTION_CERTIFICATE"
   | "UPDATE_TAX_REGISTRATION_NUMBER"
   | (string & {});
-export const ActionType = S.String;
-
 export type AccountId = string;
 export type Severity = "INFO" | "WARNING" | "CRITICAL" | (string & {});
-export const Severity = S.String;
-
 export type Feature =
   | "ACCOUNT"
   | "BUDGETS"
@@ -203,75 +209,35 @@ export type Feature =
   | "SAVINGS_PLANS"
   | "TAX_SETTINGS"
   | (string & {});
-export const Feature = S.String;
-
 export type Context = { [key: string]: string | undefined };
-export const Context = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type NextStep = string;
 export type NextSteps = string[];
-export const NextSteps = /*@__PURE__*/ S.Array(S.String);
 export interface RecommendedAction {
-  id?: string;
-  type?: ActionType;
-  accountId?: string;
-  severity?: Severity;
-  feature?: Feature;
-  context?: { [key: string]: string | undefined };
-  nextSteps?: string[];
-  lastUpdatedTimeStamp?: string;
+  id?: string | undefined;
+  type?: ActionType | undefined;
+  accountId?: string | undefined;
+  severity?: Severity | undefined;
+  feature?: Feature | undefined;
+  context?: { [key: string]: string | undefined } | undefined;
+  nextSteps?: string[] | undefined;
+  lastUpdatedTimeStamp?: string | undefined;
 }
-export const RecommendedAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    type: S.optional(ActionType),
-    accountId: S.optional(S.String),
-    severity: S.optional(Severity),
-    feature: S.optional(Feature),
-    context: S.optional(Context),
-    nextSteps: S.optional(NextSteps),
-    lastUpdatedTimeStamp: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RecommendedAction",
-}) as any as S.Schema<RecommendedAction>;
 export type RecommendedActions = RecommendedAction[];
-export const RecommendedActions = /*@__PURE__*/ S.Array(RecommendedAction);
 export interface ListRecommendedActionsResponse {
   recommendedActions: RecommendedAction[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListRecommendedActionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recommendedActions: RecommendedActions,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRecommendedActionsResponse",
-}) as any as S.Schema<ListRecommendedActionsResponse>;
 export type ValidationExceptionReason =
   | "unknownOperation"
   | "cannotParse"
   | "fieldValidationFailed"
   | "other"
   | (string & {});
-export const ValidationExceptionReason = S.String;
-
 export interface ValidationExceptionField {
   name: string;
   message: string;
 }
-export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
 export type ListRecommendedActionsError =
   | AccessDeniedException
   | InternalServerException
@@ -282,14 +248,14 @@ export type ListRecommendedActionsError =
  * Returns a list of recommended actions that match the filter criteria.
  */
 export const listRecommendedActions: API.PaginatedOperationMethod<
-  ListRecommendedActionsRequest,
+  ListRecommendedActionsRequest & RegionInput,
   ListRecommendedActionsResponse,
   ListRecommendedActionsError,
   Credentials | HttpClient.HttpClient,
   RecommendedAction
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRecommendedActionsRequest,
-  output: ListRecommendedActionsResponse,
+  input: __S(20, __c1, 4) as any as S.Schema<ListRecommendedActionsRequest>,
+  output: __S(24, __c1, 8) as any as S.Schema<ListRecommendedActionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -305,4 +271,67 @@ export const listRecommendedActions: API.PaginatedOperationMethod<
     items: "recommendedActions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendedActions",
 })) as any;
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
+        identifier: "ValidationExceptionField",
+      });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ key: S.String, matchOption: S.String, values: __S(16, __c1, 0) }),
+      ).annotate({ identifier: "ActionFilter" });
+    case 2:
+      return S.Array(__S(17, __c1, 1));
+    case 3:
+      return S.suspend(() => S.Struct({ actions: S.optional(__S(18, __c1, 2)) })).annotate({
+        identifier: "RequestFilter",
+      });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(__S(19, __c1, 3)),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListRecommendedActionsRequest" });
+    case 5:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          type: S.optional(S.String),
+          accountId: S.optional(S.String),
+          severity: S.optional(S.String),
+          feature: S.optional(S.String),
+          context: S.optional(__S(21, __c1, 5)),
+          nextSteps: S.optional(__S(16, __c1, 0)),
+          lastUpdatedTimeStamp: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RecommendedAction" });
+    case 7:
+      return S.Array(__S(22, __c1, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({ recommendedActions: __S(23, __c1, 7), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListRecommendedActionsResponse" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

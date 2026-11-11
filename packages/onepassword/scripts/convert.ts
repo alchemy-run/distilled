@@ -1,32 +1,87 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
- * convert — turn the 1Password Connect OpenAPI spec into a Smithy 2.0 JSON
- * model.
+ * convert — turn 1Password's OpenAPI specs into Smithy 2.0 JSON models, one
+ * per API:
  *
- * Input:  specs/spec-mirror-onepassword/specs/openapi.json  (spec submodule)
- *         patches/*.patch.json  (RFC-6902 patches to the OpenAPI document)
- * Output: .generated-specs/onepassword.json
+ *   connect      specs/spec-mirror-onepassword/specs/openapi.json
+ *                → .generated-specs/connect.json
+ *   events       specs/spec-mirror-onepassword/specs/events.json
+ *                → .generated-specs/events.json
+ *   users        specs/spec-mirror-onepassword/specs/users.json
+ *                → .generated-specs/users.json
+ *   oauth        specs/spec-mirror-onepassword/specs/oauth.json
+ *                → .generated-specs/oauth.json
+ *   partnership  specs/spec-mirror-onepassword/specs/partnership.json
+ *                → .generated-specs/partnership.json
  *
- * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is 1Password's
- * pipeline config. `scripts/generate.ts` compiles the model into src/services.
+ * Patches: patches/<name>/*.patch.json (Smithy ops on upstream names),
+ * applied by finalizeConvert. The OpenAPI→Smithy converter lives in
+ * `@distilled.cloud/dev/codegen/openapi`; `scripts/generate.ts` compiles
+ * the models into src/services.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
-      name: "onepassword",
+      name: "connect",
       specPath: "specs/spec-mirror-onepassword/specs/openapi.json",
+      options: {
+        namespace: "com.onepassword.connect",
+        serviceName: "OnepasswordConnect",
+      },
+    },
+    {
+      name: "events",
+      specPath: "specs/spec-mirror-onepassword/specs/events.json",
+      options: {
+        namespace: "com.onepassword.events",
+        serviceName: "OnepasswordEvents",
+      },
+    },
+    {
+      name: "users",
+      specPath: "specs/spec-mirror-onepassword/specs/users.json",
+      options: {
+        namespace: "com.onepassword.users",
+        serviceName: "OnepasswordUsers",
+      },
+    },
+    {
+      name: "oauth",
+      specPath: "specs/spec-mirror-onepassword/specs/oauth.json",
+      options: {
+        namespace: "com.onepassword.oauth",
+        serviceName: "OnepasswordOAuth",
+      },
+    },
+    {
+      name: "partnership",
+      specPath: "specs/spec-mirror-onepassword/specs/partnership.json",
+      options: {
+        namespace: "com.onepassword.partnership",
+        serviceName: "OnepasswordPartnership",
+        // getAccount answers 410 when the account has been removed.
+        statusToErrorClass: {
+          400: "BadRequest",
+          403: "Forbidden",
+          404: "NotFound",
+          409: "Conflict",
+          410: "Gone",
+          422: "UnprocessableEntity",
+        },
+        operationNames: {
+          getAccountByPartnerAccountUID: "getAccount",
+          updateAccountByID: "updateAccount",
+        },
+      },
     },
   ],
-  // OpenAPI-document patches (flat patches/*.patch.json). The smithy-model
-  // patch chain in generate.ts is disabled (`patchesDir: false`).
   patchesDir: "patches",
   options: {
-    namespace: "com.onepassword.connect",
+    namespace: "com.onepassword",
     serviceName: "Onepassword",
     skipDeprecated: true,
   },

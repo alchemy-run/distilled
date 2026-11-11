@@ -1,24 +1,25 @@
 {
   "name": "@distilled.cloud/turso",
-  "version": "1.0.0-rc.12",
+  "version": "1.0.0-rc.18",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
     "directory": "packages/turso"
   },
-  "license": "Apache-2.0",
-  "type": "module",
-  "sideEffects": false,
-  "module": "src/index.ts",
   "files": [
     "lib",
     "src"
   ],
+  "type": "module",
+  "sideEffects": false,
+  "module": "src/index.ts",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
+      "distilled-lazy": "./lib/index.lazy.js",
       "default": "./lib/index.js"
     },
     "./Credentials": {
@@ -55,20 +56,22 @@
       "types": "./lib/services/turso.d.ts",
       "bun": "./src/services/turso.ts",
       "worker": "./src/services/turso.ts",
+      "distilled-lazy": "./lib/services.lazy/turso.js",
       "default": "./lib/services/turso.js"
     },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
+      "distilled-lazy": "./lib/services.lazy/*.js",
       "default": "./lib/services/*.js"
     }
   },
   "scripts": {
-    "build": "tsc -b",
-    "convert": "bun scripts/convert.ts",
-    "generate": "bun scripts/generate.ts",
-    "typecheck": "tsc -p tsconfig.json",
+    "build": "tsrs -b",
+    "convert": "node --conditions=bun scripts/convert.ts",
+    "generate": "node --conditions=bun scripts/generate.ts",
+    "typecheck": "tsrs -p tsconfig.json",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-turso",
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-turso"
   },
@@ -76,11 +79,14 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "catalog:",
-    "@types/node": "catalog:",
-    "@effect/platform-bun": "catalog:"
+    "@distilled.cloud/dev": "workspace:*",
+    "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"
+  },
+  "distilled": {
+    "generatedAt": "2026-11-10",
+    "specUpdatedAt": "2026-10-28"
   }
 }

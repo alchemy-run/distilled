@@ -1,0 +1,82 @@
+{
+  "description": "`page_links.pages` is `anyOf(forward_links, backward_links, {})`. The converter emits a type-level union whose runtime schema is S.Unknown, so `ForwardLinks | BackwardLinks | unknown` collapses to `unknown` and consumers cannot read `links.pages.next` (the pagination output token) without a cast. Replace it with one flat object of optional URL strings — the wire carries whichever of `first`/`prev`/`next`/`last` apply to the current page.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.digitalocean.api#ForwardLinks"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.digitalocean.api#BackwardLinks"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#PageLinks/members/pages/traits",
+      "value": {
+        "smithy.api#documentation": "Links to the first, previous, next and last pages of the results. Only the links that apply to the current page are present — the last page has no `next`, the first page has no `prev`."
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.digitalocean.api#PageLinksPages/type",
+      "value": "structure"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.digitalocean.api#PageLinksPages/members/ForwardLinks"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.digitalocean.api#PageLinksPages/members/BackwardLinks"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.digitalocean.api#PageLinksPages/members/Case2"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#PageLinksPages/members/first",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "URI of the first page of the results."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#PageLinksPages/members/prev",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "URI of the previous page of the results."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#PageLinksPages/members/next",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "URI of the next page of the results."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#PageLinksPages/members/last",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "URI of the last page of the results."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#PageLinksPages/traits/smithy.api#documentation",
+      "value": "Links to the first, previous, next and last pages of the results. Only the links that apply to the current page are present — the last page has no `next`, the first page has no `prev`."
+    }
+  ]
+}

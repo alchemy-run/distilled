@@ -1,0 +1,55 @@
+{
+  "description": "OnlineScaleSettings is polymorphic on `scaleType`; add the TargetUtilization members stripped by the base shape.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#OnlineScaleSettings/members/minInstances",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "TargetUtilization: minimum instances."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#OnlineScaleSettings/members/maxInstances",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "TargetUtilization: maximum instances."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#OnlineScaleSettings/members/pollingInterval",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "TargetUtilization: polling interval (ISO 8601)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#OnlineScaleSettings/members/scaleDownDelay",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "TargetUtilization: scale-down delay."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#OnlineScaleSettings/members/targetUtilizationPercentage",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "TargetUtilization: target CPU utilization percentage."
+        }
+      }
+    }
+  ]
+}

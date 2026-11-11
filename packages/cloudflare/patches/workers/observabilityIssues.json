@@ -1,0 +1,9 @@
+{
+  "description": "Workers Issues observability.issues.enabled is documented at https://developers.cloudflare.com/workers/observability/issues/ (Wrangler 4.134.0+), including disabling Issues when omitted on redeploy. The 2026-10-05 spec adds issues to the script-settings shapes but still requires top-level enabled on the PATCH request. Alchemy WorkerIssues.test.ts live tests on 2026-10-05 verified a minimal issues-only PATCH false-to-true without top-level enabled; make enabled optional on the PATCH request only, leaving response requirements unchanged.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.workers#ScriptsSettingsEditRequestObservability/members/enabled/traits/smithy.api#required"
+    }
+  ]
+}

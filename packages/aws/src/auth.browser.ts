@@ -1,29 +1,47 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
-import type {
-  CredentialsError,
-  ResolvedCredentials,
-} from "./credentials.browser.ts";
+import {
+  AwsCredentialProviderError,
+  type CredentialsError,
+  type ResolvedCredentials,
+} from "./credentials-service.ts";
 
-export class Auth extends Context.Service<
-  Auth,
-  {
-    loadProfile: (
-      profileName: string,
-    ) => Effect.Effect<AwsProfileConfig, CredentialsError>;
-    loadProfileCredentials: (
-      profileName: string,
-    ) => Effect.Effect<ResolvedCredentials, CredentialsError>;
-  }
->()("distilled-aws/AWS/Auth") {}
+export class Auth
+  extends /*@__PURE__*/ Context.Service<
+    Auth,
+    {
+      loadProfile: (profileName: string) => Effect.Effect<AwsProfileConfig, CredentialsError>;
+      loadProfileCredentials: (
+        profileName: string,
+      ) => Effect.Effect<ResolvedCredentials, CredentialsError>;
+    }
+  >()("distilled-aws/AWS/Auth") {}
 
-// This doesn't do anything - it's here so that when building for the browser, you don't get a warning about `Auth.Default` not being exported.
-export const Default = Effect.serviceOption(Auth).pipe(
-  Effect.map(Option.getOrThrow),
+const noProfiles = (): Effect.Effect<never, AwsCredentialProviderError> =>
+  Effect.fail(
+    new AwsCredentialProviderError({
+      message:
+        "AWS profiles (the shared config and credentials files) cannot be read in a browser.",
+      provider: "Auth",
+      hints: ["Provide credentials explicitly with a Credentials layer."],
+    }),
+  );
+
+/**
+ * The browser twin of `Auth.Default`: the provided `Auth`, or one whose
+ * profile reads fail with {@link AwsCredentialProviderError}, since a browser
+ * has no profile files.
+ */
+export const Default = /*@__PURE__*/ Effect.serviceOption(Auth).pipe(
+  /*@__PURE__*/ Effect.map(
+    Option.getOrElse(() => ({ loadProfile: noProfiles, loadProfileCredentials: noProfiles })),
+  ),
 );
 
 export interface AwsProfileConfig {
+  /** Set by `aws login`; names the cached console session. */
+  login_session?: string;
   sso_session?: string;
   sso_account_id?: string;
   sso_role_name?: string;

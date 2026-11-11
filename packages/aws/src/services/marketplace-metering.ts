@@ -1,217 +1,225 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Marketplace Metering",
   serviceShapeName: "AWSMPMeteringService",
 });
-const auth = T.AwsAuthSigv4({ name: "aws-marketplace" });
-const ver = T.ServiceVersion("2016-01-14");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
-  const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "aws-marketplace" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2016-01-14");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
+const rules = /*@__PURE__*/ T.EndpointResolver(
+  (p, _) => {
+    const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+      }
+      if (UseDualStack === true) {
+        return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
+      }
+      return e(Endpoint);
     }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://metering-marketplace.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-cn" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://metering-marketplace.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://metering-marketplace.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-eusc" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e(`https://metering-marketplace.${Region}.amazonaws.eu`);
-        }
-        if (UseFIPS === true && UseDualStack === true) {
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
           if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
+            _.getAttr(PartitionResult, "name") === "aws" &&
+            UseFIPS === false &&
+            UseDualStack === true
           ) {
             return e(
-              `https://metering.marketplace-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              `https://metering-marketplace.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true && UseDualStack === false) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-cn" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
             return e(
-              `https://metering.marketplace-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              `https://metering-marketplace.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseFIPS === false && UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
             return e(
-              `https://metering.marketplace.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              `https://metering-marketplace.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-eusc" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e(`https://metering-marketplace.${Region}.amazonaws.eu`);
+          }
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://metering.marketplace-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true && UseDualStack === false) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://metering.marketplace-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err("FIPS is enabled but this partition does not support FIPS");
+          }
+          if (UseFIPS === false && UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://metering.marketplace.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err("DualStack is enabled but this partition does not support DualStack");
+          }
+          return e(
+            `https://metering.marketplace.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
           );
         }
-        return e(
-          `https://metering.marketplace.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
       }
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    return err("Invalid Configuration: Missing Region");
+  },
+  '{"url":"https://metering.marketplace.{R}.{D}","properties":{},"headers":{}}',
+  ["eusc-de-east-1"],
+);
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MarketplaceMetering",
+  service: "MarketplaceMetering",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class CustomerNotEntitledException
   extends /*@__PURE__*/ S.TaggedError<CustomerNotEntitledException>()(
     "CustomerNotEntitledException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class DisabledApiException
-  extends /*@__PURE__*/ S.TaggedError<DisabledApiException>()(
-    "DisabledApiException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<DisabledApiException>()("DisabledApiException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class DuplicateRequestException
-  extends /*@__PURE__*/ S.TaggedError<DuplicateRequestException>()(
-    "DuplicateRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<DuplicateRequestException>()("DuplicateRequestException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class ExpiredTokenException
-  extends /*@__PURE__*/ S.TaggedError<ExpiredTokenException>()(
-    "ExpiredTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ExpiredTokenException>()("ExpiredTokenException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class IdempotencyConflictException
   extends /*@__PURE__*/ S.TaggedError<IdempotencyConflictException>()(
     "IdempotencyConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServiceErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServiceErrorException>()(
     "InternalServiceErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class InvalidCustomerIdentifierException
   extends /*@__PURE__*/ S.TaggedError<InvalidCustomerIdentifierException>()(
     "InvalidCustomerIdentifierException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class InvalidEndpointRegionException
   extends /*@__PURE__*/ S.TaggedError<InvalidEndpointRegionException>()(
     "InvalidEndpointRegionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class InvalidLicenseException
-  extends /*@__PURE__*/ S.TaggedError<InvalidLicenseException>()(
-    "InvalidLicenseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidLicenseException>()("InvalidLicenseException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class InvalidProductCodeException
   extends /*@__PURE__*/ S.TaggedError<InvalidProductCodeException>()(
     "InvalidProductCodeException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class InvalidPublicKeyVersionException
   extends /*@__PURE__*/ S.TaggedError<InvalidPublicKeyVersionException>()(
     "InvalidPublicKeyVersionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class InvalidRegionException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRegionException>()(
-    "InvalidRegionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidRegionException>()("InvalidRegionException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class InvalidTagException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTagException>()(
-    "InvalidTagException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidTagException>()("InvalidTagException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class InvalidTokenException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTokenException>()(
-    "InvalidTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidTokenException>()("InvalidTokenException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class InvalidUsageAllocationsException
   extends /*@__PURE__*/ S.TaggedError<InvalidUsageAllocationsException>()(
     "InvalidUsageAllocationsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class InvalidUsageDimensionException
   extends /*@__PURE__*/ S.TaggedError<InvalidUsageDimensionException>()(
     "InvalidUsageDimensionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class PlatformNotSupportedException
   extends /*@__PURE__*/ S.TaggedError<PlatformNotSupportedException>()(
     "PlatformNotSupportedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
-    "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()("ThrottlingException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class TimestampOutOfBoundsException
   extends /*@__PURE__*/ S.TaggedError<TimestampOutOfBoundsException>()(
     "TimestampOutOfBoundsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export type CustomerIdentifier = string;
 export type UsageDimension = string;
@@ -223,188 +231,83 @@ export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface UsageAllocation {
   AllocatedUsageQuantity: number;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
-export const UsageAllocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AllocatedUsageQuantity: S.Number, Tags: S.optional(TagList) }),
-).annotate({
-  identifier: "UsageAllocation",
-}) as any as S.Schema<UsageAllocation>;
 export type UsageAllocations = UsageAllocation[];
-export const UsageAllocations = /*@__PURE__*/ S.Array(UsageAllocation);
 export type CustomerAWSAccountId = string;
 export type LicenseArn = string;
 export interface UsageRecord {
   Timestamp: Date;
-  CustomerIdentifier?: string;
+  CustomerIdentifier?: string | undefined;
   Dimension: string;
-  Quantity?: number;
-  UsageAllocations?: UsageAllocation[];
-  CustomerAWSAccountId?: string;
-  LicenseArn?: string;
+  Quantity?: number | undefined;
+  UsageAllocations?: UsageAllocation[] | undefined;
+  CustomerAWSAccountId?: string | undefined;
+  LicenseArn?: string | undefined;
 }
-export const UsageRecord = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    CustomerIdentifier: S.optional(S.String),
-    Dimension: S.String,
-    Quantity: S.optional(S.Number),
-    UsageAllocations: S.optional(UsageAllocations),
-    CustomerAWSAccountId: S.optional(S.String),
-    LicenseArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "UsageRecord" }) as any as S.Schema<UsageRecord>;
 export type UsageRecordList = UsageRecord[];
-export const UsageRecordList = /*@__PURE__*/ S.Array(UsageRecord);
 export type ProductCode = string;
 export interface BatchMeterUsageRequest {
   UsageRecords: UsageRecord[];
-  ProductCode?: string;
+  ProductCode?: string | undefined;
 }
-export const BatchMeterUsageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UsageRecords: UsageRecordList,
-    ProductCode: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "BatchMeterUsageRequest",
-}) as any as S.Schema<BatchMeterUsageRequest>;
 export type UsageRecordResultStatus =
   | "Success"
   | "CustomerNotSubscribed"
   | "DuplicateRecord"
   | (string & {});
-export const UsageRecordResultStatus = S.String;
-
 export interface UsageRecordResult {
-  UsageRecord?: UsageRecord;
-  MeteringRecordId?: string;
-  Status?: UsageRecordResultStatus;
+  UsageRecord?: UsageRecord | undefined;
+  MeteringRecordId?: string | undefined;
+  Status?: UsageRecordResultStatus | undefined;
 }
-export const UsageRecordResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UsageRecord: S.optional(UsageRecord),
-    MeteringRecordId: S.optional(S.String),
-    Status: S.optional(UsageRecordResultStatus),
-  }),
-).annotate({
-  identifier: "UsageRecordResult",
-}) as any as S.Schema<UsageRecordResult>;
 export type UsageRecordResultList = UsageRecordResult[];
-export const UsageRecordResultList = /*@__PURE__*/ S.Array(UsageRecordResult);
 export interface BatchMeterUsageResult {
-  Results?: UsageRecordResult[];
-  UnprocessedRecords?: UsageRecord[];
+  Results?: UsageRecordResult[] | undefined;
+  UnprocessedRecords?: UsageRecord[] | undefined;
 }
-export const BatchMeterUsageResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Results: S.optional(UsageRecordResultList),
-    UnprocessedRecords: S.optional(UsageRecordList),
-  }),
-).annotate({
-  identifier: "BatchMeterUsageResult",
-}) as any as S.Schema<BatchMeterUsageResult>;
 export type ClientToken = string;
 export interface MeterUsageRequest {
   ProductCode: string;
   Timestamp: Date;
   UsageDimension: string;
-  UsageQuantity?: number;
-  DryRun?: boolean;
-  UsageAllocations?: UsageAllocation[];
-  ClientToken?: string;
+  UsageQuantity?: number | undefined;
+  DryRun?: boolean | undefined;
+  UsageAllocations?: UsageAllocation[] | undefined;
+  ClientToken?: string | undefined;
 }
-export const MeterUsageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProductCode: S.String,
-    Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    UsageDimension: S.String,
-    UsageQuantity: S.optional(S.Number),
-    DryRun: S.optional(S.Boolean),
-    UsageAllocations: S.optional(UsageAllocations),
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "MeterUsageRequest",
-}) as any as S.Schema<MeterUsageRequest>;
 export interface MeterUsageResult {
-  MeteringRecordId?: string;
+  MeteringRecordId?: string | undefined;
 }
-export const MeterUsageResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MeteringRecordId: S.optional(S.String) }),
-).annotate({
-  identifier: "MeterUsageResult",
-}) as any as S.Schema<MeterUsageResult>;
 export type VersionInteger = number;
 export type Nonce = string;
 export interface RegisterUsageRequest {
   ProductCode: string;
   PublicKeyVersion: number;
-  Nonce?: string;
+  Nonce?: string | undefined;
 }
-export const RegisterUsageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProductCode: S.String,
-    PublicKeyVersion: S.Number,
-    Nonce: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "RegisterUsageRequest",
-}) as any as S.Schema<RegisterUsageRequest>;
 export type NonEmptyString = string;
 export interface RegisterUsageResult {
-  PublicKeyRotationTimestamp?: Date;
-  Signature?: string;
+  PublicKeyRotationTimestamp?: Date | undefined;
+  Signature?: string | undefined;
 }
-export const RegisterUsageResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PublicKeyRotationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Signature: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RegisterUsageResult",
-}) as any as S.Schema<RegisterUsageResult>;
 export interface ResolveCustomerRequest {
   RegistrationToken: string;
 }
-export const ResolveCustomerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RegistrationToken: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ResolveCustomerRequest",
-}) as any as S.Schema<ResolveCustomerRequest>;
-export interface ResolveCustomerResult {
-  CustomerIdentifier?: string;
-  ProductCode?: string;
-  CustomerAWSAccountId?: string;
-  LicenseArn?: string;
+export type AgreementId = string;
+export interface Metadata {
+  AgreementId?: string | undefined;
 }
-export const ResolveCustomerResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CustomerIdentifier: S.optional(S.String),
-    ProductCode: S.optional(S.String),
-    CustomerAWSAccountId: S.optional(S.String),
-    LicenseArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ResolveCustomerResult",
-}) as any as S.Schema<ResolveCustomerResult>;
+export interface ResolveCustomerResult {
+  CustomerIdentifier?: string | undefined;
+  ProductCode?: string | undefined;
+  CustomerAWSAccountId?: string | undefined;
+  LicenseArn?: string | undefined;
+  Metadata?: Metadata | undefined;
+}
 export type ErrorMessage = string;
 export type BatchMeterUsageError =
   | DisabledApiException
@@ -419,6 +322,14 @@ export type BatchMeterUsageError =
   | TimestampOutOfBoundsException
   | CommonErrors;
 /**
+ * The Amazon Web Services Marketplace AI Metering Agent Skill (`aws-marketplace-metering`) helps an AI
+ * coding agent integrate your SaaS product's usage reporting with the
+ * `BatchMeterUsage` API. The skill is a curated package of instructions and
+ * reference material that guides your AI coding agent through building, deploying, and
+ * testing the metering integration. To get the skill on demand without checking it out
+ * locally, install the Amazon Web Services MCP Server in your coding agent; the agent then discovers and loads
+ * the skill at runtime. The skill source is also available on GitHub. For more information, see Get started with the Amazon Web Services Marketplace AI Metering Agent Skill on the Amazon Web Services Marketplace blog.
+ *
  * Amazon Web Services Marketplace is introducing Concurrent Agreements, enabling buyers to make multiple purchases per Amazon Web Services account. Starting June 1, 2026, new SaaS products must use `CustomerAWSAccountId` (instead of `CustomerIdentifier`), `LicenseArn` (instead of `ProductCode`) to support this feature. `BatchMeterUsage` does not support `CustomerIdentifier` for new integrations. Existing integrations continue to work. Review the new integration for Concurrent Agreements here. For additional implementation details, see BatchMeterUsage code example with LicenseArn in the *Amazon Web Services Marketplace Seller Guide*.
  *
  * To post metering records for customers, SaaS applications call
@@ -439,8 +350,18 @@ export type BatchMeterUsageError =
  *
  * `BatchMeterUsage` can process up to 25
  * `UsageRecords` at a time, and each request must be less than
- * 1 MB in size. Optionally, you can have multiple usage allocations for
- * usage data that's split into buckets according to predefined tags.
+ * 1 MB in size.
+ *
+ * **Vendor-metered tagging**
+ *
+ * `BatchMeterUsage` supports vendor-metered tagging. Optionally, you can
+ * split the usage in a `UsageRecord` into buckets by including
+ * `UsageAllocations`, where each `UsageAllocation` has a set of
+ * `Tags` that you define. Vendor-metered tagging doesn't change the price,
+ * dimensions, or the total usage that you report. It gives buyers a more granular view of
+ * their usage of your product so they can perform cost allocation in the Amazon Web Services Billing and
+ * Cost Management console. For more information, see Vendor-metered tagging and BatchMeterUsage with usage allocation tagging code example in the
+ * *Amazon Web Services Marketplace Seller Guide*.
  *
  * `BatchMeterUsage` returns a list of
  * `UsageRecordResult` objects, which have each
@@ -454,13 +375,13 @@ export type BatchMeterUsageError =
  * Guide.
  */
 export const batchMeterUsage: API.OperationMethod<
-  BatchMeterUsageRequest,
+  BatchMeterUsageRequest & RegionInput,
   BatchMeterUsageResult,
   BatchMeterUsageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchMeterUsageRequest,
-  output: BatchMeterUsageResult,
+  input: __S(2, __c0, 2) as any as S.Schema<BatchMeterUsageRequest>,
+  output: __S(5, __c0, 5) as any as S.Schema<BatchMeterUsageResult>,
   errors: [
     DisabledApiException,
     InternalServiceErrorException,
@@ -476,6 +397,8 @@ export const batchMeterUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchMeterUsage",
+  telemetry: TELEMETRY,
+  span: "BatchMeterUsage",
 }));
 
 export type MeterUsageError =
@@ -533,13 +456,13 @@ export type MeterUsageError =
  * For Amazon Web Services Regions that support `MeterUsage`, see MeterUsage Region support for Amazon EC2 and MeterUsage Region support for Amazon ECS and Amazon EKS.
  */
 export const meterUsage: API.OperationMethod<
-  MeterUsageRequest,
+  MeterUsageRequest & RegionInput,
   MeterUsageResult,
   MeterUsageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: MeterUsageRequest,
-  output: MeterUsageResult,
+  input: __S(16, __c2, 0) as any as S.Schema<MeterUsageRequest>,
+  output: __S(17, __c2, 1) as any as S.Schema<MeterUsageResult>,
   errors: [
     CustomerNotEntitledException,
     DuplicateRequestException,
@@ -556,6 +479,8 @@ export const meterUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MeterUsage",
+  telemetry: TELEMETRY,
+  span: "MeterUsage",
 }));
 
 export type RegisterUsageError =
@@ -594,15 +519,15 @@ export type RegisterUsageError =
  * the second. A minimum of 1 minute of usage applies to tasks that are short
  * lived. For example, if a customer has a 10 node Amazon ECS or Amazon EKS cluster and a service configured as a Daemon Set, then Amazon ECS or Amazon EKS will launch a task on all 10 cluster nodes
  * and the customer will be charged for 10 tasks. Software metering
- * is handled by the Amazon Web Services Marketplace metering control plane—your software is
+ * is handled by the Amazon Web Services Marketplace metering control plane--your software is
  * not required to perform metering-specific actions other than to call
  * `RegisterUsage` to commence metering.
  * The Amazon Web Services Marketplace metering control plane will also bill customers for
  * running ECS tasks and Amazon EKS pods, regardless of the customer's
  * subscription state, which removes the need for your software to run entitlement
  * checks at runtime. For containers, `RegisterUsage` should be called
- * immediately at launch. If you don’t register the container within the first 6 hours
- * of the launch, Amazon Web Services Marketplace Metering Service doesn’t provide any metering
+ * immediately at launch. If you don't register the container within the first 6 hours
+ * of the launch, Amazon Web Services Marketplace Metering Service doesn't provide any metering
  * guarantees for previous months. Metering will continue, however, for the
  * current month forward until the container ends. `RegisterUsage` is
  * for metering paid hourly container products.
@@ -610,13 +535,13 @@ export type RegisterUsageError =
  * For Amazon Web Services Regions that support `RegisterUsage`, see RegisterUsage Region support.
  */
 export const registerUsage: API.OperationMethod<
-  RegisterUsageRequest,
+  RegisterUsageRequest & RegionInput,
   RegisterUsageResult,
   RegisterUsageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RegisterUsageRequest,
-  output: RegisterUsageResult,
+  input: __S(24, __c3, 0) as any as S.Schema<RegisterUsageRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<RegisterUsageResult>,
   errors: [
     CustomerNotEntitledException,
     DisabledApiException,
@@ -630,6 +555,8 @@ export const registerUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterUsage",
+  telemetry: TELEMETRY,
+  span: "RegisterUsage",
 }));
 
 export type ResolveCustomerError =
@@ -660,13 +587,13 @@ export type ResolveCustomerError =
  * For Amazon Web Services Regions that support `ResolveCustomer`, see ResolveCustomer Region support.
  */
 export const resolveCustomer: API.OperationMethod<
-  ResolveCustomerRequest,
+  ResolveCustomerRequest & RegionInput,
   ResolveCustomerResult,
   ResolveCustomerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ResolveCustomerRequest,
-  output: ResolveCustomerResult,
+  input: __S(32, __c4, 0) as any as S.Schema<ResolveCustomerRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<ResolveCustomerResult>,
   errors: [
     DisabledApiException,
     ExpiredTokenException,
@@ -677,4 +604,132 @@ export const resolveCustomer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResolveCustomer",
+  telemetry: TELEMETRY,
+  span: "ResolveCustomer",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          CustomerIdentifier: S.optional(S.String),
+          Dimension: S.String,
+          Quantity: S.optional(S.Number),
+          UsageAllocations: S.optional(__S(11, __c1, 3)),
+          CustomerAWSAccountId: S.optional(S.String),
+          LicenseArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UsageRecord" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ UsageRecords: __S(1, __c0, 1), ProductCode: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "BatchMeterUsageRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          UsageRecord: S.optional(__S(0, __c0, 0)),
+          MeteringRecordId: S.optional(S.String),
+          Status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UsageRecordResult" });
+    case 4:
+      return S.Array(__S(3, __c0, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          Results: S.optional(__S(4, __c0, 4)),
+          UnprocessedRecords: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "BatchMeterUsageResult" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Key: S.String, Value: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(8, __c1, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ AllocatedUsageQuantity: S.Number, Tags: S.optional(__S(9, __c1, 1)) }),
+      ).annotate({ identifier: "UsageAllocation" });
+    case 3:
+      return S.Array(__S(10, __c1, 2));
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProductCode: S.String,
+          Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          UsageDimension: S.String,
+          UsageQuantity: S.optional(S.Number),
+          DryRun: S.optional(S.Boolean),
+          UsageAllocations: S.optional(__S(11, __c1, 3)),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "MeterUsageRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ MeteringRecordId: S.optional(S.String) })).annotate({
+        identifier: "MeterUsageResult",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProductCode: S.String,
+          PublicKeyVersion: S.Number,
+          Nonce: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "RegisterUsageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PublicKeyRotationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Signature: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RegisterUsageResult" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ RegistrationToken: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ResolveCustomerRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ AgreementId: S.optional(S.String) })).annotate({
+        identifier: "Metadata",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          CustomerIdentifier: S.optional(S.String),
+          ProductCode: S.optional(S.String),
+          CustomerAWSAccountId: S.optional(S.String),
+          LicenseArn: S.optional(S.String),
+          Metadata: S.optional(__S(33, __c4, 1)),
+        }),
+      ).annotate({ identifier: "ResolveCustomerResult" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

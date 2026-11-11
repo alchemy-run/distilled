@@ -10,7 +10,7 @@
  * @example
  * ```ts
  * import * as Effect from "effect/Effect";
- * import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+ * import * as FetchHttpClient from "effect/http/FetchHttpClient";
  * import * as Mailchimp from "@distilled.cloud/mailchimp";
  *
  * const program = Mailchimp.setListMember({

@@ -8,7 +8,7 @@
     "declarationMap": false,
     "sourceMap": false,
     "composite": false,
-    "types": ["bun"]
+    "types": ["node"]
   },
   "include": ["run.ts", "src/**/*.ts"]
 }

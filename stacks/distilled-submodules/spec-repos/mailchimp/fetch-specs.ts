@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors Mailchimp's API documents into ../specs/.
  *
@@ -8,7 +8,7 @@
  * is never cloned.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/marketing.json               Marketing API (v3.0), Swagger 2.0
@@ -17,6 +17,7 @@
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "mailchimp/mailchimp-client-lib-codegen";
@@ -59,9 +60,7 @@ async function main() {
 
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-      );
+      throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
     }
 
     const spec = (await response.json()) as Record<string, unknown>;
@@ -77,15 +76,11 @@ async function main() {
     console.log(`Writing ${outputPath}...`);
     // 2-space indent + trailing newline, so a whitespace-only change upstream
     // produces no diff.
-    await Bun.write(outputPath, JSON.stringify(spec, null, 2) + "\n");
+    await writeFile(outputPath, JSON.stringify(spec, null, 2) + "\n");
 
     const version =
-      typeof spec.openapi === "string"
-        ? `OpenAPI ${spec.openapi}`
-        : `Swagger ${spec.swagger}`;
-    console.log(
-      `  ${file.output}: ${version} — ${Object.keys(spec.paths as object).length} paths`,
-    );
+      typeof spec.openapi === "string" ? `OpenAPI ${spec.openapi}` : `Swagger ${spec.swagger}`;
+    console.log(`  ${file.output}: ${version} — ${Object.keys(spec.paths as object).length} paths`);
   }
 
   console.log("Done!");

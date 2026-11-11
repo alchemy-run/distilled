@@ -1,5 +1,5 @@
 {
-  "description": "Align zero_trust#AccessAiControlsMcpServersSync with distilled cloudflare/zero-trust syncAccessAiControlMcpServer",
+  "description": "Align MCP server sync operation and its API errors",
   "patches": [
     {
       "op": "move",
@@ -25,6 +25,21 @@
       "op": "replace",
       "path": "/shapes/com.cloudflare.zero_trust#SyncAccessAiControlMcpServer/output/target",
       "value": "com.cloudflare.zero_trust#SyncAccessAiControlMcpServerResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#SyncAccessAiControlMcpServer/errors",
+      "value": [
+        {
+          "target": "com.cloudflare.zero_trust#McpServerNotFound"
+        },
+        {
+          "target": "com.cloudflare.zero_trust#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.zero_trust#McpServerSyncFailure"
+        }
+      ]
     }
   ]
 }

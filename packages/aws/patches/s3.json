@@ -1,4 +1,7 @@
 {
+  "allOperations": {
+    "errors": ["InvalidAccessKeyId"]
+  },
   "errorCategories": {
     "SlowDown": ["ThrottlingError", "RetryableError"],
     "BucketNotEmpty": ["ConflictError"],
@@ -14,7 +17,8 @@
     "InvalidBucketState": ["ConflictError"],
     "IllegalLocationConstraintException": ["BadRequestError"],
     "PreconditionFailed": ["ConflictError"],
-    "ConditionalRequestConflict": ["ConflictError", "RetryableError"]
+    "ConditionalRequestConflict": ["ConflictError", "RetryableError"],
+    "InvalidAccessKeyId": ["AuthError"]
   },
   "structures": {
     "GetObjectTaggingOutput": {
@@ -55,12 +59,7 @@
       ]
     },
     "putBucketReplication": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "InvalidRequest",
-        "NoSuchBucket"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "InvalidRequest", "NoSuchBucket"]
     },
     "putObjectLockConfiguration": {
       "errors": [
@@ -86,12 +85,7 @@
       ]
     },
     "headBucket": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "ParseError",
-        "NoSuchBucket"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "ParseError", "NoSuchBucket"]
     },
     "getBucketPolicy": {
       "errors": [
@@ -113,12 +107,7 @@
       ]
     },
     "putBucketTagging": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "deleteBucketTagging": {
       "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket"]
@@ -133,20 +122,10 @@
       ]
     },
     "putBucketVersioning": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "putBucketCors": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "getBucketCors": {
       "errors": [
@@ -161,20 +140,10 @@
       "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket"]
     },
     "putBucketEncryption": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "putBucketAcl": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "deleteObject": {
       "errors": [
@@ -208,71 +177,31 @@
       ]
     },
     "getBucketAcl": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "getBucketVersioning": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "getBucketLocation": {
       "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket"]
     },
     "getBucketLogging": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "getBucketAccelerateConfiguration": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "getBucketRequestPayment": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "putBucketLogging": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "putBucketAccelerateConfiguration": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "putBucketRequestPayment": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "getPublicAccessBlock": {
       "errors": [
@@ -284,12 +213,7 @@
       ]
     },
     "putPublicAccessBlock": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "deletePublicAccessBlock": {
       "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket"]
@@ -301,12 +225,7 @@
       "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket"]
     },
     "getBucketAnalyticsConfiguration": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "NoSuchConfiguration"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "NoSuchConfiguration"]
     },
     "deleteBucketAnalyticsConfiguration": {
       "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket"]
@@ -318,12 +237,7 @@
       "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket"]
     },
     "getBucketMetricsConfiguration": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "NoSuchConfiguration"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "NoSuchConfiguration"]
     },
     "deleteBucketMetricsConfiguration": {
       "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket"]
@@ -335,12 +249,7 @@
       "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket"]
     },
     "getBucketInventoryConfiguration": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "NoSuchConfiguration"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "NoSuchConfiguration"]
     },
     "deleteBucketInventoryConfiguration": {
       "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket"]
@@ -371,12 +280,7 @@
       ]
     },
     "putBucketWebsite": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "getBucketWebsite": {
       "errors": [
@@ -406,12 +310,7 @@
       "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket"]
     },
     "getBucketIntelligentTieringConfiguration": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "NoSuchConfiguration"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "NoSuchConfiguration"]
     },
     "deleteBucketIntelligentTieringConfiguration": {
       "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket"]
@@ -446,18 +345,12 @@
         "RequestLimitExceeded",
         "SlowDown",
         "ParseError",
-        "NotFound",
         "NoSuchBucket",
         "MethodNotAllowed"
       ]
     },
     "getObjectAcl": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "getObjectTagging": {
       "errors": [
@@ -532,28 +425,13 @@
       ]
     },
     "listMultipartUploads": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "listObjectVersions": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "createMultipartUpload": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "copyObject": {
       "errors": [
@@ -579,23 +457,13 @@
       "errors": ["NoSuchUpload"]
     },
     "listParts": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "NoSuchUpload"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "NoSuchUpload"]
     },
     "abortMultipartUpload": {
       "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "NotFound"]
     },
     "deleteObjects": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "restoreObject": {
       "errors": [
@@ -620,12 +488,7 @@
       ]
     },
     "getBucketPolicyStatus": {
-      "errors": [
-        "RequestLimitExceeded",
-        "SlowDown",
-        "NoSuchBucket",
-        "PermanentRedirect"
-      ]
+      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "listBuckets": {
       "errors": ["RequestLimitExceeded", "SlowDown", "RequestError"]

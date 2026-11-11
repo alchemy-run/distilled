@@ -1,0 +1,15 @@
+{
+  "description": "Function `binding` is polymorphic on `type` (JavascriptUdf, CLRUdf, AzureML, ...); the converted model keeps only the discriminator, so S.Struct strips the binding `properties` (e.g. the UDF `script`). Add them as an untyped document.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.streamanalytics#FunctionBinding/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Binding-type-specific properties (e.g. `{ script }` for `Microsoft.StreamAnalytics/JavascriptUdf`)."
+        }
+      }
+    }
+  ]
+}

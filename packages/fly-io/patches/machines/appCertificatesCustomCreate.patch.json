@@ -3,9 +3,9 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1v1~1apps~1{app_name}~1certificates~1custom/post/responses/409",
+      "path": "/shapes/com.flyio.machines#AppCertificatesCustomCreate/errors/0",
       "value": {
-        "description": "Conflict"
+        "target": "com.flyio.machines#Conflict"
       }
     }
   ]

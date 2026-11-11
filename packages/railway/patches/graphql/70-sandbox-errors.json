@@ -8,9 +8,7 @@
         "description": "The sandbox to execute in, checkpoint, or fork does not exist. Observed exact message: Sandbox not found.",
         "category": "notFound",
         "retryable": false,
-        "matchers": [
-          { "code": "INTERNAL_SERVER_ERROR", "message": "Sandbox not found" }
-        ]
+        "matchers": [{ "code": "INTERNAL_SERVER_ERROR", "message": "Sandbox not found" }]
       }
     },
     {

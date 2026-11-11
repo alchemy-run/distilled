@@ -1,5 +1,21 @@
-import type { ParsedIniData } from "@smithy/types";
-import { IniSectionType } from "@smithy/types";
+import * as Effect from "effect/Effect";
+import { SharedConfigError } from "../credentials-service.ts";
+
+/** Section prefixes the shared config files use (`[profile x]`, `[sso-session x]`, `[services x]`). */
+export const IniSectionType = {
+  PROFILE: "profile",
+  SSO_SESSION: "sso-session",
+  SERVICES: "services",
+} as const;
+export type IniSectionType = (typeof IniSectionType)[keyof typeof IniSectionType];
+
+export type IniSection = Record<string, string | undefined>;
+export type ParsedIniData = Record<string, IniSection>;
+
+export interface SharedConfigFiles {
+  credentialsFile: ParsedIniData;
+  configFile: ParsedIniData;
+}
 
 const separator = ".";
 
@@ -7,7 +23,11 @@ const separator = ".";
 const prefixKeyRegex = /^([\w-]+)\s(["'])?([\w-@\+\.%:/]+)\2$/;
 const profileNameBlockList = ["__proto__", "profile __proto__"];
 
-export const parseIni = (iniData: string): ParsedIniData => {
+/** Parses the ini text of the shared file at `path`. */
+export const parseIni = (
+  iniData: string,
+  path: string,
+): Effect.Effect<ParsedIniData, SharedConfigError> => {
   const map: ParsedIniData = {};
 
   let currentSection: string | undefined;
@@ -36,7 +56,12 @@ export const parseIni = (iniData: string): ParsedIniData => {
       }
 
       if (profileNameBlockList.includes(sectionName)) {
-        throw new Error(`Found invalid profile name "${sectionName}"`);
+        return Effect.fail(
+          new SharedConfigError({
+            message: `${path} has an invalid profile name "${sectionName}"`,
+            path,
+          }),
+        );
       }
     } else if (currentSection) {
       const indexOfEqualsSign = trimmedLine.indexOf("=");
@@ -53,16 +78,14 @@ export const parseIni = (iniData: string): ParsedIniData => {
             currentSubSection = undefined;
           }
           map[currentSection] = map[currentSection] || {};
-          const key = currentSubSection
-            ? [currentSubSection, name].join(separator)
-            : name;
+          const key = currentSubSection ? [currentSubSection, name].join(separator) : name;
           map[currentSection][key] = value;
         }
       }
     }
   }
 
-  return map;
+  return Effect.succeed(map);
 };
 
 export const parseSSOSessionData = (data: ParsedIniData): ParsedIniData =>

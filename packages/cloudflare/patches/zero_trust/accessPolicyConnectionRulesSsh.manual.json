@@ -1,0 +1,62 @@
+{
+  "description": "Reusable Access policies carry SSH connection rules (`connection_rules.ssh`: Unix usernames + email-alias toggle) for infrastructure targets alongside `rdp`. The API docs only model the `ssh` arm on application-scoped infrastructure policies, so the reusable-policy shapes silently stripped it on encode and decode.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessPoliciesResponseConnectionRulesSsh",
+      "value": {
+        "type": "structure",
+        "members": {
+          "usernames": {
+            "target": "com.cloudflare.zero_trust#AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSshUsernamesList"
+          },
+          "allow_email_alias": {
+            "target": "smithy.api#Boolean"
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessPoliciesCreateRequestConnectionRules/members/ssh",
+      "value": {
+        "target": "com.cloudflare.zero_trust#AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSsh"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessPoliciesUpdateRequestConnectionRules/members/ssh",
+      "value": {
+        "target": "com.cloudflare.zero_trust#AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSsh"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessPoliciesCreateResponseConnectionRules/members/ssh",
+      "value": {
+        "target": "com.cloudflare.zero_trust#AccessPoliciesResponseConnectionRulesSsh"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessPoliciesGetResponseConnectionRules/members/ssh",
+      "value": {
+        "target": "com.cloudflare.zero_trust#AccessPoliciesResponseConnectionRulesSsh"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessPoliciesUpdateResponseConnectionRules/members/ssh",
+      "value": {
+        "target": "com.cloudflare.zero_trust#AccessPoliciesResponseConnectionRulesSsh"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#AccessPoliciesListResultItemConnectionRules/members/ssh",
+      "value": {
+        "target": "com.cloudflare.zero_trust#AccessPoliciesResponseConnectionRulesSsh"
+      }
+    }
+  ]
+}

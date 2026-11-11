@@ -1,0 +1,186 @@
+{
+  "name": "@distilled.cloud/s3",
+  "version": "1.0.0-rc.18",
+  "description": "Effect-native Amazon S3 client for AWS and every S3-compatible store (Cloudflare R2, Tigris, MinIO, ...), with the restXml, SigV4 and endpoint-rules runtime it needs and nothing else. The base of @distilled.cloud/aws.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alchemy-run/distilled",
+    "directory": "packages/s3"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "imports": {
+    "#crc32": {
+      "types": "./src/hash/crc32.ts",
+      "bun": "./src/hash/crc32.ts",
+      "worker": "./src/hash/crc32.ts",
+      "browser": "./lib/hash/crc32.browser.js",
+      "default": "./lib/hash/crc32.js"
+    },
+    "#md5": {
+      "types": "./src/hash/md5.ts",
+      "bun": "./src/hash/md5.ts",
+      "worker": "./src/hash/md5.ts",
+      "browser": "./lib/hash/md5.browser.js",
+      "default": "./lib/hash/md5.js"
+    },
+    "#utf8": {
+      "types": "./src/hash/utf8.ts",
+      "bun": "./src/hash/utf8.ts",
+      "worker": "./src/hash/utf8.ts",
+      "browser": "./lib/hash/utf8.browser.js",
+      "default": "./lib/hash/utf8.js"
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "bun": "./src/index.ts",
+      "worker": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./Category": {
+      "types": "./lib/category.d.ts",
+      "bun": "./src/category.ts",
+      "worker": "./src/category.ts",
+      "default": "./lib/category.js"
+    },
+    "./Credentials": {
+      "types": "./lib/credentials.d.ts",
+      "bun": "./src/credentials.ts",
+      "worker": "./src/credentials.ts",
+      "default": "./lib/credentials.js"
+    },
+    "./Endpoint": {
+      "types": "./lib/endpoint.d.ts",
+      "bun": "./src/endpoint.ts",
+      "worker": "./src/endpoint.ts",
+      "default": "./lib/endpoint.js"
+    },
+    "./ErrorMessage": {
+      "types": "./lib/error-message.d.ts",
+      "bun": "./src/error-message.ts",
+      "worker": "./src/error-message.ts",
+      "default": "./lib/error-message.js"
+    },
+    "./Errors": {
+      "types": "./lib/errors.d.ts",
+      "bun": "./src/errors.ts",
+      "worker": "./src/errors.ts",
+      "default": "./lib/errors.js"
+    },
+    "./Presign": {
+      "types": "./lib/presign.d.ts",
+      "bun": "./src/presign.ts",
+      "worker": "./src/presign.ts",
+      "default": "./lib/presign.js"
+    },
+    "./Protocol": {
+      "types": "./lib/protocol.d.ts",
+      "bun": "./src/protocol.ts",
+      "worker": "./src/protocol.ts",
+      "default": "./lib/protocol.js"
+    },
+    "./Region": {
+      "types": "./lib/region.d.ts",
+      "bun": "./src/region.ts",
+      "worker": "./src/region.ts",
+      "default": "./lib/region.js"
+    },
+    "./Retry": {
+      "types": "./lib/retry.d.ts",
+      "bun": "./src/retry.ts",
+      "worker": "./src/retry.ts",
+      "default": "./lib/retry.js"
+    },
+    "./Sensitive": {
+      "types": "./lib/sensitive.d.ts",
+      "bun": "./src/sensitive.ts",
+      "worker": "./src/sensitive.ts",
+      "default": "./lib/sensitive.js"
+    },
+    "./SigV4": {
+      "types": "./lib/sigv4.d.ts",
+      "bun": "./src/sigv4.ts",
+      "worker": "./src/sigv4.ts",
+      "default": "./lib/sigv4.js"
+    },
+    "./Traits": {
+      "types": "./lib/traits.d.ts",
+      "bun": "./src/traits.ts",
+      "worker": "./src/traits.ts",
+      "default": "./lib/traits.js"
+    },
+    "./client/*": {
+      "types": "./lib/client/*.d.ts",
+      "bun": "./src/client/*.ts",
+      "worker": "./src/client/*.ts",
+      "default": "./lib/client/*.js"
+    },
+    "./eventstream/*": {
+      "types": "./lib/eventstream/*.d.ts",
+      "bun": "./src/eventstream/*.ts",
+      "worker": "./src/eventstream/*.ts",
+      "default": "./lib/eventstream/*.js"
+    },
+    "./hash/*": {
+      "types": "./lib/hash/*.d.ts",
+      "bun": "./src/hash/*.ts",
+      "worker": "./src/hash/*.ts",
+      "default": "./lib/hash/*.js"
+    },
+    "./middleware/*": {
+      "types": "./lib/middleware/*.d.ts",
+      "bun": "./src/middleware/*.ts",
+      "worker": "./src/middleware/*.ts",
+      "default": "./lib/middleware/*.js"
+    },
+    "./protocols/*": {
+      "types": "./lib/protocols/*.d.ts",
+      "bun": "./src/protocols/*.ts",
+      "worker": "./src/protocols/*.ts",
+      "default": "./lib/protocols/*.js"
+    },
+    "./rules-engine/*": {
+      "types": "./lib/rules-engine/*.d.ts",
+      "bun": "./src/rules-engine/*.ts",
+      "worker": "./src/rules-engine/*.ts",
+      "default": "./lib/rules-engine/*.js"
+    },
+    "./util/*": {
+      "types": "./lib/util/*.d.ts",
+      "bun": "./src/util/*.ts",
+      "worker": "./src/util/*.ts",
+      "default": "./lib/util/*.js"
+    },
+    "./*": {
+      "types": "./lib/services/*.d.ts",
+      "bun": "./src/services/*.ts",
+      "worker": "./src/services/*.ts",
+      "default": "./lib/services/*.js"
+    },
+    "./_bundle/*": "./lib/_bundle/*.js"
+  },
+  "scripts": {
+    "typecheck": "tsrs",
+    "build": "tsrs -b",
+    "fmt": "oxfmt --write src",
+    "lint": "oxlint --fix src",
+    "check": "tsrs && oxlint src && oxfmt --check src"
+  },
+  "dependencies": {
+    "@distilled.cloud/aws4signer": "workspace:*",
+    "@distilled.cloud/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:"
+  },
+  "peerDependencies": {
+    "effect": "catalog:"
+  }
+}

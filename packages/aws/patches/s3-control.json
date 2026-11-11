@@ -52,11 +52,7 @@
       "errors": ["NoSuchAccessPoint"]
     },
     "createAccessPointForObjectLambda": {
-      "errors": [
-        "AccessPointAlreadyOwnedByYou",
-        "InvalidRequest",
-        "NoSuchAccessPoint"
-      ],
+      "errors": ["AccessPointAlreadyOwnedByYou", "InvalidRequest", "NoSuchAccessPoint"],
       "syntheticErrors": [
         {
           "name": "ObjectLambdaNotAvailable",

@@ -12,7 +12,7 @@ npm install @distilled.cloud/docker effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Docker from "@distilled.cloud/docker";
 
 const program = Effect.gen(function* () {

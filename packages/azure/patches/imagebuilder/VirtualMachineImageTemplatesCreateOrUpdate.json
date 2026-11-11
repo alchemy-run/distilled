@@ -1,0 +1,85 @@
+{
+  "description": "ImageTemplateSource is polymorphic on `type`; the converted model keeps only the base members, so S.Struct strips the subtype payload on encode and decode. Add the subtype members as optional fields.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateSource/members/publisher",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "PlatformImage: image publisher, e.g. `Canonical`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateSource/members/offer",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "PlatformImage: image offer, e.g. `ubuntu-24_04-lts`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateSource/members/sku",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "PlatformImage: image SKU, e.g. `server`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateSource/members/version",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "PlatformImage: image version or `latest`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateSource/members/exactVersion",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "PlatformImage: resolved image version (read-only)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateSource/members/planInfo",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "PlatformImage: marketplace purchase plan (`planName`, `planProduct`, `planPublisher`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateSource/members/imageId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ManagedImage: ARM resource ID of the managed image."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateSource/members/imageVersionId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SharedImageVersion: ARM resource ID of the gallery image version."
+        }
+      }
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the LaunchDarkly OpenAPI spec into a Smithy 2.0 JSON model.
  *
@@ -7,14 +7,14 @@
  * Output: .generated-specs/launchdarkly.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is LaunchDarkly's
+ * `@distilled.cloud/dev/codegen/openapi`; this script is LaunchDarkly's
  * pipeline config. `scripts/generate.ts` compiles the model into src/services.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
       name: "launchdarkly",

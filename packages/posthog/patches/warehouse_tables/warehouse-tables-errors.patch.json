@@ -1,0 +1,197 @@
+{
+  "description": "From warehouse-tables-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"warehouse_tables\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_tables#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_tables#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_tables#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_tables#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_tables#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_tables#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_tables#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_tables#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_tables#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_tables#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_tables#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesPartialUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_tables#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_tables#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_tables#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesDestroy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_tables#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_tables#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesRefreshSchemaCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_tables#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_tables#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_tables#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesUpdateSchemaCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_tables#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_tables#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_tables#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesFileCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_tables#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_tables#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_tables#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_tables#BadRequest",
+      "before": "com.posthog.warehouse_tables#WarehouseTables",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_tables#Forbidden",
+      "before": "com.posthog.warehouse_tables#WarehouseTables",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_tables#NotFound",
+      "before": "com.posthog.warehouse_tables#WarehouseTables",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

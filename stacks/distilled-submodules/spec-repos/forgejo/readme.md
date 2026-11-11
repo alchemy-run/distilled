@@ -15,8 +15,8 @@ git submodule add https://github.com/distilled-mirror/spec-mirror-forgejo.git
 From `.meta/`:
 
 ```sh
-bun install
-bun run fetch-specs
+pnpm install
+pnpm run fetch-specs
 ```
 
 Bump `FORGEJO_VERSION` in `fetch-specs.ts` to move to a newer Forgejo release.

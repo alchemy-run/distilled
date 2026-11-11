@@ -1,0 +1,46 @@
+{
+  "description": "Server-assigned firewall fields (id, status, created_at) and the always-present name are optional in the spec because they are readOnly. Same for the response envelopes' `firewall` member. Required removes phantom-undefined fallbacks in consumers.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Firewall/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Firewall/members/status/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Firewall/members/created_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Firewall/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#FirewallsCreateResponse/members/firewall/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#FirewallsGetResponse/members/firewall/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#FirewallsUpdateResponse/members/firewall/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    }
+  ]
+}

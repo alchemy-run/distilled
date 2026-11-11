@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — the MongoDB Atlas Admin API v2 OpenAPI spec → a Smithy JSON
  * model in .generated-specs/.
@@ -9,7 +9,7 @@
  * Output: .generated-specs/atlas.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Atlas's pipeline
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Atlas's pipeline
  * config plus the one Atlas-specific wrinkle: date-versioned vendor media
  * types.
  *
@@ -32,11 +32,11 @@
  *    into `T.Http(...)`, and `src/protocol.ts` sends it as the `Accept`
  *    header at request time
  */
-import * as fs from "node:fs";
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { readModel, writeModel } from "@distilled.cloud/dev/codegen/models";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
-const root = path.resolve(import.meta.dir, "..");
+const root = path.resolve(import.meta.dirname, "..");
 
 const VND_JSON = /^application\/vnd\.atlas\.(\d{4}-\d{2}-\d{2})\+json$/;
 const VND_ANY = /^application\/vnd\.atlas\.(\d{4}-\d{2}-\d{2})\+[a-z]+$/;
@@ -53,9 +53,7 @@ const acceptByRoute: Record<string, string> = {};
  * `application/json` (dates sort lexicographically). Returns the promoted
  * key, if any.
  */
-const promoteNewestJson = (
-  content: Record<string, any> | undefined,
-): string | undefined => {
+const promoteNewestJson = (content: Record<string, any> | undefined): string | undefined => {
   if (!content || typeof content !== "object") return undefined;
   let best: string | undefined;
   for (const key of Object.keys(content)) {
@@ -69,9 +67,7 @@ const promoteNewestJson = (
 };
 
 /** Newest vendor media type of any suffix (`+gzip`/`+csv` downloads). */
-const newestVendor = (
-  content: Record<string, any> | undefined,
-): string | undefined => {
+const newestVendor = (content: Record<string, any> | undefined): string | undefined => {
   if (!content || typeof content !== "object") return undefined;
   let best: string | undefined;
   for (const key of Object.keys(content)) {
@@ -143,7 +139,7 @@ await runOpenApiConvert({
 // ---- Postprocess: stamp the versioned Accept media type on each op's http
 // trait (the generator inlines the trait object into `T.Http(...)`). ----
 const modelPath = path.join(root, ".generated-specs", "atlas.json");
-const model = JSON.parse(fs.readFileSync(modelPath, "utf8"));
+const model = readModel(modelPath);
 let stamped = 0;
 const missing: string[] = [];
 for (const shape of Object.values<any>(model.shapes ?? {})) {
@@ -158,7 +154,7 @@ for (const shape of Object.values<any>(model.shapes ?? {})) {
     missing.push(`${http.method} ${http.uri}`);
   }
 }
-fs.writeFileSync(modelPath, JSON.stringify(model, null, 2) + "\n");
+writeModel(modelPath, model);
 console.log(
   `   ✅ atlas: stamped versioned Accept on ${stamped} operations` +
     (missing.length ? `; ${missing.length} without a version:` : ""),

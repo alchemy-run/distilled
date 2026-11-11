@@ -1,3 +1,5 @@
+import { spawnSync } from "node:child_process";
+import { mkdirSync, writeFileSync } from "node:fs";
 /**
  * The committed results artifact, `results/latest.json`.
  *
@@ -12,7 +14,6 @@
  * recorded (this file is public), cpu + os identify the box well enough.
  */
 import { cpus, platform, release, arch } from "node:os";
-import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import type { Result } from "./harness.ts";
 
@@ -49,11 +50,11 @@ export interface RecordFile {
 
 const shortSha = (): string => {
   try {
-    const out = Bun.spawnSync(["git", "rev-parse", "--short", "HEAD"], {
-      stdout: "pipe",
-      stderr: "ignore",
+    const out = spawnSync("git", ["rev-parse", "--short", "HEAD"], {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
     });
-    const sha = out.stdout.toString().trim();
+    const sha = out.stdout?.trim() ?? "";
     return sha.length > 0 ? sha : "unknown";
   } catch {
     return "unknown";
@@ -74,7 +75,7 @@ export const toRecordFile = (
   generatedAt: new Date().toISOString(),
   commit: shortSha(),
   machine: {
-    runtime: `bun ${Bun.version}`,
+    runtime: `node ${process.versions.node}`,
     cpu: cpus()[0]?.model ?? "unknown",
     os: `${platform()} ${release()} ${arch()}`,
   },

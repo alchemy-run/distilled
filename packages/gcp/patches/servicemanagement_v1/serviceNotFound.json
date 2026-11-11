@@ -1,0 +1,68 @@
+{
+  "description": "Type Service Management's 403 answer for a missing managed service. It surfaced as a plain Forbidden, so callers could not tell a missing service from a real permission error.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicemanagement_v1#ServiceNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The managed service does not exist (or the caller cannot see it). Service Management answers a missing service with HTTP 403 PERMISSION_DENIED: \"Service '<name>' not found or permission denied.\"",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "not found or permission denied"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicemanagement_v1#GetServices/errors/-",
+      "value": {
+        "target": "com.gcp.servicemanagement_v1#ServiceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicemanagement_v1#DeleteServices/errors/-",
+      "value": {
+        "target": "com.gcp.servicemanagement_v1#ServiceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicemanagement_v1#UndeleteServices/errors/-",
+      "value": {
+        "target": "com.gcp.servicemanagement_v1#ServiceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicemanagement_v1#ListServicesConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.servicemanagement_v1#ServiceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicemanagement_v1#GetServicesConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.servicemanagement_v1#ServiceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicemanagement_v1#CreateServicesConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.servicemanagement_v1#ServiceNotFound"
+      }
+    }
+  ]
+}

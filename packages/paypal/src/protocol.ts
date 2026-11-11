@@ -1,10 +1,14 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * PaypalProtocol — hand-written.
+ * PaypalProtocol -- hand-written.
  *
  * PayPal speaks bearer-authenticated JSON REST (no response envelope), so the
  * whole protocol is one `makeRestProtocol` call from `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <access_token>` + base URL
+ *   request:  credentials -> `Authorization: Bearer <access_token>` + base URL
  *             (default https://api-m.paypal.com), resolved from the calling
  *             fiber on every request
  *
@@ -14,18 +18,12 @@
  *             shared HTTP-status classes, then {@link UnknownPaypalError}.
  */
 import * as Effect from "effect/Effect";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import {
-  makeRestProtocol,
-  type RestErrorEnvelope,
-} from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { Credentials, type Config } from "./credentials.ts";
-import { UnknownPaypalError } from "./errors.ts";
+import { UnknownPaypalError, PaypalParseError } from "./errors.ts";
 
 /**
  * Error channel shared by every generated PayPal operation. Generated service
@@ -37,7 +35,10 @@ export type PaypalOpError =
   | InstanceType<(typeof API_ERRORS)[number]>
   | UnknownPaypalError
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | PaypalParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated PayPal operation. */
 export type PaypalOpContext = Credentials | HttpClient.HttpClient;
@@ -59,28 +60,20 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const PaypalProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // The Credentials service holds an effect — resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const PaypalProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+  }),
+  errorEnvelope,
+  unknownError: ({ code, message, body }) =>
+    new UnknownPaypalError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    }),
-    errorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownPaypalError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        body,
-      }),
-  });
+  parseError: ({ body, cause }) => new PaypalParseError({ body, cause }),
+});

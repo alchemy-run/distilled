@@ -1,0 +1,362 @@
+{
+  "description": "Type the SERVICE_DISABLED 403 on every operation so callers can tell a disabled API from an IAM denial. Observed live 2026-09-29 on the testing project with the API disabled.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The API is not enabled on the project (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: '\u2026 API has not been used in project \u2026 before or it is disabled.'). Enable the API; not retryable until then.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#AlterLocationProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#AlterTablePropertiesProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#CancelMigrationProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#CancelProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#CompleteMigrationProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#CreateProjectsLocationsFederations/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#CreateProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#CreateProjectsLocationsServicesBackups/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#CreateProjectsLocationsServicesMetadataImports/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#DeleteProjectsLocationsFederations/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#DeleteProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#DeleteProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#DeleteProjectsLocationsServicesBackups/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#DeleteProjectsLocationsServicesMigrationExecutions/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#ExportMetadataProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#GetIamPolicyProjectsLocationsFederations/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#GetIamPolicyProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#GetIamPolicyProjectsLocationsServicesBackups/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#GetIamPolicyProjectsLocationsServicesDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#GetIamPolicyProjectsLocationsServicesDatabasesTables/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#GetProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#GetProjectsLocationsFederations/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#GetProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#GetProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#GetProjectsLocationsServicesBackups/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#GetProjectsLocationsServicesMetadataImports/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#GetProjectsLocationsServicesMigrationExecutions/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#ListProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#ListProjectsLocationsFederations/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#ListProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#ListProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#ListProjectsLocationsServicesBackups/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#ListProjectsLocationsServicesMetadataImports/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#ListProjectsLocationsServicesMigrationExecutions/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#MoveTableToDatabaseProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#PatchProjectsLocationsFederations/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#PatchProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#PatchProjectsLocationsServicesMetadataImports/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#QueryMetadataProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#RestoreProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#SetIamPolicyProjectsLocationsFederations/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#SetIamPolicyProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#SetIamPolicyProjectsLocationsServicesBackups/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#SetIamPolicyProjectsLocationsServicesDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#SetIamPolicyProjectsLocationsServicesDatabasesTables/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#StartMigrationProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#TestIamPermissionsProjectsLocationsFederations/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#TestIamPermissionsProjectsLocationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.metastore_v1#ServiceDisabled"
+      }
+    }
+  ]
+}

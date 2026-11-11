@@ -1,0 +1,18 @@
+{
+  "operations": {
+    "createDirectory": {
+      "syntheticErrors": [
+        {
+          "name": "SimpleADClosedToNewCustomers",
+          "from": "ClientException",
+          "message": {
+            "includes": "Simple AD is no longer open to new customers"
+          }
+        }
+      ]
+    }
+  },
+  "errorCategories": {
+    "SimpleADClosedToNewCustomers": ["AuthError"]
+  }
+}

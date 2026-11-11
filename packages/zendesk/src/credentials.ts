@@ -1,5 +1,6 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Zendesk credentials — hand-written.
+ * Zendesk credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
@@ -14,19 +15,19 @@
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import * as Base64 from "effect/encoding/Base64";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export interface Config {
   readonly authorization: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("ZendeskCredentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "ZendeskCredentials",
+  ) {}
 
 const stripTrailingSlash = (url: string): string => url.replace(/\/+$/, "");
 
@@ -40,74 +41,79 @@ export const originFromSubdomain = (subdomain: string): string => {
   return `https://${host}.zendesk.com`;
 };
 
-const basicToken = (email: string, apiToken: string): string =>
-  `Basic ${btoa(`${email}/token:${apiToken}`)}`;
+const basicToken = (
+  email: string,
+  apiToken: Redacted.Redacted<string>,
+): Redacted.Redacted<string> =>
+  Redacted.make(`Basic ${Base64.encode(`${email}/token:${Redacted.value(apiToken)}`)}`);
+
+const bearerToken = (accessToken: Redacted.Redacted<string>): Redacted.Redacted<string> =>
+  Redacted.make(`Bearer ${Redacted.value(accessToken)}`);
 
 const resolveBaseUrl = (config: {
   readonly subdomain?: string;
   readonly apiBaseUrl?: string;
-}): string => {
-  if (config.apiBaseUrl) return stripTrailingSlash(config.apiBaseUrl);
-  if (config.subdomain) return originFromSubdomain(config.subdomain);
-  throw new Error("subdomain or apiBaseUrl is required");
+}): Effect.Effect<string, ConfigError> => {
+  if (config.apiBaseUrl) return Effect.succeed(stripTrailingSlash(config.apiBaseUrl));
+  if (config.subdomain) return Effect.succeed(originFromSubdomain(config.subdomain));
+  return Effect.fail(new ConfigError({ message: "Zendesk subdomain or apiBaseUrl is required" }));
 };
 
 /** Layer from an API token (`{email}/token`) + subdomain. */
 export const fromApiToken = (config: {
   readonly email: string;
-  readonly apiToken: string;
+  readonly apiToken: Redacted.Redacted<string>;
   readonly subdomain?: string;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
-    Effect.succeed({
-      authorization: Redacted.make(basicToken(config.email, config.apiToken)),
-      apiBaseUrl: resolveBaseUrl(config),
-    }),
+    Effect.map(resolveBaseUrl(config), (apiBaseUrl) => ({
+      authorization: basicToken(config.email, config.apiToken),
+      apiBaseUrl,
+    })),
   );
 
 /** Layer from an OAuth access token + subdomain. */
 export const fromAccessToken = (config: {
-  readonly accessToken: string;
+  readonly accessToken: Redacted.Redacted<string>;
   readonly subdomain?: string;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
-    Effect.succeed({
-      authorization: Redacted.make(`Bearer ${config.accessToken}`),
-      apiBaseUrl: resolveBaseUrl(config),
-    }),
+    Effect.map(resolveBaseUrl(config), (apiBaseUrl) => ({
+      authorization: bearerToken(config.accessToken),
+      apiBaseUrl,
+    })),
   );
 
 /**
  * Reads ZENDESK_SUBDOMAIN (or ZENDESK_API_BASE_URL) plus either
  * ZENDESK_EMAIL + ZENDESK_API_TOKEN or ZENDESK_ACCESS_TOKEN.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const subdomain = process.env.ZENDESK_SUBDOMAIN;
     const apiBaseUrl = process.env.ZENDESK_API_BASE_URL;
     const email = process.env.ZENDESK_EMAIL;
-    const apiToken = process.env.ZENDESK_API_TOKEN;
-    const accessToken = process.env.ZENDESK_ACCESS_TOKEN;
+    const apiTokenEnv = process.env.ZENDESK_API_TOKEN;
+    const apiToken = apiTokenEnv ? Redacted.make(apiTokenEnv) : undefined;
+    const accessTokenEnv = process.env.ZENDESK_ACCESS_TOKEN;
+    const accessToken = accessTokenEnv ? Redacted.make(accessTokenEnv) : undefined;
 
     if (!subdomain && !apiBaseUrl) {
       return yield* new ConfigError({
-        message:
-          "ZENDESK_SUBDOMAIN (or ZENDESK_API_BASE_URL) environment variable is required",
+        message: "ZENDESK_SUBDOMAIN (or ZENDESK_API_BASE_URL) environment variable is required",
       });
     }
 
-    const origin = apiBaseUrl
-      ? stripTrailingSlash(apiBaseUrl)
-      : originFromSubdomain(subdomain!);
+    const origin = apiBaseUrl ? stripTrailingSlash(apiBaseUrl) : originFromSubdomain(subdomain!);
 
     if (accessToken) {
       return {
-        authorization: Redacted.make(`Bearer ${accessToken}`),
+        authorization: bearerToken(accessToken),
         apiBaseUrl: origin,
       };
     }
@@ -120,8 +126,8 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
     }
 
     return {
-      authorization: Redacted.make(basicToken(email, apiToken)),
+      authorization: basicToken(email, apiToken),
       apiBaseUrl: origin,
     };
-  }).pipe(Effect.orDie),
+  }),
 );

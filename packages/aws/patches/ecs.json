@@ -27,6 +27,66 @@
     "ServiceNotActiveException": ["ConflictError"],
     "DaemonNotActiveException": ["ConflictError"],
     "TargetNotConnectedException": ["ConflictError"],
-    "TargetNotFoundException": ["NotFoundError"]
+    "TargetNotFoundException": ["NotFoundError"],
+    "ServiceLinkedRoleNotAssumable": ["BadRequestError", "RetryableError"],
+    "ServiceRoleNotAssumable": ["BadRequestError", "RetryableError"],
+    "InfrastructureRoleAccessDenied": ["BadRequestError", "RetryableError"]
+  },
+  "operations": {
+    "putClusterCapacityProviders": {
+      "syntheticErrors": [
+        {
+          "name": "ServiceLinkedRoleNotAssumable",
+          "from": "InvalidParameterException",
+          "message": {
+            "includes": "Unable to assume the service linked role"
+          }
+        }
+      ]
+    },
+    "createService": {
+      "syntheticErrors": [
+        {
+          "name": "ServiceRoleNotAssumable",
+          "from": "InvalidParameterException",
+          "message": {
+            "includes": "Unable to assume role"
+          }
+        }
+      ]
+    },
+    "updateService": {
+      "syntheticErrors": [
+        {
+          "name": "ServiceRoleNotAssumable",
+          "from": "InvalidParameterException",
+          "message": {
+            "includes": "Unable to assume role"
+          }
+        }
+      ]
+    },
+    "createCapacityProvider": {
+      "syntheticErrors": [
+        {
+          "name": "InfrastructureRoleAccessDenied",
+          "from": "ClientException",
+          "message": {
+            "includes": "ServiceAccessDeniedException for ECSInfrastructureRole"
+          }
+        }
+      ]
+    },
+    "updateCapacityProvider": {
+      "syntheticErrors": [
+        {
+          "name": "InfrastructureRoleAccessDenied",
+          "from": "ClientException",
+          "message": {
+            "includes": "ServiceAccessDeniedException for ECSInfrastructureRole"
+          }
+        }
+      ]
+    }
   }
 }

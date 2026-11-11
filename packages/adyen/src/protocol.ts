@@ -1,11 +1,15 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * AdyenProtocol — hand-written.
+ * AdyenProtocol -- hand-written.
  *
  * Adyen Checkout speaks JSON REST authenticated with `X-API-Key` (no
  * response envelope), so the whole protocol is one `makeRestProtocol` call
  * from `core/protocol-rest`:
  *
- *   request:  credentials → `X-API-Key: <apiKey>` + base URL
+ *   request:  credentials -> `X-API-Key: <apiKey>` + base URL
  *             (default https://checkout-test.adyen.com/v72), resolved from the
  *             calling fiber on every request
  *
@@ -15,18 +19,12 @@
  *             HTTP-status classes, then {@link UnknownAdyenError}.
  */
 import * as Effect from "effect/Effect";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import {
-  makeRestProtocol,
-  type RestErrorEnvelope,
-} from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { Credentials, type Config } from "./credentials.ts";
-import { UnknownAdyenError } from "./errors.ts";
+import { UnknownAdyenError, AdyenParseError } from "./errors.ts";
 
 /**
  * Error channel shared by every generated Adyen operation. Generated service
@@ -38,7 +36,10 @@ export type AdyenOpError =
   | InstanceType<(typeof API_ERRORS)[number]>
   | UnknownAdyenError
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | AdyenParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Adyen operation. */
 export type AdyenOpContext = Credentials | HttpClient.HttpClient;
@@ -59,28 +60,20 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
-export const AdyenProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // The Credentials service holds an effect — resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const AdyenProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    "X-API-Key": Redacted.value(creds.apiKey),
+  }),
+  errorEnvelope,
+  unknownError: ({ code, message, body }) =>
+    new UnknownAdyenError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      "X-API-Key": Redacted.value(creds.apiKey),
-    }),
-    errorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownAdyenError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        body,
-      }),
-  });
+  parseError: ({ body, cause }) => new AdyenParseError({ body, cause }),
+});

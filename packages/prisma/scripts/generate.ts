@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into an Effect SDK.
  *
@@ -6,7 +7,7 @@
  * Output: src/services/management.ts  +  services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Prisma's provider
+ * `@distilled.cloud/dev/codegen`; this script is Prisma's provider
  * spec. The Management API is plain bearer-REST: camelCase wire names
  * (identity member naming), no response envelope, typed per-op error classes
  * matched by HTTP status (v0's includeOperationErrors: true), sensitive
@@ -15,8 +16,7 @@
  * variants: the cursor-paginated list ops are emitted as plain operations
  * and callers loop manually.
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
@@ -46,9 +46,7 @@ const spec: SdkSpec = {
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
   },
   memberTsType: (m) =>
-    SENSITIVE_TRAIT in m.traits
-      ? "string | Redacted.Redacted<string>"
-      : undefined,
+    SENSITIVE_TRAIT in m.traits ? "string | Redacted.Redacted<string>" : undefined,
   postProcess: (code) =>
     code.includes("Redacted.Redacted<")
       ? code.replace(
@@ -57,8 +55,7 @@ const spec: SdkSpec = {
         )
       : code,
 
-  sourceNote:
-    ".generated-specs (converted from specs/spec-mirror-prisma-postgres)",
+  sourceNote: ".generated-specs (converted from specs/spec-mirror-prisma-postgres)",
 
   // Structural unions (the spec's oneOf database-source variants): a plain
   // TS union + `S.Union([...])` over the named case shapes — Prisma returns
@@ -99,9 +96,16 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Prisma Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  convert: () => import("./convert.ts"),
+  root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain applies to the OpenAPI document in
   // scripts/convert.ts, not to the Smithy model.
   patchesDir: false,
   spec: () => spec,
+  // A bucket's S3 API, under the management import path; the layer is
+  // hand-written.
+  append: (resource) =>
+    resource === "management"
+      ? 'export { layerS3, S3BucketName, S3CredentialsError, type LayerS3Options } from "../layer-s3.ts";'
+      : undefined,
 });

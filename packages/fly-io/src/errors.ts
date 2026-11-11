@@ -25,48 +25,41 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
-import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 import { applyErrorMatchers } from "@distilled.cloud/core/trait";
 
 /**
- * Unknown Fly.io error — returned when a failure matches no status-mapped
+ * Unknown Fly.io error -- returned when a failure matches no status-mapped
  * error class. Carries the raw body for later cataloging.
  */
-export class UnknownFlyIoError extends Schema.TaggedError<UnknownFlyIoError>()(
-  "UnknownFlyIoError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
+export class UnknownFlyIoError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownFlyIoError>()("UnknownFlyIoError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
     body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class FlyIoParseError extends Schema.TaggedError<FlyIoParseError>()(
-  "FlyIoParseError",
-  {
+export class FlyIoParseError
+  extends /*@__PURE__*/ Schema.TaggedError<FlyIoParseError>()("FlyIoParseError", {
     body: Schema.Unknown,
     cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+  }).pipe(Category.withParseError) {}
 
 /**
  * Sprites is not enabled for the Fly organization that owns `FLY_API_TOKEN`.
  *
  * Returned by `POST /v1/organizations/{org}/tokens` as HTTP 401 with a
  * message matching `sprites not enabled`. Sprite CRUD never sees a
- * `SPRITES_TOKEN` — this is the mint-time entitlement signal.
+ * `SPRITES_TOKEN` -- this is the mint-time entitlement signal.
  */
-export class SpritesNotEnabled extends Schema.TaggedError<SpritesNotEnabled>()(
-  "SpritesNotEnabled",
-  {
-    code: Schema.optional(Schema.Int),
-    message: Schema.optional(Schema.String),
-  },
-).pipe(Category.withAuthError) {}
+export class SpritesNotEnabled
+  extends /*@__PURE__*/ Schema.TaggedError<SpritesNotEnabled>()("SpritesNotEnabled", {
+    code: /*@__PURE__*/ Schema.optional(Schema.Int),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
+  }).pipe(Category.withAuthError) {}
 applyErrorMatchers(SpritesNotEnabled, [
   { status: 401, message: { matches: "[Ss]prites not enabled" } },
 ]);
@@ -76,19 +69,34 @@ applyErrorMatchers(SpritesNotEnabled, [
  * (`createExtensionTosAgreement`). GraphQL returns this as a 200
  * with `Not authorized to access this createextensiontosagreement`.
  */
-export class CreateExtensionTosAgreementNotAuthorized extends Schema.TaggedError<CreateExtensionTosAgreementNotAuthorized>()(
-  "CreateExtensionTosAgreementNotAuthorized",
-  {
-    code: Schema.optional(Schema.Int),
-    message: Schema.optional(Schema.String),
-  },
-).pipe(Category.withAuthError) {}
+export class CreateExtensionTosAgreementNotAuthorized
+  extends /*@__PURE__*/ Schema.TaggedError<CreateExtensionTosAgreementNotAuthorized>()(
+    "CreateExtensionTosAgreementNotAuthorized",
+    {
+      code: /*@__PURE__*/ Schema.optional(Schema.Int),
+      message: /*@__PURE__*/ Schema.optional(Schema.String),
+    },
+  ).pipe(Category.withAuthError) {}
 applyErrorMatchers(CreateExtensionTosAgreementNotAuthorized, [
   {
     message: {
       matches: "[Nn]ot authorized to access this createextensiontosagreement",
     },
   },
+]);
+
+/**
+ * `ensureDepotRemoteBuilder` named an app the token cannot see (deleted, or
+ * in another organization). GraphQL returns this as a 200 with
+ * `Could not find App` and extension code `NOT_FOUND`.
+ */
+export class RemoteBuilderAppNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<RemoteBuilderAppNotFound>()("RemoteBuilderAppNotFound", {
+    code: /*@__PURE__*/ Schema.optional(Schema.Int),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
+  }).pipe(Category.withNotFoundError) {}
+applyErrorMatchers(RemoteBuilderAppNotFound, [
+  { message: { matches: "[Cc]ould not find [Aa]pp" } },
 ]);
 
 /**

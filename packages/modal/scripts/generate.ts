@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the Modal
  * Effect SDK.
@@ -7,14 +8,21 @@
  * Output: src/services/<group>.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Modal's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is Modal's provider spec.
  * Wire names are proto3 JSON camelCase, which convert.ts already uses as
  * Smithy member names, so no renaming.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
+
+/**
+ * Error matchers on patched error shapes. The gRPC protocol hands the REST
+ * decoder `{ code, status, message }` for a non-zero `grpc-status` (`{ code:
+ * 5, status: "NOT_FOUND", ... }`, HTTP 404), so matchers key on the numeric
+ * gRPC `code` and the `message`.
+ */
+const ERROR_MATCHERS_TRAIT = "com.modal.protocols#errorMatchers";
 
 const camel = (slug: string): string =>
   slug
@@ -26,6 +34,7 @@ const camel = (slug: string): string =>
 const spec: SdkSpec = {
   sourceNote: ".generated-specs (modal_proto → smithy)",
 
+  errorMatchersTrait: ERROR_MATCHERS_TRAIT,
   memberTraitPipes: {
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
   },
@@ -39,6 +48,13 @@ const spec: SdkSpec = {
     `export const ${name} = S.Unknown as any as S.Schema<${name}>;\n`,
   ],
 
+  // `smithy.api#paginated` comes from patches (proto has no pagination):
+  // keyset `List*` calls and `pageToken` calls.
+  paginationProfiles: { grpc: { itemsFallback: "items" } },
+
+  // ModalProtocol is core's gRPC protocol, which implements `stream`.
+  streams: true,
+
   operationDecl: {
     contextType: "ModalOpContext",
     commonErrorType: "ModalOpError",
@@ -50,15 +66,16 @@ const spec: SdkSpec = {
   postProcess: (code) =>
     code.includes("Redacted.Redacted<")
       ? code.replace(
-          `import * as S from "@distilled.cloud/core/schema";\n`,
-          `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
         )
       : code,
 };
 
 runGeneratorCli({
   description: "Generate the Modal Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  convert: () => import("./convert.ts"),
+  root: `${import.meta.dirname}/..`,
   patchesDir: false,
   barrelExportName: camel,
   spec: () => spec,

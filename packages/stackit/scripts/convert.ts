@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — STACKIT's OpenAPI descriptions → Smithy JSON models in
  * .generated-specs.
@@ -21,15 +21,18 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import {
+  modelExists,
+  readModel,
+  removeModel,
+  writeModel,
+} from "@distilled.cloud/dev/codegen/models";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
-const root = path.resolve(import.meta.dir, "..");
-const manifestPath = resolveSpecPath(
-  root,
-  "specs/spec-mirror-stackit/specs/_manifest.json",
-);
+const root = path.resolve(import.meta.dirname, "..");
+const manifestPath = resolveSpecPath(root, "specs/spec-mirror-stackit/specs/_manifest.json");
 const specsDir = path.dirname(manifestPath);
 const outDir = path.join(root, ".generated-specs");
 
@@ -87,32 +90,22 @@ const deref = (spec: any, schema: any): any => {
  * `src/pagination.ts`'s `paginateByTotalPages` advances by one until
  * `page >= totalPages`.
  */
-const paginationFor = (
-  spec: any,
-  op: any,
-): Record<string, string> | undefined => {
+const paginationFor = (spec: any, op: any): Record<string, string> | undefined => {
   const params = [...((op.parameters ?? []) as any[])];
   const hasPage = params.some((p) => p?.in === "query" && p?.name === "page");
   const hasPageSize = params.some(
-    (p) =>
-      p?.in === "query" && (p?.name === "pageSize" || p?.name === "page_size"),
+    (p) => p?.in === "query" && (p?.name === "pageSize" || p?.name === "page_size"),
   );
   if (!hasPage || !hasPageSize) return undefined;
 
-  const schema = deref(
-    spec,
-    op.responses?.["200"]?.content?.["application/json"]?.schema,
-  );
+  const schema = deref(spec, op.responses?.["200"]?.content?.["application/json"]?.schema);
   const props = schema?.properties;
   if (!props || typeof props !== "object") return undefined;
   if (props.totalPages === undefined && props.total_pages === undefined) {
     return undefined;
   }
-  const totalPages =
-    props.totalPages !== undefined ? "totalPages" : "total_pages";
-  const pageSize = params.some(
-    (p) => p?.in === "query" && p?.name === "pageSize",
-  )
+  const totalPages = props.totalPages !== undefined ? "totalPages" : "total_pages";
+  const pageSize = params.some((p) => p?.in === "query" && p?.name === "pageSize")
     ? "pageSize"
     : "page_size";
 
@@ -165,12 +158,10 @@ let stampedUrls = 0;
 let stampedPages = 0;
 for (const entry of manifest) {
   const slug = entry.output.replace(/\.json$/, "");
-  const spec = JSON.parse(
-    fs.readFileSync(path.join(specsDir, entry.output), "utf8"),
-  );
+  const spec = JSON.parse(fs.readFileSync(path.join(specsDir, entry.output), "utf8"));
   const modelPath = path.join(outDir, `${slug}.json`);
-  if (!fs.existsSync(modelPath)) continue;
-  const model = JSON.parse(fs.readFileSync(modelPath, "utf8"));
+  if (!modelExists(modelPath)) continue;
+  const model = readModel(modelPath);
   const opCount = Object.values<any>(model.shapes ?? {}).filter(
     (s) => s?.type === "operation",
   ).length;
@@ -178,15 +169,13 @@ for (const entry of manifest) {
     // STACKIT Redis v2 is fully deprecated (Valkey replaced it); skip
     // writing an empty module rather than generating a hollow service.
     console.warn(`   ⚠️  ${slug}: no operations (all deprecated?) — dropped`);
-    fs.unlinkSync(modelPath);
+    removeModel(modelPath);
     continue;
   }
   const serverUrl = specServerUrl(spec);
 
   const byRoute = new Map<string, Record<string, string>>();
-  for (const [pathTemplate, pathItem] of Object.entries<any>(
-    spec.paths ?? {},
-  )) {
+  for (const [pathTemplate, pathItem] of Object.entries<any>(spec.paths ?? {})) {
     for (const method of HTTP_METHODS) {
       const op = pathItem?.[method];
       if (!op) continue;
@@ -216,11 +205,9 @@ for (const entry of manifest) {
     );
   }
   stampedPages += paginated;
-  fs.writeFileSync(modelPath, JSON.stringify(model, null, 2) + "\n");
+  writeModel(modelPath, model);
 }
 
-console.log(
-  `🔗 stamped ${stampedUrls} operation baseUrl(s), ${stampedPages} paginated`,
-);
+console.log(`🔗 stamped ${stampedUrls} operation baseUrl(s), ${stampedPages} paginated`);
 
 await finalizeConvert({ root });

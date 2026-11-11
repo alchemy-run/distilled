@@ -1,11 +1,15 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * LaunchDarklyProtocol — hand-written.
+ * LaunchDarklyProtocol -- hand-written.
  *
  * LaunchDarkly speaks access-token-authenticated JSON REST (no response
  * envelope), so the whole protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: <apiKey>` (not Bearer) +
+ *   request:  credentials -> `Authorization: <apiKey>` (not Bearer) +
  *             `LD-API-Version` + base URL (default
  *             https://app.launchdarkly.com), resolved from the calling fiber
  *             on every request. Paths already include `/api/v2`.
@@ -16,15 +20,12 @@
  *             HTTP-status classes, then {@link UnknownLaunchDarklyError}.
  */
 import * as Effect from "effect/Effect";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { Credentials, type Config } from "./credentials.ts";
-import { UnknownLaunchDarklyError } from "./errors.ts";
+import { UnknownLaunchDarklyError, LaunchDarklyParseError } from "./errors.ts";
 
 /**
  * Error channel shared by every generated LaunchDarkly operation. Generated
@@ -36,35 +37,31 @@ export type LaunchDarklyOpError =
   | InstanceType<(typeof API_ERRORS)[number]>
   | UnknownLaunchDarklyError
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | LaunchDarklyParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated LaunchDarkly operation. */
 export type LaunchDarklyOpContext = Credentials | HttpClient.HttpClient;
 
 export const LaunchDarklyProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // The Credentials service holds an effect — resolving it here (per
+  /*@__PURE__*/ makeRestProtocol<Config>({
+    // The Credentials service holds an effect -- resolving it here (per
     // request, on the calling fiber) picks up context-provided credentials.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
-    }),
+    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
     baseUrl: (creds) => creds.apiBaseUrl,
     headers: (creds) => ({
       Authorization: Redacted.value(creds.apiKey),
       "LD-API-Version": creds.apiVersion,
     }),
     // LaunchDarkly's error body is `{ code?: string, message: string, id?:
-    // string }` — the factory's default lenient envelope covers it.
+    // string }` -- the factory's default lenient envelope covers it.
     unknownError: ({ code, message, body }) =>
       new UnknownLaunchDarklyError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
+        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
         message,
         body,
       }),
+    parseError: ({ body, cause }) => new LaunchDarklyParseError({ body, cause }),
   });

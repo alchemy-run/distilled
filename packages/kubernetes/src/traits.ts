@@ -1,5 +1,5 @@
 /**
- * Kubernetes SDK trait surface — hand-written.
+ * Kubernetes SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). Kubernetes has no response envelope of

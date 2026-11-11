@@ -15,7 +15,7 @@ pnpm bench:typecheck:record              # refresh results/latest.json (committe
 pnpm --filter @distilled.cloud/bench-typecheck bench
 ```
 
-Runner is Bun; the compiler is the repo's own `typescript` (catalog `build`,
+Runner is Node; the compiler is the repo's own `typescript` (catalog `build`,
 TypeScript 7 — the native `tsc`), invoked as `node
 node_modules/typescript/bin/tsc`, exactly what `pnpm typecheck` runs.
 

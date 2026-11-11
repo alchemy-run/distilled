@@ -1,23 +1,28 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const ns = T.XmlNamespace("http://devicefarm.amazonaws.com/doc/2015-06-23/");
-const svc = T.AwsApiService({
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const ns = /*@__PURE__*/ T.XmlNamespace("http://devicefarm.amazonaws.com/doc/2015-06-23/");
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Device Farm",
   serviceShapeName: "DeviceFarm_20150623",
 });
-const auth = T.AwsAuthSigv4({ name: "devicefarm" });
-const ver = T.ServiceVersion("2015-06-23");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "devicefarm" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2015-06-23");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -29,14 +34,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -63,9 +64,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://devicefarm-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -73,92 +72,96 @@ const rules = T.EndpointResolver((p, _) => {
               `https://devicefarm.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://devicefarm.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://devicefarm.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://devicefarm.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DeviceFarm",
+  service: "DeviceFarm",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ArgumentException
-  extends /*@__PURE__*/ S.TaggedError<ArgumentException>()(
-    "ArgumentException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ArgumentException>()("ArgumentException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class CannotDeleteException
   extends /*@__PURE__*/ S.TaggedError<CannotDeleteException>()(
     "CannotDeleteException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class IdempotencyException
-  extends /*@__PURE__*/ S.TaggedError<IdempotencyException>()(
-    "IdempotencyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<IdempotencyException>()("IdempotencyException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class InternalServiceException
   extends /*@__PURE__*/ S.TaggedError<InternalServiceException>()(
     "InternalServiceException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class InvalidOperationException
-  extends /*@__PURE__*/ S.TaggedError<InvalidOperationException>()(
-    "InvalidOperationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidOperationException>()("InvalidOperationException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
-    "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class NotEligibleException
-  extends /*@__PURE__*/ S.TaggedError<NotEligibleException>()(
-    "NotEligibleException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<NotEligibleException>()("NotEligibleException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class NotFoundException
-  extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
-    "NotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<NotFoundException>()("NotFoundException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class ServiceAccountException
-  extends /*@__PURE__*/ S.TaggedError<ServiceAccountException>()(
-    "ServiceAccountException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ServiceAccountException>()("ServiceAccountException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class TagOperationException
   extends /*@__PURE__*/ S.TaggedError<TagOperationException>()(
     "TagOperationException",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      resourceName: S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      resourceName: /*@__PURE__*/ S.optional(S.String),
     },
-    T.HttpError(400),
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class TagPolicyException
   extends /*@__PURE__*/ S.TaggedError<TagPolicyException>()(
     "TagPolicyException",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      resourceName: S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      resourceName: /*@__PURE__*/ S.optional(S.String),
     },
-    T.HttpError(400),
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      resourceName: S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      resourceName: /*@__PURE__*/ S.optional(S.String),
     },
-    T.HttpError(400),
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type AmazonResourceName = string;
 export type Name = string;
@@ -178,8 +181,6 @@ export type DeviceAttribute =
   | "MODEL"
   | "AVAILABILITY"
   | (string & {});
-export const DeviceAttribute = S.String;
-
 export type RuleOperator =
   | "EQUALS"
   | "LESS_THAN"
@@ -190,394 +191,151 @@ export type RuleOperator =
   | "NOT_IN"
   | "CONTAINS"
   | (string & {});
-export const RuleOperator = S.String;
-
 export interface Rule {
-  attribute?: DeviceAttribute;
-  operator?: RuleOperator;
-  value?: string;
+  attribute?: DeviceAttribute | undefined;
+  operator?: RuleOperator | undefined;
+  value?: string | undefined;
 }
-export const Rule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attribute: S.optional(DeviceAttribute),
-    operator: S.optional(RuleOperator),
-    value: S.optional(S.String),
-  }),
-).annotate({ identifier: "Rule" }) as any as S.Schema<Rule>;
 export type Rules = Rule[];
-export const Rules = /*@__PURE__*/ S.Array(Rule);
 export interface CreateDevicePoolRequest {
   projectArn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   rules: Rule[];
-  maxDevices?: number;
+  maxDevices?: number | undefined;
 }
-export const CreateDevicePoolRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectArn: S.String,
-    name: S.String,
-    description: S.optional(S.String),
-    rules: Rules,
-    maxDevices: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDevicePoolRequest",
-}) as any as S.Schema<CreateDevicePoolRequest>;
 export type DevicePoolType = "CURATED" | "PRIVATE" | (string & {});
-export const DevicePoolType = S.String;
-
 export interface DevicePool {
-  arn?: string;
-  name?: string;
-  description?: string;
-  type?: DevicePoolType;
-  rules?: Rule[];
-  maxDevices?: number;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  type?: DevicePoolType | undefined;
+  rules?: Rule[] | undefined;
+  maxDevices?: number | undefined;
 }
-export const DevicePool = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    type: S.optional(DevicePoolType),
-    rules: S.optional(Rules),
-    maxDevices: S.optional(S.Number),
-  }),
-).annotate({ identifier: "DevicePool" }) as any as S.Schema<DevicePool>;
 export interface CreateDevicePoolResult {
-  devicePool?: DevicePool;
+  devicePool?: DevicePool | undefined;
 }
-export const CreateDevicePoolResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ devicePool: S.optional(DevicePool) }).pipe(ns),
-).annotate({
-  identifier: "CreateDevicePoolResult",
-}) as any as S.Schema<CreateDevicePoolResult>;
 export type PackageIds = string[];
-export const PackageIds = /*@__PURE__*/ S.Array(S.String);
 export interface CreateInstanceProfileRequest {
   name: string;
-  description?: string;
-  packageCleanup?: boolean;
-  excludeAppPackagesFromCleanup?: string[];
-  rebootAfterUse?: boolean;
+  description?: string | undefined;
+  packageCleanup?: boolean | undefined;
+  excludeAppPackagesFromCleanup?: string[] | undefined;
+  rebootAfterUse?: boolean | undefined;
 }
-export const CreateInstanceProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    packageCleanup: S.optional(S.Boolean),
-    excludeAppPackagesFromCleanup: S.optional(PackageIds),
-    rebootAfterUse: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateInstanceProfileRequest",
-}) as any as S.Schema<CreateInstanceProfileRequest>;
 export interface InstanceProfile {
-  arn?: string;
-  packageCleanup?: boolean;
-  excludeAppPackagesFromCleanup?: string[];
-  rebootAfterUse?: boolean;
-  name?: string;
-  description?: string;
+  arn?: string | undefined;
+  packageCleanup?: boolean | undefined;
+  excludeAppPackagesFromCleanup?: string[] | undefined;
+  rebootAfterUse?: boolean | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
 }
-export const InstanceProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    packageCleanup: S.optional(S.Boolean),
-    excludeAppPackagesFromCleanup: S.optional(PackageIds),
-    rebootAfterUse: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "InstanceProfile",
-}) as any as S.Schema<InstanceProfile>;
 export interface CreateInstanceProfileResult {
-  instanceProfile?: InstanceProfile;
+  instanceProfile?: InstanceProfile | undefined;
 }
-export const CreateInstanceProfileResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ instanceProfile: S.optional(InstanceProfile) }).pipe(ns),
-).annotate({
-  identifier: "CreateInstanceProfileResult",
-}) as any as S.Schema<CreateInstanceProfileResult>;
 export type NetworkProfileType = "CURATED" | "PRIVATE" | (string & {});
-export const NetworkProfileType = S.String;
-
 export type PercentInteger = number;
 export interface CreateNetworkProfileRequest {
   projectArn: string;
   name: string;
-  description?: string;
-  type?: NetworkProfileType;
-  uplinkBandwidthBits?: number;
-  downlinkBandwidthBits?: number;
-  uplinkDelayMs?: number;
-  downlinkDelayMs?: number;
-  uplinkJitterMs?: number;
-  downlinkJitterMs?: number;
-  uplinkLossPercent?: number;
-  downlinkLossPercent?: number;
+  description?: string | undefined;
+  type?: NetworkProfileType | undefined;
+  uplinkBandwidthBits?: number | undefined;
+  downlinkBandwidthBits?: number | undefined;
+  uplinkDelayMs?: number | undefined;
+  downlinkDelayMs?: number | undefined;
+  uplinkJitterMs?: number | undefined;
+  downlinkJitterMs?: number | undefined;
+  uplinkLossPercent?: number | undefined;
+  downlinkLossPercent?: number | undefined;
 }
-export const CreateNetworkProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectArn: S.String,
-    name: S.String,
-    description: S.optional(S.String),
-    type: S.optional(NetworkProfileType),
-    uplinkBandwidthBits: S.optional(S.Number),
-    downlinkBandwidthBits: S.optional(S.Number),
-    uplinkDelayMs: S.optional(S.Number),
-    downlinkDelayMs: S.optional(S.Number),
-    uplinkJitterMs: S.optional(S.Number),
-    downlinkJitterMs: S.optional(S.Number),
-    uplinkLossPercent: S.optional(S.Number),
-    downlinkLossPercent: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateNetworkProfileRequest",
-}) as any as S.Schema<CreateNetworkProfileRequest>;
 export interface NetworkProfile {
-  arn?: string;
-  name?: string;
-  description?: string;
-  type?: NetworkProfileType;
-  uplinkBandwidthBits?: number;
-  downlinkBandwidthBits?: number;
-  uplinkDelayMs?: number;
-  downlinkDelayMs?: number;
-  uplinkJitterMs?: number;
-  downlinkJitterMs?: number;
-  uplinkLossPercent?: number;
-  downlinkLossPercent?: number;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  type?: NetworkProfileType | undefined;
+  uplinkBandwidthBits?: number | undefined;
+  downlinkBandwidthBits?: number | undefined;
+  uplinkDelayMs?: number | undefined;
+  downlinkDelayMs?: number | undefined;
+  uplinkJitterMs?: number | undefined;
+  downlinkJitterMs?: number | undefined;
+  uplinkLossPercent?: number | undefined;
+  downlinkLossPercent?: number | undefined;
 }
-export const NetworkProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    type: S.optional(NetworkProfileType),
-    uplinkBandwidthBits: S.optional(S.Number),
-    downlinkBandwidthBits: S.optional(S.Number),
-    uplinkDelayMs: S.optional(S.Number),
-    downlinkDelayMs: S.optional(S.Number),
-    uplinkJitterMs: S.optional(S.Number),
-    downlinkJitterMs: S.optional(S.Number),
-    uplinkLossPercent: S.optional(S.Number),
-    downlinkLossPercent: S.optional(S.Number),
-  }),
-).annotate({ identifier: "NetworkProfile" }) as any as S.Schema<NetworkProfile>;
 export interface CreateNetworkProfileResult {
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
 }
-export const CreateNetworkProfileResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ networkProfile: S.optional(NetworkProfile) }).pipe(ns),
-).annotate({
-  identifier: "CreateNetworkProfileResult",
-}) as any as S.Schema<CreateNetworkProfileResult>;
 export type JobTimeoutMinutes = number;
 export type SecurityGroupId = string;
 export type VpcSecurityGroupIds = string[];
-export const VpcSecurityGroupIds = /*@__PURE__*/ S.Array(S.String);
 export type SubnetId = string;
 export type VpcSubnetIds = string[];
-export const VpcSubnetIds = /*@__PURE__*/ S.Array(S.String);
 export type NonEmptyString = string;
 export interface VpcConfig {
   securityGroupIds: string[];
   subnetIds: string[];
   vpcId: string;
 }
-export const VpcConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    securityGroupIds: VpcSecurityGroupIds,
-    subnetIds: VpcSubnetIds,
-    vpcId: S.String,
-  }),
-).annotate({ identifier: "VpcConfig" }) as any as S.Schema<VpcConfig>;
 export type EnvironmentVariableName = string;
 export type EnvironmentVariableValue = string;
 export interface EnvironmentVariable {
   name: string;
   value: string;
 }
-export const EnvironmentVariable = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, value: S.String }),
-).annotate({
-  identifier: "EnvironmentVariable",
-}) as any as S.Schema<EnvironmentVariable>;
 export type EnvironmentVariables = EnvironmentVariable[];
-export const EnvironmentVariables = /*@__PURE__*/ S.Array(EnvironmentVariable);
 export type AmazonRoleResourceName = string;
 export interface CreateProjectRequest {
   name: string;
-  defaultJobTimeoutMinutes?: number;
-  vpcConfig?: VpcConfig;
-  environmentVariables?: EnvironmentVariable[];
-  executionRoleArn?: string;
+  defaultJobTimeoutMinutes?: number | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  environmentVariables?: EnvironmentVariable[] | undefined;
+  executionRoleArn?: string | undefined;
 }
-export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    defaultJobTimeoutMinutes: S.optional(S.Number),
-    vpcConfig: S.optional(VpcConfig),
-    environmentVariables: S.optional(EnvironmentVariables),
-    executionRoleArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateProjectRequest",
-}) as any as S.Schema<CreateProjectRequest>;
 export interface Project {
-  arn?: string;
-  name?: string;
-  defaultJobTimeoutMinutes?: number;
-  created?: Date;
-  vpcConfig?: VpcConfig;
-  environmentVariables?: EnvironmentVariable[];
-  executionRoleArn?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
+  defaultJobTimeoutMinutes?: number | undefined;
+  created?: Date | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  environmentVariables?: EnvironmentVariable[] | undefined;
+  executionRoleArn?: string | undefined;
 }
-export const Project = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    defaultJobTimeoutMinutes: S.optional(S.Number),
-    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    vpcConfig: S.optional(VpcConfig),
-    environmentVariables: S.optional(EnvironmentVariables),
-    executionRoleArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Project" }) as any as S.Schema<Project>;
 export interface CreateProjectResult {
-  project?: Project;
+  project?: Project | undefined;
 }
-export const CreateProjectResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ project: S.optional(Project) }).pipe(ns),
-).annotate({
-  identifier: "CreateProjectResult",
-}) as any as S.Schema<CreateProjectResult>;
 export type AuxiliaryAppArnList = string[];
-export const AuxiliaryAppArnList = /*@__PURE__*/ S.Array(S.String);
 export type BillingMethod = "METERED" | "UNMETERED" | (string & {});
-export const BillingMethod = S.String;
-
 export type AmazonResourceNames = string[];
-export const AmazonResourceNames = /*@__PURE__*/ S.Array(S.String);
 export type DeviceProxyHost = string;
 export type DeviceProxyPort = number;
 export interface DeviceProxy {
   host: string;
   port: number;
 }
-export const DeviceProxy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ host: S.String, port: S.Number }),
-).annotate({ identifier: "DeviceProxy" }) as any as S.Schema<DeviceProxy>;
 export type RemoteAccessParameterKey = string;
 export type RemoteAccessParameterValue = string;
 export type RemoteAccessParameters = { [key: string]: string | undefined };
-export const RemoteAccessParameters = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface CreateRemoteAccessSessionConfiguration {
-  auxiliaryApps?: string[];
-  billingMethod?: BillingMethod;
-  vpceConfigurationArns?: string[];
-  deviceProxy?: DeviceProxy;
-  parameters?: { [key: string]: string | undefined };
+  auxiliaryApps?: string[] | undefined;
+  billingMethod?: BillingMethod | undefined;
+  vpceConfigurationArns?: string[] | undefined;
+  deviceProxy?: DeviceProxy | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
 }
-export const CreateRemoteAccessSessionConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      auxiliaryApps: S.optional(AuxiliaryAppArnList),
-      billingMethod: S.optional(BillingMethod),
-      vpceConfigurationArns: S.optional(AmazonResourceNames),
-      deviceProxy: S.optional(DeviceProxy),
-      parameters: S.optional(RemoteAccessParameters),
-    }),
-).annotate({
-  identifier: "CreateRemoteAccessSessionConfiguration",
-}) as any as S.Schema<CreateRemoteAccessSessionConfiguration>;
-export type InteractionMode =
-  | "INTERACTIVE"
-  | "NO_VIDEO"
-  | "VIDEO_ONLY"
-  | (string & {});
-export const InteractionMode = S.String;
-
+export type InteractionMode = "INTERACTIVE" | "NO_VIDEO" | "VIDEO_ONLY" | (string & {});
 export interface CreateRemoteAccessSessionRequest {
   projectArn: string;
   deviceArn: string;
-  appArn?: string;
-  instanceArn?: string;
-  name?: string;
-  configuration?: CreateRemoteAccessSessionConfiguration;
-  interactionMode?: InteractionMode;
-  skipAppResign?: boolean;
+  appArn?: string | undefined;
+  instanceArn?: string | undefined;
+  name?: string | undefined;
+  configuration?: CreateRemoteAccessSessionConfiguration | undefined;
+  interactionMode?: InteractionMode | undefined;
+  skipAppResign?: boolean | undefined;
 }
-export const CreateRemoteAccessSessionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectArn: S.String,
-    deviceArn: S.String,
-    appArn: S.optional(S.String),
-    instanceArn: S.optional(S.String),
-    name: S.optional(S.String),
-    configuration: S.optional(CreateRemoteAccessSessionConfiguration),
-    interactionMode: S.optional(InteractionMode),
-    skipAppResign: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateRemoteAccessSessionRequest",
-}) as any as S.Schema<CreateRemoteAccessSessionRequest>;
 export type ExecutionStatus =
   | "PENDING"
   | "PENDING_CONCURRENCY"
@@ -589,8 +347,6 @@ export type ExecutionStatus =
   | "COMPLETED"
   | "STOPPING"
   | (string & {});
-export const ExecutionStatus = S.String;
-
 export type ExecutionResult =
   | "PENDING"
   | "PASSED"
@@ -600,305 +356,128 @@ export type ExecutionResult =
   | "ERRORED"
   | "STOPPED"
   | (string & {});
-export const ExecutionResult = S.String;
-
 export type DeviceFormFactor = "PHONE" | "TABLET" | (string & {});
-export const DeviceFormFactor = S.String;
-
 export type DevicePlatform = "ANDROID" | "IOS" | (string & {});
-export const DevicePlatform = S.String;
-
 export interface CPU {
-  frequency?: string;
-  architecture?: string;
-  clock?: number;
+  frequency?: string | undefined;
+  architecture?: string | undefined;
+  clock?: number | undefined;
 }
-export const CPU = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    frequency: S.optional(S.String),
-    architecture: S.optional(S.String),
-    clock: S.optional(S.Number),
-  }),
-).annotate({ identifier: "CPU" }) as any as S.Schema<CPU>;
 export interface Resolution {
-  width?: number;
-  height?: number;
+  width?: number | undefined;
+  height?: number | undefined;
 }
-export const Resolution = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ width: S.optional(S.Number), height: S.optional(S.Number) }),
-).annotate({ identifier: "Resolution" }) as any as S.Schema<Resolution>;
 export type InstanceLabels = string[];
-export const InstanceLabels = /*@__PURE__*/ S.Array(S.String);
-export type InstanceStatus =
-  | "IN_USE"
-  | "PREPARING"
-  | "AVAILABLE"
-  | "NOT_AVAILABLE"
-  | (string & {});
-export const InstanceStatus = S.String;
-
+export type InstanceStatus = "IN_USE" | "PREPARING" | "AVAILABLE" | "NOT_AVAILABLE" | (string & {});
 export interface DeviceInstance {
-  arn?: string;
-  deviceArn?: string;
-  labels?: string[];
-  status?: InstanceStatus;
-  udid?: string;
-  instanceProfile?: InstanceProfile;
+  arn?: string | undefined;
+  deviceArn?: string | undefined;
+  labels?: string[] | undefined;
+  status?: InstanceStatus | undefined;
+  udid?: string | undefined;
+  instanceProfile?: InstanceProfile | undefined;
 }
-export const DeviceInstance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    deviceArn: S.optional(S.String),
-    labels: S.optional(InstanceLabels),
-    status: S.optional(InstanceStatus),
-    udid: S.optional(S.String),
-    instanceProfile: S.optional(InstanceProfile),
-  }),
-).annotate({ identifier: "DeviceInstance" }) as any as S.Schema<DeviceInstance>;
 export type DeviceInstances = DeviceInstance[];
-export const DeviceInstances = /*@__PURE__*/ S.Array(DeviceInstance);
 export type DeviceAvailability =
   | "TEMPORARY_NOT_AVAILABLE"
   | "BUSY"
   | "AVAILABLE"
   | "HIGHLY_AVAILABLE"
   | (string & {});
-export const DeviceAvailability = S.String;
-
 export interface Device {
-  arn?: string;
-  name?: string;
-  manufacturer?: string;
-  model?: string;
-  modelId?: string;
-  formFactor?: DeviceFormFactor;
-  platform?: DevicePlatform;
-  os?: string;
-  cpu?: CPU;
-  resolution?: Resolution;
-  heapSize?: number;
-  memory?: number;
-  image?: string;
-  carrier?: string;
-  radio?: string;
-  remoteAccessEnabled?: boolean;
-  remoteDebugEnabled?: boolean;
-  fleetType?: string;
-  fleetName?: string;
-  instances?: DeviceInstance[];
-  availability?: DeviceAvailability;
+  arn?: string | undefined;
+  name?: string | undefined;
+  manufacturer?: string | undefined;
+  model?: string | undefined;
+  modelId?: string | undefined;
+  formFactor?: DeviceFormFactor | undefined;
+  platform?: DevicePlatform | undefined;
+  os?: string | undefined;
+  cpu?: CPU | undefined;
+  resolution?: Resolution | undefined;
+  heapSize?: number | undefined;
+  memory?: number | undefined;
+  image?: string | undefined;
+  carrier?: string | undefined;
+  radio?: string | undefined;
+  remoteAccessEnabled?: boolean | undefined;
+  remoteDebugEnabled?: boolean | undefined;
+  fleetType?: string | undefined;
+  fleetName?: string | undefined;
+  instances?: DeviceInstance[] | undefined;
+  availability?: DeviceAvailability | undefined;
 }
-export const Device = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    manufacturer: S.optional(S.String),
-    model: S.optional(S.String),
-    modelId: S.optional(S.String),
-    formFactor: S.optional(DeviceFormFactor),
-    platform: S.optional(DevicePlatform),
-    os: S.optional(S.String),
-    cpu: S.optional(CPU),
-    resolution: S.optional(Resolution),
-    heapSize: S.optional(S.Number),
-    memory: S.optional(S.Number),
-    image: S.optional(S.String),
-    carrier: S.optional(S.String),
-    radio: S.optional(S.String),
-    remoteAccessEnabled: S.optional(S.Boolean),
-    remoteDebugEnabled: S.optional(S.Boolean),
-    fleetType: S.optional(S.String),
-    fleetName: S.optional(S.String),
-    instances: S.optional(DeviceInstances),
-    availability: S.optional(DeviceAvailability),
-  }),
-).annotate({ identifier: "Device" }) as any as S.Schema<Device>;
 export interface DeviceMinutes {
-  total?: number;
-  metered?: number;
-  unmetered?: number;
+  total?: number | undefined;
+  metered?: number | undefined;
+  unmetered?: number | undefined;
 }
-export const DeviceMinutes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    total: S.optional(S.Number),
-    metered: S.optional(S.Number),
-    unmetered: S.optional(S.Number),
-  }),
-).annotate({ identifier: "DeviceMinutes" }) as any as S.Schema<DeviceMinutes>;
 export type SkipAppResign = boolean;
 export type SensitiveURL = string | redacted.Redacted<string>;
 export interface RemoteAccessEndpoints {
-  remoteDriverEndpoint?: string | redacted.Redacted<string>;
-  interactiveEndpoint?: string | redacted.Redacted<string>;
+  remoteDriverEndpoint?: string | redacted.Redacted<string> | undefined;
+  interactiveEndpoint?: string | redacted.Redacted<string> | undefined;
 }
-export const RemoteAccessEndpoints = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    remoteDriverEndpoint: S.optional(SensitiveString),
-    interactiveEndpoint: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "RemoteAccessEndpoints",
-}) as any as S.Schema<RemoteAccessEndpoints>;
 export interface RemoteAccessSession {
-  arn?: string;
-  name?: string;
-  created?: Date;
-  status?: ExecutionStatus;
-  result?: ExecutionResult;
-  message?: string;
-  started?: Date;
-  stopped?: Date;
-  device?: Device;
-  instanceArn?: string;
-  billingMethod?: BillingMethod;
-  deviceMinutes?: DeviceMinutes;
-  endpoint?: string;
-  deviceUdid?: string;
-  interactionMode?: InteractionMode;
-  skipAppResign?: boolean;
-  vpcConfig?: VpcConfig;
-  deviceProxy?: DeviceProxy;
-  appUpload?: string;
-  endpoints?: RemoteAccessEndpoints;
+  arn?: string | undefined;
+  name?: string | undefined;
+  created?: Date | undefined;
+  status?: ExecutionStatus | undefined;
+  result?: ExecutionResult | undefined;
+  message?: string | undefined;
+  started?: Date | undefined;
+  stopped?: Date | undefined;
+  device?: Device | undefined;
+  instanceArn?: string | undefined;
+  billingMethod?: BillingMethod | undefined;
+  deviceMinutes?: DeviceMinutes | undefined;
+  endpoint?: string | undefined;
+  deviceUdid?: string | undefined;
+  interactionMode?: InteractionMode | undefined;
+  skipAppResign?: boolean | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  deviceProxy?: DeviceProxy | undefined;
+  appUpload?: string | undefined;
+  endpoints?: RemoteAccessEndpoints | undefined;
 }
-export const RemoteAccessSession = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(ExecutionStatus),
-    result: S.optional(ExecutionResult),
-    message: S.optional(S.String),
-    started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    device: S.optional(Device),
-    instanceArn: S.optional(S.String),
-    billingMethod: S.optional(BillingMethod),
-    deviceMinutes: S.optional(DeviceMinutes),
-    endpoint: S.optional(S.String),
-    deviceUdid: S.optional(S.String),
-    interactionMode: S.optional(InteractionMode),
-    skipAppResign: S.optional(S.Boolean),
-    vpcConfig: S.optional(VpcConfig),
-    deviceProxy: S.optional(DeviceProxy),
-    appUpload: S.optional(S.String),
-    endpoints: S.optional(RemoteAccessEndpoints),
-  }),
-).annotate({
-  identifier: "RemoteAccessSession",
-}) as any as S.Schema<RemoteAccessSession>;
 export interface CreateRemoteAccessSessionResult {
-  remoteAccessSession?: RemoteAccessSession;
+  remoteAccessSession?: RemoteAccessSession | undefined;
 }
-export const CreateRemoteAccessSessionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ remoteAccessSession: S.optional(RemoteAccessSession) }).pipe(ns),
-).annotate({
-  identifier: "CreateRemoteAccessSessionResult",
-}) as any as S.Schema<CreateRemoteAccessSessionResult>;
 export type ResourceName = string;
 export type ResourceDescription = string;
 export type SecurityGroupIds = string[];
-export const SecurityGroupIds = /*@__PURE__*/ S.Array(S.String);
 export type SubnetIds = string[];
-export const SubnetIds = /*@__PURE__*/ S.Array(S.String);
 export interface TestGridVpcConfig {
   securityGroupIds: string[];
   subnetIds: string[];
   vpcId: string;
 }
-export const TestGridVpcConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    securityGroupIds: SecurityGroupIds,
-    subnetIds: SubnetIds,
-    vpcId: S.String,
-  }),
-).annotate({
-  identifier: "TestGridVpcConfig",
-}) as any as S.Schema<TestGridVpcConfig>;
 export interface CreateTestGridProjectRequest {
   name: string;
-  description?: string;
-  vpcConfig?: TestGridVpcConfig;
+  description?: string | undefined;
+  vpcConfig?: TestGridVpcConfig | undefined;
 }
-export const CreateTestGridProjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    vpcConfig: S.optional(TestGridVpcConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateTestGridProjectRequest",
-}) as any as S.Schema<CreateTestGridProjectRequest>;
 export type DeviceFarmArn = string;
 export interface TestGridProject {
-  arn?: string;
-  name?: string;
-  description?: string;
-  vpcConfig?: TestGridVpcConfig;
-  created?: Date;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  vpcConfig?: TestGridVpcConfig | undefined;
+  created?: Date | undefined;
 }
-export const TestGridProject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    vpcConfig: S.optional(TestGridVpcConfig),
-    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "TestGridProject",
-}) as any as S.Schema<TestGridProject>;
 export interface CreateTestGridProjectResult {
-  testGridProject?: TestGridProject;
+  testGridProject?: TestGridProject | undefined;
 }
-export const CreateTestGridProjectResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ testGridProject: S.optional(TestGridProject) }).pipe(ns),
-).annotate({
-  identifier: "CreateTestGridProjectResult",
-}) as any as S.Schema<CreateTestGridProjectResult>;
 export type TestGridUrlExpiresInSecondsInput = number;
 export interface CreateTestGridUrlRequest {
   projectArn: string;
   expiresInSeconds: number;
 }
-export const CreateTestGridUrlRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ projectArn: S.String, expiresInSeconds: S.Number }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateTestGridUrlRequest",
-}) as any as S.Schema<CreateTestGridUrlRequest>;
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface CreateTestGridUrlResult {
-  url?: string | redacted.Redacted<string>;
-  expires?: Date;
+  url?: string | redacted.Redacted<string> | undefined;
+  expires?: Date | undefined;
 }
-export const CreateTestGridUrlResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    url: S.optional(SensitiveString),
-    expires: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateTestGridUrlResult",
-}) as any as S.Schema<CreateTestGridUrlResult>;
 export type UploadType =
   | "ANDROID_APP"
   | "IOS_APP"
@@ -933,81 +512,31 @@ export type UploadType =
   | "INSTRUMENTATION_TEST_SPEC"
   | "XCTEST_UI_TEST_SPEC"
   | (string & {});
-export const UploadType = S.String;
-
 export type ContentType = string;
 export interface CreateUploadRequest {
   projectArn: string;
   name: string;
   type: UploadType;
-  contentType?: string;
+  contentType?: string | undefined;
 }
-export const CreateUploadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectArn: S.String,
-    name: S.String,
-    type: UploadType,
-    contentType: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateUploadRequest",
-}) as any as S.Schema<CreateUploadRequest>;
-export type UploadStatus =
-  | "INITIALIZED"
-  | "PROCESSING"
-  | "SUCCEEDED"
-  | "FAILED"
-  | (string & {});
-export const UploadStatus = S.String;
-
+export type UploadStatus = "INITIALIZED" | "PROCESSING" | "SUCCEEDED" | "FAILED" | (string & {});
 export type Metadata = string;
 export type UploadCategory = "CURATED" | "PRIVATE" | (string & {});
-export const UploadCategory = S.String;
-
 export interface Upload {
-  arn?: string;
-  name?: string;
-  created?: Date;
-  type?: UploadType;
-  status?: UploadStatus;
-  url?: string | redacted.Redacted<string>;
-  metadata?: string;
-  contentType?: string;
-  message?: string;
-  category?: UploadCategory;
+  arn?: string | undefined;
+  name?: string | undefined;
+  created?: Date | undefined;
+  type?: UploadType | undefined;
+  status?: UploadStatus | undefined;
+  url?: string | redacted.Redacted<string> | undefined;
+  metadata?: string | undefined;
+  contentType?: string | undefined;
+  message?: string | undefined;
+  category?: UploadCategory | undefined;
 }
-export const Upload = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    type: S.optional(UploadType),
-    status: S.optional(UploadStatus),
-    url: S.optional(SensitiveString),
-    metadata: S.optional(S.String),
-    contentType: S.optional(S.String),
-    message: S.optional(S.String),
-    category: S.optional(UploadCategory),
-  }),
-).annotate({ identifier: "Upload" }) as any as S.Schema<Upload>;
 export interface CreateUploadResult {
-  upload?: Upload;
+  upload?: Upload | undefined;
 }
-export const CreateUploadResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ upload: S.optional(Upload) }).pipe(ns),
-).annotate({
-  identifier: "CreateUploadResult",
-}) as any as S.Schema<CreateUploadResult>;
 export type VPCEConfigurationName = string;
 export type VPCEServiceName = string;
 export type ServiceDnsName = string;
@@ -1016,414 +545,93 @@ export interface CreateVPCEConfigurationRequest {
   vpceConfigurationName: string;
   vpceServiceName: string;
   serviceDnsName: string;
-  vpceConfigurationDescription?: string;
+  vpceConfigurationDescription?: string | undefined;
 }
-export const CreateVPCEConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vpceConfigurationName: S.String,
-    vpceServiceName: S.String,
-    serviceDnsName: S.String,
-    vpceConfigurationDescription: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateVPCEConfigurationRequest",
-}) as any as S.Schema<CreateVPCEConfigurationRequest>;
 export interface VPCEConfiguration {
-  arn?: string;
-  vpceConfigurationName?: string;
-  vpceServiceName?: string;
-  serviceDnsName?: string;
-  vpceConfigurationDescription?: string;
+  arn?: string | undefined;
+  vpceConfigurationName?: string | undefined;
+  vpceServiceName?: string | undefined;
+  serviceDnsName?: string | undefined;
+  vpceConfigurationDescription?: string | undefined;
 }
-export const VPCEConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    vpceConfigurationName: S.optional(S.String),
-    vpceServiceName: S.optional(S.String),
-    serviceDnsName: S.optional(S.String),
-    vpceConfigurationDescription: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VPCEConfiguration",
-}) as any as S.Schema<VPCEConfiguration>;
 export interface CreateVPCEConfigurationResult {
-  vpceConfiguration?: VPCEConfiguration;
+  vpceConfiguration?: VPCEConfiguration | undefined;
 }
-export const CreateVPCEConfigurationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ vpceConfiguration: S.optional(VPCEConfiguration) }).pipe(ns),
-).annotate({
-  identifier: "CreateVPCEConfigurationResult",
-}) as any as S.Schema<CreateVPCEConfigurationResult>;
 export interface DeleteDevicePoolRequest {
   arn: string;
 }
-export const DeleteDevicePoolRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDevicePoolRequest",
-}) as any as S.Schema<DeleteDevicePoolRequest>;
 export interface DeleteDevicePoolResult {}
-export const DeleteDevicePoolResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteDevicePoolResult",
-}) as any as S.Schema<DeleteDevicePoolResult>;
 export interface DeleteInstanceProfileRequest {
   arn: string;
 }
-export const DeleteInstanceProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteInstanceProfileRequest",
-}) as any as S.Schema<DeleteInstanceProfileRequest>;
 export interface DeleteInstanceProfileResult {}
-export const DeleteInstanceProfileResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteInstanceProfileResult",
-}) as any as S.Schema<DeleteInstanceProfileResult>;
 export interface DeleteNetworkProfileRequest {
   arn: string;
 }
-export const DeleteNetworkProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteNetworkProfileRequest",
-}) as any as S.Schema<DeleteNetworkProfileRequest>;
 export interface DeleteNetworkProfileResult {}
-export const DeleteNetworkProfileResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteNetworkProfileResult",
-}) as any as S.Schema<DeleteNetworkProfileResult>;
 export interface DeleteProjectRequest {
   arn: string;
 }
-export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
 export interface DeleteProjectResult {}
-export const DeleteProjectResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteProjectResult",
-}) as any as S.Schema<DeleteProjectResult>;
 export interface DeleteRemoteAccessSessionRequest {
   arn: string;
 }
-export const DeleteRemoteAccessSessionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRemoteAccessSessionRequest",
-}) as any as S.Schema<DeleteRemoteAccessSessionRequest>;
 export interface DeleteRemoteAccessSessionResult {}
-export const DeleteRemoteAccessSessionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteRemoteAccessSessionResult",
-}) as any as S.Schema<DeleteRemoteAccessSessionResult>;
 export interface DeleteRunRequest {
   arn: string;
 }
-export const DeleteRunRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRunRequest",
-}) as any as S.Schema<DeleteRunRequest>;
 export interface DeleteRunResult {}
-export const DeleteRunResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteRunResult",
-}) as any as S.Schema<DeleteRunResult>;
 export interface DeleteTestGridProjectRequest {
   projectArn: string;
 }
-export const DeleteTestGridProjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ projectArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteTestGridProjectRequest",
-}) as any as S.Schema<DeleteTestGridProjectRequest>;
 export interface DeleteTestGridProjectResult {}
-export const DeleteTestGridProjectResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteTestGridProjectResult",
-}) as any as S.Schema<DeleteTestGridProjectResult>;
 export interface DeleteUploadRequest {
   arn: string;
 }
-export const DeleteUploadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteUploadRequest",
-}) as any as S.Schema<DeleteUploadRequest>;
 export interface DeleteUploadResult {}
-export const DeleteUploadResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteUploadResult",
-}) as any as S.Schema<DeleteUploadResult>;
 export interface DeleteVPCEConfigurationRequest {
   arn: string;
 }
-export const DeleteVPCEConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteVPCEConfigurationRequest",
-}) as any as S.Schema<DeleteVPCEConfigurationRequest>;
 export interface DeleteVPCEConfigurationResult {}
-export const DeleteVPCEConfigurationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteVPCEConfigurationResult",
-}) as any as S.Schema<DeleteVPCEConfigurationResult>;
 export interface GetAccountSettingsRequest {}
-export const GetAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAccountSettingsRequest",
-}) as any as S.Schema<GetAccountSettingsRequest>;
 export type AWSAccountNumber = string;
-export type PurchasedDevicesMap = { [key in DevicePlatform]?: number };
-export const PurchasedDevicesMap = /*@__PURE__*/ S.Record(
-  DevicePlatform,
-  S.Number.pipe(S.optional),
-);
+export type PurchasedDevicesMap = { [key in DevicePlatform]?: number | undefined };
 export interface TrialMinutes {
-  total?: number;
-  remaining?: number;
+  total?: number | undefined;
+  remaining?: number | undefined;
 }
-export const TrialMinutes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ total: S.optional(S.Number), remaining: S.optional(S.Number) }),
-).annotate({ identifier: "TrialMinutes" }) as any as S.Schema<TrialMinutes>;
 export type MaxSlotMap = { [key: string]: number | undefined };
-export const MaxSlotMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Number.pipe(S.optional),
-);
 export interface AccountSettings {
-  awsAccountNumber?: string;
-  unmeteredDevices?: { [key: string]: number | undefined };
-  unmeteredRemoteAccessDevices?: { [key: string]: number | undefined };
-  maxJobTimeoutMinutes?: number;
-  trialMinutes?: TrialMinutes;
-  maxSlots?: { [key: string]: number | undefined };
-  defaultJobTimeoutMinutes?: number;
-  skipAppResign?: boolean;
+  awsAccountNumber?: string | undefined;
+  unmeteredDevices?: { [key: string]: number | undefined } | undefined;
+  unmeteredRemoteAccessDevices?: { [key: string]: number | undefined } | undefined;
+  maxJobTimeoutMinutes?: number | undefined;
+  trialMinutes?: TrialMinutes | undefined;
+  maxSlots?: { [key: string]: number | undefined } | undefined;
+  defaultJobTimeoutMinutes?: number | undefined;
+  skipAppResign?: boolean | undefined;
 }
-export const AccountSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    awsAccountNumber: S.optional(S.String),
-    unmeteredDevices: S.optional(PurchasedDevicesMap),
-    unmeteredRemoteAccessDevices: S.optional(PurchasedDevicesMap),
-    maxJobTimeoutMinutes: S.optional(S.Number),
-    trialMinutes: S.optional(TrialMinutes),
-    maxSlots: S.optional(MaxSlotMap),
-    defaultJobTimeoutMinutes: S.optional(S.Number),
-    skipAppResign: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "AccountSettings",
-}) as any as S.Schema<AccountSettings>;
 export interface GetAccountSettingsResult {
-  accountSettings?: AccountSettings;
+  accountSettings?: AccountSettings | undefined;
 }
-export const GetAccountSettingsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accountSettings: S.optional(AccountSettings) }).pipe(ns),
-).annotate({
-  identifier: "GetAccountSettingsResult",
-}) as any as S.Schema<GetAccountSettingsResult>;
 export interface GetDeviceRequest {
   arn: string;
 }
-export const GetDeviceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDeviceRequest",
-}) as any as S.Schema<GetDeviceRequest>;
 export interface GetDeviceResult {
-  device?: Device;
+  device?: Device | undefined;
 }
-export const GetDeviceResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ device: S.optional(Device) }).pipe(ns),
-).annotate({
-  identifier: "GetDeviceResult",
-}) as any as S.Schema<GetDeviceResult>;
 export interface GetDeviceInstanceRequest {
   arn: string;
 }
-export const GetDeviceInstanceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDeviceInstanceRequest",
-}) as any as S.Schema<GetDeviceInstanceRequest>;
 export interface GetDeviceInstanceResult {
-  deviceInstance?: DeviceInstance;
+  deviceInstance?: DeviceInstance | undefined;
 }
-export const GetDeviceInstanceResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ deviceInstance: S.optional(DeviceInstance) }).pipe(ns),
-).annotate({
-  identifier: "GetDeviceInstanceResult",
-}) as any as S.Schema<GetDeviceInstanceResult>;
 export interface GetDevicePoolRequest {
   arn: string;
 }
-export const GetDevicePoolRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDevicePoolRequest",
-}) as any as S.Schema<GetDevicePoolRequest>;
 export interface GetDevicePoolResult {
-  devicePool?: DevicePool;
+  devicePool?: DevicePool | undefined;
 }
-export const GetDevicePoolResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ devicePool: S.optional(DevicePool) }).pipe(ns),
-).annotate({
-  identifier: "GetDevicePoolResult",
-}) as any as S.Schema<GetDevicePoolResult>;
 export type TestType =
   | "BUILTIN_FUZZ"
   | "APPIUM_JAVA_JUNIT"
@@ -1440,250 +648,91 @@ export type TestType =
   | "XCTEST"
   | "XCTEST_UI"
   | (string & {});
-export const TestType = S.String;
-
 export type Filter = string;
 export type TestParameters = { [key: string]: string | undefined };
-export const TestParameters = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface ScheduleRunTest {
   type: TestType;
-  testPackageArn?: string;
-  testSpecArn?: string;
-  filter?: string;
-  parameters?: { [key: string]: string | undefined };
+  testPackageArn?: string | undefined;
+  testSpecArn?: string | undefined;
+  filter?: string | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
 }
-export const ScheduleRunTest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: TestType,
-    testPackageArn: S.optional(S.String),
-    testSpecArn: S.optional(S.String),
-    filter: S.optional(S.String),
-    parameters: S.optional(TestParameters),
-  }),
-).annotate({
-  identifier: "ScheduleRunTest",
-}) as any as S.Schema<ScheduleRunTest>;
 export interface Location {
   latitude: number;
   longitude: number;
 }
-export const Location = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ latitude: S.Number, longitude: S.Number }),
-).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 export type IosPaths = string[];
-export const IosPaths = /*@__PURE__*/ S.Array(S.String);
 export type AndroidPaths = string[];
-export const AndroidPaths = /*@__PURE__*/ S.Array(S.String);
 export type DeviceHostPaths = string[];
-export const DeviceHostPaths = /*@__PURE__*/ S.Array(S.String);
 export interface CustomerArtifactPaths {
-  iosPaths?: string[];
-  androidPaths?: string[];
-  deviceHostPaths?: string[];
+  iosPaths?: string[] | undefined;
+  androidPaths?: string[] | undefined;
+  deviceHostPaths?: string[] | undefined;
 }
-export const CustomerArtifactPaths = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    iosPaths: S.optional(IosPaths),
-    androidPaths: S.optional(AndroidPaths),
-    deviceHostPaths: S.optional(DeviceHostPaths),
-  }),
-).annotate({
-  identifier: "CustomerArtifactPaths",
-}) as any as S.Schema<CustomerArtifactPaths>;
 export interface Radios {
-  wifi?: boolean;
-  bluetooth?: boolean;
-  nfc?: boolean;
-  gps?: boolean;
+  wifi?: boolean | undefined;
+  bluetooth?: boolean | undefined;
+  nfc?: boolean | undefined;
+  gps?: boolean | undefined;
 }
-export const Radios = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    wifi: S.optional(S.Boolean),
-    bluetooth: S.optional(S.Boolean),
-    nfc: S.optional(S.Boolean),
-    gps: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "Radios" }) as any as S.Schema<Radios>;
 export type InsightsType = "TEST_REPORT" | (string & {});
-export const InsightsType = S.String;
-
 export type InsightsTypes = InsightsType[];
-export const InsightsTypes = /*@__PURE__*/ S.Array(InsightsType);
 export interface ScheduleRunConfiguration {
-  extraDataPackageArn?: string;
-  networkProfileArn?: string;
-  locale?: string;
-  location?: Location;
-  vpceConfigurationArns?: string[];
-  deviceProxy?: DeviceProxy;
-  customerArtifactPaths?: CustomerArtifactPaths;
-  radios?: Radios;
-  auxiliaryApps?: string[];
-  billingMethod?: BillingMethod;
-  environmentVariables?: EnvironmentVariable[];
-  executionRoleArn?: string;
-  insightsTypes?: InsightsType[];
+  extraDataPackageArn?: string | undefined;
+  networkProfileArn?: string | undefined;
+  locale?: string | undefined;
+  location?: Location | undefined;
+  vpceConfigurationArns?: string[] | undefined;
+  deviceProxy?: DeviceProxy | undefined;
+  customerArtifactPaths?: CustomerArtifactPaths | undefined;
+  radios?: Radios | undefined;
+  auxiliaryApps?: string[] | undefined;
+  billingMethod?: BillingMethod | undefined;
+  environmentVariables?: EnvironmentVariable[] | undefined;
+  executionRoleArn?: string | undefined;
+  insightsTypes?: InsightsType[] | undefined;
 }
-export const ScheduleRunConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    extraDataPackageArn: S.optional(S.String),
-    networkProfileArn: S.optional(S.String),
-    locale: S.optional(S.String),
-    location: S.optional(Location),
-    vpceConfigurationArns: S.optional(AmazonResourceNames),
-    deviceProxy: S.optional(DeviceProxy),
-    customerArtifactPaths: S.optional(CustomerArtifactPaths),
-    radios: S.optional(Radios),
-    auxiliaryApps: S.optional(AmazonResourceNames),
-    billingMethod: S.optional(BillingMethod),
-    environmentVariables: S.optional(EnvironmentVariables),
-    executionRoleArn: S.optional(S.String),
-    insightsTypes: S.optional(InsightsTypes),
-  }),
-).annotate({
-  identifier: "ScheduleRunConfiguration",
-}) as any as S.Schema<ScheduleRunConfiguration>;
 export interface GetDevicePoolCompatibilityRequest {
   devicePoolArn: string;
-  appArn?: string;
-  testType?: TestType;
-  test?: ScheduleRunTest;
-  configuration?: ScheduleRunConfiguration;
-  projectArn?: string;
+  appArn?: string | undefined;
+  testType?: TestType | undefined;
+  test?: ScheduleRunTest | undefined;
+  configuration?: ScheduleRunConfiguration | undefined;
+  projectArn?: string | undefined;
 }
-export const GetDevicePoolCompatibilityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    devicePoolArn: S.String,
-    appArn: S.optional(S.String),
-    testType: S.optional(TestType),
-    test: S.optional(ScheduleRunTest),
-    configuration: S.optional(ScheduleRunConfiguration),
-    projectArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDevicePoolCompatibilityRequest",
-}) as any as S.Schema<GetDevicePoolCompatibilityRequest>;
 export interface IncompatibilityMessage {
-  message?: string;
-  type?: DeviceAttribute;
+  message?: string | undefined;
+  type?: DeviceAttribute | undefined;
 }
-export const IncompatibilityMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: S.optional(S.String),
-    type: S.optional(DeviceAttribute),
-  }),
-).annotate({
-  identifier: "IncompatibilityMessage",
-}) as any as S.Schema<IncompatibilityMessage>;
 export type IncompatibilityMessages = IncompatibilityMessage[];
-export const IncompatibilityMessages = /*@__PURE__*/ S.Array(
-  IncompatibilityMessage,
-);
 export interface DevicePoolCompatibilityResult {
-  device?: Device;
-  compatible?: boolean;
-  incompatibilityMessages?: IncompatibilityMessage[];
+  device?: Device | undefined;
+  compatible?: boolean | undefined;
+  incompatibilityMessages?: IncompatibilityMessage[] | undefined;
 }
-export const DevicePoolCompatibilityResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    device: S.optional(Device),
-    compatible: S.optional(S.Boolean),
-    incompatibilityMessages: S.optional(IncompatibilityMessages),
-  }),
-).annotate({
-  identifier: "DevicePoolCompatibilityResult",
-}) as any as S.Schema<DevicePoolCompatibilityResult>;
 export type DevicePoolCompatibilityResults = DevicePoolCompatibilityResult[];
-export const DevicePoolCompatibilityResults = /*@__PURE__*/ S.Array(
-  DevicePoolCompatibilityResult,
-);
 export interface GetDevicePoolCompatibilityResult {
-  compatibleDevices?: DevicePoolCompatibilityResult[];
-  incompatibleDevices?: DevicePoolCompatibilityResult[];
+  compatibleDevices?: DevicePoolCompatibilityResult[] | undefined;
+  incompatibleDevices?: DevicePoolCompatibilityResult[] | undefined;
 }
-export const GetDevicePoolCompatibilityResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    compatibleDevices: S.optional(DevicePoolCompatibilityResults),
-    incompatibleDevices: S.optional(DevicePoolCompatibilityResults),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetDevicePoolCompatibilityResult",
-}) as any as S.Schema<GetDevicePoolCompatibilityResult>;
 export interface GetInstanceProfileRequest {
   arn: string;
 }
-export const GetInstanceProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetInstanceProfileRequest",
-}) as any as S.Schema<GetInstanceProfileRequest>;
 export interface GetInstanceProfileResult {
-  instanceProfile?: InstanceProfile;
+  instanceProfile?: InstanceProfile | undefined;
 }
-export const GetInstanceProfileResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ instanceProfile: S.optional(InstanceProfile) }).pipe(ns),
-).annotate({
-  identifier: "GetInstanceProfileResult",
-}) as any as S.Schema<GetInstanceProfileResult>;
 export interface GetJobRequest {
   arn: string;
 }
-export const GetJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetJobRequest" }) as any as S.Schema<GetJobRequest>;
 export interface Counters {
-  total?: number;
-  passed?: number;
-  failed?: number;
-  warned?: number;
-  errored?: number;
-  stopped?: number;
-  skipped?: number;
+  total?: number | undefined;
+  passed?: number | undefined;
+  failed?: number | undefined;
+  warned?: number | undefined;
+  errored?: number | undefined;
+  stopped?: number | undefined;
+  skipped?: number | undefined;
 }
-export const Counters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    total: S.optional(S.Number),
-    passed: S.optional(S.Number),
-    failed: S.optional(S.Number),
-    warned: S.optional(S.Number),
-    errored: S.optional(S.Number),
-    stopped: S.optional(S.Number),
-    skipped: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Counters" }) as any as S.Schema<Counters>;
 export type VideoCapture = boolean;
 export type ReportStatus =
   | "PENDING"
@@ -1692,310 +741,107 @@ export type ReportStatus =
   | "SKIPPED"
   | "ERRORED"
   | (string & {});
-export const ReportStatus = S.String;
-
 export type ReportMessage = string;
 export interface TestReportMetrics {
-  testsTotal?: number;
-  testsPassed?: number;
-  testsFailed?: number;
-  testsSkipped?: number;
-  testsErrored?: number;
-  testsOther?: number;
-  testsPassedPercentage?: number;
-  totalTestExecutionDurationSeconds?: number;
-  medianTestExecutionDurationSeconds?: number;
+  testsTotal?: number | undefined;
+  testsPassed?: number | undefined;
+  testsFailed?: number | undefined;
+  testsSkipped?: number | undefined;
+  testsErrored?: number | undefined;
+  testsOther?: number | undefined;
+  testsPassedPercentage?: number | undefined;
+  totalTestExecutionDurationSeconds?: number | undefined;
+  medianTestExecutionDurationSeconds?: number | undefined;
 }
-export const TestReportMetrics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    testsTotal: S.optional(S.Number),
-    testsPassed: S.optional(S.Number),
-    testsFailed: S.optional(S.Number),
-    testsSkipped: S.optional(S.Number),
-    testsErrored: S.optional(S.Number),
-    testsOther: S.optional(S.Number),
-    testsPassedPercentage: S.optional(S.Number),
-    totalTestExecutionDurationSeconds: S.optional(S.Number),
-    medianTestExecutionDurationSeconds: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "TestReportMetrics",
-}) as any as S.Schema<TestReportMetrics>;
 export interface TestReport {
-  message?: string;
-  metrics?: TestReportMetrics;
-  testDetailsUrl?: string | redacted.Redacted<string>;
+  message?: string | undefined;
+  metrics?: TestReportMetrics | undefined;
+  testDetailsUrl?: string | redacted.Redacted<string> | undefined;
 }
-export const TestReport = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: S.optional(S.String),
-    metrics: S.optional(TestReportMetrics),
-    testDetailsUrl: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "TestReport" }) as any as S.Schema<TestReport>;
 export interface JobInsights {
-  status?: ReportStatus;
-  testReport?: TestReport;
+  status?: ReportStatus | undefined;
+  testReport?: TestReport | undefined;
 }
-export const JobInsights = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(ReportStatus),
-    testReport: S.optional(TestReport),
-  }),
-).annotate({ identifier: "JobInsights" }) as any as S.Schema<JobInsights>;
 export interface Job {
-  arn?: string;
-  name?: string;
-  type?: TestType;
-  created?: Date;
-  status?: ExecutionStatus;
-  result?: ExecutionResult;
-  started?: Date;
-  stopped?: Date;
-  counters?: Counters;
-  message?: string;
-  device?: Device;
-  instanceArn?: string;
-  deviceMinutes?: DeviceMinutes;
-  videoEndpoint?: string;
-  videoCapture?: boolean;
-  insights?: JobInsights;
+  arn?: string | undefined;
+  name?: string | undefined;
+  type?: TestType | undefined;
+  created?: Date | undefined;
+  status?: ExecutionStatus | undefined;
+  result?: ExecutionResult | undefined;
+  started?: Date | undefined;
+  stopped?: Date | undefined;
+  counters?: Counters | undefined;
+  message?: string | undefined;
+  device?: Device | undefined;
+  instanceArn?: string | undefined;
+  deviceMinutes?: DeviceMinutes | undefined;
+  videoEndpoint?: string | undefined;
+  videoCapture?: boolean | undefined;
+  insights?: JobInsights | undefined;
 }
-export const Job = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(TestType),
-    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(ExecutionStatus),
-    result: S.optional(ExecutionResult),
-    started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    counters: S.optional(Counters),
-    message: S.optional(S.String),
-    device: S.optional(Device),
-    instanceArn: S.optional(S.String),
-    deviceMinutes: S.optional(DeviceMinutes),
-    videoEndpoint: S.optional(S.String),
-    videoCapture: S.optional(S.Boolean),
-    insights: S.optional(JobInsights),
-  }),
-).annotate({ identifier: "Job" }) as any as S.Schema<Job>;
 export interface GetJobResult {
-  job?: Job;
+  job?: Job | undefined;
 }
-export const GetJobResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ job: S.optional(Job) }).pipe(ns),
-).annotate({ identifier: "GetJobResult" }) as any as S.Schema<GetJobResult>;
 export interface GetNetworkProfileRequest {
   arn: string;
 }
-export const GetNetworkProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetNetworkProfileRequest",
-}) as any as S.Schema<GetNetworkProfileRequest>;
 export interface GetNetworkProfileResult {
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
 }
-export const GetNetworkProfileResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ networkProfile: S.optional(NetworkProfile) }).pipe(ns),
-).annotate({
-  identifier: "GetNetworkProfileResult",
-}) as any as S.Schema<GetNetworkProfileResult>;
 export type PaginationToken = string;
 export interface GetOfferingStatusRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const GetOfferingStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetOfferingStatusRequest",
-}) as any as S.Schema<GetOfferingStatusRequest>;
 export type OfferingIdentifier = string;
-export type OfferingTransactionType =
-  | "PURCHASE"
-  | "RENEW"
-  | "SYSTEM"
-  | (string & {});
-export const OfferingTransactionType = S.String;
-
+export type OfferingTransactionType = "PURCHASE" | "RENEW" | "SYSTEM" | (string & {});
 export type OfferingType = "RECURRING" | (string & {});
-export const OfferingType = S.String;
-
 export type CurrencyCode = "USD" | (string & {});
-export const CurrencyCode = S.String;
-
 export interface MonetaryAmount {
-  amount?: number;
-  currencyCode?: CurrencyCode;
+  amount?: number | undefined;
+  currencyCode?: CurrencyCode | undefined;
 }
-export const MonetaryAmount = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    amount: S.optional(S.Number),
-    currencyCode: S.optional(CurrencyCode),
-  }),
-).annotate({ identifier: "MonetaryAmount" }) as any as S.Schema<MonetaryAmount>;
 export type RecurringChargeFrequency = "MONTHLY" | (string & {});
-export const RecurringChargeFrequency = S.String;
-
 export interface RecurringCharge {
-  cost?: MonetaryAmount;
-  frequency?: RecurringChargeFrequency;
+  cost?: MonetaryAmount | undefined;
+  frequency?: RecurringChargeFrequency | undefined;
 }
-export const RecurringCharge = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cost: S.optional(MonetaryAmount),
-    frequency: S.optional(RecurringChargeFrequency),
-  }),
-).annotate({
-  identifier: "RecurringCharge",
-}) as any as S.Schema<RecurringCharge>;
 export type RecurringCharges = RecurringCharge[];
-export const RecurringCharges = /*@__PURE__*/ S.Array(RecurringCharge);
 export interface Offering {
-  id?: string;
-  description?: string;
-  type?: OfferingType;
-  platform?: DevicePlatform;
-  recurringCharges?: RecurringCharge[];
+  id?: string | undefined;
+  description?: string | undefined;
+  type?: OfferingType | undefined;
+  platform?: DevicePlatform | undefined;
+  recurringCharges?: RecurringCharge[] | undefined;
 }
-export const Offering = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    description: S.optional(S.String),
-    type: S.optional(OfferingType),
-    platform: S.optional(DevicePlatform),
-    recurringCharges: S.optional(RecurringCharges),
-  }),
-).annotate({ identifier: "Offering" }) as any as S.Schema<Offering>;
 export interface OfferingStatus {
-  type?: OfferingTransactionType;
-  offering?: Offering;
-  quantity?: number;
-  effectiveOn?: Date;
+  type?: OfferingTransactionType | undefined;
+  offering?: Offering | undefined;
+  quantity?: number | undefined;
+  effectiveOn?: Date | undefined;
 }
-export const OfferingStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(OfferingTransactionType),
-    offering: S.optional(Offering),
-    quantity: S.optional(S.Number),
-    effectiveOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "OfferingStatus" }) as any as S.Schema<OfferingStatus>;
 export type OfferingStatusMap = { [key: string]: OfferingStatus | undefined };
-export const OfferingStatusMap = /*@__PURE__*/ S.Record(
-  S.String,
-  OfferingStatus.pipe(S.optional),
-);
 export interface GetOfferingStatusResult {
-  current?: { [key: string]: OfferingStatus | undefined };
-  nextPeriod?: { [key: string]: OfferingStatus | undefined };
-  nextToken?: string;
+  current?: { [key: string]: OfferingStatus | undefined } | undefined;
+  nextPeriod?: { [key: string]: OfferingStatus | undefined } | undefined;
+  nextToken?: string | undefined;
 }
-export const GetOfferingStatusResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    current: S.optional(OfferingStatusMap),
-    nextPeriod: S.optional(OfferingStatusMap),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetOfferingStatusResult",
-}) as any as S.Schema<GetOfferingStatusResult>;
 export interface GetProjectRequest {
   arn: string;
 }
-export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
 export interface GetProjectResult {
-  project?: Project;
+  project?: Project | undefined;
 }
-export const GetProjectResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ project: S.optional(Project) }).pipe(ns),
-).annotate({
-  identifier: "GetProjectResult",
-}) as any as S.Schema<GetProjectResult>;
 export interface GetRemoteAccessSessionRequest {
   arn: string;
 }
-export const GetRemoteAccessSessionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRemoteAccessSessionRequest",
-}) as any as S.Schema<GetRemoteAccessSessionRequest>;
 export interface GetRemoteAccessSessionResult {
-  remoteAccessSession?: RemoteAccessSession;
+  remoteAccessSession?: RemoteAccessSession | undefined;
 }
-export const GetRemoteAccessSessionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ remoteAccessSession: S.optional(RemoteAccessSession) }).pipe(ns),
-).annotate({
-  identifier: "GetRemoteAccessSessionResult",
-}) as any as S.Schema<GetRemoteAccessSessionResult>;
 export interface GetRunRequest {
   arn: string;
 }
-export const GetRunRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetRunRequest" }) as any as S.Schema<GetRunRequest>;
-export type ExecutionResultCode =
-  | "PARSING_FAILED"
-  | "VPC_ENDPOINT_SETUP_FAILED"
-  | (string & {});
-export const ExecutionResultCode = S.String;
-
+export type ExecutionResultCode = "PARSING_FAILED" | "VPC_ENDPOINT_SETUP_FAILED" | (string & {});
 export type DeviceFilterAttribute =
   | "ARN"
   | "PLATFORM"
@@ -2010,468 +856,168 @@ export type DeviceFilterAttribute =
   | "INSTANCE_LABELS"
   | "FLEET_TYPE"
   | (string & {});
-export const DeviceFilterAttribute = S.String;
-
 export type DeviceFilterValues = string[];
-export const DeviceFilterValues = /*@__PURE__*/ S.Array(S.String);
 export interface DeviceFilter {
   attribute: DeviceFilterAttribute;
   operator: RuleOperator;
   values: string[];
 }
-export const DeviceFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attribute: DeviceFilterAttribute,
-    operator: RuleOperator,
-    values: DeviceFilterValues,
-  }),
-).annotate({ identifier: "DeviceFilter" }) as any as S.Schema<DeviceFilter>;
 export type DeviceFilters = DeviceFilter[];
-export const DeviceFilters = /*@__PURE__*/ S.Array(DeviceFilter);
 export interface DeviceSelectionResult {
-  filters?: DeviceFilter[];
-  matchedDevicesCount?: number;
-  maxDevices?: number;
+  filters?: DeviceFilter[] | undefined;
+  matchedDevicesCount?: number | undefined;
+  maxDevices?: number | undefined;
 }
-export const DeviceSelectionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filters: S.optional(DeviceFilters),
-    matchedDevicesCount: S.optional(S.Number),
-    maxDevices: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "DeviceSelectionResult",
-}) as any as S.Schema<DeviceSelectionResult>;
 export interface JobReportMetrics {
-  jobsTotal?: number;
-  jobsPassed?: number;
-  jobsFailed?: number;
-  jobsSkipped?: number;
-  jobsErrored?: number;
-  jobsStopped?: number;
-  jobsPassedPercentage?: number;
-  totalJobExecutionDurationSeconds?: number;
-  averageJobExecutionDurationSeconds?: number;
-  medianJobExecutionDurationSeconds?: number;
+  jobsTotal?: number | undefined;
+  jobsPassed?: number | undefined;
+  jobsFailed?: number | undefined;
+  jobsSkipped?: number | undefined;
+  jobsErrored?: number | undefined;
+  jobsStopped?: number | undefined;
+  jobsPassedPercentage?: number | undefined;
+  totalJobExecutionDurationSeconds?: number | undefined;
+  averageJobExecutionDurationSeconds?: number | undefined;
+  medianJobExecutionDurationSeconds?: number | undefined;
 }
-export const JobReportMetrics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobsTotal: S.optional(S.Number),
-    jobsPassed: S.optional(S.Number),
-    jobsFailed: S.optional(S.Number),
-    jobsSkipped: S.optional(S.Number),
-    jobsErrored: S.optional(S.Number),
-    jobsStopped: S.optional(S.Number),
-    jobsPassedPercentage: S.optional(S.Number),
-    totalJobExecutionDurationSeconds: S.optional(S.Number),
-    averageJobExecutionDurationSeconds: S.optional(S.Number),
-    medianJobExecutionDurationSeconds: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "JobReportMetrics",
-}) as any as S.Schema<JobReportMetrics>;
 export interface JobReport {
-  message?: string;
-  metrics?: JobReportMetrics;
-  jobDetailsUrl?: string | redacted.Redacted<string>;
+  message?: string | undefined;
+  metrics?: JobReportMetrics | undefined;
+  jobDetailsUrl?: string | redacted.Redacted<string> | undefined;
 }
-export const JobReport = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: S.optional(S.String),
-    metrics: S.optional(JobReportMetrics),
-    jobDetailsUrl: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "JobReport" }) as any as S.Schema<JobReport>;
 export interface RunInsights {
-  status?: ReportStatus;
-  jobReport?: JobReport;
+  status?: ReportStatus | undefined;
+  jobReport?: JobReport | undefined;
 }
-export const RunInsights = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(ReportStatus),
-    jobReport: S.optional(JobReport),
-  }),
-).annotate({ identifier: "RunInsights" }) as any as S.Schema<RunInsights>;
 export interface Run {
-  arn?: string;
-  name?: string;
-  type?: TestType;
-  platform?: DevicePlatform;
-  created?: Date;
-  status?: ExecutionStatus;
-  result?: ExecutionResult;
-  started?: Date;
-  stopped?: Date;
-  counters?: Counters;
-  message?: string;
-  totalJobs?: number;
-  completedJobs?: number;
-  billingMethod?: BillingMethod;
-  deviceMinutes?: DeviceMinutes;
-  networkProfile?: NetworkProfile;
-  deviceProxy?: DeviceProxy;
-  parsingResultUrl?: string;
-  resultCode?: ExecutionResultCode;
-  seed?: number;
-  appUpload?: string;
-  eventCount?: number;
-  jobTimeoutMinutes?: number;
-  devicePoolArn?: string;
-  locale?: string;
-  radios?: Radios;
-  location?: Location;
-  customerArtifactPaths?: CustomerArtifactPaths;
-  webUrl?: string;
-  skipAppResign?: boolean;
-  testSpecArn?: string;
-  deviceSelectionResult?: DeviceSelectionResult;
-  vpcConfig?: VpcConfig;
-  executionRoleArn?: string;
-  environmentVariables?: EnvironmentVariable[];
-  insightsTypes?: InsightsType[];
-  insights?: RunInsights;
+  arn?: string | undefined;
+  name?: string | undefined;
+  type?: TestType | undefined;
+  platform?: DevicePlatform | undefined;
+  created?: Date | undefined;
+  status?: ExecutionStatus | undefined;
+  result?: ExecutionResult | undefined;
+  started?: Date | undefined;
+  stopped?: Date | undefined;
+  counters?: Counters | undefined;
+  message?: string | undefined;
+  totalJobs?: number | undefined;
+  completedJobs?: number | undefined;
+  billingMethod?: BillingMethod | undefined;
+  deviceMinutes?: DeviceMinutes | undefined;
+  networkProfile?: NetworkProfile | undefined;
+  deviceProxy?: DeviceProxy | undefined;
+  parsingResultUrl?: string | undefined;
+  resultCode?: ExecutionResultCode | undefined;
+  seed?: number | undefined;
+  appUpload?: string | undefined;
+  eventCount?: number | undefined;
+  jobTimeoutMinutes?: number | undefined;
+  devicePoolArn?: string | undefined;
+  locale?: string | undefined;
+  radios?: Radios | undefined;
+  location?: Location | undefined;
+  customerArtifactPaths?: CustomerArtifactPaths | undefined;
+  webUrl?: string | undefined;
+  skipAppResign?: boolean | undefined;
+  testSpecArn?: string | undefined;
+  deviceSelectionResult?: DeviceSelectionResult | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  executionRoleArn?: string | undefined;
+  environmentVariables?: EnvironmentVariable[] | undefined;
+  insightsTypes?: InsightsType[] | undefined;
+  insights?: RunInsights | undefined;
 }
-export const Run = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(TestType),
-    platform: S.optional(DevicePlatform),
-    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(ExecutionStatus),
-    result: S.optional(ExecutionResult),
-    started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    counters: S.optional(Counters),
-    message: S.optional(S.String),
-    totalJobs: S.optional(S.Number),
-    completedJobs: S.optional(S.Number),
-    billingMethod: S.optional(BillingMethod),
-    deviceMinutes: S.optional(DeviceMinutes),
-    networkProfile: S.optional(NetworkProfile),
-    deviceProxy: S.optional(DeviceProxy),
-    parsingResultUrl: S.optional(S.String),
-    resultCode: S.optional(ExecutionResultCode),
-    seed: S.optional(S.Number),
-    appUpload: S.optional(S.String),
-    eventCount: S.optional(S.Number),
-    jobTimeoutMinutes: S.optional(S.Number),
-    devicePoolArn: S.optional(S.String),
-    locale: S.optional(S.String),
-    radios: S.optional(Radios),
-    location: S.optional(Location),
-    customerArtifactPaths: S.optional(CustomerArtifactPaths),
-    webUrl: S.optional(S.String),
-    skipAppResign: S.optional(S.Boolean),
-    testSpecArn: S.optional(S.String),
-    deviceSelectionResult: S.optional(DeviceSelectionResult),
-    vpcConfig: S.optional(VpcConfig),
-    executionRoleArn: S.optional(S.String),
-    environmentVariables: S.optional(EnvironmentVariables),
-    insightsTypes: S.optional(InsightsTypes),
-    insights: S.optional(RunInsights),
-  }),
-).annotate({ identifier: "Run" }) as any as S.Schema<Run>;
 export interface GetRunResult {
-  run?: Run;
+  run?: Run | undefined;
 }
-export const GetRunResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ run: S.optional(Run) }).pipe(ns),
-).annotate({ identifier: "GetRunResult" }) as any as S.Schema<GetRunResult>;
 export interface GetSuiteRequest {
   arn: string;
 }
-export const GetSuiteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSuiteRequest",
-}) as any as S.Schema<GetSuiteRequest>;
 export interface Suite {
-  arn?: string;
-  name?: string;
-  type?: TestType;
-  created?: Date;
-  status?: ExecutionStatus;
-  result?: ExecutionResult;
-  started?: Date;
-  stopped?: Date;
-  counters?: Counters;
-  message?: string;
-  deviceMinutes?: DeviceMinutes;
+  arn?: string | undefined;
+  name?: string | undefined;
+  type?: TestType | undefined;
+  created?: Date | undefined;
+  status?: ExecutionStatus | undefined;
+  result?: ExecutionResult | undefined;
+  started?: Date | undefined;
+  stopped?: Date | undefined;
+  counters?: Counters | undefined;
+  message?: string | undefined;
+  deviceMinutes?: DeviceMinutes | undefined;
 }
-export const Suite = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(TestType),
-    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(ExecutionStatus),
-    result: S.optional(ExecutionResult),
-    started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    counters: S.optional(Counters),
-    message: S.optional(S.String),
-    deviceMinutes: S.optional(DeviceMinutes),
-  }),
-).annotate({ identifier: "Suite" }) as any as S.Schema<Suite>;
 export interface GetSuiteResult {
-  suite?: Suite;
+  suite?: Suite | undefined;
 }
-export const GetSuiteResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ suite: S.optional(Suite) }).pipe(ns),
-).annotate({ identifier: "GetSuiteResult" }) as any as S.Schema<GetSuiteResult>;
 export interface GetTestRequest {
   arn: string;
 }
-export const GetTestRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetTestRequest" }) as any as S.Schema<GetTestRequest>;
 export interface Test {
-  arn?: string;
-  name?: string;
-  type?: TestType;
-  created?: Date;
-  status?: ExecutionStatus;
-  result?: ExecutionResult;
-  started?: Date;
-  stopped?: Date;
-  counters?: Counters;
-  message?: string;
-  deviceMinutes?: DeviceMinutes;
+  arn?: string | undefined;
+  name?: string | undefined;
+  type?: TestType | undefined;
+  created?: Date | undefined;
+  status?: ExecutionStatus | undefined;
+  result?: ExecutionResult | undefined;
+  started?: Date | undefined;
+  stopped?: Date | undefined;
+  counters?: Counters | undefined;
+  message?: string | undefined;
+  deviceMinutes?: DeviceMinutes | undefined;
 }
-export const Test = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(TestType),
-    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(ExecutionStatus),
-    result: S.optional(ExecutionResult),
-    started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    counters: S.optional(Counters),
-    message: S.optional(S.String),
-    deviceMinutes: S.optional(DeviceMinutes),
-  }),
-).annotate({ identifier: "Test" }) as any as S.Schema<Test>;
 export interface GetTestResult {
-  test?: Test;
+  test?: Test | undefined;
 }
-export const GetTestResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ test: S.optional(Test) }).pipe(ns),
-).annotate({ identifier: "GetTestResult" }) as any as S.Schema<GetTestResult>;
 export interface GetTestGridProjectRequest {
   projectArn: string;
 }
-export const GetTestGridProjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ projectArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetTestGridProjectRequest",
-}) as any as S.Schema<GetTestGridProjectRequest>;
 export interface GetTestGridProjectResult {
-  testGridProject?: TestGridProject;
+  testGridProject?: TestGridProject | undefined;
 }
-export const GetTestGridProjectResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ testGridProject: S.optional(TestGridProject) }).pipe(ns),
-).annotate({
-  identifier: "GetTestGridProjectResult",
-}) as any as S.Schema<GetTestGridProjectResult>;
 export type ResourceId = string;
 export interface GetTestGridSessionRequest {
-  projectArn?: string;
-  sessionId?: string;
-  sessionArn?: string;
+  projectArn?: string | undefined;
+  sessionId?: string | undefined;
+  sessionArn?: string | undefined;
 }
-export const GetTestGridSessionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectArn: S.optional(S.String),
-    sessionId: S.optional(S.String),
-    sessionArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetTestGridSessionRequest",
-}) as any as S.Schema<GetTestGridSessionRequest>;
-export type TestGridSessionStatus =
-  | "ACTIVE"
-  | "CLOSED"
-  | "ERRORED"
-  | (string & {});
-export const TestGridSessionStatus = S.String;
-
+export type TestGridSessionStatus = "ACTIVE" | "CLOSED" | "ERRORED" | (string & {});
 export interface TestGridSession {
-  arn?: string;
-  status?: TestGridSessionStatus;
-  created?: Date;
-  ended?: Date;
-  billingMinutes?: number;
-  seleniumProperties?: string;
+  arn?: string | undefined;
+  status?: TestGridSessionStatus | undefined;
+  created?: Date | undefined;
+  ended?: Date | undefined;
+  billingMinutes?: number | undefined;
+  seleniumProperties?: string | undefined;
 }
-export const TestGridSession = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    status: S.optional(TestGridSessionStatus),
-    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ended: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    billingMinutes: S.optional(S.Number),
-    seleniumProperties: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TestGridSession",
-}) as any as S.Schema<TestGridSession>;
 export interface GetTestGridSessionResult {
-  testGridSession?: TestGridSession;
+  testGridSession?: TestGridSession | undefined;
 }
-export const GetTestGridSessionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ testGridSession: S.optional(TestGridSession) }).pipe(ns),
-).annotate({
-  identifier: "GetTestGridSessionResult",
-}) as any as S.Schema<GetTestGridSessionResult>;
 export interface GetUploadRequest {
   arn: string;
 }
-export const GetUploadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetUploadRequest",
-}) as any as S.Schema<GetUploadRequest>;
 export interface GetUploadResult {
-  upload?: Upload;
+  upload?: Upload | undefined;
 }
-export const GetUploadResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ upload: S.optional(Upload) }).pipe(ns),
-).annotate({
-  identifier: "GetUploadResult",
-}) as any as S.Schema<GetUploadResult>;
 export interface GetVPCEConfigurationRequest {
   arn: string;
 }
-export const GetVPCEConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetVPCEConfigurationRequest",
-}) as any as S.Schema<GetVPCEConfigurationRequest>;
 export interface GetVPCEConfigurationResult {
-  vpceConfiguration?: VPCEConfiguration;
+  vpceConfiguration?: VPCEConfiguration | undefined;
 }
-export const GetVPCEConfigurationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ vpceConfiguration: S.optional(VPCEConfiguration) }).pipe(ns),
-).annotate({
-  identifier: "GetVPCEConfigurationResult",
-}) as any as S.Schema<GetVPCEConfigurationResult>;
 export interface InstallToRemoteAccessSessionRequest {
   remoteAccessSessionArn: string;
   appArn: string;
 }
-export const InstallToRemoteAccessSessionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ remoteAccessSessionArn: S.String, appArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "InstallToRemoteAccessSessionRequest",
-}) as any as S.Schema<InstallToRemoteAccessSessionRequest>;
 export interface InstallToRemoteAccessSessionResult {
-  appUpload?: Upload;
+  appUpload?: Upload | undefined;
 }
-export const InstallToRemoteAccessSessionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ appUpload: S.optional(Upload) }).pipe(ns),
-).annotate({
-  identifier: "InstallToRemoteAccessSessionResult",
-}) as any as S.Schema<InstallToRemoteAccessSessionResult>;
 export type ArtifactCategory = "SCREENSHOT" | "FILE" | "LOG" | (string & {});
-export const ArtifactCategory = S.String;
-
 export interface ListArtifactsRequest {
   arn: string;
   type: ArtifactCategory;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListArtifactsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    type: ArtifactCategory,
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListArtifactsRequest",
-}) as any as S.Schema<ListArtifactsRequest>;
 export type ArtifactType =
   | "UNKNOWN"
   | "SCREENSHOT"
@@ -2502,493 +1048,143 @@ export type ArtifactType =
   | "CUSTOMER_ARTIFACT_LOG"
   | "TESTSPEC_OUTPUT"
   | (string & {});
-export const ArtifactType = S.String;
-
 export type URL = string;
 export interface Artifact {
-  arn?: string;
-  name?: string;
-  type?: ArtifactType;
-  extension?: string;
-  url?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
+  type?: ArtifactType | undefined;
+  extension?: string | undefined;
+  url?: string | undefined;
 }
-export const Artifact = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(ArtifactType),
-    extension: S.optional(S.String),
-    url: S.optional(S.String),
-  }),
-).annotate({ identifier: "Artifact" }) as any as S.Schema<Artifact>;
 export type Artifacts = Artifact[];
-export const Artifacts = /*@__PURE__*/ S.Array(Artifact);
 export interface ListArtifactsResult {
-  artifacts?: Artifact[];
-  nextToken?: string;
+  artifacts?: Artifact[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListArtifactsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    artifacts: S.optional(Artifacts),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListArtifactsResult",
-}) as any as S.Schema<ListArtifactsResult>;
 export interface ListDeviceInstancesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
-export const ListDeviceInstancesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDeviceInstancesRequest",
-}) as any as S.Schema<ListDeviceInstancesRequest>;
 export interface ListDeviceInstancesResult {
-  deviceInstances?: DeviceInstance[];
-  nextToken?: string;
+  deviceInstances?: DeviceInstance[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListDeviceInstancesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    deviceInstances: S.optional(DeviceInstances),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDeviceInstancesResult",
-}) as any as S.Schema<ListDeviceInstancesResult>;
 export interface ListDevicePoolsRequest {
   arn: string;
-  type?: DevicePoolType;
-  nextToken?: string;
+  type?: DevicePoolType | undefined;
+  nextToken?: string | undefined;
 }
-export const ListDevicePoolsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    type: S.optional(DevicePoolType),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDevicePoolsRequest",
-}) as any as S.Schema<ListDevicePoolsRequest>;
 export type DevicePools = DevicePool[];
-export const DevicePools = /*@__PURE__*/ S.Array(DevicePool);
 export interface ListDevicePoolsResult {
-  devicePools?: DevicePool[];
-  nextToken?: string;
+  devicePools?: DevicePool[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListDevicePoolsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    devicePools: S.optional(DevicePools),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDevicePoolsResult",
-}) as any as S.Schema<ListDevicePoolsResult>;
 export interface ListDevicesRequest {
-  arn?: string;
-  nextToken?: string;
-  filters?: DeviceFilter[];
+  arn?: string | undefined;
+  nextToken?: string | undefined;
+  filters?: DeviceFilter[] | undefined;
 }
-export const ListDevicesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    filters: S.optional(DeviceFilters),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDevicesRequest",
-}) as any as S.Schema<ListDevicesRequest>;
 export type Devices = Device[];
-export const Devices = /*@__PURE__*/ S.Array(Device);
 export interface ListDevicesResult {
-  devices?: Device[];
-  nextToken?: string;
+  devices?: Device[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListDevicesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    devices: S.optional(Devices),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDevicesResult",
-}) as any as S.Schema<ListDevicesResult>;
 export interface ListInstanceProfilesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
-export const ListInstanceProfilesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListInstanceProfilesRequest",
-}) as any as S.Schema<ListInstanceProfilesRequest>;
 export type InstanceProfiles = InstanceProfile[];
-export const InstanceProfiles = /*@__PURE__*/ S.Array(InstanceProfile);
 export interface ListInstanceProfilesResult {
-  instanceProfiles?: InstanceProfile[];
-  nextToken?: string;
+  instanceProfiles?: InstanceProfile[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListInstanceProfilesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceProfiles: S.optional(InstanceProfiles),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListInstanceProfilesResult",
-}) as any as S.Schema<ListInstanceProfilesResult>;
 export interface ListJobsRequest {
   arn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListJobsRequest",
-}) as any as S.Schema<ListJobsRequest>;
 export type Jobs = Job[];
-export const Jobs = /*@__PURE__*/ S.Array(Job);
 export interface ListJobsResult {
-  jobs?: Job[];
-  nextToken?: string;
+  jobs?: Job[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListJobsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobs: S.optional(Jobs), nextToken: S.optional(S.String) }).pipe(
-    ns,
-  ),
-).annotate({ identifier: "ListJobsResult" }) as any as S.Schema<ListJobsResult>;
 export interface ListNetworkProfilesRequest {
   arn: string;
-  type?: NetworkProfileType;
-  nextToken?: string;
+  type?: NetworkProfileType | undefined;
+  nextToken?: string | undefined;
 }
-export const ListNetworkProfilesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    type: S.optional(NetworkProfileType),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListNetworkProfilesRequest",
-}) as any as S.Schema<ListNetworkProfilesRequest>;
 export type NetworkProfiles = NetworkProfile[];
-export const NetworkProfiles = /*@__PURE__*/ S.Array(NetworkProfile);
 export interface ListNetworkProfilesResult {
-  networkProfiles?: NetworkProfile[];
-  nextToken?: string;
+  networkProfiles?: NetworkProfile[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListNetworkProfilesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    networkProfiles: S.optional(NetworkProfiles),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListNetworkProfilesResult",
-}) as any as S.Schema<ListNetworkProfilesResult>;
 export interface ListOfferingPromotionsRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListOfferingPromotionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListOfferingPromotionsRequest",
-}) as any as S.Schema<ListOfferingPromotionsRequest>;
 export type OfferingPromotionIdentifier = string;
 export interface OfferingPromotion {
-  id?: string;
-  description?: string;
+  id?: string | undefined;
+  description?: string | undefined;
 }
-export const OfferingPromotion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.optional(S.String), description: S.optional(S.String) }),
-).annotate({
-  identifier: "OfferingPromotion",
-}) as any as S.Schema<OfferingPromotion>;
 export type OfferingPromotions = OfferingPromotion[];
-export const OfferingPromotions = /*@__PURE__*/ S.Array(OfferingPromotion);
 export interface ListOfferingPromotionsResult {
-  offeringPromotions?: OfferingPromotion[];
-  nextToken?: string;
+  offeringPromotions?: OfferingPromotion[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListOfferingPromotionsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    offeringPromotions: S.optional(OfferingPromotions),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListOfferingPromotionsResult",
-}) as any as S.Schema<ListOfferingPromotionsResult>;
 export interface ListOfferingsRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListOfferingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListOfferingsRequest",
-}) as any as S.Schema<ListOfferingsRequest>;
 export type Offerings = Offering[];
-export const Offerings = /*@__PURE__*/ S.Array(Offering);
 export interface ListOfferingsResult {
-  offerings?: Offering[];
-  nextToken?: string;
+  offerings?: Offering[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListOfferingsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    offerings: S.optional(Offerings),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListOfferingsResult",
-}) as any as S.Schema<ListOfferingsResult>;
 export interface ListOfferingTransactionsRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListOfferingTransactionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListOfferingTransactionsRequest",
-}) as any as S.Schema<ListOfferingTransactionsRequest>;
 export type TransactionIdentifier = string;
 export interface OfferingTransaction {
-  offeringStatus?: OfferingStatus;
-  transactionId?: string;
-  offeringPromotionId?: string;
-  createdOn?: Date;
-  cost?: MonetaryAmount;
+  offeringStatus?: OfferingStatus | undefined;
+  transactionId?: string | undefined;
+  offeringPromotionId?: string | undefined;
+  createdOn?: Date | undefined;
+  cost?: MonetaryAmount | undefined;
 }
-export const OfferingTransaction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    offeringStatus: S.optional(OfferingStatus),
-    transactionId: S.optional(S.String),
-    offeringPromotionId: S.optional(S.String),
-    createdOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    cost: S.optional(MonetaryAmount),
-  }),
-).annotate({
-  identifier: "OfferingTransaction",
-}) as any as S.Schema<OfferingTransaction>;
 export type OfferingTransactions = OfferingTransaction[];
-export const OfferingTransactions = /*@__PURE__*/ S.Array(OfferingTransaction);
 export interface ListOfferingTransactionsResult {
-  offeringTransactions?: OfferingTransaction[];
-  nextToken?: string;
+  offeringTransactions?: OfferingTransaction[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListOfferingTransactionsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    offeringTransactions: S.optional(OfferingTransactions),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListOfferingTransactionsResult",
-}) as any as S.Schema<ListOfferingTransactionsResult>;
 export interface ListProjectsRequest {
-  arn?: string;
-  nextToken?: string;
+  arn?: string | undefined;
+  nextToken?: string | undefined;
 }
-export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.optional(S.String), nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListProjectsRequest",
-}) as any as S.Schema<ListProjectsRequest>;
 export type Projects = Project[];
-export const Projects = /*@__PURE__*/ S.Array(Project);
 export interface ListProjectsResult {
-  projects?: Project[];
-  nextToken?: string;
+  projects?: Project[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListProjectsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projects: S.optional(Projects),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListProjectsResult",
-}) as any as S.Schema<ListProjectsResult>;
 export interface ListRemoteAccessSessionsRequest {
   arn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListRemoteAccessSessionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRemoteAccessSessionsRequest",
-}) as any as S.Schema<ListRemoteAccessSessionsRequest>;
 export type RemoteAccessSessions = RemoteAccessSession[];
-export const RemoteAccessSessions = /*@__PURE__*/ S.Array(RemoteAccessSession);
 export interface ListRemoteAccessSessionsResult {
-  remoteAccessSessions?: RemoteAccessSession[];
-  nextToken?: string;
+  remoteAccessSessions?: RemoteAccessSession[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListRemoteAccessSessionsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    remoteAccessSessions: S.optional(RemoteAccessSessions),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListRemoteAccessSessionsResult",
-}) as any as S.Schema<ListRemoteAccessSessionsResult>;
 export interface ListRunsRequest {
   arn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListRunsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRunsRequest",
-}) as any as S.Schema<ListRunsRequest>;
 export type Runs = Run[];
-export const Runs = /*@__PURE__*/ S.Array(Run);
 export interface ListRunsResult {
-  runs?: Run[];
-  nextToken?: string;
+  runs?: Run[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListRunsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ runs: S.optional(Runs), nextToken: S.optional(S.String) }).pipe(
-    ns,
-  ),
-).annotate({ identifier: "ListRunsResult" }) as any as S.Schema<ListRunsResult>;
 export interface ListSamplesRequest {
   arn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListSamplesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSamplesRequest",
-}) as any as S.Schema<ListSamplesRequest>;
 export type SampleType =
   | "CPU"
   | "MEMORY"
@@ -3008,1051 +1204,312 @@ export type SampleType =
   | "OPENGL_AVG_DRAWTIME"
   | "OPENGL_MAX_DRAWTIME"
   | (string & {});
-export const SampleType = S.String;
-
 export interface Sample {
-  arn?: string;
-  type?: SampleType;
-  url?: string;
+  arn?: string | undefined;
+  type?: SampleType | undefined;
+  url?: string | undefined;
 }
-export const Sample = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    type: S.optional(SampleType),
-    url: S.optional(S.String),
-  }),
-).annotate({ identifier: "Sample" }) as any as S.Schema<Sample>;
 export type Samples = Sample[];
-export const Samples = /*@__PURE__*/ S.Array(Sample);
 export interface ListSamplesResult {
-  samples?: Sample[];
-  nextToken?: string;
+  samples?: Sample[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListSamplesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    samples: S.optional(Samples),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListSamplesResult",
-}) as any as S.Schema<ListSamplesResult>;
 export interface ListSuitesRequest {
   arn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListSuitesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSuitesRequest",
-}) as any as S.Schema<ListSuitesRequest>;
 export type Suites = Suite[];
-export const Suites = /*@__PURE__*/ S.Array(Suite);
 export interface ListSuitesResult {
-  suites?: Suite[];
-  nextToken?: string;
+  suites?: Suite[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListSuitesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suites: S.optional(Suites),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListSuitesResult",
-}) as any as S.Schema<ListSuitesResult>;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export type MaxPageSize = number;
 export interface ListTestGridProjectsRequest {
-  maxResult?: number;
-  nextToken?: string;
+  maxResult?: number | undefined;
+  nextToken?: string | undefined;
 }
-export const ListTestGridProjectsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResult: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTestGridProjectsRequest",
-}) as any as S.Schema<ListTestGridProjectsRequest>;
 export type TestGridProjects = TestGridProject[];
-export const TestGridProjects = /*@__PURE__*/ S.Array(TestGridProject);
 export interface ListTestGridProjectsResult {
-  testGridProjects?: TestGridProject[];
-  nextToken?: string;
+  testGridProjects?: TestGridProject[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListTestGridProjectsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    testGridProjects: S.optional(TestGridProjects),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTestGridProjectsResult",
-}) as any as S.Schema<ListTestGridProjectsResult>;
 export interface ListTestGridSessionActionsRequest {
   sessionArn: string;
-  maxResult?: number;
-  nextToken?: string;
+  maxResult?: number | undefined;
+  nextToken?: string | undefined;
 }
-export const ListTestGridSessionActionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionArn: S.String,
-    maxResult: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTestGridSessionActionsRequest",
-}) as any as S.Schema<ListTestGridSessionActionsRequest>;
 export interface TestGridSessionAction {
-  action?: string;
-  started?: Date;
-  duration?: number;
-  statusCode?: string;
-  requestMethod?: string;
+  action?: string | undefined;
+  started?: Date | undefined;
+  duration?: number | undefined;
+  statusCode?: string | undefined;
+  requestMethod?: string | undefined;
 }
-export const TestGridSessionAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    action: S.optional(S.String),
-    started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    duration: S.optional(S.Number),
-    statusCode: S.optional(S.String),
-    requestMethod: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TestGridSessionAction",
-}) as any as S.Schema<TestGridSessionAction>;
 export type TestGridSessionActions = TestGridSessionAction[];
-export const TestGridSessionActions = /*@__PURE__*/ S.Array(
-  TestGridSessionAction,
-);
 export interface ListTestGridSessionActionsResult {
-  actions?: TestGridSessionAction[];
-  nextToken?: string;
+  actions?: TestGridSessionAction[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListTestGridSessionActionsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    actions: S.optional(TestGridSessionActions),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTestGridSessionActionsResult",
-}) as any as S.Schema<ListTestGridSessionActionsResult>;
 export type TestGridSessionArtifactCategory = "VIDEO" | "LOG" | (string & {});
-export const TestGridSessionArtifactCategory = S.String;
-
 export interface ListTestGridSessionArtifactsRequest {
   sessionArn: string;
-  type?: TestGridSessionArtifactCategory;
-  maxResult?: number;
-  nextToken?: string;
+  type?: TestGridSessionArtifactCategory | undefined;
+  maxResult?: number | undefined;
+  nextToken?: string | undefined;
 }
-export const ListTestGridSessionArtifactsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionArn: S.String,
-    type: S.optional(TestGridSessionArtifactCategory),
-    maxResult: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTestGridSessionArtifactsRequest",
-}) as any as S.Schema<ListTestGridSessionArtifactsRequest>;
-export type TestGridSessionArtifactType =
-  | "UNKNOWN"
-  | "VIDEO"
-  | "SELENIUM_LOG"
-  | (string & {});
-export const TestGridSessionArtifactType = S.String;
-
+export type TestGridSessionArtifactType = "UNKNOWN" | "VIDEO" | "SELENIUM_LOG" | (string & {});
 export interface TestGridSessionArtifact {
-  filename?: string;
-  type?: TestGridSessionArtifactType;
-  url?: string | redacted.Redacted<string>;
+  filename?: string | undefined;
+  type?: TestGridSessionArtifactType | undefined;
+  url?: string | redacted.Redacted<string> | undefined;
 }
-export const TestGridSessionArtifact = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filename: S.optional(S.String),
-    type: S.optional(TestGridSessionArtifactType),
-    url: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "TestGridSessionArtifact",
-}) as any as S.Schema<TestGridSessionArtifact>;
 export type TestGridSessionArtifacts = TestGridSessionArtifact[];
-export const TestGridSessionArtifacts = /*@__PURE__*/ S.Array(
-  TestGridSessionArtifact,
-);
 export interface ListTestGridSessionArtifactsResult {
-  artifacts?: TestGridSessionArtifact[];
-  nextToken?: string;
+  artifacts?: TestGridSessionArtifact[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListTestGridSessionArtifactsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    artifacts: S.optional(TestGridSessionArtifacts),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTestGridSessionArtifactsResult",
-}) as any as S.Schema<ListTestGridSessionArtifactsResult>;
 export interface ListTestGridSessionsRequest {
   projectArn: string;
-  status?: TestGridSessionStatus;
-  creationTimeAfter?: Date;
-  creationTimeBefore?: Date;
-  endTimeAfter?: Date;
-  endTimeBefore?: Date;
-  maxResult?: number;
-  nextToken?: string;
+  status?: TestGridSessionStatus | undefined;
+  creationTimeAfter?: Date | undefined;
+  creationTimeBefore?: Date | undefined;
+  endTimeAfter?: Date | undefined;
+  endTimeBefore?: Date | undefined;
+  maxResult?: number | undefined;
+  nextToken?: string | undefined;
 }
-export const ListTestGridSessionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectArn: S.String,
-    status: S.optional(TestGridSessionStatus),
-    creationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    creationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    endTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    endTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    maxResult: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTestGridSessionsRequest",
-}) as any as S.Schema<ListTestGridSessionsRequest>;
 export type TestGridSessions = TestGridSession[];
-export const TestGridSessions = /*@__PURE__*/ S.Array(TestGridSession);
 export interface ListTestGridSessionsResult {
-  testGridSessions?: TestGridSession[];
-  nextToken?: string;
+  testGridSessions?: TestGridSession[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListTestGridSessionsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    testGridSessions: S.optional(TestGridSessions),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTestGridSessionsResult",
-}) as any as S.Schema<ListTestGridSessionsResult>;
 export interface ListTestsRequest {
   arn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListTestsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTestsRequest",
-}) as any as S.Schema<ListTestsRequest>;
 export type Tests = Test[];
-export const Tests = /*@__PURE__*/ S.Array(Test);
 export interface ListTestsResult {
-  tests?: Test[];
-  nextToken?: string;
+  tests?: Test[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListTestsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tests: S.optional(Tests), nextToken: S.optional(S.String) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "ListTestsResult",
-}) as any as S.Schema<ListTestsResult>;
 export interface ListUniqueProblemsRequest {
   arn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListUniqueProblemsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListUniqueProblemsRequest",
-}) as any as S.Schema<ListUniqueProblemsRequest>;
 export interface ProblemDetail {
-  arn?: string;
-  name?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
 }
-export const ProblemDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.optional(S.String), name: S.optional(S.String) }),
-).annotate({ identifier: "ProblemDetail" }) as any as S.Schema<ProblemDetail>;
 export interface Problem {
-  run?: ProblemDetail;
-  job?: ProblemDetail;
-  suite?: ProblemDetail;
-  test?: ProblemDetail;
-  device?: Device;
-  result?: ExecutionResult;
-  message?: string;
+  run?: ProblemDetail | undefined;
+  job?: ProblemDetail | undefined;
+  suite?: ProblemDetail | undefined;
+  test?: ProblemDetail | undefined;
+  device?: Device | undefined;
+  result?: ExecutionResult | undefined;
+  message?: string | undefined;
 }
-export const Problem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    run: S.optional(ProblemDetail),
-    job: S.optional(ProblemDetail),
-    suite: S.optional(ProblemDetail),
-    test: S.optional(ProblemDetail),
-    device: S.optional(Device),
-    result: S.optional(ExecutionResult),
-    message: S.optional(S.String),
-  }),
-).annotate({ identifier: "Problem" }) as any as S.Schema<Problem>;
 export type Problems = Problem[];
-export const Problems = /*@__PURE__*/ S.Array(Problem);
 export interface UniqueProblem {
-  message?: string;
-  problems?: Problem[];
+  message?: string | undefined;
+  problems?: Problem[] | undefined;
 }
-export const UniqueProblem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ message: S.optional(S.String), problems: S.optional(Problems) }),
-).annotate({ identifier: "UniqueProblem" }) as any as S.Schema<UniqueProblem>;
 export type UniqueProblems = UniqueProblem[];
-export const UniqueProblems = /*@__PURE__*/ S.Array(UniqueProblem);
 export type UniqueProblemsByExecutionResultMap = {
-  [key in ExecutionResult]?: UniqueProblem[];
+  [key in ExecutionResult]?: UniqueProblem[] | undefined;
 };
-export const UniqueProblemsByExecutionResultMap = /*@__PURE__*/ S.Record(
-  ExecutionResult,
-  UniqueProblems.pipe(S.optional),
-);
 export interface ListUniqueProblemsResult {
-  uniqueProblems?: { [key: string]: UniqueProblem[] | undefined };
-  nextToken?: string;
+  uniqueProblems?: { [key: string]: UniqueProblem[] | undefined } | undefined;
+  nextToken?: string | undefined;
 }
-export const ListUniqueProblemsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uniqueProblems: S.optional(UniqueProblemsByExecutionResultMap),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListUniqueProblemsResult",
-}) as any as S.Schema<ListUniqueProblemsResult>;
 export interface ListUploadsRequest {
   arn: string;
-  type?: UploadType;
-  nextToken?: string;
+  type?: UploadType | undefined;
+  nextToken?: string | undefined;
 }
-export const ListUploadsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    type: S.optional(UploadType),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListUploadsRequest",
-}) as any as S.Schema<ListUploadsRequest>;
 export type Uploads = Upload[];
-export const Uploads = /*@__PURE__*/ S.Array(Upload);
 export interface ListUploadsResult {
-  uploads?: Upload[];
-  nextToken?: string;
+  uploads?: Upload[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListUploadsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uploads: S.optional(Uploads),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListUploadsResult",
-}) as any as S.Schema<ListUploadsResult>;
 export interface ListVPCEConfigurationsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
-export const ListVPCEConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListVPCEConfigurationsRequest",
-}) as any as S.Schema<ListVPCEConfigurationsRequest>;
 export type VPCEConfigurations = VPCEConfiguration[];
-export const VPCEConfigurations = /*@__PURE__*/ S.Array(VPCEConfiguration);
 export interface ListVPCEConfigurationsResult {
-  vpceConfigurations?: VPCEConfiguration[];
-  nextToken?: string;
+  vpceConfigurations?: VPCEConfiguration[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListVPCEConfigurationsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vpceConfigurations: S.optional(VPCEConfigurations),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListVPCEConfigurationsResult",
-}) as any as S.Schema<ListVPCEConfigurationsResult>;
 export interface PurchaseOfferingRequest {
   offeringId: string;
   quantity: number;
-  offeringPromotionId?: string;
+  offeringPromotionId?: string | undefined;
 }
-export const PurchaseOfferingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    offeringId: S.String,
-    quantity: S.Number,
-    offeringPromotionId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PurchaseOfferingRequest",
-}) as any as S.Schema<PurchaseOfferingRequest>;
 export interface PurchaseOfferingResult {
-  offeringTransaction?: OfferingTransaction;
+  offeringTransaction?: OfferingTransaction | undefined;
 }
-export const PurchaseOfferingResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ offeringTransaction: S.optional(OfferingTransaction) }).pipe(ns),
-).annotate({
-  identifier: "PurchaseOfferingResult",
-}) as any as S.Schema<PurchaseOfferingResult>;
 export interface RenewOfferingRequest {
   offeringId: string;
   quantity: number;
 }
-export const RenewOfferingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ offeringId: S.String, quantity: S.Number }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RenewOfferingRequest",
-}) as any as S.Schema<RenewOfferingRequest>;
 export interface RenewOfferingResult {
-  offeringTransaction?: OfferingTransaction;
+  offeringTransaction?: OfferingTransaction | undefined;
 }
-export const RenewOfferingResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ offeringTransaction: S.optional(OfferingTransaction) }).pipe(ns),
-).annotate({
-  identifier: "RenewOfferingResult",
-}) as any as S.Schema<RenewOfferingResult>;
 export interface DeviceSelectionConfiguration {
   filters: DeviceFilter[];
   maxDevices: number;
 }
-export const DeviceSelectionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ filters: DeviceFilters, maxDevices: S.Number }),
-).annotate({
-  identifier: "DeviceSelectionConfiguration",
-}) as any as S.Schema<DeviceSelectionConfiguration>;
 export type AccountsCleanup = boolean;
 export type AppPackagesCleanup = boolean;
 export interface ExecutionConfiguration {
-  jobTimeoutMinutes?: number;
-  accountsCleanup?: boolean;
-  appPackagesCleanup?: boolean;
-  videoCapture?: boolean;
-  skipAppResign?: boolean;
+  jobTimeoutMinutes?: number | undefined;
+  accountsCleanup?: boolean | undefined;
+  appPackagesCleanup?: boolean | undefined;
+  videoCapture?: boolean | undefined;
+  skipAppResign?: boolean | undefined;
 }
-export const ExecutionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobTimeoutMinutes: S.optional(S.Number),
-    accountsCleanup: S.optional(S.Boolean),
-    appPackagesCleanup: S.optional(S.Boolean),
-    videoCapture: S.optional(S.Boolean),
-    skipAppResign: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ExecutionConfiguration",
-}) as any as S.Schema<ExecutionConfiguration>;
 export interface ScheduleRunRequest {
   projectArn: string;
-  appArn?: string;
-  devicePoolArn?: string;
-  deviceSelectionConfiguration?: DeviceSelectionConfiguration;
-  name?: string;
+  appArn?: string | undefined;
+  devicePoolArn?: string | undefined;
+  deviceSelectionConfiguration?: DeviceSelectionConfiguration | undefined;
+  name?: string | undefined;
   test: ScheduleRunTest;
-  configuration?: ScheduleRunConfiguration;
-  executionConfiguration?: ExecutionConfiguration;
+  configuration?: ScheduleRunConfiguration | undefined;
+  executionConfiguration?: ExecutionConfiguration | undefined;
 }
-export const ScheduleRunRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectArn: S.String,
-    appArn: S.optional(S.String),
-    devicePoolArn: S.optional(S.String),
-    deviceSelectionConfiguration: S.optional(DeviceSelectionConfiguration),
-    name: S.optional(S.String),
-    test: ScheduleRunTest,
-    configuration: S.optional(ScheduleRunConfiguration),
-    executionConfiguration: S.optional(ExecutionConfiguration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ScheduleRunRequest",
-}) as any as S.Schema<ScheduleRunRequest>;
 export interface ScheduleRunResult {
-  run?: Run;
+  run?: Run | undefined;
 }
-export const ScheduleRunResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ run: S.optional(Run) }).pipe(ns),
-).annotate({
-  identifier: "ScheduleRunResult",
-}) as any as S.Schema<ScheduleRunResult>;
 export interface StopJobRequest {
   arn: string;
 }
-export const StopJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "StopJobRequest" }) as any as S.Schema<StopJobRequest>;
 export interface StopJobResult {
-  job?: Job;
+  job?: Job | undefined;
 }
-export const StopJobResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ job: S.optional(Job) }).pipe(ns),
-).annotate({ identifier: "StopJobResult" }) as any as S.Schema<StopJobResult>;
 export interface StopRemoteAccessSessionRequest {
   arn: string;
 }
-export const StopRemoteAccessSessionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopRemoteAccessSessionRequest",
-}) as any as S.Schema<StopRemoteAccessSessionRequest>;
 export interface StopRemoteAccessSessionResult {
-  remoteAccessSession?: RemoteAccessSession;
+  remoteAccessSession?: RemoteAccessSession | undefined;
 }
-export const StopRemoteAccessSessionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ remoteAccessSession: S.optional(RemoteAccessSession) }).pipe(ns),
-).annotate({
-  identifier: "StopRemoteAccessSessionResult",
-}) as any as S.Schema<StopRemoteAccessSessionResult>;
 export interface StopRunRequest {
   arn: string;
 }
-export const StopRunRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "StopRunRequest" }) as any as S.Schema<StopRunRequest>;
 export interface StopRunResult {
-  run?: Run;
+  run?: Run | undefined;
 }
-export const StopRunResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ run: S.optional(Run) }).pipe(ns),
-).annotate({ identifier: "StopRunResult" }) as any as S.Schema<StopRunResult>;
 export interface TagResourceRequest {
   ResourceARN: string;
   Tags: Tag[];
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceARN: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDeviceInstanceRequest {
   arn: string;
-  profileArn?: string;
-  labels?: string[];
+  profileArn?: string | undefined;
+  labels?: string[] | undefined;
 }
-export const UpdateDeviceInstanceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    profileArn: S.optional(S.String),
-    labels: S.optional(InstanceLabels),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDeviceInstanceRequest",
-}) as any as S.Schema<UpdateDeviceInstanceRequest>;
 export interface UpdateDeviceInstanceResult {
-  deviceInstance?: DeviceInstance;
+  deviceInstance?: DeviceInstance | undefined;
 }
-export const UpdateDeviceInstanceResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ deviceInstance: S.optional(DeviceInstance) }).pipe(ns),
-).annotate({
-  identifier: "UpdateDeviceInstanceResult",
-}) as any as S.Schema<UpdateDeviceInstanceResult>;
 export interface UpdateDevicePoolRequest {
   arn: string;
-  name?: string;
-  description?: string;
-  rules?: Rule[];
-  maxDevices?: number;
-  clearMaxDevices?: boolean;
+  name?: string | undefined;
+  description?: string | undefined;
+  rules?: Rule[] | undefined;
+  maxDevices?: number | undefined;
+  clearMaxDevices?: boolean | undefined;
 }
-export const UpdateDevicePoolRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    rules: S.optional(Rules),
-    maxDevices: S.optional(S.Number),
-    clearMaxDevices: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDevicePoolRequest",
-}) as any as S.Schema<UpdateDevicePoolRequest>;
 export interface UpdateDevicePoolResult {
-  devicePool?: DevicePool;
+  devicePool?: DevicePool | undefined;
 }
-export const UpdateDevicePoolResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ devicePool: S.optional(DevicePool) }).pipe(ns),
-).annotate({
-  identifier: "UpdateDevicePoolResult",
-}) as any as S.Schema<UpdateDevicePoolResult>;
 export interface UpdateInstanceProfileRequest {
   arn: string;
-  name?: string;
-  description?: string;
-  packageCleanup?: boolean;
-  excludeAppPackagesFromCleanup?: string[];
-  rebootAfterUse?: boolean;
+  name?: string | undefined;
+  description?: string | undefined;
+  packageCleanup?: boolean | undefined;
+  excludeAppPackagesFromCleanup?: string[] | undefined;
+  rebootAfterUse?: boolean | undefined;
 }
-export const UpdateInstanceProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    packageCleanup: S.optional(S.Boolean),
-    excludeAppPackagesFromCleanup: S.optional(PackageIds),
-    rebootAfterUse: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateInstanceProfileRequest",
-}) as any as S.Schema<UpdateInstanceProfileRequest>;
 export interface UpdateInstanceProfileResult {
-  instanceProfile?: InstanceProfile;
+  instanceProfile?: InstanceProfile | undefined;
 }
-export const UpdateInstanceProfileResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ instanceProfile: S.optional(InstanceProfile) }).pipe(ns),
-).annotate({
-  identifier: "UpdateInstanceProfileResult",
-}) as any as S.Schema<UpdateInstanceProfileResult>;
 export interface UpdateNetworkProfileRequest {
   arn: string;
-  name?: string;
-  description?: string;
-  type?: NetworkProfileType;
-  uplinkBandwidthBits?: number;
-  downlinkBandwidthBits?: number;
-  uplinkDelayMs?: number;
-  downlinkDelayMs?: number;
-  uplinkJitterMs?: number;
-  downlinkJitterMs?: number;
-  uplinkLossPercent?: number;
-  downlinkLossPercent?: number;
+  name?: string | undefined;
+  description?: string | undefined;
+  type?: NetworkProfileType | undefined;
+  uplinkBandwidthBits?: number | undefined;
+  downlinkBandwidthBits?: number | undefined;
+  uplinkDelayMs?: number | undefined;
+  downlinkDelayMs?: number | undefined;
+  uplinkJitterMs?: number | undefined;
+  downlinkJitterMs?: number | undefined;
+  uplinkLossPercent?: number | undefined;
+  downlinkLossPercent?: number | undefined;
 }
-export const UpdateNetworkProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    type: S.optional(NetworkProfileType),
-    uplinkBandwidthBits: S.optional(S.Number),
-    downlinkBandwidthBits: S.optional(S.Number),
-    uplinkDelayMs: S.optional(S.Number),
-    downlinkDelayMs: S.optional(S.Number),
-    uplinkJitterMs: S.optional(S.Number),
-    downlinkJitterMs: S.optional(S.Number),
-    uplinkLossPercent: S.optional(S.Number),
-    downlinkLossPercent: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateNetworkProfileRequest",
-}) as any as S.Schema<UpdateNetworkProfileRequest>;
 export interface UpdateNetworkProfileResult {
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
 }
-export const UpdateNetworkProfileResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ networkProfile: S.optional(NetworkProfile) }).pipe(ns),
-).annotate({
-  identifier: "UpdateNetworkProfileResult",
-}) as any as S.Schema<UpdateNetworkProfileResult>;
 export interface UpdateProjectRequest {
   arn: string;
-  name?: string;
-  defaultJobTimeoutMinutes?: number;
-  vpcConfig?: VpcConfig;
-  environmentVariables?: EnvironmentVariable[];
-  executionRoleArn?: string;
+  name?: string | undefined;
+  defaultJobTimeoutMinutes?: number | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  environmentVariables?: EnvironmentVariable[] | undefined;
+  executionRoleArn?: string | undefined;
 }
-export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    defaultJobTimeoutMinutes: S.optional(S.Number),
-    vpcConfig: S.optional(VpcConfig),
-    environmentVariables: S.optional(EnvironmentVariables),
-    executionRoleArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateProjectRequest",
-}) as any as S.Schema<UpdateProjectRequest>;
 export interface UpdateProjectResult {
-  project?: Project;
+  project?: Project | undefined;
 }
-export const UpdateProjectResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ project: S.optional(Project) }).pipe(ns),
-).annotate({
-  identifier: "UpdateProjectResult",
-}) as any as S.Schema<UpdateProjectResult>;
 export interface UpdateTestGridProjectRequest {
   projectArn: string;
-  name?: string;
-  description?: string;
-  vpcConfig?: TestGridVpcConfig;
+  name?: string | undefined;
+  description?: string | undefined;
+  vpcConfig?: TestGridVpcConfig | undefined;
 }
-export const UpdateTestGridProjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectArn: S.String,
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    vpcConfig: S.optional(TestGridVpcConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateTestGridProjectRequest",
-}) as any as S.Schema<UpdateTestGridProjectRequest>;
 export interface UpdateTestGridProjectResult {
-  testGridProject?: TestGridProject;
+  testGridProject?: TestGridProject | undefined;
 }
-export const UpdateTestGridProjectResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ testGridProject: S.optional(TestGridProject) }).pipe(ns),
-).annotate({
-  identifier: "UpdateTestGridProjectResult",
-}) as any as S.Schema<UpdateTestGridProjectResult>;
 export interface UpdateUploadRequest {
   arn: string;
-  name?: string;
-  contentType?: string;
-  editContent?: boolean;
+  name?: string | undefined;
+  contentType?: string | undefined;
+  editContent?: boolean | undefined;
 }
-export const UpdateUploadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    contentType: S.optional(S.String),
-    editContent: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateUploadRequest",
-}) as any as S.Schema<UpdateUploadRequest>;
 export interface UpdateUploadResult {
-  upload?: Upload;
+  upload?: Upload | undefined;
 }
-export const UpdateUploadResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ upload: S.optional(Upload) }).pipe(ns),
-).annotate({
-  identifier: "UpdateUploadResult",
-}) as any as S.Schema<UpdateUploadResult>;
 export interface UpdateVPCEConfigurationRequest {
   arn: string;
-  vpceConfigurationName?: string;
-  vpceServiceName?: string;
-  serviceDnsName?: string;
-  vpceConfigurationDescription?: string;
+  vpceConfigurationName?: string | undefined;
+  vpceServiceName?: string | undefined;
+  serviceDnsName?: string | undefined;
+  vpceConfigurationDescription?: string | undefined;
 }
-export const UpdateVPCEConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    vpceConfigurationName: S.optional(S.String),
-    vpceServiceName: S.optional(S.String),
-    serviceDnsName: S.optional(S.String),
-    vpceConfigurationDescription: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateVPCEConfigurationRequest",
-}) as any as S.Schema<UpdateVPCEConfigurationRequest>;
 export interface UpdateVPCEConfigurationResult {
-  vpceConfiguration?: VPCEConfiguration;
+  vpceConfiguration?: VPCEConfiguration | undefined;
 }
-export const UpdateVPCEConfigurationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ vpceConfiguration: S.optional(VPCEConfiguration) }).pipe(ns),
-).annotate({
-  identifier: "UpdateVPCEConfigurationResult",
-}) as any as S.Schema<UpdateVPCEConfigurationResult>;
 export type ExceptionMessage = string;
 export type CreateDevicePoolError =
   | ArgumentException
@@ -4064,22 +1521,19 @@ export type CreateDevicePoolError =
  * Creates a device pool.
  */
 export const createDevicePool: API.OperationMethod<
-  CreateDevicePoolRequest,
+  CreateDevicePoolRequest & RegionInput,
   CreateDevicePoolResult,
   CreateDevicePoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDevicePoolRequest,
-  output: CreateDevicePoolResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(0, __c0, 0) as any as S.Schema<CreateDevicePoolRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<CreateDevicePoolResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDevicePool",
+  telemetry: TELEMETRY,
+  span: "CreateDevicePool",
 }));
 
 export type CreateInstanceProfileError =
@@ -4093,22 +1547,19 @@ export type CreateInstanceProfileError =
  * instances.
  */
 export const createInstanceProfile: API.OperationMethod<
-  CreateInstanceProfileRequest,
+  CreateInstanceProfileRequest & RegionInput,
   CreateInstanceProfileResult,
   CreateInstanceProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateInstanceProfileRequest,
-  output: CreateInstanceProfileResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(24, __c3, 0) as any as S.Schema<CreateInstanceProfileRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<CreateInstanceProfileResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstanceProfile",
+  telemetry: TELEMETRY,
+  span: "CreateInstanceProfile",
 }));
 
 export type CreateNetworkProfileError =
@@ -4121,22 +1572,19 @@ export type CreateNetworkProfileError =
  * Creates a network profile.
  */
 export const createNetworkProfile: API.OperationMethod<
-  CreateNetworkProfileRequest,
+  CreateNetworkProfileRequest & RegionInput,
   CreateNetworkProfileResult,
   CreateNetworkProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateNetworkProfileRequest,
-  output: CreateNetworkProfileResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(56, __c7, 0) as any as S.Schema<CreateNetworkProfileRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<CreateNetworkProfileResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkProfile",
+  telemetry: TELEMETRY,
+  span: "CreateNetworkProfile",
 }));
 
 export type CreateProjectError =
@@ -4150,13 +1598,13 @@ export type CreateProjectError =
  * Creates a project.
  */
 export const createProject: API.OperationMethod<
-  CreateProjectRequest,
+  CreateProjectRequest & RegionInput,
   CreateProjectResult,
   CreateProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateProjectRequest,
-  output: CreateProjectResult,
+  input: __S(80, __c10, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<CreateProjectResult>,
   errors: [
     ArgumentException,
     LimitExceededException,
@@ -4167,6 +1615,8 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateRemoteAccessSessionError =
@@ -4179,22 +1629,19 @@ export type CreateRemoteAccessSessionError =
  * Specifies and starts a remote access session.
  */
 export const createRemoteAccessSession: API.OperationMethod<
-  CreateRemoteAccessSessionRequest,
+  CreateRemoteAccessSessionRequest & RegionInput,
   CreateRemoteAccessSessionResult,
   CreateRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRemoteAccessSessionRequest,
-  output: CreateRemoteAccessSessionResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(121, __c15, 1) as any as S.Schema<CreateRemoteAccessSessionRequest>,
+  output: __S(184, __c23, 0) as any as S.Schema<CreateRemoteAccessSessionResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRemoteAccessSession",
+  telemetry: TELEMETRY,
+  span: "CreateRemoteAccessSession",
 }));
 
 export type CreateTestGridProjectError =
@@ -4207,17 +1654,19 @@ export type CreateTestGridProjectError =
  * instances.
  */
 export const createTestGridProject: API.OperationMethod<
-  CreateTestGridProjectRequest,
+  CreateTestGridProjectRequest & RegionInput,
   CreateTestGridProjectResult,
   CreateTestGridProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTestGridProjectRequest,
-  output: CreateTestGridProjectResult,
+  input: __S(192, __c24, 0) as any as S.Schema<CreateTestGridProjectRequest>,
+  output: __S(208, __c26, 0) as any as S.Schema<CreateTestGridProjectResult>,
   errors: [ArgumentException, InternalServiceException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTestGridProject",
+  telemetry: TELEMETRY,
+  span: "CreateTestGridProject",
 }));
 
 export type CreateTestGridUrlError =
@@ -4230,17 +1679,19 @@ export type CreateTestGridUrlError =
  * constructor.
  */
 export const createTestGridUrl: API.OperationMethod<
-  CreateTestGridUrlRequest,
+  CreateTestGridUrlRequest & RegionInput,
   CreateTestGridUrlResult,
   CreateTestGridUrlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTestGridUrlRequest,
-  output: CreateTestGridUrlResult,
+  input: __S(216, __c27, 0) as any as S.Schema<CreateTestGridUrlRequest>,
+  output: __S(217, __c27, 1) as any as S.Schema<CreateTestGridUrlResult>,
   errors: [ArgumentException, InternalServiceException, NotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTestGridUrl",
+  telemetry: TELEMETRY,
+  span: "CreateTestGridUrl",
 }));
 
 export type CreateUploadError =
@@ -4253,22 +1704,19 @@ export type CreateUploadError =
  * Uploads an app or test scripts.
  */
 export const createUpload: API.OperationMethod<
-  CreateUploadRequest,
+  CreateUploadRequest & RegionInput,
   CreateUploadResult,
   CreateUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateUploadRequest,
-  output: CreateUploadResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(224, __c28, 0) as any as S.Schema<CreateUploadRequest>,
+  output: __S(240, __c30, 0) as any as S.Schema<CreateUploadResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUpload",
+  telemetry: TELEMETRY,
+  span: "CreateUpload",
 }));
 
 export type CreateVPCEConfigurationError =
@@ -4281,17 +1729,19 @@ export type CreateVPCEConfigurationError =
  * (VPC) endpoint.
  */
 export const createVPCEConfiguration: API.OperationMethod<
-  CreateVPCEConfigurationRequest,
+  CreateVPCEConfigurationRequest & RegionInput,
   CreateVPCEConfigurationResult,
   CreateVPCEConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateVPCEConfigurationRequest,
-  output: CreateVPCEConfigurationResult,
+  input: __S(248, __c31, 0) as any as S.Schema<CreateVPCEConfigurationRequest>,
+  output: __S(264, __c33, 0) as any as S.Schema<CreateVPCEConfigurationResult>,
   errors: [ArgumentException, LimitExceededException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVPCEConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateVPCEConfiguration",
 }));
 
 export type DeleteDevicePoolError =
@@ -4305,22 +1755,19 @@ export type DeleteDevicePoolError =
  * owned by the system.
  */
 export const deleteDevicePool: API.OperationMethod<
-  DeleteDevicePoolRequest,
+  DeleteDevicePoolRequest & RegionInput,
   DeleteDevicePoolResult,
   DeleteDevicePoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDevicePoolRequest,
-  output: DeleteDevicePoolResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(272, __c34, 0) as any as S.Schema<DeleteDevicePoolRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<DeleteDevicePoolResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDevicePool",
+  telemetry: TELEMETRY,
+  span: "DeleteDevicePool",
 }));
 
 export type DeleteInstanceProfileError =
@@ -4333,22 +1780,19 @@ export type DeleteInstanceProfileError =
  * Deletes a profile that can be applied to one or more private device instances.
  */
 export const deleteInstanceProfile: API.OperationMethod<
-  DeleteInstanceProfileRequest,
+  DeleteInstanceProfileRequest & RegionInput,
   DeleteInstanceProfileResult,
   DeleteInstanceProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteInstanceProfileRequest,
-  output: DeleteInstanceProfileResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(288, __c36, 0) as any as S.Schema<DeleteInstanceProfileRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<DeleteInstanceProfileResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteInstanceProfile",
 }));
 
 export type DeleteNetworkProfileError =
@@ -4361,22 +1805,19 @@ export type DeleteNetworkProfileError =
  * Deletes a network profile.
  */
 export const deleteNetworkProfile: API.OperationMethod<
-  DeleteNetworkProfileRequest,
+  DeleteNetworkProfileRequest & RegionInput,
   DeleteNetworkProfileResult,
   DeleteNetworkProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteNetworkProfileRequest,
-  output: DeleteNetworkProfileResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(296, __c37, 0) as any as S.Schema<DeleteNetworkProfileRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<DeleteNetworkProfileResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkProfile",
 }));
 
 export type DeleteProjectError =
@@ -4391,22 +1832,19 @@ export type DeleteProjectError =
  * You cannot undo this operation.
  */
 export const deleteProject: API.OperationMethod<
-  DeleteProjectRequest,
+  DeleteProjectRequest & RegionInput,
   DeleteProjectResult,
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteProjectRequest,
-  output: DeleteProjectResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(304, __c38, 0) as any as S.Schema<DeleteProjectRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<DeleteProjectResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteRemoteAccessSessionError =
@@ -4421,22 +1859,19 @@ export type DeleteRemoteAccessSessionError =
  * You cannot undo this operation.
  */
 export const deleteRemoteAccessSession: API.OperationMethod<
-  DeleteRemoteAccessSessionRequest,
+  DeleteRemoteAccessSessionRequest & RegionInput,
   DeleteRemoteAccessSessionResult,
   DeleteRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRemoteAccessSessionRequest,
-  output: DeleteRemoteAccessSessionResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(312, __c39, 0) as any as S.Schema<DeleteRemoteAccessSessionRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<DeleteRemoteAccessSessionResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRemoteAccessSession",
+  telemetry: TELEMETRY,
+  span: "DeleteRemoteAccessSession",
 }));
 
 export type DeleteRunError =
@@ -4451,22 +1886,19 @@ export type DeleteRunError =
  * You cannot undo this operation.
  */
 export const deleteRun: API.OperationMethod<
-  DeleteRunRequest,
+  DeleteRunRequest & RegionInput,
   DeleteRunResult,
   DeleteRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRunRequest,
-  output: DeleteRunResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(320, __c40, 0) as any as S.Schema<DeleteRunRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<DeleteRunResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRun",
+  telemetry: TELEMETRY,
+  span: "DeleteRun",
 }));
 
 export type DeleteTestGridProjectError =
@@ -4481,22 +1913,19 @@ export type DeleteTestGridProjectError =
  * You cannot undo this operation.
  */
 export const deleteTestGridProject: API.OperationMethod<
-  DeleteTestGridProjectRequest,
+  DeleteTestGridProjectRequest & RegionInput,
   DeleteTestGridProjectResult,
   DeleteTestGridProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTestGridProjectRequest,
-  output: DeleteTestGridProjectResult,
-  errors: [
-    ArgumentException,
-    CannotDeleteException,
-    InternalServiceException,
-    NotFoundException,
-  ],
+  input: __S(328, __c41, 0) as any as S.Schema<DeleteTestGridProjectRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<DeleteTestGridProjectResult>,
+  errors: [ArgumentException, CannotDeleteException, InternalServiceException, NotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTestGridProject",
+  telemetry: TELEMETRY,
+  span: "DeleteTestGridProject",
 }));
 
 export type DeleteUploadError =
@@ -4509,22 +1938,19 @@ export type DeleteUploadError =
  * Deletes an upload given the upload ARN.
  */
 export const deleteUpload: API.OperationMethod<
-  DeleteUploadRequest,
+  DeleteUploadRequest & RegionInput,
   DeleteUploadResult,
   DeleteUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteUploadRequest,
-  output: DeleteUploadResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(336, __c42, 0) as any as S.Schema<DeleteUploadRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<DeleteUploadResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUpload",
+  telemetry: TELEMETRY,
+  span: "DeleteUpload",
 }));
 
 export type DeleteVPCEConfigurationError =
@@ -4537,13 +1963,13 @@ export type DeleteVPCEConfigurationError =
  * Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
  */
 export const deleteVPCEConfiguration: API.OperationMethod<
-  DeleteVPCEConfigurationRequest,
+  DeleteVPCEConfigurationRequest & RegionInput,
   DeleteVPCEConfigurationResult,
   DeleteVPCEConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteVPCEConfigurationRequest,
-  output: DeleteVPCEConfigurationResult,
+  input: __S(344, __c43, 0) as any as S.Schema<DeleteVPCEConfigurationRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<DeleteVPCEConfigurationResult>,
   errors: [
     ArgumentException,
     InvalidOperationException,
@@ -4553,6 +1979,8 @@ export const deleteVPCEConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVPCEConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteVPCEConfiguration",
 }));
 
 export type GetAccountSettingsError =
@@ -4566,22 +1994,19 @@ export type GetAccountSettingsError =
  * account.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   GetAccountSettingsResult,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccountSettingsRequest,
-  output: GetAccountSettingsResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(352, __c44, 0) as any as S.Schema<GetAccountSettingsRequest>,
+  output: __S(357, __c44, 5) as any as S.Schema<GetAccountSettingsResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetDeviceError =
@@ -4594,22 +2019,19 @@ export type GetDeviceError =
  * Gets information about a unique device type.
  */
 export const getDevice: API.OperationMethod<
-  GetDeviceRequest,
+  GetDeviceRequest & RegionInput,
   GetDeviceResult,
   GetDeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDeviceRequest,
-  output: GetDeviceResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(360, __c45, 0) as any as S.Schema<GetDeviceRequest>,
+  output: __S(361, __c45, 1) as any as S.Schema<GetDeviceResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevice",
+  telemetry: TELEMETRY,
+  span: "GetDevice",
 }));
 
 export type GetDeviceInstanceError =
@@ -4622,22 +2044,19 @@ export type GetDeviceInstanceError =
  * Returns information about a device instance that belongs to a private device fleet.
  */
 export const getDeviceInstance: API.OperationMethod<
-  GetDeviceInstanceRequest,
+  GetDeviceInstanceRequest & RegionInput,
   GetDeviceInstanceResult,
   GetDeviceInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDeviceInstanceRequest,
-  output: GetDeviceInstanceResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(368, __c46, 0) as any as S.Schema<GetDeviceInstanceRequest>,
+  output: __S(376, __c47, 0) as any as S.Schema<GetDeviceInstanceResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceInstance",
+  telemetry: TELEMETRY,
+  span: "GetDeviceInstance",
 }));
 
 export type GetDevicePoolError =
@@ -4650,22 +2069,19 @@ export type GetDevicePoolError =
  * Gets information about a device pool.
  */
 export const getDevicePool: API.OperationMethod<
-  GetDevicePoolRequest,
+  GetDevicePoolRequest & RegionInput,
   GetDevicePoolResult,
   GetDevicePoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDevicePoolRequest,
-  output: GetDevicePoolResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(384, __c48, 0) as any as S.Schema<GetDevicePoolRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<GetDevicePoolResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevicePool",
+  telemetry: TELEMETRY,
+  span: "GetDevicePool",
 }));
 
 export type GetDevicePoolCompatibilityError =
@@ -4678,22 +2094,19 @@ export type GetDevicePoolCompatibilityError =
  * Gets information about compatibility with a device pool.
  */
 export const getDevicePoolCompatibility: API.OperationMethod<
-  GetDevicePoolCompatibilityRequest,
+  GetDevicePoolCompatibilityRequest & RegionInput,
   GetDevicePoolCompatibilityResult,
   GetDevicePoolCompatibilityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDevicePoolCompatibilityRequest,
-  output: GetDevicePoolCompatibilityResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(392, __c49, 0) as any as S.Schema<GetDevicePoolCompatibilityRequest>,
+  output: __S(397, __c49, 5) as any as S.Schema<GetDevicePoolCompatibilityResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevicePoolCompatibility",
+  telemetry: TELEMETRY,
+  span: "GetDevicePoolCompatibility",
 }));
 
 export type GetInstanceProfileError =
@@ -4706,22 +2119,19 @@ export type GetInstanceProfileError =
  * Returns information about the specified instance profile.
  */
 export const getInstanceProfile: API.OperationMethod<
-  GetInstanceProfileRequest,
+  GetInstanceProfileRequest & RegionInput,
   GetInstanceProfileResult,
   GetInstanceProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetInstanceProfileRequest,
-  output: GetInstanceProfileResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(416, __c52, 0) as any as S.Schema<GetInstanceProfileRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<GetInstanceProfileResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceProfile",
+  telemetry: TELEMETRY,
+  span: "GetInstanceProfile",
 }));
 
 export type GetJobError =
@@ -4734,22 +2144,19 @@ export type GetJobError =
  * Gets information about a job.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResult,
   GetJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetJobRequest,
-  output: GetJobResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(424, __c53, 0) as any as S.Schema<GetJobRequest>,
+  output: __S(448, __c56, 0) as any as S.Schema<GetJobResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetNetworkProfileError =
@@ -4762,22 +2169,19 @@ export type GetNetworkProfileError =
  * Returns information about a network profile.
  */
 export const getNetworkProfile: API.OperationMethod<
-  GetNetworkProfileRequest,
+  GetNetworkProfileRequest & RegionInput,
   GetNetworkProfileResult,
   GetNetworkProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetNetworkProfileRequest,
-  output: GetNetworkProfileResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(456, __c57, 0) as any as S.Schema<GetNetworkProfileRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<GetNetworkProfileResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkProfile",
+  telemetry: TELEMETRY,
+  span: "GetNetworkProfile",
 }));
 
 export type GetOfferingStatusError =
@@ -4794,14 +2198,14 @@ export type GetOfferingStatusError =
  * operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
 export const getOfferingStatus: API.PaginatedOperationMethod<
-  GetOfferingStatusRequest,
+  GetOfferingStatusRequest & RegionInput,
   GetOfferingStatusResult,
   GetOfferingStatusError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetOfferingStatusRequest,
-  output: GetOfferingStatusResult,
+  input: __S(464, __c58, 0) as any as S.Schema<GetOfferingStatusRequest>,
+  output: __S(466, __c58, 2) as any as S.Schema<GetOfferingStatusResult>,
   errors: [
     ArgumentException,
     LimitExceededException,
@@ -4813,6 +2217,8 @@ export const getOfferingStatus: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetOfferingStatus",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "GetOfferingStatus",
 })) as any;
 
 export type GetProjectError =
@@ -4825,22 +2231,19 @@ export type GetProjectError =
  * Gets information about a project.
  */
 export const getProject: API.OperationMethod<
-  GetProjectRequest,
+  GetProjectRequest & RegionInput,
   GetProjectResult,
   GetProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetProjectRequest,
-  output: GetProjectResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(488, __c61, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetProjectResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProject",
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetRemoteAccessSessionError =
@@ -4853,22 +2256,19 @@ export type GetRemoteAccessSessionError =
  * Returns a link to a currently running remote access session.
  */
 export const getRemoteAccessSession: API.OperationMethod<
-  GetRemoteAccessSessionRequest,
+  GetRemoteAccessSessionRequest & RegionInput,
   GetRemoteAccessSessionResult,
   GetRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRemoteAccessSessionRequest,
-  output: GetRemoteAccessSessionResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(496, __c62, 0) as any as S.Schema<GetRemoteAccessSessionRequest>,
+  output: __S(184, __c23, 0) as any as S.Schema<GetRemoteAccessSessionResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRemoteAccessSession",
+  telemetry: TELEMETRY,
+  span: "GetRemoteAccessSession",
 }));
 
 export type GetRunError =
@@ -4881,22 +2281,19 @@ export type GetRunError =
  * Gets information about a run.
  */
 export const getRun: API.OperationMethod<
-  GetRunRequest,
+  GetRunRequest & RegionInput,
   GetRunResult,
   GetRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRunRequest,
-  output: GetRunResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(504, __c63, 0) as any as S.Schema<GetRunRequest>,
+  output: __S(528, __c66, 0) as any as S.Schema<GetRunResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRun",
+  telemetry: TELEMETRY,
+  span: "GetRun",
 }));
 
 export type GetSuiteError =
@@ -4909,22 +2306,19 @@ export type GetSuiteError =
  * Gets information about a suite.
  */
 export const getSuite: API.OperationMethod<
-  GetSuiteRequest,
+  GetSuiteRequest & RegionInput,
   GetSuiteResult,
   GetSuiteError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSuiteRequest,
-  output: GetSuiteResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(536, __c67, 0) as any as S.Schema<GetSuiteRequest>,
+  output: __S(537, __c67, 1) as any as S.Schema<GetSuiteResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuite",
+  telemetry: TELEMETRY,
+  span: "GetSuite",
 }));
 
 export type GetTestError =
@@ -4937,22 +2331,19 @@ export type GetTestError =
  * Gets information about a test.
  */
 export const getTest: API.OperationMethod<
-  GetTestRequest,
+  GetTestRequest & RegionInput,
   GetTestResult,
   GetTestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTestRequest,
-  output: GetTestResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(552, __c69, 0) as any as S.Schema<GetTestRequest>,
+  output: __S(553, __c69, 1) as any as S.Schema<GetTestResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTest",
+  telemetry: TELEMETRY,
+  span: "GetTest",
 }));
 
 export type GetTestGridProjectError =
@@ -4964,17 +2355,19 @@ export type GetTestGridProjectError =
  * Retrieves information about a Selenium testing project.
  */
 export const getTestGridProject: API.OperationMethod<
-  GetTestGridProjectRequest,
+  GetTestGridProjectRequest & RegionInput,
   GetTestGridProjectResult,
   GetTestGridProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTestGridProjectRequest,
-  output: GetTestGridProjectResult,
+  input: __S(560, __c70, 0) as any as S.Schema<GetTestGridProjectRequest>,
+  output: __S(208, __c26, 0) as any as S.Schema<GetTestGridProjectResult>,
   errors: [ArgumentException, InternalServiceException, NotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTestGridProject",
+  telemetry: TELEMETRY,
+  span: "GetTestGridProject",
 }));
 
 export type GetTestGridSessionError =
@@ -4991,17 +2384,19 @@ export type GetTestGridSessionError =
  * - The project ARN and a session ID.
  */
 export const getTestGridSession: API.OperationMethod<
-  GetTestGridSessionRequest,
+  GetTestGridSessionRequest & RegionInput,
   GetTestGridSessionResult,
   GetTestGridSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTestGridSessionRequest,
-  output: GetTestGridSessionResult,
+  input: __S(568, __c71, 0) as any as S.Schema<GetTestGridSessionRequest>,
+  output: __S(569, __c71, 1) as any as S.Schema<GetTestGridSessionResult>,
   errors: [ArgumentException, InternalServiceException, NotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTestGridSession",
+  telemetry: TELEMETRY,
+  span: "GetTestGridSession",
 }));
 
 export type GetUploadError =
@@ -5014,22 +2409,19 @@ export type GetUploadError =
  * Gets information about an upload.
  */
 export const getUpload: API.OperationMethod<
-  GetUploadRequest,
+  GetUploadRequest & RegionInput,
   GetUploadResult,
   GetUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetUploadRequest,
-  output: GetUploadResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(584, __c73, 0) as any as S.Schema<GetUploadRequest>,
+  output: __S(240, __c30, 0) as any as S.Schema<GetUploadResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUpload",
+  telemetry: TELEMETRY,
+  span: "GetUpload",
 }));
 
 export type GetVPCEConfigurationError =
@@ -5042,17 +2434,19 @@ export type GetVPCEConfigurationError =
  * Cloud (VPC) endpoint.
  */
 export const getVPCEConfiguration: API.OperationMethod<
-  GetVPCEConfigurationRequest,
+  GetVPCEConfigurationRequest & RegionInput,
   GetVPCEConfigurationResult,
   GetVPCEConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetVPCEConfigurationRequest,
-  output: GetVPCEConfigurationResult,
+  input: __S(592, __c74, 0) as any as S.Schema<GetVPCEConfigurationRequest>,
+  output: __S(264, __c33, 0) as any as S.Schema<GetVPCEConfigurationResult>,
   errors: [ArgumentException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVPCEConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetVPCEConfiguration",
 }));
 
 export type InstallToRemoteAccessSessionError =
@@ -5067,22 +2461,19 @@ export type InstallToRemoteAccessSessionError =
  * .ipa format.
  */
 export const installToRemoteAccessSession: API.OperationMethod<
-  InstallToRemoteAccessSessionRequest,
+  InstallToRemoteAccessSessionRequest & RegionInput,
   InstallToRemoteAccessSessionResult,
   InstallToRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: InstallToRemoteAccessSessionRequest,
-  output: InstallToRemoteAccessSessionResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(600, __c75, 0) as any as S.Schema<InstallToRemoteAccessSessionRequest>,
+  output: __S(601, __c75, 1) as any as S.Schema<InstallToRemoteAccessSessionResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InstallToRemoteAccessSession",
+  telemetry: TELEMETRY,
+  span: "InstallToRemoteAccessSession",
 }));
 
 export type ListArtifactsError =
@@ -5095,28 +2486,21 @@ export type ListArtifactsError =
  * Gets information about artifacts.
  */
 export const listArtifacts: API.PaginatedOperationMethod<
-  ListArtifactsRequest,
+  ListArtifactsRequest & RegionInput,
   ListArtifactsResult,
   ListArtifactsError,
   Credentials | HttpClient.HttpClient,
   Artifact
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListArtifactsRequest,
-  output: ListArtifactsResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(608, __c76, 0) as any as S.Schema<ListArtifactsRequest>,
+  output: __S(611, __c76, 3) as any as S.Schema<ListArtifactsResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListArtifacts",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "artifacts",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "artifacts" } as const,
+  telemetry: TELEMETRY,
+  span: "ListArtifacts",
 })) as any;
 
 export type ListDeviceInstancesError =
@@ -5130,22 +2514,19 @@ export type ListDeviceInstancesError =
  * accounts.
  */
 export const listDeviceInstances: API.OperationMethod<
-  ListDeviceInstancesRequest,
+  ListDeviceInstancesRequest & RegionInput,
   ListDeviceInstancesResult,
   ListDeviceInstancesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDeviceInstancesRequest,
-  output: ListDeviceInstancesResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(616, __c77, 0) as any as S.Schema<ListDeviceInstancesRequest>,
+  output: __S(617, __c77, 1) as any as S.Schema<ListDeviceInstancesResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeviceInstances",
+  telemetry: TELEMETRY,
+  span: "ListDeviceInstances",
 }));
 
 export type ListDevicePoolsError =
@@ -5158,28 +2539,21 @@ export type ListDevicePoolsError =
  * Gets information about device pools.
  */
 export const listDevicePools: API.PaginatedOperationMethod<
-  ListDevicePoolsRequest,
+  ListDevicePoolsRequest & RegionInput,
   ListDevicePoolsResult,
   ListDevicePoolsError,
   Credentials | HttpClient.HttpClient,
   DevicePool
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDevicePoolsRequest,
-  output: ListDevicePoolsResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(624, __c78, 0) as any as S.Schema<ListDevicePoolsRequest>,
+  output: __S(626, __c78, 2) as any as S.Schema<ListDevicePoolsResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDevicePools",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "devicePools",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "devicePools" } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevicePools",
 })) as any;
 
 export type ListDevicesError =
@@ -5192,28 +2566,21 @@ export type ListDevicesError =
  * Gets information about unique device types.
  */
 export const listDevices: API.PaginatedOperationMethod<
-  ListDevicesRequest,
+  ListDevicesRequest & RegionInput,
   ListDevicesResult,
   ListDevicesError,
   Credentials | HttpClient.HttpClient,
   Device
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDevicesRequest,
-  output: ListDevicesResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(632, __c79, 0) as any as S.Schema<ListDevicesRequest>,
+  output: __S(634, __c79, 2) as any as S.Schema<ListDevicesResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDevices",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "devices",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "devices" } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevices",
 })) as any;
 
 export type ListInstanceProfilesError =
@@ -5226,22 +2593,19 @@ export type ListInstanceProfilesError =
  * Returns information about all the instance profiles in an AWS account.
  */
 export const listInstanceProfiles: API.OperationMethod<
-  ListInstanceProfilesRequest,
+  ListInstanceProfilesRequest & RegionInput,
   ListInstanceProfilesResult,
   ListInstanceProfilesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListInstanceProfilesRequest,
-  output: ListInstanceProfilesResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(640, __c80, 0) as any as S.Schema<ListInstanceProfilesRequest>,
+  output: __S(642, __c80, 2) as any as S.Schema<ListInstanceProfilesResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInstanceProfiles",
+  telemetry: TELEMETRY,
+  span: "ListInstanceProfiles",
 }));
 
 export type ListJobsError =
@@ -5254,28 +2618,21 @@ export type ListJobsError =
  * Gets information about jobs for a given test run.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResult,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
   Job
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListJobsRequest,
-  output: ListJobsResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(648, __c81, 0) as any as S.Schema<ListJobsRequest>,
+  output: __S(650, __c81, 2) as any as S.Schema<ListJobsResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListJobs",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "jobs",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "jobs" } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListNetworkProfilesError =
@@ -5288,22 +2645,19 @@ export type ListNetworkProfilesError =
  * Returns the list of available network profiles.
  */
 export const listNetworkProfiles: API.OperationMethod<
-  ListNetworkProfilesRequest,
+  ListNetworkProfilesRequest & RegionInput,
   ListNetworkProfilesResult,
   ListNetworkProfilesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListNetworkProfilesRequest,
-  output: ListNetworkProfilesResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(656, __c82, 0) as any as S.Schema<ListNetworkProfilesRequest>,
+  output: __S(658, __c82, 2) as any as S.Schema<ListNetworkProfilesResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNetworkProfiles",
+  telemetry: TELEMETRY,
+  span: "ListNetworkProfiles",
 }));
 
 export type ListOfferingPromotionsError =
@@ -5319,13 +2673,13 @@ export type ListOfferingPromotionsError =
  * the operation. Contact aws-devicefarm-support@amazon.com if you must be able to invoke this operation.
  */
 export const listOfferingPromotions: API.OperationMethod<
-  ListOfferingPromotionsRequest,
+  ListOfferingPromotionsRequest & RegionInput,
   ListOfferingPromotionsResult,
   ListOfferingPromotionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListOfferingPromotionsRequest,
-  output: ListOfferingPromotionsResult,
+  input: __S(664, __c83, 0) as any as S.Schema<ListOfferingPromotionsRequest>,
+  output: __S(667, __c83, 3) as any as S.Schema<ListOfferingPromotionsResult>,
   errors: [
     ArgumentException,
     LimitExceededException,
@@ -5336,6 +2690,8 @@ export const listOfferingPromotions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOfferingPromotions",
+  telemetry: TELEMETRY,
+  span: "ListOfferingPromotions",
 }));
 
 export type ListOfferingsError =
@@ -5352,14 +2708,14 @@ export type ListOfferingsError =
  * able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
 export const listOfferings: API.PaginatedOperationMethod<
-  ListOfferingsRequest,
+  ListOfferingsRequest & RegionInput,
   ListOfferingsResult,
   ListOfferingsError,
   Credentials | HttpClient.HttpClient,
   Offering
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListOfferingsRequest,
-  output: ListOfferingsResult,
+  input: __S(672, __c84, 0) as any as S.Schema<ListOfferingsRequest>,
+  output: __S(674, __c84, 2) as any as S.Schema<ListOfferingsResult>,
   errors: [
     ArgumentException,
     LimitExceededException,
@@ -5370,11 +2726,9 @@ export const listOfferings: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOfferings",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "offerings",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "offerings" } as const,
+  telemetry: TELEMETRY,
+  span: "ListOfferings",
 })) as any;
 
 export type ListOfferingTransactionsError =
@@ -5391,14 +2745,14 @@ export type ListOfferingTransactionsError =
  * you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
 export const listOfferingTransactions: API.PaginatedOperationMethod<
-  ListOfferingTransactionsRequest,
+  ListOfferingTransactionsRequest & RegionInput,
   ListOfferingTransactionsResult,
   ListOfferingTransactionsError,
   Credentials | HttpClient.HttpClient,
   OfferingTransaction
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListOfferingTransactionsRequest,
-  output: ListOfferingTransactionsResult,
+  input: __S(680, __c85, 0) as any as S.Schema<ListOfferingTransactionsRequest>,
+  output: __S(682, __c85, 2) as any as S.Schema<ListOfferingTransactionsResult>,
   errors: [
     ArgumentException,
     LimitExceededException,
@@ -5414,6 +2768,8 @@ export const listOfferingTransactions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "offeringTransactions",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOfferingTransactions",
 })) as any;
 
 export type ListProjectsError =
@@ -5426,28 +2782,21 @@ export type ListProjectsError =
  * Gets information about projects.
  */
 export const listProjects: API.PaginatedOperationMethod<
-  ListProjectsRequest,
+  ListProjectsRequest & RegionInput,
   ListProjectsResult,
   ListProjectsError,
   Credentials | HttpClient.HttpClient,
   Project
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProjectsRequest,
-  output: ListProjectsResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(696, __c87, 0) as any as S.Schema<ListProjectsRequest>,
+  output: __S(698, __c87, 2) as any as S.Schema<ListProjectsResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProjects",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "projects",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "projects" } as const,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 })) as any;
 
 export type ListRemoteAccessSessionsError =
@@ -5460,22 +2809,19 @@ export type ListRemoteAccessSessionsError =
  * Returns a list of all currently running remote access sessions.
  */
 export const listRemoteAccessSessions: API.OperationMethod<
-  ListRemoteAccessSessionsRequest,
+  ListRemoteAccessSessionsRequest & RegionInput,
   ListRemoteAccessSessionsResult,
   ListRemoteAccessSessionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListRemoteAccessSessionsRequest,
-  output: ListRemoteAccessSessionsResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(704, __c88, 0) as any as S.Schema<ListRemoteAccessSessionsRequest>,
+  output: __S(706, __c88, 2) as any as S.Schema<ListRemoteAccessSessionsResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRemoteAccessSessions",
+  telemetry: TELEMETRY,
+  span: "ListRemoteAccessSessions",
 }));
 
 export type ListRunsError =
@@ -5488,28 +2834,21 @@ export type ListRunsError =
  * Gets information about runs, given an AWS Device Farm project ARN.
  */
 export const listRuns: API.PaginatedOperationMethod<
-  ListRunsRequest,
+  ListRunsRequest & RegionInput,
   ListRunsResult,
   ListRunsError,
   Credentials | HttpClient.HttpClient,
   Run
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRunsRequest,
-  output: ListRunsResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(712, __c89, 0) as any as S.Schema<ListRunsRequest>,
+  output: __S(714, __c89, 2) as any as S.Schema<ListRunsResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRuns",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "runs",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "runs" } as const,
+  telemetry: TELEMETRY,
+  span: "ListRuns",
 })) as any;
 
 export type ListSamplesError =
@@ -5524,28 +2863,21 @@ export type ListSamplesError =
  * Device Farm does not support performance data samples during test executions.
  */
 export const listSamples: API.PaginatedOperationMethod<
-  ListSamplesRequest,
+  ListSamplesRequest & RegionInput,
   ListSamplesResult,
   ListSamplesError,
   Credentials | HttpClient.HttpClient,
   Sample
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSamplesRequest,
-  output: ListSamplesResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(720, __c90, 0) as any as S.Schema<ListSamplesRequest>,
+  output: __S(723, __c90, 3) as any as S.Schema<ListSamplesResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSamples",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "samples",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "samples" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSamples",
 })) as any;
 
 export type ListSuitesError =
@@ -5558,28 +2890,21 @@ export type ListSuitesError =
  * Gets information about test suites for a given job.
  */
 export const listSuites: API.PaginatedOperationMethod<
-  ListSuitesRequest,
+  ListSuitesRequest & RegionInput,
   ListSuitesResult,
   ListSuitesError,
   Credentials | HttpClient.HttpClient,
   Suite
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSuitesRequest,
-  output: ListSuitesResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(728, __c91, 0) as any as S.Schema<ListSuitesRequest>,
+  output: __S(729, __c91, 1) as any as S.Schema<ListSuitesResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSuites",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "suites",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "suites" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSuites",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -5591,44 +2916,41 @@ export type ListTagsForResourceError =
  * List the tags for an AWS Device Farm resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(744, __c93, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(745, __c93, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [ArgumentException, NotFoundException, TagOperationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
-export type ListTestGridProjectsError =
-  | ArgumentException
-  | InternalServiceException
-  | CommonErrors;
+export type ListTestGridProjectsError = ArgumentException | InternalServiceException | CommonErrors;
 /**
  * Gets a list of all Selenium testing projects in your account.
  */
 export const listTestGridProjects: API.PaginatedOperationMethod<
-  ListTestGridProjectsRequest,
+  ListTestGridProjectsRequest & RegionInput,
   ListTestGridProjectsResult,
   ListTestGridProjectsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTestGridProjectsRequest,
-  output: ListTestGridProjectsResult,
+  input: __S(760, __c95, 0) as any as S.Schema<ListTestGridProjectsRequest>,
+  output: __S(762, __c95, 2) as any as S.Schema<ListTestGridProjectsResult>,
   errors: [ArgumentException, InternalServiceException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTestGridProjects",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    pageSize: "maxResult",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "maxResult" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestGridProjects",
 })) as any;
 
 export type ListTestGridSessionActionsError =
@@ -5640,23 +2962,21 @@ export type ListTestGridSessionActionsError =
  * Returns a list of the actions taken in a TestGridSession.
  */
 export const listTestGridSessionActions: API.PaginatedOperationMethod<
-  ListTestGridSessionActionsRequest,
+  ListTestGridSessionActionsRequest & RegionInput,
   ListTestGridSessionActionsResult,
   ListTestGridSessionActionsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTestGridSessionActionsRequest,
-  output: ListTestGridSessionActionsResult,
+  input: __S(768, __c96, 0) as any as S.Schema<ListTestGridSessionActionsRequest>,
+  output: __S(771, __c96, 3) as any as S.Schema<ListTestGridSessionActionsResult>,
   errors: [ArgumentException, InternalServiceException, NotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTestGridSessionActions",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    pageSize: "maxResult",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "maxResult" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestGridSessionActions",
 })) as any;
 
 export type ListTestGridSessionArtifactsError =
@@ -5668,23 +2988,21 @@ export type ListTestGridSessionArtifactsError =
  * Retrieves a list of artifacts created during the session.
  */
 export const listTestGridSessionArtifacts: API.PaginatedOperationMethod<
-  ListTestGridSessionArtifactsRequest,
+  ListTestGridSessionArtifactsRequest & RegionInput,
   ListTestGridSessionArtifactsResult,
   ListTestGridSessionArtifactsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTestGridSessionArtifactsRequest,
-  output: ListTestGridSessionArtifactsResult,
+  input: __S(776, __c97, 0) as any as S.Schema<ListTestGridSessionArtifactsRequest>,
+  output: __S(779, __c97, 3) as any as S.Schema<ListTestGridSessionArtifactsResult>,
   errors: [ArgumentException, InternalServiceException, NotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTestGridSessionArtifacts",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    pageSize: "maxResult",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "maxResult" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestGridSessionArtifacts",
 })) as any;
 
 export type ListTestGridSessionsError =
@@ -5696,23 +3014,21 @@ export type ListTestGridSessionsError =
  * Retrieves a list of sessions for a TestGridProject.
  */
 export const listTestGridSessions: API.PaginatedOperationMethod<
-  ListTestGridSessionsRequest,
+  ListTestGridSessionsRequest & RegionInput,
   ListTestGridSessionsResult,
   ListTestGridSessionsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTestGridSessionsRequest,
-  output: ListTestGridSessionsResult,
+  input: __S(784, __c98, 0) as any as S.Schema<ListTestGridSessionsRequest>,
+  output: __S(786, __c98, 2) as any as S.Schema<ListTestGridSessionsResult>,
   errors: [ArgumentException, InternalServiceException, NotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTestGridSessions",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    pageSize: "maxResult",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "maxResult" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestGridSessions",
 })) as any;
 
 export type ListTestsError =
@@ -5725,28 +3041,21 @@ export type ListTestsError =
  * Gets information about tests in a given test suite.
  */
 export const listTests: API.PaginatedOperationMethod<
-  ListTestsRequest,
+  ListTestsRequest & RegionInput,
   ListTestsResult,
   ListTestsError,
   Credentials | HttpClient.HttpClient,
   Test
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTestsRequest,
-  output: ListTestsResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(792, __c99, 0) as any as S.Schema<ListTestsRequest>,
+  output: __S(793, __c99, 1) as any as S.Schema<ListTestsResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTests",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "tests",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "tests" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTests",
 })) as any;
 
 export type ListUniqueProblemsError =
@@ -5764,20 +3073,15 @@ export type ListUniqueProblemsError =
  * individual entries for that exception.
  */
 export const listUniqueProblems: API.PaginatedOperationMethod<
-  ListUniqueProblemsRequest,
+  ListUniqueProblemsRequest & RegionInput,
   ListUniqueProblemsResult,
   ListUniqueProblemsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListUniqueProblemsRequest,
-  output: ListUniqueProblemsResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(800, __c100, 0) as any as S.Schema<ListUniqueProblemsRequest>,
+  output: __S(807, __c100, 7) as any as S.Schema<ListUniqueProblemsResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUniqueProblems",
@@ -5786,6 +3090,8 @@ export const listUniqueProblems: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "uniqueProblems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUniqueProblems",
 })) as any;
 
 export type ListUploadsError =
@@ -5798,28 +3104,21 @@ export type ListUploadsError =
  * Gets information about uploads, given an AWS Device Farm project ARN.
  */
 export const listUploads: API.PaginatedOperationMethod<
-  ListUploadsRequest,
+  ListUploadsRequest & RegionInput,
   ListUploadsResult,
   ListUploadsError,
   Credentials | HttpClient.HttpClient,
   Upload
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListUploadsRequest,
-  output: ListUploadsResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(808, __c101, 0) as any as S.Schema<ListUploadsRequest>,
+  output: __S(810, __c101, 2) as any as S.Schema<ListUploadsResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUploads",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "uploads",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "uploads" } as const,
+  telemetry: TELEMETRY,
+  span: "ListUploads",
 })) as any;
 
 export type ListVPCEConfigurationsError =
@@ -5831,17 +3130,19 @@ export type ListVPCEConfigurationsError =
  * configurations in the AWS account.
  */
 export const listVPCEConfigurations: API.OperationMethod<
-  ListVPCEConfigurationsRequest,
+  ListVPCEConfigurationsRequest & RegionInput,
   ListVPCEConfigurationsResult,
   ListVPCEConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListVPCEConfigurationsRequest,
-  output: ListVPCEConfigurationsResult,
+  input: __S(816, __c102, 0) as any as S.Schema<ListVPCEConfigurationsRequest>,
+  output: __S(818, __c102, 2) as any as S.Schema<ListVPCEConfigurationsResult>,
   errors: [ArgumentException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVPCEConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListVPCEConfigurations",
 }));
 
 export type PurchaseOfferingError =
@@ -5858,13 +3159,13 @@ export type PurchaseOfferingError =
  * contact aws-devicefarm-support@amazon.com.
  */
 export const purchaseOffering: API.OperationMethod<
-  PurchaseOfferingRequest,
+  PurchaseOfferingRequest & RegionInput,
   PurchaseOfferingResult,
   PurchaseOfferingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PurchaseOfferingRequest,
-  output: PurchaseOfferingResult,
+  input: __S(824, __c103, 0) as any as S.Schema<PurchaseOfferingRequest>,
+  output: __S(832, __c104, 0) as any as S.Schema<PurchaseOfferingResult>,
   errors: [
     ArgumentException,
     LimitExceededException,
@@ -5875,6 +3176,8 @@ export const purchaseOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseOffering",
+  telemetry: TELEMETRY,
+  span: "PurchaseOffering",
 }));
 
 export type RenewOfferingError =
@@ -5890,13 +3193,13 @@ export type RenewOfferingError =
  * user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
 export const renewOffering: API.OperationMethod<
-  RenewOfferingRequest,
+  RenewOfferingRequest & RegionInput,
   RenewOfferingResult,
   RenewOfferingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RenewOfferingRequest,
-  output: RenewOfferingResult,
+  input: __S(840, __c105, 0) as any as S.Schema<RenewOfferingRequest>,
+  output: __S(832, __c104, 0) as any as S.Schema<RenewOfferingResult>,
   errors: [
     ArgumentException,
     LimitExceededException,
@@ -5907,6 +3210,8 @@ export const renewOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenewOffering",
+  telemetry: TELEMETRY,
+  span: "RenewOffering",
 }));
 
 export type ScheduleRunError =
@@ -5920,13 +3225,13 @@ export type ScheduleRunError =
  * Schedules a run.
  */
 export const scheduleRun: API.OperationMethod<
-  ScheduleRunRequest,
+  ScheduleRunRequest & RegionInput,
   ScheduleRunResult,
   ScheduleRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ScheduleRunRequest,
-  output: ScheduleRunResult,
+  input: __S(850, __c106, 2) as any as S.Schema<ScheduleRunRequest>,
+  output: __S(528, __c66, 0) as any as S.Schema<ScheduleRunResult>,
   errors: [
     ArgumentException,
     IdempotencyException,
@@ -5937,6 +3242,8 @@ export const scheduleRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ScheduleRun",
+  telemetry: TELEMETRY,
+  span: "ScheduleRun",
 }));
 
 export type StopJobError =
@@ -5952,22 +3259,19 @@ export type StopJobError =
  * and any tests that were in progress or already completed.
  */
 export const stopJob: API.OperationMethod<
-  StopJobRequest,
+  StopJobRequest & RegionInput,
   StopJobResult,
   StopJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopJobRequest,
-  output: StopJobResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(856, __c107, 0) as any as S.Schema<StopJobRequest>,
+  output: __S(448, __c56, 0) as any as S.Schema<StopJobResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopJob",
+  telemetry: TELEMETRY,
+  span: "StopJob",
 }));
 
 export type StopRemoteAccessSessionError =
@@ -5980,22 +3284,19 @@ export type StopRemoteAccessSessionError =
  * Ends a specified remote access session.
  */
 export const stopRemoteAccessSession: API.OperationMethod<
-  StopRemoteAccessSessionRequest,
+  StopRemoteAccessSessionRequest & RegionInput,
   StopRemoteAccessSessionResult,
   StopRemoteAccessSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopRemoteAccessSessionRequest,
-  output: StopRemoteAccessSessionResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(864, __c108, 0) as any as S.Schema<StopRemoteAccessSessionRequest>,
+  output: __S(184, __c23, 0) as any as S.Schema<StopRemoteAccessSessionResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRemoteAccessSession",
+  telemetry: TELEMETRY,
+  span: "StopRemoteAccessSession",
 }));
 
 export type StopRunError =
@@ -6011,22 +3312,19 @@ export type StopRunError =
  * setup, teardown, and any tests that were in progress or already completed.
  */
 export const stopRun: API.OperationMethod<
-  StopRunRequest,
+  StopRunRequest & RegionInput,
   StopRunResult,
   StopRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopRunRequest,
-  output: StopRunResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(872, __c109, 0) as any as S.Schema<StopRunRequest>,
+  output: __S(528, __c66, 0) as any as S.Schema<StopRunResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRun",
+  telemetry: TELEMETRY,
+  span: "StopRun",
 }));
 
 export type TagResourceError =
@@ -6042,13 +3340,13 @@ export type TagResourceError =
  * the tags associated with that resource are also deleted.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(880, __c110, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     ArgumentException,
     NotFoundException,
@@ -6059,6 +3357,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -6070,17 +3370,19 @@ export type UntagResourceError =
  * Deletes the specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(888, __c111, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [ArgumentException, NotFoundException, TagOperationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDeviceInstanceError =
@@ -6093,22 +3395,19 @@ export type UpdateDeviceInstanceError =
  * Updates information about a private device instance.
  */
 export const updateDeviceInstance: API.OperationMethod<
-  UpdateDeviceInstanceRequest,
+  UpdateDeviceInstanceRequest & RegionInput,
   UpdateDeviceInstanceResult,
   UpdateDeviceInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDeviceInstanceRequest,
-  output: UpdateDeviceInstanceResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(896, __c112, 0) as any as S.Schema<UpdateDeviceInstanceRequest>,
+  output: __S(376, __c47, 0) as any as S.Schema<UpdateDeviceInstanceResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeviceInstance",
+  telemetry: TELEMETRY,
+  span: "UpdateDeviceInstance",
 }));
 
 export type UpdateDevicePoolError =
@@ -6123,22 +3422,19 @@ export type UpdateDevicePoolError =
  * whole (or not at all).
  */
 export const updateDevicePool: API.OperationMethod<
-  UpdateDevicePoolRequest,
+  UpdateDevicePoolRequest & RegionInput,
   UpdateDevicePoolResult,
   UpdateDevicePoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDevicePoolRequest,
-  output: UpdateDevicePoolResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(904, __c113, 0) as any as S.Schema<UpdateDevicePoolRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<UpdateDevicePoolResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDevicePool",
+  telemetry: TELEMETRY,
+  span: "UpdateDevicePool",
 }));
 
 export type UpdateInstanceProfileError =
@@ -6151,22 +3447,19 @@ export type UpdateInstanceProfileError =
  * Updates information about an existing private device instance profile.
  */
 export const updateInstanceProfile: API.OperationMethod<
-  UpdateInstanceProfileRequest,
+  UpdateInstanceProfileRequest & RegionInput,
   UpdateInstanceProfileResult,
   UpdateInstanceProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateInstanceProfileRequest,
-  output: UpdateInstanceProfileResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(912, __c114, 0) as any as S.Schema<UpdateInstanceProfileRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<UpdateInstanceProfileResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstanceProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateInstanceProfile",
 }));
 
 export type UpdateNetworkProfileError =
@@ -6179,22 +3472,19 @@ export type UpdateNetworkProfileError =
  * Updates the network profile.
  */
 export const updateNetworkProfile: API.OperationMethod<
-  UpdateNetworkProfileRequest,
+  UpdateNetworkProfileRequest & RegionInput,
   UpdateNetworkProfileResult,
   UpdateNetworkProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateNetworkProfileRequest,
-  output: UpdateNetworkProfileResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(920, __c115, 0) as any as S.Schema<UpdateNetworkProfileRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<UpdateNetworkProfileResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkProfile",
 }));
 
 export type UpdateProjectError =
@@ -6208,22 +3498,19 @@ export type UpdateProjectError =
  * name.
  */
 export const updateProject: API.OperationMethod<
-  UpdateProjectRequest,
+  UpdateProjectRequest & RegionInput,
   UpdateProjectResult,
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateProjectRequest,
-  output: UpdateProjectResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(928, __c116, 0) as any as S.Schema<UpdateProjectRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateProjectResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateTestGridProjectError =
@@ -6236,22 +3523,19 @@ export type UpdateTestGridProjectError =
  * Change details of a project.
  */
 export const updateTestGridProject: API.OperationMethod<
-  UpdateTestGridProjectRequest,
+  UpdateTestGridProjectRequest & RegionInput,
   UpdateTestGridProjectResult,
   UpdateTestGridProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateTestGridProjectRequest,
-  output: UpdateTestGridProjectResult,
-  errors: [
-    ArgumentException,
-    InternalServiceException,
-    LimitExceededException,
-    NotFoundException,
-  ],
+  input: __S(936, __c117, 0) as any as S.Schema<UpdateTestGridProjectRequest>,
+  output: __S(208, __c26, 0) as any as S.Schema<UpdateTestGridProjectResult>,
+  errors: [ArgumentException, InternalServiceException, LimitExceededException, NotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTestGridProject",
+  telemetry: TELEMETRY,
+  span: "UpdateTestGridProject",
 }));
 
 export type UpdateUploadError =
@@ -6264,22 +3548,19 @@ export type UpdateUploadError =
  * Updates an uploaded test spec.
  */
 export const updateUpload: API.OperationMethod<
-  UpdateUploadRequest,
+  UpdateUploadRequest & RegionInput,
   UpdateUploadResult,
   UpdateUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateUploadRequest,
-  output: UpdateUploadResult,
-  errors: [
-    ArgumentException,
-    LimitExceededException,
-    NotFoundException,
-    ServiceAccountException,
-  ],
+  input: __S(944, __c118, 0) as any as S.Schema<UpdateUploadRequest>,
+  output: __S(240, __c30, 0) as any as S.Schema<UpdateUploadResult>,
+  errors: [ArgumentException, LimitExceededException, NotFoundException, ServiceAccountException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUpload",
+  telemetry: TELEMETRY,
+  span: "UpdateUpload",
 }));
 
 export type UpdateVPCEConfigurationError =
@@ -6292,13 +3573,13 @@ export type UpdateVPCEConfigurationError =
  * Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration.
  */
 export const updateVPCEConfiguration: API.OperationMethod<
-  UpdateVPCEConfigurationRequest,
+  UpdateVPCEConfigurationRequest & RegionInput,
   UpdateVPCEConfigurationResult,
   UpdateVPCEConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateVPCEConfigurationRequest,
-  output: UpdateVPCEConfigurationResult,
+  input: __S(952, __c119, 0) as any as S.Schema<UpdateVPCEConfigurationRequest>,
+  output: __S(264, __c33, 0) as any as S.Schema<UpdateVPCEConfigurationResult>,
   errors: [
     ArgumentException,
     InvalidOperationException,
@@ -6308,4 +3589,1965 @@ export const updateVPCEConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVPCEConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateVPCEConfiguration",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectArn: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          rules: __S(9, __c1, 1),
+          maxDevices: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateDevicePoolRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          attribute: S.optional(S.String),
+          operator: S.optional(S.String),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Rule" });
+    case 1:
+      return S.Array(__S(8, __c1, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          type: S.optional(S.String),
+          rules: S.optional(__S(9, __c1, 1)),
+          maxDevices: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DevicePool" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ devicePool: S.optional(__S(10, __c1, 2)) }).pipe(ns),
+      ).annotate({ identifier: "CreateDevicePoolResult" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(S.String),
+          packageCleanup: S.optional(S.Boolean),
+          excludeAppPackagesFromCleanup: S.optional(__S(32, __c4, 0)),
+          rebootAfterUse: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateInstanceProfileRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          packageCleanup: S.optional(S.Boolean),
+          excludeAppPackagesFromCleanup: S.optional(__S(32, __c4, 0)),
+          rebootAfterUse: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InstanceProfile" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ instanceProfile: S.optional(__S(40, __c5, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateInstanceProfileResult" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectArn: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          type: S.optional(S.String),
+          uplinkBandwidthBits: S.optional(S.Number),
+          downlinkBandwidthBits: S.optional(S.Number),
+          uplinkDelayMs: S.optional(S.Number),
+          downlinkDelayMs: S.optional(S.Number),
+          uplinkJitterMs: S.optional(S.Number),
+          downlinkJitterMs: S.optional(S.Number),
+          uplinkLossPercent: S.optional(S.Number),
+          downlinkLossPercent: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateNetworkProfileRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          type: S.optional(S.String),
+          uplinkBandwidthBits: S.optional(S.Number),
+          downlinkBandwidthBits: S.optional(S.Number),
+          uplinkDelayMs: S.optional(S.Number),
+          downlinkDelayMs: S.optional(S.Number),
+          uplinkJitterMs: S.optional(S.Number),
+          downlinkJitterMs: S.optional(S.Number),
+          uplinkLossPercent: S.optional(S.Number),
+          downlinkLossPercent: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "NetworkProfile" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ networkProfile: S.optional(__S(64, __c8, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateNetworkProfileResult" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          defaultJobTimeoutMinutes: S.optional(S.Number),
+          vpcConfig: S.optional(__S(88, __c11, 0)),
+          environmentVariables: S.optional(__S(97, __c12, 1)),
+          executionRoleArn: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateProjectRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          securityGroupIds: __S(32, __c4, 0),
+          subnetIds: __S(32, __c4, 0),
+          vpcId: S.String,
+        }),
+      ).annotate({ identifier: "VpcConfig" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ name: S.String, value: S.String })).annotate({
+        identifier: "EnvironmentVariable",
+      });
+    case 1:
+      return S.Array(__S(96, __c12, 0));
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          defaultJobTimeoutMinutes: S.optional(S.Number),
+          created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          vpcConfig: S.optional(__S(88, __c11, 0)),
+          environmentVariables: S.optional(__S(97, __c12, 1)),
+          executionRoleArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Project" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ project: S.optional(__S(104, __c13, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateProjectResult" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          auxiliaryApps: S.optional(__S(32, __c4, 0)),
+          billingMethod: S.optional(S.String),
+          vpceConfigurationArns: S.optional(__S(32, __c4, 0)),
+          deviceProxy: S.optional(__S(152, __c19, 0)),
+          parameters: S.optional(__S(160, __c20, 0)),
+        }),
+      ).annotate({ identifier: "CreateRemoteAccessSessionConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          projectArn: S.String,
+          deviceArn: S.String,
+          appArn: S.optional(S.String),
+          instanceArn: S.optional(S.String),
+          name: S.optional(S.String),
+          configuration: S.optional(__S(120, __c15, 0)),
+          interactionMode: S.optional(S.String),
+          skipAppResign: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateRemoteAccessSessionRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          deviceArn: S.optional(S.String),
+          labels: S.optional(__S(32, __c4, 0)),
+          status: S.optional(S.String),
+          udid: S.optional(S.String),
+          instanceProfile: S.optional(__S(40, __c5, 0)),
+        }),
+      ).annotate({ identifier: "DeviceInstance" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(128, __c16, 0));
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          frequency: S.optional(S.String),
+          architecture: S.optional(S.String),
+          clock: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CPU" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ width: S.optional(S.Number), height: S.optional(S.Number) }),
+      ).annotate({ identifier: "Resolution" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          manufacturer: S.optional(S.String),
+          model: S.optional(S.String),
+          modelId: S.optional(S.String),
+          formFactor: S.optional(S.String),
+          platform: S.optional(S.String),
+          os: S.optional(S.String),
+          cpu: S.optional(__S(144, __c18, 0)),
+          resolution: S.optional(__S(145, __c18, 1)),
+          heapSize: S.optional(S.Number),
+          memory: S.optional(S.Number),
+          image: S.optional(S.String),
+          carrier: S.optional(S.String),
+          radio: S.optional(S.String),
+          remoteAccessEnabled: S.optional(S.Boolean),
+          remoteDebugEnabled: S.optional(S.Boolean),
+          fleetType: S.optional(S.String),
+          fleetName: S.optional(S.String),
+          instances: S.optional(__S(136, __c17, 0)),
+          availability: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Device" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ host: S.String, port: S.Number })).annotate({
+        identifier: "DeviceProxy",
+      });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          total: S.optional(S.Number),
+          metered: S.optional(S.Number),
+          unmetered: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DeviceMinutes" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          remoteDriverEndpoint: S.optional(SensitiveString),
+          interactiveEndpoint: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "RemoteAccessEndpoints" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          status: S.optional(S.String),
+          result: S.optional(S.String),
+          message: S.optional(S.String),
+          started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          device: S.optional(__S(146, __c18, 2)),
+          instanceArn: S.optional(S.String),
+          billingMethod: S.optional(S.String),
+          deviceMinutes: S.optional(__S(168, __c21, 0)),
+          endpoint: S.optional(S.String),
+          deviceUdid: S.optional(S.String),
+          interactionMode: S.optional(S.String),
+          skipAppResign: S.optional(S.Boolean),
+          vpcConfig: S.optional(__S(88, __c11, 0)),
+          deviceProxy: S.optional(__S(152, __c19, 0)),
+          appUpload: S.optional(S.String),
+          endpoints: S.optional(__S(176, __c22, 0)),
+        }),
+      ).annotate({ identifier: "RemoteAccessSession" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ remoteAccessSession: S.optional(__S(177, __c22, 1)) }).pipe(ns),
+      ).annotate({ identifier: "CreateRemoteAccessSessionResult" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(S.String),
+          vpcConfig: S.optional(__S(88, __c11, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateTestGridProjectRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          vpcConfig: S.optional(__S(88, __c11, 0)),
+          created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "TestGridProject" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ testGridProject: S.optional(__S(200, __c25, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateTestGridProjectResult" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ projectArn: S.String, expiresInSeconds: S.Number }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateTestGridUrlRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.optional(SensitiveString),
+          expires: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }).pipe(ns),
+      ).annotate({ identifier: "CreateTestGridUrlResult" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectArn: S.String,
+          name: S.String,
+          type: S.String,
+          contentType: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateUploadRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          type: S.optional(S.String),
+          status: S.optional(S.String),
+          url: S.optional(SensitiveString),
+          metadata: S.optional(S.String),
+          contentType: S.optional(S.String),
+          message: S.optional(S.String),
+          category: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Upload" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ upload: S.optional(__S(232, __c29, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateUploadResult" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vpceConfigurationName: S.String,
+          vpceServiceName: S.String,
+          serviceDnsName: S.String,
+          vpceConfigurationDescription: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateVPCEConfigurationRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          vpceConfigurationName: S.optional(S.String),
+          vpceServiceName: S.optional(S.String),
+          serviceDnsName: S.optional(S.String),
+          vpceConfigurationDescription: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VPCEConfiguration" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ vpceConfiguration: S.optional(__S(256, __c32, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateVPCEConfigurationResult" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteDevicePoolRequest" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "DeleteDevicePoolResult",
+      });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteInstanceProfileRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteNetworkProfileRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteProjectRequest" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteRemoteAccessSessionRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteRunRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ projectArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteTestGridProjectRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteUploadRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteVPCEConfigurationRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetAccountSettingsRequest" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ S.Number.pipe(S.optional));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ total: S.optional(S.Number), remaining: S.optional(S.Number) }),
+      ).annotate({ identifier: "TrialMinutes" });
+    case 3:
+      return S.Record(S.String, /*@__PURE__*/ S.Number.pipe(S.optional));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          awsAccountNumber: S.optional(S.String),
+          unmeteredDevices: S.optional(__S(353, __c44, 1)),
+          unmeteredRemoteAccessDevices: S.optional(__S(353, __c44, 1)),
+          maxJobTimeoutMinutes: S.optional(S.Number),
+          trialMinutes: S.optional(__S(354, __c44, 2)),
+          maxSlots: S.optional(__S(355, __c44, 3)),
+          defaultJobTimeoutMinutes: S.optional(S.Number),
+          skipAppResign: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AccountSettings" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ accountSettings: S.optional(__S(356, __c44, 4)) }).pipe(ns),
+      ).annotate({ identifier: "GetAccountSettingsResult" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetDeviceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ device: S.optional(__S(146, __c18, 2)) }).pipe(ns),
+      ).annotate({ identifier: "GetDeviceResult" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetDeviceInstanceRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ deviceInstance: S.optional(__S(128, __c16, 0)) }).pipe(ns),
+      ).annotate({ identifier: "GetDeviceInstanceResult" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetDevicePoolRequest" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          devicePoolArn: S.String,
+          appArn: S.optional(S.String),
+          testType: S.optional(S.String),
+          test: S.optional(__S(408, __c51, 0)),
+          configuration: S.optional(__S(409, __c51, 1)),
+          projectArn: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetDevicePoolCompatibilityRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ message: S.optional(S.String), type: S.optional(S.String) }),
+      ).annotate({ identifier: "IncompatibilityMessage" });
+    case 2:
+      return S.Array(__S(393, __c49, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          device: S.optional(__S(146, __c18, 2)),
+          compatible: S.optional(S.Boolean),
+          incompatibilityMessages: S.optional(__S(394, __c49, 2)),
+        }),
+      ).annotate({ identifier: "DevicePoolCompatibilityResult" });
+    case 4:
+      return S.Array(__S(395, __c49, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          compatibleDevices: S.optional(__S(396, __c49, 4)),
+          incompatibleDevices: S.optional(__S(396, __c49, 4)),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetDevicePoolCompatibilityResult" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ latitude: S.Number, longitude: S.Number })).annotate({
+        identifier: "Location",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          iosPaths: S.optional(__S(32, __c4, 0)),
+          androidPaths: S.optional(__S(32, __c4, 0)),
+          deviceHostPaths: S.optional(__S(32, __c4, 0)),
+        }),
+      ).annotate({ identifier: "CustomerArtifactPaths" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          wifi: S.optional(S.Boolean),
+          bluetooth: S.optional(S.Boolean),
+          nfc: S.optional(S.Boolean),
+          gps: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Radios" });
+    case 3:
+      return S.Array(S.String);
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          testPackageArn: S.optional(S.String),
+          testSpecArn: S.optional(S.String),
+          filter: S.optional(S.String),
+          parameters: S.optional(__S(160, __c20, 0)),
+        }),
+      ).annotate({ identifier: "ScheduleRunTest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          extraDataPackageArn: S.optional(S.String),
+          networkProfileArn: S.optional(S.String),
+          locale: S.optional(S.String),
+          location: S.optional(__S(400, __c50, 0)),
+          vpceConfigurationArns: S.optional(__S(32, __c4, 0)),
+          deviceProxy: S.optional(__S(152, __c19, 0)),
+          customerArtifactPaths: S.optional(__S(401, __c50, 1)),
+          radios: S.optional(__S(402, __c50, 2)),
+          auxiliaryApps: S.optional(__S(32, __c4, 0)),
+          billingMethod: S.optional(S.String),
+          environmentVariables: S.optional(__S(97, __c12, 1)),
+          executionRoleArn: S.optional(S.String),
+          insightsTypes: S.optional(__S(403, __c50, 3)),
+        }),
+      ).annotate({ identifier: "ScheduleRunConfiguration" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetInstanceProfileRequest" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetJobRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          total: S.optional(S.Number),
+          passed: S.optional(S.Number),
+          failed: S.optional(S.Number),
+          warned: S.optional(S.Number),
+          errored: S.optional(S.Number),
+          stopped: S.optional(S.Number),
+          skipped: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Counters" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          testsTotal: S.optional(S.Number),
+          testsPassed: S.optional(S.Number),
+          testsFailed: S.optional(S.Number),
+          testsSkipped: S.optional(S.Number),
+          testsErrored: S.optional(S.Number),
+          testsOther: S.optional(S.Number),
+          testsPassedPercentage: S.optional(S.Number),
+          totalTestExecutionDurationSeconds: S.optional(S.Number),
+          medianTestExecutionDurationSeconds: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TestReportMetrics" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          metrics: S.optional(__S(440, __c55, 0)),
+          testDetailsUrl: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "TestReport" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ status: S.optional(S.String), testReport: S.optional(__S(441, __c55, 1)) }),
+      ).annotate({ identifier: "JobInsights" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          status: S.optional(S.String),
+          result: S.optional(S.String),
+          started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          counters: S.optional(__S(432, __c54, 0)),
+          message: S.optional(S.String),
+          device: S.optional(__S(146, __c18, 2)),
+          instanceArn: S.optional(S.String),
+          deviceMinutes: S.optional(__S(168, __c21, 0)),
+          videoEndpoint: S.optional(S.String),
+          videoCapture: S.optional(S.Boolean),
+          insights: S.optional(__S(442, __c55, 2)),
+        }),
+      ).annotate({ identifier: "Job" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ job: S.optional(__S(443, __c55, 3)) }).pipe(ns)).annotate({
+        identifier: "GetJobResult",
+      });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetNetworkProfileRequest" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ nextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetOfferingStatusRequest" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ __S(480, __c60, 0).pipe(S.optional));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          current: S.optional(__S(465, __c58, 1)),
+          nextPeriod: S.optional(__S(465, __c58, 1)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetOfferingStatusResult" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ amount: S.optional(S.Number), currencyCode: S.optional(S.String) }),
+      ).annotate({ identifier: "MonetaryAmount" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ cost: S.optional(__S(472, __c59, 0)), frequency: S.optional(S.String) }),
+      ).annotate({ identifier: "RecurringCharge" });
+    case 2:
+      return S.Array(__S(473, __c59, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          description: S.optional(S.String),
+          type: S.optional(S.String),
+          platform: S.optional(S.String),
+          recurringCharges: S.optional(__S(474, __c59, 2)),
+        }),
+      ).annotate({ identifier: "Offering" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          offering: S.optional(__S(475, __c59, 3)),
+          quantity: S.optional(S.Number),
+          effectiveOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "OfferingStatus" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetProjectRequest" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetRemoteAccessSessionRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetRunRequest" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ attribute: S.String, operator: S.String, values: __S(32, __c4, 0) }),
+      ).annotate({ identifier: "DeviceFilter" });
+    case 1:
+      return S.Array(__S(512, __c64, 0));
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filters: S.optional(__S(513, __c64, 1)),
+          matchedDevicesCount: S.optional(S.Number),
+          maxDevices: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DeviceSelectionResult" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          jobsTotal: S.optional(S.Number),
+          jobsPassed: S.optional(S.Number),
+          jobsFailed: S.optional(S.Number),
+          jobsSkipped: S.optional(S.Number),
+          jobsErrored: S.optional(S.Number),
+          jobsStopped: S.optional(S.Number),
+          jobsPassedPercentage: S.optional(S.Number),
+          totalJobExecutionDurationSeconds: S.optional(S.Number),
+          averageJobExecutionDurationSeconds: S.optional(S.Number),
+          medianJobExecutionDurationSeconds: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "JobReportMetrics" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          metrics: S.optional(__S(521, __c65, 1)),
+          jobDetailsUrl: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "JobReport" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ status: S.optional(S.String), jobReport: S.optional(__S(522, __c65, 2)) }),
+      ).annotate({ identifier: "RunInsights" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          platform: S.optional(S.String),
+          created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          status: S.optional(S.String),
+          result: S.optional(S.String),
+          started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          counters: S.optional(__S(432, __c54, 0)),
+          message: S.optional(S.String),
+          totalJobs: S.optional(S.Number),
+          completedJobs: S.optional(S.Number),
+          billingMethod: S.optional(S.String),
+          deviceMinutes: S.optional(__S(168, __c21, 0)),
+          networkProfile: S.optional(__S(64, __c8, 0)),
+          deviceProxy: S.optional(__S(152, __c19, 0)),
+          parsingResultUrl: S.optional(S.String),
+          resultCode: S.optional(S.String),
+          seed: S.optional(S.Number),
+          appUpload: S.optional(S.String),
+          eventCount: S.optional(S.Number),
+          jobTimeoutMinutes: S.optional(S.Number),
+          devicePoolArn: S.optional(S.String),
+          locale: S.optional(S.String),
+          radios: S.optional(__S(402, __c50, 2)),
+          location: S.optional(__S(400, __c50, 0)),
+          customerArtifactPaths: S.optional(__S(401, __c50, 1)),
+          webUrl: S.optional(S.String),
+          skipAppResign: S.optional(S.Boolean),
+          testSpecArn: S.optional(S.String),
+          deviceSelectionResult: S.optional(__S(520, __c65, 0)),
+          vpcConfig: S.optional(__S(88, __c11, 0)),
+          executionRoleArn: S.optional(S.String),
+          environmentVariables: S.optional(__S(97, __c12, 1)),
+          insightsTypes: S.optional(__S(403, __c50, 3)),
+          insights: S.optional(__S(523, __c65, 3)),
+        }),
+      ).annotate({ identifier: "Run" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ run: S.optional(__S(524, __c65, 4)) }).pipe(ns)).annotate({
+        identifier: "GetRunResult",
+      });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetSuiteRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ suite: S.optional(__S(544, __c68, 0)) }).pipe(ns)).annotate(
+        { identifier: "GetSuiteResult" },
+      );
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          status: S.optional(S.String),
+          result: S.optional(S.String),
+          started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          counters: S.optional(__S(432, __c54, 0)),
+          message: S.optional(S.String),
+          deviceMinutes: S.optional(__S(168, __c21, 0)),
+        }),
+      ).annotate({ identifier: "Suite" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetTestRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ test: S.optional(__S(544, __c68, 0)) }).pipe(ns)).annotate({
+        identifier: "GetTestResult",
+      });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ projectArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetTestGridProjectRequest" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectArn: S.optional(S.String),
+          sessionId: S.optional(S.String),
+          sessionArn: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetTestGridSessionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ testGridSession: S.optional(__S(576, __c72, 0)) }).pipe(ns),
+      ).annotate({ identifier: "GetTestGridSessionResult" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          status: S.optional(S.String),
+          created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ended: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          billingMinutes: S.optional(S.Number),
+          seleniumProperties: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TestGridSession" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetUploadRequest" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetVPCEConfigurationRequest" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ remoteAccessSessionArn: S.String, appArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "InstallToRemoteAccessSessionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ appUpload: S.optional(__S(232, __c29, 0)) }).pipe(ns),
+      ).annotate({ identifier: "InstallToRemoteAccessSessionResult" });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String, type: S.String, nextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListArtifactsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          extension: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Artifact" });
+    case 2:
+      return S.Array(__S(609, __c76, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          artifacts: S.optional(__S(610, __c76, 2)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListArtifactsResult" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListDeviceInstancesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          deviceInstances: S.optional(__S(136, __c17, 0)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListDeviceInstancesResult" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          type: S.optional(S.String),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListDevicePoolsRequest" });
+    case 1:
+      return S.Array(__S(10, __c1, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          devicePools: S.optional(__S(625, __c78, 1)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListDevicePoolsResult" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          nextToken: S.optional(S.String),
+          filters: S.optional(__S(513, __c64, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListDevicesRequest" });
+    case 1:
+      return S.Array(__S(146, __c18, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ devices: S.optional(__S(633, __c79, 1)), nextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListDevicesResult" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListInstanceProfilesRequest" });
+    case 1:
+      return S.Array(__S(40, __c5, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceProfiles: S.optional(__S(641, __c80, 1)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListInstanceProfilesResult" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListJobsRequest" });
+    case 1:
+      return S.Array(__S(443, __c55, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ jobs: S.optional(__S(649, __c81, 1)), nextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListJobsResult" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          type: S.optional(S.String),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListNetworkProfilesRequest" });
+    case 1:
+      return S.Array(__S(64, __c8, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          networkProfiles: S.optional(__S(657, __c82, 1)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListNetworkProfilesResult" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ nextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListOfferingPromotionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ id: S.optional(S.String), description: S.optional(S.String) }),
+      ).annotate({ identifier: "OfferingPromotion" });
+    case 2:
+      return S.Array(__S(665, __c83, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          offeringPromotions: S.optional(__S(666, __c83, 2)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListOfferingPromotionsResult" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ nextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListOfferingsRequest" });
+    case 1:
+      return S.Array(__S(475, __c59, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          offerings: S.optional(__S(673, __c84, 1)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListOfferingsResult" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ nextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListOfferingTransactionsRequest" });
+    case 1:
+      return S.Array(__S(688, __c86, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          offeringTransactions: S.optional(__S(681, __c85, 1)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListOfferingTransactionsResult" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          offeringStatus: S.optional(__S(480, __c60, 0)),
+          transactionId: S.optional(S.String),
+          offeringPromotionId: S.optional(S.String),
+          createdOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          cost: S.optional(__S(472, __c59, 0)),
+        }),
+      ).annotate({ identifier: "OfferingTransaction" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.optional(S.String), nextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListProjectsRequest" });
+    case 1:
+      return S.Array(__S(104, __c13, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          projects: S.optional(__S(697, __c87, 1)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListProjectsResult" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListRemoteAccessSessionsRequest" });
+    case 1:
+      return S.Array(__S(177, __c22, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          remoteAccessSessions: S.optional(__S(705, __c88, 1)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListRemoteAccessSessionsResult" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListRunsRequest" });
+    case 1:
+      return S.Array(__S(524, __c65, 4));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ runs: S.optional(__S(713, __c89, 1)), nextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListRunsResult" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListSamplesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          type: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Sample" });
+    case 2:
+      return S.Array(__S(721, __c90, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ samples: S.optional(__S(722, __c90, 2)), nextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListSamplesResult" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListSuitesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ suites: S.optional(__S(736, __c92, 0)), nextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListSuitesResult" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(544, __c68, 0));
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(753, __c94, 1)) }).pipe(ns)).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Key: S.String, Value: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(752, __c94, 0));
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ maxResult: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListTestGridProjectsRequest" });
+    case 1:
+      return S.Array(__S(200, __c25, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          testGridProjects: S.optional(__S(761, __c95, 1)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListTestGridProjectsResult" });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionArn: S.String,
+          maxResult: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListTestGridSessionActionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.optional(S.String),
+          started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          duration: S.optional(S.Number),
+          statusCode: S.optional(S.String),
+          requestMethod: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TestGridSessionAction" });
+    case 2:
+      return S.Array(__S(769, __c96, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ actions: S.optional(__S(770, __c96, 2)), nextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListTestGridSessionActionsResult" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionArn: S.String,
+          type: S.optional(S.String),
+          maxResult: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListTestGridSessionArtifactsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          filename: S.optional(S.String),
+          type: S.optional(S.String),
+          url: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "TestGridSessionArtifact" });
+    case 2:
+      return S.Array(__S(777, __c97, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          artifacts: S.optional(__S(778, __c97, 2)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListTestGridSessionArtifactsResult" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectArn: S.String,
+          status: S.optional(S.String),
+          creationTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          creationTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          endTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          endTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          maxResult: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListTestGridSessionsRequest" });
+    case 1:
+      return S.Array(__S(576, __c72, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          testGridSessions: S.optional(__S(785, __c98, 1)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListTestGridSessionsResult" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListTestsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ tests: S.optional(__S(736, __c92, 0)), nextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListTestsResult" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListUniqueProblemsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ arn: S.optional(S.String), name: S.optional(S.String) }),
+      ).annotate({ identifier: "ProblemDetail" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          run: S.optional(__S(801, __c100, 1)),
+          job: S.optional(__S(801, __c100, 1)),
+          suite: S.optional(__S(801, __c100, 1)),
+          test: S.optional(__S(801, __c100, 1)),
+          device: S.optional(__S(146, __c18, 2)),
+          result: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Problem" });
+    case 3:
+      return S.Array(__S(802, __c100, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ message: S.optional(S.String), problems: S.optional(__S(803, __c100, 3)) }),
+      ).annotate({ identifier: "UniqueProblem" });
+    case 5:
+      return S.Array(__S(804, __c100, 4));
+    case 6:
+      return S.Record(S.String, /*@__PURE__*/ __S(805, __c100, 5).pipe(S.optional));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          uniqueProblems: S.optional(__S(806, __c100, 6)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListUniqueProblemsResult" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          type: S.optional(S.String),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListUploadsRequest" });
+    case 1:
+      return S.Array(__S(232, __c29, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          uploads: S.optional(__S(809, __c101, 1)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListUploadsResult" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListVPCEConfigurationsRequest" });
+    case 1:
+      return S.Array(__S(256, __c32, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          vpceConfigurations: S.optional(__S(817, __c102, 1)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListVPCEConfigurationsResult" });
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          offeringId: S.String,
+          quantity: S.Number,
+          offeringPromotionId: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "PurchaseOfferingRequest" });
+  }
+}
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ offeringTransaction: S.optional(__S(688, __c86, 0)) }).pipe(ns),
+      ).annotate({ identifier: "PurchaseOfferingResult" });
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ offeringId: S.String, quantity: S.Number }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "RenewOfferingRequest" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ filters: __S(513, __c64, 1), maxDevices: S.Number }),
+      ).annotate({ identifier: "DeviceSelectionConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          jobTimeoutMinutes: S.optional(S.Number),
+          accountsCleanup: S.optional(S.Boolean),
+          appPackagesCleanup: S.optional(S.Boolean),
+          videoCapture: S.optional(S.Boolean),
+          skipAppResign: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ExecutionConfiguration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          projectArn: S.String,
+          appArn: S.optional(S.String),
+          devicePoolArn: S.optional(S.String),
+          deviceSelectionConfiguration: S.optional(__S(848, __c106, 0)),
+          name: S.optional(S.String),
+          test: __S(408, __c51, 0),
+          configuration: S.optional(__S(409, __c51, 1)),
+          executionConfiguration: S.optional(__S(849, __c106, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ScheduleRunRequest" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StopJobRequest" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StopRemoteAccessSessionRequest" });
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StopRunRequest" });
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.String, Tags: __S(753, __c94, 1) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.String, TagKeys: __S(32, __c4, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          profileArn: S.optional(S.String),
+          labels: S.optional(__S(32, __c4, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateDeviceInstanceRequest" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          rules: S.optional(__S(9, __c1, 1)),
+          maxDevices: S.optional(S.Number),
+          clearMaxDevices: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateDevicePoolRequest" });
+  }
+}
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          packageCleanup: S.optional(S.Boolean),
+          excludeAppPackagesFromCleanup: S.optional(__S(32, __c4, 0)),
+          rebootAfterUse: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateInstanceProfileRequest" });
+  }
+}
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          type: S.optional(S.String),
+          uplinkBandwidthBits: S.optional(S.Number),
+          downlinkBandwidthBits: S.optional(S.Number),
+          uplinkDelayMs: S.optional(S.Number),
+          downlinkDelayMs: S.optional(S.Number),
+          uplinkJitterMs: S.optional(S.Number),
+          downlinkJitterMs: S.optional(S.Number),
+          uplinkLossPercent: S.optional(S.Number),
+          downlinkLossPercent: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateNetworkProfileRequest" });
+  }
+}
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          name: S.optional(S.String),
+          defaultJobTimeoutMinutes: S.optional(S.Number),
+          vpcConfig: S.optional(__S(88, __c11, 0)),
+          environmentVariables: S.optional(__S(97, __c12, 1)),
+          executionRoleArn: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateProjectRequest" });
+  }
+}
+function __c117(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectArn: S.String,
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          vpcConfig: S.optional(__S(88, __c11, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateTestGridProjectRequest" });
+  }
+}
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          name: S.optional(S.String),
+          contentType: S.optional(S.String),
+          editContent: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateUploadRequest" });
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          vpceConfigurationName: S.optional(S.String),
+          vpceServiceName: S.optional(S.String),
+          serviceDnsName: S.optional(S.String),
+          vpceConfigurationDescription: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateVPCEConfigurationRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

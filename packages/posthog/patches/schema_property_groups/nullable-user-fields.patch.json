@@ -1,0 +1,10 @@
+{
+  "description": "From nullable-user-fields.patch.json: Make user-like fields (anything ending in _by, plus user/owner/assigned_to/primary_account) nullable across PostHog schemas. The spec marks them as non-null $refs but the API regularly returns null when the user has been deleted, when the request was made by an anonymous/system actor, or when the field is unset. Without this patch, decoding fails on every list response that contains an entry with a deleted/system user.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.schema_property_groups#SchemaPropertyGroup/members/created_by/traits/com.distilled.openapi#nullable",
+      "value": {}
+    }
+  ]
+}

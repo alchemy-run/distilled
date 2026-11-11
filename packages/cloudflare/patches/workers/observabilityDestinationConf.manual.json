@@ -1,0 +1,49 @@
+{
+  "description": "The 2026-10-21 Cloudflare spec dropped `destinationConf` from every Workers observability destination response configuration; earlier specs declared it as a required string. Keep it as an optional member, marked sensitive because it embeds header values, so a response that still carries it decodes it and a response without it still decodes. alchemy's Cloudflare.ObservabilityDestination exposes it as a Redacted attribute (alchemy-run/alchemy#2372).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ObservabilityDestinationsCreateResponseConfiguration/members/destinationConf",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The underlying Logpush destination string: the URL with the configured headers encoded as query parameters, so it can carry credentials. Optional: the 2026-10-21 spec omits it."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ObservabilityDestinationsDeleteResponseConfiguration/members/destinationConf",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The underlying Logpush destination string: the URL with the configured headers encoded as query parameters, so it can carry credentials. Optional: the 2026-10-21 spec omits it."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ObservabilityDestinationsListResultItemConfiguration/members/destinationConf",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The underlying Logpush destination string: the URL with the configured headers encoded as query parameters, so it can carry credentials. Optional: the 2026-10-21 spec omits it."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ObservabilityDestinationsUpdateResponseConfiguration/members/destinationConf",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The underlying Logpush destination string: the URL with the configured headers encoded as query parameters, so it can carry credentials. Optional: the 2026-10-21 spec omits it."
+        }
+      }
+    }
+  ]
+}

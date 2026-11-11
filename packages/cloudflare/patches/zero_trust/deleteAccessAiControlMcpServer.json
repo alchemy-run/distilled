@@ -25,6 +25,18 @@
       "op": "replace",
       "path": "/shapes/com.cloudflare.zero_trust#DeleteAccessAiControlMcpServer/output/target",
       "value": "com.cloudflare.zero_trust#DeleteAccessAiControlMcpServerResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#DeleteAccessAiControlMcpServer/errors",
+      "value": [
+        {
+          "target": "com.cloudflare.zero_trust#McpServerNotFound"
+        },
+        {
+          "target": "com.cloudflare.zero_trust#Forbidden"
+        }
+      ]
     }
   ]
 }

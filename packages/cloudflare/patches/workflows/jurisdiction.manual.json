@@ -1,0 +1,33 @@
+{
+  "description": "The spec declares one identical jurisdiction enum per shape; merge them into a single WorkflowJurisdiction",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.workflows#UpdateRequestJurisdiction",
+      "path": "/shapes/com.cloudflare.workflows#WorkflowJurisdiction"
+    },
+    { "op": "remove", "path": "/shapes/com.cloudflare.workflows#UpdateResponseJurisdiction" },
+    { "op": "remove", "path": "/shapes/com.cloudflare.workflows#GetResponseJurisdiction" },
+    { "op": "remove", "path": "/shapes/com.cloudflare.workflows#ListResultItemJurisdiction" },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.workflows#PutWorkflowRequest/members/jurisdiction/target",
+      "value": "com.cloudflare.workflows#WorkflowJurisdiction"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.workflows#PutWorkflowResponse/members/jurisdiction/target",
+      "value": "com.cloudflare.workflows#WorkflowJurisdiction"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.workflows#GetWorkflowResponse/members/jurisdiction/target",
+      "value": "com.cloudflare.workflows#WorkflowJurisdiction"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.workflows#ListResultItem/members/jurisdiction/target",
+      "value": "com.cloudflare.workflows#WorkflowJurisdiction"
+    }
+  ]
+}

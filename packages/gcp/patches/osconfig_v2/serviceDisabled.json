@@ -1,0 +1,215 @@
+{
+  "description": "Type the API-disabled answer (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: 'OS Config API has not been used in project N before or it is disabled.'). It surfaced as the generic Forbidden, so callers could not tell a disabled service from a missing permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The OS Config API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#CancelFoldersLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#CancelOrganizationsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#CancelProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#CreateFoldersLocationsGlobalPolicyOrchestrators/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#CreateOrganizationsLocationsGlobalPolicyOrchestrators/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#CreateProjectsLocationsGlobalPolicyOrchestrators/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#DeleteFoldersLocationsGlobalPolicyOrchestrators/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#DeleteFoldersLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#DeleteOrganizationsLocationsGlobalPolicyOrchestrators/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#DeleteOrganizationsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#DeleteProjectsLocationsGlobalPolicyOrchestrators/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#DeleteProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#GetFoldersLocationsGlobalPolicyOrchestrators/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#GetFoldersLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#GetOrganizationsLocationsGlobalPolicyOrchestrators/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#GetOrganizationsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#GetProjectsLocationsGlobalPolicyOrchestrators/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#GetProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#ListFoldersLocationsGlobalPolicyOrchestrators/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#ListFoldersLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#ListOrganizationsLocationsGlobalPolicyOrchestrators/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#ListOrganizationsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#ListProjectsLocationsGlobalPolicyOrchestrators/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#ListProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#PatchFoldersLocationsGlobalPolicyOrchestrators/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#PatchOrganizationsLocationsGlobalPolicyOrchestrators/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.osconfig_v2#PatchProjectsLocationsGlobalPolicyOrchestrators/errors/-",
+      "value": {
+        "target": "com.gcp.osconfig_v2#ServiceDisabled"
+      }
+    }
+  ]
+}

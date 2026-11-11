@@ -1,0 +1,15 @@
+{
+  "description": "connectorServiceTypeInfo (discriminated by connectorServiceType) and partnerConnectorInfo (discriminated by partnerConnectorType) are polymorphic; the converted model keeps only the base discriminator member, so S.Struct strips the subtype payload (storage account, Cosmos, Synapse targets; Kafka auth, topics, formats) on encode and decode. Retarget both as untyped documents.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.confluent#ConnectorResourceProperties/members/connectorServiceTypeInfo/target",
+      "value": "smithy.api#Document"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.confluent#ConnectorResourceProperties/members/partnerConnectorInfo/target",
+      "value": "smithy.api#Document"
+    }
+  ]
+}

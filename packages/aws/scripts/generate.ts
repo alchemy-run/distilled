@@ -1,4 +1,6 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
+import { lintAndFormatGenerated } from "@distilled.cloud/dev/codegen/format";
 /**
  * generate — turn the AWS Smithy models into an Effect SDK.
  *
@@ -8,7 +10,7 @@
  *         never published a Smithy model for — see manual-specs/README.md)
  * Output: src/services/<sdkId>.ts  +  services/index.ts
  *
- * This runs the SHARED generator CLI (`@distilled.cloud/core/codegen/cli`).
+ * This runs the SHARED generator CLI (`@distilled.cloud/dev/codegen/cli`).
  * convert.ts turns the spec-mirror Smithy + patches/ into `.generated-specs`
  * and copies partition data; generate only compiles those models (430
  * services — one bad one shouldn't hide the other 429; the run still fails
@@ -22,30 +24,28 @@
  * Flags: `--resource <sdkId>` generates a single service (e.g. `s3`).
  */
 import { Schema as S } from "effect";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
-import { lintAndFormatGenerated } from "@distilled.cloud/core/codegen/format";
-import { loadServiceSpecPatch } from "./spec-schema.ts";
 import { SmithyModel, type ServiceShape } from "./model-schema.ts";
+import { loadServiceSpecPatch } from "./spec-schema.ts";
 import { awsSpec } from "./spec.ts";
 
 /** The service shape and its sdkId — every AWS model has exactly one. */
 const serviceOf = (model: any): ServiceShape => {
-  const shape = Object.values(model.shapes ?? {}).find(
-    (s: any) => s?.type === "service",
-  ) as ServiceShape | undefined;
+  const shape = Object.values(model.shapes ?? {}).find((s: any) => s?.type === "service") as
+    | ServiceShape
+    | undefined;
   if (!shape) throw new Error("service shape not found");
   return shape;
 };
 
-const sdkIdOf = (model: any): string =>
-  serviceOf(model).traits["aws.api#service"].sdkId;
+const sdkIdOf = (model: any): string => serviceOf(model).traits["aws.api#service"].sdkId;
 
 /** `SimpleDB` → `simpledb`, `API Gateway` → `api-gateway`. */
 const moduleName = (sdkId: string) => sdkId.toLowerCase().replaceAll(" ", "-");
 
 runGeneratorCli({
   description: "Generate the AWS Effect SDK from patched Smithy models",
-  root: `${import.meta.dir}/..`,
+  convert: () => import("./convert.ts"),
+  root: `${import.meta.dirname}/..`,
   smithyDir: ".generated-specs",
   manualSpecsDir: "manual-specs",
   patchesDir: false,
@@ -63,6 +63,11 @@ runGeneratorCli({
       .split("-")
       .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
       .join(""),
+
+  // S3 ships on its own as @distilled.cloud/s3, the package the rest of the
+  // AWS runtime builds on; src/services/s3.ts re-exports it.
+  relocate: (resource) =>
+    resource === "s3" ? { dir: "../s3/src/services", reexport: "@distilled.cloud/s3" } : undefined,
 
   // One malformed model shouldn't stop the other 429 from regenerating —
   // but the run reports them together and exits non-zero.

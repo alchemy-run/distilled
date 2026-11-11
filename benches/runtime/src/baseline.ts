@@ -11,16 +11,9 @@
  * share (protocol encode + signing + envelope decode + retry wrapper).
  */
 import * as Effect from "effect/Effect";
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
-
-import {
-  type Case,
-  buildLayer,
-  mockHttpLayer,
-  runPromise,
-  runSync,
-} from "./harness.ts";
+import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
+import { type Case, buildLayer, mockHttpLayer, runPromise, runSync } from "./harness.ts";
 
 export const baselineCases = async (): Promise<Case[]> => {
   const body = JSON.stringify({

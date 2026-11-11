@@ -18,7 +18,7 @@ import * as Duration from "effect/Duration";
 import { RETRYABLE_HTTP_STATUSES } from "./errors.ts";
 
 /**
- * Header bag — case-insensitive lookup is the caller's responsibility.
+ * Header bag -- case-insensitive lookup is the caller's responsibility.
  *
  * The helpers in this module read lowercase keys (`retry-after`, `ratelimit`)
  * because most HTTP clients normalize headers to lowercase. If your client
@@ -34,9 +34,7 @@ export type Headers = Record<string, string | undefined> | undefined;
  *
  * Returns `undefined` when the header is missing or unparseable.
  */
-export const parseRetryAfter = (
-  headers: Headers,
-): Duration.Duration | undefined => {
+export const parseRetryAfter = (headers: Headers): Duration.Duration | undefined => {
   const raw = headers?.["retry-after"];
   if (!raw) return undefined;
   const trimmed = raw.trim();
@@ -74,12 +72,10 @@ export const parseRetryAfter = (
  *   `RateLimit: r=0, t=30`                                   (compact form)
  *
  * Returns the `t` (seconds until reset) value as a Duration, but only when
- * `r` (remaining quota) is present and equals `0` — i.e., we're actually
+ * `r` (remaining quota) is present and equals `0` -- i.e., we're actually
  * rate-limited right now. Returns `undefined` otherwise.
  */
-export const parseRatelimit = (
-  headers: Headers,
-): Duration.Duration | undefined => {
+export const parseRatelimit = (headers: Headers): Duration.Duration | undefined => {
   const raw = headers?.["ratelimit"];
   if (!raw) return undefined;
 
@@ -99,7 +95,7 @@ export const parseRatelimit = (
     else if (key === "t" || key === "reset") reset = num;
   }
 
-  if (remaining !== undefined && remaining > 0) return undefined;
+  if (remaining !== 0) return undefined;
   if (reset === undefined || reset < 0) return undefined;
   return Duration.seconds(reset);
 };
@@ -108,9 +104,7 @@ export const parseRatelimit = (
  * Convenience: try `Retry-After` first, then `RateLimit`. Returns the first
  * successful parse, or `undefined` if neither header yields a usable value.
  */
-export const parseServerRetryHint = (
-  headers: Headers,
-): Duration.Duration | undefined =>
+export const parseServerRetryHint = (headers: Headers): Duration.Duration | undefined =>
   parseRetryAfter(headers) ?? parseRatelimit(headers);
 
 /**
@@ -118,7 +112,7 @@ export const parseServerRetryHint = (
  * unless `status` is one whose error class actually declares a `retryAfter`
  * field (see `RETRYABLE_HTTP_STATUSES`). Use this in `matchError` when you
  * dispatch off a generic `HTTP_STATUS_MAP` lookup that includes both
- * retryable (429/5xx/423) and non-retryable (4xx) classes — it prevents
+ * retryable (429/5xx/423) and non-retryable (4xx) classes -- it prevents
  * stale `retryAfter` properties from being attached to errors like
  * `BadRequest` or `NotFound` (which would otherwise leak into JSON output).
  */

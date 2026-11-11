@@ -1,0 +1,765 @@
+{
+  "description": "ARM has not rolled out api-version 2026-07-15 for Microsoft.Web/staticSites (400 NoRegisteredProviderFound: 'No registered resource provider found for location eastus2 and API version 2026-07-15 for type staticSites'). Pin every staticSites operation to the latest deployed GA version, 2025-05-01.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateUserRolesInvitationLink/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateUserRolesInvitationLink/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateZipDeploymentForStaticSite/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateZipDeploymentForStaticSite/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateZipDeploymentForStaticSiteBuild/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateZipDeploymentForStaticSiteBuild/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDeleteBuildDatabaseConnection/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDeleteBuildDatabaseConnection/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDeleteDatabaseConnection/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDeleteDatabaseConnection/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDeletePrivateEndpointConnection/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDeletePrivateEndpointConnection/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDeleteStaticSite/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDeleteStaticSite/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDeleteStaticSiteBuild/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDeleteStaticSiteBuild/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDeleteStaticSiteCustomDomain/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDeleteStaticSiteCustomDomain/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDeleteStaticSiteUser/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDeleteStaticSiteUser/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDetachStaticSite/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDetachStaticSite/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDetachUserProvidedFunctionAppFromStaticSite/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDetachUserProvidedFunctionAppFromStaticSite/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuild/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuild/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetBasicAuth/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetBasicAuth/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetBuildDatabaseConnection/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetBuildDatabaseConnection/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetBuildDatabaseConnectionWithDetails/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetBuildDatabaseConnectionWithDetails/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetBuildDatabaseConnections/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetBuildDatabaseConnections/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetBuildDatabaseConnectionsWithDetails/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetBuildDatabaseConnectionsWithDetails/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetDatabaseConnection/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetDatabaseConnection/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetDatabaseConnectionWithDetails/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetDatabaseConnectionWithDetails/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetDatabaseConnections/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetDatabaseConnections/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetDatabaseConnectionsWithDetails/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetDatabaseConnectionsWithDetails/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetLinkedBackend/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetLinkedBackend/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetLinkedBackendForBuild/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetLinkedBackendForBuild/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetLinkedBackends/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetLinkedBackends/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetLinkedBackendsForBuild/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetLinkedBackendsForBuild/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetPrivateEndpointConnection/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetPrivateEndpointConnection/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetPrivateLinkResources/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetPrivateLinkResources/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetStaticSite/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetStaticSite/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetStaticSiteBuild/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetStaticSiteBuild/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetStaticSiteBuilds/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetStaticSiteBuilds/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetStaticSiteCustomDomain/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetStaticSiteCustomDomain/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetStaticSitesByResourceGroup/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetStaticSitesByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetUserProvidedFunctionAppForStaticSite/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetUserProvidedFunctionAppForStaticSite/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetUserProvidedFunctionAppForStaticSiteBuild/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetUserProvidedFunctionAppForStaticSiteBuild/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetUserProvidedFunctionAppsForStaticSite/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetUserProvidedFunctionAppsForStaticSite/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuild/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuild/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesAsyncOperationsGetOperationResult/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesAsyncOperationsGetOperationResult/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesAsyncOperationsGetOperationStatus/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesAsyncOperationsGetOperationStatus/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListBasicAuth/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListBasicAuth/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteAppSettings/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteAppSettings/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteBuildAppSettings/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteBuildAppSettings/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteBuildFunctionAppSettings/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteBuildFunctionAppSettings/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteBuildFunctions/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteBuildFunctions/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteConfiguredRoles/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteConfiguredRoles/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteCustomDomains/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteCustomDomains/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteFunctionAppSettings/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteFunctionAppSettings/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteFunctions/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteFunctions/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteSecrets/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteSecrets/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteUsers/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesListStaticSiteUsers/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesList/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesList/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesRegisterUserProvidedFunctionAppWithStaticSite/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesRegisterUserProvidedFunctionAppWithStaticSite/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuild/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuild/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesResetStaticSiteApiKey/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesResetStaticSiteApiKey/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesApproveOrRejectPrivateEndpointConnection/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesApproveOrRejectPrivateEndpointConnection/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateBasicAuth/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateBasicAuth/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateBuildDatabaseConnection/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateBuildDatabaseConnection/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateDatabaseConnection/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateDatabaseConnection/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateStaticSite/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateStaticSite/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateStaticSiteAppSettings/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateStaticSiteAppSettings/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateStaticSiteBuildAppSettings/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateStaticSiteBuildAppSettings/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettings/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettings/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateStaticSiteCustomDomain/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateStaticSiteCustomDomain/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateStaticSiteFunctionAppSettings/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesCreateOrUpdateStaticSiteFunctionAppSettings/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetPrivateEndpointConnectionList/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesGetPrivateEndpointConnectionList/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesLinkBackend/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesLinkBackend/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesLinkBackendToBuild/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesLinkBackendToBuild/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesUnlinkBackend/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesUnlinkBackend/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesUnlinkBackendFromBuild/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesUnlinkBackendFromBuild/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesUpdateBuildDatabaseConnection/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesUpdateBuildDatabaseConnection/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesUpdateDatabaseConnection/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesUpdateDatabaseConnection/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesUpdateStaticSite/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesUpdateStaticSite/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesUpdateStaticSiteUser/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesUpdateStaticSiteUser/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesValidateBackend/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesValidateBackend/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesValidateBackendForBuild/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesValidateBackendForBuild/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesValidateCustomDomainCanBeAddedToStaticSite/traits/smithy.api#http/apiVersion",
+      "value": "2025-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.web#StaticSitesValidateCustomDomainCanBeAddedToStaticSite/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-05-01"
+    }
+  ]
+}

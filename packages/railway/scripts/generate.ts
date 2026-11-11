@@ -1,30 +1,33 @@
-#!/usr/bin/env bun
-/** Generate GraphQL-native API from committed complete graph + field contracts. */
+#!/usr/bin/env -S node --conditions=bun
+/**
+ * Generate the Railway Query SDK from the complete GraphQL model.
+ *
+ * Input:  the GraphQL model scripts/convert.ts converts (in memory)
+ * Output: src/graphql.ts — TypeMeta + Railway.me / Railway.project / …
+ *         src/graphql-telemetry.ts — the model's span facts (TELEMETRY)
+ */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
-import {
-  generateGraphQLClient,
-  type GraphQLModel,
-} from "../../core/src/codegen/graphql-client.ts";
-import { toVerbNoun } from "../../core/src/codegen/rewrite-operation-ids.ts";
+import { stampGeneratedAt } from "../../dev/src/codegen/generated-at.ts";
+import { generateGraphQLClient, type GraphQLModel } from "../../dev/src/codegen/graphql-client.ts";
+import { toLatin1 } from "../../dev/src/codegen/latin1.ts";
+import { collectModels } from "../../dev/src/codegen/models.ts";
+import { generateGraphQLTelemetry } from "../../dev/src/codegen/telemetry.ts";
 
-const root = path.resolve(import.meta.dir, "..");
-const model: GraphQLModel = JSON.parse(
-  await fs.readFile(path.join(root, ".generated-graphql/railway.json"), "utf8"),
-);
-const operationNames = [model.queryType, model.mutationType].flatMap((name) =>
-  Object.keys(model.types[name ?? ""]?.fields ?? {}),
-);
-const operationAliases = Object.fromEntries(
-  operationNames.map((name) => [toVerbNoun(name), name]),
-);
+const root = path.resolve(import.meta.dirname, "..");
+const models = await collectModels(() => import("./convert.ts"));
+const modelText = models.get(path.join(root, ".generated-graphql/railway.json"));
+if (modelText === undefined) throw new Error("convert.ts wrote no .generated-graphql/railway.json");
+const model: GraphQLModel = JSON.parse(modelText);
 const code = generateGraphQLClient(model, {
   transportImport: "./graphql-transport.ts",
   requirementsImport: "./graphql-transport.ts",
   requirementsType: "GraphQLRequirements",
-  operationAliases,
+  sdkName: "Railway",
 });
-await fs.writeFile(path.join(root, "src/graphql.ts"), code);
+await fs.writeFile(path.join(root, "src/graphql.ts"), toLatin1(code, "graphql.ts"));
+await fs.writeFile(path.join(root, "src/graphql-telemetry.ts"), generateGraphQLTelemetry(model));
+stampGeneratedAt(root);
 console.log(
-  `GraphQL: generated ${operationNames.length} selective operations → src/graphql.ts`,
+  `GraphQL: generated Query SDK (${Object.keys(model.types).length} types) → src/graphql.ts`,
 );

@@ -1,3 +1,4 @@
+import { type Policy, throttlingFactory, transientFactory } from "@distilled.cloud/core/retry";
 /**
  * Docker retry configuration.
  *
@@ -16,11 +17,6 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import {
-  type Policy,
-  throttlingFactory,
-  transientFactory,
-} from "@distilled.cloud/core/retry";
 
 export {
   type Options,
@@ -36,19 +32,19 @@ export {
 } from "@distilled.cloud/core/retry";
 
 /** Context tag for configuring retry behavior of Docker API calls. */
-export class Retry extends Context.Service<Retry, Policy>()("DockerRetry") {}
+export class Retry extends /*@__PURE__*/ Context.Service<Retry, Policy>()("DockerRetry") {}
 
 /** Provides a custom retry policy to every Docker API call below it. */
 export const policy = (optionsOrFactory: Policy) =>
   Effect.provide(Layer.succeed(Retry, optionsOrFactory));
 
 /** Disables all automatic retries. */
-export const none = Effect.provide(
-  Layer.succeed(Retry, { while: () => false }),
+export const none = /*@__PURE__*/ Effect.provide(
+  /*@__PURE__*/ Layer.succeed(Retry, { while: () => false }),
 );
 
 /** Apply the throttling retry policy (retries throttling errors indefinitely). */
-export const throttling = policy(throttlingFactory);
+export const throttling = /*@__PURE__*/ policy(throttlingFactory);
 
 /** Apply the transient retry policy (retries all transient errors indefinitely). */
-export const transient = policy(transientFactory);
+export const transient = /*@__PURE__*/ policy(transientFactory);

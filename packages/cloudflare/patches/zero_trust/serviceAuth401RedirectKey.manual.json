@@ -1,0 +1,9 @@
+{
+  "description": "Drop the `serviceAuth_401Redirect` key-dictionary entry. The member's TS name is the verbatim wire name `service_auth_401_redirect`, so the entry renamed it on decode to a key no union case declares, and application responses silently lost the flag (a PUT-style update built from the observed app then reset it).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/metadata/keyDictionary/serviceAuth_401Redirect"
+    }
+  ]
+}

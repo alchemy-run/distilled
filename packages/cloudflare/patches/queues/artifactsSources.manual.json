@@ -1,0 +1,538 @@
+{
+  "description": "Docs gap: the event subscription sources `artifacts` (account-level: repo.created, repo.deleted, repo.forked, repo.imported) and `artifacts.repo` (one repository by `namespace` and `repo_name`: pushed, cloned, fetched, token.created, token.revoked) are missing from the source union. Source: https://developers.cloudflare.com/queues/event-subscriptions/events-schemas/#artifacts (2026-10-03). Union arms take their wire keys from the service's key dictionary, which convert builds from the OpenAPI properties, so `repo_name` is added to it here.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceArtifactsType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "ARTIFACTS": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "artifacts"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceArtifacts",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceArtifactsType",
+            "traits": {
+              "smithy.api#documentation": "Type of source"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsCreateRequestSource/members/MqEventSourceArtifacts",
+      "value": {
+        "target": "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceArtifacts"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceArtifactsRepoType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "ARTIFACTS_REPO": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "artifacts.repo"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceArtifactsRepo",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceArtifactsRepoType",
+            "traits": {
+              "smithy.api#documentation": "Type of source"
+            }
+          },
+          "namespace": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Artifacts namespace of the repository"
+            }
+          },
+          "repo_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Name of the repository"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsCreateRequestSource/members/MqEventSourceArtifactsRepo",
+      "value": {
+        "target": "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceArtifactsRepo"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceArtifactsType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "ARTIFACTS": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "artifacts"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceArtifacts",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceArtifactsType",
+            "traits": {
+              "smithy.api#documentation": "Type of source"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsCreateResponseSource/members/MqEventSourceArtifacts",
+      "value": {
+        "target": "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceArtifacts"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceArtifactsRepoType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "ARTIFACTS_REPO": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "artifacts.repo"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceArtifactsRepo",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceArtifactsRepoType",
+            "traits": {
+              "smithy.api#documentation": "Type of source"
+            }
+          },
+          "namespace": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Artifacts namespace of the repository"
+            }
+          },
+          "repo_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Name of the repository"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsCreateResponseSource/members/MqEventSourceArtifactsRepo",
+      "value": {
+        "target": "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceArtifactsRepo"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceArtifactsType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "ARTIFACTS": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "artifacts"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceArtifacts",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceArtifactsType",
+            "traits": {
+              "smithy.api#documentation": "Type of source"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsDeleteResponseSource/members/MqEventSourceArtifacts",
+      "value": {
+        "target": "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceArtifacts"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceArtifactsRepoType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "ARTIFACTS_REPO": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "artifacts.repo"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceArtifactsRepo",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceArtifactsRepoType",
+            "traits": {
+              "smithy.api#documentation": "Type of source"
+            }
+          },
+          "namespace": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Artifacts namespace of the repository"
+            }
+          },
+          "repo_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Name of the repository"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsDeleteResponseSource/members/MqEventSourceArtifactsRepo",
+      "value": {
+        "target": "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceArtifactsRepo"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceArtifactsType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "ARTIFACTS": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "artifacts"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceArtifacts",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceArtifactsType",
+            "traits": {
+              "smithy.api#documentation": "Type of source"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsGetResponseSource/members/MqEventSourceArtifacts",
+      "value": {
+        "target": "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceArtifacts"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceArtifactsRepoType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "ARTIFACTS_REPO": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "artifacts.repo"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceArtifactsRepo",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceArtifactsRepoType",
+            "traits": {
+              "smithy.api#documentation": "Type of source"
+            }
+          },
+          "namespace": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Artifacts namespace of the repository"
+            }
+          },
+          "repo_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Name of the repository"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsGetResponseSource/members/MqEventSourceArtifactsRepo",
+      "value": {
+        "target": "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceArtifactsRepo"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceArtifactsType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "ARTIFACTS": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "artifacts"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceArtifacts",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceArtifactsType",
+            "traits": {
+              "smithy.api#documentation": "Type of source"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsListResultItemSource/members/MqEventSourceArtifacts",
+      "value": {
+        "target": "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceArtifacts"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceArtifactsRepoType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "ARTIFACTS_REPO": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "artifacts.repo"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceArtifactsRepo",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceArtifactsRepoType",
+            "traits": {
+              "smithy.api#documentation": "Type of source"
+            }
+          },
+          "namespace": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Artifacts namespace of the repository"
+            }
+          },
+          "repo_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Name of the repository"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsListResultItemSource/members/MqEventSourceArtifactsRepo",
+      "value": {
+        "target": "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceArtifactsRepo"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceArtifactsType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "ARTIFACTS": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "artifacts"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceArtifacts",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceArtifactsType",
+            "traits": {
+              "smithy.api#documentation": "Type of source"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsUpdateResponseSource/members/MqEventSourceArtifacts",
+      "value": {
+        "target": "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceArtifacts"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceArtifactsRepoType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "ARTIFACTS_REPO": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "artifacts.repo"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceArtifactsRepo",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceArtifactsRepoType",
+            "traits": {
+              "smithy.api#documentation": "Type of source"
+            }
+          },
+          "namespace": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Artifacts namespace of the repository"
+            }
+          },
+          "repo_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Name of the repository"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.queues#SubscriptionsUpdateResponseSource/members/MqEventSourceArtifactsRepo",
+      "value": {
+        "target": "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceArtifactsRepo"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/metadata/keyDictionary/repoName",
+      "value": "repo_name"
+    }
+  ]
+}

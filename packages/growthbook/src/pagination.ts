@@ -1,5 +1,5 @@
 /**
- * GrowthBook pagination — hand-written.
+ * GrowthBook pagination -- hand-written.
  *
  * GrowthBook's paginated list operations are offset/limit (`offset`/`limit`
  * in, `nextOffset` out). Generated operations pass core's

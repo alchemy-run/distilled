@@ -1,15 +1,188 @@
 {
-  "description": "Mark the always-present members of the AccessToken definition as required, and its `sha1` sensitive. Forgejo's Swagger is generated from Go structs with no `required` lists at all, so a token's `id`, `name`, `token_last_eight` and `created_at` type as optional even though they are plain struct members serialized on every response. `sha1` is the generated secret, returned only by the create response and empty on every later read — it stays optional, but is flagged sensitive so the SDK hands it out Redacted.",
+  "description": "Mark the always-present members of the AccessToken definition as required, and its `sha1` sensitive. Forgejo's Swagger is generated from Go structs with no `required` lists at all, so a token's `id`, `name`, `token_last_eight` and `created_at` type as optional even though they are plain struct members serialized on every response. `sha1` is the generated secret, returned only by the create response and empty on every later read — it stays optional, but is flagged sensitive so the SDK hands it out Redacted. Also, from organization/_definitions.json: Mark the always-present members of the organization-tag response definitions as required. Forgejo's Swagger is generated from Go structs with no `required` lists at all, so an organization's `id` and `username` and a team's `id` and `name` type as optional even though they are plain struct members serialized on every response. Descriptions, visibility and the permission-unit lists stay optional. Also, from repository/_definitions.json: Mark the always-present members of the repository-tag response definitions as required. Forgejo's Swagger is generated from Go structs with no `required` lists at all, so every response member types as optional and a caller has to defend against a repository without an `id` or a hook without an `url` — shapes Forgejo never produces: these fields are plain (non-pointer, non-omitempty) struct members serialized on every response. Only identity and timestamp members that every consumer needs are listed; genuinely optional data (descriptions, counters, nested trackers) and slices Go may serialize as `null` (`events`, `topics`) stay optional. Also, from user/_definitions.json: Mark the always-present members of the User definition as required. Forgejo's Swagger is generated from Go structs with no `required` lists at all, so a user's `id` and `login` type as optional even though they are plain struct members serialized on every response — including the `owner` nested in every repository.",
   "patches": [
     {
       "op": "add",
-      "path": "/definitions/AccessToken/required",
-      "value": ["id", "name", "token_last_eight", "created_at"]
+      "path": "/shapes/com.forgejo.admin#AccessToken/members/created_at/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
     },
     {
       "op": "add",
-      "path": "/definitions/AccessToken/properties/sha1/x-sensitive",
-      "value": true
+      "path": "/shapes/com.forgejo.admin#AccessToken/members/id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#AccessToken/members/name/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#AccessToken/members/sha1/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#AccessToken/members/token_last_eight/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Organization/members/id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Organization/members/username/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Team/members/id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Team/members/name/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Hook/members/active/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Hook/members/created_at/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Hook/members/id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Hook/members/type/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Hook/members/updated_at/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Hook/members/url/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Repository/members/clone_url/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Repository/members/created_at/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Repository/members/default_branch/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Repository/members/full_name/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Repository/members/html_url/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Repository/members/id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Repository/members/name/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Repository/members/owner/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Repository/members/ssh_url/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#Repository/members/updated_at/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#User/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.admin#User/members/login/traits/smithy.api#required",
+      "value": {}
     }
   ]
 }

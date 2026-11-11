@@ -7,20 +7,37 @@
       "errors": ["ResourceNotFoundException"]
     },
     "deleteEnvironmentBlueprintConfiguration": {
-      "errors": ["ResourceNotFoundException"]
+      "errors": ["ResourceNotFoundException"],
+      "syntheticErrors": [
+        {
+          "name": "EnvironmentBlueprintConfigurationInUse",
+          "from": "ValidationException",
+          "message": {
+            "includes": "still referenced by the following environments"
+          }
+        }
+      ]
     }
   },
   "structures": {
     "GetEnvironmentCredentialsOutput": {
       "members": {
-        "secretAccessKey": { "sensitive": true },
-        "sessionToken": { "sensitive": true }
+        "secretAccessKey": {
+          "sensitive": true
+        },
+        "sessionToken": {
+          "sensitive": true
+        }
       }
     },
     "ConnectionCredentials": {
       "members": {
-        "secretAccessKey": { "sensitive": true },
-        "sessionToken": { "sensitive": true }
+        "secretAccessKey": {
+          "sensitive": true
+        },
+        "sessionToken": {
+          "sensitive": true
+        }
       }
     }
   },

@@ -1,0 +1,115 @@
+{
+  "description": "ProtectedItem is polymorphic on protectedItemType (AzureFileshareProtectedItem, AzureIaaSComputeVMProtectedItem, ...); the converted model keeps only base members, so S.Struct strips friendlyName, protectionState and status fields. Add them to the input and output shapes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectedItemInput/members/friendlyName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Friendly name of the protected datasource (AzureFileShare / IaaS VM items)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectedItemInput/members/protectionState",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Protection state: `Protected`, `ProtectionStopped`, `IRPending`, `ProtectionError`, `ProtectionPaused`, `BackupsSuspended`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectedItemInput/members/extendedProperties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Subtype-specific extended properties (e.g. disk exclusion for IaaS VMs)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectedItem/members/friendlyName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Friendly name of the protected datasource (AzureFileShare / IaaS VM items)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectedItem/members/protectionState",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Protection state: `Protected`, `ProtectionStopped`, `IRPending`, `ProtectionError`, `ProtectionPaused`, `BackupsSuspended`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectedItem/members/extendedProperties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Subtype-specific extended properties (e.g. disk exclusion for IaaS VMs)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectedItem/members/protectionStatus",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Backup status of the item (read-only)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectedItem/members/lastBackupStatus",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Status of the last backup (read-only)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectedItem/members/lastBackupTime",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Timestamp of the last backup (read-only)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectedItem/members/healthStatus",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Health status of the item (read-only)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectedItem/members/virtualMachineId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM ID of the protected VM (IaaS VM items, read-only)."
+        }
+      }
+    }
+  ]
+}

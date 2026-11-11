@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * spec-to-smithy — convert the mirrored Cloudflare API markdown specs into
  * Smithy 2.0 JSON models.
@@ -32,21 +32,23 @@
  * plus `smithy.api#required`, `smithy.api#jsonName`, and `smithy.api#documentation`.
  *
  * Usage:
- *   bun scripts/spec-to-smithy.ts
- *   bun scripts/spec-to-smithy.ts --resource ai          # one top-level resource
- *   bun scripts/spec-to-smithy.ts --limit 50             # first N operations
- *   bun scripts/spec-to-smithy.ts --specs specs/spec-mirror-cloudflare/specs/api/resources --out .generated-specs
+ *   node --conditions=bun scripts/spec-to-smithy.ts
+ *   node --conditions=bun scripts/spec-to-smithy.ts --resource ai          # one top-level resource
+ *   node --conditions=bun scripts/spec-to-smithy.ts --limit 50             # first N operations
+ *   node --conditions=bun scripts/spec-to-smithy.ts --specs specs/spec-mirror-cloudflare/specs/api/resources --out .generated-specs
  */
 
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
-import { BunRuntime, BunServices } from "@effect/platform-bun";
+import { writeModel } from "@distilled.cloud/dev/codegen/models";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
+import { NodeRuntime, NodeServices } from "@effect/platform-node";
 import { Console, Effect } from "effect";
+import { Flag } from "effect/cli";
+import { Command } from "effect/cli";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
-import { Flag } from "effect/unstable/cli";
-import { Command } from "effect/unstable/cli";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { dedupeScopeTwins } from "./dedupe-scope-twins.ts";
+import { markJurisdictionOperations } from "./jurisdiction-layer.ts";
 
 // ============================================================================
 // Namespaces
@@ -137,12 +139,8 @@ interface ParsedOp {
   returns: FieldNode[];
 }
 
-const HTTP_METHODS = ["get", "post", "put", "patch", "delete"];
-
 /** Split `optional <type>` into its parts. */
-const stripOptional = (
-  typeStr: string,
-): { optional: boolean; core: string } => {
+const stripOptional = (typeStr: string): { optional: boolean; core: string } => {
   const t = typeStr.trim();
   if (t.startsWith("optional ")) {
     return { optional: true, core: t.slice("optional ".length).trim() };
@@ -439,8 +437,7 @@ const splitBlocks = (md: string): string[] => {
   return blocks;
 };
 
-const unescapeMarkdown = (s: string): string =>
-  s.replace(/\\([\\`*_{}[\]()#+\-.!<>|~])/g, "$1");
+const unescapeMarkdown = (s: string): string => s.replace(/\\([\\`*_{}[\]()#+\-.!<>|~])/g, "$1");
 
 /** The html pass curls quotes; the docs' own text uses the ASCII ones. */
 const straightenQuotes = (s: string): string =>
@@ -483,7 +480,7 @@ const declarationText = (block: string): string => {
       unescapeMarkdown(
         block
           .replace(/<a\b[^>]*>([\s\S]*?)<\/a>/g, "$1")
-          .replace(/\[([^\]]*)\]\((?:<[^>]*>|[^()]*)\)/g, "$1")
+          .replace(/\[([^\]]*)\]\((?:<[^>]*>|(?:[^()]|\([^()]*\))*)\)/g, "$1")
           .replace(/<\/?(?:code|strong|em|b|i|span|p|br)\b[^>]*>/g, ""),
       ),
     ),
@@ -511,15 +508,12 @@ const documentationText = (block: string): string =>
       ),
     ),
     // A bare URL is linkified in some places and not others; print it plainly.
-  ).replace(
-    /\[([^\]]+)\]\(([^()\s]+)\)/g,
-    (match, text: string, href: string) => (text === href ? text : match),
+  ).replace(/\[([^\]]+)\]\(([^()\s]+)\)/g, (match, text: string, href: string) =>
+    text === href ? text : match,
   );
 
 const isConstraintBadge = (block: string): boolean =>
-  !block.includes("\n") &&
-  CONSTRAINT_BADGE.test(block) &&
-  topLevelColon(block) < 0;
+  !block.includes("\n") && CONSTRAINT_BADGE.test(block) && topLevelColon(block) < 0;
 
 const isNoise = (block: string): boolean =>
   LINK_ANCHOR.test(block) ||
@@ -578,8 +572,7 @@ const parsePage = (md: string): ParsedPage => {
   let group: string[] = [];
   let summary: string[] | undefined;
 
-  const siblings = (): FieldNode[] =>
-    open.length ? open[open.length - 1].children : roots;
+  const siblings = (): FieldNode[] => (open.length ? open[open.length - 1].children : roots);
 
   const node = (blocks: string[]): FieldNode | undefined => {
     const decl = declarationText(blocks[0]);
@@ -682,10 +675,7 @@ const parsePage = (md: string): ParsedPage => {
       continue;
     }
     // A property whose anchor the page omitted still starts a new group.
-    if (
-      group.length &&
-      FIELD_DECL.test(collapseLines(unescapeMarkdown(block)))
-    ) {
+    if (group.length && FIELD_DECL.test(collapseLines(unescapeMarkdown(block)))) {
       flushGroup();
     }
     group.push(block);
@@ -865,9 +855,7 @@ const MODEL_HEAD = /^([A-Z][A-Za-z0-9_]*)\s+(\S[\s\S]*)$/;
 const modelEntry = (node: FieldNode): [string, ModelDef] | undefined => {
   if (node.sep === ":") return undefined; // a field, not a model
   const [name, typeStr] =
-    node.sep === "="
-      ? [node.name, node.typeStr]
-      : (node.typeStr.match(MODEL_HEAD)?.slice(1) ?? []);
+    node.sep === "=" ? [node.name, node.typeStr] : (node.typeStr.match(MODEL_HEAD)?.slice(1) ?? []);
   if (!name || !NAMED_TYPE.test(name) || !typeStr) return undefined;
   return [name, { typeStr, children: node.children }];
 };
@@ -895,10 +883,8 @@ const collectModels = (md: string, into: Map<string, ModelDef>): void => {
  */
 const preferModelFields = (name: string, printed: FieldNode[]): FieldNode[] => {
   if (!NAMED_TYPE.test(name) || expandingModels.has(name)) return printed;
-  const full =
-    modelRegistry.get(name)?.children.filter((c) => !isArmChild(c)) ?? [];
-  return full.length > printed.length &&
-    printed.every((p) => full.some((f) => f.name === p.name))
+  const full = modelRegistry.get(name)?.children.filter((c) => !isArmChild(c)) ?? [];
+  return full.length > printed.length && printed.every((p) => full.some((f) => f.name === p.name))
     ? full
     : printed;
 };
@@ -919,7 +905,7 @@ const NUM_LIT = /^-?\d+(?:\.\d+)?$/;
 const structFrom = (bag: Bag, fields: FieldNode[], hint: string): string =>
   addShape(bag, hint, {
     type: "structure",
-    members: buildMembers(bag, fields, hint, "nested"),
+    members: buildMembers(bag, fields, hint),
   });
 
 const listOf = (bag: Bag, item: string, hint: string): string =>
@@ -932,11 +918,7 @@ const mapOf = (bag: Bag, value: string, hint: string): string =>
     value: { target: value },
   });
 
-const enumOf = (
-  bag: Bag,
-  literals: readonly string[],
-  hint: string,
-): string => {
+const enumOf = (bag: Bag, literals: readonly string[], hint: string): string => {
   const members: Record<string, any> = {};
   const used = new Set<string>();
   for (const lit of literals) {
@@ -952,11 +934,7 @@ const enumOf = (
   return addShape(bag, hint || "Enum", { type: "enum", members });
 };
 
-const intEnumOf = (
-  bag: Bag,
-  values: readonly number[],
-  hint: string,
-): string => {
+const intEnumOf = (bag: Bag, values: readonly number[], hint: string): string => {
   const members: Record<string, any> = {};
   const used = new Set<string>();
   for (const v of values) {
@@ -1066,23 +1044,15 @@ const armsToResolved = (bag: Bag, arms: Arm[], hint: string): Resolved => {
   }
 
   // All arms are maps → one map with a union value.
-  if (
-    groups.length === 0 &&
-    distinct.every((t) => bag.shapes[t.target]?.type === "map")
-  ) {
-    const valueTargets = dedupe(
-      distinct.map((t) => bag.shapes[t.target].value.target as string),
-    );
+  if (groups.length === 0 && distinct.every((t) => bag.shapes[t.target]?.type === "map")) {
+    const valueTargets = dedupe(distinct.map((t) => bag.shapes[t.target].value.target as string));
     const value =
       valueTargets.length === 1
         ? valueTargets[0]
         : addShape(bag, `${hint}Value`, {
             type: "union",
             members: Object.fromEntries(
-              valueTargets.map((vt, i) => [
-                caseMemberName(vt, undefined, i),
-                { target: vt },
-              ]),
+              valueTargets.map((vt, i) => [caseMemberName(vt, undefined, i), { target: vt }]),
             ),
           });
     return { target: mapOf(bag, value, hint), nullable };
@@ -1104,12 +1074,18 @@ const armsToResolved = (bag: Bag, arms: Arm[], hint: string): Resolved => {
 
 const dedupe = <T>(xs: readonly T[]): T[] => [...new Set(xs)];
 
+const uniqueBy = <T>(xs: readonly T[], key: (x: T) => string): T[] => {
+  const seen = new Set<string>();
+  return xs.filter((x) => {
+    const k = key(x);
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+};
+
 /** Stable member name for a union case. */
-const caseMemberName = (
-  target: string,
-  caseName: string | undefined,
-  idx: number,
-): string => {
+const caseMemberName = (target: string, caseName: string | undefined, idx: number): string => {
   if (caseName) return pascal(caseName);
   const local = target.includes("#") ? target.split("#")[1] : target;
   return local ? pascal(local) : `Case${idx}`;
@@ -1160,12 +1136,7 @@ const inlineArmMembers = (typeStr: string): Record<string, any> | undefined => {
 };
 
 /** Parse one arm rendered as its own docs bullet (children in tow). */
-const parseArmNode = (
-  bag: Bag,
-  node: FieldNode,
-  hint: string,
-  idx: number,
-): Arm => {
+const parseArmNode = (bag: Bag, node: FieldNode, hint: string, idx: number): Arm => {
   const caseName = node.sep === "=" ? node.name : undefined;
   const t = node.typeStr.trim();
 
@@ -1196,9 +1167,7 @@ const parseArmNode = (
             type: "structure",
             members: inline,
           })
-        : withModel(cname, () =>
-            structFrom(bag, fields, `${hint}${pascal(cname)}`),
-          ),
+        : withModel(cname, () => structFrom(bag, fields, `${hint}${pascal(cname)}`)),
     };
   }
 
@@ -1233,9 +1202,7 @@ const parseArmString = (
     if (!sharedStruct.target && fieldChildren.length) {
       sharedStruct.target = structFrom(bag, fieldChildren, hint);
     }
-    return sharedStruct.target
-      ? { k: "target", target: sharedStruct.target }
-      : { k: "doc" };
+    return sharedStruct.target ? { k: "target", target: sharedStruct.target } : { k: "doc" };
   }
   if (/^array\b/.test(t) || t.startsWith("map[")) {
     const r = resolveDesc(bag, t, fieldChildren, `${hint}Case${idx}`);
@@ -1266,14 +1233,18 @@ const mapValueDesc = (t: string): string | undefined => {
  * untruncated list of arms; the inline descriptor is only trusted when the
  * docs printed no arm bullets.
  */
-const resolveDesc = (
-  bag: Bag,
-  descRaw: string,
-  children: FieldNode[],
-  hint: string,
-): Resolved => {
+const resolveDesc = (bag: Bag, descRaw: string, children: FieldNode[], hint: string): Resolved => {
   const desc = stripOptional(descRaw).core.trim();
-  const armChildren = children.filter(isArmChild);
+  // The docs print some oneOfs as N copies of the same arm (every rulesets
+  // `get` result is five identical rulesets). Copies are one arm.
+  const armChildren = uniqueBy(children.filter(isArmChild), (c) => JSON.stringify(c));
+  if (
+    armChildren.length === 1 &&
+    armChildren[0].sep === "bare" &&
+    splitTopUnion(desc).parts.length > 1
+  ) {
+    return resolveDesc(bag, armChildren[0].typeStr, armChildren[0].children, hint);
+  }
   const fieldChildren = children.filter((c) => !isArmChild(c));
   const { parts, truncated } = splitTopUnion(desc);
   const isArrayDesc = /^array\b/.test(desc);
@@ -1281,20 +1252,24 @@ const resolveDesc = (
   if (armChildren.length > 0) {
     // `array of A or B` lists the ITEM cases as children — unless a child is
     // itself an array arm, which means the union is at the top level
-    // (`array of string or boolean`).
-    const itemLevel =
-      isArrayDesc && !armChildren.some((c) => /^array\b/.test(c.typeStr));
-    const armHint = itemLevel ? `${hint}Item` : hint;
+    // (`array of string or boolean`). `map[A or B]` likewise lists the VALUE
+    // cases (Worker `exports: map[object {…} or object {…}]`).
+    const itemLevel = isArrayDesc && !armChildren.some((c) => /^array\b/.test(c.typeStr));
+    const valueLevel =
+      mapValueDesc(desc) !== undefined &&
+      parts.length === 1 &&
+      !armChildren.some((c) => stripOptional(c.typeStr).core.startsWith("map["));
+    const armHint = itemLevel ? `${hint}Item` : valueLevel ? `${hint}Value` : hint;
     const arms = armChildren.map((c, i) => parseArmNode(bag, c, armHint, i));
     const r = armsToResolved(bag, arms, armHint);
     // A named def whose arms this page just enumerated (`ttl: TTL`,
     // `value: SettingValue`) — remember it for later bare references.
-    if (!itemLevel && parts.length === 1 && NAMED_TYPE.test(desc)) {
+    if (!itemLevel && !valueLevel && parts.length === 1 && NAMED_TYPE.test(desc)) {
       namedTypeRegistry.set(desc, r.target);
     }
-    return itemLevel
-      ? { target: listOf(bag, r.target, hint), nullable: false }
-      : r;
+    if (itemLevel) return { target: listOf(bag, r.target, hint), nullable: false };
+    if (valueLevel) return { target: mapOf(bag, r.target, hint), nullable: false };
+    return r;
   }
 
   if (parts.length > 1) {
@@ -1312,17 +1287,11 @@ const resolveDesc = (
     // widen literals to their base scalar.
     const widened = truncated
       ? arms.map((a): Arm =>
-          a.k === "str"
-            ? { k: "strScalar" }
-            : a.k === "num"
-              ? { k: "numScalar", int: false }
-              : a,
+          a.k === "str" ? { k: "strScalar" } : a.k === "num" ? { k: "numScalar", int: false } : a,
         )
       : arms;
     const r = armsToResolved(bag, widened, armHint);
-    return itemLevel
-      ? { target: listOf(bag, r.target, hint), nullable: false }
-      : r;
+    return itemLevel ? { target: listOf(bag, r.target, hint), nullable: false } : r;
   }
 
   // Single descriptor.
@@ -1360,9 +1329,7 @@ const resolveDesc = (
   if (isArrayDesc) {
     // Strip exactly ONE `array of ` / `array ` prefix (nested arrays recurse).
     const sub = (
-      /^array\s+of\s+/.test(t)
-        ? t.replace(/^array\s+of\s+/, "")
-        : t.replace(/^array\s*/, "")
+      /^array\s+of\s+/.test(t) ? t.replace(/^array\s+of\s+/, "") : t.replace(/^array\s*/, "")
     ).trim();
     if (sub === "" || sub === "array") {
       return { target: listOf(bag, PRELUDE.Document, hint), nullable: false };
@@ -1399,9 +1366,7 @@ const resolveDesc = (
     if (known) return { target: known, nullable: false };
     const model = expandingModels.has(t) ? undefined : modelRegistry.get(t);
     if (model) {
-      return withModel(t, () =>
-        resolveDesc(bag, model.typeStr, model.children, hint),
-      );
+      return withModel(t, () => resolveDesc(bag, model.typeStr, model.children, hint));
     }
   }
   return { target: PRELUDE.Document, nullable: false };
@@ -1427,15 +1392,10 @@ const boundTarget = (
   if (t.startsWith("array")) {
     if (!allowList) return PRELUDE.String;
     const sub = (
-      /^array\s+of\s+/.test(t)
-        ? t.replace(/^array\s+of\s+/, "")
-        : t.replace(/^array\s*/, "")
+      /^array\s+of\s+/.test(t) ? t.replace(/^array\s+of\s+/, "") : t.replace(/^array\s*/, "")
     ).trim();
     const subTarget =
-      sub === "" ||
-      sub.startsWith("object") ||
-      sub.startsWith("map[") ||
-      sub.startsWith("array")
+      sub === "" || sub.startsWith("object") || sub.startsWith("map[") || sub.startsWith("array")
         ? PRELUDE.String
         : boundTarget(sub, node, bag, hint, false);
     return addShape(bag, `${hint}List`, {
@@ -1459,15 +1419,8 @@ const boundTarget = (
   }
 };
 
-type Role = "input" | "output" | "nested";
-
 /** Build a structure's `members` map from a list of field nodes. */
-const buildMembers = (
-  bag: Bag,
-  rawFields: FieldNode[],
-  hint: string,
-  role: Role,
-): Record<string, any> => {
+const buildMembers = (bag: Bag, rawFields: FieldNode[], hint: string): Record<string, any> => {
   const members: Record<string, any> = {};
   const used = new Set<string>();
   // Union-arm bullets are consumed by their parent's type resolution; only
@@ -1548,9 +1501,7 @@ const isEnvelopeWrapper = (node: FieldNode): boolean => {
  * generated an EMPTY response structure and the payload was undecodable.
  */
 const unwrapEnvelopeReturns = (returns: FieldNode[]): FieldNode[] =>
-  returns.length > 0 && returns.every(isEnvelopeWrapper)
-    ? returns[0].children
-    : returns;
+  returns.length > 0 && returns.every(isEnvelopeWrapper) ? returns[0].children : returns;
 
 // ============================================================================
 // Whole-body union flattening
@@ -1602,9 +1553,7 @@ const flattenWholeBodyUnion = (bodyParams: FieldNode[]): FieldNode[] => {
   if (bodyParams.length !== 1) return bodyParams;
   const sole = bodyParams[0];
   if (sole.sep !== ":") return bodyParams;
-  const { optional: parentOptional, core: soleCore } = stripOptional(
-    sole.typeStr,
-  );
+  const { optional: parentOptional, core: soleCore } = stripOptional(sole.typeStr);
   // An array/map descriptor's arm bullets describe the ITEM cases, not the
   // body (`body: array of object {…} or object {…}` — the wire body is the
   // array itself). Never flatten those.
@@ -1729,16 +1678,12 @@ const splitDualScope = (
           children: [],
         } as FieldNode,
         ...parsed.pathParams.filter(
-          (p) =>
-            p.name !== "accounts_or_zones" && p.name !== "account_or_zone_id",
+          (p) => p.name !== "accounts_or_zones" && p.name !== "account_or_zone_id",
         ),
       ],
     },
   });
-  return [
-    scoped("accounts", "account_id", "ForAccount"),
-    scoped("zones", "zone_id", "ForZone"),
-  ];
+  return [scoped("accounts", "account_id", "ForAccount"), scoped("zones", "zone_id", "ForZone")];
 };
 
 const buildOperation = (bag: Bag, opName: string, parsed: ParsedOp): string => {
@@ -1754,9 +1699,7 @@ const buildOperation = (bag: Bag, opName: string, parsed: ParsedOp): string => {
   // matches its httpLabel member. The placeholder name is positional, so the
   // serialized path is unchanged.
   let uri = parsed.uri;
-  const rawLabels = Array.from(parsed.uri.matchAll(/\{([^}]+)\}/g)).map(
-    (m) => m[1],
-  );
+  const rawLabels = Array.from(parsed.uri.matchAll(/\{([^}]+)\}/g)).map((m) => m[1]);
   const inputFields: FieldNode[] = [];
   for (const raw of rawLabels) {
     const san = memberIdent(raw);
@@ -1785,14 +1728,13 @@ const buildOperation = (bag: Bag, opName: string, parsed: ParsedOp): string => {
     }
     inputFields.push({ ...q, binding: "query" });
   }
-  for (const h of parsed.headerParams)
-    inputFields.push({ ...h, binding: "header" });
+  for (const h of parsed.headerParams) inputFields.push({ ...h, binding: "header" });
   for (const b of flattenWholeBodyUnion(parsed.bodyParams))
     inputFields.push({ ...b, binding: "body" });
 
   let inputTarget: string = PRELUDE.Unit;
   if (inputFields.length) {
-    const members = buildMembers(bag, inputFields, `${opName}Request`, "input");
+    const members = buildMembers(bag, inputFields, `${opName}Request`);
     // Docs convention for raw (non-object) request bodies: a single body
     // param literally named `body` (e.g. alerting silences POST an array,
     // KV bulk delete POSTs an array of keys). Mark it httpPayload so the
@@ -1842,16 +1784,9 @@ const buildOperation = (bag: Bag, opName: string, parsed: ParsedOp): string => {
           !core.startsWith("array") &&
           !core.startsWith("map[") &&
           !core.startsWith('"') &&
-          !/^(string|boolean|true|false|number|integer|int|unknown|any)$/.test(
-            core.trim(),
-          )));
+          !/^(string|boolean|true|false|number|integer|int|unknown|any)$/.test(core.trim())));
     if (objectLike && fieldChildren.length) {
-      const members = buildMembers(
-        bag,
-        fieldChildren,
-        `${opName}Response`,
-        "output",
-      );
+      const members = buildMembers(bag, fieldChildren, `${opName}Response`);
       outputTarget = addShape(bag, `${opName}Response`, {
         type: "structure",
         members,
@@ -1864,12 +1799,7 @@ const buildOperation = (bag: Bag, opName: string, parsed: ParsedOp): string => {
     } else if (!objectLike) {
       // Non-object result (union/array/scalar): one member carries the
       // payload, tagged so it's clear this IS the envelope's `result`.
-      const payloadTarget = resolveDesc(
-        bag,
-        core,
-        resultNode.children,
-        `${opName}Result`,
-      ).target;
+      const payloadTarget = resolveDesc(bag, core, resultNode.children, `${opName}Result`).target;
       outputTarget = addShape(bag, `${opName}Response`, {
         type: "structure",
         members: {
@@ -1889,7 +1819,7 @@ const buildOperation = (bag: Bag, opName: string, parsed: ParsedOp): string => {
     // Non-standard envelope: keep any non-envelope top-level fields as output.
     const rest = returns.filter((n) => !ENVELOPE_KEYS.has(n.name));
     if (rest.length) {
-      const members = buildMembers(bag, rest, `${opName}Response`, "output");
+      const members = buildMembers(bag, rest, `${opName}Response`);
       outputTarget = addShape(bag, `${opName}Response`, {
         type: "structure",
         members,
@@ -2005,8 +1935,7 @@ const buildProtocolModel = (): any => ({
         messages: {
           target: `${PROTOCOL_NS}#Messages`,
           traits: {
-            "smithy.api#documentation":
-              "Protocol metadata: informational messages.",
+            "smithy.api#documentation": "Protocol metadata: informational messages.",
           },
         },
         result_info: {
@@ -2100,9 +2029,7 @@ const opIdentity = (relPath: string): { top: string; opName: string } => {
     .split("/")
     .filter(Boolean);
   const top = segs[0];
-  const rest = segs
-    .slice(1)
-    .filter((s) => s !== "subresources" && s !== "methods");
+  const rest = segs.slice(1).filter((s) => s !== "subresources" && s !== "methods");
   return { top, opName: pascal(rest.join("_")) };
 };
 
@@ -2110,15 +2037,214 @@ const opIdentity = (relPath: string): { top: string; opName: string } => {
 // CLI command
 // ============================================================================
 
+interface ConvertConfig {
+  /** Directory of mirrored markdown specs, relative to the package. */
+  readonly specs: string;
+  /** Output directory for Smithy JSON models, relative to the package. */
+  readonly out: string;
+  /** Only convert this top-level resource (e.g. ai); "" for all. */
+  readonly resource: string;
+  /** Only convert the first N operations (0 = all). */
+  readonly limit: number;
+}
+
+const DEFAULT_SPECS = "specs/spec-mirror-cloudflare/specs/api/resources";
+const DEFAULT_OUT = ".generated-specs";
+
+const run = (config: ConvertConfig) =>
+  Effect.gen(function* () {
+    const fs = yield* FileSystem.FileSystem;
+    const path = yield* Path.Path;
+    const root = path.resolve(import.meta.dirname, "..");
+    const specsDir = resolveSpecPath(root, config.specs);
+    const outDir = path.resolve(root, config.out);
+
+    yield* Console.log("🛠️  spec-to-smithy");
+    yield* Console.log(`   Specs:  ${specsDir}`);
+    yield* Console.log(`   Output: ${outDir}`);
+
+    const pages = yield* walkMarkdown(specsDir);
+    const isMethodPage = (f: string) => f.replace(/\\/g, "/").includes("/methods/");
+    const files = pages.filter(isMethodPage);
+    const resourcePages = pages.filter((f) => !isMethodPage(f));
+    yield* Console.log(
+      `\n📄 Found ${files.length} method pages and ${resourcePages.length} resource pages.`,
+    );
+
+    // A hand-authored `manual-specs/<resource>.json` owns its resource: the
+    // docs may start covering it with different names and shapes, and
+    // switching over is a breaking change someone has to verify against the
+    // live API. Deleting the manual spec is that switch.
+    const manualDir = path.join(root, "manual-specs");
+    const manualOwned = new Set(
+      (yield* fs.exists(manualDir))
+        ? (yield* fs.readDirectory(manualDir))
+            .filter((f) => f.endsWith(".json"))
+            .map((f) => f.slice(0, -".json".length))
+        : [],
+    );
+    const isManualOwned = (top: string) => manualOwned.has(sanitizeNsSegment(top));
+    const documented = new Set(files.map((f) => opIdentity(f.slice(specsDir.length + 1)).top));
+    for (const top of documented) {
+      if (isManualOwned(top)) {
+        yield* Console.warn(
+          `⚠️  ${top}: the docs now cover it, but manual-specs/${sanitizeNsSegment(top)}.json ` +
+            `owns it — delete the manual spec to switch to the documented model`,
+        );
+      }
+    }
+
+    // The models a resource's index pages define, shared by all its method
+    // pages: subresources define most of them, and a reference can point at
+    // any of them.
+    const models = new Map<string, Map<string, ModelDef>>();
+    for (const file of resourcePages) {
+      const rel = file.slice(specsDir.length + 1);
+      const top = opIdentity(rel).top;
+      if (config.resource && top !== config.resource) continue;
+      if (isManualOwned(top)) continue;
+      let into = models.get(top);
+      if (!into) {
+        into = new Map();
+        models.set(top, into);
+      }
+      collectModels(yield* fs.readFileString(file), into);
+    }
+
+    // Group operations per top-level resource into one Bag each.
+    const bags = new Map<string, Bag>();
+    const serviceOps = new Map<string, { target: string }[]>();
+    let converted = 0;
+    let skipped = 0;
+
+    for (const file of files) {
+      if (config.limit > 0 && converted >= config.limit) break;
+      const rel = file.slice(specsDir.length + 1);
+      const { top, opName } = opIdentity(rel);
+      if (config.resource && top !== config.resource) continue;
+      if (isManualOwned(top)) continue;
+      modelRegistry = models.get(top) ?? new Map();
+
+      const md = yield* fs.readFileString(file);
+      const parsed = parseMarkdown(md);
+      if (!parsed) {
+        skipped++;
+        yield* Console.warn(`⚠️  Could not parse ${rel} — skipping`);
+        continue;
+      }
+
+      const ns = RESOURCE_NS(top);
+      let bag = bags.get(top);
+      if (!bag) {
+        bag = newBag(ns);
+        bags.set(top, bag);
+        serviceOps.set(top, []);
+      }
+
+      try {
+        for (const variant of splitDualScope(opName, parsed)) {
+          const opId = buildOperation(bag, variant.opName, variant.parsed);
+          serviceOps.get(top)!.push({ target: opId });
+        }
+        converted++;
+      } catch (err) {
+        skipped++;
+        yield* Console.warn(`⚠️  Failed to convert ${rel}: ${err} — skipping`);
+      }
+    }
+
+    // Add a service shape (carrying the protocol) to each resource bag.
+    for (const [top, bag] of bags) {
+      const serviceName = pascal(top);
+      const serviceId = `${bag.namespace}#${serviceName}`;
+      bag.shapes[serviceId] = {
+        type: "service",
+        version: "4.0",
+        operations: serviceOps.get(top),
+        traits: {
+          [`${PROTOCOL_NS}#v4Json`]: {},
+          "smithy.api#title": `Cloudflare ${serviceName}`,
+          "smithy.api#documentation":
+            `Cloudflare API — ${top} resource. Speaks the v4 JSON envelope protocol; ` +
+            "operation outputs describe the unwrapped `result` payload.",
+        },
+      };
+    }
+
+    // Write output.
+    const protocolPath = path.join(outDir, "cloudflare.protocols.json");
+    writeModel(protocolPath, buildProtocolModel());
+
+    const suppressions = {
+      suppressions: [
+        { id: "HttpUriConflict", namespace: "*" },
+        { id: "HttpMethodSemantics", namespace: "*" },
+        { id: "UnreferencedShape", namespace: "*" },
+      ],
+    };
+
+    for (const [top, bag] of bags) {
+      const model = {
+        smithy: "2.0",
+        metadata: suppressions,
+        shapes: bag.shapes,
+      };
+      const fp = path.join(outDir, `${sanitizeNsSegment(top)}.json`);
+      writeModel(fp, model);
+    }
+
+    const convertedResources = new Set([...bags.keys()].map((top) => sanitizeNsSegment(top)));
+    yield* Effect.promise(() =>
+      finalizeConvert({
+        root,
+        outDir,
+        exclude: (f) => f === "cloudflare.protocols.json",
+        include: (resource) => convertedResources.has(resource),
+        transform: (model, resource) => {
+          const { families, removed } = dedupeScopeTwins(model);
+          const marked = markJurisdictionOperations(model);
+          const notes = [
+            families
+              ? `♻️  ${resource}: collapsed ${families} scope-twin famil${families === 1 ? "y" : "ies"} (${removed} shapes)`
+              : undefined,
+            marked
+              ? `🌍 ${resource}: ${marked} operation(s) take the Jurisdiction layer`
+              : undefined,
+          ].filter((n) => n !== undefined);
+          return notes.length ? notes.join("\n") : undefined;
+        },
+      }),
+    );
+
+    yield* Console.log(
+      `\n✅ Done. ${converted} operations across ${bags.size} resources` +
+        `${skipped ? `, ⚠️  ${skipped} skipped` : ""}.`,
+    );
+    yield* Console.log(`   Protocol model: ${protocolPath}`);
+    yield* Console.log(`   Resource models: ${outDir}\\<resource>.json`);
+  });
+
+/**
+ * Convert the mirrored specs into the Smithy models under `.generated-specs`
+ * — written through `@distilled.cloud/dev/codegen/models`, so in memory
+ * when generate runs this, on disk when the CLI below does.
+ */
+export const convert = (config: Partial<ConvertConfig> = {}): Promise<void> =>
+  Effect.runPromise(
+    run({ specs: DEFAULT_SPECS, out: DEFAULT_OUT, resource: "", limit: 0, ...config }).pipe(
+      Effect.provide(NodeServices.layer),
+    ),
+  );
+
 const command = Command.make(
   "spec-to-smithy",
   {
     specs: Flag.String("specs").pipe(
-      Flag.withDefault("specs/spec-mirror-cloudflare/specs/api/resources"),
+      Flag.withDefault(DEFAULT_SPECS),
       Flag.withDescription("Directory of mirrored markdown specs"),
     ),
     out: Flag.String("out").pipe(
-      Flag.withDefault(".generated-specs"),
+      Flag.withDefault(DEFAULT_OUT),
       Flag.withDescription("Output directory for Smithy JSON models"),
     ),
     resource: Flag.String("resource").pipe(
@@ -2130,162 +2256,13 @@ const command = Command.make(
       Flag.withDescription("Only convert the first N operations (0 = all)"),
     ),
   },
-  (config) =>
-    Effect.gen(function* () {
-      const fs = yield* FileSystem.FileSystem;
-      const path = yield* Path.Path;
-      const root = path.resolve(import.meta.dir, "..");
-      const specsDir = resolveSpecPath(root, config.specs);
-      const outDir = path.resolve(root, config.out);
-
-      yield* Console.log("🛠️  spec-to-smithy");
-      yield* Console.log(`   Specs:  ${specsDir}`);
-      yield* Console.log(`   Output: ${outDir}`);
-
-      const pages = yield* walkMarkdown(specsDir);
-      const isMethodPage = (f: string) =>
-        f.replace(/\\/g, "/").includes("/methods/");
-      const files = pages.filter(isMethodPage);
-      const resourcePages = pages.filter((f) => !isMethodPage(f));
-      yield* Console.log(
-        `\n📄 Found ${files.length} method pages and ${resourcePages.length} resource pages.`,
-      );
-
-      // The models a resource's index pages define, shared by all its method
-      // pages: subresources define most of them, and a reference can point at
-      // any of them.
-      const models = new Map<string, Map<string, ModelDef>>();
-      for (const file of resourcePages) {
-        const rel = file.slice(specsDir.length + 1);
-        const top = opIdentity(rel).top;
-        if (config.resource && top !== config.resource) continue;
-        let into = models.get(top);
-        if (!into) {
-          into = new Map();
-          models.set(top, into);
-        }
-        collectModels(yield* fs.readFileString(file), into);
-      }
-
-      // Group operations per top-level resource into one Bag each.
-      const bags = new Map<string, Bag>();
-      const serviceOps = new Map<string, { target: string }[]>();
-      let converted = 0;
-      let skipped = 0;
-
-      for (const file of files) {
-        if (config.limit > 0 && converted >= config.limit) break;
-        const rel = file.slice(specsDir.length + 1);
-        const { top, opName } = opIdentity(rel);
-        if (config.resource && top !== config.resource) continue;
-        modelRegistry = models.get(top) ?? new Map();
-
-        const md = yield* fs.readFileString(file);
-        const parsed = parseMarkdown(md);
-        if (!parsed) {
-          skipped++;
-          yield* Console.warn(`⚠️  Could not parse ${rel} — skipping`);
-          continue;
-        }
-
-        const ns = RESOURCE_NS(top);
-        let bag = bags.get(top);
-        if (!bag) {
-          bag = newBag(ns);
-          bags.set(top, bag);
-          serviceOps.set(top, []);
-        }
-
-        try {
-          for (const variant of splitDualScope(opName, parsed)) {
-            const opId = buildOperation(bag, variant.opName, variant.parsed);
-            serviceOps.get(top)!.push({ target: opId });
-          }
-          converted++;
-        } catch (err) {
-          skipped++;
-          yield* Console.warn(
-            `⚠️  Failed to convert ${rel}: ${err} — skipping`,
-          );
-        }
-      }
-
-      // Add a service shape (carrying the protocol) to each resource bag.
-      for (const [top, bag] of bags) {
-        const serviceName = pascal(top);
-        const serviceId = `${bag.namespace}#${serviceName}`;
-        bag.shapes[serviceId] = {
-          type: "service",
-          version: "4.0",
-          operations: serviceOps.get(top),
-          traits: {
-            [`${PROTOCOL_NS}#v4Json`]: {},
-            "smithy.api#title": `Cloudflare ${serviceName}`,
-            "smithy.api#documentation":
-              `Cloudflare API — ${top} resource. Speaks the v4 JSON envelope protocol; ` +
-              "operation outputs describe the unwrapped `result` payload.",
-          },
-        };
-      }
-
-      // Write output.
-      yield* fs.makeDirectory(outDir, { recursive: true });
-
-      const protocolPath = path.join(outDir, "cloudflare.protocols.json");
-      yield* fs.writeFileString(
-        protocolPath,
-        `${JSON.stringify(buildProtocolModel(), null, 2)}\n`,
-      );
-
-      const suppressions = {
-        suppressions: [
-          { id: "HttpUriConflict", namespace: "*" },
-          { id: "HttpMethodSemantics", namespace: "*" },
-          { id: "UnreferencedShape", namespace: "*" },
-        ],
-      };
-
-      for (const [top, bag] of bags) {
-        const model = {
-          smithy: "2.0",
-          metadata: suppressions,
-          shapes: bag.shapes,
-        };
-        const fp = path.join(outDir, `${sanitizeNsSegment(top)}.json`);
-        yield* fs.writeFileString(fp, `${JSON.stringify(model, null, 2)}\n`);
-      }
-
-      const convertedResources = new Set(
-        [...bags.keys()].map((top) => sanitizeNsSegment(top)),
-      );
-      yield* Effect.promise(() =>
-        finalizeConvert({
-          root,
-          outDir,
-          exclude: (f) => f === "cloudflare.protocols.json",
-          include: (resource) => convertedResources.has(resource),
-          transform: (model, resource) => {
-            const { families, removed } = dedupeScopeTwins(model);
-            return families
-              ? `♻️  ${resource}: collapsed ${families} scope-twin famil${families === 1 ? "y" : "ies"} (${removed} shapes)`
-              : undefined;
-          },
-        }),
-      );
-
-      yield* Console.log(
-        `\n✅ Done. ${converted} operations across ${bags.size} resources` +
-          `${skipped ? `, ⚠️  ${skipped} skipped` : ""}.`,
-      );
-      yield* Console.log(`   Protocol model: ${protocolPath}`);
-      yield* Console.log(`   Resource models: ${outDir}\\<resource>.json`);
-    }),
+  run,
 ).pipe(
-  Command.withDescription(
-    "Convert Cloudflare markdown API specs into Smithy 2.0 JSON models",
-  ),
+  Command.withDescription("Convert Cloudflare markdown API specs into Smithy 2.0 JSON models"),
 );
 
-const program = Command.run(command, { version: "1.0.0" });
-
-BunRuntime.runMain(Effect.provide(program, BunServices.layer));
+if (import.meta.main) {
+  NodeRuntime.runMain(
+    Effect.provide(Command.run(command, { version: "1.0.0" }), NodeServices.layer),
+  );
+}

@@ -1,0 +1,15 @@
+{
+  "description": "The spec marks ResourceReference.id read-only, so the input variant used for properties.virtualHub has no members and S.Struct strips the virtual hub ID on encode. Add `id` back so a Virtual WAN hub can be referenced.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.networkfunction#ResourceReferenceInput/members/id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Resource ID."
+        }
+      }
+    }
+  ]
+}

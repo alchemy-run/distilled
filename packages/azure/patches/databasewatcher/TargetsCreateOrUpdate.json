@@ -1,0 +1,125 @@
+{
+  "description": "TargetProperties is polymorphic on `targetType` (SqlDb / SqlEp / SqlMi); the converted model keeps only the base members, so S.Struct strips the subtype payload (sqlDbResourceId, sqlEpResourceId, anchorDatabaseResourceId, sqlMiResourceId, connectionTcpPort, readIntent) on encode and decode. Add the subtype members as optional fields.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.databasewatcher#TargetPropertiesInput/members/sqlDbResourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The Azure resource ID of an Azure SQL DB database target (targetType SqlDb)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.databasewatcher#TargetPropertiesInput/members/sqlEpResourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The Azure resource ID of an Azure SQL DB elastic pool target (targetType SqlEp)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.databasewatcher#TargetPropertiesInput/members/anchorDatabaseResourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The Azure resource ID of the anchor database used to connect to an elastic pool (targetType SqlEp)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.databasewatcher#TargetPropertiesInput/members/sqlMiResourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The Azure resource ID of an Azure SQL Managed Instance target (targetType SqlMi)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.databasewatcher#TargetPropertiesInput/members/connectionTcpPort",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target (targetType SqlMi)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.databasewatcher#TargetPropertiesInput/members/readIntent",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Set to true to monitor a high availability replica of the specified target, if any (targetType SqlDb / SqlMi)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.databasewatcher#TargetProperties/members/sqlDbResourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The Azure resource ID of an Azure SQL DB database target (targetType SqlDb)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.databasewatcher#TargetProperties/members/sqlEpResourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The Azure resource ID of an Azure SQL DB elastic pool target (targetType SqlEp)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.databasewatcher#TargetProperties/members/anchorDatabaseResourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The Azure resource ID of the anchor database used to connect to an elastic pool (targetType SqlEp)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.databasewatcher#TargetProperties/members/sqlMiResourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The Azure resource ID of an Azure SQL Managed Instance target (targetType SqlMi)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.databasewatcher#TargetProperties/members/connectionTcpPort",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target (targetType SqlMi)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.databasewatcher#TargetProperties/members/readIntent",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Set to true to monitor a high availability replica of the specified target, if any (targetType SqlDb / SqlMi)."
+        }
+      }
+    }
+  ]
+}

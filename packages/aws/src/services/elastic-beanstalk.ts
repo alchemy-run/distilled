@@ -1,23 +1,26 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const ns = T.XmlNamespace(
-  "http://elasticbeanstalk.amazonaws.com/docs/2010-12-01/",
-);
-const svc = T.AwsApiService({
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const ns = /*@__PURE__*/ T.XmlNamespace("http://elasticbeanstalk.amazonaws.com/docs/2010-12-01/");
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Elastic Beanstalk",
   serviceShapeName: "AWSElasticBeanstalkService",
 });
-const auth = T.AwsAuthSigv4({ name: "elasticbeanstalk" });
-const ver = T.ServiceVersion("2010-12-01");
-const proto = T.AwsProtocolsAwsQuery();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "elasticbeanstalk" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2010-12-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsQuery();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -29,14 +32,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -66,9 +65,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://elasticbeanstalk-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -76,396 +73,267 @@ const rules = T.EndpointResolver((p, _) => {
               `https://elasticbeanstalk.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://elasticbeanstalk.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://elasticbeanstalk.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://elasticbeanstalk.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ElasticBeanstalk",
+  service: "ElasticBeanstalk",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class CodeBuildNotInServiceRegionException
   extends /*@__PURE__*/ S.TaggedError<CodeBuildNotInServiceRegionException>()(
     "CodeBuildNotInServiceRegionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "CodeBuildNotInServiceRegionException",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ElasticBeanstalkServiceException
   extends /*@__PURE__*/ S.TaggedError<ElasticBeanstalkServiceException>()(
     "ElasticBeanstalkServiceException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class InsufficientPrivilegesException
   extends /*@__PURE__*/ S.TaggedError<InsufficientPrivilegesException>()(
     "InsufficientPrivilegesException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "InsufficientPrivilegesException",
         httpResponseCode: 403,
       }),
-      T.HttpError(403),
+      /*@__PURE__*/ T.HttpError(403),
     ),
   ).pipe(C.withAuthError) {}
 export class InvalidRequestException
   extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
     "InvalidRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidRequestException",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidRequestException", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ManagedActionInvalidStateException
   extends /*@__PURE__*/ S.TaggedError<ManagedActionInvalidStateException>()(
     "ManagedActionInvalidStateException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "ManagedActionInvalidStateException",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class OperationInProgressException
   extends /*@__PURE__*/ S.TaggedError<OperationInProgressException>()(
     "OperationInProgressException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "OperationInProgressFailure",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "OperationInProgressFailure", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class PlatformVersionStillReferencedException
   extends /*@__PURE__*/ S.TaggedError<PlatformVersionStillReferencedException>()(
     "PlatformVersionStillReferencedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "PlatformVersionStillReferencedException",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ResourceNotFoundException",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ResourceTypeNotSupportedException
   extends /*@__PURE__*/ S.TaggedError<ResourceTypeNotSupportedException>()(
     "ResourceTypeNotSupportedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "ResourceTypeNotSupportedException",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class S3LocationNotInServiceRegionException
   extends /*@__PURE__*/ S.TaggedError<S3LocationNotInServiceRegionException>()(
     "S3LocationNotInServiceRegionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "S3LocationNotInServiceRegionException",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class S3SubscriptionRequiredException
   extends /*@__PURE__*/ S.TaggedError<S3SubscriptionRequiredException>()(
     "S3SubscriptionRequiredException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "S3SubscriptionRequiredException",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class SourceBundleDeletionException
   extends /*@__PURE__*/ S.TaggedError<SourceBundleDeletionException>()(
     "SourceBundleDeletionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "SourceBundleDeletionFailure",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "SourceBundleDeletionFailure", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class TooManyApplicationsException
   extends /*@__PURE__*/ S.TaggedError<TooManyApplicationsException>()(
     "TooManyApplicationsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "TooManyApplicationsException",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class TooManyApplicationVersionsException
   extends /*@__PURE__*/ S.TaggedError<TooManyApplicationVersionsException>()(
     "TooManyApplicationVersionsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class TooManyBucketsException
   extends /*@__PURE__*/ S.TaggedError<TooManyBucketsException>()(
     "TooManyBucketsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "TooManyBucketsException",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "TooManyBucketsException", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class TooManyConfigurationTemplatesException
   extends /*@__PURE__*/ S.TaggedError<TooManyConfigurationTemplatesException>()(
     "TooManyConfigurationTemplatesException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "TooManyConfigurationTemplatesException",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class TooManyEnvironmentsException
   extends /*@__PURE__*/ S.TaggedError<TooManyEnvironmentsException>()(
     "TooManyEnvironmentsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "TooManyEnvironmentsException",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class TooManyPlatformsException
   extends /*@__PURE__*/ S.TaggedError<TooManyPlatformsException>()(
     "TooManyPlatformsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "TooManyPlatformsException",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "TooManyPlatformsException", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TooManyTagsException", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "TooManyTagsException", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export type EnvironmentId = string;
 export type EnvironmentName = string;
 export interface AbortEnvironmentUpdateMessage {
-  EnvironmentId?: string;
-  EnvironmentName?: string;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
 }
-export const AbortEnvironmentUpdateMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EnvironmentId: S.optional(S.String),
-    EnvironmentName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AbortEnvironmentUpdateMessage",
-}) as any as S.Schema<AbortEnvironmentUpdateMessage>;
 export interface AbortEnvironmentUpdateResponse {}
-export const AbortEnvironmentUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AbortEnvironmentUpdateResponse",
-}) as any as S.Schema<AbortEnvironmentUpdateResponse>;
 export interface ApplyEnvironmentManagedActionRequest {
-  EnvironmentName?: string;
-  EnvironmentId?: string;
+  EnvironmentName?: string | undefined;
+  EnvironmentId?: string | undefined;
   ActionId: string;
 }
-export const ApplyEnvironmentManagedActionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EnvironmentName: S.optional(S.String),
-      EnvironmentId: S.optional(S.String),
-      ActionId: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ApplyEnvironmentManagedActionRequest",
-}) as any as S.Schema<ApplyEnvironmentManagedActionRequest>;
-export type ActionType =
-  | "InstanceRefresh"
-  | "PlatformUpdate"
-  | "Unknown"
-  | (string & {});
-export const ActionType = S.String;
-
+export type ActionType = "InstanceRefresh" | "PlatformUpdate" | "Unknown" | (string & {});
 export interface ApplyEnvironmentManagedActionResult {
-  ActionId?: string;
-  ActionDescription?: string;
-  ActionType?: ActionType;
-  Status?: string;
+  ActionId?: string | undefined;
+  ActionDescription?: string | undefined;
+  ActionType?: ActionType | undefined;
+  Status?: string | undefined;
 }
-export const ApplyEnvironmentManagedActionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionId: S.optional(S.String),
-    ActionDescription: S.optional(S.String),
-    ActionType: S.optional(ActionType),
-    Status: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ApplyEnvironmentManagedActionResult",
-}) as any as S.Schema<ApplyEnvironmentManagedActionResult>;
 export type OperationsRole = string;
 export interface AssociateEnvironmentOperationsRoleMessage {
   EnvironmentName: string;
   OperationsRole: string;
 }
-export const AssociateEnvironmentOperationsRoleMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ EnvironmentName: S.String, OperationsRole: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "AssociateEnvironmentOperationsRoleMessage",
-  }) as any as S.Schema<AssociateEnvironmentOperationsRoleMessage>;
 export interface AssociateEnvironmentOperationsRoleResponse {}
-export const AssociateEnvironmentOperationsRoleResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "AssociateEnvironmentOperationsRoleResponse",
-  }) as any as S.Schema<AssociateEnvironmentOperationsRoleResponse>;
 export type DNSCnamePrefix = string;
 export interface CheckDNSAvailabilityMessage {
   CNAMEPrefix: string;
 }
-export const CheckDNSAvailabilityMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CNAMEPrefix: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CheckDNSAvailabilityMessage",
-}) as any as S.Schema<CheckDNSAvailabilityMessage>;
 export type CnameAvailability = boolean;
 export type DNSCname = string;
 export interface CheckDNSAvailabilityResultMessage {
-  Available?: boolean;
-  FullyQualifiedCNAME?: string;
+  Available?: boolean | undefined;
+  FullyQualifiedCNAME?: string | undefined;
 }
-export const CheckDNSAvailabilityResultMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Available: S.optional(S.Boolean),
-    FullyQualifiedCNAME: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CheckDNSAvailabilityResultMessage",
-}) as any as S.Schema<CheckDNSAvailabilityResultMessage>;
 export type ApplicationName = string;
 export type GroupName = string;
 export type VersionLabel = string;
 export type VersionLabels = string[];
-export const VersionLabels = /*@__PURE__*/ S.Array(S.String);
 export interface ComposeEnvironmentsMessage {
-  ApplicationName?: string;
-  GroupName?: string;
-  VersionLabels?: string[];
+  ApplicationName?: string | undefined;
+  GroupName?: string | undefined;
+  VersionLabels?: string[] | undefined;
 }
-export const ComposeEnvironmentsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.optional(S.String),
-    GroupName: S.optional(S.String),
-    VersionLabels: S.optional(VersionLabels),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ComposeEnvironmentsMessage",
-}) as any as S.Schema<ComposeEnvironmentsMessage>;
 export type SolutionStackName = string;
 export type PlatformArn = string;
 export type ConfigurationTemplateName = string;
@@ -483,17 +351,8 @@ export type EnvironmentStatus =
   | "Terminating"
   | "Terminated"
   | (string & {});
-export const EnvironmentStatus = S.String;
-
 export type AbortableOperationInProgress = boolean;
-export type EnvironmentHealth =
-  | "Green"
-  | "Yellow"
-  | "Red"
-  | "Grey"
-  | (string & {});
-export const EnvironmentHealth = S.String;
-
+export type EnvironmentHealth = "Green" | "Yellow" | "Red" | "Grey" | (string & {});
 export type EnvironmentHealthStatus =
   | "NoData"
   | "Unknown"
@@ -505,361 +364,167 @@ export type EnvironmentHealthStatus =
   | "Severe"
   | "Suspended"
   | (string & {});
-export const EnvironmentHealthStatus = S.String;
-
 export interface Listener {
-  Protocol?: string;
-  Port?: number;
+  Protocol?: string | undefined;
+  Port?: number | undefined;
 }
-export const Listener = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Protocol: S.optional(S.String), Port: S.optional(S.Number) }),
-).annotate({ identifier: "Listener" }) as any as S.Schema<Listener>;
 export type LoadBalancerListenersDescription = Listener[];
-export const LoadBalancerListenersDescription = /*@__PURE__*/ S.Array(Listener);
 export interface LoadBalancerDescription {
-  LoadBalancerName?: string;
-  Domain?: string;
-  Listeners?: Listener[];
+  LoadBalancerName?: string | undefined;
+  Domain?: string | undefined;
+  Listeners?: Listener[] | undefined;
 }
-export const LoadBalancerDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoadBalancerName: S.optional(S.String),
-    Domain: S.optional(S.String),
-    Listeners: S.optional(LoadBalancerListenersDescription),
-  }),
-).annotate({
-  identifier: "LoadBalancerDescription",
-}) as any as S.Schema<LoadBalancerDescription>;
 export interface EnvironmentResourcesDescription {
-  LoadBalancer?: LoadBalancerDescription;
+  LoadBalancer?: LoadBalancerDescription | undefined;
 }
-export const EnvironmentResourcesDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LoadBalancer: S.optional(LoadBalancerDescription) }),
-).annotate({
-  identifier: "EnvironmentResourcesDescription",
-}) as any as S.Schema<EnvironmentResourcesDescription>;
 export interface EnvironmentTier {
-  Name?: string;
-  Type?: string;
-  Version?: string;
+  Name?: string | undefined;
+  Type?: string | undefined;
+  Version?: string | undefined;
 }
-export const EnvironmentTier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Type: S.optional(S.String),
-    Version: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EnvironmentTier",
-}) as any as S.Schema<EnvironmentTier>;
 export interface EnvironmentLink {
-  LinkName?: string;
-  EnvironmentName?: string;
+  LinkName?: string | undefined;
+  EnvironmentName?: string | undefined;
 }
-export const EnvironmentLink = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LinkName: S.optional(S.String),
-    EnvironmentName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EnvironmentLink",
-}) as any as S.Schema<EnvironmentLink>;
 export type EnvironmentLinks = EnvironmentLink[];
-export const EnvironmentLinks = /*@__PURE__*/ S.Array(EnvironmentLink);
 export type EnvironmentArn = string;
 export interface EnvironmentDescription {
-  EnvironmentName?: string;
-  EnvironmentId?: string;
-  ApplicationName?: string;
-  VersionLabel?: string;
-  SolutionStackName?: string;
-  PlatformArn?: string;
-  TemplateName?: string;
-  Description?: string;
-  EndpointURL?: string;
-  CNAME?: string;
-  DateCreated?: Date;
-  DateUpdated?: Date;
-  Status?: EnvironmentStatus;
-  AbortableOperationInProgress?: boolean;
-  Health?: EnvironmentHealth;
-  HealthStatus?: EnvironmentHealthStatus;
-  Resources?: EnvironmentResourcesDescription;
-  Tier?: EnvironmentTier;
-  EnvironmentLinks?: EnvironmentLink[];
-  EnvironmentArn?: string;
-  OperationsRole?: string;
+  EnvironmentName?: string | undefined;
+  EnvironmentId?: string | undefined;
+  ApplicationName?: string | undefined;
+  VersionLabel?: string | undefined;
+  SolutionStackName?: string | undefined;
+  PlatformArn?: string | undefined;
+  TemplateName?: string | undefined;
+  Description?: string | undefined;
+  EndpointURL?: string | undefined;
+  CNAME?: string | undefined;
+  DateCreated?: Date | undefined;
+  DateUpdated?: Date | undefined;
+  Status?: EnvironmentStatus | undefined;
+  AbortableOperationInProgress?: boolean | undefined;
+  Health?: EnvironmentHealth | undefined;
+  HealthStatus?: EnvironmentHealthStatus | undefined;
+  Resources?: EnvironmentResourcesDescription | undefined;
+  Tier?: EnvironmentTier | undefined;
+  EnvironmentLinks?: EnvironmentLink[] | undefined;
+  EnvironmentArn?: string | undefined;
+  OperationsRole?: string | undefined;
 }
-export const EnvironmentDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EnvironmentName: S.optional(S.String),
-    EnvironmentId: S.optional(S.String),
-    ApplicationName: S.optional(S.String),
-    VersionLabel: S.optional(S.String),
-    SolutionStackName: S.optional(S.String),
-    PlatformArn: S.optional(S.String),
-    TemplateName: S.optional(S.String),
-    Description: S.optional(S.String),
-    EndpointURL: S.optional(S.String),
-    CNAME: S.optional(S.String),
-    DateCreated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DateUpdated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Status: S.optional(EnvironmentStatus),
-    AbortableOperationInProgress: S.optional(S.Boolean),
-    Health: S.optional(EnvironmentHealth),
-    HealthStatus: S.optional(EnvironmentHealthStatus),
-    Resources: S.optional(EnvironmentResourcesDescription),
-    Tier: S.optional(EnvironmentTier),
-    EnvironmentLinks: S.optional(EnvironmentLinks),
-    EnvironmentArn: S.optional(S.String),
-    OperationsRole: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "EnvironmentDescription",
-}) as any as S.Schema<EnvironmentDescription>;
 export type EnvironmentDescriptionsList = EnvironmentDescription[];
-export const EnvironmentDescriptionsList = /*@__PURE__*/ S.Array(
-  EnvironmentDescription,
-);
 export type Token = string;
 export interface EnvironmentDescriptionsMessage {
-  Environments?: EnvironmentDescription[];
-  NextToken?: string;
+  Environments?: EnvironmentDescription[] | undefined;
+  NextToken?: string | undefined;
 }
-export const EnvironmentDescriptionsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Environments: S.optional(EnvironmentDescriptionsList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "EnvironmentDescriptionsMessage",
-}) as any as S.Schema<EnvironmentDescriptionsMessage>;
 export type BoxedBoolean = boolean;
 export type BoxedInt = number;
 export interface MaxCountRule {
   Enabled: boolean;
-  MaxCount?: number;
-  DeleteSourceFromS3?: boolean;
+  MaxCount?: number | undefined;
+  DeleteSourceFromS3?: boolean | undefined;
 }
-export const MaxCountRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.Boolean,
-    MaxCount: S.optional(S.Number),
-    DeleteSourceFromS3: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "MaxCountRule" }) as any as S.Schema<MaxCountRule>;
 export interface MaxAgeRule {
   Enabled: boolean;
-  MaxAgeInDays?: number;
-  DeleteSourceFromS3?: boolean;
+  MaxAgeInDays?: number | undefined;
+  DeleteSourceFromS3?: boolean | undefined;
 }
-export const MaxAgeRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.Boolean,
-    MaxAgeInDays: S.optional(S.Number),
-    DeleteSourceFromS3: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "MaxAgeRule" }) as any as S.Schema<MaxAgeRule>;
 export interface ApplicationVersionLifecycleConfig {
-  MaxCountRule?: MaxCountRule;
-  MaxAgeRule?: MaxAgeRule;
+  MaxCountRule?: MaxCountRule | undefined;
+  MaxAgeRule?: MaxAgeRule | undefined;
 }
-export const ApplicationVersionLifecycleConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxCountRule: S.optional(MaxCountRule),
-    MaxAgeRule: S.optional(MaxAgeRule),
-  }),
-).annotate({
-  identifier: "ApplicationVersionLifecycleConfig",
-}) as any as S.Schema<ApplicationVersionLifecycleConfig>;
 export interface ApplicationResourceLifecycleConfig {
-  ServiceRole?: string;
-  VersionLifecycleConfig?: ApplicationVersionLifecycleConfig;
+  ServiceRole?: string | undefined;
+  VersionLifecycleConfig?: ApplicationVersionLifecycleConfig | undefined;
 }
-export const ApplicationResourceLifecycleConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceRole: S.optional(S.String),
-    VersionLifecycleConfig: S.optional(ApplicationVersionLifecycleConfig),
-  }),
-).annotate({
-  identifier: "ApplicationResourceLifecycleConfig",
-}) as any as S.Schema<ApplicationResourceLifecycleConfig>;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type Tags = Tag[];
-export const Tags = /*@__PURE__*/ S.Array(Tag);
 export interface CreateApplicationMessage {
   ApplicationName: string;
-  Description?: string;
-  ResourceLifecycleConfig?: ApplicationResourceLifecycleConfig;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  ResourceLifecycleConfig?: ApplicationResourceLifecycleConfig | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateApplicationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.String,
-    Description: S.optional(S.String),
-    ResourceLifecycleConfig: S.optional(ApplicationResourceLifecycleConfig),
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateApplicationMessage",
-}) as any as S.Schema<CreateApplicationMessage>;
 export type ApplicationArn = string;
 export type VersionLabelsList = string[];
-export const VersionLabelsList = /*@__PURE__*/ S.Array(S.String);
 export type ConfigurationTemplateNamesList = string[];
-export const ConfigurationTemplateNamesList = /*@__PURE__*/ S.Array(S.String);
 export interface ApplicationDescription {
-  ApplicationArn?: string;
-  ApplicationName?: string;
-  Description?: string;
-  DateCreated?: Date;
-  DateUpdated?: Date;
-  Versions?: string[];
-  ConfigurationTemplates?: string[];
-  ResourceLifecycleConfig?: ApplicationResourceLifecycleConfig;
+  ApplicationArn?: string | undefined;
+  ApplicationName?: string | undefined;
+  Description?: string | undefined;
+  DateCreated?: Date | undefined;
+  DateUpdated?: Date | undefined;
+  Versions?: string[] | undefined;
+  ConfigurationTemplates?: string[] | undefined;
+  ResourceLifecycleConfig?: ApplicationResourceLifecycleConfig | undefined;
 }
-export const ApplicationDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationArn: S.optional(S.String),
-    ApplicationName: S.optional(S.String),
-    Description: S.optional(S.String),
-    DateCreated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DateUpdated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Versions: S.optional(VersionLabelsList),
-    ConfigurationTemplates: S.optional(ConfigurationTemplateNamesList),
-    ResourceLifecycleConfig: S.optional(ApplicationResourceLifecycleConfig),
-  }),
-).annotate({
-  identifier: "ApplicationDescription",
-}) as any as S.Schema<ApplicationDescription>;
 export interface ApplicationDescriptionMessage {
-  Application?: ApplicationDescription;
+  Application?: ApplicationDescription | undefined;
 }
-export const ApplicationDescriptionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Application: S.optional(ApplicationDescription) }).pipe(ns),
-).annotate({
-  identifier: "ApplicationDescriptionMessage",
-}) as any as S.Schema<ApplicationDescriptionMessage>;
 export type SourceType = "Git" | "Zip" | (string & {});
-export const SourceType = S.String;
-
 export type SourceRepository = "CodeCommit" | "S3" | (string & {});
-export const SourceRepository = S.String;
-
 export type SourceLocation = string;
 export interface SourceBuildInformation {
   SourceType: SourceType;
   SourceRepository: SourceRepository;
   SourceLocation: string;
 }
-export const SourceBuildInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceType: SourceType,
-    SourceRepository: SourceRepository,
-    SourceLocation: S.String,
-  }),
-).annotate({
-  identifier: "SourceBuildInformation",
-}) as any as S.Schema<SourceBuildInformation>;
 export type S3Bucket = string;
 export type S3Key = string;
 export interface S3Location {
-  S3Bucket?: string;
-  S3Key?: string;
+  S3Bucket?: string | undefined;
+  S3Key?: string | undefined;
 }
-export const S3Location = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ S3Bucket: S.optional(S.String), S3Key: S.optional(S.String) }),
-).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export type NonEmptyString = string;
 export type ComputeType =
   | "BUILD_GENERAL1_SMALL"
   | "BUILD_GENERAL1_MEDIUM"
   | "BUILD_GENERAL1_LARGE"
   | (string & {});
-export const ComputeType = S.String;
-
 export interface BuildConfiguration {
-  ArtifactName?: string;
+  ArtifactName?: string | undefined;
   CodeBuildServiceRole: string;
-  ComputeType?: ComputeType;
+  ComputeType?: ComputeType | undefined;
   Image: string;
-  TimeoutInMinutes?: number;
+  TimeoutInMinutes?: number | undefined;
 }
-export const BuildConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ArtifactName: S.optional(S.String),
-    CodeBuildServiceRole: S.String,
-    ComputeType: S.optional(ComputeType),
-    Image: S.String,
-    TimeoutInMinutes: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "BuildConfiguration",
-}) as any as S.Schema<BuildConfiguration>;
 export type AutoCreateApplication = boolean;
 export type ApplicationVersionProccess = boolean;
+export interface ImageSource {
+  Uri?: string | undefined;
+}
+export type ImageBuildType = "docker" | "buildpack" | (string & {});
+export type ArchitectureType = "amd64" | "arm64" | (string & {});
+export interface ImageBuildConfiguration {
+  Type?: ImageBuildType | undefined;
+  DockerfileLocation?: string | undefined;
+  Buildpack?: string | undefined;
+  Architecture?: ArchitectureType | undefined;
+  CodeBuildServiceRole?: string | undefined;
+  ComputeType?: ComputeType | undefined;
+  TimeoutInMinutes?: number | undefined;
+}
+export interface ImageConfiguration {
+  Source?: ImageSource | undefined;
+  Build?: ImageBuildConfiguration | undefined;
+}
 export interface CreateApplicationVersionMessage {
   ApplicationName: string;
   VersionLabel: string;
-  Description?: string;
-  SourceBuildInformation?: SourceBuildInformation;
-  SourceBundle?: S3Location;
-  BuildConfiguration?: BuildConfiguration;
-  AutoCreateApplication?: boolean;
-  Process?: boolean;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  SourceBuildInformation?: SourceBuildInformation | undefined;
+  SourceBundle?: S3Location | undefined;
+  BuildConfiguration?: BuildConfiguration | undefined;
+  AutoCreateApplication?: boolean | undefined;
+  Process?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  ImageConfiguration?: ImageConfiguration | undefined;
 }
-export const CreateApplicationVersionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.String,
-    VersionLabel: S.String,
-    Description: S.optional(S.String),
-    SourceBuildInformation: S.optional(SourceBuildInformation),
-    SourceBundle: S.optional(S3Location),
-    BuildConfiguration: S.optional(BuildConfiguration),
-    AutoCreateApplication: S.optional(S.Boolean),
-    Process: S.optional(S.Boolean),
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateApplicationVersionMessage",
-}) as any as S.Schema<CreateApplicationVersionMessage>;
 export type ApplicationVersionArn = string;
 export type ApplicationVersionStatus =
   | "Processed"
@@ -868,256 +533,95 @@ export type ApplicationVersionStatus =
   | "Processing"
   | "Building"
   | (string & {});
-export const ApplicationVersionStatus = S.String;
-
 export interface ApplicationVersionDescription {
-  ApplicationVersionArn?: string;
-  ApplicationName?: string;
-  Description?: string;
-  VersionLabel?: string;
-  SourceBuildInformation?: SourceBuildInformation;
-  BuildArn?: string;
-  SourceBundle?: S3Location;
-  DateCreated?: Date;
-  DateUpdated?: Date;
-  Status?: ApplicationVersionStatus;
+  ApplicationVersionArn?: string | undefined;
+  ApplicationName?: string | undefined;
+  Description?: string | undefined;
+  VersionLabel?: string | undefined;
+  SourceBuildInformation?: SourceBuildInformation | undefined;
+  BuildArn?: string | undefined;
+  SourceBundle?: S3Location | undefined;
+  ImageSource?: ImageSource | undefined;
+  ImageBuildConfiguration?: ImageBuildConfiguration | undefined;
+  Process?: boolean | undefined;
+  DateCreated?: Date | undefined;
+  DateUpdated?: Date | undefined;
+  Status?: ApplicationVersionStatus | undefined;
 }
-export const ApplicationVersionDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationVersionArn: S.optional(S.String),
-    ApplicationName: S.optional(S.String),
-    Description: S.optional(S.String),
-    VersionLabel: S.optional(S.String),
-    SourceBuildInformation: S.optional(SourceBuildInformation),
-    BuildArn: S.optional(S.String),
-    SourceBundle: S.optional(S3Location),
-    DateCreated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DateUpdated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Status: S.optional(ApplicationVersionStatus),
-  }),
-).annotate({
-  identifier: "ApplicationVersionDescription",
-}) as any as S.Schema<ApplicationVersionDescription>;
 export interface ApplicationVersionDescriptionMessage {
-  ApplicationVersion?: ApplicationVersionDescription;
+  ApplicationVersion?: ApplicationVersionDescription | undefined;
 }
-export const ApplicationVersionDescriptionMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationVersion: S.optional(ApplicationVersionDescription),
-    }).pipe(ns),
-).annotate({
-  identifier: "ApplicationVersionDescriptionMessage",
-}) as any as S.Schema<ApplicationVersionDescriptionMessage>;
 export interface SourceConfiguration {
-  ApplicationName?: string;
-  TemplateName?: string;
+  ApplicationName?: string | undefined;
+  TemplateName?: string | undefined;
 }
-export const SourceConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.optional(S.String),
-    TemplateName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SourceConfiguration",
-}) as any as S.Schema<SourceConfiguration>;
 export type ResourceName = string;
 export type OptionNamespace = string;
 export type ConfigurationOptionName = string;
 export type ConfigurationOptionValue = string;
 export interface ConfigurationOptionSetting {
-  ResourceName?: string;
-  Namespace?: string;
-  OptionName?: string;
-  Value?: string;
+  ResourceName?: string | undefined;
+  Namespace?: string | undefined;
+  OptionName?: string | undefined;
+  Value?: string | undefined;
 }
-export const ConfigurationOptionSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceName: S.optional(S.String),
-    Namespace: S.optional(S.String),
-    OptionName: S.optional(S.String),
-    Value: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConfigurationOptionSetting",
-}) as any as S.Schema<ConfigurationOptionSetting>;
 export type ConfigurationOptionSettingsList = ConfigurationOptionSetting[];
-export const ConfigurationOptionSettingsList = /*@__PURE__*/ S.Array(
-  ConfigurationOptionSetting,
-);
 export interface CreateConfigurationTemplateMessage {
   ApplicationName: string;
   TemplateName: string;
-  SolutionStackName?: string;
-  PlatformArn?: string;
-  SourceConfiguration?: SourceConfiguration;
-  EnvironmentId?: string;
-  Description?: string;
-  OptionSettings?: ConfigurationOptionSetting[];
-  Tags?: Tag[];
+  SolutionStackName?: string | undefined;
+  PlatformArn?: string | undefined;
+  SourceConfiguration?: SourceConfiguration | undefined;
+  EnvironmentId?: string | undefined;
+  Description?: string | undefined;
+  OptionSettings?: ConfigurationOptionSetting[] | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateConfigurationTemplateMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.String,
-    TemplateName: S.String,
-    SolutionStackName: S.optional(S.String),
-    PlatformArn: S.optional(S.String),
-    SourceConfiguration: S.optional(SourceConfiguration),
-    EnvironmentId: S.optional(S.String),
-    Description: S.optional(S.String),
-    OptionSettings: S.optional(ConfigurationOptionSettingsList),
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateConfigurationTemplateMessage",
-}) as any as S.Schema<CreateConfigurationTemplateMessage>;
-export type ConfigurationDeploymentStatus =
-  | "deployed"
-  | "pending"
-  | "failed"
-  | (string & {});
-export const ConfigurationDeploymentStatus = S.String;
-
+export type ConfigurationDeploymentStatus = "deployed" | "pending" | "failed" | (string & {});
 export interface ConfigurationSettingsDescription {
-  SolutionStackName?: string;
-  PlatformArn?: string;
-  ApplicationName?: string;
-  TemplateName?: string;
-  Description?: string;
-  EnvironmentName?: string;
-  DeploymentStatus?: ConfigurationDeploymentStatus;
-  DateCreated?: Date;
-  DateUpdated?: Date;
-  OptionSettings?: ConfigurationOptionSetting[];
+  SolutionStackName?: string | undefined;
+  PlatformArn?: string | undefined;
+  ApplicationName?: string | undefined;
+  TemplateName?: string | undefined;
+  Description?: string | undefined;
+  EnvironmentName?: string | undefined;
+  DeploymentStatus?: ConfigurationDeploymentStatus | undefined;
+  DateCreated?: Date | undefined;
+  DateUpdated?: Date | undefined;
+  OptionSettings?: ConfigurationOptionSetting[] | undefined;
 }
-export const ConfigurationSettingsDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SolutionStackName: S.optional(S.String),
-    PlatformArn: S.optional(S.String),
-    ApplicationName: S.optional(S.String),
-    TemplateName: S.optional(S.String),
-    Description: S.optional(S.String),
-    EnvironmentName: S.optional(S.String),
-    DeploymentStatus: S.optional(ConfigurationDeploymentStatus),
-    DateCreated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DateUpdated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    OptionSettings: S.optional(ConfigurationOptionSettingsList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ConfigurationSettingsDescription",
-}) as any as S.Schema<ConfigurationSettingsDescription>;
 export interface OptionSpecification {
-  ResourceName?: string;
-  Namespace?: string;
-  OptionName?: string;
+  ResourceName?: string | undefined;
+  Namespace?: string | undefined;
+  OptionName?: string | undefined;
 }
-export const OptionSpecification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceName: S.optional(S.String),
-    Namespace: S.optional(S.String),
-    OptionName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "OptionSpecification",
-}) as any as S.Schema<OptionSpecification>;
 export type OptionsSpecifierList = OptionSpecification[];
-export const OptionsSpecifierList = /*@__PURE__*/ S.Array(OptionSpecification);
 export interface CreateEnvironmentMessage {
   ApplicationName: string;
-  EnvironmentName?: string;
-  GroupName?: string;
-  Description?: string;
-  CNAMEPrefix?: string;
-  Tier?: EnvironmentTier;
-  Tags?: Tag[];
-  VersionLabel?: string;
-  TemplateName?: string;
-  SolutionStackName?: string;
-  PlatformArn?: string;
-  OptionSettings?: ConfigurationOptionSetting[];
-  OptionsToRemove?: OptionSpecification[];
-  OperationsRole?: string;
+  EnvironmentName?: string | undefined;
+  GroupName?: string | undefined;
+  Description?: string | undefined;
+  CNAMEPrefix?: string | undefined;
+  Tier?: EnvironmentTier | undefined;
+  Tags?: Tag[] | undefined;
+  VersionLabel?: string | undefined;
+  TemplateName?: string | undefined;
+  SolutionStackName?: string | undefined;
+  PlatformArn?: string | undefined;
+  OptionSettings?: ConfigurationOptionSetting[] | undefined;
+  OptionsToRemove?: OptionSpecification[] | undefined;
+  OperationsRole?: string | undefined;
 }
-export const CreateEnvironmentMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.String,
-    EnvironmentName: S.optional(S.String),
-    GroupName: S.optional(S.String),
-    Description: S.optional(S.String),
-    CNAMEPrefix: S.optional(S.String),
-    Tier: S.optional(EnvironmentTier),
-    Tags: S.optional(Tags),
-    VersionLabel: S.optional(S.String),
-    TemplateName: S.optional(S.String),
-    SolutionStackName: S.optional(S.String),
-    PlatformArn: S.optional(S.String),
-    OptionSettings: S.optional(ConfigurationOptionSettingsList),
-    OptionsToRemove: S.optional(OptionsSpecifierList),
-    OperationsRole: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateEnvironmentMessage",
-}) as any as S.Schema<CreateEnvironmentMessage>;
 export type PlatformName = string;
 export type PlatformVersion = string;
 export interface CreatePlatformVersionRequest {
   PlatformName: string;
   PlatformVersion: string;
   PlatformDefinitionBundle: S3Location;
-  EnvironmentName?: string;
-  OptionSettings?: ConfigurationOptionSetting[];
-  Tags?: Tag[];
+  EnvironmentName?: string | undefined;
+  OptionSettings?: ConfigurationOptionSetting[] | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreatePlatformVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlatformName: S.String,
-    PlatformVersion: S.String,
-    PlatformDefinitionBundle: S3Location,
-    EnvironmentName: S.optional(S.String),
-    OptionSettings: S.optional(ConfigurationOptionSettingsList),
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreatePlatformVersionRequest",
-}) as any as S.Schema<CreatePlatformVersionRequest>;
 export type PlatformOwner = string;
 export type PlatformStatus =
   | "Creating"
@@ -1126,498 +630,156 @@ export type PlatformStatus =
   | "Deleting"
   | "Deleted"
   | (string & {});
-export const PlatformStatus = S.String;
-
 export type PlatformCategory = string;
 export type OperatingSystemName = string;
 export type OperatingSystemVersion = string;
 export type SupportedTier = string;
 export type SupportedTierList = string[];
-export const SupportedTierList = /*@__PURE__*/ S.Array(S.String);
 export type SupportedAddon = string;
 export type SupportedAddonList = string[];
-export const SupportedAddonList = /*@__PURE__*/ S.Array(S.String);
 export type PlatformLifecycleState = string;
 export type BranchName = string;
 export type PlatformBranchLifecycleState = string;
 export interface PlatformSummary {
-  PlatformArn?: string;
-  PlatformOwner?: string;
-  PlatformStatus?: PlatformStatus;
-  PlatformCategory?: string;
-  OperatingSystemName?: string;
-  OperatingSystemVersion?: string;
-  SupportedTierList?: string[];
-  SupportedAddonList?: string[];
-  PlatformLifecycleState?: string;
-  PlatformVersion?: string;
-  PlatformBranchName?: string;
-  PlatformBranchLifecycleState?: string;
+  PlatformArn?: string | undefined;
+  PlatformOwner?: string | undefined;
+  PlatformStatus?: PlatformStatus | undefined;
+  PlatformCategory?: string | undefined;
+  OperatingSystemName?: string | undefined;
+  OperatingSystemVersion?: string | undefined;
+  SupportedTierList?: string[] | undefined;
+  SupportedAddonList?: string[] | undefined;
+  PlatformLifecycleState?: string | undefined;
+  PlatformVersion?: string | undefined;
+  PlatformBranchName?: string | undefined;
+  PlatformBranchLifecycleState?: string | undefined;
 }
-export const PlatformSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlatformArn: S.optional(S.String),
-    PlatformOwner: S.optional(S.String),
-    PlatformStatus: S.optional(PlatformStatus),
-    PlatformCategory: S.optional(S.String),
-    OperatingSystemName: S.optional(S.String),
-    OperatingSystemVersion: S.optional(S.String),
-    SupportedTierList: S.optional(SupportedTierList),
-    SupportedAddonList: S.optional(SupportedAddonList),
-    PlatformLifecycleState: S.optional(S.String),
-    PlatformVersion: S.optional(S.String),
-    PlatformBranchName: S.optional(S.String),
-    PlatformBranchLifecycleState: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PlatformSummary",
-}) as any as S.Schema<PlatformSummary>;
 export type ARN = string;
 export interface Builder {
-  ARN?: string;
+  ARN?: string | undefined;
 }
-export const Builder = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ARN: S.optional(S.String) }),
-).annotate({ identifier: "Builder" }) as any as S.Schema<Builder>;
 export interface CreatePlatformVersionResult {
-  PlatformSummary?: PlatformSummary;
-  Builder?: Builder;
+  PlatformSummary?: PlatformSummary | undefined;
+  Builder?: Builder | undefined;
 }
-export const CreatePlatformVersionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlatformSummary: S.optional(PlatformSummary),
-    Builder: S.optional(Builder),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreatePlatformVersionResult",
-}) as any as S.Schema<CreatePlatformVersionResult>;
 export interface CreateStorageLocationRequest {}
-export const CreateStorageLocationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateStorageLocationRequest",
-}) as any as S.Schema<CreateStorageLocationRequest>;
 export interface CreateStorageLocationResultMessage {
-  S3Bucket?: string;
+  S3Bucket?: string | undefined;
 }
-export const CreateStorageLocationResultMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ S3Bucket: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateStorageLocationResultMessage",
-}) as any as S.Schema<CreateStorageLocationResultMessage>;
 export type TerminateEnvForce = boolean;
 export interface DeleteApplicationMessage {
   ApplicationName: string;
-  TerminateEnvByForce?: boolean;
+  TerminateEnvByForce?: boolean | undefined;
 }
-export const DeleteApplicationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.String,
-    TerminateEnvByForce: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteApplicationMessage",
-}) as any as S.Schema<DeleteApplicationMessage>;
 export interface DeleteApplicationResponse {}
-export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteApplicationResponse",
-}) as any as S.Schema<DeleteApplicationResponse>;
 export type DeleteSourceBundle = boolean;
 export interface DeleteApplicationVersionMessage {
   ApplicationName: string;
   VersionLabel: string;
-  DeleteSourceBundle?: boolean;
+  DeleteSourceBundle?: boolean | undefined;
 }
-export const DeleteApplicationVersionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.String,
-    VersionLabel: S.String,
-    DeleteSourceBundle: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteApplicationVersionMessage",
-}) as any as S.Schema<DeleteApplicationVersionMessage>;
 export interface DeleteApplicationVersionResponse {}
-export const DeleteApplicationVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteApplicationVersionResponse",
-}) as any as S.Schema<DeleteApplicationVersionResponse>;
 export interface DeleteConfigurationTemplateMessage {
   ApplicationName: string;
   TemplateName: string;
 }
-export const DeleteConfigurationTemplateMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ApplicationName: S.String, TemplateName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteConfigurationTemplateMessage",
-}) as any as S.Schema<DeleteConfigurationTemplateMessage>;
 export interface DeleteConfigurationTemplateResponse {}
-export const DeleteConfigurationTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteConfigurationTemplateResponse",
-}) as any as S.Schema<DeleteConfigurationTemplateResponse>;
 export interface DeleteEnvironmentConfigurationMessage {
   ApplicationName: string;
   EnvironmentName: string;
 }
-export const DeleteEnvironmentConfigurationMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ ApplicationName: S.String, EnvironmentName: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeleteEnvironmentConfigurationMessage",
-}) as any as S.Schema<DeleteEnvironmentConfigurationMessage>;
 export interface DeleteEnvironmentConfigurationResponse {}
-export const DeleteEnvironmentConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteEnvironmentConfigurationResponse",
-}) as any as S.Schema<DeleteEnvironmentConfigurationResponse>;
 export interface DeletePlatformVersionRequest {
-  PlatformArn?: string;
+  PlatformArn?: string | undefined;
 }
-export const DeletePlatformVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PlatformArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeletePlatformVersionRequest",
-}) as any as S.Schema<DeletePlatformVersionRequest>;
 export interface DeletePlatformVersionResult {
-  PlatformSummary?: PlatformSummary;
+  PlatformSummary?: PlatformSummary | undefined;
 }
-export const DeletePlatformVersionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PlatformSummary: S.optional(PlatformSummary) }).pipe(ns),
-).annotate({
-  identifier: "DeletePlatformVersionResult",
-}) as any as S.Schema<DeletePlatformVersionResult>;
 export interface DescribeAccountAttributesRequest {}
-export const DescribeAccountAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeAccountAttributesRequest",
-}) as any as S.Schema<DescribeAccountAttributesRequest>;
 export interface ResourceQuota {
-  Maximum?: number;
+  Maximum?: number | undefined;
 }
-export const ResourceQuota = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Maximum: S.optional(S.Number) }),
-).annotate({ identifier: "ResourceQuota" }) as any as S.Schema<ResourceQuota>;
 export interface ResourceQuotas {
-  ApplicationQuota?: ResourceQuota;
-  ApplicationVersionQuota?: ResourceQuota;
-  EnvironmentQuota?: ResourceQuota;
-  ConfigurationTemplateQuota?: ResourceQuota;
-  CustomPlatformQuota?: ResourceQuota;
+  ApplicationQuota?: ResourceQuota | undefined;
+  ApplicationVersionQuota?: ResourceQuota | undefined;
+  EnvironmentQuota?: ResourceQuota | undefined;
+  ConfigurationTemplateQuota?: ResourceQuota | undefined;
+  CustomPlatformQuota?: ResourceQuota | undefined;
 }
-export const ResourceQuotas = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationQuota: S.optional(ResourceQuota),
-    ApplicationVersionQuota: S.optional(ResourceQuota),
-    EnvironmentQuota: S.optional(ResourceQuota),
-    ConfigurationTemplateQuota: S.optional(ResourceQuota),
-    CustomPlatformQuota: S.optional(ResourceQuota),
-  }),
-).annotate({ identifier: "ResourceQuotas" }) as any as S.Schema<ResourceQuotas>;
 export interface DescribeAccountAttributesResult {
-  ResourceQuotas?: ResourceQuotas;
+  ResourceQuotas?: ResourceQuotas | undefined;
 }
-export const DescribeAccountAttributesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceQuotas: S.optional(ResourceQuotas) }).pipe(ns),
-).annotate({
-  identifier: "DescribeAccountAttributesResult",
-}) as any as S.Schema<DescribeAccountAttributesResult>;
 export type ApplicationNamesList = string[];
-export const ApplicationNamesList = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeApplicationsMessage {
-  ApplicationNames?: string[];
+  ApplicationNames?: string[] | undefined;
 }
-export const DescribeApplicationsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ApplicationNames: S.optional(ApplicationNamesList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeApplicationsMessage",
-}) as any as S.Schema<DescribeApplicationsMessage>;
 export type ApplicationDescriptionList = ApplicationDescription[];
-export const ApplicationDescriptionList = /*@__PURE__*/ S.Array(
-  ApplicationDescription,
-);
 export interface ApplicationDescriptionsMessage {
-  Applications?: ApplicationDescription[];
+  Applications?: ApplicationDescription[] | undefined;
 }
-export const ApplicationDescriptionsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Applications: S.optional(ApplicationDescriptionList) }).pipe(ns),
-).annotate({
-  identifier: "ApplicationDescriptionsMessage",
-}) as any as S.Schema<ApplicationDescriptionsMessage>;
 export type MaxRecords = number;
 export interface DescribeApplicationVersionsMessage {
-  ApplicationName?: string;
-  VersionLabels?: string[];
-  MaxRecords?: number;
-  NextToken?: string;
+  ApplicationName?: string | undefined;
+  VersionLabels?: string[] | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeApplicationVersionsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.optional(S.String),
-    VersionLabels: S.optional(VersionLabelsList),
-    MaxRecords: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeApplicationVersionsMessage",
-}) as any as S.Schema<DescribeApplicationVersionsMessage>;
 export type ApplicationVersionDescriptionList = ApplicationVersionDescription[];
-export const ApplicationVersionDescriptionList = /*@__PURE__*/ S.Array(
-  ApplicationVersionDescription,
-);
 export interface ApplicationVersionDescriptionsMessage {
-  ApplicationVersions?: ApplicationVersionDescription[];
-  NextToken?: string;
+  ApplicationVersions?: ApplicationVersionDescription[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ApplicationVersionDescriptionsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationVersions: S.optional(ApplicationVersionDescriptionList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-).annotate({
-  identifier: "ApplicationVersionDescriptionsMessage",
-}) as any as S.Schema<ApplicationVersionDescriptionsMessage>;
 export interface DescribeConfigurationOptionsMessage {
-  ApplicationName?: string;
-  TemplateName?: string;
-  EnvironmentName?: string;
-  SolutionStackName?: string;
-  PlatformArn?: string;
-  Options?: OptionSpecification[];
+  ApplicationName?: string | undefined;
+  TemplateName?: string | undefined;
+  EnvironmentName?: string | undefined;
+  SolutionStackName?: string | undefined;
+  PlatformArn?: string | undefined;
+  Options?: OptionSpecification[] | undefined;
 }
-export const DescribeConfigurationOptionsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.optional(S.String),
-    TemplateName: S.optional(S.String),
-    EnvironmentName: S.optional(S.String),
-    SolutionStackName: S.optional(S.String),
-    PlatformArn: S.optional(S.String),
-    Options: S.optional(OptionsSpecifierList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeConfigurationOptionsMessage",
-}) as any as S.Schema<DescribeConfigurationOptionsMessage>;
 export type ConfigurationOptionDefaultValue = string;
 export type ConfigurationOptionSeverity = string;
 export type UserDefinedOption = boolean;
 export type ConfigurationOptionValueType = "Scalar" | "List" | (string & {});
-export const ConfigurationOptionValueType = S.String;
-
 export type ConfigurationOptionPossibleValue = string;
 export type ConfigurationOptionPossibleValues = string[];
-export const ConfigurationOptionPossibleValues = /*@__PURE__*/ S.Array(
-  S.String,
-);
 export type OptionRestrictionMinValue = number;
 export type OptionRestrictionMaxValue = number;
 export type OptionRestrictionMaxLength = number;
 export type RegexPattern = string;
 export type RegexLabel = string;
 export interface OptionRestrictionRegex {
-  Pattern?: string;
-  Label?: string;
+  Pattern?: string | undefined;
+  Label?: string | undefined;
 }
-export const OptionRestrictionRegex = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Pattern: S.optional(S.String), Label: S.optional(S.String) }),
-).annotate({
-  identifier: "OptionRestrictionRegex",
-}) as any as S.Schema<OptionRestrictionRegex>;
 export interface ConfigurationOptionDescription {
-  Namespace?: string;
-  Name?: string;
-  DefaultValue?: string;
-  ChangeSeverity?: string;
-  UserDefined?: boolean;
-  ValueType?: ConfigurationOptionValueType;
-  ValueOptions?: string[];
-  MinValue?: number;
-  MaxValue?: number;
-  MaxLength?: number;
-  Regex?: OptionRestrictionRegex;
+  Namespace?: string | undefined;
+  Name?: string | undefined;
+  DefaultValue?: string | undefined;
+  ChangeSeverity?: string | undefined;
+  UserDefined?: boolean | undefined;
+  ValueType?: ConfigurationOptionValueType | undefined;
+  ValueOptions?: string[] | undefined;
+  MinValue?: number | undefined;
+  MaxValue?: number | undefined;
+  MaxLength?: number | undefined;
+  Regex?: OptionRestrictionRegex | undefined;
 }
-export const ConfigurationOptionDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Namespace: S.optional(S.String),
-    Name: S.optional(S.String),
-    DefaultValue: S.optional(S.String),
-    ChangeSeverity: S.optional(S.String),
-    UserDefined: S.optional(S.Boolean),
-    ValueType: S.optional(ConfigurationOptionValueType),
-    ValueOptions: S.optional(ConfigurationOptionPossibleValues),
-    MinValue: S.optional(S.Number),
-    MaxValue: S.optional(S.Number),
-    MaxLength: S.optional(S.Number),
-    Regex: S.optional(OptionRestrictionRegex),
-  }),
-).annotate({
-  identifier: "ConfigurationOptionDescription",
-}) as any as S.Schema<ConfigurationOptionDescription>;
-export type ConfigurationOptionDescriptionsList =
-  ConfigurationOptionDescription[];
-export const ConfigurationOptionDescriptionsList = /*@__PURE__*/ S.Array(
-  ConfigurationOptionDescription,
-);
+export type ConfigurationOptionDescriptionsList = ConfigurationOptionDescription[];
 export interface ConfigurationOptionsDescription {
-  SolutionStackName?: string;
-  PlatformArn?: string;
-  Options?: ConfigurationOptionDescription[];
+  SolutionStackName?: string | undefined;
+  PlatformArn?: string | undefined;
+  Options?: ConfigurationOptionDescription[] | undefined;
 }
-export const ConfigurationOptionsDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SolutionStackName: S.optional(S.String),
-    PlatformArn: S.optional(S.String),
-    Options: S.optional(ConfigurationOptionDescriptionsList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ConfigurationOptionsDescription",
-}) as any as S.Schema<ConfigurationOptionsDescription>;
 export interface DescribeConfigurationSettingsMessage {
   ApplicationName: string;
-  TemplateName?: string;
-  EnvironmentName?: string;
+  TemplateName?: string | undefined;
+  EnvironmentName?: string | undefined;
 }
-export const DescribeConfigurationSettingsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationName: S.String,
-      TemplateName: S.optional(S.String),
-      EnvironmentName: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DescribeConfigurationSettingsMessage",
-}) as any as S.Schema<DescribeConfigurationSettingsMessage>;
-export type ConfigurationSettingsDescriptionList =
-  ConfigurationSettingsDescription[];
-export const ConfigurationSettingsDescriptionList = /*@__PURE__*/ S.Array(
-  ConfigurationSettingsDescription,
-);
+export type ConfigurationSettingsDescriptionList = ConfigurationSettingsDescription[];
 export interface ConfigurationSettingsDescriptions {
-  ConfigurationSettings?: ConfigurationSettingsDescription[];
+  ConfigurationSettings?: ConfigurationSettingsDescription[] | undefined;
 }
-export const ConfigurationSettingsDescriptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationSettings: S.optional(ConfigurationSettingsDescriptionList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ConfigurationSettingsDescriptions",
-}) as any as S.Schema<ConfigurationSettingsDescriptions>;
 export type EnvironmentHealthAttribute =
   | "Status"
   | "Color"
@@ -1628,171 +790,65 @@ export type EnvironmentHealthAttribute =
   | "HealthStatus"
   | "RefreshedAt"
   | (string & {});
-export const EnvironmentHealthAttribute = S.String;
-
 export type EnvironmentHealthAttributes = EnvironmentHealthAttribute[];
-export const EnvironmentHealthAttributes = /*@__PURE__*/ S.Array(
-  EnvironmentHealthAttribute,
-);
 export interface DescribeEnvironmentHealthRequest {
-  EnvironmentName?: string;
-  EnvironmentId?: string;
-  AttributeNames?: EnvironmentHealthAttribute[];
+  EnvironmentName?: string | undefined;
+  EnvironmentId?: string | undefined;
+  AttributeNames?: EnvironmentHealthAttribute[] | undefined;
 }
-export const DescribeEnvironmentHealthRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EnvironmentName: S.optional(S.String),
-    EnvironmentId: S.optional(S.String),
-    AttributeNames: S.optional(EnvironmentHealthAttributes),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeEnvironmentHealthRequest",
-}) as any as S.Schema<DescribeEnvironmentHealthRequest>;
 export type Cause = string;
 export type Causes = string[];
-export const Causes = /*@__PURE__*/ S.Array(S.String);
 export type RequestCount = number;
 export interface StatusCodes {
-  Status2xx?: number;
-  Status3xx?: number;
-  Status4xx?: number;
-  Status5xx?: number;
+  Status2xx?: number | undefined;
+  Status3xx?: number | undefined;
+  Status4xx?: number | undefined;
+  Status5xx?: number | undefined;
 }
-export const StatusCodes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status2xx: S.optional(S.Number),
-    Status3xx: S.optional(S.Number),
-    Status4xx: S.optional(S.Number),
-    Status5xx: S.optional(S.Number),
-  }),
-).annotate({ identifier: "StatusCodes" }) as any as S.Schema<StatusCodes>;
 export interface Latency {
-  P999?: number;
-  P99?: number;
-  P95?: number;
-  P90?: number;
-  P85?: number;
-  P75?: number;
-  P50?: number;
-  P10?: number;
+  P999?: number | undefined;
+  P99?: number | undefined;
+  P95?: number | undefined;
+  P90?: number | undefined;
+  P85?: number | undefined;
+  P75?: number | undefined;
+  P50?: number | undefined;
+  P10?: number | undefined;
 }
-export const Latency = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    P999: S.optional(S.Number),
-    P99: S.optional(S.Number),
-    P95: S.optional(S.Number),
-    P90: S.optional(S.Number),
-    P85: S.optional(S.Number),
-    P75: S.optional(S.Number),
-    P50: S.optional(S.Number),
-    P10: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Latency" }) as any as S.Schema<Latency>;
 export interface ApplicationMetrics {
-  Duration?: number;
-  RequestCount?: number;
-  StatusCodes?: StatusCodes;
-  Latency?: Latency;
+  Duration?: number | undefined;
+  RequestCount?: number | undefined;
+  StatusCodes?: StatusCodes | undefined;
+  Latency?: Latency | undefined;
 }
-export const ApplicationMetrics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Duration: S.optional(S.Number),
-    RequestCount: S.optional(S.Number),
-    StatusCodes: S.optional(StatusCodes),
-    Latency: S.optional(Latency),
-  }),
-).annotate({
-  identifier: "ApplicationMetrics",
-}) as any as S.Schema<ApplicationMetrics>;
 export interface InstanceHealthSummary {
-  NoData?: number;
-  Unknown?: number;
-  Pending?: number;
-  Ok?: number;
-  Info?: number;
-  Warning?: number;
-  Degraded?: number;
-  Severe?: number;
+  NoData?: number | undefined;
+  Unknown?: number | undefined;
+  Pending?: number | undefined;
+  Ok?: number | undefined;
+  Info?: number | undefined;
+  Warning?: number | undefined;
+  Degraded?: number | undefined;
+  Severe?: number | undefined;
 }
-export const InstanceHealthSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NoData: S.optional(S.Number),
-    Unknown: S.optional(S.Number),
-    Pending: S.optional(S.Number),
-    Ok: S.optional(S.Number),
-    Info: S.optional(S.Number),
-    Warning: S.optional(S.Number),
-    Degraded: S.optional(S.Number),
-    Severe: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "InstanceHealthSummary",
-}) as any as S.Schema<InstanceHealthSummary>;
 export type RefreshedAt = Date;
 export interface DescribeEnvironmentHealthResult {
-  EnvironmentName?: string;
-  HealthStatus?: string;
-  Status?: EnvironmentHealth;
-  Color?: string;
-  Causes?: string[];
-  ApplicationMetrics?: ApplicationMetrics;
-  InstancesHealth?: InstanceHealthSummary;
-  RefreshedAt?: Date;
+  EnvironmentName?: string | undefined;
+  HealthStatus?: string | undefined;
+  Status?: EnvironmentHealth | undefined;
+  Color?: string | undefined;
+  Causes?: string[] | undefined;
+  ApplicationMetrics?: ApplicationMetrics | undefined;
+  InstancesHealth?: InstanceHealthSummary | undefined;
+  RefreshedAt?: Date | undefined;
 }
-export const DescribeEnvironmentHealthResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EnvironmentName: S.optional(S.String),
-    HealthStatus: S.optional(S.String),
-    Status: S.optional(EnvironmentHealth),
-    Color: S.optional(S.String),
-    Causes: S.optional(Causes),
-    ApplicationMetrics: S.optional(ApplicationMetrics),
-    InstancesHealth: S.optional(InstanceHealthSummary),
-    RefreshedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeEnvironmentHealthResult",
-}) as any as S.Schema<DescribeEnvironmentHealthResult>;
 export type ManagedActionHistoryMaxItems = number;
 export interface DescribeEnvironmentManagedActionHistoryRequest {
-  EnvironmentId?: string;
-  EnvironmentName?: string;
-  NextToken?: string;
-  MaxItems?: number;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
+  NextToken?: string | undefined;
+  MaxItems?: number | undefined;
 }
-export const DescribeEnvironmentManagedActionHistoryRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      EnvironmentId: S.optional(S.String),
-      EnvironmentName: S.optional(S.String),
-      NextToken: S.optional(S.String),
-      MaxItems: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeEnvironmentManagedActionHistoryRequest",
-  }) as any as S.Schema<DescribeEnvironmentManagedActionHistoryRequest>;
 export type FailureType =
   | "UpdateCancelled"
   | "CancellationFailed"
@@ -1802,384 +858,140 @@ export type FailureType =
   | "InvalidEnvironmentState"
   | "PermissionsError"
   | (string & {});
-export const FailureType = S.String;
-
-export type ActionHistoryStatus =
-  | "Completed"
-  | "Failed"
-  | "Unknown"
-  | (string & {});
-export const ActionHistoryStatus = S.String;
-
+export type ActionHistoryStatus = "Completed" | "Failed" | "Unknown" | (string & {});
 export interface ManagedActionHistoryItem {
-  ActionId?: string;
-  ActionType?: ActionType;
-  ActionDescription?: string;
-  FailureType?: FailureType;
-  Status?: ActionHistoryStatus;
-  FailureDescription?: string;
-  ExecutedTime?: Date;
-  FinishedTime?: Date;
+  ActionId?: string | undefined;
+  ActionType?: ActionType | undefined;
+  ActionDescription?: string | undefined;
+  FailureType?: FailureType | undefined;
+  Status?: ActionHistoryStatus | undefined;
+  FailureDescription?: string | undefined;
+  ExecutedTime?: Date | undefined;
+  FinishedTime?: Date | undefined;
 }
-export const ManagedActionHistoryItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionId: S.optional(S.String),
-    ActionType: S.optional(ActionType),
-    ActionDescription: S.optional(S.String),
-    FailureType: S.optional(FailureType),
-    Status: S.optional(ActionHistoryStatus),
-    FailureDescription: S.optional(S.String),
-    ExecutedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    FinishedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "ManagedActionHistoryItem",
-}) as any as S.Schema<ManagedActionHistoryItem>;
 export type ManagedActionHistoryItems = ManagedActionHistoryItem[];
-export const ManagedActionHistoryItems = /*@__PURE__*/ S.Array(
-  ManagedActionHistoryItem,
-);
 export interface DescribeEnvironmentManagedActionHistoryResult {
-  ManagedActionHistoryItems?: ManagedActionHistoryItem[];
-  NextToken?: string;
+  ManagedActionHistoryItems?: ManagedActionHistoryItem[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeEnvironmentManagedActionHistoryResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ManagedActionHistoryItems: S.optional(ManagedActionHistoryItems),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeEnvironmentManagedActionHistoryResult",
-  }) as any as S.Schema<DescribeEnvironmentManagedActionHistoryResult>;
-export type ActionStatus =
-  | "Scheduled"
-  | "Pending"
-  | "Running"
-  | "Unknown"
-  | (string & {});
-export const ActionStatus = S.String;
-
+export type ActionStatus = "Scheduled" | "Pending" | "Running" | "Unknown" | (string & {});
 export interface DescribeEnvironmentManagedActionsRequest {
-  EnvironmentName?: string;
-  EnvironmentId?: string;
-  Status?: ActionStatus;
+  EnvironmentName?: string | undefined;
+  EnvironmentId?: string | undefined;
+  Status?: ActionStatus | undefined;
 }
-export const DescribeEnvironmentManagedActionsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EnvironmentName: S.optional(S.String),
-      EnvironmentId: S.optional(S.String),
-      Status: S.optional(ActionStatus),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DescribeEnvironmentManagedActionsRequest",
-}) as any as S.Schema<DescribeEnvironmentManagedActionsRequest>;
 export interface ManagedAction {
-  ActionId?: string;
-  ActionDescription?: string;
-  ActionType?: ActionType;
-  Status?: ActionStatus;
-  WindowStartTime?: Date;
+  ActionId?: string | undefined;
+  ActionDescription?: string | undefined;
+  ActionType?: ActionType | undefined;
+  Status?: ActionStatus | undefined;
+  WindowStartTime?: Date | undefined;
 }
-export const ManagedAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionId: S.optional(S.String),
-    ActionDescription: S.optional(S.String),
-    ActionType: S.optional(ActionType),
-    Status: S.optional(ActionStatus),
-    WindowStartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({ identifier: "ManagedAction" }) as any as S.Schema<ManagedAction>;
 export type ManagedActions = ManagedAction[];
-export const ManagedActions = /*@__PURE__*/ S.Array(ManagedAction);
 export interface DescribeEnvironmentManagedActionsResult {
-  ManagedActions?: ManagedAction[];
+  ManagedActions?: ManagedAction[] | undefined;
 }
-export const DescribeEnvironmentManagedActionsResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ ManagedActions: S.optional(ManagedActions) }).pipe(ns),
-).annotate({
-  identifier: "DescribeEnvironmentManagedActionsResult",
-}) as any as S.Schema<DescribeEnvironmentManagedActionsResult>;
 export interface DescribeEnvironmentResourcesMessage {
-  EnvironmentId?: string;
-  EnvironmentName?: string;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
 }
-export const DescribeEnvironmentResourcesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EnvironmentId: S.optional(S.String),
-    EnvironmentName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeEnvironmentResourcesMessage",
-}) as any as S.Schema<DescribeEnvironmentResourcesMessage>;
 export type ResourceId = string;
 export interface AutoScalingGroup {
-  Name?: string;
+  Name?: string | undefined;
 }
-export const AutoScalingGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }),
-).annotate({
-  identifier: "AutoScalingGroup",
-}) as any as S.Schema<AutoScalingGroup>;
 export type AutoScalingGroupList = AutoScalingGroup[];
-export const AutoScalingGroupList = /*@__PURE__*/ S.Array(AutoScalingGroup);
+export interface Cluster {
+  ClusterArn?: string | undefined;
+}
 export interface Instance {
-  Id?: string;
+  Id?: string | undefined;
 }
-export const Instance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String) }),
-).annotate({ identifier: "Instance" }) as any as S.Schema<Instance>;
 export type InstanceList = Instance[];
-export const InstanceList = /*@__PURE__*/ S.Array(Instance);
 export interface LaunchConfiguration {
-  Name?: string;
+  Name?: string | undefined;
 }
-export const LaunchConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }),
-).annotate({
-  identifier: "LaunchConfiguration",
-}) as any as S.Schema<LaunchConfiguration>;
 export type LaunchConfigurationList = LaunchConfiguration[];
-export const LaunchConfigurationList =
-  /*@__PURE__*/ S.Array(LaunchConfiguration);
 export interface LaunchTemplate {
-  Id?: string;
+  Id?: string | undefined;
 }
-export const LaunchTemplate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String) }),
-).annotate({ identifier: "LaunchTemplate" }) as any as S.Schema<LaunchTemplate>;
 export type LaunchTemplateList = LaunchTemplate[];
-export const LaunchTemplateList = /*@__PURE__*/ S.Array(LaunchTemplate);
 export interface LoadBalancer {
-  Name?: string;
+  Name?: string | undefined;
 }
-export const LoadBalancer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }),
-).annotate({ identifier: "LoadBalancer" }) as any as S.Schema<LoadBalancer>;
 export type LoadBalancerList = LoadBalancer[];
-export const LoadBalancerList = /*@__PURE__*/ S.Array(LoadBalancer);
 export interface Trigger {
-  Name?: string;
+  Name?: string | undefined;
 }
-export const Trigger = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }),
-).annotate({ identifier: "Trigger" }) as any as S.Schema<Trigger>;
 export type TriggerList = Trigger[];
-export const TriggerList = /*@__PURE__*/ S.Array(Trigger);
 export interface Queue {
-  Name?: string;
-  URL?: string;
+  Name?: string | undefined;
+  URL?: string | undefined;
 }
-export const Queue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), URL: S.optional(S.String) }),
-).annotate({ identifier: "Queue" }) as any as S.Schema<Queue>;
 export type QueueList = Queue[];
-export const QueueList = /*@__PURE__*/ S.Array(Queue);
 export interface EnvironmentResourceDescription {
-  EnvironmentName?: string;
-  AutoScalingGroups?: AutoScalingGroup[];
-  Instances?: Instance[];
-  LaunchConfigurations?: LaunchConfiguration[];
-  LaunchTemplates?: LaunchTemplate[];
-  LoadBalancers?: LoadBalancer[];
-  Triggers?: Trigger[];
-  Queues?: Queue[];
+  EnvironmentName?: string | undefined;
+  AutoScalingGroups?: AutoScalingGroup[] | undefined;
+  Cluster?: Cluster | undefined;
+  Instances?: Instance[] | undefined;
+  LaunchConfigurations?: LaunchConfiguration[] | undefined;
+  LaunchTemplates?: LaunchTemplate[] | undefined;
+  LoadBalancers?: LoadBalancer[] | undefined;
+  Triggers?: Trigger[] | undefined;
+  Queues?: Queue[] | undefined;
 }
-export const EnvironmentResourceDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EnvironmentName: S.optional(S.String),
-    AutoScalingGroups: S.optional(AutoScalingGroupList),
-    Instances: S.optional(InstanceList),
-    LaunchConfigurations: S.optional(LaunchConfigurationList),
-    LaunchTemplates: S.optional(LaunchTemplateList),
-    LoadBalancers: S.optional(LoadBalancerList),
-    Triggers: S.optional(TriggerList),
-    Queues: S.optional(QueueList),
-  }),
-).annotate({
-  identifier: "EnvironmentResourceDescription",
-}) as any as S.Schema<EnvironmentResourceDescription>;
 export interface EnvironmentResourceDescriptionsMessage {
-  EnvironmentResources?: EnvironmentResourceDescription;
+  EnvironmentResources?: EnvironmentResourceDescription | undefined;
 }
-export const EnvironmentResourceDescriptionsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EnvironmentResources: S.optional(EnvironmentResourceDescription),
-    }).pipe(ns),
-).annotate({
-  identifier: "EnvironmentResourceDescriptionsMessage",
-}) as any as S.Schema<EnvironmentResourceDescriptionsMessage>;
 export type EnvironmentIdList = string[];
-export const EnvironmentIdList = /*@__PURE__*/ S.Array(S.String);
 export type EnvironmentNamesList = string[];
-export const EnvironmentNamesList = /*@__PURE__*/ S.Array(S.String);
 export type IncludeDeleted = boolean;
 export type IncludeDeletedBackTo = Date;
 export interface DescribeEnvironmentsMessage {
-  ApplicationName?: string;
-  VersionLabel?: string;
-  EnvironmentIds?: string[];
-  EnvironmentNames?: string[];
-  IncludeDeleted?: boolean;
-  IncludedDeletedBackTo?: Date;
-  MaxRecords?: number;
-  NextToken?: string;
+  ApplicationName?: string | undefined;
+  VersionLabel?: string | undefined;
+  EnvironmentIds?: string[] | undefined;
+  EnvironmentNames?: string[] | undefined;
+  IncludeDeleted?: boolean | undefined;
+  IncludedDeletedBackTo?: Date | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeEnvironmentsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.optional(S.String),
-    VersionLabel: S.optional(S.String),
-    EnvironmentIds: S.optional(EnvironmentIdList),
-    EnvironmentNames: S.optional(EnvironmentNamesList),
-    IncludeDeleted: S.optional(S.Boolean),
-    IncludedDeletedBackTo: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    MaxRecords: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeEnvironmentsMessage",
-}) as any as S.Schema<DescribeEnvironmentsMessage>;
 export type RequestId = string;
-export type EventSeverity =
-  | "TRACE"
-  | "DEBUG"
-  | "INFO"
-  | "WARN"
-  | "ERROR"
-  | "FATAL"
-  | (string & {});
-export const EventSeverity = S.String;
-
+export type EventSeverity = "TRACE" | "DEBUG" | "INFO" | "WARN" | "ERROR" | "FATAL" | (string & {});
 export type TimeFilterStart = Date;
 export type TimeFilterEnd = Date;
 export interface DescribeEventsMessage {
-  ApplicationName?: string;
-  VersionLabel?: string;
-  TemplateName?: string;
-  EnvironmentId?: string;
-  EnvironmentName?: string;
-  PlatformArn?: string;
-  RequestId?: string;
-  Severity?: EventSeverity;
-  StartTime?: Date;
-  EndTime?: Date;
-  MaxRecords?: number;
-  NextToken?: string;
+  ApplicationName?: string | undefined;
+  VersionLabel?: string | undefined;
+  TemplateName?: string | undefined;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
+  PlatformArn?: string | undefined;
+  RequestId?: string | undefined;
+  Severity?: EventSeverity | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeEventsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.optional(S.String),
-    VersionLabel: S.optional(S.String),
-    TemplateName: S.optional(S.String),
-    EnvironmentId: S.optional(S.String),
-    EnvironmentName: S.optional(S.String),
-    PlatformArn: S.optional(S.String),
-    RequestId: S.optional(S.String),
-    Severity: S.optional(EventSeverity),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    MaxRecords: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeEventsMessage",
-}) as any as S.Schema<DescribeEventsMessage>;
 export type EventDate = Date;
 export type EventMessage = string;
 export interface EventDescription {
-  EventDate?: Date;
-  Message?: string;
-  ApplicationName?: string;
-  VersionLabel?: string;
-  TemplateName?: string;
-  EnvironmentName?: string;
-  PlatformArn?: string;
-  RequestId?: string;
-  Severity?: EventSeverity;
+  EventDate?: Date | undefined;
+  Message?: string | undefined;
+  ApplicationName?: string | undefined;
+  VersionLabel?: string | undefined;
+  TemplateName?: string | undefined;
+  EnvironmentName?: string | undefined;
+  PlatformArn?: string | undefined;
+  RequestId?: string | undefined;
+  Severity?: EventSeverity | undefined;
 }
-export const EventDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Message: S.optional(S.String),
-    ApplicationName: S.optional(S.String),
-    VersionLabel: S.optional(S.String),
-    TemplateName: S.optional(S.String),
-    EnvironmentName: S.optional(S.String),
-    PlatformArn: S.optional(S.String),
-    RequestId: S.optional(S.String),
-    Severity: S.optional(EventSeverity),
-  }),
-).annotate({
-  identifier: "EventDescription",
-}) as any as S.Schema<EventDescription>;
 export type EventDescriptionList = EventDescription[];
-export const EventDescriptionList = /*@__PURE__*/ S.Array(EventDescription);
 export interface EventDescriptionsMessage {
-  Events?: EventDescription[];
-  NextToken?: string;
+  Events?: EventDescription[] | undefined;
+  NextToken?: string | undefined;
 }
-export const EventDescriptionsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Events: S.optional(EventDescriptionList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "EventDescriptionsMessage",
-}) as any as S.Schema<EventDescriptionsMessage>;
 export type InstancesHealthAttribute =
   | "HealthStatus"
   | "Color"
@@ -2193,974 +1005,319 @@ export type InstancesHealthAttribute =
   | "InstanceType"
   | "All"
   | (string & {});
-export const InstancesHealthAttribute = S.String;
-
 export type InstancesHealthAttributes = InstancesHealthAttribute[];
-export const InstancesHealthAttributes = /*@__PURE__*/ S.Array(
-  InstancesHealthAttribute,
-);
 export type NextToken = string;
 export interface DescribeInstancesHealthRequest {
-  EnvironmentName?: string;
-  EnvironmentId?: string;
-  AttributeNames?: InstancesHealthAttribute[];
-  NextToken?: string;
+  EnvironmentName?: string | undefined;
+  EnvironmentId?: string | undefined;
+  AttributeNames?: InstancesHealthAttribute[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeInstancesHealthRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EnvironmentName: S.optional(S.String),
-    EnvironmentId: S.optional(S.String),
-    AttributeNames: S.optional(InstancesHealthAttributes),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeInstancesHealthRequest",
-}) as any as S.Schema<DescribeInstancesHealthRequest>;
 export type InstanceId = string;
 export type LaunchedAt = Date;
 export interface CPUUtilization {
-  User?: number;
-  Nice?: number;
-  System?: number;
-  Idle?: number;
-  IOWait?: number;
-  IRQ?: number;
-  SoftIRQ?: number;
-  Privileged?: number;
+  User?: number | undefined;
+  Nice?: number | undefined;
+  System?: number | undefined;
+  Idle?: number | undefined;
+  IOWait?: number | undefined;
+  IRQ?: number | undefined;
+  SoftIRQ?: number | undefined;
+  Privileged?: number | undefined;
 }
-export const CPUUtilization = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    User: S.optional(S.Number),
-    Nice: S.optional(S.Number),
-    System: S.optional(S.Number),
-    Idle: S.optional(S.Number),
-    IOWait: S.optional(S.Number),
-    IRQ: S.optional(S.Number),
-    SoftIRQ: S.optional(S.Number),
-    Privileged: S.optional(S.Number),
-  }),
-).annotate({ identifier: "CPUUtilization" }) as any as S.Schema<CPUUtilization>;
 export type LoadAverageValue = number;
 export type LoadAverage = number[];
-export const LoadAverage = /*@__PURE__*/ S.Array(S.Number);
 export interface SystemStatus {
-  CPUUtilization?: CPUUtilization;
-  LoadAverage?: number[];
+  CPUUtilization?: CPUUtilization | undefined;
+  LoadAverage?: number[] | undefined;
 }
-export const SystemStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CPUUtilization: S.optional(CPUUtilization),
-    LoadAverage: S.optional(LoadAverage),
-  }),
-).annotate({ identifier: "SystemStatus" }) as any as S.Schema<SystemStatus>;
 export type DeploymentTimestamp = Date;
 export interface Deployment {
-  VersionLabel?: string;
-  DeploymentId?: number;
-  Status?: string;
-  DeploymentTime?: Date;
+  VersionLabel?: string | undefined;
+  DeploymentId?: number | undefined;
+  Status?: string | undefined;
+  DeploymentTime?: Date | undefined;
 }
-export const Deployment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VersionLabel: S.optional(S.String),
-    DeploymentId: S.optional(S.Number),
-    Status: S.optional(S.String),
-    DeploymentTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({ identifier: "Deployment" }) as any as S.Schema<Deployment>;
 export interface SingleInstanceHealth {
-  InstanceId?: string;
-  HealthStatus?: string;
-  Color?: string;
-  Causes?: string[];
-  LaunchedAt?: Date;
-  ApplicationMetrics?: ApplicationMetrics;
-  System?: SystemStatus;
-  Deployment?: Deployment;
-  AvailabilityZone?: string;
-  InstanceType?: string;
+  InstanceId?: string | undefined;
+  HealthStatus?: string | undefined;
+  Color?: string | undefined;
+  Causes?: string[] | undefined;
+  LaunchedAt?: Date | undefined;
+  ApplicationMetrics?: ApplicationMetrics | undefined;
+  System?: SystemStatus | undefined;
+  Deployment?: Deployment | undefined;
+  AvailabilityZone?: string | undefined;
+  InstanceType?: string | undefined;
 }
-export const SingleInstanceHealth = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceId: S.optional(S.String),
-    HealthStatus: S.optional(S.String),
-    Color: S.optional(S.String),
-    Causes: S.optional(Causes),
-    LaunchedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ApplicationMetrics: S.optional(ApplicationMetrics),
-    System: S.optional(SystemStatus),
-    Deployment: S.optional(Deployment),
-    AvailabilityZone: S.optional(S.String),
-    InstanceType: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SingleInstanceHealth",
-}) as any as S.Schema<SingleInstanceHealth>;
 export type InstanceHealthList = SingleInstanceHealth[];
-export const InstanceHealthList = /*@__PURE__*/ S.Array(SingleInstanceHealth);
 export interface DescribeInstancesHealthResult {
-  InstanceHealthList?: SingleInstanceHealth[];
-  RefreshedAt?: Date;
-  NextToken?: string;
+  InstanceHealthList?: SingleInstanceHealth[] | undefined;
+  RefreshedAt?: Date | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeInstancesHealthResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceHealthList: S.optional(InstanceHealthList),
-    RefreshedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeInstancesHealthResult",
-}) as any as S.Schema<DescribeInstancesHealthResult>;
 export interface DescribePlatformVersionRequest {
-  PlatformArn?: string;
+  PlatformArn?: string | undefined;
 }
-export const DescribePlatformVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PlatformArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribePlatformVersionRequest",
-}) as any as S.Schema<DescribePlatformVersionRequest>;
 export type Maintainer = string;
 export interface PlatformProgrammingLanguage {
-  Name?: string;
-  Version?: string;
+  Name?: string | undefined;
+  Version?: string | undefined;
 }
-export const PlatformProgrammingLanguage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Version: S.optional(S.String) }),
-).annotate({
-  identifier: "PlatformProgrammingLanguage",
-}) as any as S.Schema<PlatformProgrammingLanguage>;
 export type PlatformProgrammingLanguages = PlatformProgrammingLanguage[];
-export const PlatformProgrammingLanguages = /*@__PURE__*/ S.Array(
-  PlatformProgrammingLanguage,
-);
 export interface PlatformFramework {
-  Name?: string;
-  Version?: string;
+  Name?: string | undefined;
+  Version?: string | undefined;
 }
-export const PlatformFramework = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Version: S.optional(S.String) }),
-).annotate({
-  identifier: "PlatformFramework",
-}) as any as S.Schema<PlatformFramework>;
 export type PlatformFrameworks = PlatformFramework[];
-export const PlatformFrameworks = /*@__PURE__*/ S.Array(PlatformFramework);
 export type VirtualizationType = string;
 export type ImageId = string;
 export interface CustomAmi {
-  VirtualizationType?: string;
-  ImageId?: string;
+  VirtualizationType?: string | undefined;
+  ImageId?: string | undefined;
 }
-export const CustomAmi = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VirtualizationType: S.optional(S.String),
-    ImageId: S.optional(S.String),
-  }),
-).annotate({ identifier: "CustomAmi" }) as any as S.Schema<CustomAmi>;
 export type CustomAmiList = CustomAmi[];
-export const CustomAmiList = /*@__PURE__*/ S.Array(CustomAmi);
+export type AmiArchitecture = "x86_64" | "arm64" | (string & {});
+export interface DefaultAmi {
+  Architecture?: AmiArchitecture | undefined;
+  ImageId?: string | undefined;
+}
+export type DefaultAmiList = DefaultAmi[];
 export interface PlatformDescription {
-  PlatformArn?: string;
-  PlatformOwner?: string;
-  PlatformName?: string;
-  PlatformVersion?: string;
-  SolutionStackName?: string;
-  PlatformStatus?: PlatformStatus;
-  DateCreated?: Date;
-  DateUpdated?: Date;
-  PlatformCategory?: string;
-  Description?: string;
-  Maintainer?: string;
-  OperatingSystemName?: string;
-  OperatingSystemVersion?: string;
-  ProgrammingLanguages?: PlatformProgrammingLanguage[];
-  Frameworks?: PlatformFramework[];
-  CustomAmiList?: CustomAmi[];
-  SupportedTierList?: string[];
-  SupportedAddonList?: string[];
-  PlatformLifecycleState?: string;
-  PlatformBranchName?: string;
-  PlatformBranchLifecycleState?: string;
+  PlatformArn?: string | undefined;
+  PlatformOwner?: string | undefined;
+  PlatformName?: string | undefined;
+  PlatformVersion?: string | undefined;
+  SolutionStackName?: string | undefined;
+  PlatformStatus?: PlatformStatus | undefined;
+  DateCreated?: Date | undefined;
+  DateUpdated?: Date | undefined;
+  PlatformCategory?: string | undefined;
+  Description?: string | undefined;
+  Maintainer?: string | undefined;
+  OperatingSystemName?: string | undefined;
+  OperatingSystemVersion?: string | undefined;
+  ProgrammingLanguages?: PlatformProgrammingLanguage[] | undefined;
+  Frameworks?: PlatformFramework[] | undefined;
+  CustomAmiList?: CustomAmi[] | undefined;
+  DefaultAmiList?: DefaultAmi[] | undefined;
+  SupportedTierList?: string[] | undefined;
+  SupportedAddonList?: string[] | undefined;
+  PlatformLifecycleState?: string | undefined;
+  PlatformBranchName?: string | undefined;
+  PlatformBranchLifecycleState?: string | undefined;
 }
-export const PlatformDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlatformArn: S.optional(S.String),
-    PlatformOwner: S.optional(S.String),
-    PlatformName: S.optional(S.String),
-    PlatformVersion: S.optional(S.String),
-    SolutionStackName: S.optional(S.String),
-    PlatformStatus: S.optional(PlatformStatus),
-    DateCreated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DateUpdated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    PlatformCategory: S.optional(S.String),
-    Description: S.optional(S.String),
-    Maintainer: S.optional(S.String),
-    OperatingSystemName: S.optional(S.String),
-    OperatingSystemVersion: S.optional(S.String),
-    ProgrammingLanguages: S.optional(PlatformProgrammingLanguages),
-    Frameworks: S.optional(PlatformFrameworks),
-    CustomAmiList: S.optional(CustomAmiList),
-    SupportedTierList: S.optional(SupportedTierList),
-    SupportedAddonList: S.optional(SupportedAddonList),
-    PlatformLifecycleState: S.optional(S.String),
-    PlatformBranchName: S.optional(S.String),
-    PlatformBranchLifecycleState: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PlatformDescription",
-}) as any as S.Schema<PlatformDescription>;
 export interface DescribePlatformVersionResult {
-  PlatformDescription?: PlatformDescription;
+  PlatformDescription?: PlatformDescription | undefined;
 }
-export const DescribePlatformVersionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PlatformDescription: S.optional(PlatformDescription) }).pipe(ns),
-).annotate({
-  identifier: "DescribePlatformVersionResult",
-}) as any as S.Schema<DescribePlatformVersionResult>;
 export interface DisassociateEnvironmentOperationsRoleMessage {
   EnvironmentName: string;
 }
-export const DisassociateEnvironmentOperationsRoleMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ EnvironmentName: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DisassociateEnvironmentOperationsRoleMessage",
-  }) as any as S.Schema<DisassociateEnvironmentOperationsRoleMessage>;
 export interface DisassociateEnvironmentOperationsRoleResponse {}
-export const DisassociateEnvironmentOperationsRoleResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DisassociateEnvironmentOperationsRoleResponse",
-  }) as any as S.Schema<DisassociateEnvironmentOperationsRoleResponse>;
 export interface ListAvailableSolutionStacksRequest {}
-export const ListAvailableSolutionStacksRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAvailableSolutionStacksRequest",
-}) as any as S.Schema<ListAvailableSolutionStacksRequest>;
 export type AvailableSolutionStackNamesList = string[];
-export const AvailableSolutionStackNamesList = /*@__PURE__*/ S.Array(S.String);
 export type FileTypeExtension = string;
 export type SolutionStackFileTypeList = string[];
-export const SolutionStackFileTypeList = /*@__PURE__*/ S.Array(S.String);
 export interface SolutionStackDescription {
-  SolutionStackName?: string;
-  PermittedFileTypes?: string[];
+  SolutionStackName?: string | undefined;
+  PermittedFileTypes?: string[] | undefined;
 }
-export const SolutionStackDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SolutionStackName: S.optional(S.String),
-    PermittedFileTypes: S.optional(SolutionStackFileTypeList),
-  }),
-).annotate({
-  identifier: "SolutionStackDescription",
-}) as any as S.Schema<SolutionStackDescription>;
 export type AvailableSolutionStackDetailsList = SolutionStackDescription[];
-export const AvailableSolutionStackDetailsList = /*@__PURE__*/ S.Array(
-  SolutionStackDescription,
-);
 export interface ListAvailableSolutionStacksResultMessage {
-  SolutionStacks?: string[];
-  SolutionStackDetails?: SolutionStackDescription[];
+  SolutionStacks?: string[] | undefined;
+  SolutionStackDetails?: SolutionStackDescription[] | undefined;
 }
-export const ListAvailableSolutionStacksResultMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SolutionStacks: S.optional(AvailableSolutionStackNamesList),
-      SolutionStackDetails: S.optional(AvailableSolutionStackDetailsList),
-    }).pipe(ns),
-).annotate({
-  identifier: "ListAvailableSolutionStacksResultMessage",
-}) as any as S.Schema<ListAvailableSolutionStacksResultMessage>;
 export type SearchFilterAttribute = string;
 export type SearchFilterOperator = string;
 export type SearchFilterValue = string;
 export type SearchFilterValues = string[];
-export const SearchFilterValues = /*@__PURE__*/ S.Array(S.String);
 export interface SearchFilter {
-  Attribute?: string;
-  Operator?: string;
-  Values?: string[];
+  Attribute?: string | undefined;
+  Operator?: string | undefined;
+  Values?: string[] | undefined;
 }
-export const SearchFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Attribute: S.optional(S.String),
-    Operator: S.optional(S.String),
-    Values: S.optional(SearchFilterValues),
-  }),
-).annotate({ identifier: "SearchFilter" }) as any as S.Schema<SearchFilter>;
 export type SearchFilters = SearchFilter[];
-export const SearchFilters = /*@__PURE__*/ S.Array(SearchFilter);
 export type PlatformBranchMaxRecords = number;
 export interface ListPlatformBranchesRequest {
-  Filters?: SearchFilter[];
-  MaxRecords?: number;
-  NextToken?: string;
+  Filters?: SearchFilter[] | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListPlatformBranchesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(SearchFilters),
-    MaxRecords: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListPlatformBranchesRequest",
-}) as any as S.Schema<ListPlatformBranchesRequest>;
 export type BranchOrder = number;
 export interface PlatformBranchSummary {
-  PlatformName?: string;
-  BranchName?: string;
-  LifecycleState?: string;
-  BranchOrder?: number;
-  SupportedTierList?: string[];
+  PlatformName?: string | undefined;
+  BranchName?: string | undefined;
+  LifecycleState?: string | undefined;
+  BranchOrder?: number | undefined;
+  SupportedTierList?: string[] | undefined;
 }
-export const PlatformBranchSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlatformName: S.optional(S.String),
-    BranchName: S.optional(S.String),
-    LifecycleState: S.optional(S.String),
-    BranchOrder: S.optional(S.Number),
-    SupportedTierList: S.optional(SupportedTierList),
-  }),
-).annotate({
-  identifier: "PlatformBranchSummary",
-}) as any as S.Schema<PlatformBranchSummary>;
 export type PlatformBranchSummaryList = PlatformBranchSummary[];
-export const PlatformBranchSummaryList = /*@__PURE__*/ S.Array(
-  PlatformBranchSummary,
-);
 export interface ListPlatformBranchesResult {
-  PlatformBranchSummaryList?: PlatformBranchSummary[];
-  NextToken?: string;
+  PlatformBranchSummaryList?: PlatformBranchSummary[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListPlatformBranchesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlatformBranchSummaryList: S.optional(PlatformBranchSummaryList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListPlatformBranchesResult",
-}) as any as S.Schema<ListPlatformBranchesResult>;
 export type PlatformFilterType = string;
 export type PlatformFilterOperator = string;
 export type PlatformFilterValue = string;
 export type PlatformFilterValueList = string[];
-export const PlatformFilterValueList = /*@__PURE__*/ S.Array(S.String);
 export interface PlatformFilter {
-  Type?: string;
-  Operator?: string;
-  Values?: string[];
+  Type?: string | undefined;
+  Operator?: string | undefined;
+  Values?: string[] | undefined;
 }
-export const PlatformFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(S.String),
-    Operator: S.optional(S.String),
-    Values: S.optional(PlatformFilterValueList),
-  }),
-).annotate({ identifier: "PlatformFilter" }) as any as S.Schema<PlatformFilter>;
 export type PlatformFilters = PlatformFilter[];
-export const PlatformFilters = /*@__PURE__*/ S.Array(PlatformFilter);
 export type PlatformMaxRecords = number;
 export interface ListPlatformVersionsRequest {
-  Filters?: PlatformFilter[];
-  MaxRecords?: number;
-  NextToken?: string;
+  Filters?: PlatformFilter[] | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListPlatformVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(PlatformFilters),
-    MaxRecords: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListPlatformVersionsRequest",
-}) as any as S.Schema<ListPlatformVersionsRequest>;
 export type PlatformSummaryList = PlatformSummary[];
-export const PlatformSummaryList = /*@__PURE__*/ S.Array(PlatformSummary);
 export interface ListPlatformVersionsResult {
-  PlatformSummaryList?: PlatformSummary[];
-  NextToken?: string;
+  PlatformSummaryList?: PlatformSummary[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListPlatformVersionsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlatformSummaryList: S.optional(PlatformSummaryList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListPlatformVersionsResult",
-}) as any as S.Schema<ListPlatformVersionsResult>;
 export type ResourceArn = string;
 export interface ListTagsForResourceMessage {
   ResourceArn: string;
 }
-export const ListTagsForResourceMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceMessage",
-}) as any as S.Schema<ListTagsForResourceMessage>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface ResourceTagsDescriptionMessage {
-  ResourceArn?: string;
-  ResourceTags?: Tag[];
+  ResourceArn?: string | undefined;
+  ResourceTags?: Tag[] | undefined;
 }
-export const ResourceTagsDescriptionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    ResourceTags: S.optional(TagList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ResourceTagsDescriptionMessage",
-}) as any as S.Schema<ResourceTagsDescriptionMessage>;
 export interface RebuildEnvironmentMessage {
-  EnvironmentId?: string;
-  EnvironmentName?: string;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
 }
-export const RebuildEnvironmentMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EnvironmentId: S.optional(S.String),
-    EnvironmentName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RebuildEnvironmentMessage",
-}) as any as S.Schema<RebuildEnvironmentMessage>;
 export interface RebuildEnvironmentResponse {}
-export const RebuildEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RebuildEnvironmentResponse",
-}) as any as S.Schema<RebuildEnvironmentResponse>;
 export type EnvironmentInfoType = "tail" | "bundle" | "analyze" | (string & {});
-export const EnvironmentInfoType = S.String;
-
 export interface RequestEnvironmentInfoMessage {
-  EnvironmentId?: string;
-  EnvironmentName?: string;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
   InfoType: EnvironmentInfoType;
 }
-export const RequestEnvironmentInfoMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EnvironmentId: S.optional(S.String),
-    EnvironmentName: S.optional(S.String),
-    InfoType: EnvironmentInfoType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RequestEnvironmentInfoMessage",
-}) as any as S.Schema<RequestEnvironmentInfoMessage>;
 export interface RequestEnvironmentInfoResponse {}
-export const RequestEnvironmentInfoResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RequestEnvironmentInfoResponse",
-}) as any as S.Schema<RequestEnvironmentInfoResponse>;
 export interface RestartAppServerMessage {
-  EnvironmentId?: string;
-  EnvironmentName?: string;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
 }
-export const RestartAppServerMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EnvironmentId: S.optional(S.String),
-    EnvironmentName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RestartAppServerMessage",
-}) as any as S.Schema<RestartAppServerMessage>;
 export interface RestartAppServerResponse {}
-export const RestartAppServerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RestartAppServerResponse",
-}) as any as S.Schema<RestartAppServerResponse>;
 export interface RetrieveEnvironmentInfoMessage {
-  EnvironmentId?: string;
-  EnvironmentName?: string;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
   InfoType: EnvironmentInfoType;
 }
-export const RetrieveEnvironmentInfoMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EnvironmentId: S.optional(S.String),
-    EnvironmentName: S.optional(S.String),
-    InfoType: EnvironmentInfoType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RetrieveEnvironmentInfoMessage",
-}) as any as S.Schema<RetrieveEnvironmentInfoMessage>;
 export type Ec2InstanceId = string;
 export type SampleTimestamp = Date;
 export type Message = string;
 export interface EnvironmentInfoDescription {
-  InfoType?: EnvironmentInfoType;
-  Ec2InstanceId?: string;
-  SampleTimestamp?: Date;
-  Message?: string;
+  InfoType?: EnvironmentInfoType | undefined;
+  Ec2InstanceId?: string | undefined;
+  SampleTimestamp?: Date | undefined;
+  Message?: string | undefined;
 }
-export const EnvironmentInfoDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InfoType: S.optional(EnvironmentInfoType),
-    Ec2InstanceId: S.optional(S.String),
-    SampleTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EnvironmentInfoDescription",
-}) as any as S.Schema<EnvironmentInfoDescription>;
 export type EnvironmentInfoDescriptionList = EnvironmentInfoDescription[];
-export const EnvironmentInfoDescriptionList = /*@__PURE__*/ S.Array(
-  EnvironmentInfoDescription,
-);
 export interface RetrieveEnvironmentInfoResultMessage {
-  EnvironmentInfo?: EnvironmentInfoDescription[];
+  EnvironmentInfo?: EnvironmentInfoDescription[] | undefined;
 }
-export const RetrieveEnvironmentInfoResultMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EnvironmentInfo: S.optional(EnvironmentInfoDescriptionList),
-    }).pipe(ns),
-).annotate({
-  identifier: "RetrieveEnvironmentInfoResultMessage",
-}) as any as S.Schema<RetrieveEnvironmentInfoResultMessage>;
 export interface SwapEnvironmentCNAMEsMessage {
-  SourceEnvironmentId?: string;
-  SourceEnvironmentName?: string;
-  DestinationEnvironmentId?: string;
-  DestinationEnvironmentName?: string;
+  SourceEnvironmentId?: string | undefined;
+  SourceEnvironmentName?: string | undefined;
+  DestinationEnvironmentId?: string | undefined;
+  DestinationEnvironmentName?: string | undefined;
 }
-export const SwapEnvironmentCNAMEsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceEnvironmentId: S.optional(S.String),
-    SourceEnvironmentName: S.optional(S.String),
-    DestinationEnvironmentId: S.optional(S.String),
-    DestinationEnvironmentName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SwapEnvironmentCNAMEsMessage",
-}) as any as S.Schema<SwapEnvironmentCNAMEsMessage>;
 export interface SwapEnvironmentCNAMEsResponse {}
-export const SwapEnvironmentCNAMEsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SwapEnvironmentCNAMEsResponse",
-}) as any as S.Schema<SwapEnvironmentCNAMEsResponse>;
 export type TerminateEnvironmentResources = boolean;
 export type ForceTerminate = boolean;
 export interface TerminateEnvironmentMessage {
-  EnvironmentId?: string;
-  EnvironmentName?: string;
-  TerminateResources?: boolean;
-  ForceTerminate?: boolean;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
+  TerminateResources?: boolean | undefined;
+  ForceTerminate?: boolean | undefined;
 }
-export const TerminateEnvironmentMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EnvironmentId: S.optional(S.String),
-    EnvironmentName: S.optional(S.String),
-    TerminateResources: S.optional(S.Boolean),
-    ForceTerminate: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TerminateEnvironmentMessage",
-}) as any as S.Schema<TerminateEnvironmentMessage>;
 export interface UpdateApplicationMessage {
   ApplicationName: string;
-  Description?: string;
+  Description?: string | undefined;
 }
-export const UpdateApplicationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.String,
-    Description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateApplicationMessage",
-}) as any as S.Schema<UpdateApplicationMessage>;
 export interface UpdateApplicationResourceLifecycleMessage {
   ApplicationName: string;
   ResourceLifecycleConfig: ApplicationResourceLifecycleConfig;
 }
-export const UpdateApplicationResourceLifecycleMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationName: S.String,
-      ResourceLifecycleConfig: ApplicationResourceLifecycleConfig,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "UpdateApplicationResourceLifecycleMessage",
-  }) as any as S.Schema<UpdateApplicationResourceLifecycleMessage>;
 export interface ApplicationResourceLifecycleDescriptionMessage {
-  ApplicationName?: string;
-  ResourceLifecycleConfig?: ApplicationResourceLifecycleConfig;
+  ApplicationName?: string | undefined;
+  ResourceLifecycleConfig?: ApplicationResourceLifecycleConfig | undefined;
 }
-export const ApplicationResourceLifecycleDescriptionMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationName: S.optional(S.String),
-      ResourceLifecycleConfig: S.optional(ApplicationResourceLifecycleConfig),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ApplicationResourceLifecycleDescriptionMessage",
-  }) as any as S.Schema<ApplicationResourceLifecycleDescriptionMessage>;
 export interface UpdateApplicationVersionMessage {
   ApplicationName: string;
   VersionLabel: string;
-  Description?: string;
+  Description?: string | undefined;
 }
-export const UpdateApplicationVersionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.String,
-    VersionLabel: S.String,
-    Description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateApplicationVersionMessage",
-}) as any as S.Schema<UpdateApplicationVersionMessage>;
 export interface UpdateConfigurationTemplateMessage {
   ApplicationName: string;
   TemplateName: string;
-  Description?: string;
-  OptionSettings?: ConfigurationOptionSetting[];
-  OptionsToRemove?: OptionSpecification[];
+  Description?: string | undefined;
+  OptionSettings?: ConfigurationOptionSetting[] | undefined;
+  OptionsToRemove?: OptionSpecification[] | undefined;
 }
-export const UpdateConfigurationTemplateMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.String,
-    TemplateName: S.String,
-    Description: S.optional(S.String),
-    OptionSettings: S.optional(ConfigurationOptionSettingsList),
-    OptionsToRemove: S.optional(OptionsSpecifierList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateConfigurationTemplateMessage",
-}) as any as S.Schema<UpdateConfigurationTemplateMessage>;
 export interface UpdateEnvironmentMessage {
-  ApplicationName?: string;
-  EnvironmentId?: string;
-  EnvironmentName?: string;
-  GroupName?: string;
-  Description?: string;
-  Tier?: EnvironmentTier;
-  VersionLabel?: string;
-  TemplateName?: string;
-  SolutionStackName?: string;
-  PlatformArn?: string;
-  OptionSettings?: ConfigurationOptionSetting[];
-  OptionsToRemove?: OptionSpecification[];
+  ApplicationName?: string | undefined;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
+  GroupName?: string | undefined;
+  Description?: string | undefined;
+  Tier?: EnvironmentTier | undefined;
+  VersionLabel?: string | undefined;
+  TemplateName?: string | undefined;
+  SolutionStackName?: string | undefined;
+  PlatformArn?: string | undefined;
+  OptionSettings?: ConfigurationOptionSetting[] | undefined;
+  OptionsToRemove?: OptionSpecification[] | undefined;
 }
-export const UpdateEnvironmentMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.optional(S.String),
-    EnvironmentId: S.optional(S.String),
-    EnvironmentName: S.optional(S.String),
-    GroupName: S.optional(S.String),
-    Description: S.optional(S.String),
-    Tier: S.optional(EnvironmentTier),
-    VersionLabel: S.optional(S.String),
-    TemplateName: S.optional(S.String),
-    SolutionStackName: S.optional(S.String),
-    PlatformArn: S.optional(S.String),
-    OptionSettings: S.optional(ConfigurationOptionSettingsList),
-    OptionsToRemove: S.optional(OptionsSpecifierList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateEnvironmentMessage",
-}) as any as S.Schema<UpdateEnvironmentMessage>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UpdateTagsForResourceMessage {
   ResourceArn: string;
-  TagsToAdd?: Tag[];
-  TagsToRemove?: string[];
+  TagsToAdd?: Tag[] | undefined;
+  TagsToRemove?: string[] | undefined;
 }
-export const UpdateTagsForResourceMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String,
-    TagsToAdd: S.optional(TagList),
-    TagsToRemove: S.optional(TagKeyList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateTagsForResourceMessage",
-}) as any as S.Schema<UpdateTagsForResourceMessage>;
 export interface UpdateTagsForResourceResponse {}
-export const UpdateTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateTagsForResourceResponse",
-}) as any as S.Schema<UpdateTagsForResourceResponse>;
 export interface ValidateConfigurationSettingsMessage {
   ApplicationName: string;
-  TemplateName?: string;
-  EnvironmentName?: string;
+  TemplateName?: string | undefined;
+  EnvironmentName?: string | undefined;
   OptionSettings: ConfigurationOptionSetting[];
 }
-export const ValidateConfigurationSettingsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationName: S.String,
-      TemplateName: S.optional(S.String),
-      EnvironmentName: S.optional(S.String),
-      OptionSettings: ConfigurationOptionSettingsList,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ValidateConfigurationSettingsMessage",
-}) as any as S.Schema<ValidateConfigurationSettingsMessage>;
 export type ValidationMessageString = string;
 export type ValidationSeverity = "error" | "warning" | (string & {});
-export const ValidationSeverity = S.String;
-
 export interface ValidationMessage {
-  Message?: string;
-  Severity?: ValidationSeverity;
-  Namespace?: string;
-  OptionName?: string;
+  Message?: string | undefined;
+  Severity?: ValidationSeverity | undefined;
+  Namespace?: string | undefined;
+  OptionName?: string | undefined;
 }
-export const ValidationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Message: S.optional(S.String),
-    Severity: S.optional(ValidationSeverity),
-    Namespace: S.optional(S.String),
-    OptionName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ValidationMessage",
-}) as any as S.Schema<ValidationMessage>;
 export type ValidationMessagesList = ValidationMessage[];
-export const ValidationMessagesList = /*@__PURE__*/ S.Array(ValidationMessage);
 export interface ConfigurationSettingsValidationMessages {
-  Messages?: ValidationMessage[];
+  Messages?: ValidationMessage[] | undefined;
 }
-export const ConfigurationSettingsValidationMessages = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Messages: S.optional(ValidationMessagesList) }).pipe(ns),
-).annotate({
-  identifier: "ConfigurationSettingsValidationMessages",
-}) as any as S.Schema<ConfigurationSettingsValidationMessages>;
 export type ExceptionMessage = string;
-export type AbortEnvironmentUpdateError =
-  | InsufficientPrivilegesException
-  | CommonErrors;
+export type AbortEnvironmentUpdateError = InsufficientPrivilegesException | CommonErrors;
 /**
- * Cancels in-progress environment configuration update or application version
- * deployment.
+ * Cancels in-progress environment configuration update or application version deployment.
  */
 export const abortEnvironmentUpdate: API.OperationMethod<
-  AbortEnvironmentUpdateMessage,
+  AbortEnvironmentUpdateMessage & RegionInput,
   AbortEnvironmentUpdateResponse,
   AbortEnvironmentUpdateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AbortEnvironmentUpdateMessage,
-  output: AbortEnvironmentUpdateResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<AbortEnvironmentUpdateMessage>,
+  output: __S(1, __c0, 1) as any as S.Schema<AbortEnvironmentUpdateResponse>,
   errors: [InsufficientPrivilegesException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortEnvironmentUpdate",
+  telemetry: TELEMETRY,
+  span: "AbortEnvironmentUpdate",
 }));
 
 export type ApplyEnvironmentManagedActionError =
@@ -3168,48 +1325,48 @@ export type ApplyEnvironmentManagedActionError =
   | ManagedActionInvalidStateException
   | CommonErrors;
 /**
- * Applies a scheduled managed action immediately. A managed action can be applied only if
- * its status is `Scheduled`. Get the status and action ID of a managed action with
- * DescribeEnvironmentManagedActions.
+ * Applies a scheduled managed action immediately. A managed action can be applied only if its status is `Scheduled`. Get the status and
+ * action ID of a managed action with DescribeEnvironmentManagedActions.
  */
 export const applyEnvironmentManagedAction: API.OperationMethod<
-  ApplyEnvironmentManagedActionRequest,
+  ApplyEnvironmentManagedActionRequest & RegionInput,
   ApplyEnvironmentManagedActionResult,
   ApplyEnvironmentManagedActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ApplyEnvironmentManagedActionRequest,
-  output: ApplyEnvironmentManagedActionResult,
-  errors: [
-    ElasticBeanstalkServiceException,
-    ManagedActionInvalidStateException,
-  ],
+  input: __S(32, __c1, 0) as any as S.Schema<ApplyEnvironmentManagedActionRequest>,
+  output: __S(33, __c1, 1) as any as S.Schema<ApplyEnvironmentManagedActionResult>,
+  errors: [ElasticBeanstalkServiceException, ManagedActionInvalidStateException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyEnvironmentManagedAction",
+  telemetry: TELEMETRY,
+  span: "ApplyEnvironmentManagedAction",
 }));
 
 export type AssociateEnvironmentOperationsRoleError =
   | InsufficientPrivilegesException
   | CommonErrors;
 /**
- * Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk
- * uses the associated operations role for permissions to downstream services during subsequent
- * calls acting on this environment. For more information, see Operations roles in the
- * *AWS Elastic Beanstalk Developer Guide*.
+ * The operations role feature of Elastic Beanstalk is in beta release and is subject to change.
+ *
+ * Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to
+ * downstream services during subsequent calls acting on this environment.
  */
 export const associateEnvironmentOperationsRole: API.OperationMethod<
-  AssociateEnvironmentOperationsRoleMessage,
+  AssociateEnvironmentOperationsRoleMessage & RegionInput,
   AssociateEnvironmentOperationsRoleResponse,
   AssociateEnvironmentOperationsRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateEnvironmentOperationsRoleMessage,
-  output: AssociateEnvironmentOperationsRoleResponse,
+  input: __S(64, __c2, 0) as any as S.Schema<AssociateEnvironmentOperationsRoleMessage>,
+  output: __S(65, __c2, 1) as any as S.Schema<AssociateEnvironmentOperationsRoleResponse>,
   errors: [InsufficientPrivilegesException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEnvironmentOperationsRole",
+  telemetry: TELEMETRY,
+  span: "AssociateEnvironmentOperationsRole",
 }));
 
 export type CheckDNSAvailabilityError = CommonErrors;
@@ -3217,17 +1374,19 @@ export type CheckDNSAvailabilityError = CommonErrors;
  * Checks if the specified CNAME is available.
  */
 export const checkDNSAvailability: API.OperationMethod<
-  CheckDNSAvailabilityMessage,
+  CheckDNSAvailabilityMessage & RegionInput,
   CheckDNSAvailabilityResultMessage,
   CheckDNSAvailabilityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CheckDNSAvailabilityMessage,
-  output: CheckDNSAvailabilityResultMessage,
+  input: __S(96, __c3, 0) as any as S.Schema<CheckDNSAvailabilityMessage>,
+  output: __S(97, __c3, 1) as any as S.Schema<CheckDNSAvailabilityResultMessage>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckDNSAvailability",
+  telemetry: TELEMETRY,
+  span: "CheckDNSAvailability",
 }));
 
 export type ComposeEnvironmentsError =
@@ -3235,46 +1394,45 @@ export type ComposeEnvironmentsError =
   | TooManyEnvironmentsException
   | CommonErrors;
 /**
- * Create or update a group of environments that each run a separate component of a single
- * application. Takes a list of version labels that specify application source bundles for each
- * of the environments to create or update. The name of each environment and other required
- * information must be included in the source bundles in an environment manifest named
- * `env.yaml`. See Compose Environments
- * for details.
+ * Create or update a group of environments that each run a separate component of a single application. Takes a list of version labels that specify
+ * application source bundles for each of the environments to create or update. The name of each environment and other required information must be included
+ * in the source bundles in an environment manifest named `env.yaml`. See Compose Environments for details.
  */
 export const composeEnvironments: API.OperationMethod<
-  ComposeEnvironmentsMessage,
+  ComposeEnvironmentsMessage & RegionInput,
   EnvironmentDescriptionsMessage,
   ComposeEnvironmentsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ComposeEnvironmentsMessage,
-  output: EnvironmentDescriptionsMessage,
+  input: __S(129, __c4, 1) as any as S.Schema<ComposeEnvironmentsMessage>,
+  output: __S(193, __c6, 1) as any as S.Schema<EnvironmentDescriptionsMessage>,
   errors: [InsufficientPrivilegesException, TooManyEnvironmentsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ComposeEnvironments",
+  telemetry: TELEMETRY,
+  span: "ComposeEnvironments",
 }));
 
-export type CreateApplicationError =
-  | TooManyApplicationsException
-  | CommonErrors;
+export type CreateApplicationError = TooManyApplicationsException | CommonErrors;
 /**
- * Creates an application that has one configuration template named `default`
- * and no application versions.
+ * Creates an application that has one configuration template named `default` and
+ * no application versions.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationMessage,
+  CreateApplicationMessage & RegionInput,
   ApplicationDescriptionMessage,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateApplicationMessage,
-  output: ApplicationDescriptionMessage,
+  input: __S(224, __c7, 0) as any as S.Schema<CreateApplicationMessage>,
+  output: __S(416, __c13, 0) as any as S.Schema<ApplicationDescriptionMessage>,
   errors: [TooManyApplicationsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateApplicationVersionError =
@@ -3285,34 +1443,28 @@ export type CreateApplicationVersionError =
   | TooManyApplicationVersionsException
   | CommonErrors;
 /**
- * Creates an application version for the specified application. You can create an
- * application version from a source bundle in Amazon S3, a commit in AWS CodeCommit, or the
- * output of an AWS CodeBuild build as follows:
+ * Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a commit in
+ * CodeCommit, or the output of an CodeBuild build as follows:
  *
- * Specify a commit in an AWS CodeCommit repository with
- * `SourceBuildInformation`.
+ * Specify a commit in an CodeCommit repository with `SourceBuildInformation`.
  *
- * Specify a build in an AWS CodeBuild with `SourceBuildInformation` and
- * `BuildConfiguration`.
+ * Specify a build in an CodeBuild with `SourceBuildInformation` and `BuildConfiguration`.
  *
- * Specify a source bundle in S3 with `SourceBundle`
+ * Specify a source bundle in Amazon S3 with `SourceBundle`
  *
- * Omit both `SourceBuildInformation` and `SourceBundle` to use the
- * default sample application.
+ * Omit both `SourceBuildInformation` and `SourceBundle` to use the default sample application.
  *
- * After you create an application version with a specified Amazon S3 bucket and key
- * location, you can't change that Amazon S3 location. If you change the Amazon S3 location,
- * you receive an exception when you attempt to launch an environment from the application
- * version.
+ * After you create an application version with a specified Amazon S3 bucket and key location, you can't change that Amazon S3 location. If you change the Amazon S3
+ * location, you receive an exception when you attempt to launch an environment from the application version.
  */
 export const createApplicationVersion: API.OperationMethod<
-  CreateApplicationVersionMessage,
+  CreateApplicationVersionMessage & RegionInput,
   ApplicationVersionDescriptionMessage,
   CreateApplicationVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateApplicationVersionMessage,
-  output: ApplicationVersionDescriptionMessage,
+  input: __S(450, __c14, 2) as any as S.Schema<CreateApplicationVersionMessage>,
+  output: __S(544, __c17, 0) as any as S.Schema<ApplicationVersionDescriptionMessage>,
   errors: [
     CodeBuildNotInServiceRegionException,
     InsufficientPrivilegesException,
@@ -3323,6 +1475,8 @@ export const createApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplicationVersion",
+  telemetry: TELEMETRY,
+  span: "CreateApplicationVersion",
 }));
 
 export type CreateConfigurationTemplateError =
@@ -3331,7 +1485,7 @@ export type CreateConfigurationTemplateError =
   | TooManyConfigurationTemplatesException
   | CommonErrors;
 /**
- * Creates an AWS Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk
+ * Creates an Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk
  * application. You define application configuration settings in a configuration template. You
  * can then use the configuration template to deploy different versions of the application with
  * the same configuration settings.
@@ -3348,13 +1502,13 @@ export type CreateConfigurationTemplateError =
  * - ListAvailableSolutionStacks
  */
 export const createConfigurationTemplate: API.OperationMethod<
-  CreateConfigurationTemplateMessage,
+  CreateConfigurationTemplateMessage & RegionInput,
   ConfigurationSettingsDescription,
   CreateConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateConfigurationTemplateMessage,
-  output: ConfigurationSettingsDescription,
+  input: __S(577, __c18, 1) as any as S.Schema<CreateConfigurationTemplateMessage>,
+  output: __S(640, __c20, 0) as any as S.Schema<ConfigurationSettingsDescription>,
   errors: [
     InsufficientPrivilegesException,
     TooManyBucketsException,
@@ -3363,6 +1517,8 @@ export const createConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationTemplate",
 }));
 
 export type CreateEnvironmentError =
@@ -3370,21 +1526,22 @@ export type CreateEnvironmentError =
   | TooManyEnvironmentsException
   | CommonErrors;
 /**
- * Launches an AWS Elastic Beanstalk environment for the specified application using the specified
- * configuration.
+ * Launches an Elastic Beanstalk environment for the specified application using the specified configuration.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentMessage,
+  CreateEnvironmentMessage & RegionInput,
   EnvironmentDescription,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateEnvironmentMessage,
-  output: EnvironmentDescription,
+  input: __S(672, __c21, 0) as any as S.Schema<CreateEnvironmentMessage>,
+  output: __S(167, __c5, 7) as any as S.Schema<EnvironmentDescription>,
   errors: [InsufficientPrivilegesException, TooManyEnvironmentsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreatePlatformVersionError =
@@ -3396,13 +1553,13 @@ export type CreatePlatformVersionError =
  * Create a new version of your custom platform.
  */
 export const createPlatformVersion: API.OperationMethod<
-  CreatePlatformVersionRequest,
+  CreatePlatformVersionRequest & RegionInput,
   CreatePlatformVersionResult,
   CreatePlatformVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreatePlatformVersionRequest,
-  output: CreatePlatformVersionResult,
+  input: __S(736, __c23, 0) as any as S.Schema<CreatePlatformVersionRequest>,
+  output: __S(738, __c23, 2) as any as S.Schema<CreatePlatformVersionResult>,
   errors: [
     ElasticBeanstalkServiceException,
     InsufficientPrivilegesException,
@@ -3411,6 +1568,8 @@ export const createPlatformVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlatformVersion",
+  telemetry: TELEMETRY,
+  span: "CreatePlatformVersion",
 }));
 
 export type CreateStorageLocationError =
@@ -3419,20 +1578,18 @@ export type CreateStorageLocationError =
   | TooManyBucketsException
   | CommonErrors;
 /**
- * Creates a bucket in Amazon S3 to store application versions, logs, and other files used
- * by Elastic Beanstalk environments. The Elastic Beanstalk console and EB CLI call this API the
- * first time you create an environment in a region. If the storage location already exists,
- * `CreateStorageLocation` still returns the bucket name but does not create a new
- * bucket.
+ * Creates a bucket in Amazon S3 to store application versions, logs, and other files used by Elastic Beanstalk environments. The Elastic Beanstalk
+ * console and EB CLI call this API the first time you create an environment in a region. If the storage location already exists,
+ * `CreateStorageLocation` still returns the bucket name but does not create a new bucket.
  */
 export const createStorageLocation: API.OperationMethod<
-  CreateStorageLocationRequest,
+  CreateStorageLocationRequest & RegionInput,
   CreateStorageLocationResultMessage,
   CreateStorageLocationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateStorageLocationRequest,
-  output: CreateStorageLocationResultMessage,
+  input: __S(864, __c27, 0) as any as S.Schema<CreateStorageLocationRequest>,
+  output: __S(865, __c27, 1) as any as S.Schema<CreateStorageLocationResultMessage>,
   errors: [
     InsufficientPrivilegesException,
     S3SubscriptionRequiredException,
@@ -3441,30 +1598,31 @@ export const createStorageLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStorageLocation",
+  telemetry: TELEMETRY,
+  span: "CreateStorageLocation",
 }));
 
-export type DeleteApplicationError =
-  | OperationInProgressException
-  | CommonErrors;
+export type DeleteApplicationError = OperationInProgressException | CommonErrors;
 /**
- * Deletes the specified application along with all associated versions and
- * configurations. The application versions will not be deleted from your Amazon S3
- * bucket.
+ * Deletes the specified application along with all associated versions and configurations.
+ * The application versions will not be deleted from your Amazon S3 bucket.
  *
  * You cannot delete an application that has a running environment.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationMessage,
+  DeleteApplicationMessage & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteApplicationMessage,
-  output: DeleteApplicationResponse,
+  input: __S(896, __c28, 0) as any as S.Schema<DeleteApplicationMessage>,
+  output: __S(897, __c28, 1) as any as S.Schema<DeleteApplicationResponse>,
   errors: [OperationInProgressException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteApplicationVersionError =
@@ -3476,17 +1634,16 @@ export type DeleteApplicationVersionError =
 /**
  * Deletes the specified version from the specified application.
  *
- * You cannot delete an application version that is associated with a running
- * environment.
+ * You cannot delete an application version that is associated with a running environment.
  */
 export const deleteApplicationVersion: API.OperationMethod<
-  DeleteApplicationVersionMessage,
+  DeleteApplicationVersionMessage & RegionInput,
   DeleteApplicationVersionResponse,
   DeleteApplicationVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteApplicationVersionMessage,
-  output: DeleteApplicationVersionResponse,
+  input: __S(928, __c29, 0) as any as S.Schema<DeleteApplicationVersionMessage>,
+  output: __S(929, __c29, 1) as any as S.Schema<DeleteApplicationVersionResponse>,
   errors: [
     InsufficientPrivilegesException,
     OperationInProgressException,
@@ -3496,11 +1653,11 @@ export const deleteApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationVersion",
 }));
 
-export type DeleteConfigurationTemplateError =
-  | OperationInProgressException
-  | CommonErrors;
+export type DeleteConfigurationTemplateError = OperationInProgressException | CommonErrors;
 /**
  * Deletes the specified configuration template.
  *
@@ -3509,17 +1666,19 @@ export type DeleteConfigurationTemplateError =
  * without affecting the running environment.
  */
 export const deleteConfigurationTemplate: API.OperationMethod<
-  DeleteConfigurationTemplateMessage,
+  DeleteConfigurationTemplateMessage & RegionInput,
   DeleteConfigurationTemplateResponse,
   DeleteConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteConfigurationTemplateMessage,
-  output: DeleteConfigurationTemplateResponse,
+  input: __S(960, __c30, 0) as any as S.Schema<DeleteConfigurationTemplateMessage>,
+  output: __S(961, __c30, 1) as any as S.Schema<DeleteConfigurationTemplateResponse>,
   errors: [OperationInProgressException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationTemplate",
 }));
 
 export type DeleteEnvironmentConfigurationError = CommonErrors;
@@ -3533,17 +1692,19 @@ export type DeleteEnvironmentConfigurationError = CommonErrors;
  * is deleted with this action.
  */
 export const deleteEnvironmentConfiguration: API.OperationMethod<
-  DeleteEnvironmentConfigurationMessage,
+  DeleteEnvironmentConfigurationMessage & RegionInput,
   DeleteEnvironmentConfigurationResponse,
   DeleteEnvironmentConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEnvironmentConfigurationMessage,
-  output: DeleteEnvironmentConfigurationResponse,
+  input: __S(992, __c31, 0) as any as S.Schema<DeleteEnvironmentConfigurationMessage>,
+  output: __S(993, __c31, 1) as any as S.Schema<DeleteEnvironmentConfigurationResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentConfiguration",
 }));
 
 export type DeletePlatformVersionError =
@@ -3556,13 +1717,13 @@ export type DeletePlatformVersionError =
  * Deletes the specified version of a custom platform.
  */
 export const deletePlatformVersion: API.OperationMethod<
-  DeletePlatformVersionRequest,
+  DeletePlatformVersionRequest & RegionInput,
   DeletePlatformVersionResult,
   DeletePlatformVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeletePlatformVersionRequest,
-  output: DeletePlatformVersionResult,
+  input: __S(1024, __c32, 0) as any as S.Schema<DeletePlatformVersionRequest>,
+  output: __S(1025, __c32, 1) as any as S.Schema<DeletePlatformVersionResult>,
   errors: [
     ElasticBeanstalkServiceException,
     InsufficientPrivilegesException,
@@ -3572,93 +1733,139 @@ export const deletePlatformVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlatformVersion",
+  telemetry: TELEMETRY,
+  span: "DeletePlatformVersion",
 }));
 
-export type DescribeAccountAttributesError =
-  | InsufficientPrivilegesException
-  | CommonErrors;
+export type DescribeAccountAttributesError = InsufficientPrivilegesException | CommonErrors;
 /**
- * Returns attributes related to AWS Elastic Beanstalk that are associated with the calling AWS
- * account.
+ * Returns attributes related to Elastic Beanstalk that are associated with the calling Amazon Web Services account.
  *
- * The result currently has one set of attributes—resource quotas.
+ * The result currently has one set of attributes--resource quotas.
+ *
+ * This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a
+ * user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the
+ * user has permission to access instead of all three resources. If the user doesn't have access to any of the resources an empty result is returned.
+ *
+ * The AWSElasticBeanstalkReadOnly
+ * managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer
+ * Guide. For detailed instructions to attach a policy to a user or group, see the section Controlling access with managed policies in the
+ * same topic.
  */
 export const describeAccountAttributes: API.OperationMethod<
-  DescribeAccountAttributesRequest,
+  DescribeAccountAttributesRequest & RegionInput,
   DescribeAccountAttributesResult,
   DescribeAccountAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeAccountAttributesRequest,
-  output: DescribeAccountAttributesResult,
+  input: __S(1056, __c33, 0) as any as S.Schema<DescribeAccountAttributesRequest>,
+  output: __S(1059, __c33, 3) as any as S.Schema<DescribeAccountAttributesResult>,
   errors: [InsufficientPrivilegesException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountAttributes",
 }));
 
 export type DescribeApplicationsError = CommonErrors;
 /**
  * Returns the descriptions of existing applications.
+ *
+ * This action only returns information about applications that the calling principle has IAM permissions to
+ * access. For example, consider a case where a user only has permission to access two of three
+ * applications. When the user calls the *DescribeApplications* action, the
+ * response will only include the two applications that the user has permission to access
+ * instead of all three applications. If the user doesn't have access to any of the applications
+ * an empty result is returned.
+ *
+ * The *AWSElasticBeanstalkReadOnly* managed policy allows operators to
+ * view information about resources related to Elastic Beanstalk environments. For more
+ * information, see Managing Elastic Beanstalk user
+ * policies in the *Elastic Beanstalk Developer Guide*. For detailed
+ * instructions to attach a policy to a user or group, see the section Controlling access with managed policies in the same topic.
  */
 export const describeApplications: API.OperationMethod<
-  DescribeApplicationsMessage,
+  DescribeApplicationsMessage & RegionInput,
   ApplicationDescriptionsMessage,
   DescribeApplicationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeApplicationsMessage,
-  output: ApplicationDescriptionsMessage,
+  input: __S(1089, __c34, 1) as any as S.Schema<DescribeApplicationsMessage>,
+  output: __S(1091, __c34, 3) as any as S.Schema<ApplicationDescriptionsMessage>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplications",
+  telemetry: TELEMETRY,
+  span: "DescribeApplications",
 }));
 
 export type DescribeApplicationVersionsError = CommonErrors;
 /**
  * Retrieve a list of application versions.
+ *
+ * This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a
+ * user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the
+ * user has permission to access instead of all three resources. If the user doesn't have access to any of the resources an empty result is returned.
+ *
+ * The AWSElasticBeanstalkReadOnly
+ * managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer
+ * Guide. For detailed instructions to attach a policy to a user or group, see the section Controlling access with managed policies in the
+ * same topic.
  */
 export const describeApplicationVersions: API.OperationMethod<
-  DescribeApplicationVersionsMessage,
+  DescribeApplicationVersionsMessage & RegionInput,
   ApplicationVersionDescriptionsMessage,
   DescribeApplicationVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeApplicationVersionsMessage,
-  output: ApplicationVersionDescriptionsMessage,
+  input: __S(1120, __c35, 0) as any as S.Schema<DescribeApplicationVersionsMessage>,
+  output: __S(1122, __c35, 2) as any as S.Schema<ApplicationVersionDescriptionsMessage>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationVersions",
+  telemetry: TELEMETRY,
+  span: "DescribeApplicationVersions",
 }));
 
-export type DescribeConfigurationOptionsError =
-  | TooManyBucketsException
-  | CommonErrors;
+export type DescribeConfigurationOptionsError = TooManyBucketsException | CommonErrors;
 /**
  * Describes the configuration options that are used in a particular configuration
  * template or environment, or that a specified solution stack defines. The description includes
  * the values the options, their default values, and an indication of the required action on a
  * running environment if an option value is changed.
+ *
+ * This action only returns information about resources that the calling principle has IAM permissions to
+ * access. For example, consider a case where a user only has permission to access one of three
+ * resources. When the user calls the this action, the
+ * response will only include the one resource that the user has permission to access instead
+ * of all three resources. If the user doesn't have access to any of the resources an empty
+ * result is returned.
+ *
+ * The AWSElasticBeanstalkReadOnly
+ * managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer
+ * Guide. For detailed instructions to attach a policy to a user or group, see the section Controlling access with managed policies in the
+ * same topic.
  */
 export const describeConfigurationOptions: API.OperationMethod<
-  DescribeConfigurationOptionsMessage,
+  DescribeConfigurationOptionsMessage & RegionInput,
   ConfigurationOptionsDescription,
   DescribeConfigurationOptionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeConfigurationOptionsMessage,
-  output: ConfigurationOptionsDescription,
+  input: __S(1152, __c36, 0) as any as S.Schema<DescribeConfigurationOptionsMessage>,
+  output: __S(1157, __c36, 5) as any as S.Schema<ConfigurationOptionsDescription>,
   errors: [TooManyBucketsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationOptions",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationOptions",
 }));
 
-export type DescribeConfigurationSettingsError =
-  | TooManyBucketsException
-  | CommonErrors;
+export type DescribeConfigurationSettingsError = TooManyBucketsException | CommonErrors;
 /**
  * Returns a description of the settings for the specified configuration set, that is,
  * either a configuration template or the configuration set associated with a running
@@ -3669,22 +1876,36 @@ export type DescribeConfigurationSettingsError =
  * configuration set, and the other is a draft configuration of an environment that is either in
  * the process of deployment or that failed to deploy.
  *
+ * This action only returns information about resources that the calling principle has IAM permissions to
+ * access. For example, consider a case where a user only has permission to access one of three
+ * resources. When the user calls the this action, the
+ * response will only include the one resource that the user has permission to access instead
+ * of all three resources. If the user doesn't have access to any of the resources an empty
+ * result is returned.
+ *
+ * The AWSElasticBeanstalkReadOnly
+ * managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer
+ * Guide. For detailed instructions to attach a policy to a user or group, see the section Controlling access with managed policies in the
+ * same topic.
+ *
  * Related Topics
  *
  * - DeleteEnvironmentConfiguration
  */
 export const describeConfigurationSettings: API.OperationMethod<
-  DescribeConfigurationSettingsMessage,
+  DescribeConfigurationSettingsMessage & RegionInput,
   ConfigurationSettingsDescriptions,
   DescribeConfigurationSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeConfigurationSettingsMessage,
-  output: ConfigurationSettingsDescriptions,
+  input: __S(1184, __c37, 0) as any as S.Schema<DescribeConfigurationSettingsMessage>,
+  output: __S(1186, __c37, 2) as any as S.Schema<ConfigurationSettingsDescriptions>,
   errors: [TooManyBucketsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationSettings",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationSettings",
 }));
 
 export type DescribeEnvironmentHealthError =
@@ -3692,22 +1913,33 @@ export type DescribeEnvironmentHealthError =
   | InvalidRequestException
   | CommonErrors;
 /**
- * Returns information about the overall health of the specified environment. The
- * **DescribeEnvironmentHealth** operation is only available with
- * AWS Elastic Beanstalk Enhanced Health.
+ * Returns information about the overall health of the specified environment. The **DescribeEnvironmentHealth** operation is
+ * only available with Elastic Beanstalk Enhanced Health.
+ *
+ * This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where
+ * a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that
+ * the user has permission to access instead of all three environments. If the user doesn't have access to any of the environments an empty result is
+ * returned.
+ *
+ * The AWSElasticBeanstalkReadOnly
+ * managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer
+ * Guide. For detailed instructions to attach a policy to a user or group, see the section Controlling access with managed policies in the
+ * same topic.
  */
 export const describeEnvironmentHealth: API.OperationMethod<
-  DescribeEnvironmentHealthRequest,
+  DescribeEnvironmentHealthRequest & RegionInput,
   DescribeEnvironmentHealthResult,
   DescribeEnvironmentHealthError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeEnvironmentHealthRequest,
-  output: DescribeEnvironmentHealthResult,
+  input: __S(1217, __c38, 1) as any as S.Schema<DescribeEnvironmentHealthRequest>,
+  output: __S(1219, __c38, 3) as any as S.Schema<DescribeEnvironmentHealthResult>,
   errors: [ElasticBeanstalkServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironmentHealth",
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironmentHealth",
 }));
 
 export type DescribeEnvironmentManagedActionHistoryError =
@@ -3717,14 +1949,14 @@ export type DescribeEnvironmentManagedActionHistoryError =
  * Lists an environment's completed and failed managed actions.
  */
 export const describeEnvironmentManagedActionHistory: API.PaginatedOperationMethod<
-  DescribeEnvironmentManagedActionHistoryRequest,
+  DescribeEnvironmentManagedActionHistoryRequest & RegionInput,
   DescribeEnvironmentManagedActionHistoryResult,
   DescribeEnvironmentManagedActionHistoryError,
   Credentials | HttpClient.HttpClient,
   ManagedActionHistoryItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeEnvironmentManagedActionHistoryRequest,
-  output: DescribeEnvironmentManagedActionHistoryResult,
+  input: __S(1280, __c40, 0) as any as S.Schema<DescribeEnvironmentManagedActionHistoryRequest>,
+  output: __S(1283, __c40, 3) as any as S.Schema<DescribeEnvironmentManagedActionHistoryResult>,
   errors: [ElasticBeanstalkServiceException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3735,6 +1967,8 @@ export const describeEnvironmentManagedActionHistory: API.PaginatedOperationMeth
     items: "ManagedActionHistoryItems",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironmentManagedActionHistory",
 })) as any;
 
 export type DescribeEnvironmentManagedActionsError =
@@ -3742,75 +1976,107 @@ export type DescribeEnvironmentManagedActionsError =
   | CommonErrors;
 /**
  * Lists an environment's upcoming and in-progress managed actions.
+ *
+ * This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where
+ * a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that
+ * the user has permission to access instead of all three environments. If the user doesn't have access to any of the environments an empty result is
+ * returned.
+ *
+ * The AWSElasticBeanstalkReadOnly
+ * managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer
+ * Guide. For detailed instructions to attach a policy to a user or group, see the section Controlling access with managed policies in the
+ * same topic.
  */
 export const describeEnvironmentManagedActions: API.OperationMethod<
-  DescribeEnvironmentManagedActionsRequest,
+  DescribeEnvironmentManagedActionsRequest & RegionInput,
   DescribeEnvironmentManagedActionsResult,
   DescribeEnvironmentManagedActionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeEnvironmentManagedActionsRequest,
-  output: DescribeEnvironmentManagedActionsResult,
+  input: __S(1312, __c41, 0) as any as S.Schema<DescribeEnvironmentManagedActionsRequest>,
+  output: __S(1315, __c41, 3) as any as S.Schema<DescribeEnvironmentManagedActionsResult>,
   errors: [ElasticBeanstalkServiceException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironmentManagedActions",
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironmentManagedActions",
 }));
 
-export type DescribeEnvironmentResourcesError =
-  | InsufficientPrivilegesException
-  | CommonErrors;
+export type DescribeEnvironmentResourcesError = InsufficientPrivilegesException | CommonErrors;
 /**
- * Returns AWS resources for this environment.
+ * Returns Amazon Web Services resources for this environment.
  */
 export const describeEnvironmentResources: API.OperationMethod<
-  DescribeEnvironmentResourcesMessage,
+  DescribeEnvironmentResourcesMessage & RegionInput,
   EnvironmentResourceDescriptionsMessage,
   DescribeEnvironmentResourcesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeEnvironmentResourcesMessage,
-  output: EnvironmentResourceDescriptionsMessage,
+  input: __S(1344, __c42, 0) as any as S.Schema<DescribeEnvironmentResourcesMessage>,
+  output: __S(1361, __c42, 17) as any as S.Schema<EnvironmentResourceDescriptionsMessage>,
   errors: [InsufficientPrivilegesException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironmentResources",
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironmentResources",
 }));
 
 export type DescribeEnvironmentsError = CommonErrors;
 /**
  * Returns descriptions for existing environments.
+ *
+ * This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where
+ * a user only has permission to access one of three environments. When the user calls the *DescribeEnvironments* action, the response
+ * will only include the one environment that the user has permission to access instead of all three environments. If the user doesn't have access to any of
+ * the environments an empty result is returned.
+ *
+ * The AWSElasticBeanstalkReadOnly
+ * managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer
+ * Guide. For detailed instructions to attach a policy to a user or group, see the section Controlling access with managed policies in the
+ * same topic.
  */
 export const describeEnvironments: API.OperationMethod<
-  DescribeEnvironmentsMessage,
+  DescribeEnvironmentsMessage & RegionInput,
   EnvironmentDescriptionsMessage,
   DescribeEnvironmentsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeEnvironmentsMessage,
-  output: EnvironmentDescriptionsMessage,
+  input: __S(1378, __c43, 2) as any as S.Schema<DescribeEnvironmentsMessage>,
+  output: __S(193, __c6, 1) as any as S.Schema<EnvironmentDescriptionsMessage>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironments",
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironments",
 }));
 
 export type DescribeEventsError = CommonErrors;
 /**
  * Returns list of event descriptions matching criteria up to the last 6 weeks.
  *
- * This action returns the most recent 1,000 events from the specified
- * `NextToken`.
+ * This action returns the most recent 1,000 events from the specified `NextToken`.
+ *
+ * This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a
+ * user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the
+ * user has permission to access instead of all three resources. If the user doesn't have access to any of the resources an empty result is returned.
+ *
+ * The AWSElasticBeanstalkReadOnly
+ * managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer
+ * Guide. For detailed instructions to attach a policy to a user or group, see the section Controlling access with managed policies in the
+ * same topic.
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsMessage,
+  DescribeEventsMessage & RegionInput,
   EventDescriptionsMessage,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
   EventDescription
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeEventsMessage,
-  output: EventDescriptionsMessage,
+  input: __S(1408, __c44, 0) as any as S.Schema<DescribeEventsMessage>,
+  output: __S(1411, __c44, 3) as any as S.Schema<EventDescriptionsMessage>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3821,6 +2087,8 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEvents",
 })) as any;
 
 export type DescribeInstancesHealthError =
@@ -3828,22 +2096,32 @@ export type DescribeInstancesHealthError =
   | InvalidRequestException
   | CommonErrors;
 /**
- * Retrieves detailed information about the health of instances in your AWS Elastic
- * Beanstalk. This operation requires enhanced health
- * reporting.
+ * Retrieves detailed information about the health of instances in your Elastic Beanstalk environments. This operation requires enhanced health reporting.
+ *
+ * This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where
+ * a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that
+ * the user has permission to access instead of all three environments. If the user doesn't have access to any of the environments an empty result is
+ * returned.
+ *
+ * The AWSElasticBeanstalkReadOnly
+ * managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer
+ * Guide. For detailed instructions to attach a policy to a user or group, see the section Controlling access with managed policies in the
+ * same topic.
  */
 export const describeInstancesHealth: API.OperationMethod<
-  DescribeInstancesHealthRequest,
+  DescribeInstancesHealthRequest & RegionInput,
   DescribeInstancesHealthResult,
   DescribeInstancesHealthError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeInstancesHealthRequest,
-  output: DescribeInstancesHealthResult,
+  input: __S(1441, __c45, 1) as any as S.Schema<DescribeInstancesHealthRequest>,
+  output: __S(1448, __c45, 8) as any as S.Schema<DescribeInstancesHealthResult>,
   errors: [ElasticBeanstalkServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstancesHealth",
+  telemetry: TELEMETRY,
+  span: "DescribeInstancesHealth",
 }));
 
 export type DescribePlatformVersionError =
@@ -3851,85 +2129,114 @@ export type DescribePlatformVersionError =
   | InsufficientPrivilegesException
   | CommonErrors;
 /**
- * Describes a platform version. Provides full details. Compare to ListPlatformVersions, which provides summary information about a list of
- * platform versions.
+ * Describes a platform version. Provides full details. Compare to ListPlatformVersions, which provides summary information about a
+ * list of platform versions.
  *
- * For definitions of platform version and other platform-related terms, see AWS Elastic Beanstalk
- * Platforms Glossary.
+ * For definitions of platform version and other platform-related terms, see Elastic Beanstalk Platforms Glossary.
+ *
+ * This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a
+ * user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the
+ * user has permission to access instead of all three resources. If the user doesn't have access to any of the resources an empty result is returned.
+ *
+ * The AWSElasticBeanstalkReadOnly
+ * managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer
+ * Guide. For detailed instructions to attach a policy to a user or group, see the section Controlling access with managed policies in the
+ * same topic.
  */
 export const describePlatformVersion: API.OperationMethod<
-  DescribePlatformVersionRequest,
+  DescribePlatformVersionRequest & RegionInput,
   DescribePlatformVersionResult,
   DescribePlatformVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribePlatformVersionRequest,
-  output: DescribePlatformVersionResult,
+  input: __S(1472, __c46, 0) as any as S.Schema<DescribePlatformVersionRequest>,
+  output: __S(1482, __c46, 10) as any as S.Schema<DescribePlatformVersionResult>,
   errors: [ElasticBeanstalkServiceException, InsufficientPrivilegesException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePlatformVersion",
+  telemetry: TELEMETRY,
+  span: "DescribePlatformVersion",
 }));
 
 export type DisassociateEnvironmentOperationsRoleError =
   | InsufficientPrivilegesException
   | CommonErrors;
 /**
- * Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses
- * the caller's permissions for permissions to downstream services during subsequent calls acting
- * on this environment. For more information, see Operations roles in the
- * *AWS Elastic Beanstalk Developer Guide*.
+ * The operations role feature of Elastic Beanstalk is in beta release and is subject to change.
+ *
+ * Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permissions to downstream
+ * services during subsequent calls acting on this environment.
  */
 export const disassociateEnvironmentOperationsRole: API.OperationMethod<
-  DisassociateEnvironmentOperationsRoleMessage,
+  DisassociateEnvironmentOperationsRoleMessage & RegionInput,
   DisassociateEnvironmentOperationsRoleResponse,
   DisassociateEnvironmentOperationsRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateEnvironmentOperationsRoleMessage,
-  output: DisassociateEnvironmentOperationsRoleResponse,
+  input: __S(1504, __c47, 0) as any as S.Schema<DisassociateEnvironmentOperationsRoleMessage>,
+  output: __S(1505, __c47, 1) as any as S.Schema<DisassociateEnvironmentOperationsRoleResponse>,
   errors: [InsufficientPrivilegesException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateEnvironmentOperationsRole",
+  telemetry: TELEMETRY,
+  span: "DisassociateEnvironmentOperationsRole",
 }));
 
 export type ListAvailableSolutionStacksError = CommonErrors;
 /**
- * Returns a list of the available solution stack names, with the public version first and
- * then in reverse chronological order.
+ * Returns a list of the available solution stack names, with the public version first and then in reverse chronological order.
+ *
+ * This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a
+ * user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the
+ * user has permission to access instead of all three resources. If the user doesn't have access to any of the resources an empty result is returned.
+ *
+ * The AWSElasticBeanstalkReadOnly
+ * managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer
+ * Guide. For detailed instructions to attach a policy to a user or group, see the section Controlling access with managed policies in the
+ * same topic.
  */
 export const listAvailableSolutionStacks: API.OperationMethod<
-  ListAvailableSolutionStacksRequest,
+  ListAvailableSolutionStacksRequest & RegionInput,
   ListAvailableSolutionStacksResultMessage,
   ListAvailableSolutionStacksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListAvailableSolutionStacksRequest,
-  output: ListAvailableSolutionStacksResultMessage,
+  input: __S(1536, __c48, 0) as any as S.Schema<ListAvailableSolutionStacksRequest>,
+  output: __S(1541, __c48, 5) as any as S.Schema<ListAvailableSolutionStacksResultMessage>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAvailableSolutionStacks",
+  telemetry: TELEMETRY,
+  span: "ListAvailableSolutionStacks",
 }));
 
 export type ListPlatformBranchesError = CommonErrors;
 /**
- * Lists the platform branches available for your account in an AWS Region. Provides
- * summary information about each platform branch.
+ * Lists the platform branches available for your account in an Amazon Web Services Region. Provides summary information about each platform branch.
  *
- * For definitions of platform branch and other platform-related terms, see AWS Elastic Beanstalk
- * Platforms Glossary.
+ * For definitions of platform branch and other platform-related terms, see Elastic Beanstalk Platforms Glossary.
+ *
+ * This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a
+ * user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the
+ * user has permission to access instead of all three resources. If the user doesn't have access to any of the resources an empty result is returned.
+ *
+ * The AWSElasticBeanstalkReadOnly
+ * managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer
+ * Guide. For detailed instructions to attach a policy to a user or group, see the section Controlling access with managed policies in the
+ * same topic.
  */
 export const listPlatformBranches: API.PaginatedOperationMethod<
-  ListPlatformBranchesRequest,
+  ListPlatformBranchesRequest & RegionInput,
   ListPlatformBranchesResult,
   ListPlatformBranchesError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPlatformBranchesRequest,
-  output: ListPlatformBranchesResult,
+  input: __S(1571, __c49, 3) as any as S.Schema<ListPlatformBranchesRequest>,
+  output: __S(1574, __c49, 6) as any as S.Schema<ListPlatformBranchesResult>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3939,6 +2246,8 @@ export const listPlatformBranches: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlatformBranches",
 })) as any;
 
 export type ListPlatformVersionsError =
@@ -3946,22 +2255,30 @@ export type ListPlatformVersionsError =
   | InsufficientPrivilegesException
   | CommonErrors;
 /**
- * Lists the platform versions available for your account in an AWS Region. Provides
- * summary information about each platform version. Compare to DescribePlatformVersion, which provides full details about a single platform
- * version.
+ * Lists the platform versions available for your account in an Amazon Web Services Region. Provides summary information about each platform version. Compare to DescribePlatformVersion, which provides full details about a single platform version.
  *
- * For definitions of platform version and other platform-related terms, see AWS Elastic Beanstalk
- * Platforms Glossary.
+ * This action only returns information about platform versions that the calling principle has IAM permissions to access. For example, consider a case
+ * where a user only has permission to access one of ten platform versions. When the user calls the *ListPlatformVersions* action, the
+ * response will only include the one platform version that the user has permission to access instead of all ten platform versions. If the user doesn't have
+ * access to any of the platform versions an empty result is returned.
+ *
+ * The *AWSElasticBeanstalkReadOnly* managed policy allows operators to view information about resources related to Elastic Beanstalk
+ * environments. For more information, see Managing Elastic Beanstalk
+ * user policies in the *Elastic Beanstalk Developer Guide*. For detailed instructions to attach a policy to a user or group, see the
+ * section Controlling access
+ * with managed policies in the same topic.
+ *
+ * For definitions of platform version and other platform-related terms, see Elastic Beanstalk Platforms Glossary.
  */
 export const listPlatformVersions: API.PaginatedOperationMethod<
-  ListPlatformVersionsRequest,
+  ListPlatformVersionsRequest & RegionInput,
   ListPlatformVersionsResult,
   ListPlatformVersionsError,
   Credentials | HttpClient.HttpClient,
   PlatformSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPlatformVersionsRequest,
-  output: ListPlatformVersionsResult,
+  input: __S(1603, __c50, 3) as any as S.Schema<ListPlatformVersionsRequest>,
+  output: __S(1605, __c50, 5) as any as S.Schema<ListPlatformVersionsResult>,
   errors: [ElasticBeanstalkServiceException, InsufficientPrivilegesException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3972,6 +2289,8 @@ export const listPlatformVersions: API.PaginatedOperationMethod<
     items: "PlatformSummaryList",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlatformVersions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3980,20 +2299,27 @@ export type ListTagsForResourceError =
   | ResourceTypeNotSupportedException
   | CommonErrors;
 /**
- * Return the tags applied to an AWS Elastic Beanstalk resource. The response contains a list of tag key-value pairs.
+ * Return the tags applied to an Elastic Beanstalk resource. The response contains a list of tag key-value pairs.
  *
- * Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see
- * Tagging Application
- * Resources.
+ * Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources.
+ *
+ * This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a
+ * user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the
+ * user has permission to access instead of all three resources. If the user doesn't have access to any of the resources an empty result is returned.
+ *
+ * The AWSElasticBeanstalkReadOnly
+ * managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer
+ * Guide. For detailed instructions to attach a policy to a user or group, see the section Controlling access with managed policies in the
+ * same topic.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceMessage,
+  ListTagsForResourceMessage & RegionInput,
   ResourceTagsDescriptionMessage,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceMessage,
-  output: ResourceTagsDescriptionMessage,
+  input: __S(1632, __c51, 0) as any as S.Schema<ListTagsForResourceMessage>,
+  output: __S(1633, __c51, 1) as any as S.Schema<ResourceTagsDescriptionMessage>,
   errors: [
     InsufficientPrivilegesException,
     ResourceNotFoundException,
@@ -4002,44 +2328,43 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
-export type RebuildEnvironmentError =
-  | InsufficientPrivilegesException
-  | CommonErrors;
+export type RebuildEnvironmentError = InsufficientPrivilegesException | CommonErrors;
 /**
- * Deletes and recreates all of the AWS resources (for example: the Auto Scaling group,
- * load balancer, etc.) for a specified environment and forces a restart.
+ * Deletes and recreates all of the Amazon Web Services resources (for example: the Auto Scaling group, load balancer, etc.) for a specified environment and forces a
+ * restart.
  */
 export const rebuildEnvironment: API.OperationMethod<
-  RebuildEnvironmentMessage,
+  RebuildEnvironmentMessage & RegionInput,
   RebuildEnvironmentResponse,
   RebuildEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RebuildEnvironmentMessage,
-  output: RebuildEnvironmentResponse,
+  input: __S(1696, __c53, 0) as any as S.Schema<RebuildEnvironmentMessage>,
+  output: __S(1697, __c53, 1) as any as S.Schema<RebuildEnvironmentResponse>,
   errors: [InsufficientPrivilegesException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebuildEnvironment",
+  telemetry: TELEMETRY,
+  span: "RebuildEnvironment",
 }));
 
 export type RequestEnvironmentInfoError = CommonErrors;
 /**
- * Initiates a request to compile the specified type of information of the deployed
- * environment.
+ * Initiates a request to compile the specified type of information of the deployed environment.
  *
- * Setting the `InfoType` to `tail` compiles the last lines from
- * the application server log files of every Amazon EC2 instance in your environment.
+ * Setting the `InfoType` to `tail` compiles the last lines from the application server log files of every Amazon EC2 instance in
+ * your environment.
  *
- * Setting the `InfoType` to `bundle` compresses the application
- * server log files for every Amazon EC2 instance into a `.zip` file. Legacy and .NET
- * containers do not support bundle logs.
+ * Setting the `InfoType` to `bundle` compresses the application server log files for every Amazon EC2 instance into a
+ * `.zip` file. Legacy and .NET containers do not support bundle logs.
  *
- * Setting the `InfoType` to `analyze` collects recent events,
- * instance health, and logs from your environment and sends them to Amazon Bedrock in your
- * account to generate diagnostic insights and recommended next steps.
+ * Setting the `InfoType` to `analyze` collects recent events, instance health, and logs from your environment and sends them to
+ * Amazon Bedrock in your account to generate diagnostic insights and recommended next steps.
  *
  * Use RetrieveEnvironmentInfo to obtain the set of logs.
  *
@@ -4048,59 +2373,63 @@ export type RequestEnvironmentInfoError = CommonErrors;
  * - RetrieveEnvironmentInfo
  */
 export const requestEnvironmentInfo: API.OperationMethod<
-  RequestEnvironmentInfoMessage,
+  RequestEnvironmentInfoMessage & RegionInput,
   RequestEnvironmentInfoResponse,
   RequestEnvironmentInfoError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RequestEnvironmentInfoMessage,
-  output: RequestEnvironmentInfoResponse,
+  input: __S(1728, __c54, 0) as any as S.Schema<RequestEnvironmentInfoMessage>,
+  output: __S(1729, __c54, 1) as any as S.Schema<RequestEnvironmentInfoResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestEnvironmentInfo",
+  telemetry: TELEMETRY,
+  span: "RequestEnvironmentInfo",
 }));
 
 export type RestartAppServerError = CommonErrors;
 /**
- * Causes the environment to restart the application container server running on each
- * Amazon EC2 instance.
+ * Causes the environment to restart the application container server running on each Amazon EC2 instance.
  */
 export const restartAppServer: API.OperationMethod<
-  RestartAppServerMessage,
+  RestartAppServerMessage & RegionInput,
   RestartAppServerResponse,
   RestartAppServerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RestartAppServerMessage,
-  output: RestartAppServerResponse,
+  input: __S(1760, __c55, 0) as any as S.Schema<RestartAppServerMessage>,
+  output: __S(1761, __c55, 1) as any as S.Schema<RestartAppServerResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartAppServer",
+  telemetry: TELEMETRY,
+  span: "RestartAppServer",
 }));
 
 export type RetrieveEnvironmentInfoError = CommonErrors;
 /**
- * Retrieves the compiled information from a RequestEnvironmentInfo
- * request.
+ * Retrieves the compiled information from a RequestEnvironmentInfo request.
  *
  * Related Topics
  *
  * - RequestEnvironmentInfo
  */
 export const retrieveEnvironmentInfo: API.OperationMethod<
-  RetrieveEnvironmentInfoMessage,
+  RetrieveEnvironmentInfoMessage & RegionInput,
   RetrieveEnvironmentInfoResultMessage,
   RetrieveEnvironmentInfoError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RetrieveEnvironmentInfoMessage,
-  output: RetrieveEnvironmentInfoResultMessage,
+  input: __S(1792, __c56, 0) as any as S.Schema<RetrieveEnvironmentInfoMessage>,
+  output: __S(1795, __c56, 3) as any as S.Schema<RetrieveEnvironmentInfoResultMessage>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetrieveEnvironmentInfo",
+  telemetry: TELEMETRY,
+  span: "RetrieveEnvironmentInfo",
 }));
 
 export type SwapEnvironmentCNAMEsError = CommonErrors;
@@ -4108,58 +2437,62 @@ export type SwapEnvironmentCNAMEsError = CommonErrors;
  * Swaps the CNAMEs of two environments.
  */
 export const swapEnvironmentCNAMEs: API.OperationMethod<
-  SwapEnvironmentCNAMEsMessage,
+  SwapEnvironmentCNAMEsMessage & RegionInput,
   SwapEnvironmentCNAMEsResponse,
   SwapEnvironmentCNAMEsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SwapEnvironmentCNAMEsMessage,
-  output: SwapEnvironmentCNAMEsResponse,
+  input: __S(1824, __c57, 0) as any as S.Schema<SwapEnvironmentCNAMEsMessage>,
+  output: __S(1825, __c57, 1) as any as S.Schema<SwapEnvironmentCNAMEsResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SwapEnvironmentCNAMEs",
+  telemetry: TELEMETRY,
+  span: "SwapEnvironmentCNAMEs",
 }));
 
-export type TerminateEnvironmentError =
-  | InsufficientPrivilegesException
-  | CommonErrors;
+export type TerminateEnvironmentError = InsufficientPrivilegesException | CommonErrors;
 /**
  * Terminates the specified environment.
  */
 export const terminateEnvironment: API.OperationMethod<
-  TerminateEnvironmentMessage,
+  TerminateEnvironmentMessage & RegionInput,
   EnvironmentDescription,
   TerminateEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TerminateEnvironmentMessage,
-  output: EnvironmentDescription,
+  input: __S(1856, __c58, 0) as any as S.Schema<TerminateEnvironmentMessage>,
+  output: __S(167, __c5, 7) as any as S.Schema<EnvironmentDescription>,
   errors: [InsufficientPrivilegesException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateEnvironment",
+  telemetry: TELEMETRY,
+  span: "TerminateEnvironment",
 }));
 
 export type UpdateApplicationError = CommonErrors;
 /**
  * Updates the specified application to have the specified properties.
  *
- * If a property (for example, `description`) is not provided, the value
- * remains unchanged. To clear these properties, specify an empty string.
+ * If a property (for example, `description`) is not provided, the value remains
+ * unchanged. To clear these properties, specify an empty string.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationMessage,
+  UpdateApplicationMessage & RegionInput,
   ApplicationDescriptionMessage,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateApplicationMessage,
-  output: ApplicationDescriptionMessage,
+  input: __S(1888, __c59, 0) as any as S.Schema<UpdateApplicationMessage>,
+  output: __S(416, __c13, 0) as any as S.Schema<ApplicationDescriptionMessage>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateApplicationResourceLifecycleError =
@@ -4169,38 +2502,42 @@ export type UpdateApplicationResourceLifecycleError =
  * Modifies lifecycle settings for an application.
  */
 export const updateApplicationResourceLifecycle: API.OperationMethod<
-  UpdateApplicationResourceLifecycleMessage,
+  UpdateApplicationResourceLifecycleMessage & RegionInput,
   ApplicationResourceLifecycleDescriptionMessage,
   UpdateApplicationResourceLifecycleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateApplicationResourceLifecycleMessage,
-  output: ApplicationResourceLifecycleDescriptionMessage,
+  input: __S(1920, __c60, 0) as any as S.Schema<UpdateApplicationResourceLifecycleMessage>,
+  output: __S(1921, __c60, 1) as any as S.Schema<ApplicationResourceLifecycleDescriptionMessage>,
   errors: [InsufficientPrivilegesException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationResourceLifecycle",
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationResourceLifecycle",
 }));
 
 export type UpdateApplicationVersionError = CommonErrors;
 /**
  * Updates the specified application version to have the specified properties.
  *
- * If a property (for example, `description`) is not provided, the value
- * remains unchanged. To clear properties, specify an empty string.
+ * If a property (for example, `description`) is not provided, the value remains unchanged. To clear properties, specify an empty
+ * string.
  */
 export const updateApplicationVersion: API.OperationMethod<
-  UpdateApplicationVersionMessage,
+  UpdateApplicationVersionMessage & RegionInput,
   ApplicationVersionDescriptionMessage,
   UpdateApplicationVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateApplicationVersionMessage,
-  output: ApplicationVersionDescriptionMessage,
+  input: __S(1952, __c61, 0) as any as S.Schema<UpdateApplicationVersionMessage>,
+  output: __S(544, __c17, 0) as any as S.Schema<ApplicationVersionDescriptionMessage>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationVersion",
 }));
 
 export type UpdateConfigurationTemplateError =
@@ -4219,17 +2556,19 @@ export type UpdateConfigurationTemplateError =
  * - DescribeConfigurationOptions
  */
 export const updateConfigurationTemplate: API.OperationMethod<
-  UpdateConfigurationTemplateMessage,
+  UpdateConfigurationTemplateMessage & RegionInput,
   ConfigurationSettingsDescription,
   UpdateConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateConfigurationTemplateMessage,
-  output: ConfigurationSettingsDescription,
+  input: __S(1984, __c62, 0) as any as S.Schema<UpdateConfigurationTemplateMessage>,
+  output: __S(640, __c20, 0) as any as S.Schema<ConfigurationSettingsDescription>,
   errors: [InsufficientPrivilegesException, TooManyBucketsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationTemplate",
 }));
 
 export type UpdateEnvironmentError =
@@ -4237,30 +2576,27 @@ export type UpdateEnvironmentError =
   | TooManyBucketsException
   | CommonErrors;
 /**
- * Updates the environment description, deploys a new application version, updates the
- * configuration settings to an entirely new configuration template, or updates select
- * configuration option values in the running environment.
+ * Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template,
+ * or updates select configuration option values in the running environment.
  *
- * Attempting to update both the release and configuration is not allowed and AWS Elastic
- * Beanstalk returns an `InvalidParameterCombination` error.
+ * Attempting to update both the release and configuration is not allowed and Elastic Beanstalk returns an `InvalidParameterCombination` error.
  *
- * When updating the configuration settings to a new template or individual settings, a
- * draft configuration is created and DescribeConfigurationSettings for this
- * environment returns two setting descriptions with different `DeploymentStatus`
- * values.
+ * When updating the configuration settings to a new template or individual settings, a draft configuration is created and DescribeConfigurationSettings for this environment returns two setting descriptions with different `DeploymentStatus` values.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentMessage,
+  UpdateEnvironmentMessage & RegionInput,
   EnvironmentDescription,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateEnvironmentMessage,
-  output: EnvironmentDescription,
+  input: __S(2016, __c63, 0) as any as S.Schema<UpdateEnvironmentMessage>,
+  output: __S(167, __c5, 7) as any as S.Schema<EnvironmentDescription>,
   errors: [InsufficientPrivilegesException, TooManyBucketsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateTagsForResourceError =
@@ -4271,20 +2607,17 @@ export type UpdateTagsForResourceError =
   | TooManyTagsException
   | CommonErrors;
 /**
- * Update the list of tags applied to an AWS Elastic Beanstalk resource. Two lists can be passed: `TagsToAdd`
- * for tags to add or update, and `TagsToRemove`.
+ * Update the list of tags applied to an Elastic Beanstalk resource. Two lists can be passed: `TagsToAdd` for tags to add or update, and
+ * `TagsToRemove`.
  *
- * Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see
- * Tagging Application
- * Resources.
+ * Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources.
  *
- * If you create a custom IAM user policy to control permission to this operation, specify
- * one of the following two virtual actions (or both) instead of the API operation name:
+ * If you create a custom policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API
+ * operation name:
  *
  * ### elasticbeanstalk:AddTags
  *
- * Controls permission to call `UpdateTagsForResource` and pass a list of tags to add in the `TagsToAdd`
- * parameter.
+ * Controls permission to call `UpdateTagsForResource` and pass a list of tags to add in the `TagsToAdd` parameter.
  *
  * ### elasticbeanstalk:RemoveTags
  *
@@ -4294,13 +2627,13 @@ export type UpdateTagsForResourceError =
  * For details about creating a custom user policy, see Creating a Custom User Policy.
  */
 export const updateTagsForResource: API.OperationMethod<
-  UpdateTagsForResourceMessage,
+  UpdateTagsForResourceMessage & RegionInput,
   UpdateTagsForResourceResponse,
   UpdateTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateTagsForResourceMessage,
-  output: UpdateTagsForResourceResponse,
+  input: __S(2049, __c64, 1) as any as S.Schema<UpdateTagsForResourceMessage>,
+  output: __S(2050, __c64, 2) as any as S.Schema<UpdateTagsForResourceResponse>,
   errors: [
     InsufficientPrivilegesException,
     OperationInProgressException,
@@ -4311,6 +2644,8 @@ export const updateTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTagsForResource",
+  telemetry: TELEMETRY,
+  span: "UpdateTagsForResource",
 }));
 
 export type ValidateConfigurationSettingsError =
@@ -4325,15 +2660,1516 @@ export type ValidateConfigurationSettingsError =
  * with the selection of option values.
  */
 export const validateConfigurationSettings: API.OperationMethod<
-  ValidateConfigurationSettingsMessage,
+  ValidateConfigurationSettingsMessage & RegionInput,
   ConfigurationSettingsValidationMessages,
   ValidateConfigurationSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ValidateConfigurationSettingsMessage,
-  output: ConfigurationSettingsValidationMessages,
+  input: __S(2080, __c65, 0) as any as S.Schema<ValidateConfigurationSettingsMessage>,
+  output: __S(2083, __c65, 3) as any as S.Schema<ConfigurationSettingsValidationMessages>,
   errors: [InsufficientPrivilegesException, TooManyBucketsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateConfigurationSettings",
+  telemetry: TELEMETRY,
+  span: "ValidateConfigurationSettings",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EnvironmentId: S.optional(S.String),
+          EnvironmentName: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "AbortEnvironmentUpdateMessage" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "AbortEnvironmentUpdateResponse",
+      });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EnvironmentName: S.optional(S.String),
+          EnvironmentId: S.optional(S.String),
+          ActionId: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ApplyEnvironmentManagedActionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ActionId: S.optional(S.String),
+          ActionDescription: S.optional(S.String),
+          ActionType: S.optional(S.String),
+          Status: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ApplyEnvironmentManagedActionResult" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ EnvironmentName: S.String, OperationsRole: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AssociateEnvironmentOperationsRoleMessage" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "AssociateEnvironmentOperationsRoleResponse",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ CNAMEPrefix: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CheckDNSAvailabilityMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Available: S.optional(S.Boolean),
+          FullyQualifiedCNAME: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "CheckDNSAvailabilityResultMessage" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.optional(S.String),
+          GroupName: S.optional(S.String),
+          VersionLabels: S.optional(__S(128, __c4, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ComposeEnvironmentsMessage" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Protocol: S.optional(S.String), Port: S.optional(S.Number) }),
+      ).annotate({ identifier: "Listener" });
+    case 1:
+      return S.Array(__S(160, __c5, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          LoadBalancerName: S.optional(S.String),
+          Domain: S.optional(S.String),
+          Listeners: S.optional(__S(161, __c5, 1)),
+        }),
+      ).annotate({ identifier: "LoadBalancerDescription" });
+    case 3:
+      return S.suspend(() => S.Struct({ LoadBalancer: S.optional(__S(162, __c5, 2)) })).annotate({
+        identifier: "EnvironmentResourcesDescription",
+      });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Type: S.optional(S.String),
+          Version: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnvironmentTier" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ LinkName: S.optional(S.String), EnvironmentName: S.optional(S.String) }),
+      ).annotate({ identifier: "EnvironmentLink" });
+    case 6:
+      return S.Array(__S(165, __c5, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          EnvironmentName: S.optional(S.String),
+          EnvironmentId: S.optional(S.String),
+          ApplicationName: S.optional(S.String),
+          VersionLabel: S.optional(S.String),
+          SolutionStackName: S.optional(S.String),
+          PlatformArn: S.optional(S.String),
+          TemplateName: S.optional(S.String),
+          Description: S.optional(S.String),
+          EndpointURL: S.optional(S.String),
+          CNAME: S.optional(S.String),
+          DateCreated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          DateUpdated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Status: S.optional(S.String),
+          AbortableOperationInProgress: S.optional(S.Boolean),
+          Health: S.optional(S.String),
+          HealthStatus: S.optional(S.String),
+          Resources: S.optional(__S(163, __c5, 3)),
+          Tier: S.optional(__S(164, __c5, 4)),
+          EnvironmentLinks: S.optional(__S(166, __c5, 6)),
+          EnvironmentArn: S.optional(S.String),
+          OperationsRole: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "EnvironmentDescription" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(167, __c5, 7));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Environments: S.optional(__S(192, __c6, 0)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "EnvironmentDescriptionsMessage" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.String,
+          Description: S.optional(S.String),
+          ResourceLifecycleConfig: S.optional(__S(387, __c12, 3)),
+          Tags: S.optional(__S(256, __c8, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateApplicationMessage" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(288, __c9, 0));
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+      ).annotate({ identifier: "Tag" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationArn: S.optional(S.String),
+          ApplicationName: S.optional(S.String),
+          Description: S.optional(S.String),
+          DateCreated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          DateUpdated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Versions: S.optional(__S(320, __c10, 0)),
+          ConfigurationTemplates: S.optional(__S(352, __c11, 0)),
+          ResourceLifecycleConfig: S.optional(__S(387, __c12, 3)),
+        }),
+      ).annotate({ identifier: "ApplicationDescription" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Enabled: S.Boolean,
+          MaxCount: S.optional(S.Number),
+          DeleteSourceFromS3: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "MaxCountRule" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Enabled: S.Boolean,
+          MaxAgeInDays: S.optional(S.Number),
+          DeleteSourceFromS3: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "MaxAgeRule" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          MaxCountRule: S.optional(__S(384, __c12, 0)),
+          MaxAgeRule: S.optional(__S(385, __c12, 1)),
+        }),
+      ).annotate({ identifier: "ApplicationVersionLifecycleConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ServiceRole: S.optional(S.String),
+          VersionLifecycleConfig: S.optional(__S(386, __c12, 2)),
+        }),
+      ).annotate({ identifier: "ApplicationResourceLifecycleConfig" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Application: S.optional(__S(353, __c11, 1)) }).pipe(ns),
+      ).annotate({ identifier: "ApplicationDescriptionMessage" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ArtifactName: S.optional(S.String),
+          CodeBuildServiceRole: S.String,
+          ComputeType: S.optional(S.String),
+          Image: S.String,
+          TimeoutInMinutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "BuildConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Source: S.optional(__S(513, __c16, 1)), Build: S.optional(__S(514, __c16, 2)) }),
+      ).annotate({ identifier: "ImageConfiguration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.String,
+          VersionLabel: S.String,
+          Description: S.optional(S.String),
+          SourceBuildInformation: S.optional(__S(512, __c16, 0)),
+          SourceBundle: S.optional(__S(480, __c15, 0)),
+          BuildConfiguration: S.optional(__S(448, __c14, 0)),
+          AutoCreateApplication: S.optional(S.Boolean),
+          Process: S.optional(S.Boolean),
+          Tags: S.optional(__S(256, __c8, 0)),
+          ImageConfiguration: S.optional(__S(449, __c14, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateApplicationVersionMessage" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ S3Bucket: S.optional(S.String), S3Key: S.optional(S.String) }),
+      ).annotate({ identifier: "S3Location" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SourceType: S.String, SourceRepository: S.String, SourceLocation: S.String }),
+      ).annotate({ identifier: "SourceBuildInformation" });
+    case 1:
+      return S.suspend(() => S.Struct({ Uri: S.optional(S.String) })).annotate({
+        identifier: "ImageSource",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Type: S.optional(S.String),
+          DockerfileLocation: S.optional(S.String),
+          Buildpack: S.optional(S.String),
+          Architecture: S.optional(S.String),
+          CodeBuildServiceRole: S.optional(S.String),
+          ComputeType: S.optional(S.String),
+          TimeoutInMinutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ImageBuildConfiguration" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationVersionArn: S.optional(S.String),
+          ApplicationName: S.optional(S.String),
+          Description: S.optional(S.String),
+          VersionLabel: S.optional(S.String),
+          SourceBuildInformation: S.optional(__S(512, __c16, 0)),
+          BuildArn: S.optional(S.String),
+          SourceBundle: S.optional(__S(480, __c15, 0)),
+          ImageSource: S.optional(__S(513, __c16, 1)),
+          ImageBuildConfiguration: S.optional(__S(514, __c16, 2)),
+          Process: S.optional(S.Boolean),
+          DateCreated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          DateUpdated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApplicationVersionDescription" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ApplicationVersion: S.optional(__S(515, __c16, 3)) }).pipe(ns),
+      ).annotate({ identifier: "ApplicationVersionDescriptionMessage" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ApplicationName: S.optional(S.String), TemplateName: S.optional(S.String) }),
+      ).annotate({ identifier: "SourceConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.String,
+          TemplateName: S.String,
+          SolutionStackName: S.optional(S.String),
+          PlatformArn: S.optional(S.String),
+          SourceConfiguration: S.optional(__S(576, __c18, 0)),
+          EnvironmentId: S.optional(S.String),
+          Description: S.optional(S.String),
+          OptionSettings: S.optional(__S(609, __c19, 1)),
+          Tags: S.optional(__S(256, __c8, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateConfigurationTemplateMessage" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceName: S.optional(S.String),
+          Namespace: S.optional(S.String),
+          OptionName: S.optional(S.String),
+          Value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConfigurationOptionSetting" });
+    case 1:
+      return S.Array(__S(608, __c19, 0));
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SolutionStackName: S.optional(S.String),
+          PlatformArn: S.optional(S.String),
+          ApplicationName: S.optional(S.String),
+          TemplateName: S.optional(S.String),
+          Description: S.optional(S.String),
+          EnvironmentName: S.optional(S.String),
+          DeploymentStatus: S.optional(S.String),
+          DateCreated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          DateUpdated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          OptionSettings: S.optional(__S(609, __c19, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ConfigurationSettingsDescription" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.String,
+          EnvironmentName: S.optional(S.String),
+          GroupName: S.optional(S.String),
+          Description: S.optional(S.String),
+          CNAMEPrefix: S.optional(S.String),
+          Tier: S.optional(__S(164, __c5, 4)),
+          Tags: S.optional(__S(256, __c8, 0)),
+          VersionLabel: S.optional(S.String),
+          TemplateName: S.optional(S.String),
+          SolutionStackName: S.optional(S.String),
+          PlatformArn: S.optional(S.String),
+          OptionSettings: S.optional(__S(609, __c19, 1)),
+          OptionsToRemove: S.optional(__S(705, __c22, 1)),
+          OperationsRole: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateEnvironmentMessage" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceName: S.optional(S.String),
+          Namespace: S.optional(S.String),
+          OptionName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OptionSpecification" });
+    case 1:
+      return S.Array(__S(704, __c22, 0));
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PlatformName: S.String,
+          PlatformVersion: S.String,
+          PlatformDefinitionBundle: __S(480, __c15, 0),
+          EnvironmentName: S.optional(S.String),
+          OptionSettings: S.optional(__S(609, __c19, 1)),
+          Tags: S.optional(__S(256, __c8, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreatePlatformVersionRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ ARN: S.optional(S.String) })).annotate({
+        identifier: "Builder",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          PlatformSummary: S.optional(__S(832, __c26, 0)),
+          Builder: S.optional(__S(737, __c23, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "CreatePlatformVersionResult" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PlatformArn: S.optional(S.String),
+          PlatformOwner: S.optional(S.String),
+          PlatformStatus: S.optional(S.String),
+          PlatformCategory: S.optional(S.String),
+          OperatingSystemName: S.optional(S.String),
+          OperatingSystemVersion: S.optional(S.String),
+          SupportedTierList: S.optional(__S(768, __c24, 0)),
+          SupportedAddonList: S.optional(__S(800, __c25, 0)),
+          PlatformLifecycleState: S.optional(S.String),
+          PlatformVersion: S.optional(S.String),
+          PlatformBranchName: S.optional(S.String),
+          PlatformBranchLifecycleState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PlatformSummary" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateStorageLocationRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ S3Bucket: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "CreateStorageLocationResultMessage",
+      });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ApplicationName: S.String, TerminateEnvByForce: S.optional(S.Boolean) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteApplicationMessage" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "DeleteApplicationResponse",
+      });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.String,
+          VersionLabel: S.String,
+          DeleteSourceBundle: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteApplicationVersionMessage" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "DeleteApplicationVersionResponse",
+      });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ApplicationName: S.String, TemplateName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteConfigurationTemplateMessage" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "DeleteConfigurationTemplateResponse",
+      });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ApplicationName: S.String, EnvironmentName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteEnvironmentConfigurationMessage" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "DeleteEnvironmentConfigurationResponse",
+      });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ PlatformArn: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeletePlatformVersionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ PlatformSummary: S.optional(__S(832, __c26, 0)) }).pipe(ns),
+      ).annotate({ identifier: "DeletePlatformVersionResult" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeAccountAttributesRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Maximum: S.optional(S.Number) })).annotate({
+        identifier: "ResourceQuota",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationQuota: S.optional(__S(1057, __c33, 1)),
+          ApplicationVersionQuota: S.optional(__S(1057, __c33, 1)),
+          EnvironmentQuota: S.optional(__S(1057, __c33, 1)),
+          ConfigurationTemplateQuota: S.optional(__S(1057, __c33, 1)),
+          CustomPlatformQuota: S.optional(__S(1057, __c33, 1)),
+        }),
+      ).annotate({ identifier: "ResourceQuotas" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ ResourceQuotas: S.optional(__S(1058, __c33, 2)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeAccountAttributesResult" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ApplicationNames: S.optional(__S(1088, __c34, 0)) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeApplicationsMessage" });
+    case 2:
+      return S.Array(__S(353, __c11, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Applications: S.optional(__S(1090, __c34, 2)) }).pipe(ns),
+      ).annotate({ identifier: "ApplicationDescriptionsMessage" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.optional(S.String),
+          VersionLabels: S.optional(__S(320, __c10, 0)),
+          MaxRecords: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeApplicationVersionsMessage" });
+    case 1:
+      return S.Array(__S(515, __c16, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationVersions: S.optional(__S(1121, __c35, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ApplicationVersionDescriptionsMessage" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.optional(S.String),
+          TemplateName: S.optional(S.String),
+          EnvironmentName: S.optional(S.String),
+          SolutionStackName: S.optional(S.String),
+          PlatformArn: S.optional(S.String),
+          Options: S.optional(__S(705, __c22, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeConfigurationOptionsMessage" });
+    case 1:
+      return S.Array(S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Pattern: S.optional(S.String), Label: S.optional(S.String) }),
+      ).annotate({ identifier: "OptionRestrictionRegex" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Namespace: S.optional(S.String),
+          Name: S.optional(S.String),
+          DefaultValue: S.optional(S.String),
+          ChangeSeverity: S.optional(S.String),
+          UserDefined: S.optional(S.Boolean),
+          ValueType: S.optional(S.String),
+          ValueOptions: S.optional(__S(1153, __c36, 1)),
+          MinValue: S.optional(S.Number),
+          MaxValue: S.optional(S.Number),
+          MaxLength: S.optional(S.Number),
+          Regex: S.optional(__S(1154, __c36, 2)),
+        }),
+      ).annotate({ identifier: "ConfigurationOptionDescription" });
+    case 4:
+      return S.Array(__S(1155, __c36, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          SolutionStackName: S.optional(S.String),
+          PlatformArn: S.optional(S.String),
+          Options: S.optional(__S(1156, __c36, 4)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ConfigurationOptionsDescription" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.String,
+          TemplateName: S.optional(S.String),
+          EnvironmentName: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeConfigurationSettingsMessage" });
+    case 1:
+      return S.Array(__S(640, __c20, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ ConfigurationSettings: S.optional(__S(1185, __c37, 1)) }).pipe(ns),
+      ).annotate({ identifier: "ConfigurationSettingsDescriptions" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          EnvironmentName: S.optional(S.String),
+          EnvironmentId: S.optional(S.String),
+          AttributeNames: S.optional(__S(1216, __c38, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEnvironmentHealthRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NoData: S.optional(S.Number),
+          Unknown: S.optional(S.Number),
+          Pending: S.optional(S.Number),
+          Ok: S.optional(S.Number),
+          Info: S.optional(S.Number),
+          Warning: S.optional(S.Number),
+          Degraded: S.optional(S.Number),
+          Severe: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "InstanceHealthSummary" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          EnvironmentName: S.optional(S.String),
+          HealthStatus: S.optional(S.String),
+          Status: S.optional(S.String),
+          Color: S.optional(S.String),
+          Causes: S.optional(__S(1248, __c39, 0)),
+          ApplicationMetrics: S.optional(__S(1251, __c39, 3)),
+          InstancesHealth: S.optional(__S(1218, __c38, 2)),
+          RefreshedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeEnvironmentHealthResult" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Status2xx: S.optional(S.Number),
+          Status3xx: S.optional(S.Number),
+          Status4xx: S.optional(S.Number),
+          Status5xx: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "StatusCodes" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          P999: S.optional(S.Number),
+          P99: S.optional(S.Number),
+          P95: S.optional(S.Number),
+          P90: S.optional(S.Number),
+          P85: S.optional(S.Number),
+          P75: S.optional(S.Number),
+          P50: S.optional(S.Number),
+          P10: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Latency" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Duration: S.optional(S.Number),
+          RequestCount: S.optional(S.Number),
+          StatusCodes: S.optional(__S(1249, __c39, 1)),
+          Latency: S.optional(__S(1250, __c39, 2)),
+        }),
+      ).annotate({ identifier: "ApplicationMetrics" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EnvironmentId: S.optional(S.String),
+          EnvironmentName: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          MaxItems: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEnvironmentManagedActionHistoryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ActionId: S.optional(S.String),
+          ActionType: S.optional(S.String),
+          ActionDescription: S.optional(S.String),
+          FailureType: S.optional(S.String),
+          Status: S.optional(S.String),
+          FailureDescription: S.optional(S.String),
+          ExecutedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          FinishedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "ManagedActionHistoryItem" });
+    case 2:
+      return S.Array(__S(1281, __c40, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ManagedActionHistoryItems: S.optional(__S(1282, __c40, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeEnvironmentManagedActionHistoryResult" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EnvironmentName: S.optional(S.String),
+          EnvironmentId: S.optional(S.String),
+          Status: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEnvironmentManagedActionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ActionId: S.optional(S.String),
+          ActionDescription: S.optional(S.String),
+          ActionType: S.optional(S.String),
+          Status: S.optional(S.String),
+          WindowStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "ManagedAction" });
+    case 2:
+      return S.Array(__S(1313, __c41, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ ManagedActions: S.optional(__S(1314, __c41, 2)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeEnvironmentManagedActionsResult" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EnvironmentId: S.optional(S.String),
+          EnvironmentName: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEnvironmentResourcesMessage" });
+    case 1:
+      return S.suspend(() => S.Struct({ Name: S.optional(S.String) })).annotate({
+        identifier: "AutoScalingGroup",
+      });
+    case 2:
+      return S.Array(__S(1345, __c42, 1));
+    case 3:
+      return S.suspend(() => S.Struct({ ClusterArn: S.optional(S.String) })).annotate({
+        identifier: "Cluster",
+      });
+    case 4:
+      return S.suspend(() => S.Struct({ Id: S.optional(S.String) })).annotate({
+        identifier: "Instance",
+      });
+    case 5:
+      return S.Array(__S(1348, __c42, 4));
+    case 6:
+      return S.suspend(() => S.Struct({ Name: S.optional(S.String) })).annotate({
+        identifier: "LaunchConfiguration",
+      });
+    case 7:
+      return S.Array(__S(1350, __c42, 6));
+    case 8:
+      return S.suspend(() => S.Struct({ Id: S.optional(S.String) })).annotate({
+        identifier: "LaunchTemplate",
+      });
+    case 9:
+      return S.Array(__S(1352, __c42, 8));
+    case 10:
+      return S.suspend(() => S.Struct({ Name: S.optional(S.String) })).annotate({
+        identifier: "LoadBalancer",
+      });
+    case 11:
+      return S.Array(__S(1354, __c42, 10));
+    case 12:
+      return S.suspend(() => S.Struct({ Name: S.optional(S.String) })).annotate({
+        identifier: "Trigger",
+      });
+    case 13:
+      return S.Array(__S(1356, __c42, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), URL: S.optional(S.String) }),
+      ).annotate({ identifier: "Queue" });
+    case 15:
+      return S.Array(__S(1358, __c42, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          EnvironmentName: S.optional(S.String),
+          AutoScalingGroups: S.optional(__S(1346, __c42, 2)),
+          Cluster: S.optional(__S(1347, __c42, 3)),
+          Instances: S.optional(__S(1349, __c42, 5)),
+          LaunchConfigurations: S.optional(__S(1351, __c42, 7)),
+          LaunchTemplates: S.optional(__S(1353, __c42, 9)),
+          LoadBalancers: S.optional(__S(1355, __c42, 11)),
+          Triggers: S.optional(__S(1357, __c42, 13)),
+          Queues: S.optional(__S(1359, __c42, 15)),
+        }),
+      ).annotate({ identifier: "EnvironmentResourceDescription" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({ EnvironmentResources: S.optional(__S(1360, __c42, 16)) }).pipe(ns),
+      ).annotate({ identifier: "EnvironmentResourceDescriptionsMessage" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.Array(S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.optional(S.String),
+          VersionLabel: S.optional(S.String),
+          EnvironmentIds: S.optional(__S(1376, __c43, 0)),
+          EnvironmentNames: S.optional(__S(1377, __c43, 1)),
+          IncludeDeleted: S.optional(S.Boolean),
+          IncludedDeletedBackTo: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          MaxRecords: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEnvironmentsMessage" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.optional(S.String),
+          VersionLabel: S.optional(S.String),
+          TemplateName: S.optional(S.String),
+          EnvironmentId: S.optional(S.String),
+          EnvironmentName: S.optional(S.String),
+          PlatformArn: S.optional(S.String),
+          RequestId: S.optional(S.String),
+          Severity: S.optional(S.String),
+          StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          MaxRecords: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEventsMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          EventDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Message: S.optional(S.String),
+          ApplicationName: S.optional(S.String),
+          VersionLabel: S.optional(S.String),
+          TemplateName: S.optional(S.String),
+          EnvironmentName: S.optional(S.String),
+          PlatformArn: S.optional(S.String),
+          RequestId: S.optional(S.String),
+          Severity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EventDescription" });
+    case 2:
+      return S.Array(__S(1409, __c44, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Events: S.optional(__S(1410, __c44, 2)), NextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "EventDescriptionsMessage" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          EnvironmentName: S.optional(S.String),
+          EnvironmentId: S.optional(S.String),
+          AttributeNames: S.optional(__S(1440, __c45, 0)),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeInstancesHealthRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          User: S.optional(S.Number),
+          Nice: S.optional(S.Number),
+          System: S.optional(S.Number),
+          Idle: S.optional(S.Number),
+          IOWait: S.optional(S.Number),
+          IRQ: S.optional(S.Number),
+          SoftIRQ: S.optional(S.Number),
+          Privileged: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CPUUtilization" });
+    case 3:
+      return S.Array(S.Number);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          CPUUtilization: S.optional(__S(1442, __c45, 2)),
+          LoadAverage: S.optional(__S(1443, __c45, 3)),
+        }),
+      ).annotate({ identifier: "SystemStatus" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          VersionLabel: S.optional(S.String),
+          DeploymentId: S.optional(S.Number),
+          Status: S.optional(S.String),
+          DeploymentTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "Deployment" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.optional(S.String),
+          HealthStatus: S.optional(S.String),
+          Color: S.optional(S.String),
+          Causes: S.optional(__S(1248, __c39, 0)),
+          LaunchedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          ApplicationMetrics: S.optional(__S(1251, __c39, 3)),
+          System: S.optional(__S(1444, __c45, 4)),
+          Deployment: S.optional(__S(1445, __c45, 5)),
+          AvailabilityZone: S.optional(S.String),
+          InstanceType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SingleInstanceHealth" });
+    case 7:
+      return S.Array(__S(1446, __c45, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceHealthList: S.optional(__S(1447, __c45, 7)),
+          RefreshedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeInstancesHealthResult" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ PlatformArn: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribePlatformVersionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Version: S.optional(S.String) }),
+      ).annotate({ identifier: "PlatformProgrammingLanguage" });
+    case 2:
+      return S.Array(__S(1473, __c46, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Version: S.optional(S.String) }),
+      ).annotate({ identifier: "PlatformFramework" });
+    case 4:
+      return S.Array(__S(1475, __c46, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ VirtualizationType: S.optional(S.String), ImageId: S.optional(S.String) }),
+      ).annotate({ identifier: "CustomAmi" });
+    case 6:
+      return S.Array(__S(1477, __c46, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ Architecture: S.optional(S.String), ImageId: S.optional(S.String) }),
+      ).annotate({ identifier: "DefaultAmi" });
+    case 8:
+      return S.Array(__S(1479, __c46, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          PlatformArn: S.optional(S.String),
+          PlatformOwner: S.optional(S.String),
+          PlatformName: S.optional(S.String),
+          PlatformVersion: S.optional(S.String),
+          SolutionStackName: S.optional(S.String),
+          PlatformStatus: S.optional(S.String),
+          DateCreated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          DateUpdated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          PlatformCategory: S.optional(S.String),
+          Description: S.optional(S.String),
+          Maintainer: S.optional(S.String),
+          OperatingSystemName: S.optional(S.String),
+          OperatingSystemVersion: S.optional(S.String),
+          ProgrammingLanguages: S.optional(__S(1474, __c46, 2)),
+          Frameworks: S.optional(__S(1476, __c46, 4)),
+          CustomAmiList: S.optional(__S(1478, __c46, 6)),
+          DefaultAmiList: S.optional(__S(1480, __c46, 8)),
+          SupportedTierList: S.optional(__S(768, __c24, 0)),
+          SupportedAddonList: S.optional(__S(800, __c25, 0)),
+          PlatformLifecycleState: S.optional(S.String),
+          PlatformBranchName: S.optional(S.String),
+          PlatformBranchLifecycleState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PlatformDescription" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({ PlatformDescription: S.optional(__S(1481, __c46, 9)) }).pipe(ns),
+      ).annotate({ identifier: "DescribePlatformVersionResult" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ EnvironmentName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DisassociateEnvironmentOperationsRoleMessage" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "DisassociateEnvironmentOperationsRoleResponse",
+      });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListAvailableSolutionStacksRequest" });
+    case 1:
+      return S.Array(S.String);
+    case 2:
+      return S.Array(S.String);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          SolutionStackName: S.optional(S.String),
+          PermittedFileTypes: S.optional(__S(1538, __c48, 2)),
+        }),
+      ).annotate({ identifier: "SolutionStackDescription" });
+    case 4:
+      return S.Array(__S(1539, __c48, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          SolutionStacks: S.optional(__S(1537, __c48, 1)),
+          SolutionStackDetails: S.optional(__S(1540, __c48, 4)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListAvailableSolutionStacksResultMessage" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Attribute: S.optional(S.String),
+          Operator: S.optional(S.String),
+          Values: S.optional(__S(1568, __c49, 0)),
+        }),
+      ).annotate({ identifier: "SearchFilter" });
+    case 2:
+      return S.Array(__S(1569, __c49, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(1570, __c49, 2)),
+          MaxRecords: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListPlatformBranchesRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          PlatformName: S.optional(S.String),
+          BranchName: S.optional(S.String),
+          LifecycleState: S.optional(S.String),
+          BranchOrder: S.optional(S.Number),
+          SupportedTierList: S.optional(__S(768, __c24, 0)),
+        }),
+      ).annotate({ identifier: "PlatformBranchSummary" });
+    case 5:
+      return S.Array(__S(1572, __c49, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          PlatformBranchSummaryList: S.optional(__S(1573, __c49, 5)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListPlatformBranchesResult" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Type: S.optional(S.String),
+          Operator: S.optional(S.String),
+          Values: S.optional(__S(1600, __c50, 0)),
+        }),
+      ).annotate({ identifier: "PlatformFilter" });
+    case 2:
+      return S.Array(__S(1601, __c50, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(1602, __c50, 2)),
+          MaxRecords: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListPlatformVersionsRequest" });
+    case 4:
+      return S.Array(__S(832, __c26, 0));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          PlatformSummaryList: S.optional(__S(1604, __c50, 4)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListPlatformVersionsResult" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.optional(S.String),
+          ResourceTags: S.optional(__S(1664, __c52, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ResourceTagsDescriptionMessage" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(288, __c9, 0));
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EnvironmentId: S.optional(S.String),
+          EnvironmentName: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "RebuildEnvironmentMessage" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "RebuildEnvironmentResponse",
+      });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EnvironmentId: S.optional(S.String),
+          EnvironmentName: S.optional(S.String),
+          InfoType: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "RequestEnvironmentInfoMessage" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "RequestEnvironmentInfoResponse",
+      });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EnvironmentId: S.optional(S.String),
+          EnvironmentName: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "RestartAppServerMessage" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "RestartAppServerResponse",
+      });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EnvironmentId: S.optional(S.String),
+          EnvironmentName: S.optional(S.String),
+          InfoType: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "RetrieveEnvironmentInfoMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          InfoType: S.optional(S.String),
+          Ec2InstanceId: S.optional(S.String),
+          SampleTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnvironmentInfoDescription" });
+    case 2:
+      return S.Array(__S(1793, __c56, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ EnvironmentInfo: S.optional(__S(1794, __c56, 2)) }).pipe(ns),
+      ).annotate({ identifier: "RetrieveEnvironmentInfoResultMessage" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SourceEnvironmentId: S.optional(S.String),
+          SourceEnvironmentName: S.optional(S.String),
+          DestinationEnvironmentId: S.optional(S.String),
+          DestinationEnvironmentName: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "SwapEnvironmentCNAMEsMessage" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "SwapEnvironmentCNAMEsResponse",
+      });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EnvironmentId: S.optional(S.String),
+          EnvironmentName: S.optional(S.String),
+          TerminateResources: S.optional(S.Boolean),
+          ForceTerminate: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "TerminateEnvironmentMessage" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ApplicationName: S.String, Description: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateApplicationMessage" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ApplicationName: S.String, ResourceLifecycleConfig: __S(387, __c12, 3) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateApplicationResourceLifecycleMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.optional(S.String),
+          ResourceLifecycleConfig: S.optional(__S(387, __c12, 3)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ApplicationResourceLifecycleDescriptionMessage" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.String,
+          VersionLabel: S.String,
+          Description: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateApplicationVersionMessage" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.String,
+          TemplateName: S.String,
+          Description: S.optional(S.String),
+          OptionSettings: S.optional(__S(609, __c19, 1)),
+          OptionsToRemove: S.optional(__S(705, __c22, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateConfigurationTemplateMessage" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.optional(S.String),
+          EnvironmentId: S.optional(S.String),
+          EnvironmentName: S.optional(S.String),
+          GroupName: S.optional(S.String),
+          Description: S.optional(S.String),
+          Tier: S.optional(__S(164, __c5, 4)),
+          VersionLabel: S.optional(S.String),
+          TemplateName: S.optional(S.String),
+          SolutionStackName: S.optional(S.String),
+          PlatformArn: S.optional(S.String),
+          OptionSettings: S.optional(__S(609, __c19, 1)),
+          OptionsToRemove: S.optional(__S(705, __c22, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateEnvironmentMessage" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String,
+          TagsToAdd: S.optional(__S(1664, __c52, 0)),
+          TagsToRemove: S.optional(__S(2048, __c64, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateTagsForResourceMessage" });
+    case 2:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "UpdateTagsForResourceResponse",
+      });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.String,
+          TemplateName: S.optional(S.String),
+          EnvironmentName: S.optional(S.String),
+          OptionSettings: __S(609, __c19, 1),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ValidateConfigurationSettingsMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Message: S.optional(S.String),
+          Severity: S.optional(S.String),
+          Namespace: S.optional(S.String),
+          OptionName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ValidationMessage" });
+    case 2:
+      return S.Array(__S(2081, __c65, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Messages: S.optional(__S(2082, __c65, 2)) }).pipe(ns),
+      ).annotate({ identifier: "ConfigurationSettingsValidationMessages" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

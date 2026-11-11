@@ -1,0 +1,16 @@
+{
+  "description": "serverInternal is a server-side failure (RFC 8555 \u00a76.7: \"The server experienced an internal error\"), so it is a retryable server error.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/org.ietf.acme#AcmeServerInternal/traits/smithy.api#error",
+      "value": "server"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.ietf.acme#AcmeServerInternal/traits/smithy.api#retryable",
+      "before": "smithy.api#documentation",
+      "value": {}
+    }
+  ]
+}

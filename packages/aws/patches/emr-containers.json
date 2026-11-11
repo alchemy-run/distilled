@@ -7,7 +7,18 @@
     "createJobTemplate": { "errors": ["TooManyRequestsException"] },
     "createManagedEndpoint": { "errors": ["TooManyRequestsException"] },
     "createSecurityConfiguration": { "errors": ["TooManyRequestsException"] },
-    "createVirtualCluster": { "errors": ["TooManyRequestsException"] },
+    "createVirtualCluster": {
+      "errors": ["TooManyRequestsException"],
+      "syntheticErrors": [
+        {
+          "name": "EksClusterConnectionUpdating",
+          "from": "ValidationException",
+          "message": {
+            "includes": "connection is currently being updated"
+          }
+        }
+      ]
+    },
     "deleteJobTemplate": { "errors": ["TooManyRequestsException"] },
     "deleteManagedEndpoint": { "errors": ["TooManyRequestsException"] },
     "deleteVirtualCluster": { "errors": ["TooManyRequestsException"] },

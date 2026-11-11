@@ -1,5 +1,5 @@
 /**
- * Archil pagination — hand-written.
+ * Archil pagination -- hand-written.
  *
  * Archil's paginated list operations are cursor-mode (`cursor` in, `limit`
  * page size); generated operations pass core's {@link paginateCursor}

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — Vercel's OpenAPI description → Smithy JSON models in
  * .generated-specs.
@@ -10,11 +10,9 @@
  * ordering is load-bearing:
  *
  *   1. Read the full spec.
- *   2. Apply ALL `patches/*.patch.json` ONCE to the full spec (RFC-6902,
- *      sorted name order; stale targets warn+skip — the spec is refetched
- *      from a live URL and drifts — malformed patches fail the run).
- *      Patching per-slice would hard-fail: a patch targeting one tag's paths
- *      doesn't resolve against another tag's slice.
+ *   2. Patches are Smithy ops on the converted models, under the names the
+ *      spec gives; the finalizeConvert at the end applies them, then the
+ *      deferred verbNoun names (see `@distilled.cloud/dev/codegen/patches`).
  *   3. Bucket operations by PRIMARY (first) tag — a single path can
  *      contribute different methods to different service buckets. The handful
  *      of operations the spec leaves untagged are routed by {@link UNTAGGED}.
@@ -26,26 +24,18 @@
  * globally unique, and are the spelling its own SDK and CLI use, so there is
  * no namespace prefix to strip the way GitHub's `repos/list-for-org` needs.
  *
- * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false` — the
- * patches apply HERE, to the OpenAPI document) then compiles the models.
+ * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false`) then
+ * compiles the already-patched models.
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import {
-  applyOperation,
-  isStaleTargetError,
-  type PatchFile,
-} from "@distilled.cloud/core/json-patch";
-import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
+import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
-const rootDir = path.resolve(import.meta.dir, "..");
-const specPath = resolveSpecPath(
-  rootDir,
-  "specs/spec-mirror-vercel/specs/openapi.json",
-);
-const patchDir = path.join(rootDir, "patches");
+const rootDir = path.resolve(import.meta.dirname, "..");
+const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-vercel/specs/openapi.json");
 const outDir = path.join(rootDir, ".generated-specs");
 
 /**
@@ -101,49 +91,10 @@ const toPascal = (slug: string): string =>
 // ---- 1. Read the full spec -------------------------------------------------
 if (!fs.existsSync(specPath)) {
   throw new Error(
-    `${specPath} not found — run \`bun run spec:download\` to fetch the OpenAPI document`,
+    `${specPath} not found — run \`pnpm run spec:download\` to fetch the OpenAPI document`,
   );
 }
 const fullSpec = JSON.parse(fs.readFileSync(specPath, "utf-8"));
-
-// ---- 2. Apply the patch chain ONCE to the full spec ------------------------
-let patchFiles = 0;
-let staleOps = 0;
-const badPatches: string[] = [];
-if (fs.existsSync(patchDir)) {
-  for (const pf of fs
-    .readdirSync(patchDir)
-    .filter((f) => f.endsWith(".patch.json"))
-    .sort((a, b) => a.localeCompare(b))) {
-    const parsed = JSON.parse(
-      fs.readFileSync(path.join(patchDir, pf), "utf-8"),
-    ) as PatchFile;
-    for (const patchOp of parsed.patches ?? []) {
-      try {
-        applyOperation(fullSpec, patchOp);
-      } catch (e) {
-        const msg = e instanceof Error ? e.message : String(e);
-        if (isStaleTargetError(msg)) {
-          staleOps++;
-          console.warn(`   ⚠️  stale: ${pf} [${patchOp.op} ${patchOp.path}]`);
-        } else {
-          badPatches.push(`${pf} [${patchOp.op} ${patchOp.path}]: ${msg}`);
-        }
-      }
-    }
-    patchFiles++;
-  }
-}
-if (badPatches.length) {
-  for (const b of badPatches) console.error(`❌ bad patch: ${b}`);
-  throw new Error(
-    `${badPatches.length} malformed patch operation(s) — fix or remove them`,
-  );
-}
-console.log(
-  `🩹 ${patchFiles} patch files applied` +
-    (staleOps ? ` (${staleOps} stale op(s) skipped)` : ""),
-);
 
 // ---- 2b. Unquote parameter names -------------------------------------------
 /**
@@ -240,8 +191,7 @@ if (unquoted || collapsed.length) {
   console.log(
     `🔧 ${unquoted} quoted parameter name(s) unquoted` +
       (collapsed.length
-        ? `, ${collapsed.length} duplicate(s) dropped:\n      ` +
-          collapsed.join("\n      ")
+        ? `, ${collapsed.length} duplicate(s) dropped:\n      ` + collapsed.join("\n      ")
         : ""),
   );
 }
@@ -249,9 +199,7 @@ if (unquoted || collapsed.length) {
 // ---- 3. Bucket paths by primary tag ----------------------------------------
 const tagBuckets = new Map<string, Record<string, Record<string, unknown>>>();
 const unrouted: string[] = [];
-for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(
-  fullSpec.paths,
-)) {
+for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(fullSpec.paths)) {
   for (const method of HTTP_METHODS) {
     const op = (pathItem as Record<string, any>)[method];
     if (!op) continue;
@@ -283,14 +231,14 @@ if (unrouted.length) {
 }
 
 // ---- 4. Convert each bucket ------------------------------------------------
-fs.rmSync(outDir, { recursive: true, force: true });
-fs.mkdirSync(outDir, { recursive: true });
+clearModels(outDir);
 
 let written = 0;
 let totalOps = 0;
 for (const slug of [...tagBuckets.keys()].sort()) {
   const subSpec = { ...fullSpec, paths: tagBuckets.get(slug)! };
   const model = convertOpenApiToSmithy(subSpec, {
+    deferNaming: true,
     namespace: `com.vercel.${slug}`,
     serviceName: toPascal(slug),
     skipDeprecated: true,
@@ -329,14 +277,9 @@ for (const slug of [...tagBuckets.keys()].sort()) {
     // The protocol maps it to the hand-written `Gone` (see src/errors.ts).
     defaultErrorStatuses: ["401", "410", "429", "500", "503"],
   });
-  const opCount = Object.values(model.shapes).filter(
-    (s: any) => s.type === "operation",
-  ).length;
+  const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
   if (opCount === 0) continue; // all-deprecated bucket
-  fs.writeFileSync(
-    path.join(outDir, `${slug}.json`),
-    JSON.stringify(model, null, 2) + "\n",
-  );
+  writeModel(path.join(outDir, `${slug}.json`), model);
   written++;
   totalOps += opCount;
 }

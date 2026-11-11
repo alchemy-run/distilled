@@ -83,8 +83,8 @@ Every mirror gets exactly:
 readme.md                            # per repo
 ```
 
-plus `.meta/bun.lock`, which the mirror's own workflow commits and the stack
-never touches.
+plus `.meta/pnpm-lock.yaml`, which the mirror's own workflow commits and the
+stack never touches.
 
 Shared files live in [`scaffold/`](./scaffold); per-repository files live in
 [`spec-repos/<package>/`](./spec-repos). **There is no generic fetch script** —
@@ -95,8 +95,9 @@ download (`github`, `kubernetes`, `stripe`, `turso`, …), and a sparse partial
 clone (`aws`, `azure`).
 
 `spec-repos/` is outside this stack's TypeScript program on purpose: those
-files are shipped verbatim into the mirrors, where they run under Bun against
-each mirror's own dependencies. They are data to this stack, not part of it.
+files are shipped verbatim into the mirrors, where they run under Node 24
+(native type stripping, no build step) against each mirror's own dependencies,
+installed with pnpm. They are data to this stack, not part of it.
 
 ### The sparse-clone mirrors
 
@@ -135,7 +136,7 @@ Local mode is an environment variable rather than an edit to the package's
 spec path. Nothing committed points at `.local` — `specs:check` fails the
 build if anything does — so there is no local-only reference to forget to
 revert, and a package that reads from a gitignored directory can never reach
-`main`. See `@distilled.cloud/core/codegen/spec-path` and
+`main`. See `@distilled.cloud/dev/codegen/spec-path` and
 `.claude/skills/distilled-sdk`.
 
 ## Deploying

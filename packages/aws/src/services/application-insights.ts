@@ -1,20 +1,25 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Application Insights",
   serviceShapeName: "EC2WindowsBarleyService",
 });
-const auth = T.AwsAuthSigv4({ name: "applicationinsights" });
-const ver = T.ServiceVersion("2018-11-25");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "applicationinsights" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2018-11-25");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -26,14 +31,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +61,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://applicationinsights-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,9 +69,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://applicationinsights.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://applicationinsights.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -81,84 +78,90 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://applicationinsights.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ApplicationInsights",
+  service: "ApplicationInsights",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "AccessDeniedException", httpResponseCode: 403 }),
-      T.HttpError(403),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "AccessDeniedException", httpResponseCode: 403 }),
+      /*@__PURE__*/ T.HttpError(403),
     ),
   ).pipe(C.withAuthError) {}
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
     "BadRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "BadRequestException", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "BadRequestException", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InternalServerException",
-        httpResponseCode: 500,
-      }),
-      T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InternalServerException", httpResponseCode: 500 }),
+      /*@__PURE__*/ T.HttpError(500),
     ),
   ).pipe(C.withServerError) {}
 export class ResourceInUseException
   extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()(
     "ResourceInUseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ResourceInUseException",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ResourceInUseException", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ResourceNotFoundException",
-        httpResponseCode: 404,
-      }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class TagsAlreadyExistException
   extends /*@__PURE__*/ S.TaggedError<TagsAlreadyExistException>()(
     "TagsAlreadyExistException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceName: S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      ResourceName: /*@__PURE__*/ S.optional(S.String),
     },
-    T.HttpError(400),
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export type ResourceGroupName = string;
@@ -189,52 +192,22 @@ export type Tier =
   | "SAP_NETWEAVER_DISTRIBUTED"
   | "SAP_NETWEAVER_HIGH_AVAILABILITY"
   | (string & {});
-export const Tier = S.String;
-
 export type ComponentConfiguration = string;
 export interface WorkloadConfiguration {
-  WorkloadName?: string;
-  Tier?: Tier;
-  Configuration?: string;
+  WorkloadName?: string | undefined;
+  Tier?: Tier | undefined;
+  Configuration?: string | undefined;
 }
-export const WorkloadConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    WorkloadName: S.optional(S.String),
-    Tier: S.optional(Tier),
-    Configuration: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "WorkloadConfiguration",
-}) as any as S.Schema<WorkloadConfiguration>;
 export interface AddWorkloadRequest {
   ResourceGroupName: string;
   ComponentName: string;
   WorkloadConfiguration: WorkloadConfiguration;
 }
-export const AddWorkloadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    ComponentName: S.String,
-    WorkloadConfiguration: WorkloadConfiguration,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "AddWorkloadRequest",
-}) as any as S.Schema<AddWorkloadRequest>;
 export type WorkloadId = string;
 export interface AddWorkloadResponse {
-  WorkloadId?: string;
-  WorkloadConfiguration?: WorkloadConfiguration;
+  WorkloadId?: string | undefined;
+  WorkloadConfiguration?: WorkloadConfiguration | undefined;
 }
-export const AddWorkloadResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    WorkloadId: S.optional(S.String),
-    WorkloadConfiguration: S.optional(WorkloadConfiguration),
-  }),
-).annotate({
-  identifier: "AddWorkloadResponse",
-}) as any as S.Schema<AddWorkloadResponse>;
 export type OpsCenterEnabled = boolean;
 export type CWEMonitorEnabled = boolean;
 export type OpsItemSNSTopicArn = string;
@@ -245,120 +218,52 @@ export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export type AutoConfigEnabled = boolean;
 export type AutoCreate = boolean;
 export type GroupingType = "ACCOUNT_BASED" | (string & {});
-export const GroupingType = S.String;
-
 export type AttachMissingPermission = boolean;
 export interface CreateApplicationRequest {
-  ResourceGroupName?: string;
-  OpsCenterEnabled?: boolean;
-  CWEMonitorEnabled?: boolean;
-  OpsItemSNSTopicArn?: string;
-  SNSNotificationArn?: string;
-  Tags?: Tag[];
-  AutoConfigEnabled?: boolean;
-  AutoCreate?: boolean;
-  GroupingType?: GroupingType;
-  AttachMissingPermission?: boolean;
+  ResourceGroupName?: string | undefined;
+  OpsCenterEnabled?: boolean | undefined;
+  CWEMonitorEnabled?: boolean | undefined;
+  OpsItemSNSTopicArn?: string | undefined;
+  SNSNotificationArn?: string | undefined;
+  Tags?: Tag[] | undefined;
+  AutoConfigEnabled?: boolean | undefined;
+  AutoCreate?: boolean | undefined;
+  GroupingType?: GroupingType | undefined;
+  AttachMissingPermission?: boolean | undefined;
 }
-export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.optional(S.String),
-    OpsCenterEnabled: S.optional(S.Boolean),
-    CWEMonitorEnabled: S.optional(S.Boolean),
-    OpsItemSNSTopicArn: S.optional(S.String),
-    SNSNotificationArn: S.optional(S.String),
-    Tags: S.optional(TagList),
-    AutoConfigEnabled: S.optional(S.Boolean),
-    AutoCreate: S.optional(S.Boolean),
-    GroupingType: S.optional(GroupingType),
-    AttachMissingPermission: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateApplicationRequest",
-}) as any as S.Schema<CreateApplicationRequest>;
 export type AccountId = string;
 export type LifeCycle = string;
 export type Remarks = string;
-export type DiscoveryType =
-  | "RESOURCE_GROUP_BASED"
-  | "ACCOUNT_BASED"
-  | (string & {});
-export const DiscoveryType = S.String;
-
+export type DiscoveryType = "RESOURCE_GROUP_BASED" | "ACCOUNT_BASED" | (string & {});
 export interface ApplicationInfo {
-  AccountId?: string;
-  ResourceGroupName?: string;
-  LifeCycle?: string;
-  OpsItemSNSTopicArn?: string;
-  SNSNotificationArn?: string;
-  OpsCenterEnabled?: boolean;
-  CWEMonitorEnabled?: boolean;
-  Remarks?: string;
-  AutoConfigEnabled?: boolean;
-  DiscoveryType?: DiscoveryType;
-  AttachMissingPermission?: boolean;
+  AccountId?: string | undefined;
+  ResourceGroupName?: string | undefined;
+  LifeCycle?: string | undefined;
+  OpsItemSNSTopicArn?: string | undefined;
+  SNSNotificationArn?: string | undefined;
+  OpsCenterEnabled?: boolean | undefined;
+  CWEMonitorEnabled?: boolean | undefined;
+  Remarks?: string | undefined;
+  AutoConfigEnabled?: boolean | undefined;
+  DiscoveryType?: DiscoveryType | undefined;
+  AttachMissingPermission?: boolean | undefined;
 }
-export const ApplicationInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String),
-    ResourceGroupName: S.optional(S.String),
-    LifeCycle: S.optional(S.String),
-    OpsItemSNSTopicArn: S.optional(S.String),
-    SNSNotificationArn: S.optional(S.String),
-    OpsCenterEnabled: S.optional(S.Boolean),
-    CWEMonitorEnabled: S.optional(S.Boolean),
-    Remarks: S.optional(S.String),
-    AutoConfigEnabled: S.optional(S.Boolean),
-    DiscoveryType: S.optional(DiscoveryType),
-    AttachMissingPermission: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ApplicationInfo",
-}) as any as S.Schema<ApplicationInfo>;
 export interface CreateApplicationResponse {
-  ApplicationInfo?: ApplicationInfo;
+  ApplicationInfo?: ApplicationInfo | undefined;
 }
-export const CreateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ApplicationInfo: S.optional(ApplicationInfo) }),
-).annotate({
-  identifier: "CreateApplicationResponse",
-}) as any as S.Schema<CreateApplicationResponse>;
 export type CustomComponentName = string;
 export type ResourceARN = string;
 export type ResourceList = string[];
-export const ResourceList = /*@__PURE__*/ S.Array(S.String);
 export interface CreateComponentRequest {
   ResourceGroupName: string;
   ComponentName: string;
   ResourceList: string[];
 }
-export const CreateComponentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    ComponentName: S.String,
-    ResourceList: ResourceList,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateComponentRequest",
-}) as any as S.Schema<CreateComponentRequest>;
 export interface CreateComponentResponse {}
-export const CreateComponentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CreateComponentResponse",
-}) as any as S.Schema<CreateComponentResponse>;
 export type LogPatternSetName = string;
 export type LogPatternName = string;
 export type LogPatternRegex = string;
@@ -370,306 +275,104 @@ export interface CreateLogPatternRequest {
   Pattern: string;
   Rank: number;
 }
-export const CreateLogPatternRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    PatternSetName: S.String,
-    PatternName: S.String,
-    Pattern: S.String,
-    Rank: S.Number,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateLogPatternRequest",
-}) as any as S.Schema<CreateLogPatternRequest>;
 export interface LogPattern {
-  PatternSetName?: string;
-  PatternName?: string;
-  Pattern?: string;
-  Rank?: number;
+  PatternSetName?: string | undefined;
+  PatternName?: string | undefined;
+  Pattern?: string | undefined;
+  Rank?: number | undefined;
 }
-export const LogPattern = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PatternSetName: S.optional(S.String),
-    PatternName: S.optional(S.String),
-    Pattern: S.optional(S.String),
-    Rank: S.optional(S.Number),
-  }),
-).annotate({ identifier: "LogPattern" }) as any as S.Schema<LogPattern>;
 export interface CreateLogPatternResponse {
-  LogPattern?: LogPattern;
-  ResourceGroupName?: string;
+  LogPattern?: LogPattern | undefined;
+  ResourceGroupName?: string | undefined;
 }
-export const CreateLogPatternResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LogPattern: S.optional(LogPattern),
-    ResourceGroupName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateLogPatternResponse",
-}) as any as S.Schema<CreateLogPatternResponse>;
 export interface DeleteApplicationRequest {
   ResourceGroupName: string;
 }
-export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceGroupName: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
 export interface DeleteApplicationResponse {}
-export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteApplicationResponse",
-}) as any as S.Schema<DeleteApplicationResponse>;
 export interface DeleteComponentRequest {
   ResourceGroupName: string;
   ComponentName: string;
 }
-export const DeleteComponentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceGroupName: S.String, ComponentName: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteComponentRequest",
-}) as any as S.Schema<DeleteComponentRequest>;
 export interface DeleteComponentResponse {}
-export const DeleteComponentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteComponentResponse",
-}) as any as S.Schema<DeleteComponentResponse>;
 export interface DeleteLogPatternRequest {
   ResourceGroupName: string;
   PatternSetName: string;
   PatternName: string;
 }
-export const DeleteLogPatternRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    PatternSetName: S.String,
-    PatternName: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteLogPatternRequest",
-}) as any as S.Schema<DeleteLogPatternRequest>;
 export interface DeleteLogPatternResponse {}
-export const DeleteLogPatternResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteLogPatternResponse",
-}) as any as S.Schema<DeleteLogPatternResponse>;
 export interface DescribeApplicationRequest {
   ResourceGroupName: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
-export const DescribeApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    AccountId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeApplicationRequest",
-}) as any as S.Schema<DescribeApplicationRequest>;
 export interface DescribeApplicationResponse {
-  ApplicationInfo?: ApplicationInfo;
+  ApplicationInfo?: ApplicationInfo | undefined;
 }
-export const DescribeApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ApplicationInfo: S.optional(ApplicationInfo) }),
-).annotate({
-  identifier: "DescribeApplicationResponse",
-}) as any as S.Schema<DescribeApplicationResponse>;
 export interface DescribeComponentRequest {
   ResourceGroupName: string;
   ComponentName: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
-export const DescribeComponentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    ComponentName: S.String,
-    AccountId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeComponentRequest",
-}) as any as S.Schema<DescribeComponentRequest>;
 export type ResourceType = string;
 export type OsType = "WINDOWS" | "LINUX" | (string & {});
-export const OsType = S.String;
-
 export type Monitor = boolean;
 export type MetaDataKey = string;
 export type MetaDataValue = string;
 export type WorkloadMetaData = { [key: string]: string | undefined };
-export const WorkloadMetaData = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type DetectedWorkload = {
-  [key in Tier]?: { [key: string]: string | undefined };
+  [key in Tier]?: { [key: string]: string | undefined } | undefined;
 };
-export const DetectedWorkload = /*@__PURE__*/ S.Record(
-  Tier,
-  WorkloadMetaData.pipe(S.optional),
-);
 export interface ApplicationComponent {
-  ComponentName?: string;
-  ComponentRemarks?: string;
-  ResourceType?: string;
-  OsType?: OsType;
-  Tier?: Tier;
-  Monitor?: boolean;
-  DetectedWorkload?: {
-    [key: string]: { [key: string]: string | undefined } | undefined;
-  };
+  ComponentName?: string | undefined;
+  ComponentRemarks?: string | undefined;
+  ResourceType?: string | undefined;
+  OsType?: OsType | undefined;
+  Tier?: Tier | undefined;
+  Monitor?: boolean | undefined;
+  DetectedWorkload?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
 }
-export const ApplicationComponent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ComponentName: S.optional(S.String),
-    ComponentRemarks: S.optional(S.String),
-    ResourceType: S.optional(S.String),
-    OsType: S.optional(OsType),
-    Tier: S.optional(Tier),
-    Monitor: S.optional(S.Boolean),
-    DetectedWorkload: S.optional(DetectedWorkload),
-  }),
-).annotate({
-  identifier: "ApplicationComponent",
-}) as any as S.Schema<ApplicationComponent>;
 export interface DescribeComponentResponse {
-  ApplicationComponent?: ApplicationComponent;
-  ResourceList?: string[];
+  ApplicationComponent?: ApplicationComponent | undefined;
+  ResourceList?: string[] | undefined;
 }
-export const DescribeComponentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationComponent: S.optional(ApplicationComponent),
-    ResourceList: S.optional(ResourceList),
-  }),
-).annotate({
-  identifier: "DescribeComponentResponse",
-}) as any as S.Schema<DescribeComponentResponse>;
 export interface DescribeComponentConfigurationRequest {
   ResourceGroupName: string;
   ComponentName: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
-export const DescribeComponentConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ResourceGroupName: S.String,
-      ComponentName: S.String,
-      AccountId: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-).annotate({
-  identifier: "DescribeComponentConfigurationRequest",
-}) as any as S.Schema<DescribeComponentConfigurationRequest>;
 export interface DescribeComponentConfigurationResponse {
-  Monitor?: boolean;
-  Tier?: Tier;
-  ComponentConfiguration?: string;
+  Monitor?: boolean | undefined;
+  Tier?: Tier | undefined;
+  ComponentConfiguration?: string | undefined;
 }
-export const DescribeComponentConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Monitor: S.optional(S.Boolean),
-      Tier: S.optional(Tier),
-      ComponentConfiguration: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "DescribeComponentConfigurationResponse",
-}) as any as S.Schema<DescribeComponentConfigurationResponse>;
-export type RecommendationType =
-  | "INFRA_ONLY"
-  | "WORKLOAD_ONLY"
-  | "ALL"
-  | (string & {});
-export const RecommendationType = S.String;
-
+export type RecommendationType = "INFRA_ONLY" | "WORKLOAD_ONLY" | "ALL" | (string & {});
 export interface DescribeComponentConfigurationRecommendationRequest {
   ResourceGroupName: string;
   ComponentName: string;
   Tier: Tier;
-  WorkloadName?: string;
-  RecommendationType?: RecommendationType;
+  WorkloadName?: string | undefined;
+  RecommendationType?: RecommendationType | undefined;
 }
-export const DescribeComponentConfigurationRecommendationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ResourceGroupName: S.String,
-      ComponentName: S.String,
-      Tier: Tier,
-      WorkloadName: S.optional(S.String),
-      RecommendationType: S.optional(RecommendationType),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DescribeComponentConfigurationRecommendationRequest",
-  }) as any as S.Schema<DescribeComponentConfigurationRecommendationRequest>;
 export interface DescribeComponentConfigurationRecommendationResponse {
-  ComponentConfiguration?: string;
+  ComponentConfiguration?: string | undefined;
 }
-export const DescribeComponentConfigurationRecommendationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ ComponentConfiguration: S.optional(S.String) }),
-  ).annotate({
-    identifier: "DescribeComponentConfigurationRecommendationResponse",
-  }) as any as S.Schema<DescribeComponentConfigurationRecommendationResponse>;
 export interface DescribeLogPatternRequest {
   ResourceGroupName: string;
   PatternSetName: string;
   PatternName: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
-export const DescribeLogPatternRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    PatternSetName: S.String,
-    PatternName: S.String,
-    AccountId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeLogPatternRequest",
-}) as any as S.Schema<DescribeLogPatternRequest>;
 export interface DescribeLogPatternResponse {
-  ResourceGroupName?: string;
-  AccountId?: string;
-  LogPattern?: LogPattern;
+  ResourceGroupName?: string | undefined;
+  AccountId?: string | undefined;
+  LogPattern?: LogPattern | undefined;
 }
-export const DescribeLogPatternResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.optional(S.String),
-    AccountId: S.optional(S.String),
-    LogPattern: S.optional(LogPattern),
-  }),
-).annotate({
-  identifier: "DescribeLogPatternResponse",
-}) as any as S.Schema<DescribeLogPatternResponse>;
 export type ObservationId = string;
 export interface DescribeObservationRequest {
   ObservationId: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
-export const DescribeObservationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ObservationId: S.String, AccountId: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeObservationRequest",
-}) as any as S.Schema<DescribeObservationRequest>;
 export type StartTime = Date;
 export type EndTime = Date;
 export type SourceType = string;
@@ -678,21 +381,12 @@ export type LogGroup = string;
 export type LineTime = Date;
 export type LogText = string;
 export type LogFilter = "ERROR" | "WARN" | "INFO" | (string & {});
-export const LogFilter = S.String;
-
 export type MetricNamespace = string;
 export type MetricName = string;
 export type Unit = string;
 export type Value = number;
 export type CloudWatchEventId = string;
-export type CloudWatchEventSource =
-  | "EC2"
-  | "CODE_DEPLOY"
-  | "HEALTH"
-  | "RDS"
-  | (string & {});
-export const CloudWatchEventSource = S.String;
-
+export type CloudWatchEventSource = "EC2" | "CODE_DEPLOY" | "HEALTH" | "RDS" | (string & {});
 export type CloudWatchEventDetailType = string;
 export type HealthEventArn = string;
 export type HealthService = string;
@@ -724,378 +418,150 @@ export type XRayRequestAverageLatency = number;
 export type XRayNodeName = string;
 export type XRayNodeType = string;
 export interface Observation {
-  Id?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  SourceType?: string;
-  SourceARN?: string;
-  LogGroup?: string;
-  LineTime?: Date;
-  LogText?: string;
-  LogFilter?: LogFilter;
-  MetricNamespace?: string;
-  MetricName?: string;
-  Unit?: string;
-  Value?: number;
-  CloudWatchEventId?: string;
-  CloudWatchEventSource?: CloudWatchEventSource;
-  CloudWatchEventDetailType?: string;
-  HealthEventArn?: string;
-  HealthService?: string;
-  HealthEventTypeCode?: string;
-  HealthEventTypeCategory?: string;
-  HealthEventDescription?: string;
-  CodeDeployDeploymentId?: string;
-  CodeDeployDeploymentGroup?: string;
-  CodeDeployState?: string;
-  CodeDeployApplication?: string;
-  CodeDeployInstanceGroupId?: string;
-  Ec2State?: string;
-  RdsEventCategories?: string;
-  RdsEventMessage?: string;
-  S3EventName?: string;
-  StatesExecutionArn?: string;
-  StatesArn?: string;
-  StatesStatus?: string;
-  StatesInput?: string;
-  EbsEvent?: string;
-  EbsResult?: string;
-  EbsCause?: string;
-  EbsRequestId?: string;
-  XRayFaultPercent?: number;
-  XRayThrottlePercent?: number;
-  XRayErrorPercent?: number;
-  XRayRequestCount?: number;
-  XRayRequestAverageLatency?: number;
-  XRayNodeName?: string;
-  XRayNodeType?: string;
+  Id?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  SourceType?: string | undefined;
+  SourceARN?: string | undefined;
+  LogGroup?: string | undefined;
+  LineTime?: Date | undefined;
+  LogText?: string | undefined;
+  LogFilter?: LogFilter | undefined;
+  MetricNamespace?: string | undefined;
+  MetricName?: string | undefined;
+  Unit?: string | undefined;
+  Value?: number | undefined;
+  CloudWatchEventId?: string | undefined;
+  CloudWatchEventSource?: CloudWatchEventSource | undefined;
+  CloudWatchEventDetailType?: string | undefined;
+  HealthEventArn?: string | undefined;
+  HealthService?: string | undefined;
+  HealthEventTypeCode?: string | undefined;
+  HealthEventTypeCategory?: string | undefined;
+  HealthEventDescription?: string | undefined;
+  CodeDeployDeploymentId?: string | undefined;
+  CodeDeployDeploymentGroup?: string | undefined;
+  CodeDeployState?: string | undefined;
+  CodeDeployApplication?: string | undefined;
+  CodeDeployInstanceGroupId?: string | undefined;
+  Ec2State?: string | undefined;
+  RdsEventCategories?: string | undefined;
+  RdsEventMessage?: string | undefined;
+  S3EventName?: string | undefined;
+  StatesExecutionArn?: string | undefined;
+  StatesArn?: string | undefined;
+  StatesStatus?: string | undefined;
+  StatesInput?: string | undefined;
+  EbsEvent?: string | undefined;
+  EbsResult?: string | undefined;
+  EbsCause?: string | undefined;
+  EbsRequestId?: string | undefined;
+  XRayFaultPercent?: number | undefined;
+  XRayThrottlePercent?: number | undefined;
+  XRayErrorPercent?: number | undefined;
+  XRayRequestCount?: number | undefined;
+  XRayRequestAverageLatency?: number | undefined;
+  XRayNodeName?: string | undefined;
+  XRayNodeType?: string | undefined;
 }
-export const Observation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    SourceType: S.optional(S.String),
-    SourceARN: S.optional(S.String),
-    LogGroup: S.optional(S.String),
-    LineTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LogText: S.optional(S.String),
-    LogFilter: S.optional(LogFilter),
-    MetricNamespace: S.optional(S.String),
-    MetricName: S.optional(S.String),
-    Unit: S.optional(S.String),
-    Value: S.optional(S.Number),
-    CloudWatchEventId: S.optional(S.String),
-    CloudWatchEventSource: S.optional(CloudWatchEventSource),
-    CloudWatchEventDetailType: S.optional(S.String),
-    HealthEventArn: S.optional(S.String),
-    HealthService: S.optional(S.String),
-    HealthEventTypeCode: S.optional(S.String),
-    HealthEventTypeCategory: S.optional(S.String),
-    HealthEventDescription: S.optional(S.String),
-    CodeDeployDeploymentId: S.optional(S.String),
-    CodeDeployDeploymentGroup: S.optional(S.String),
-    CodeDeployState: S.optional(S.String),
-    CodeDeployApplication: S.optional(S.String),
-    CodeDeployInstanceGroupId: S.optional(S.String),
-    Ec2State: S.optional(S.String),
-    RdsEventCategories: S.optional(S.String),
-    RdsEventMessage: S.optional(S.String),
-    S3EventName: S.optional(S.String),
-    StatesExecutionArn: S.optional(S.String),
-    StatesArn: S.optional(S.String),
-    StatesStatus: S.optional(S.String),
-    StatesInput: S.optional(S.String),
-    EbsEvent: S.optional(S.String),
-    EbsResult: S.optional(S.String),
-    EbsCause: S.optional(S.String),
-    EbsRequestId: S.optional(S.String),
-    XRayFaultPercent: S.optional(S.Number),
-    XRayThrottlePercent: S.optional(S.Number),
-    XRayErrorPercent: S.optional(S.Number),
-    XRayRequestCount: S.optional(S.Number),
-    XRayRequestAverageLatency: S.optional(S.Number),
-    XRayNodeName: S.optional(S.String),
-    XRayNodeType: S.optional(S.String),
-  }),
-).annotate({ identifier: "Observation" }) as any as S.Schema<Observation>;
 export interface DescribeObservationResponse {
-  Observation?: Observation;
+  Observation?: Observation | undefined;
 }
-export const DescribeObservationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Observation: S.optional(Observation) }),
-).annotate({
-  identifier: "DescribeObservationResponse",
-}) as any as S.Schema<DescribeObservationResponse>;
 export type ProblemId = string;
 export interface DescribeProblemRequest {
   ProblemId: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
-export const DescribeProblemRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ProblemId: S.String, AccountId: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeProblemRequest",
-}) as any as S.Schema<DescribeProblemRequest>;
 export type Title = string;
 export type ShortName = string;
 export type Insights = string;
-export type Status =
-  | "IGNORE"
-  | "RESOLVED"
-  | "PENDING"
-  | "RECURRING"
-  | "RECOVERING"
-  | (string & {});
-export const Status = S.String;
-
+export type Status = "IGNORE" | "RESOLVED" | "PENDING" | "RECURRING" | "RECOVERING" | (string & {});
 export type AffectedResource = string;
-export type SeverityLevel =
-  | "Informative"
-  | "Low"
-  | "Medium"
-  | "High"
-  | (string & {});
-export const SeverityLevel = S.String;
-
+export type SeverityLevel = "Informative" | "Low" | "Medium" | "High" | (string & {});
 export type FeedbackKey = "INSIGHTS_FEEDBACK" | (string & {});
-export const FeedbackKey = S.String;
-
-export type FeedbackValue =
-  | "NOT_SPECIFIED"
-  | "USEFUL"
-  | "NOT_USEFUL"
-  | (string & {});
-export const FeedbackValue = S.String;
-
-export type Feedback = { [key in FeedbackKey]?: FeedbackValue };
-export const Feedback = /*@__PURE__*/ S.Record(
-  FeedbackKey,
-  FeedbackValue.pipe(S.optional),
-);
+export type FeedbackValue = "NOT_SPECIFIED" | "USEFUL" | "NOT_USEFUL" | (string & {});
+export type Feedback = { [key in FeedbackKey]?: FeedbackValue | undefined };
 export type RecurringCount = number;
 export type LastRecurrenceTime = Date;
 export type Visibility = "IGNORED" | "VISIBLE" | (string & {});
-export const Visibility = S.String;
-
-export type ResolutionMethod =
-  | "MANUAL"
-  | "AUTOMATIC"
-  | "UNRESOLVED"
-  | (string & {});
-export const ResolutionMethod = S.String;
-
+export type ResolutionMethod = "MANUAL" | "AUTOMATIC" | "UNRESOLVED" | (string & {});
 export interface Problem {
-  Id?: string;
-  Title?: string;
-  ShortName?: string;
-  Insights?: string;
-  Status?: Status;
-  AffectedResource?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  SeverityLevel?: SeverityLevel;
-  AccountId?: string;
-  ResourceGroupName?: string;
-  Feedback?: { [key: string]: FeedbackValue | undefined };
-  RecurringCount?: number;
-  LastRecurrenceTime?: Date;
-  Visibility?: Visibility;
-  ResolutionMethod?: ResolutionMethod;
+  Id?: string | undefined;
+  Title?: string | undefined;
+  ShortName?: string | undefined;
+  Insights?: string | undefined;
+  Status?: Status | undefined;
+  AffectedResource?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  SeverityLevel?: SeverityLevel | undefined;
+  AccountId?: string | undefined;
+  ResourceGroupName?: string | undefined;
+  Feedback?: { [key: string]: FeedbackValue | undefined } | undefined;
+  RecurringCount?: number | undefined;
+  LastRecurrenceTime?: Date | undefined;
+  Visibility?: Visibility | undefined;
+  ResolutionMethod?: ResolutionMethod | undefined;
 }
-export const Problem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Title: S.optional(S.String),
-    ShortName: S.optional(S.String),
-    Insights: S.optional(S.String),
-    Status: S.optional(Status),
-    AffectedResource: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    SeverityLevel: S.optional(SeverityLevel),
-    AccountId: S.optional(S.String),
-    ResourceGroupName: S.optional(S.String),
-    Feedback: S.optional(Feedback),
-    RecurringCount: S.optional(S.Number),
-    LastRecurrenceTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Visibility: S.optional(Visibility),
-    ResolutionMethod: S.optional(ResolutionMethod),
-  }),
-).annotate({ identifier: "Problem" }) as any as S.Schema<Problem>;
 export interface DescribeProblemResponse {
-  Problem?: Problem;
-  SNSNotificationArn?: string;
+  Problem?: Problem | undefined;
+  SNSNotificationArn?: string | undefined;
 }
-export const DescribeProblemResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Problem: S.optional(Problem),
-    SNSNotificationArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeProblemResponse",
-}) as any as S.Schema<DescribeProblemResponse>;
 export interface DescribeProblemObservationsRequest {
   ProblemId: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
-export const DescribeProblemObservationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ProblemId: S.String, AccountId: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeProblemObservationsRequest",
-}) as any as S.Schema<DescribeProblemObservationsRequest>;
 export type ObservationList = Observation[];
-export const ObservationList = /*@__PURE__*/ S.Array(Observation);
 export interface RelatedObservations {
-  ObservationList?: Observation[];
+  ObservationList?: Observation[] | undefined;
 }
-export const RelatedObservations = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ObservationList: S.optional(ObservationList) }),
-).annotate({
-  identifier: "RelatedObservations",
-}) as any as S.Schema<RelatedObservations>;
 export interface DescribeProblemObservationsResponse {
-  RelatedObservations?: RelatedObservations;
+  RelatedObservations?: RelatedObservations | undefined;
 }
-export const DescribeProblemObservationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RelatedObservations: S.optional(RelatedObservations) }),
-).annotate({
-  identifier: "DescribeProblemObservationsResponse",
-}) as any as S.Schema<DescribeProblemObservationsResponse>;
 export interface DescribeWorkloadRequest {
   ResourceGroupName: string;
   ComponentName: string;
   WorkloadId: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
-export const DescribeWorkloadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    ComponentName: S.String,
-    WorkloadId: S.String,
-    AccountId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeWorkloadRequest",
-}) as any as S.Schema<DescribeWorkloadRequest>;
 export interface DescribeWorkloadResponse {
-  WorkloadId?: string;
-  WorkloadRemarks?: string;
-  WorkloadConfiguration?: WorkloadConfiguration;
+  WorkloadId?: string | undefined;
+  WorkloadRemarks?: string | undefined;
+  WorkloadConfiguration?: WorkloadConfiguration | undefined;
 }
-export const DescribeWorkloadResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    WorkloadId: S.optional(S.String),
-    WorkloadRemarks: S.optional(S.String),
-    WorkloadConfiguration: S.optional(WorkloadConfiguration),
-  }),
-).annotate({
-  identifier: "DescribeWorkloadResponse",
-}) as any as S.Schema<DescribeWorkloadResponse>;
 export type MaxEntities = number;
 export type PaginationToken = string;
 export interface ListApplicationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  AccountId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AccountId?: string | undefined;
 }
-export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    AccountId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListApplicationsRequest",
-}) as any as S.Schema<ListApplicationsRequest>;
 export type ApplicationInfoList = ApplicationInfo[];
-export const ApplicationInfoList = /*@__PURE__*/ S.Array(ApplicationInfo);
 export interface ListApplicationsResponse {
-  ApplicationInfoList?: ApplicationInfo[];
-  NextToken?: string;
+  ApplicationInfoList?: ApplicationInfo[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListApplicationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationInfoList: S.optional(ApplicationInfoList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListApplicationsResponse",
-}) as any as S.Schema<ListApplicationsResponse>;
 export interface ListComponentsRequest {
   ResourceGroupName: string;
-  MaxResults?: number;
-  NextToken?: string;
-  AccountId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AccountId?: string | undefined;
 }
-export const ListComponentsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    AccountId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListComponentsRequest",
-}) as any as S.Schema<ListComponentsRequest>;
 export type ApplicationComponentList = ApplicationComponent[];
-export const ApplicationComponentList =
-  /*@__PURE__*/ S.Array(ApplicationComponent);
 export interface ListComponentsResponse {
-  ApplicationComponentList?: ApplicationComponent[];
-  NextToken?: string;
+  ApplicationComponentList?: ApplicationComponent[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListComponentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationComponentList: S.optional(ApplicationComponentList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListComponentsResponse",
-}) as any as S.Schema<ListComponentsResponse>;
-export type ConfigurationEventStatus =
-  | "INFO"
-  | "WARN"
-  | "ERROR"
-  | (string & {});
-export const ConfigurationEventStatus = S.String;
-
+export type ConfigurationEventStatus = "INFO" | "WARN" | "ERROR" | (string & {});
 export interface ListConfigurationHistoryRequest {
-  ResourceGroupName?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  EventStatus?: ConfigurationEventStatus;
-  MaxResults?: number;
-  NextToken?: string;
-  AccountId?: string;
+  ResourceGroupName?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  EventStatus?: ConfigurationEventStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AccountId?: string | undefined;
 }
-export const ListConfigurationHistoryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EventStatus: S.optional(ConfigurationEventStatus),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    AccountId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListConfigurationHistoryRequest",
-}) as any as S.Schema<ListConfigurationHistoryRequest>;
 export type ConfigurationEventMonitoredResourceARN = string;
 export type ConfigurationEventResourceType =
   | "CLOUDWATCH_ALARM"
@@ -1103,471 +569,171 @@ export type ConfigurationEventResourceType =
   | "CLOUDFORMATION"
   | "SSM_ASSOCIATION"
   | (string & {});
-export const ConfigurationEventResourceType = S.String;
-
 export type ConfigurationEventTime = Date;
 export type ConfigurationEventDetail = string;
 export type ConfigurationEventResourceName = string;
 export interface ConfigurationEvent {
-  ResourceGroupName?: string;
-  AccountId?: string;
-  MonitoredResourceARN?: string;
-  EventStatus?: ConfigurationEventStatus;
-  EventResourceType?: ConfigurationEventResourceType;
-  EventTime?: Date;
-  EventDetail?: string;
-  EventResourceName?: string;
+  ResourceGroupName?: string | undefined;
+  AccountId?: string | undefined;
+  MonitoredResourceARN?: string | undefined;
+  EventStatus?: ConfigurationEventStatus | undefined;
+  EventResourceType?: ConfigurationEventResourceType | undefined;
+  EventTime?: Date | undefined;
+  EventDetail?: string | undefined;
+  EventResourceName?: string | undefined;
 }
-export const ConfigurationEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.optional(S.String),
-    AccountId: S.optional(S.String),
-    MonitoredResourceARN: S.optional(S.String),
-    EventStatus: S.optional(ConfigurationEventStatus),
-    EventResourceType: S.optional(ConfigurationEventResourceType),
-    EventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EventDetail: S.optional(S.String),
-    EventResourceName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConfigurationEvent",
-}) as any as S.Schema<ConfigurationEvent>;
 export type ConfigurationEventList = ConfigurationEvent[];
-export const ConfigurationEventList = /*@__PURE__*/ S.Array(ConfigurationEvent);
 export interface ListConfigurationHistoryResponse {
-  EventList?: ConfigurationEvent[];
-  NextToken?: string;
+  EventList?: ConfigurationEvent[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListConfigurationHistoryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventList: S.optional(ConfigurationEventList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListConfigurationHistoryResponse",
-}) as any as S.Schema<ListConfigurationHistoryResponse>;
 export interface ListLogPatternsRequest {
   ResourceGroupName: string;
-  PatternSetName?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  AccountId?: string;
+  PatternSetName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AccountId?: string | undefined;
 }
-export const ListLogPatternsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    PatternSetName: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    AccountId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListLogPatternsRequest",
-}) as any as S.Schema<ListLogPatternsRequest>;
 export type LogPatternList = LogPattern[];
-export const LogPatternList = /*@__PURE__*/ S.Array(LogPattern);
 export interface ListLogPatternsResponse {
-  ResourceGroupName?: string;
-  AccountId?: string;
-  LogPatterns?: LogPattern[];
-  NextToken?: string;
+  ResourceGroupName?: string | undefined;
+  AccountId?: string | undefined;
+  LogPatterns?: LogPattern[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListLogPatternsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.optional(S.String),
-    AccountId: S.optional(S.String),
-    LogPatterns: S.optional(LogPatternList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListLogPatternsResponse",
-}) as any as S.Schema<ListLogPatternsResponse>;
 export interface ListLogPatternSetsRequest {
   ResourceGroupName: string;
-  MaxResults?: number;
-  NextToken?: string;
-  AccountId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AccountId?: string | undefined;
 }
-export const ListLogPatternSetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    AccountId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListLogPatternSetsRequest",
-}) as any as S.Schema<ListLogPatternSetsRequest>;
 export type LogPatternSetList = string[];
-export const LogPatternSetList = /*@__PURE__*/ S.Array(S.String);
 export interface ListLogPatternSetsResponse {
-  ResourceGroupName?: string;
-  AccountId?: string;
-  LogPatternSets?: string[];
-  NextToken?: string;
+  ResourceGroupName?: string | undefined;
+  AccountId?: string | undefined;
+  LogPatternSets?: string[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListLogPatternSetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.optional(S.String),
-    AccountId: S.optional(S.String),
-    LogPatternSets: S.optional(LogPatternSetList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListLogPatternSetsResponse",
-}) as any as S.Schema<ListLogPatternSetsResponse>;
 export interface ListProblemsRequest {
-  AccountId?: string;
-  ResourceGroupName?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  MaxResults?: number;
-  NextToken?: string;
-  ComponentName?: string;
-  Visibility?: Visibility;
+  AccountId?: string | undefined;
+  ResourceGroupName?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ComponentName?: string | undefined;
+  Visibility?: Visibility | undefined;
 }
-export const ListProblemsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String),
-    ResourceGroupName: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    ComponentName: S.optional(S.String),
-    Visibility: S.optional(Visibility),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListProblemsRequest",
-}) as any as S.Schema<ListProblemsRequest>;
 export type ProblemList = Problem[];
-export const ProblemList = /*@__PURE__*/ S.Array(Problem);
 export interface ListProblemsResponse {
-  ProblemList?: Problem[];
-  NextToken?: string;
-  ResourceGroupName?: string;
-  AccountId?: string;
+  ProblemList?: Problem[] | undefined;
+  NextToken?: string | undefined;
+  ResourceGroupName?: string | undefined;
+  AccountId?: string | undefined;
 }
-export const ListProblemsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProblemList: S.optional(ProblemList),
-    NextToken: S.optional(S.String),
-    ResourceGroupName: S.optional(S.String),
-    AccountId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListProblemsResponse",
-}) as any as S.Schema<ListProblemsResponse>;
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListWorkloadsRequest {
   ResourceGroupName: string;
   ComponentName: string;
-  MaxResults?: number;
-  NextToken?: string;
-  AccountId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AccountId?: string | undefined;
 }
-export const ListWorkloadsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    ComponentName: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    AccountId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListWorkloadsRequest",
-}) as any as S.Schema<ListWorkloadsRequest>;
 export type MissingWorkloadConfig = boolean;
 export interface Workload {
-  WorkloadId?: string;
-  ComponentName?: string;
-  WorkloadName?: string;
-  Tier?: Tier;
-  WorkloadRemarks?: string;
-  MissingWorkloadConfig?: boolean;
+  WorkloadId?: string | undefined;
+  ComponentName?: string | undefined;
+  WorkloadName?: string | undefined;
+  Tier?: Tier | undefined;
+  WorkloadRemarks?: string | undefined;
+  MissingWorkloadConfig?: boolean | undefined;
 }
-export const Workload = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    WorkloadId: S.optional(S.String),
-    ComponentName: S.optional(S.String),
-    WorkloadName: S.optional(S.String),
-    Tier: S.optional(Tier),
-    WorkloadRemarks: S.optional(S.String),
-    MissingWorkloadConfig: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "Workload" }) as any as S.Schema<Workload>;
 export type WorkloadList = Workload[];
-export const WorkloadList = /*@__PURE__*/ S.Array(Workload);
 export interface ListWorkloadsResponse {
-  WorkloadList?: Workload[];
-  NextToken?: string;
+  WorkloadList?: Workload[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListWorkloadsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    WorkloadList: S.optional(WorkloadList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListWorkloadsResponse",
-}) as any as S.Schema<ListWorkloadsResponse>;
 export interface RemoveWorkloadRequest {
   ResourceGroupName: string;
   ComponentName: string;
   WorkloadId: string;
 }
-export const RemoveWorkloadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    ComponentName: S.String,
-    WorkloadId: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "RemoveWorkloadRequest",
-}) as any as S.Schema<RemoveWorkloadRequest>;
 export interface RemoveWorkloadResponse {}
-export const RemoveWorkloadResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "RemoveWorkloadResponse",
-}) as any as S.Schema<RemoveWorkloadResponse>;
 export interface TagResourceRequest {
   ResourceARN: string;
   Tags: Tag[];
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceARN: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export type RemoveSNSTopic = boolean;
 export interface UpdateApplicationRequest {
   ResourceGroupName: string;
-  OpsCenterEnabled?: boolean;
-  CWEMonitorEnabled?: boolean;
-  OpsItemSNSTopicArn?: string;
-  SNSNotificationArn?: string;
-  RemoveSNSTopic?: boolean;
-  AutoConfigEnabled?: boolean;
-  AttachMissingPermission?: boolean;
+  OpsCenterEnabled?: boolean | undefined;
+  CWEMonitorEnabled?: boolean | undefined;
+  OpsItemSNSTopicArn?: string | undefined;
+  SNSNotificationArn?: string | undefined;
+  RemoveSNSTopic?: boolean | undefined;
+  AutoConfigEnabled?: boolean | undefined;
+  AttachMissingPermission?: boolean | undefined;
 }
-export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    OpsCenterEnabled: S.optional(S.Boolean),
-    CWEMonitorEnabled: S.optional(S.Boolean),
-    OpsItemSNSTopicArn: S.optional(S.String),
-    SNSNotificationArn: S.optional(S.String),
-    RemoveSNSTopic: S.optional(S.Boolean),
-    AutoConfigEnabled: S.optional(S.Boolean),
-    AttachMissingPermission: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateApplicationRequest",
-}) as any as S.Schema<UpdateApplicationRequest>;
 export interface UpdateApplicationResponse {
-  ApplicationInfo?: ApplicationInfo;
+  ApplicationInfo?: ApplicationInfo | undefined;
 }
-export const UpdateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ApplicationInfo: S.optional(ApplicationInfo) }),
-).annotate({
-  identifier: "UpdateApplicationResponse",
-}) as any as S.Schema<UpdateApplicationResponse>;
 export interface UpdateComponentRequest {
   ResourceGroupName: string;
   ComponentName: string;
-  NewComponentName?: string;
-  ResourceList?: string[];
+  NewComponentName?: string | undefined;
+  ResourceList?: string[] | undefined;
 }
-export const UpdateComponentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    ComponentName: S.String,
-    NewComponentName: S.optional(S.String),
-    ResourceList: S.optional(ResourceList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateComponentRequest",
-}) as any as S.Schema<UpdateComponentRequest>;
 export interface UpdateComponentResponse {}
-export const UpdateComponentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateComponentResponse",
-}) as any as S.Schema<UpdateComponentResponse>;
 export interface UpdateComponentConfigurationRequest {
   ResourceGroupName: string;
   ComponentName: string;
-  Monitor?: boolean;
-  Tier?: Tier;
-  ComponentConfiguration?: string;
-  AutoConfigEnabled?: boolean;
+  Monitor?: boolean | undefined;
+  Tier?: Tier | undefined;
+  ComponentConfiguration?: string | undefined;
+  AutoConfigEnabled?: boolean | undefined;
 }
-export const UpdateComponentConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    ComponentName: S.String,
-    Monitor: S.optional(S.Boolean),
-    Tier: S.optional(Tier),
-    ComponentConfiguration: S.optional(S.String),
-    AutoConfigEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateComponentConfigurationRequest",
-}) as any as S.Schema<UpdateComponentConfigurationRequest>;
 export interface UpdateComponentConfigurationResponse {}
-export const UpdateComponentConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "UpdateComponentConfigurationResponse",
-}) as any as S.Schema<UpdateComponentConfigurationResponse>;
 export interface UpdateLogPatternRequest {
   ResourceGroupName: string;
   PatternSetName: string;
   PatternName: string;
-  Pattern?: string;
-  Rank?: number;
+  Pattern?: string | undefined;
+  Rank?: number | undefined;
 }
-export const UpdateLogPatternRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    PatternSetName: S.String,
-    PatternName: S.String,
-    Pattern: S.optional(S.String),
-    Rank: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateLogPatternRequest",
-}) as any as S.Schema<UpdateLogPatternRequest>;
 export interface UpdateLogPatternResponse {
-  ResourceGroupName?: string;
-  LogPattern?: LogPattern;
+  ResourceGroupName?: string | undefined;
+  LogPattern?: LogPattern | undefined;
 }
-export const UpdateLogPatternResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.optional(S.String),
-    LogPattern: S.optional(LogPattern),
-  }),
-).annotate({
-  identifier: "UpdateLogPatternResponse",
-}) as any as S.Schema<UpdateLogPatternResponse>;
 export type UpdateStatus = "RESOLVED" | (string & {});
-export const UpdateStatus = S.String;
-
 export interface UpdateProblemRequest {
   ProblemId: string;
-  UpdateStatus?: UpdateStatus;
-  Visibility?: Visibility;
+  UpdateStatus?: UpdateStatus | undefined;
+  Visibility?: Visibility | undefined;
 }
-export const UpdateProblemRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProblemId: S.String,
-    UpdateStatus: S.optional(UpdateStatus),
-    Visibility: S.optional(Visibility),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateProblemRequest",
-}) as any as S.Schema<UpdateProblemRequest>;
 export interface UpdateProblemResponse {}
-export const UpdateProblemResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateProblemResponse",
-}) as any as S.Schema<UpdateProblemResponse>;
 export interface UpdateWorkloadRequest {
   ResourceGroupName: string;
   ComponentName: string;
-  WorkloadId?: string;
+  WorkloadId?: string | undefined;
   WorkloadConfiguration: WorkloadConfiguration;
 }
-export const UpdateWorkloadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceGroupName: S.String,
-    ComponentName: S.String,
-    WorkloadId: S.optional(S.String),
-    WorkloadConfiguration: WorkloadConfiguration,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateWorkloadRequest",
-}) as any as S.Schema<UpdateWorkloadRequest>;
 export interface UpdateWorkloadResponse {
-  WorkloadId?: string;
-  WorkloadConfiguration?: WorkloadConfiguration;
+  WorkloadId?: string | undefined;
+  WorkloadConfiguration?: WorkloadConfiguration | undefined;
 }
-export const UpdateWorkloadResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    WorkloadId: S.optional(S.String),
-    WorkloadConfiguration: S.optional(WorkloadConfiguration),
-  }),
-).annotate({
-  identifier: "UpdateWorkloadResponse",
-}) as any as S.Schema<UpdateWorkloadResponse>;
 export type ErrorMsg = string;
 export type ExceptionMessage = string;
 export type AddWorkloadError =
@@ -1580,13 +746,13 @@ export type AddWorkloadError =
  * Adds a workload to a component. Each component can have at most five workloads.
  */
 export const addWorkload: API.OperationMethod<
-  AddWorkloadRequest,
+  AddWorkloadRequest & RegionInput,
   AddWorkloadResponse,
   AddWorkloadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddWorkloadRequest,
-  output: AddWorkloadResponse,
+  input: __S(148, __c37, 0) as any as S.Schema<AddWorkloadRequest>,
+  output: __S(156, __c39, 0) as any as S.Schema<AddWorkloadResponse>,
   errors: [
     InternalServerException,
     ResourceInUseException,
@@ -1596,6 +762,8 @@ export const addWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddWorkload",
+  telemetry: TELEMETRY,
+  span: "AddWorkload",
 }));
 
 export type CreateApplicationError =
@@ -1610,13 +778,13 @@ export type CreateApplicationError =
  * Adds an application that is created from a resource group.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateApplicationRequest,
-  output: CreateApplicationResponse,
+  input: __S(160, __c40, 0) as any as S.Schema<CreateApplicationRequest>,
+  output: __S(168, __c42, 0) as any as S.Schema<CreateApplicationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1628,6 +796,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateComponentError =
@@ -1640,13 +810,13 @@ export type CreateComponentError =
  * Creates a custom component by grouping similar standalone instances to monitor.
  */
 export const createComponent: API.OperationMethod<
-  CreateComponentRequest,
+  CreateComponentRequest & RegionInput,
   CreateComponentResponse,
   CreateComponentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateComponentRequest,
-  output: CreateComponentResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateComponentRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<CreateComponentResponse>,
   errors: [
     InternalServerException,
     ResourceInUseException,
@@ -1656,6 +826,8 @@ export const createComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComponent",
+  telemetry: TELEMETRY,
+  span: "CreateComponent",
 }));
 
 export type CreateLogPatternError =
@@ -1668,13 +840,13 @@ export type CreateLogPatternError =
  * Adds an log pattern to a `LogPatternSet`.
  */
 export const createLogPattern: API.OperationMethod<
-  CreateLogPatternRequest,
+  CreateLogPatternRequest & RegionInput,
   CreateLogPatternResponse,
   CreateLogPatternError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLogPatternRequest,
-  output: CreateLogPatternResponse,
+  input: __S(12, __c3, 0) as any as S.Schema<CreateLogPatternRequest>,
+  output: __S(13, __c3, 1) as any as S.Schema<CreateLogPatternResponse>,
   errors: [
     InternalServerException,
     ResourceInUseException,
@@ -1684,6 +856,8 @@ export const createLogPattern: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLogPattern",
+  telemetry: TELEMETRY,
+  span: "CreateLogPattern",
 }));
 
 export type DeleteApplicationError =
@@ -1697,13 +871,13 @@ export type DeleteApplicationError =
  * application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteApplicationRequest,
-  output: DeleteApplicationResponse,
+  input: __S(20, __c5, 0) as any as S.Schema<DeleteApplicationRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<DeleteApplicationResponse>,
   errors: [
     BadRequestException,
     InternalServerException,
@@ -1713,6 +887,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteComponentError =
@@ -1726,21 +902,19 @@ export type DeleteComponentError =
  * status.
  */
 export const deleteComponent: API.OperationMethod<
-  DeleteComponentRequest,
+  DeleteComponentRequest & RegionInput,
   DeleteComponentResponse,
   DeleteComponentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteComponentRequest,
-  output: DeleteComponentResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(24, __c6, 0) as any as S.Schema<DeleteComponentRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<DeleteComponentResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComponent",
+  telemetry: TELEMETRY,
+  span: "DeleteComponent",
 }));
 
 export type DeleteLogPatternError =
@@ -1753,13 +927,13 @@ export type DeleteLogPatternError =
  * Removes the specified log pattern from a `LogPatternSet`.
  */
 export const deleteLogPattern: API.OperationMethod<
-  DeleteLogPatternRequest,
+  DeleteLogPatternRequest & RegionInput,
   DeleteLogPatternResponse,
   DeleteLogPatternError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLogPatternRequest,
-  output: DeleteLogPatternResponse,
+  input: __S(28, __c7, 0) as any as S.Schema<DeleteLogPatternRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<DeleteLogPatternResponse>,
   errors: [
     BadRequestException,
     InternalServerException,
@@ -1769,6 +943,8 @@ export const deleteLogPattern: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLogPattern",
+  telemetry: TELEMETRY,
+  span: "DeleteLogPattern",
 }));
 
 export type DescribeApplicationError =
@@ -1780,21 +956,19 @@ export type DescribeApplicationError =
  * Describes the application.
  */
 export const describeApplication: API.OperationMethod<
-  DescribeApplicationRequest,
+  DescribeApplicationRequest & RegionInput,
   DescribeApplicationResponse,
   DescribeApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeApplicationRequest,
-  output: DescribeApplicationResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(32, __c8, 0) as any as S.Schema<DescribeApplicationRequest>,
+  output: __S(168, __c42, 0) as any as S.Schema<DescribeApplicationResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplication",
+  telemetry: TELEMETRY,
+  span: "DescribeApplication",
 }));
 
 export type DescribeComponentError =
@@ -1807,21 +981,19 @@ export type DescribeComponentError =
  * component.
  */
 export const describeComponent: API.OperationMethod<
-  DescribeComponentRequest,
+  DescribeComponentRequest & RegionInput,
   DescribeComponentResponse,
   DescribeComponentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeComponentRequest,
-  output: DescribeComponentResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(36, __c9, 0) as any as S.Schema<DescribeComponentRequest>,
+  output: __S(37, __c9, 1) as any as S.Schema<DescribeComponentResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeComponent",
+  telemetry: TELEMETRY,
+  span: "DescribeComponent",
 }));
 
 export type DescribeComponentConfigurationError =
@@ -1833,21 +1005,19 @@ export type DescribeComponentConfigurationError =
  * Describes the monitoring configuration of the component.
  */
 export const describeComponentConfiguration: API.OperationMethod<
-  DescribeComponentConfigurationRequest,
+  DescribeComponentConfigurationRequest & RegionInput,
   DescribeComponentConfigurationResponse,
   DescribeComponentConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeComponentConfigurationRequest,
-  output: DescribeComponentConfigurationResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(44, __c11, 0) as any as S.Schema<DescribeComponentConfigurationRequest>,
+  output: __S(45, __c11, 1) as any as S.Schema<DescribeComponentConfigurationResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeComponentConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeComponentConfiguration",
 }));
 
 export type DescribeComponentConfigurationRecommendationError =
@@ -1859,21 +1029,23 @@ export type DescribeComponentConfigurationRecommendationError =
  * Describes the recommended monitoring configuration of the component.
  */
 export const describeComponentConfigurationRecommendation: API.OperationMethod<
-  DescribeComponentConfigurationRecommendationRequest,
+  DescribeComponentConfigurationRecommendationRequest & RegionInput,
   DescribeComponentConfigurationRecommendationResponse,
   DescribeComponentConfigurationRecommendationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeComponentConfigurationRecommendationRequest,
-  output: DescribeComponentConfigurationRecommendationResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(48, __c12, 0) as any as S.Schema<DescribeComponentConfigurationRecommendationRequest>,
+  output: __S(
+    49,
+    __c12,
+    1,
+  ) as any as S.Schema<DescribeComponentConfigurationRecommendationResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeComponentConfigurationRecommendation",
+  telemetry: TELEMETRY,
+  span: "DescribeComponentConfigurationRecommendation",
 }));
 
 export type DescribeLogPatternError =
@@ -1885,21 +1057,19 @@ export type DescribeLogPatternError =
  * Describe a specific log pattern from a `LogPatternSet`.
  */
 export const describeLogPattern: API.OperationMethod<
-  DescribeLogPatternRequest,
+  DescribeLogPatternRequest & RegionInput,
   DescribeLogPatternResponse,
   DescribeLogPatternError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeLogPatternRequest,
-  output: DescribeLogPatternResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(52, __c13, 0) as any as S.Schema<DescribeLogPatternRequest>,
+  output: __S(53, __c13, 1) as any as S.Schema<DescribeLogPatternResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLogPattern",
+  telemetry: TELEMETRY,
+  span: "DescribeLogPattern",
 }));
 
 export type DescribeObservationError =
@@ -1911,21 +1081,19 @@ export type DescribeObservationError =
  * Describes an anomaly or error with the application.
  */
 export const describeObservation: API.OperationMethod<
-  DescribeObservationRequest,
+  DescribeObservationRequest & RegionInput,
   DescribeObservationResponse,
   DescribeObservationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeObservationRequest,
-  output: DescribeObservationResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(56, __c14, 0) as any as S.Schema<DescribeObservationRequest>,
+  output: __S(57, __c14, 1) as any as S.Schema<DescribeObservationResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeObservation",
+  telemetry: TELEMETRY,
+  span: "DescribeObservation",
 }));
 
 export type DescribeProblemError =
@@ -1937,21 +1105,19 @@ export type DescribeProblemError =
  * Describes an application problem.
  */
 export const describeProblem: API.OperationMethod<
-  DescribeProblemRequest,
+  DescribeProblemRequest & RegionInput,
   DescribeProblemResponse,
   DescribeProblemError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeProblemRequest,
-  output: DescribeProblemResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(64, __c16, 0) as any as S.Schema<DescribeProblemRequest>,
+  output: __S(65, __c16, 1) as any as S.Schema<DescribeProblemResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProblem",
+  telemetry: TELEMETRY,
+  span: "DescribeProblem",
 }));
 
 export type DescribeProblemObservationsError =
@@ -1963,21 +1129,19 @@ export type DescribeProblemObservationsError =
  * Describes the anomalies or errors associated with the problem.
  */
 export const describeProblemObservations: API.OperationMethod<
-  DescribeProblemObservationsRequest,
+  DescribeProblemObservationsRequest & RegionInput,
   DescribeProblemObservationsResponse,
   DescribeProblemObservationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeProblemObservationsRequest,
-  output: DescribeProblemObservationsResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(72, __c18, 0) as any as S.Schema<DescribeProblemObservationsRequest>,
+  output: __S(75, __c18, 3) as any as S.Schema<DescribeProblemObservationsResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProblemObservations",
+  telemetry: TELEMETRY,
+  span: "DescribeProblemObservations",
 }));
 
 export type DescribeWorkloadError =
@@ -1989,39 +1153,34 @@ export type DescribeWorkloadError =
  * Describes a workload and its configuration.
  */
 export const describeWorkload: API.OperationMethod<
-  DescribeWorkloadRequest,
+  DescribeWorkloadRequest & RegionInput,
   DescribeWorkloadResponse,
   DescribeWorkloadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeWorkloadRequest,
-  output: DescribeWorkloadResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(76, __c19, 0) as any as S.Schema<DescribeWorkloadRequest>,
+  output: __S(77, __c19, 1) as any as S.Schema<DescribeWorkloadResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkload",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkload",
 }));
 
-export type ListApplicationsError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type ListApplicationsError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Lists the IDs of the applications that you are monitoring.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListApplicationsRequest,
-  output: ListApplicationsResponse,
+  input: __S(80, __c20, 0) as any as S.Schema<ListApplicationsRequest>,
+  output: __S(82, __c20, 2) as any as S.Schema<ListApplicationsResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2031,6 +1190,8 @@ export const listApplications: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListComponentsError =
@@ -2042,19 +1203,15 @@ export type ListComponentsError =
  * Lists the auto-grouped, standalone, and custom components of the application.
  */
 export const listComponents: API.PaginatedOperationMethod<
-  ListComponentsRequest,
+  ListComponentsRequest & RegionInput,
   ListComponentsResponse,
   ListComponentsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListComponentsRequest,
-  output: ListComponentsResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(84, __c21, 0) as any as S.Schema<ListComponentsRequest>,
+  output: __S(86, __c21, 2) as any as S.Schema<ListComponentsResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListComponents",
@@ -2063,6 +1220,8 @@ export const listComponents: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponents",
 })) as any;
 
 export type ListConfigurationHistoryError =
@@ -2082,19 +1241,15 @@ export type ListConfigurationHistoryError =
  * - ERROR: alarm not created due to permission errors or exceeding quotas.
  */
 export const listConfigurationHistory: API.PaginatedOperationMethod<
-  ListConfigurationHistoryRequest,
+  ListConfigurationHistoryRequest & RegionInput,
   ListConfigurationHistoryResponse,
   ListConfigurationHistoryError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListConfigurationHistoryRequest,
-  output: ListConfigurationHistoryResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(88, __c22, 0) as any as S.Schema<ListConfigurationHistoryRequest>,
+  output: __S(91, __c22, 3) as any as S.Schema<ListConfigurationHistoryResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationHistory",
@@ -2103,6 +1258,8 @@ export const listConfigurationHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationHistory",
 })) as any;
 
 export type ListLogPatternsError =
@@ -2114,19 +1271,15 @@ export type ListLogPatternsError =
  * Lists the log patterns in the specific log `LogPatternSet`.
  */
 export const listLogPatterns: API.PaginatedOperationMethod<
-  ListLogPatternsRequest,
+  ListLogPatternsRequest & RegionInput,
   ListLogPatternsResponse,
   ListLogPatternsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListLogPatternsRequest,
-  output: ListLogPatternsResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(92, __c23, 0) as any as S.Schema<ListLogPatternsRequest>,
+  output: __S(94, __c23, 2) as any as S.Schema<ListLogPatternsResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLogPatterns",
@@ -2135,6 +1288,8 @@ export const listLogPatterns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLogPatterns",
 })) as any;
 
 export type ListLogPatternSetsError =
@@ -2146,19 +1301,15 @@ export type ListLogPatternSetsError =
  * Lists the log pattern sets in the specific application.
  */
 export const listLogPatternSets: API.PaginatedOperationMethod<
-  ListLogPatternSetsRequest,
+  ListLogPatternSetsRequest & RegionInput,
   ListLogPatternSetsResponse,
   ListLogPatternSetsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListLogPatternSetsRequest,
-  output: ListLogPatternSetsResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(96, __c24, 0) as any as S.Schema<ListLogPatternSetsRequest>,
+  output: __S(97, __c24, 1) as any as S.Schema<ListLogPatternSetsResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLogPatternSets",
@@ -2167,6 +1318,8 @@ export const listLogPatternSets: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLogPatternSets",
 })) as any;
 
 export type ListProblemsError =
@@ -2178,19 +1331,15 @@ export type ListProblemsError =
  * Lists the problems with your application.
  */
 export const listProblems: API.PaginatedOperationMethod<
-  ListProblemsRequest,
+  ListProblemsRequest & RegionInput,
   ListProblemsResponse,
   ListProblemsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProblemsRequest,
-  output: ListProblemsResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(100, __c25, 0) as any as S.Schema<ListProblemsRequest>,
+  output: __S(102, __c25, 2) as any as S.Schema<ListProblemsResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProblems",
@@ -2199,6 +1348,8 @@ export const listProblems: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProblems",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2214,17 +1365,19 @@ export type ListTagsForResourceError =
  * key.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(104, __c26, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(105, __c26, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWorkloadsError =
@@ -2236,19 +1389,15 @@ export type ListWorkloadsError =
  * Lists the workloads that are configured on a given component.
  */
 export const listWorkloads: API.PaginatedOperationMethod<
-  ListWorkloadsRequest,
+  ListWorkloadsRequest & RegionInput,
   ListWorkloadsResponse,
   ListWorkloadsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListWorkloadsRequest,
-  output: ListWorkloadsResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(108, __c27, 0) as any as S.Schema<ListWorkloadsRequest>,
+  output: __S(111, __c27, 3) as any as S.Schema<ListWorkloadsResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkloads",
@@ -2257,6 +1406,8 @@ export const listWorkloads: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkloads",
 })) as any;
 
 export type RemoveWorkloadError =
@@ -2268,21 +1419,19 @@ export type RemoveWorkloadError =
  * Remove workload from a component.
  */
 export const removeWorkload: API.OperationMethod<
-  RemoveWorkloadRequest,
+  RemoveWorkloadRequest & RegionInput,
   RemoveWorkloadResponse,
   RemoveWorkloadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveWorkloadRequest,
-  output: RemoveWorkloadResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(112, __c28, 0) as any as S.Schema<RemoveWorkloadRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<RemoveWorkloadResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveWorkload",
+  telemetry: TELEMETRY,
+  span: "RemoveWorkload",
 }));
 
 export type TagResourceError =
@@ -2302,42 +1451,39 @@ export type TagResourceError =
  * within a tag key.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    ResourceNotFoundException,
-    TooManyTagsException,
-    ValidationException,
-  ],
+  input: __S(116, __c29, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<TagResourceResponse>,
+  errors: [ResourceNotFoundException, TooManyTagsException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
-export type UntagResourceError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type UntagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Remove one or more tags (keys and values) from a specified application.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(120, __c30, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApplicationError =
@@ -2349,21 +1495,19 @@ export type UpdateApplicationError =
  * Updates the application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateApplicationRequest,
-  output: UpdateApplicationResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(124, __c31, 0) as any as S.Schema<UpdateApplicationRequest>,
+  output: __S(168, __c42, 0) as any as S.Schema<UpdateApplicationResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateComponentError =
@@ -2377,13 +1521,13 @@ export type UpdateComponentError =
  * component.
  */
 export const updateComponent: API.OperationMethod<
-  UpdateComponentRequest,
+  UpdateComponentRequest & RegionInput,
   UpdateComponentResponse,
   UpdateComponentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateComponentRequest,
-  output: UpdateComponentResponse,
+  input: __S(128, __c32, 0) as any as S.Schema<UpdateComponentRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<UpdateComponentResponse>,
   errors: [
     InternalServerException,
     ResourceInUseException,
@@ -2393,6 +1537,8 @@ export const updateComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComponent",
+  telemetry: TELEMETRY,
+  span: "UpdateComponent",
 }));
 
 export type UpdateComponentConfigurationError =
@@ -2407,13 +1553,13 @@ export type UpdateComponentConfigurationError =
  * returned by `DescribeComponentConfigurationRecommendation`.
  */
 export const updateComponentConfiguration: API.OperationMethod<
-  UpdateComponentConfigurationRequest,
+  UpdateComponentConfigurationRequest & RegionInput,
   UpdateComponentConfigurationResponse,
   UpdateComponentConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateComponentConfigurationRequest,
-  output: UpdateComponentConfigurationResponse,
+  input: __S(132, __c33, 0) as any as S.Schema<UpdateComponentConfigurationRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<UpdateComponentConfigurationResponse>,
   errors: [
     InternalServerException,
     ResourceInUseException,
@@ -2423,6 +1569,8 @@ export const updateComponentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComponentConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateComponentConfiguration",
 }));
 
 export type UpdateLogPatternError =
@@ -2435,13 +1583,13 @@ export type UpdateLogPatternError =
  * Adds a log pattern to a `LogPatternSet`.
  */
 export const updateLogPattern: API.OperationMethod<
-  UpdateLogPatternRequest,
+  UpdateLogPatternRequest & RegionInput,
   UpdateLogPatternResponse,
   UpdateLogPatternError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateLogPatternRequest,
-  output: UpdateLogPatternResponse,
+  input: __S(136, __c34, 0) as any as S.Schema<UpdateLogPatternRequest>,
+  output: __S(137, __c34, 1) as any as S.Schema<UpdateLogPatternResponse>,
   errors: [
     InternalServerException,
     ResourceInUseException,
@@ -2451,6 +1599,8 @@ export const updateLogPattern: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLogPattern",
+  telemetry: TELEMETRY,
+  span: "UpdateLogPattern",
 }));
 
 export type UpdateProblemError =
@@ -2463,21 +1613,19 @@ export type UpdateProblemError =
  * `RESOLVED`.
  */
 export const updateProblem: API.OperationMethod<
-  UpdateProblemRequest,
+  UpdateProblemRequest & RegionInput,
   UpdateProblemResponse,
   UpdateProblemError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateProblemRequest,
-  output: UpdateProblemResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(140, __c35, 0) as any as S.Schema<UpdateProblemRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<UpdateProblemResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProblem",
+  telemetry: TELEMETRY,
+  span: "UpdateProblem",
 }));
 
 export type UpdateWorkloadError =
@@ -2489,19 +1637,787 @@ export type UpdateWorkloadError =
  * Adds a workload to a component. Each component can have at most five workloads.
  */
 export const updateWorkload: API.OperationMethod<
-  UpdateWorkloadRequest,
+  UpdateWorkloadRequest & RegionInput,
   UpdateWorkloadResponse,
   UpdateWorkloadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateWorkloadRequest,
-  output: UpdateWorkloadResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(144, __c36, 0) as any as S.Schema<UpdateWorkloadRequest>,
+  output: __S(156, __c39, 0) as any as S.Schema<UpdateWorkloadResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkload",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkload",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          ComponentName: S.String,
+          ResourceList: __S(8, __c2, 0),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateComponentRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateComponentResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          PatternSetName: S.String,
+          PatternName: S.String,
+          Pattern: S.String,
+          Rank: S.Number,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateLogPatternRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LogPattern: S.optional(__S(16, __c4, 0)),
+          ResourceGroupName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateLogPatternResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PatternSetName: S.optional(S.String),
+          PatternName: S.optional(S.String),
+          Pattern: S.optional(S.String),
+          Rank: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LogPattern" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceGroupName: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteApplicationRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceGroupName: S.String, ComponentName: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteComponentRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          PatternSetName: S.String,
+          PatternName: S.String,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteLogPatternRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceGroupName: S.String, AccountId: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeApplicationRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          ComponentName: S.String,
+          AccountId: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeComponentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationComponent: S.optional(__S(42, __c10, 2)),
+          ResourceList: S.optional(__S(8, __c2, 0)),
+        }),
+      ).annotate({ identifier: "DescribeComponentResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ __S(40, __c10, 0).pipe(S.optional));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ComponentName: S.optional(S.String),
+          ComponentRemarks: S.optional(S.String),
+          ResourceType: S.optional(S.String),
+          OsType: S.optional(S.String),
+          Tier: S.optional(S.String),
+          Monitor: S.optional(S.Boolean),
+          DetectedWorkload: S.optional(__S(41, __c10, 1)),
+        }),
+      ).annotate({ identifier: "ApplicationComponent" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          ComponentName: S.String,
+          AccountId: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeComponentConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Monitor: S.optional(S.Boolean),
+          Tier: S.optional(S.String),
+          ComponentConfiguration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeComponentConfigurationResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          ComponentName: S.String,
+          Tier: S.String,
+          WorkloadName: S.optional(S.String),
+          RecommendationType: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeComponentConfigurationRecommendationRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ ComponentConfiguration: S.optional(S.String) })).annotate({
+        identifier: "DescribeComponentConfigurationRecommendationResponse",
+      });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          PatternSetName: S.String,
+          PatternName: S.String,
+          AccountId: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeLogPatternRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.optional(S.String),
+          AccountId: S.optional(S.String),
+          LogPattern: S.optional(__S(16, __c4, 0)),
+        }),
+      ).annotate({ identifier: "DescribeLogPatternResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ObservationId: S.String, AccountId: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeObservationRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Observation: S.optional(__S(60, __c15, 0)) })).annotate({
+        identifier: "DescribeObservationResponse",
+      });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          SourceType: S.optional(S.String),
+          SourceARN: S.optional(S.String),
+          LogGroup: S.optional(S.String),
+          LineTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LogText: S.optional(S.String),
+          LogFilter: S.optional(S.String),
+          MetricNamespace: S.optional(S.String),
+          MetricName: S.optional(S.String),
+          Unit: S.optional(S.String),
+          Value: S.optional(S.Number),
+          CloudWatchEventId: S.optional(S.String),
+          CloudWatchEventSource: S.optional(S.String),
+          CloudWatchEventDetailType: S.optional(S.String),
+          HealthEventArn: S.optional(S.String),
+          HealthService: S.optional(S.String),
+          HealthEventTypeCode: S.optional(S.String),
+          HealthEventTypeCategory: S.optional(S.String),
+          HealthEventDescription: S.optional(S.String),
+          CodeDeployDeploymentId: S.optional(S.String),
+          CodeDeployDeploymentGroup: S.optional(S.String),
+          CodeDeployState: S.optional(S.String),
+          CodeDeployApplication: S.optional(S.String),
+          CodeDeployInstanceGroupId: S.optional(S.String),
+          Ec2State: S.optional(S.String),
+          RdsEventCategories: S.optional(S.String),
+          RdsEventMessage: S.optional(S.String),
+          S3EventName: S.optional(S.String),
+          StatesExecutionArn: S.optional(S.String),
+          StatesArn: S.optional(S.String),
+          StatesStatus: S.optional(S.String),
+          StatesInput: S.optional(S.String),
+          EbsEvent: S.optional(S.String),
+          EbsResult: S.optional(S.String),
+          EbsCause: S.optional(S.String),
+          EbsRequestId: S.optional(S.String),
+          XRayFaultPercent: S.optional(S.Number),
+          XRayThrottlePercent: S.optional(S.Number),
+          XRayErrorPercent: S.optional(S.Number),
+          XRayRequestCount: S.optional(S.Number),
+          XRayRequestAverageLatency: S.optional(S.Number),
+          XRayNodeName: S.optional(S.String),
+          XRayNodeType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Observation" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ProblemId: S.String, AccountId: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeProblemRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Problem: S.optional(__S(69, __c17, 1)),
+          SNSNotificationArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeProblemResponse" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Title: S.optional(S.String),
+          ShortName: S.optional(S.String),
+          Insights: S.optional(S.String),
+          Status: S.optional(S.String),
+          AffectedResource: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          SeverityLevel: S.optional(S.String),
+          AccountId: S.optional(S.String),
+          ResourceGroupName: S.optional(S.String),
+          Feedback: S.optional(__S(68, __c17, 0)),
+          RecurringCount: S.optional(S.Number),
+          LastRecurrenceTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Visibility: S.optional(S.String),
+          ResolutionMethod: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Problem" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ProblemId: S.String, AccountId: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeProblemObservationsRequest" });
+    case 1:
+      return S.Array(__S(60, __c15, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ ObservationList: S.optional(__S(73, __c18, 1)) })).annotate(
+        { identifier: "RelatedObservations" },
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ RelatedObservations: S.optional(__S(74, __c18, 2)) }),
+      ).annotate({ identifier: "DescribeProblemObservationsResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          ComponentName: S.String,
+          WorkloadId: S.String,
+          AccountId: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeWorkloadRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          WorkloadId: S.optional(S.String),
+          WorkloadRemarks: S.optional(S.String),
+          WorkloadConfiguration: S.optional(__S(152, __c38, 0)),
+        }),
+      ).annotate({ identifier: "DescribeWorkloadResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          AccountId: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListApplicationsRequest" });
+    case 1:
+      return S.Array(__S(164, __c41, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationInfoList: S.optional(__S(81, __c20, 1)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListApplicationsResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          AccountId: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListComponentsRequest" });
+    case 1:
+      return S.Array(__S(42, __c10, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationComponentList: S.optional(__S(85, __c21, 1)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListComponentsResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EventStatus: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          AccountId: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListConfigurationHistoryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.optional(S.String),
+          AccountId: S.optional(S.String),
+          MonitoredResourceARN: S.optional(S.String),
+          EventStatus: S.optional(S.String),
+          EventResourceType: S.optional(S.String),
+          EventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EventDetail: S.optional(S.String),
+          EventResourceName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConfigurationEvent" });
+    case 2:
+      return S.Array(__S(89, __c22, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ EventList: S.optional(__S(90, __c22, 2)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListConfigurationHistoryResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          PatternSetName: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          AccountId: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListLogPatternsRequest" });
+    case 1:
+      return S.Array(__S(16, __c4, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.optional(S.String),
+          AccountId: S.optional(S.String),
+          LogPatterns: S.optional(__S(93, __c23, 1)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListLogPatternsResponse" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          AccountId: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListLogPatternSetsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.optional(S.String),
+          AccountId: S.optional(S.String),
+          LogPatternSets: S.optional(__S(8, __c2, 0)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListLogPatternSetsResponse" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AccountId: S.optional(S.String),
+          ResourceGroupName: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          ComponentName: S.optional(S.String),
+          Visibility: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListProblemsRequest" });
+    case 1:
+      return S.Array(__S(69, __c17, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ProblemList: S.optional(__S(101, __c25, 1)),
+          NextToken: S.optional(S.String),
+          ResourceGroupName: S.optional(S.String),
+          AccountId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListProblemsResponse" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(173, __c43, 1)) })).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          ComponentName: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          AccountId: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListWorkloadsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          WorkloadId: S.optional(S.String),
+          ComponentName: S.optional(S.String),
+          WorkloadName: S.optional(S.String),
+          Tier: S.optional(S.String),
+          WorkloadRemarks: S.optional(S.String),
+          MissingWorkloadConfig: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Workload" });
+    case 2:
+      return S.Array(__S(109, __c27, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ WorkloadList: S.optional(__S(110, __c27, 2)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListWorkloadsResponse" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          ComponentName: S.String,
+          WorkloadId: S.String,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "RemoveWorkloadRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.String, Tags: __S(173, __c43, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.String, TagKeys: __S(8, __c2, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          OpsCenterEnabled: S.optional(S.Boolean),
+          CWEMonitorEnabled: S.optional(S.Boolean),
+          OpsItemSNSTopicArn: S.optional(S.String),
+          SNSNotificationArn: S.optional(S.String),
+          RemoveSNSTopic: S.optional(S.Boolean),
+          AutoConfigEnabled: S.optional(S.Boolean),
+          AttachMissingPermission: S.optional(S.Boolean),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateApplicationRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          ComponentName: S.String,
+          NewComponentName: S.optional(S.String),
+          ResourceList: S.optional(__S(8, __c2, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateComponentRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          ComponentName: S.String,
+          Monitor: S.optional(S.Boolean),
+          Tier: S.optional(S.String),
+          ComponentConfiguration: S.optional(S.String),
+          AutoConfigEnabled: S.optional(S.Boolean),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateComponentConfigurationRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          PatternSetName: S.String,
+          PatternName: S.String,
+          Pattern: S.optional(S.String),
+          Rank: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateLogPatternRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.optional(S.String),
+          LogPattern: S.optional(__S(16, __c4, 0)),
+        }),
+      ).annotate({ identifier: "UpdateLogPatternResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProblemId: S.String,
+          UpdateStatus: S.optional(S.String),
+          Visibility: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateProblemRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          ComponentName: S.String,
+          WorkloadId: S.optional(S.String),
+          WorkloadConfiguration: __S(152, __c38, 0),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateWorkloadRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.String,
+          ComponentName: S.String,
+          WorkloadConfiguration: __S(152, __c38, 0),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "AddWorkloadRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          WorkloadName: S.optional(S.String),
+          Tier: S.optional(S.String),
+          Configuration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkloadConfiguration" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          WorkloadId: S.optional(S.String),
+          WorkloadConfiguration: S.optional(__S(152, __c38, 0)),
+        }),
+      ).annotate({ identifier: "AddWorkloadResponse" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceGroupName: S.optional(S.String),
+          OpsCenterEnabled: S.optional(S.Boolean),
+          CWEMonitorEnabled: S.optional(S.Boolean),
+          OpsItemSNSTopicArn: S.optional(S.String),
+          SNSNotificationArn: S.optional(S.String),
+          Tags: S.optional(__S(173, __c43, 1)),
+          AutoConfigEnabled: S.optional(S.Boolean),
+          AutoCreate: S.optional(S.Boolean),
+          GroupingType: S.optional(S.String),
+          AttachMissingPermission: S.optional(S.Boolean),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateApplicationRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AccountId: S.optional(S.String),
+          ResourceGroupName: S.optional(S.String),
+          LifeCycle: S.optional(S.String),
+          OpsItemSNSTopicArn: S.optional(S.String),
+          SNSNotificationArn: S.optional(S.String),
+          OpsCenterEnabled: S.optional(S.Boolean),
+          CWEMonitorEnabled: S.optional(S.Boolean),
+          Remarks: S.optional(S.String),
+          AutoConfigEnabled: S.optional(S.Boolean),
+          DiscoveryType: S.optional(S.String),
+          AttachMissingPermission: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ApplicationInfo" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ApplicationInfo: S.optional(__S(164, __c41, 0)) }),
+      ).annotate({ identifier: "CreateApplicationResponse" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Key: S.String, Value: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(172, __c43, 0));
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

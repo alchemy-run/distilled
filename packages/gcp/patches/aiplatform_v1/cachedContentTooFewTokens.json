@@ -1,0 +1,33 @@
+{
+  "description": "Type the explicit-caching minimum-token rejection on cached content create (HTTP 400 INVALID_ARGUMENT: 'The cached content is of N tokens. The minimum token count to start explicit caching is 1024.'). Vertex AI intermittently reports '1 tokens' for content well above the minimum, so callers need a tag to retry on instead of an out-of-union BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CachedContentTooFewTokens",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The cached content is below the explicit-caching minimum token count (HTTP 400 INVALID_ARGUMENT: 'The minimum token count to start explicit caching is 1024.'). Vertex AI sometimes returns this spuriously for large content; a retry succeeds.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "The minimum token count to start explicit caching"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CreateProjectsLocationsCachedContents/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#CachedContentTooFewTokens"
+      }
+    }
+  ]
+}

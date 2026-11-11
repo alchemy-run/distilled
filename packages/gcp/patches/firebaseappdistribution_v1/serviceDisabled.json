@@ -1,0 +1,208 @@
+{
+  "description": "Type calls to a project where the API is disabled. It surfaced as a plain Forbidden, so an un-enabled API was indistinguishable from a missing IAM grant.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The API is not enabled on the project (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: \"<API> has not been used in project <n> before or it is disabled.\").",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#BatchAddProjectsTesters/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#BatchDeleteProjectsAppsReleases/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#BatchJoinProjectsGroups/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#BatchLeaveProjectsGroups/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#BatchRemoveProjectsTesters/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#CancelProjectsAppsReleasesOperations/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#CreateProjectsGroups/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#DeleteProjectsAppsReleasesFeedbackReports/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#DeleteProjectsAppsReleasesOperations/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#DeleteProjectsGroups/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#DistributeProjectsAppsReleases/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#GetAabInfoProjectsApps/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#GetProjectsAppsReleases/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#GetProjectsAppsReleasesFeedbackReports/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#GetProjectsAppsReleasesOperations/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#GetProjectsGroups/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#ListProjectsAppsReleases/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#ListProjectsAppsReleasesFeedbackReports/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#ListProjectsAppsReleasesOperations/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#ListProjectsGroups/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#ListProjectsTesters/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#PatchProjectsAppsReleases/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#PatchProjectsGroups/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#PatchProjectsTesters/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#UploadMedia/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#WaitProjectsAppsReleasesOperations/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
+      }
+    }
+  ]
+}

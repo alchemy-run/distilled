@@ -1,0 +1,56 @@
+{
+  "description": "NetworkFunction properties are polymorphic on configurationType (Open/Secret) and the NFDV reference on idType; the converted model keeps only discriminators, so `deploymentValues`, `secretDeploymentValues` and the reference `id` are stripped. Add them.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionPropertiesFormatInput/members/deploymentValues",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Deployment values as a JSON string (`configurationType: Open`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionPropertiesFormatInput/members/secretDeploymentValues",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Secret deployment values as a JSON string (`configurationType: Secret`).",
+          "smithy.api#sensitive": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionPropertiesFormat/members/deploymentValues",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Deployment values as a JSON string (`configurationType: Open`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionPropertiesFormatInputNetworkFunctionDefinitionVersionResourceReference/members/id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM resource id of the referenced resource."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionPropertiesFormatNetworkFunctionDefinitionVersionResourceReference/members/id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM resource id of the referenced resource."
+        }
+      }
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 /**
- * Mercury pagination — hand-written.
+ * Mercury pagination -- hand-written.
  *
  * Mercury's paginated list operations are cursor-mode (`start_after` in,
  * `page.nextPage` out); generated operations pass core's

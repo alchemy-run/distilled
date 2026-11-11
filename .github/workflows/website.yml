@@ -106,7 +106,7 @@ jobs:
           app-id: ${{ secrets.ALCHEMY_VERSION_BOT_ID }}
           private-key: ${{ secrets.ALCHEMY_VERSION_BOT_PRIVATE_KEY }}
 
-      - name: Setup pnpm & Bun
+      - name: Setup pnpm
         uses: pnpm/setup@84cb39b217b10273981911c288cd62326dc7c6d2 # v2.0.2
         with:
           cache: true
@@ -190,7 +190,7 @@ jobs:
           app-id: ${{ secrets.ALCHEMY_VERSION_BOT_ID }}
           private-key: ${{ secrets.ALCHEMY_VERSION_BOT_PRIVATE_KEY }}
 
-      - name: Setup pnpm & Bun
+      - name: Setup pnpm
         uses: pnpm/setup@84cb39b217b10273981911c288cd62326dc7c6d2 # v2.0.2
         with:
           cache: true

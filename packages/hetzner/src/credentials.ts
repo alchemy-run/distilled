@@ -1,21 +1,21 @@
 /**
- * Hetzner Cloud credentials — hand-written.
+ * Hetzner Cloud credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, apiBaseUrl }` per request; the
  * protocol layer formats the `Authorization: Bearer <token>` header from it.
  * The token is a Hetzner Cloud API token, created per PROJECT in the Cloud
- * Console — there is no account-wide token, so a token IS the project scope
+ * Console -- there is no account-wide token, so a token IS the project scope
  * and no project/tenant field rides on the requests.
  *
  * A token is issued read-write or read-only; a read-only token answers any
  * non-GET request with `403 token_readonly` (surfaced as `Forbidden`).
  */
-import * as EffectConfig from "effect/Config";
+import * as EffectConfig from "@distilled.cloud/core/config";
+import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /**
  * Hetzner Cloud's API root. The version is a PATH segment rather than a
@@ -29,46 +29,45 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("HetznerCredentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "HetznerCredentials",
+  ) {}
 
-const envConfig = EffectConfig.all({
+const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `HCLOUD_TOKEN` / `HCLOUD_ENDPOINT` are what the `hcloud` CLI, the
   // Terraform provider and the official Go library read.
-  token: EffectConfig.String("HCLOUD_TOKEN"),
-  apiBaseUrl: EffectConfig.String("HCLOUD_ENDPOINT").pipe(
-    EffectConfig.withDefault(DEFAULT_API_BASE_URL),
+  token: /*@__PURE__*/ EffectConfig.String("HCLOUD_TOKEN"),
+  apiBaseUrl: /*@__PURE__*/ EffectConfig.String("HCLOUD_ENDPOINT").pipe(
+    /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
 });
 
-export const CredentialsFromEnv = Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  envConfig.pipe(
-    Effect.mapError(
+  /*@__PURE__*/ envConfig.pipe(
+    /*@__PURE__*/ Effect.mapError(
       () =>
         new ConfigError({
           message: "HCLOUD_TOKEN environment variable is required",
         }),
     ),
-    Effect.map(({ token, apiBaseUrl }) => ({
+    /*@__PURE__*/ Effect.map(({ token, apiBaseUrl }) => ({
       token: Redacted.make(token),
       apiBaseUrl,
     })),
-    Effect.orDie,
   ),
 );
 
-/** Convenience layer from a plain token + optional base URL. */
+/** Convenience layer from a redacted token + optional base URL. */
 export const credentials = (config: {
-  readonly token: string;
+  readonly token: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: Redacted.make(config.token),
+      token: config.token,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

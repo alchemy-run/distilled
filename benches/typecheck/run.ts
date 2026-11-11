@@ -1,12 +1,12 @@
 /**
  * Distilled typecheck benchmark runner.
  *
- *   bun run.ts                 core, aws, cloudflare, monorepo (a few minutes)
- *   bun run.ts --full          every SDK package + monorepo (longer)
- *   bun run.ts --runs 3        best of 3 clean+incremental cycles per row
- *   bun run.ts --filter aws    only targets whose name matches
- *   bun run.ts --json          JSON results on stdout
- *   bun run.ts --record        also write results/latest.json (committed)
+ *   node run.ts                 core, aws, cloudflare, monorepo (a few minutes)
+ *   node run.ts --full          every SDK package + monorepo (longer)
+ *   node run.ts --runs 3        best of 3 clean+incremental cycles per row
+ *   node run.ts --filter aws    only targets whose name matches
+ *   node run.ts --json          JSON results on stdout
+ *   node run.ts --record        also write results/latest.json (committed)
  *
  * Every target is measured four ways: `emit` (`tsc -b`, the repo's default
  * `noCheck: true`) and `check` (`tsc -b --noCheck false`, what CI runs),
@@ -29,9 +29,7 @@ const RESULTS_PATH = new URL("./results/latest.json", import.meta.url).pathname;
 const opts = parseArgs(process.argv.slice(2));
 const started = performance.now();
 
-const targets = allTargets(opts.full).filter(
-  (t) => !opts.filter || opts.filter.test(t.name),
-);
+const targets = allTargets(opts.full).filter((t) => !opts.filter || opts.filter.test(t.name));
 if (targets.length === 0) {
   console.error("no targets match --filter");
   process.exit(2);
@@ -87,9 +85,7 @@ if (opts.json) {
   console.log(
     "emit = tsc -b (noCheck true, `pnpm typecheck`); check = tsc -b --noCheck false (`pnpm typecheck:ci`)",
   );
-  console.log(
-    "clean = lib/ + *.tsbuildinfo deleted first; incr = re-run with no changes\n",
-  );
+  console.log("clean = lib/ + *.tsbuildinfo deleted first; incr = re-run with no changes\n");
   printTable(results);
 }
 
@@ -100,9 +96,7 @@ if (opts.record) {
   }
   const file = toRecordFile(results, profile, opts.runs);
   writeRecordFile(RESULTS_PATH, file);
-  console.error(
-    `wrote ${RESULTS_PATH} (${file.results.length} rows, ${file.commit})`,
-  );
+  console.error(`wrote ${RESULTS_PATH} (${file.results.length} rows, ${file.commit})`);
 }
 
 if (results.some((r) => r.error)) process.exit(1);

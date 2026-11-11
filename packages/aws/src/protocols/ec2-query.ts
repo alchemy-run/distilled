@@ -11,114 +11,104 @@
  * - HTTP binding traits are ignored
  */
 
-import * as Effect from "effect/Effect";
-import * as S from "effect/Schema";
-import type * as AST from "effect/SchemaAST";
-import type { Operation } from "../client/operation.ts";
-import type { Protocol, ProtocolHandler } from "../client/protocol.ts";
-import type { Request } from "../client/request.ts";
-import type { Response } from "../client/response.ts";
-import { ParseError } from "../errors.ts";
+import type { Operation } from "@distilled.cloud/s3/client/operation";
 import {
-  getEc2QueryName,
-  getServiceVersion,
-  getXmlNameProp,
-  hasXmlAttribute,
-} from "../traits.ts";
+  Unreadable,
+  type ProtocolImpl,
+  type ProtocolHandler,
+  type TextResponse,
+} from "@distilled.cloud/s3/client/protocol";
+import type { Request } from "@distilled.cloud/s3/client/request";
+import type { Response } from "@distilled.cloud/s3/client/response";
 import {
   getArrayElementAST,
   getEncodedPropertySignatures,
   getIdentifier,
   isArrayAST,
-} from "../util/ast.ts";
-import { sanitizeErrorCode } from "../util/error.ts";
-import { readStreamAsText } from "../util/stream.ts";
-import {
-  deserializePrimitive,
-  extractXmlRoot,
-  parseXml,
-  unwrapArrayValue,
-} from "../util/xml.ts";
+  isBooleanAST,
+  isNumberAST,
+} from "@distilled.cloud/s3/util/ast";
+import { errorBody, inputEncoderSync } from "@distilled.cloud/s3/util/codec";
+import { sanitizeErrorCode } from "@distilled.cloud/s3/util/error";
+import { readStreamAsText } from "@distilled.cloud/s3/util/stream";
+import { extractXmlRoot, parseXml, readXml, unwrapArrayValue } from "@distilled.cloud/s3/util/xml";
+import * as Effect from "effect/Effect";
+import type * as S from "effect/Schema";
+import type * as AST from "effect/SchemaAST";
+import { ParseError } from "../errors.ts";
+import { getEc2QueryName, getServiceVersion, getXmlNameProp, hasXmlAttribute } from "../traits.ts";
 
 // =============================================================================
 // Protocol Export
 // =============================================================================
 
-export const ec2QueryProtocol: Protocol = (
-  operation: Operation,
-): ProtocolHandler => {
+export const ec2QueryProtocol: ProtocolImpl = (operation: Operation): ProtocolHandler => {
   const inputSchema = operation.input;
   const outputSchema = operation.output;
   const inputAst = inputSchema.ast;
   const outputAst = outputSchema.ast;
 
   // Pre-compute encoder (done once at init)
-  const encodeInput = S.encodeEffect(inputSchema);
+  const encodeInput = inputEncoderSync(inputAst as any);
 
   // Pre-compute operation name and version from annotations. Prefer the
   // explicit operation name emitted by the generator; fall back to deriving
   // it from the input shape identifier.
   const identifier = getIdentifier(inputAst) ?? "";
-  const action =
-    operation.operationName ??
-    identifier.replace(/(?:Request|Input|Message)$/, "");
+  const action = operation.operationName ?? identifier.replace(/(?:Request|Input|Message)$/, "");
   const version = getServiceVersion(inputAst) ?? "";
 
-  return {
-    serializeRequest: Effect.fn(function* (input: unknown) {
-      // Encode the input via schema - handles all transformations
-      // (TimestampFormat → ISO 8601 strings, etc.)
-      const encoded = yield* encodeInput(input).pipe(
-        Effect.mapError((err) => new ParseError({ message: err.message })),
-      );
+  const serialize = (input: unknown): Request => {
+    // Encode the input via schema - handles all transformations
+    // (TimestampFormat -> ISO 8601 strings, etc.)
+    const encoded = encodeInput(input);
 
-      const request: Request = {
-        method: "POST",
-        path: "/",
-        query: {},
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      };
+    const request: Request = {
+      method: "POST",
+      path: "/",
+      query: {},
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    };
 
-      // Build form-urlencoded body
-      const params: string[] = [];
-      params.push(`Action=${encodeURIComponent(action)}`);
-      params.push(`Version=${encodeURIComponent(version)}`);
+    // Build form-urlencoded body
+    const params: string[] = [];
+    params.push(`Action=${encodeURIComponent(action)}`);
+    params.push(`Version=${encodeURIComponent(version)}`);
 
-      // Serialize already-encoded input members
-      serializeMembers(
-        inputAst,
-        encoded as Record<string, unknown>,
-        "",
-        params,
-      );
+    // Serialize already-encoded input members
+    serializeMembers(inputAst, encoded as Record<string, unknown>, "", params);
 
-      request.body = params.join("&");
+    request.body = params.join("&");
 
-      return request;
-    }),
+    return request;
+  };
 
-    deserializeResponse: Effect.fn(function* (response: Response) {
-      const result: Record<string, unknown> = {};
+  const deserializeText = (response: TextResponse): unknown => {
+    const result: Record<string, unknown> = {};
+    const bodyText = response.body;
 
-      // Read body as text
-      const bodyText = yield* readStreamAsText(response.body);
+    // Parse body XML
+    if (bodyText) {
+      const parsed = readXml(bodyText);
+      // Lenient mode returns the body as read.
+      if (parsed instanceof Unreadable) return parsed;
 
-      // Parse body XML
-      if (bodyText) {
-        const parsed = yield* parseXml(bodyText);
+      // EC2 response root is {OperationName}Response
+      const content = extractXmlRoot(parsed);
 
-        // EC2 response root is {OperationName}Response
-        const content = extractXmlRoot(parsed);
-
-        if (content && typeof content === "object") {
-          Object.assign(result, deserializeObject(outputAst, content));
-        }
+      if (content && typeof content === "object") {
+        Object.assign(result, deserializeObject(outputAst, content));
       }
+    }
 
-      return result;
-    }),
+    return result;
+  };
 
-    deserializeError: Effect.fn(function* (response: Response) {
+  return {
+    serialize,
+    deserializeText,
+
+    deserializeError: Effect.fnUntraced(function* (response: Response) {
       // Read body as text
       const bodyText = yield* readStreamAsText(response.body);
 
@@ -167,7 +157,7 @@ export const ec2QueryProtocol: Protocol = (
 
       if (!errorContent) {
         return yield* new ParseError({
-          message: `Could not find Error element in EC2 XML response: ${bodyText}`,
+          message: `Could not find Error element in EC2 XML response: ${errorBody(operation, bodyText)}`,
         });
       }
 
@@ -175,7 +165,7 @@ export const ec2QueryProtocol: Protocol = (
       const rawErrorCode = errorContent.Code;
       if (typeof rawErrorCode !== "string") {
         return yield* new ParseError({
-          message: `No Code element found in error response: ${bodyText}`,
+          message: `No Code element found in error response: ${errorBody(operation, bodyText)}`,
         });
       }
 
@@ -253,17 +243,13 @@ function serializeValue(
 
   // Handle Date objects (v4: S.Date remains Date after encode)
   if (value instanceof Date) {
-    params.push(
-      `${encodeURIComponent(key)}=${encodeURIComponent(value.toISOString())}`,
-    );
+    params.push(`${encodeURIComponent(key)}=${encodeURIComponent(value.toISOString())}`);
     return;
   }
 
   // Handle primitives (includes encoded dates as strings, blobs as base64)
   if (typeof value !== "object") {
-    params.push(
-      `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`,
-    );
+    params.push(`${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`);
     return;
   }
 
@@ -290,31 +276,65 @@ function serializeValue(
 // XML Deserialization
 // =============================================================================
 
+/** What deserializing a value of a schema needs to know about it, read once per schema. */
+interface ValuePlan {
+  readonly array: boolean;
+  readonly number: boolean;
+  readonly boolean: boolean;
+  /** Arrays: the element schema. */
+  readonly element: AST.AST | undefined;
+  /** Arrays: the element's class identifier (its wrapper tag). */
+  readonly elementTag: string | undefined;
+}
+
+const valuePlans = /*@__PURE__*/ new WeakMap<AST.AST, ValuePlan>();
+
+const valuePlanOf = (ast: AST.AST): ValuePlan => {
+  let plan = valuePlans.get(ast);
+  if (plan === undefined) {
+    const array = isArrayAST(ast);
+    const element = array ? getArrayElementAST(ast) : undefined;
+    plan = {
+      array,
+      number: isNumberAST(ast),
+      boolean: isBooleanAST(ast),
+      element,
+      elementTag: element ? getIdentifier(element) : undefined,
+    };
+    valuePlans.set(ast, plan);
+  }
+  return plan;
+};
+
+const MEMBER_ITEM = ["member", "item"];
+const ITEM_MEMBER = ["item", "member"];
+
 function deserializeValue(ast: AST.AST, value: unknown): unknown {
   if (value == null || value === "") return undefined;
+  const plan = valuePlanOf(ast);
 
   // Handle arrays
-  if (isArrayAST(ast)) {
-    const elAST = getArrayElementAST(ast);
+  if (plan.array) {
+    const elAST = plan.element;
     if (!elAST) return Array.isArray(value) ? value : [value];
 
     // Handle wrapped arrays: { member: [...] } or { item: [...] }
-    const elTag = getIdentifier(elAST);
-    const unwrapped = unwrapArrayValue(value, elTag, ["member", "item"]);
+    const unwrapped = unwrapArrayValue(value, plan.elementTag, MEMBER_ITEM);
 
     // Empty wrapper elements return undefined - treat as empty array
     if (unwrapped == null || unwrapped === "") return undefined;
 
     const items = Array.isArray(unwrapped) ? unwrapped : [unwrapped];
     // Filter out undefined items (from empty nested wrappers)
-    return items
-      .map((item) => deserializeValue(elAST, item))
-      .filter((item) => item !== undefined);
+    return items.map((item) => deserializeValue(elAST, item)).filter((item) => item !== undefined);
   }
 
   // Handle strings
   if (typeof value === "string") {
-    return deserializePrimitive(ast, value);
+    // Dates stay as strings - the codec converts them
+    if (plan.number) return Number(value);
+    if (plan.boolean) return value.trim() === "true";
+    return value;
   }
 
   // Handle numbers/booleans from parser
@@ -330,44 +350,77 @@ function deserializeValue(ast: AST.AST, value: unknown): unknown {
   return value;
 }
 
-function deserializeObject(
-  ast: AST.AST,
-  value: Record<string, unknown>,
-): Record<string, unknown> {
+/** How one output member is read from its XML element, read from its traits once. */
+interface MemberPlan {
+  readonly key: string;
+  readonly type: AST.AST;
+  readonly xmlName: string;
+  /** The member name and xmlName with a lowercase first character. */
+  readonly lcKey: string;
+  readonly lcXmlName: string;
+  /** XML attributes: the parser's key for the attribute (`@_name`). */
+  readonly attribute: string | undefined;
+  /** Lists: the element schema. */
+  readonly element: AST.AST | undefined;
+  /** Lists: the element's class identifier (its wrapper tag). */
+  readonly elementTag: string | undefined;
+}
+
+const memberPlans = /*@__PURE__*/ new WeakMap<AST.AST, ReadonlyArray<MemberPlan>>();
+
+const memberPlansOf = (ast: AST.AST): ReadonlyArray<MemberPlan> => {
+  let plans = memberPlans.get(ast);
+  if (plans === undefined) {
+    plans = getEncodedPropertySignatures(ast).map((prop) => {
+      const key = String(prop.name);
+      const xmlName = getXmlNameProp(prop) ?? key;
+      const element = isArrayAST(prop.type)
+        ? (getArrayElementAST(prop.type) ?? prop.type)
+        : undefined;
+      return {
+        key,
+        type: prop.type,
+        xmlName,
+        lcKey: key.charAt(0).toLowerCase() + key.slice(1),
+        lcXmlName: xmlName.charAt(0).toLowerCase() + xmlName.slice(1),
+        // Handle XML attributes (parser prefixes attributes with @_)
+        attribute: hasXmlAttribute(prop) ? `@_${xmlName}` : undefined,
+        element,
+        elementTag: element ? getIdentifier(element) : undefined,
+      };
+    });
+    memberPlans.set(ast, plans);
+  }
+  return plans;
+};
+
+function deserializeObject(ast: AST.AST, value: Record<string, unknown>): Record<string, unknown> {
   const result: Record<string, unknown> = {};
 
-  for (const prop of getEncodedPropertySignatures(ast)) {
-    const key = String(prop.name);
-    const xmlName = getXmlNameProp(prop) ?? key;
+  for (const member of memberPlansOf(ast)) {
+    const key = member.key;
 
-    // Handle XML attributes (parser prefixes attributes with @_)
-    if (hasXmlAttribute(prop)) {
-      const attrValue = value[`@_${xmlName}`];
+    if (member.attribute !== undefined) {
+      const attrValue = value[member.attribute];
       if (attrValue !== undefined) {
-        result[key] = deserializeValue(prop.type, attrValue);
+        result[key] = deserializeValue(member.type, attrValue);
       }
       continue;
     }
 
-    // Try member name first, then xmlName
-    let propValue = value[key] ?? value[xmlName];
-
-    // For response XML, try lowercase first character variations
-    if (propValue === undefined) {
-      const lcKey = key.charAt(0).toLowerCase() + key.slice(1);
-      const lcXmlName = xmlName.charAt(0).toLowerCase() + xmlName.slice(1);
-      propValue = value[lcKey] ?? value[lcXmlName];
-    }
+    // Try member name first, then xmlName, then (response XML) their
+    // lowercase-first-character variations
+    let propValue = value[key] ?? value[member.xmlName];
+    if (propValue === undefined) propValue = value[member.lcKey] ?? value[member.lcXmlName];
 
     if (propValue === undefined) continue;
 
     // Handle arrays (EC2 uses wrapped lists in responses with <item> elements)
-    if (isArrayAST(prop.type)) {
-      const elAST = getArrayElementAST(prop.type) ?? prop.type;
+    if (member.element !== undefined) {
+      const elAST = member.element;
 
       // Unwrap list wrapper elements from XML parser output
-      const elTag = getIdentifier(elAST);
-      const arrayValue = unwrapArrayValue(propValue, elTag, ["item", "member"]);
+      const arrayValue = unwrapArrayValue(propValue, member.elementTag, ITEM_MEMBER);
 
       // Empty wrapper elements return undefined - treat as empty array
       if (arrayValue == null || arrayValue === "") {
@@ -380,7 +433,7 @@ function deserializeObject(
           .filter((item) => item !== undefined);
       }
     } else {
-      result[key] = deserializeValue(prop.type, propValue);
+      result[key] = deserializeValue(member.type, propValue);
     }
   }
 

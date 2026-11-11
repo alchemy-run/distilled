@@ -1,5 +1,5 @@
 /**
- * Supabase credentials — hand-written.
+ * Supabase credentials -- hand-written.
  *
  * API-compatible port of the distilled repo's supabase credentials module:
  * the `Credentials` service holds an *effect* that resolves the current
@@ -7,12 +7,12 @@
  * as `Authorization: Bearer <token>`; `CredentialsFromEnv` reads
  * `SUPABASE_ACCESS_TOKEN`.
  */
-import * as EffectConfig from "effect/Config";
+import * as EffectConfig from "@distilled.cloud/core/config";
+import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://api.supabase.com";
 
@@ -21,43 +21,42 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("SupabaseCredentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "SupabaseCredentials",
+  ) {}
 
-const envConfig = EffectConfig.all({
-  accessToken: EffectConfig.String("SUPABASE_ACCESS_TOKEN"),
+const envConfig = /*@__PURE__*/ EffectConfig.all({
+  accessToken: /*@__PURE__*/ EffectConfig.String("SUPABASE_ACCESS_TOKEN"),
 });
 
-export const CredentialsFromEnv = Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  envConfig.pipe(
-    Effect.mapError(
+  /*@__PURE__*/ envConfig.pipe(
+    /*@__PURE__*/ Effect.mapError(
       () =>
         new ConfigError({
           message: "SUPABASE_ACCESS_TOKEN environment variable is required",
         }),
     ),
-    Effect.map(({ accessToken }) => ({
+    /*@__PURE__*/ Effect.map(({ accessToken }) => ({
       accessToken: Redacted.make(accessToken),
       apiBaseUrl: DEFAULT_API_BASE_URL,
     })),
-    Effect.orDie,
   ),
 );
 
 /**
- * Convenience layer from a plain token + optional base URL.
+ * Convenience layer from a redacted token + optional base URL.
  */
 export const credentials = (config: {
-  readonly accessToken: string;
+  readonly accessToken: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      accessToken: Redacted.make(config.accessToken),
+      accessToken: config.accessToken,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

@@ -26,7 +26,6 @@
       "errors": ["ResourceNotFoundException"]
     },
     "listComponentBuildVersions": { "errors": ["ResourceNotFoundException"] },
-    "listTagsForResource": { "errors": ["ResourceNotFoundException"] },
     "createInfrastructureConfiguration": {
       "errors": ["InvalidParameterValueException"]
     },

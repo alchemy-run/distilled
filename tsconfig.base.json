@@ -1,7 +1,7 @@
 {
   "exclude": ["node_modules", "dist", "vendor"],
   "compilerOptions": {
-    "types": ["bun"],
+    "types": ["node"],
     "lib": ["ESNext", "DOM"],
     "target": "ESNext",
     "moduleDetection": "force",

@@ -17,39 +17,45 @@
  *   (clients must accept either format for both protocols)
  */
 
+import type { Operation } from "@distilled.cloud/s3/client/operation";
+import {
+  Unreadable,
+  type ProtocolImpl,
+  type ProtocolHandler,
+  type TextResponse,
+} from "@distilled.cloud/s3/client/protocol";
+import type { Request } from "@distilled.cloud/s3/client/request";
+import type { Response } from "@distilled.cloud/s3/client/response";
+import { getEncodedPropertySignatures, getIdentifier } from "@distilled.cloud/s3/util/ast";
+import { errorBody, inputEncoderSync, outputBody } from "@distilled.cloud/s3/util/codec";
+import {
+  extractJsonErrorCode,
+  extractJsonErrorData,
+  sanitizeErrorCode,
+} from "@distilled.cloud/s3/util/error";
+import { readStreamAsText } from "@distilled.cloud/s3/util/stream";
 import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
-import * as AST from "effect/SchemaAST";
-import type { Operation } from "../client/operation.ts";
-import type { Protocol, ProtocolHandler } from "../client/protocol.ts";
-import type { Request } from "../client/request.ts";
-import type { Response } from "../client/response.ts";
+import type * as Schema from "effect/Schema";
+import type * as AST from "effect/SchemaAST";
 import { ParseError } from "../errors.ts";
-import { parseEventStreamToUnion } from "../eventstream/parser.ts";
 import {
   getAwsApiService,
   getEventSchema,
   isOutputEventStream,
   isStreamingType,
+  eventStreamWith,
 } from "../traits.ts";
-import { getEncodedPropertySignatures, getIdentifier } from "../util/ast.ts";
-import {
-  extractJsonErrorCode,
-  extractJsonErrorData,
-  sanitizeErrorCode,
-} from "../util/error.ts";
-import { readStreamAsText } from "../util/stream.ts";
 
 /** AWS JSON 1.0 Protocol */
-export const awsJson1_0Protocol = createAwsJsonProtocol("1.0");
+export const awsJson1_0Protocol = /*@__PURE__*/ createAwsJsonProtocol("1.0");
 
 /** AWS JSON 1.1 Protocol */
-export const awsJson1_1Protocol = createAwsJsonProtocol("1.1");
+export const awsJson1_1Protocol = /*@__PURE__*/ createAwsJsonProtocol("1.1");
 
 /**
  * Create an AWS JSON protocol handler for the specified version.
  */
-function createAwsJsonProtocol(version: "1.0" | "1.1"): Protocol {
+function createAwsJsonProtocol(version: "1.0" | "1.1"): ProtocolImpl {
   const contentType = `application/x-amz-json-${version}`;
 
   return (operation: Operation): ProtocolHandler => {
@@ -59,17 +65,16 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): Protocol {
     const outputAst = outputSchema.ast;
 
     // Pre-compute encoder (done once at init)
-    const encodeInput = Schema.encodeEffect(inputSchema);
+    const encodeInput = inputEncoderSync(inputAst as any);
 
     // Prefer the explicit operation name emitted by the generator; fall back
     // to extracting it from the input schema's identifier by removing the
     // "Request", "Input", or "Message" suffix. RDS-family query services
-    // (RDS, ElastiCache, Redshift, …) name their input shapes "XxxMessage"
+    // (RDS, ElastiCache, Redshift, ...) name their input shapes "XxxMessage"
     // rather than "XxxRequest".
     const identifier = getIdentifier(inputAst) ?? "";
     const operationName =
-      operation.operationName ??
-      identifier.replace(/(?:Request|Input|Message)$/, "");
+      operation.operationName ?? identifier.replace(/(?:Request|Input|Message)$/, "");
 
     // Build X-Amz-Target from the identifier structure
     const targetHeader = buildXAmzTarget(inputAst, operationName);
@@ -94,87 +99,86 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): Protocol {
       }
     }
 
+    const serialize = (input: unknown): Request => {
+      // Encode the input via schema - handles all transformations
+      const encoded = encodeInput(input);
+
+      const request: Request = {
+        method: "POST",
+        path: "/",
+        query: {},
+        headers: {
+          "Content-Type": contentType,
+          "X-Amz-Target": targetHeader,
+        },
+      };
+
+      request.body = JSON.stringify(encoded ?? {});
+
+      return request;
+    };
+
+    const deserializeText = (response: TextResponse): unknown => {
+      const bodyText = response.body;
+      // Parse JSON body (reviver converts null -> undefined since AWS returns null for absent fields)
+      if (bodyText) {
+        try {
+          const parsed = JSON.parse(bodyText, (_, v) => (v === null ? undefined : v));
+          if (parsed && typeof parsed === "object") {
+            return parsed as Record<string, unknown>;
+          }
+        } catch {
+          // Lenient mode returns the body as read.
+          return new Unreadable(
+            new ParseError({
+              message: `Failed to parse JSON body: ${outputBody(operation, bodyText)}`,
+            }),
+            bodyText,
+          );
+        }
+      }
+      return {};
+    };
+
     return {
-      serializeRequest: Effect.fn(function* (input: unknown) {
-        // Encode the input via schema - handles all transformations
-        const encoded = yield* encodeInput(input).pipe(
-          Effect.mapError((err) => new ParseError({ message: err.message })),
-        );
+      serialize,
+      deserializeText,
 
-        const request: Request = {
-          method: "POST",
-          path: "/",
-          query: {},
-          headers: {
-            "Content-Type": contentType,
-            "X-Amz-Target": targetHeader,
-          },
-        };
-
-        request.body = JSON.stringify(encoded ?? {});
-
-        return request;
-      }),
-
-      deserializeResponse: Effect.fn(function* (response: Response) {
+      deserializeStream: (response) => {
         // Handle streaming output (event stream)
-        if (streamingOutputProp && response.body) {
-          if (streamingOutputProp.isEventStream) {
-            // Parse event stream to typed union events, decoded through the
-            // event schema so blob/timestamp members match the generated types
-            return {
-              [streamingOutputProp.name]: parseEventStreamToUnion(
+        if (!streamingOutputProp || !response.body) return undefined;
+        if (streamingOutputProp.isEventStream) {
+          // Parse event stream to typed union events, decoded through the
+          // event schema so blob/timestamp members match the generated types
+          return Effect.succeed({
+            [streamingOutputProp.name]: eventStreamWith(streamingOutputProp.eventSchema, (codec) =>
+              codec.parseEventStreamToUnion(
                 response.body as ReadableStream<Uint8Array>,
                 undefined,
                 streamingOutputProp.eventSchema,
               ),
-            };
-          }
-          // Raw streaming output (shouldn't happen for awsJson, but handle it)
-          return {
-            [streamingOutputProp.name]: response.body,
-          };
+            ),
+          });
         }
+        // Raw streaming output (shouldn't happen for awsJson, but handle it)
+        return Effect.succeed({ [streamingOutputProp.name]: response.body });
+      },
 
+      deserializeError: Effect.fnUntraced(function* (response: Response) {
         // Read body as text
         const bodyText = yield* readStreamAsText(response.body);
 
-        // Parse JSON body (reviver converts null → undefined since AWS returns null for absent fields)
-        if (bodyText) {
-          try {
-            const parsed = JSON.parse(bodyText, (_, v) =>
-              v === null ? undefined : v,
-            );
-            if (parsed && typeof parsed === "object") {
-              return parsed as Record<string, unknown>;
-            }
-          } catch {
-            return yield* new ParseError({
-              message: `Failed to parse JSON body: ${bodyText}`,
-            });
-          }
-        }
-
-        return {};
-      }),
-
-      deserializeError: Effect.fn(function* (response: Response) {
-        // Read body as text
-        const bodyText = yield* readStreamAsText(response.body);
-
-        // Parse JSON body (reviver converts null → undefined)
+        // Parse JSON body (reviver converts null -> undefined)
         let body: Record<string, unknown> = {};
         if (bodyText) {
           try {
-            const parsed = JSON.parse(bodyText, (_, v) =>
-              v === null ? undefined : v,
-            );
+            const parsed = JSON.parse(bodyText, (_, v) => (v === null ? undefined : v));
             if (parsed && typeof parsed === "object") {
               body = parsed as Record<string, unknown>;
             }
           } catch {
             return yield* new ParseError({
-              message: `Failed to parse error JSON body: ${bodyText}`,
+              message: `Failed to parse error JSON body: ${errorBody(operation, bodyText)}`,
             });
           }
         }
@@ -190,7 +194,7 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): Protocol {
 
         if (!rawErrorCode) {
           return yield* new ParseError({
-            message: `No error code found in response. Headers: ${JSON.stringify(response.headers)}, Body: ${bodyText}`,
+            message: `No error code found in response. Headers: ${JSON.stringify(response.headers)}, Body: ${errorBody(operation, bodyText)}`,
           });
         }
 
@@ -221,8 +225,7 @@ function buildXAmzTarget(ast: AST.AST, operationName: string): string {
   // Use the service shape name from the Smithy model
   // This is the proper spec-compliant value (e.g., "TrentService" for KMS,
   // "AWSStepFunctions" for SFN, "DynamoDB_20120810" for DynamoDB)
-  const serviceName =
-    awsApiService?.serviceShapeName ?? awsApiService?.sdkId ?? "";
+  const serviceName = awsApiService?.serviceShapeName ?? awsApiService?.sdkId ?? "";
 
   if (serviceName) {
     return `${serviceName}.${operationName}`;

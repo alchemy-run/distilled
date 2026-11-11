@@ -1,12 +1,13 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Redis Cloud credentials — hand-written.
+ * Redis Cloud credentials -- hand-written.
  *
  * Every REST request authenticates with two API keys (and optionally an SSO
  * token), sent as headers:
  *
- *   x-api-key         — account key (identifies the Redis Cloud account)
- *   x-api-secret-key  — user key (identifies the caller)
- *   x-auth-token      — optional SSO token
+ *   x-api-key         -- account key (identifies the Redis Cloud account)
+ *   x-api-secret-key  -- user key (identifies the caller)
+ *   x-auth-token      -- optional SSO token
  *
  * See https://redis.io/docs/latest/operate/rc/api/get-started/manage-api-keys/
  *
@@ -18,10 +19,9 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /**
- * Redis Cloud API root. Operation paths already include `/v1/…`, so the
+ * Redis Cloud API root. Operation paths already include `/v1/...`, so the
  * version is not part of the base URL.
  */
 export const DEFAULT_API_BASE_URL = "https://api.redislabs.com";
@@ -33,10 +33,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("RedisCloudCredentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "RedisCloudCredentials",
+  ) {}
 
 /** Auth headers for a resolved credentials config. */
 export const formatHeaders = (config: Config): Record<string, string> => {
@@ -50,22 +50,19 @@ export const formatHeaders = (config: Config): Record<string, string> => {
   return headers;
 };
 
-/** Layer from a plain account key + user secret + optional base URL. */
+/** Layer from a redacted account key + user secret + optional base URL. */
 export const fromApiKey = (config: {
-  readonly apiKey: string;
-  readonly apiSecretKey: string;
-  readonly authToken?: string;
+  readonly apiKey: Redacted.Redacted<string>;
+  readonly apiSecretKey: Redacted.Redacted<string>;
+  readonly authToken?: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
-      apiSecretKey: Redacted.make(config.apiSecretKey),
-      authToken:
-        config.authToken !== undefined
-          ? Redacted.make(config.authToken)
-          : undefined,
+      apiKey: config.apiKey,
+      apiSecretKey: config.apiSecretKey,
+      authToken: config.authToken !== undefined ? config.authToken : undefined,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );
@@ -74,9 +71,9 @@ export const fromApiKey = (config: {
  * Reads REDIS_CLOUD_API_KEY and REDIS_CLOUD_API_SECRET_KEY (required),
  * REDIS_CLOUD_AUTH_TOKEN and REDIS_CLOUD_API_BASE_URL (optional).
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.REDIS_CLOUD_API_KEY;
     const apiSecretKey = process.env.REDIS_CLOUD_API_SECRET_KEY;
 
@@ -94,5 +91,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
       authToken: authToken !== undefined ? Redacted.make(authToken) : undefined,
       apiBaseUrl: process.env.REDIS_CLOUD_API_BASE_URL ?? DEFAULT_API_BASE_URL,
     };
-  }).pipe(Effect.orDie),
+  }),
 );

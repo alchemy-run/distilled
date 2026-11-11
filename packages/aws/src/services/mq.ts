@@ -1,19 +1,24 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({ sdkId: "mq", serviceShapeName: "mq" });
-const auth = T.AwsAuthSigv4({ name: "mq" });
-const ver = T.ServiceVersion("2017-11-27");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({ sdkId: "mq", serviceShapeName: "mq" });
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "mq" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2017-11-27");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -25,14 +30,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -55,215 +56,155 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://mq-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://mq-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://mq.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://mq.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://mq.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://mq.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://mq.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "mq",
+  service: "mq",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
     "BadRequestException",
     {
-      ErrorAttribute: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceShareErrors: S.optional(
-        S.suspend(() => __listOfResourceShareError).annotate({
+      ErrorAttribute: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      ResourceShareErrors: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => __listOfResourceShareError).annotate({
           identifier: "__listOfResourceShareError",
         }),
       ),
     },
-    T.HttpError(400),
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
     {
-      ErrorAttribute: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceShareErrors: S.optional(
-        S.suspend(() => __listOfResourceShareError).annotate({
+      ErrorAttribute: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      ResourceShareErrors: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => __listOfResourceShareError).annotate({
           identifier: "__listOfResourceShareError",
         }),
       ),
     },
-    T.HttpError(409),
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class ForbiddenException
   extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
     "ForbiddenException",
     {
-      ErrorAttribute: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceShareErrors: S.optional(
-        S.suspend(() => __listOfResourceShareError).annotate({
+      ErrorAttribute: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      ResourceShareErrors: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => __listOfResourceShareError).annotate({
           identifier: "__listOfResourceShareError",
         }),
       ),
     },
-    T.HttpError(403),
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class InternalServerErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServerErrorException>()(
     "InternalServerErrorException",
     {
-      ErrorAttribute: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceShareErrors: S.optional(
-        S.suspend(() => __listOfResourceShareError).annotate({
+      ErrorAttribute: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      ResourceShareErrors: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => __listOfResourceShareError).annotate({
           identifier: "__listOfResourceShareError",
         }),
       ),
     },
-    T.HttpError(500),
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
     {
-      ErrorAttribute: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceShareErrors: S.optional(
-        S.suspend(() => __listOfResourceShareError).annotate({
+      ErrorAttribute: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      ResourceShareErrors: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => __listOfResourceShareError).annotate({
           identifier: "__listOfResourceShareError",
         }),
       ),
     },
-    T.HttpError(404),
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
     "UnauthorizedException",
     {
-      ErrorAttribute: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceShareErrors: S.optional(
-        S.suspend(() => __listOfResourceShareError).annotate({
+      ErrorAttribute: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      ResourceShareErrors: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => __listOfResourceShareError).annotate({
           identifier: "__listOfResourceShareError",
         }),
       ),
     },
-    T.HttpError(401),
+    /*@__PURE__*/ T.HttpError(401),
   ).pipe(C.withAuthError) {}
-export type AuthenticationStrategy =
-  | "SIMPLE"
-  | "LDAP"
-  | "CONFIG_MANAGED"
-  | (string & {});
-export const AuthenticationStrategy = S.String;
-
+export type AuthenticationStrategy = "SIMPLE" | "LDAP" | "CONFIG_MANAGED" | (string & {});
 export interface ConfigurationId {
-  Id?: string;
-  Revision?: number;
+  Id?: string | undefined;
+  Revision?: number | undefined;
 }
-export const ConfigurationId = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String), Revision: S.optional(S.Number) }).pipe(
-    S.encodeKeys({ Id: "id", Revision: "revision" }),
-  ),
-).annotate({
-  identifier: "ConfigurationId",
-}) as any as S.Schema<ConfigurationId>;
 export type DeploymentMode =
   | "SINGLE_INSTANCE"
   | "ACTIVE_STANDBY_MULTI_AZ"
   | "CLUSTER_MULTI_AZ"
   | (string & {});
-export const DeploymentMode = S.String;
-
 export interface EncryptionOptions {
-  KmsKeyId?: string;
-  UseAwsOwnedKey?: boolean;
+  KmsKeyId?: string | undefined;
+  UseAwsOwnedKey?: boolean | undefined;
 }
-export const EncryptionOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KmsKeyId: S.optional(S.String),
-    UseAwsOwnedKey: S.optional(S.Boolean),
-  }).pipe(
-    S.encodeKeys({ KmsKeyId: "kmsKeyId", UseAwsOwnedKey: "useAwsOwnedKey" }),
-  ),
-).annotate({
-  identifier: "EncryptionOptions",
-}) as any as S.Schema<EncryptionOptions>;
 export type EngineType = "ACTIVEMQ" | "RABBITMQ" | (string & {});
-export const EngineType = S.String;
-
 export type __listOf__string = string[];
-export const __listOf__string = /*@__PURE__*/ S.Array(S.String);
+const __listOf__string = /*@__PURE__*/ __L.at(__c32, 0);
 export interface LdapServerMetadataInput {
-  Hosts?: string[];
-  RoleBase?: string;
-  RoleName?: string;
-  RoleSearchMatching?: string;
-  RoleSearchSubtree?: boolean;
-  ServiceAccountPassword?: string | redacted.Redacted<string>;
-  ServiceAccountUsername?: string;
-  UserBase?: string;
-  UserRoleName?: string;
-  UserSearchMatching?: string;
-  UserSearchSubtree?: boolean;
+  Hosts?: string[] | undefined;
+  RoleBase?: string | undefined;
+  RoleName?: string | undefined;
+  RoleSearchMatching?: string | undefined;
+  RoleSearchSubtree?: boolean | undefined;
+  ServiceAccountPassword?: string | redacted.Redacted<string> | undefined;
+  ServiceAccountUsername?: string | undefined;
+  UserBase?: string | undefined;
+  UserRoleName?: string | undefined;
+  UserSearchMatching?: string | undefined;
+  UserSearchSubtree?: boolean | undefined;
 }
-export const LdapServerMetadataInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Hosts: S.optional(__listOf__string),
-    RoleBase: S.optional(S.String),
-    RoleName: S.optional(S.String),
-    RoleSearchMatching: S.optional(S.String),
-    RoleSearchSubtree: S.optional(S.Boolean),
-    ServiceAccountPassword: S.optional(SensitiveString),
-    ServiceAccountUsername: S.optional(S.String),
-    UserBase: S.optional(S.String),
-    UserRoleName: S.optional(S.String),
-    UserSearchMatching: S.optional(S.String),
-    UserSearchSubtree: S.optional(S.Boolean),
-  }).pipe(
-    S.encodeKeys({
-      Hosts: "hosts",
-      RoleBase: "roleBase",
-      RoleName: "roleName",
-      RoleSearchMatching: "roleSearchMatching",
-      RoleSearchSubtree: "roleSearchSubtree",
-      ServiceAccountPassword: "serviceAccountPassword",
-      ServiceAccountUsername: "serviceAccountUsername",
-      UserBase: "userBase",
-      UserRoleName: "userRoleName",
-      UserSearchMatching: "userSearchMatching",
-      UserSearchSubtree: "userSearchSubtree",
-    }),
-  ),
-).annotate({
-  identifier: "LdapServerMetadataInput",
-}) as any as S.Schema<LdapServerMetadataInput>;
 export interface Logs {
-  Audit?: boolean;
-  General?: boolean;
+  Audit?: boolean | undefined;
+  General?: boolean | undefined;
 }
-export const Logs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Audit: S.optional(S.Boolean),
-    General: S.optional(S.Boolean),
-  }).pipe(S.encodeKeys({ Audit: "audit", General: "general" })),
-).annotate({ identifier: "Logs" }) as any as S.Schema<Logs>;
 export type DayOfWeek =
   | "MONDAY"
   | "TUESDAY"
@@ -273,498 +214,127 @@ export type DayOfWeek =
   | "SATURDAY"
   | "SUNDAY"
   | (string & {});
-export const DayOfWeek = S.String;
-
 export interface WeeklyStartTime {
-  DayOfWeek?: DayOfWeek;
-  TimeOfDay?: string;
-  TimeZone?: string;
+  DayOfWeek?: DayOfWeek | undefined;
+  TimeOfDay?: string | undefined;
+  TimeZone?: string | undefined;
 }
-export const WeeklyStartTime = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DayOfWeek: S.optional(DayOfWeek),
-    TimeOfDay: S.optional(S.String),
-    TimeZone: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      DayOfWeek: "dayOfWeek",
-      TimeOfDay: "timeOfDay",
-      TimeZone: "timeZone",
-    }),
-  ),
-).annotate({
-  identifier: "WeeklyStartTime",
-}) as any as S.Schema<WeeklyStartTime>;
 export type BrokerStorageType = "EBS" | "EFS" | (string & {});
-export const BrokerStorageType = S.String;
-
 export type __mapOf__string = { [key: string]: string | undefined };
-export const __mapOf__string = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+const __mapOf__string = /*@__PURE__*/ __L.at(__c31, 0);
 export interface User {
-  ConsoleAccess?: boolean;
-  Groups?: string[];
-  Password?: string | redacted.Redacted<string>;
-  Username?: string;
-  ReplicationUser?: boolean;
+  ConsoleAccess?: boolean | undefined;
+  Groups?: string[] | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  Username?: string | undefined;
+  ReplicationUser?: boolean | undefined;
 }
-export const User = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConsoleAccess: S.optional(S.Boolean),
-    Groups: S.optional(__listOf__string),
-    Password: S.optional(SensitiveString),
-    Username: S.optional(S.String),
-    ReplicationUser: S.optional(S.Boolean),
-  }).pipe(
-    S.encodeKeys({
-      ConsoleAccess: "consoleAccess",
-      Groups: "groups",
-      Password: "password",
-      Username: "username",
-      ReplicationUser: "replicationUser",
-    }),
-  ),
-).annotate({ identifier: "User" }) as any as S.Schema<User>;
 export type __listOfUser = User[];
-export const __listOfUser = /*@__PURE__*/ S.Array(User);
+const __listOfUser = /*@__PURE__*/ __L.at(__c27, 1);
 export type DataReplicationMode = "NONE" | "CRDR" | (string & {});
-export const DataReplicationMode = S.String;
-
 export interface CreateBrokerRequest {
-  AuthenticationStrategy?: AuthenticationStrategy;
-  AutoMinorVersionUpgrade?: boolean;
-  BrokerName?: string;
-  Configuration?: ConfigurationId;
-  CreatorRequestId?: string;
-  DeploymentMode?: DeploymentMode;
-  EncryptionOptions?: EncryptionOptions;
-  EngineType?: EngineType;
-  EngineVersion?: string;
-  HostInstanceType?: string;
-  LdapServerMetadata?: LdapServerMetadataInput;
-  Logs?: Logs;
-  MaintenanceWindowStartTime?: WeeklyStartTime;
-  PubliclyAccessible?: boolean;
-  SecurityGroups?: string[];
-  StorageSize?: number;
-  StorageType?: BrokerStorageType;
-  SubnetIds?: string[];
-  Tags?: { [key: string]: string | undefined };
-  Users?: User[];
-  DataReplicationMode?: DataReplicationMode;
-  DataReplicationPrimaryBrokerArn?: string;
+  AuthenticationStrategy?: AuthenticationStrategy | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  BrokerName?: string | undefined;
+  Configuration?: ConfigurationId | undefined;
+  CreatorRequestId?: string | undefined;
+  DeploymentMode?: DeploymentMode | undefined;
+  EncryptionOptions?: EncryptionOptions | undefined;
+  EngineType?: EngineType | undefined;
+  EngineVersion?: string | undefined;
+  HostInstanceType?: string | undefined;
+  LdapServerMetadata?: LdapServerMetadataInput | undefined;
+  Logs?: Logs | undefined;
+  MaintenanceWindowStartTime?: WeeklyStartTime | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  SecurityGroups?: string[] | undefined;
+  StorageSize?: number | undefined;
+  StorageType?: BrokerStorageType | undefined;
+  SubnetIds?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Users?: User[] | undefined;
+  DataReplicationMode?: DataReplicationMode | undefined;
+  DataReplicationPrimaryBrokerArn?: string | undefined;
 }
-export const CreateBrokerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AuthenticationStrategy: S.optional(AuthenticationStrategy),
-    AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    BrokerName: S.optional(S.String),
-    Configuration: S.optional(ConfigurationId),
-    CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
-    DeploymentMode: S.optional(DeploymentMode),
-    EncryptionOptions: S.optional(EncryptionOptions),
-    EngineType: S.optional(EngineType),
-    EngineVersion: S.optional(S.String),
-    HostInstanceType: S.optional(S.String),
-    LdapServerMetadata: S.optional(LdapServerMetadataInput),
-    Logs: S.optional(Logs),
-    MaintenanceWindowStartTime: S.optional(WeeklyStartTime),
-    PubliclyAccessible: S.optional(S.Boolean),
-    SecurityGroups: S.optional(__listOf__string),
-    StorageSize: S.optional(S.Number),
-    StorageType: S.optional(BrokerStorageType),
-    SubnetIds: S.optional(__listOf__string),
-    Tags: S.optional(__mapOf__string),
-    Users: S.optional(__listOfUser),
-    DataReplicationMode: S.optional(DataReplicationMode),
-    DataReplicationPrimaryBrokerArn: S.optional(S.String),
-  })
-    .pipe(
-      S.encodeKeys({
-        AuthenticationStrategy: "authenticationStrategy",
-        AutoMinorVersionUpgrade: "autoMinorVersionUpgrade",
-        BrokerName: "brokerName",
-        Configuration: "configuration",
-        CreatorRequestId: "creatorRequestId",
-        DeploymentMode: "deploymentMode",
-        EncryptionOptions: "encryptionOptions",
-        EngineType: "engineType",
-        EngineVersion: "engineVersion",
-        HostInstanceType: "hostInstanceType",
-        LdapServerMetadata: "ldapServerMetadata",
-        Logs: "logs",
-        MaintenanceWindowStartTime: "maintenanceWindowStartTime",
-        PubliclyAccessible: "publiclyAccessible",
-        SecurityGroups: "securityGroups",
-        StorageSize: "storageSize",
-        StorageType: "storageType",
-        SubnetIds: "subnetIds",
-        Tags: "tags",
-        Users: "users",
-        DataReplicationMode: "dataReplicationMode",
-        DataReplicationPrimaryBrokerArn: "dataReplicationPrimaryBrokerArn",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/brokers" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateBrokerRequest",
-}) as any as S.Schema<CreateBrokerRequest>;
 export interface CreateBrokerResponse {
-  BrokerArn?: string;
-  BrokerId?: string;
+  BrokerArn?: string | undefined;
+  BrokerId?: string | undefined;
 }
-export const CreateBrokerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BrokerArn: S.optional(S.String),
-    BrokerId: S.optional(S.String),
-  }).pipe(S.encodeKeys({ BrokerArn: "brokerArn", BrokerId: "brokerId" })),
-).annotate({
-  identifier: "CreateBrokerResponse",
-}) as any as S.Schema<CreateBrokerResponse>;
 export interface CreateConfigurationRequest {
-  AuthenticationStrategy?: AuthenticationStrategy;
-  EngineType?: EngineType;
-  EngineVersion?: string;
-  Name?: string;
-  Tags?: { [key: string]: string | undefined };
+  AuthenticationStrategy?: AuthenticationStrategy | undefined;
+  EngineType?: EngineType | undefined;
+  EngineVersion?: string | undefined;
+  Name?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
-export const CreateConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AuthenticationStrategy: S.optional(AuthenticationStrategy),
-    EngineType: S.optional(EngineType),
-    EngineVersion: S.optional(S.String),
-    Name: S.optional(S.String),
-    Tags: S.optional(__mapOf__string),
-  })
-    .pipe(
-      S.encodeKeys({
-        AuthenticationStrategy: "authenticationStrategy",
-        EngineType: "engineType",
-        EngineVersion: "engineVersion",
-        Name: "name",
-        Tags: "tags",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/configurations" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateConfigurationRequest",
-}) as any as S.Schema<CreateConfigurationRequest>;
 export type __timestampIso8601 = Date;
 export interface ConfigurationRevision {
-  Created?: Date;
-  Description?: string;
-  Revision?: number;
+  Created?: Date | undefined;
+  Description?: string | undefined;
+  Revision?: number | undefined;
 }
-export const ConfigurationRevision = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Created: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    Description: S.optional(S.String),
-    Revision: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({
-      Created: "created",
-      Description: "description",
-      Revision: "revision",
-    }),
-  ),
-).annotate({
-  identifier: "ConfigurationRevision",
-}) as any as S.Schema<ConfigurationRevision>;
 export interface CreateConfigurationResponse {
-  Arn?: string;
-  AuthenticationStrategy?: AuthenticationStrategy;
-  Created?: Date;
-  Id?: string;
-  LatestRevision?: ConfigurationRevision & {
-    Created: __timestampIso8601;
-    Revision: number;
-  };
-  Name?: string;
+  Arn?: string | undefined;
+  AuthenticationStrategy?: AuthenticationStrategy | undefined;
+  Created?: Date | undefined;
+  Id?: string | undefined;
+  LatestRevision?:
+    | (ConfigurationRevision & { Created: __timestampIso8601; Revision: number })
+    | undefined;
+  Name?: string | undefined;
 }
-export const CreateConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    AuthenticationStrategy: S.optional(AuthenticationStrategy),
-    Created: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    Id: S.optional(S.String),
-    LatestRevision: S.optional(ConfigurationRevision),
-    Name: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      AuthenticationStrategy: "authenticationStrategy",
-      Created: "created",
-      Id: "id",
-      LatestRevision: "latestRevision",
-      Name: "name",
-    }),
-  ),
-).annotate({
-  identifier: "CreateConfigurationResponse",
-}) as any as S.Schema<CreateConfigurationResponse>;
 export interface CreateTagsRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
-export const CreateTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: S.optional(__mapOf__string),
-  })
-    .pipe(S.encodeKeys({ Tags: "tags" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/tags/{ResourceArn}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateTagsRequest",
-}) as any as S.Schema<CreateTagsRequest>;
 export interface CreateTagsResponse {}
-export const CreateTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CreateTagsResponse",
-}) as any as S.Schema<CreateTagsResponse>;
 export interface CreateUserRequest {
   BrokerId: string;
-  ConsoleAccess?: boolean;
-  Groups?: string[];
-  Password?: string | redacted.Redacted<string>;
+  ConsoleAccess?: boolean | undefined;
+  Groups?: string[] | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
   Username: string;
-  ReplicationUser?: boolean;
+  ReplicationUser?: boolean | undefined;
 }
-export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
-    ConsoleAccess: S.optional(S.Boolean),
-    Groups: S.optional(__listOf__string),
-    Password: S.optional(SensitiveString),
-    Username: S.String.pipe(T.HttpLabel("Username")),
-    ReplicationUser: S.optional(S.Boolean),
-  })
-    .pipe(
-      S.encodeKeys({
-        ConsoleAccess: "consoleAccess",
-        Groups: "groups",
-        Password: "password",
-        ReplicationUser: "replicationUser",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/v1/brokers/{BrokerId}/users/{Username}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateUserRequest",
-}) as any as S.Schema<CreateUserRequest>;
 export interface CreateUserResponse {}
-export const CreateUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CreateUserResponse",
-}) as any as S.Schema<CreateUserResponse>;
 export interface DeleteBrokerRequest {
   BrokerId: string;
 }
-export const DeleteBrokerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BrokerId: S.String.pipe(T.HttpLabel("BrokerId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/brokers/{BrokerId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBrokerRequest",
-}) as any as S.Schema<DeleteBrokerRequest>;
 export interface DeleteBrokerResponse {
-  BrokerId?: string;
+  BrokerId?: string | undefined;
 }
-export const DeleteBrokerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BrokerId: S.optional(S.String) }).pipe(
-    S.encodeKeys({ BrokerId: "brokerId" }),
-  ),
-).annotate({
-  identifier: "DeleteBrokerResponse",
-}) as any as S.Schema<DeleteBrokerResponse>;
 export interface DeleteConfigurationRequest {
   ConfigurationId: string;
 }
-export const DeleteConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/configurations/{ConfigurationId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteConfigurationRequest",
-}) as any as S.Schema<DeleteConfigurationRequest>;
 export interface DeleteConfigurationResponse {
-  ConfigurationId?: string;
+  ConfigurationId?: string | undefined;
 }
-export const DeleteConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ConfigurationId: S.optional(S.String) }).pipe(
-    S.encodeKeys({ ConfigurationId: "configurationId" }),
-  ),
-).annotate({
-  identifier: "DeleteConfigurationResponse",
-}) as any as S.Schema<DeleteConfigurationResponse>;
 export interface DeleteTagsRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
-export const DeleteTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: S.optional(__listOf__string).pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteTagsRequest",
-}) as any as S.Schema<DeleteTagsRequest>;
 export interface DeleteTagsResponse {}
-export const DeleteTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteTagsResponse",
-}) as any as S.Schema<DeleteTagsResponse>;
 export interface DeleteUserRequest {
   BrokerId: string;
   Username: string;
 }
-export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
-    Username: S.String.pipe(T.HttpLabel("Username")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/brokers/{BrokerId}/users/{Username}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
 export interface DeleteUserResponse {}
-export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteUserResponse",
-}) as any as S.Schema<DeleteUserResponse>;
 export interface DescribeBrokerRequest {
   BrokerId: string;
 }
-export const DescribeBrokerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BrokerId: S.String.pipe(T.HttpLabel("BrokerId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/brokers/{BrokerId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeBrokerRequest",
-}) as any as S.Schema<DescribeBrokerRequest>;
 export interface ActionRequired {
-  ActionRequiredCode?: string;
-  ActionRequiredInfo?: string;
+  ActionRequiredCode?: string | undefined;
+  ActionRequiredInfo?: string | undefined;
 }
-export const ActionRequired = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionRequiredCode: S.optional(S.String),
-    ActionRequiredInfo: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      ActionRequiredCode: "actionRequiredCode",
-      ActionRequiredInfo: "actionRequiredInfo",
-    }),
-  ),
-).annotate({ identifier: "ActionRequired" }) as any as S.Schema<ActionRequired>;
 export type __listOfActionRequired = ActionRequired[];
-export const __listOfActionRequired = /*@__PURE__*/ S.Array(ActionRequired);
+const __listOfActionRequired = /*@__PURE__*/ __L.at(__c6, 2);
 export interface BrokerInstance {
-  ConsoleURL?: string;
-  Endpoints?: string[];
-  IpAddress?: string;
+  ConsoleURL?: string | undefined;
+  Endpoints?: string[] | undefined;
+  IpAddress?: string | undefined;
 }
-export const BrokerInstance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConsoleURL: S.optional(S.String),
-    Endpoints: S.optional(__listOf__string),
-    IpAddress: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      ConsoleURL: "consoleURL",
-      Endpoints: "endpoints",
-      IpAddress: "ipAddress",
-    }),
-  ),
-).annotate({ identifier: "BrokerInstance" }) as any as S.Schema<BrokerInstance>;
 export type __listOfBrokerInstance = BrokerInstance[];
-export const __listOfBrokerInstance = /*@__PURE__*/ S.Array(BrokerInstance);
+const __listOfBrokerInstance = /*@__PURE__*/ __L.at(__c6, 4);
 export type BrokerState =
   | "CREATION_IN_PROGRESS"
   | "CREATION_FAILED"
@@ -774,604 +344,214 @@ export type BrokerState =
   | "CRITICAL_ACTION_REQUIRED"
   | "REPLICA"
   | (string & {});
-export const BrokerState = S.String;
-
 export type __listOfConfigurationId = ConfigurationId[];
-export const __listOfConfigurationId = /*@__PURE__*/ S.Array(ConfigurationId);
+const __listOfConfigurationId = /*@__PURE__*/ __L.at(__c6, 5);
 export interface Configurations {
-  Current?: ConfigurationId;
-  History?: ConfigurationId[];
-  Pending?: ConfigurationId;
+  Current?: ConfigurationId | undefined;
+  History?: ConfigurationId[] | undefined;
+  Pending?: ConfigurationId | undefined;
 }
-export const Configurations = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Current: S.optional(ConfigurationId),
-    History: S.optional(__listOfConfigurationId),
-    Pending: S.optional(ConfigurationId),
-  }).pipe(
-    S.encodeKeys({
-      Current: "current",
-      History: "history",
-      Pending: "pending",
-    }),
-  ),
-).annotate({ identifier: "Configurations" }) as any as S.Schema<Configurations>;
 export interface LdapServerMetadataOutput {
-  Hosts?: string[];
-  RoleBase?: string;
-  RoleName?: string;
-  RoleSearchMatching?: string;
-  RoleSearchSubtree?: boolean;
-  ServiceAccountUsername?: string;
-  UserBase?: string;
-  UserRoleName?: string;
-  UserSearchMatching?: string;
-  UserSearchSubtree?: boolean;
+  Hosts?: string[] | undefined;
+  RoleBase?: string | undefined;
+  RoleName?: string | undefined;
+  RoleSearchMatching?: string | undefined;
+  RoleSearchSubtree?: boolean | undefined;
+  ServiceAccountUsername?: string | undefined;
+  UserBase?: string | undefined;
+  UserRoleName?: string | undefined;
+  UserSearchMatching?: string | undefined;
+  UserSearchSubtree?: boolean | undefined;
 }
-export const LdapServerMetadataOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Hosts: S.optional(__listOf__string),
-    RoleBase: S.optional(S.String),
-    RoleName: S.optional(S.String),
-    RoleSearchMatching: S.optional(S.String),
-    RoleSearchSubtree: S.optional(S.Boolean),
-    ServiceAccountUsername: S.optional(S.String),
-    UserBase: S.optional(S.String),
-    UserRoleName: S.optional(S.String),
-    UserSearchMatching: S.optional(S.String),
-    UserSearchSubtree: S.optional(S.Boolean),
-  }).pipe(
-    S.encodeKeys({
-      Hosts: "hosts",
-      RoleBase: "roleBase",
-      RoleName: "roleName",
-      RoleSearchMatching: "roleSearchMatching",
-      RoleSearchSubtree: "roleSearchSubtree",
-      ServiceAccountUsername: "serviceAccountUsername",
-      UserBase: "userBase",
-      UserRoleName: "userRoleName",
-      UserSearchMatching: "userSearchMatching",
-      UserSearchSubtree: "userSearchSubtree",
-    }),
-  ),
-).annotate({
-  identifier: "LdapServerMetadataOutput",
-}) as any as S.Schema<LdapServerMetadataOutput>;
 export interface PendingLogs {
-  Audit?: boolean;
-  General?: boolean;
+  Audit?: boolean | undefined;
+  General?: boolean | undefined;
 }
-export const PendingLogs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Audit: S.optional(S.Boolean),
-    General: S.optional(S.Boolean),
-  }).pipe(S.encodeKeys({ Audit: "audit", General: "general" })),
-).annotate({ identifier: "PendingLogs" }) as any as S.Schema<PendingLogs>;
 export interface LogsSummary {
-  Audit?: boolean;
-  AuditLogGroup?: string;
-  General?: boolean;
-  GeneralLogGroup?: string;
-  Pending?: PendingLogs;
+  Audit?: boolean | undefined;
+  AuditLogGroup?: string | undefined;
+  General?: boolean | undefined;
+  GeneralLogGroup?: string | undefined;
+  Pending?: PendingLogs | undefined;
 }
-export const LogsSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Audit: S.optional(S.Boolean),
-    AuditLogGroup: S.optional(S.String),
-    General: S.optional(S.Boolean),
-    GeneralLogGroup: S.optional(S.String),
-    Pending: S.optional(PendingLogs),
-  }).pipe(
-    S.encodeKeys({
-      Audit: "audit",
-      AuditLogGroup: "auditLogGroup",
-      General: "general",
-      GeneralLogGroup: "generalLogGroup",
-      Pending: "pending",
-    }),
-  ),
-).annotate({ identifier: "LogsSummary" }) as any as S.Schema<LogsSummary>;
 export type ChangeType = "CREATE" | "UPDATE" | "DELETE" | (string & {});
-export const ChangeType = S.String;
-
 export interface UserSummary {
-  PendingChange?: ChangeType;
-  Username?: string;
+  PendingChange?: ChangeType | undefined;
+  Username?: string | undefined;
 }
-export const UserSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PendingChange: S.optional(ChangeType),
-    Username: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({ PendingChange: "pendingChange", Username: "username" }),
-  ),
-).annotate({ identifier: "UserSummary" }) as any as S.Schema<UserSummary>;
 export type __listOfUserSummary = UserSummary[];
-export const __listOfUserSummary = /*@__PURE__*/ S.Array(UserSummary);
+const __listOfUserSummary = /*@__PURE__*/ __L.at(__c7, 1);
 export interface DataReplicationCounterpart {
-  BrokerId?: string;
-  Region?: string;
+  BrokerId?: string | undefined;
+  Region?: string | undefined;
 }
-export const DataReplicationCounterpart = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BrokerId: S.optional(S.String),
-    Region: S.optional(S.String),
-  }).pipe(S.encodeKeys({ BrokerId: "brokerId", Region: "region" })),
-).annotate({
-  identifier: "DataReplicationCounterpart",
-}) as any as S.Schema<DataReplicationCounterpart>;
 export interface DataReplicationMetadataOutput {
-  DataReplicationCounterpart?: DataReplicationCounterpart;
-  DataReplicationRole?: string;
+  DataReplicationCounterpart?: DataReplicationCounterpart | undefined;
+  DataReplicationRole?: string | undefined;
 }
-export const DataReplicationMetadataOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataReplicationCounterpart: S.optional(DataReplicationCounterpart),
-    DataReplicationRole: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      DataReplicationCounterpart: "dataReplicationCounterpart",
-      DataReplicationRole: "dataReplicationRole",
-    }),
-  ),
-).annotate({
-  identifier: "DataReplicationMetadataOutput",
-}) as any as S.Schema<DataReplicationMetadataOutput>;
 export interface DescribeBrokerResponse {
-  ActionsRequired?: ActionRequired[];
-  AuthenticationStrategy?: AuthenticationStrategy;
-  AutoMinorVersionUpgrade?: boolean;
-  BrokerArn?: string;
-  BrokerId?: string;
-  BrokerInstances?: BrokerInstance[];
-  BrokerName?: string;
-  BrokerState?: BrokerState;
-  Configurations?: Configurations & {
-    Current: ConfigurationId & { Id: string };
-    History: (ConfigurationId & { Id: string })[];
-    Pending: ConfigurationId & { Id: string };
-  };
-  Created?: Date;
-  DeploymentMode?: DeploymentMode;
-  EncryptionOptions?: EncryptionOptions & { UseAwsOwnedKey: boolean };
-  EngineType?: EngineType;
-  EngineVersion?: string;
-  HostInstanceType?: string;
-  LdapServerMetadata?: LdapServerMetadataOutput & {
-    Hosts: __listOf__string;
-    RoleBase: string;
-    RoleSearchMatching: string;
-    ServiceAccountUsername: string;
-    UserBase: string;
-    UserSearchMatching: string;
-  };
-  Logs?: LogsSummary & { General: boolean; GeneralLogGroup: string };
-  MaintenanceWindowStartTime?: WeeklyStartTime & {
-    DayOfWeek: DayOfWeek;
-    TimeOfDay: string;
-  };
-  PendingAuthenticationStrategy?: AuthenticationStrategy;
-  PendingEngineVersion?: string;
-  PendingHostInstanceType?: string;
-  PendingLdapServerMetadata?: LdapServerMetadataOutput & {
-    Hosts: __listOf__string;
-    RoleBase: string;
-    RoleSearchMatching: string;
-    ServiceAccountUsername: string;
-    UserBase: string;
-    UserSearchMatching: string;
-  };
-  PendingSecurityGroups?: string[];
-  PendingStorageSize?: number;
-  PubliclyAccessible?: boolean;
-  SecurityGroups?: string[];
-  StorageSize?: number;
-  StorageType?: BrokerStorageType;
-  SubnetIds?: string[];
-  Tags?: { [key: string]: string | undefined };
-  Users?: (UserSummary & { Username: string })[];
-  DataReplicationMetadata?: DataReplicationMetadataOutput & {
-    DataReplicationRole: string;
-    DataReplicationCounterpart: DataReplicationCounterpart & {
-      BrokerId: string;
-      Region: string;
-    };
-  };
-  DataReplicationMode?: DataReplicationMode;
-  PendingDataReplicationMetadata?: DataReplicationMetadataOutput & {
-    DataReplicationRole: string;
-    DataReplicationCounterpart: DataReplicationCounterpart & {
-      BrokerId: string;
-      Region: string;
-    };
-  };
-  PendingDataReplicationMode?: DataReplicationMode;
+  ActionsRequired?: ActionRequired[] | undefined;
+  AuthenticationStrategy?: AuthenticationStrategy | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  BrokerArn?: string | undefined;
+  BrokerId?: string | undefined;
+  BrokerInstances?: BrokerInstance[] | undefined;
+  BrokerName?: string | undefined;
+  BrokerState?: BrokerState | undefined;
+  Configurations?:
+    | (Configurations & {
+        Current: ConfigurationId & { Id: string };
+        History: (ConfigurationId & { Id: string })[];
+        Pending: ConfigurationId & { Id: string };
+      })
+    | undefined;
+  Created?: Date | undefined;
+  DeploymentMode?: DeploymentMode | undefined;
+  EncryptionOptions?: (EncryptionOptions & { UseAwsOwnedKey: boolean }) | undefined;
+  EngineType?: EngineType | undefined;
+  EngineVersion?: string | undefined;
+  HostInstanceType?: string | undefined;
+  LdapServerMetadata?:
+    | (LdapServerMetadataOutput & {
+        Hosts: __listOf__string;
+        RoleBase: string;
+        RoleSearchMatching: string;
+        ServiceAccountUsername: string;
+        UserBase: string;
+        UserSearchMatching: string;
+      })
+    | undefined;
+  Logs?: (LogsSummary & { General: boolean; GeneralLogGroup: string }) | undefined;
+  MaintenanceWindowStartTime?:
+    | (WeeklyStartTime & { DayOfWeek: DayOfWeek; TimeOfDay: string })
+    | undefined;
+  PendingAuthenticationStrategy?: AuthenticationStrategy | undefined;
+  PendingEngineVersion?: string | undefined;
+  PendingHostInstanceType?: string | undefined;
+  PendingLdapServerMetadata?:
+    | (LdapServerMetadataOutput & {
+        Hosts: __listOf__string;
+        RoleBase: string;
+        RoleSearchMatching: string;
+        ServiceAccountUsername: string;
+        UserBase: string;
+        UserSearchMatching: string;
+      })
+    | undefined;
+  PendingSecurityGroups?: string[] | undefined;
+  PendingStorageSize?: number | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  SecurityGroups?: string[] | undefined;
+  StorageSize?: number | undefined;
+  StorageType?: BrokerStorageType | undefined;
+  SubnetIds?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Users?: (UserSummary & { Username: string })[] | undefined;
+  DataReplicationMetadata?:
+    | (DataReplicationMetadataOutput & {
+        DataReplicationRole: string;
+        DataReplicationCounterpart: DataReplicationCounterpart & {
+          BrokerId: string;
+          Region: string;
+        };
+      })
+    | undefined;
+  DataReplicationMode?: DataReplicationMode | undefined;
+  PendingDataReplicationMetadata?:
+    | (DataReplicationMetadataOutput & {
+        DataReplicationRole: string;
+        DataReplicationCounterpart: DataReplicationCounterpart & {
+          BrokerId: string;
+          Region: string;
+        };
+      })
+    | undefined;
+  PendingDataReplicationMode?: DataReplicationMode | undefined;
 }
-export const DescribeBrokerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionsRequired: S.optional(__listOfActionRequired),
-    AuthenticationStrategy: S.optional(AuthenticationStrategy),
-    AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    BrokerArn: S.optional(S.String),
-    BrokerId: S.optional(S.String),
-    BrokerInstances: S.optional(__listOfBrokerInstance),
-    BrokerName: S.optional(S.String),
-    BrokerState: S.optional(BrokerState),
-    Configurations: S.optional(Configurations),
-    Created: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    DeploymentMode: S.optional(DeploymentMode),
-    EncryptionOptions: S.optional(EncryptionOptions),
-    EngineType: S.optional(EngineType),
-    EngineVersion: S.optional(S.String),
-    HostInstanceType: S.optional(S.String),
-    LdapServerMetadata: S.optional(LdapServerMetadataOutput),
-    Logs: S.optional(LogsSummary),
-    MaintenanceWindowStartTime: S.optional(WeeklyStartTime),
-    PendingAuthenticationStrategy: S.optional(AuthenticationStrategy),
-    PendingEngineVersion: S.optional(S.String),
-    PendingHostInstanceType: S.optional(S.String),
-    PendingLdapServerMetadata: S.optional(LdapServerMetadataOutput),
-    PendingSecurityGroups: S.optional(__listOf__string),
-    PendingStorageSize: S.optional(S.Number),
-    PubliclyAccessible: S.optional(S.Boolean),
-    SecurityGroups: S.optional(__listOf__string),
-    StorageSize: S.optional(S.Number),
-    StorageType: S.optional(BrokerStorageType),
-    SubnetIds: S.optional(__listOf__string),
-    Tags: S.optional(__mapOf__string),
-    Users: S.optional(__listOfUserSummary),
-    DataReplicationMetadata: S.optional(DataReplicationMetadataOutput),
-    DataReplicationMode: S.optional(DataReplicationMode),
-    PendingDataReplicationMetadata: S.optional(DataReplicationMetadataOutput),
-    PendingDataReplicationMode: S.optional(DataReplicationMode),
-  }).pipe(
-    S.encodeKeys({
-      ActionsRequired: "actionsRequired",
-      AuthenticationStrategy: "authenticationStrategy",
-      AutoMinorVersionUpgrade: "autoMinorVersionUpgrade",
-      BrokerArn: "brokerArn",
-      BrokerId: "brokerId",
-      BrokerInstances: "brokerInstances",
-      BrokerName: "brokerName",
-      BrokerState: "brokerState",
-      Configurations: "configurations",
-      Created: "created",
-      DeploymentMode: "deploymentMode",
-      EncryptionOptions: "encryptionOptions",
-      EngineType: "engineType",
-      EngineVersion: "engineVersion",
-      HostInstanceType: "hostInstanceType",
-      LdapServerMetadata: "ldapServerMetadata",
-      Logs: "logs",
-      MaintenanceWindowStartTime: "maintenanceWindowStartTime",
-      PendingAuthenticationStrategy: "pendingAuthenticationStrategy",
-      PendingEngineVersion: "pendingEngineVersion",
-      PendingHostInstanceType: "pendingHostInstanceType",
-      PendingLdapServerMetadata: "pendingLdapServerMetadata",
-      PendingSecurityGroups: "pendingSecurityGroups",
-      PendingStorageSize: "pendingStorageSize",
-      PubliclyAccessible: "publiclyAccessible",
-      SecurityGroups: "securityGroups",
-      StorageSize: "storageSize",
-      StorageType: "storageType",
-      SubnetIds: "subnetIds",
-      Tags: "tags",
-      Users: "users",
-      DataReplicationMetadata: "dataReplicationMetadata",
-      DataReplicationMode: "dataReplicationMode",
-      PendingDataReplicationMetadata: "pendingDataReplicationMetadata",
-      PendingDataReplicationMode: "pendingDataReplicationMode",
-    }),
-  ),
-).annotate({
-  identifier: "DescribeBrokerResponse",
-}) as any as S.Schema<DescribeBrokerResponse>;
 export type MaxResults = number;
 export interface DescribeBrokerEngineTypesRequest {
-  EngineType?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  EngineType?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeBrokerEngineTypesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EngineType: S.optional(S.String).pipe(T.HttpQuery("engineType")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/broker-engine-types" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeBrokerEngineTypesRequest",
-}) as any as S.Schema<DescribeBrokerEngineTypesRequest>;
 export interface EngineVersion {
-  Name?: string;
+  Name?: string | undefined;
 }
-export const EngineVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }).pipe(S.encodeKeys({ Name: "name" })),
-).annotate({ identifier: "EngineVersion" }) as any as S.Schema<EngineVersion>;
 export type __listOfEngineVersion = EngineVersion[];
-export const __listOfEngineVersion = /*@__PURE__*/ S.Array(EngineVersion);
+const __listOfEngineVersion = /*@__PURE__*/ __L.at(__c10, 1);
 export interface BrokerEngineType {
-  EngineType?: EngineType;
-  EngineVersions?: EngineVersion[];
+  EngineType?: EngineType | undefined;
+  EngineVersions?: EngineVersion[] | undefined;
 }
-export const BrokerEngineType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EngineType: S.optional(EngineType),
-    EngineVersions: S.optional(__listOfEngineVersion),
-  }).pipe(
-    S.encodeKeys({
-      EngineType: "engineType",
-      EngineVersions: "engineVersions",
-    }),
-  ),
-).annotate({
-  identifier: "BrokerEngineType",
-}) as any as S.Schema<BrokerEngineType>;
 export type __listOfBrokerEngineType = BrokerEngineType[];
-export const __listOfBrokerEngineType = /*@__PURE__*/ S.Array(BrokerEngineType);
+const __listOfBrokerEngineType = /*@__PURE__*/ __L.at(__c9, 2);
 export type __integerMin5Max100 = number;
 export interface DescribeBrokerEngineTypesResponse {
-  BrokerEngineTypes?: BrokerEngineType[];
-  MaxResults?: number;
-  NextToken?: string;
+  BrokerEngineTypes?: BrokerEngineType[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeBrokerEngineTypesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BrokerEngineTypes: S.optional(__listOfBrokerEngineType),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      BrokerEngineTypes: "brokerEngineTypes",
-      MaxResults: "maxResults",
-      NextToken: "nextToken",
-    }),
-  ),
-).annotate({
-  identifier: "DescribeBrokerEngineTypesResponse",
-}) as any as S.Schema<DescribeBrokerEngineTypesResponse>;
 export interface DescribeBrokerInstanceOptionsRequest {
-  EngineType?: string;
-  HostInstanceType?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  StorageType?: string;
+  EngineType?: string | undefined;
+  HostInstanceType?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  StorageType?: string | undefined;
 }
-export const DescribeBrokerInstanceOptionsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EngineType: S.optional(S.String).pipe(T.HttpQuery("engineType")),
-      HostInstanceType: S.optional(S.String).pipe(
-        T.HttpQuery("hostInstanceType"),
-      ),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      StorageType: S.optional(S.String).pipe(T.HttpQuery("storageType")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/v1/broker-instance-options" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DescribeBrokerInstanceOptionsRequest",
-}) as any as S.Schema<DescribeBrokerInstanceOptionsRequest>;
 export interface AvailabilityZone {
-  Name?: string;
+  Name?: string | undefined;
 }
-export const AvailabilityZone = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }).pipe(S.encodeKeys({ Name: "name" })),
-).annotate({
-  identifier: "AvailabilityZone",
-}) as any as S.Schema<AvailabilityZone>;
 export type __listOfAvailabilityZone = AvailabilityZone[];
-export const __listOfAvailabilityZone = /*@__PURE__*/ S.Array(AvailabilityZone);
+const __listOfAvailabilityZone = __listOfEngineVersion as any as S.Schema<__listOfAvailabilityZone>;
 export type __listOfDeploymentMode = DeploymentMode[];
-export const __listOfDeploymentMode = /*@__PURE__*/ S.Array(DeploymentMode);
+const __listOfDeploymentMode = /*@__PURE__*/ __L.at(__c11, 1);
 export interface BrokerInstanceOption {
-  AvailabilityZones?: AvailabilityZone[];
-  EngineType?: EngineType;
-  HostInstanceType?: string;
-  StorageType?: BrokerStorageType;
-  SupportedDeploymentModes?: DeploymentMode[];
-  SupportedEngineVersions?: string[];
+  AvailabilityZones?: AvailabilityZone[] | undefined;
+  EngineType?: EngineType | undefined;
+  HostInstanceType?: string | undefined;
+  StorageType?: BrokerStorageType | undefined;
+  SupportedDeploymentModes?: DeploymentMode[] | undefined;
+  SupportedEngineVersions?: string[] | undefined;
 }
-export const BrokerInstanceOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AvailabilityZones: S.optional(__listOfAvailabilityZone),
-    EngineType: S.optional(EngineType),
-    HostInstanceType: S.optional(S.String),
-    StorageType: S.optional(BrokerStorageType),
-    SupportedDeploymentModes: S.optional(__listOfDeploymentMode),
-    SupportedEngineVersions: S.optional(__listOf__string),
-  }).pipe(
-    S.encodeKeys({
-      AvailabilityZones: "availabilityZones",
-      EngineType: "engineType",
-      HostInstanceType: "hostInstanceType",
-      StorageType: "storageType",
-      SupportedDeploymentModes: "supportedDeploymentModes",
-      SupportedEngineVersions: "supportedEngineVersions",
-    }),
-  ),
-).annotate({
-  identifier: "BrokerInstanceOption",
-}) as any as S.Schema<BrokerInstanceOption>;
 export type __listOfBrokerInstanceOption = BrokerInstanceOption[];
-export const __listOfBrokerInstanceOption =
-  /*@__PURE__*/ S.Array(BrokerInstanceOption);
+const __listOfBrokerInstanceOption = /*@__PURE__*/ __L.at(__c11, 3);
 export interface DescribeBrokerInstanceOptionsResponse {
-  BrokerInstanceOptions?: BrokerInstanceOption[];
-  MaxResults?: number;
-  NextToken?: string;
+  BrokerInstanceOptions?: BrokerInstanceOption[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeBrokerInstanceOptionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BrokerInstanceOptions: S.optional(__listOfBrokerInstanceOption),
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      S.encodeKeys({
-        BrokerInstanceOptions: "brokerInstanceOptions",
-        MaxResults: "maxResults",
-        NextToken: "nextToken",
-      }),
-    ),
-).annotate({
-  identifier: "DescribeBrokerInstanceOptionsResponse",
-}) as any as S.Schema<DescribeBrokerInstanceOptionsResponse>;
 export interface DescribeConfigurationRequest {
   ConfigurationId: string;
 }
-export const DescribeConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/configurations/{ConfigurationId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeConfigurationRequest",
-}) as any as S.Schema<DescribeConfigurationRequest>;
 export interface DescribeConfigurationResponse {
-  Arn?: string;
-  AuthenticationStrategy?: AuthenticationStrategy;
-  Created?: Date;
-  Description?: string;
-  EngineType?: EngineType;
-  EngineVersion?: string;
-  Id?: string;
-  LatestRevision?: ConfigurationRevision & {
-    Created: __timestampIso8601;
-    Revision: number;
-  };
-  Name?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  AuthenticationStrategy?: AuthenticationStrategy | undefined;
+  Created?: Date | undefined;
+  Description?: string | undefined;
+  EngineType?: EngineType | undefined;
+  EngineVersion?: string | undefined;
+  Id?: string | undefined;
+  LatestRevision?:
+    | (ConfigurationRevision & { Created: __timestampIso8601; Revision: number })
+    | undefined;
+  Name?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
-export const DescribeConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    AuthenticationStrategy: S.optional(AuthenticationStrategy),
-    Created: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    Description: S.optional(S.String),
-    EngineType: S.optional(EngineType),
-    EngineVersion: S.optional(S.String),
-    Id: S.optional(S.String),
-    LatestRevision: S.optional(ConfigurationRevision),
-    Name: S.optional(S.String),
-    Tags: S.optional(__mapOf__string),
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      AuthenticationStrategy: "authenticationStrategy",
-      Created: "created",
-      Description: "description",
-      EngineType: "engineType",
-      EngineVersion: "engineVersion",
-      Id: "id",
-      LatestRevision: "latestRevision",
-      Name: "name",
-      Tags: "tags",
-    }),
-  ),
-).annotate({
-  identifier: "DescribeConfigurationResponse",
-}) as any as S.Schema<DescribeConfigurationResponse>;
 export interface DescribeConfigurationRevisionRequest {
   ConfigurationId: string;
   ConfigurationRevision: string;
 }
-export const DescribeConfigurationRevisionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")),
-      ConfigurationRevision: S.String.pipe(
-        T.HttpLabel("ConfigurationRevision"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/v1/configurations/{ConfigurationId}/revisions/{ConfigurationRevision}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DescribeConfigurationRevisionRequest",
-}) as any as S.Schema<DescribeConfigurationRevisionRequest>;
 export interface DescribeConfigurationRevisionResponse {
-  ConfigurationId?: string;
-  Created?: Date;
-  Data?: string;
-  Description?: string;
+  ConfigurationId?: string | undefined;
+  Created?: Date | undefined;
+  Data?: string | undefined;
+  Description?: string | undefined;
 }
-export const DescribeConfigurationRevisionResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfigurationId: S.optional(S.String),
-      Created: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-      Data: S.optional(S.String),
-      Description: S.optional(S.String),
-    }).pipe(
-      S.encodeKeys({
-        ConfigurationId: "configurationId",
-        Created: "created",
-        Data: "data",
-        Description: "description",
-      }),
-    ),
-).annotate({
-  identifier: "DescribeConfigurationRevisionResponse",
-}) as any as S.Schema<DescribeConfigurationRevisionResponse>;
 export interface DescribeSharedResourcesRequest {
   BrokerId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeSharedResourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/brokers/{BrokerId}/shared-resources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeSharedResourcesRequest",
-}) as any as S.Schema<DescribeSharedResourcesRequest>;
 export type SharedResourceErrorCode =
   | "QUOTA_EXCEEDED"
   | "SHARE_NOT_FOUND"
@@ -1381,20 +561,10 @@ export type SharedResourceErrorCode =
   | "AZ_MISMATCH"
   | "RESOURCE_CONFIGURATION_NOT_FOUND"
   | (string & {});
-export const SharedResourceErrorCode = S.String;
-
 export interface SharedResourceError {
-  Code?: SharedResourceErrorCode;
-  Message?: string;
+  Code?: SharedResourceErrorCode | undefined;
+  Message?: string | undefined;
 }
-export const SharedResourceError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Code: S.optional(SharedResourceErrorCode),
-    Message: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Code: "code", Message: "message" })),
-).annotate({
-  identifier: "SharedResourceError",
-}) as any as S.Schema<SharedResourceError>;
 export type SharedResourceStatus =
   | "AVAILABLE"
   | "SETUP_IN_PROGRESS"
@@ -1403,790 +573,249 @@ export type SharedResourceStatus =
   | "PENDING_DELETE"
   | "ERROR"
   | (string & {});
-export const SharedResourceStatus = S.String;
-
 export type SharedResourceType = "RESOURCE_SHARE" | "RESOURCE" | (string & {});
-export const SharedResourceType = S.String;
-
 export interface SharedResource {
-  DnsNames?: string[];
-  Error?: SharedResourceError;
-  ResourceArn?: string;
-  ResourceShareArns?: string[];
-  Status?: SharedResourceStatus;
-  Type?: SharedResourceType;
+  DnsNames?: string[] | undefined;
+  Error?: SharedResourceError | undefined;
+  ResourceArn?: string | undefined;
+  ResourceShareArns?: string[] | undefined;
+  Status?: SharedResourceStatus | undefined;
+  Type?: SharedResourceType | undefined;
 }
-export const SharedResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DnsNames: S.optional(__listOf__string),
-    Error: S.optional(SharedResourceError),
-    ResourceArn: S.optional(S.String),
-    ResourceShareArns: S.optional(__listOf__string),
-    Status: S.optional(SharedResourceStatus),
-    Type: S.optional(SharedResourceType),
-  }).pipe(
-    S.encodeKeys({
-      DnsNames: "dnsNames",
-      Error: "error",
-      ResourceArn: "resourceArn",
-      ResourceShareArns: "resourceShareArns",
-      Status: "status",
-      Type: "type",
-    }),
-  ),
-).annotate({ identifier: "SharedResource" }) as any as S.Schema<SharedResource>;
 export type __listOfSharedResource = SharedResource[];
-export const __listOfSharedResource = /*@__PURE__*/ S.Array(SharedResource);
+const __listOfSharedResource = /*@__PURE__*/ __L.at(__c15, 3);
 export interface DescribeSharedResourcesResponse {
-  NextToken?: string;
-  SharedResources?: (SharedResource & {
-    ResourceArn: string;
-    Status: SharedResourceStatus;
-    Type: SharedResourceType;
-    Error: SharedResourceError & {
-      Code: SharedResourceErrorCode;
-      Message: string;
-    };
-  })[];
+  NextToken?: string | undefined;
+  SharedResources?:
+    | (SharedResource & {
+        ResourceArn: string;
+        Status: SharedResourceStatus;
+        Type: SharedResourceType;
+        Error: SharedResourceError & { Code: SharedResourceErrorCode; Message: string };
+      })[]
+    | undefined;
 }
-export const DescribeSharedResourcesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    SharedResources: S.optional(__listOfSharedResource),
-  }).pipe(
-    S.encodeKeys({
-      NextToken: "nextToken",
-      SharedResources: "sharedResources",
-    }),
-  ),
-).annotate({
-  identifier: "DescribeSharedResourcesResponse",
-}) as any as S.Schema<DescribeSharedResourcesResponse>;
 export interface DescribeUserRequest {
   BrokerId: string;
   Username: string;
 }
-export const DescribeUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
-    Username: S.String.pipe(T.HttpLabel("Username")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/brokers/{BrokerId}/users/{Username}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeUserRequest",
-}) as any as S.Schema<DescribeUserRequest>;
 export interface UserPendingChanges {
-  ConsoleAccess?: boolean;
-  Groups?: string[];
-  PendingChange?: ChangeType;
+  ConsoleAccess?: boolean | undefined;
+  Groups?: string[] | undefined;
+  PendingChange?: ChangeType | undefined;
 }
-export const UserPendingChanges = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConsoleAccess: S.optional(S.Boolean),
-    Groups: S.optional(__listOf__string),
-    PendingChange: S.optional(ChangeType),
-  }).pipe(
-    S.encodeKeys({
-      ConsoleAccess: "consoleAccess",
-      Groups: "groups",
-      PendingChange: "pendingChange",
-    }),
-  ),
-).annotate({
-  identifier: "UserPendingChanges",
-}) as any as S.Schema<UserPendingChanges>;
 export interface DescribeUserResponse {
-  BrokerId?: string;
-  ConsoleAccess?: boolean;
-  Groups?: string[];
-  Pending?: UserPendingChanges & { PendingChange: ChangeType };
-  Username?: string;
-  ReplicationUser?: boolean;
+  BrokerId?: string | undefined;
+  ConsoleAccess?: boolean | undefined;
+  Groups?: string[] | undefined;
+  Pending?: (UserPendingChanges & { PendingChange: ChangeType }) | undefined;
+  Username?: string | undefined;
+  ReplicationUser?: boolean | undefined;
 }
-export const DescribeUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BrokerId: S.optional(S.String),
-    ConsoleAccess: S.optional(S.Boolean),
-    Groups: S.optional(__listOf__string),
-    Pending: S.optional(UserPendingChanges),
-    Username: S.optional(S.String),
-    ReplicationUser: S.optional(S.Boolean),
-  }).pipe(
-    S.encodeKeys({
-      BrokerId: "brokerId",
-      ConsoleAccess: "consoleAccess",
-      Groups: "groups",
-      Pending: "pending",
-      Username: "username",
-      ReplicationUser: "replicationUser",
-    }),
-  ),
-).annotate({
-  identifier: "DescribeUserResponse",
-}) as any as S.Schema<DescribeUserResponse>;
 export interface ListBrokersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListBrokersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/brokers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListBrokersRequest",
-}) as any as S.Schema<ListBrokersRequest>;
 export interface BrokerSummary {
-  BrokerArn?: string;
-  BrokerId?: string;
-  BrokerName?: string;
-  BrokerState?: BrokerState;
-  Created?: Date;
-  DeploymentMode?: DeploymentMode;
-  EngineType?: EngineType;
-  HostInstanceType?: string;
+  BrokerArn?: string | undefined;
+  BrokerId?: string | undefined;
+  BrokerName?: string | undefined;
+  BrokerState?: BrokerState | undefined;
+  Created?: Date | undefined;
+  DeploymentMode?: DeploymentMode | undefined;
+  EngineType?: EngineType | undefined;
+  HostInstanceType?: string | undefined;
 }
-export const BrokerSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BrokerArn: S.optional(S.String),
-    BrokerId: S.optional(S.String),
-    BrokerName: S.optional(S.String),
-    BrokerState: S.optional(BrokerState),
-    Created: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    DeploymentMode: S.optional(DeploymentMode),
-    EngineType: S.optional(EngineType),
-    HostInstanceType: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      BrokerArn: "brokerArn",
-      BrokerId: "brokerId",
-      BrokerName: "brokerName",
-      BrokerState: "brokerState",
-      Created: "created",
-      DeploymentMode: "deploymentMode",
-      EngineType: "engineType",
-      HostInstanceType: "hostInstanceType",
-    }),
-  ),
-).annotate({ identifier: "BrokerSummary" }) as any as S.Schema<BrokerSummary>;
 export type __listOfBrokerSummary = BrokerSummary[];
-export const __listOfBrokerSummary = /*@__PURE__*/ S.Array(BrokerSummary);
+const __listOfBrokerSummary = /*@__PURE__*/ __L.at(__c17, 2);
 export interface ListBrokersResponse {
-  BrokerSummaries?: (BrokerSummary & {
-    DeploymentMode: DeploymentMode;
-    EngineType: EngineType;
-  })[];
-  NextToken?: string;
+  BrokerSummaries?:
+    | (BrokerSummary & { DeploymentMode: DeploymentMode; EngineType: EngineType })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
-export const ListBrokersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BrokerSummaries: S.optional(__listOfBrokerSummary),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      BrokerSummaries: "brokerSummaries",
-      NextToken: "nextToken",
-    }),
-  ),
-).annotate({
-  identifier: "ListBrokersResponse",
-}) as any as S.Schema<ListBrokersResponse>;
 export interface ListConfigurationRevisionsRequest {
   ConfigurationId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListConfigurationRevisionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/configurations/{ConfigurationId}/revisions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListConfigurationRevisionsRequest",
-}) as any as S.Schema<ListConfigurationRevisionsRequest>;
 export type __listOfConfigurationRevision = ConfigurationRevision[];
-export const __listOfConfigurationRevision = /*@__PURE__*/ S.Array(
-  ConfigurationRevision,
-);
+const __listOfConfigurationRevision = /*@__PURE__*/ __L.at(__c18, 1);
 export interface ListConfigurationRevisionsResponse {
-  ConfigurationId?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Revisions?: (ConfigurationRevision & {
-    Created: __timestampIso8601;
-    Revision: number;
-  })[];
+  ConfigurationId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Revisions?:
+    | (ConfigurationRevision & { Created: __timestampIso8601; Revision: number })[]
+    | undefined;
 }
-export const ListConfigurationRevisionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationId: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Revisions: S.optional(__listOfConfigurationRevision),
-  }).pipe(
-    S.encodeKeys({
-      ConfigurationId: "configurationId",
-      MaxResults: "maxResults",
-      NextToken: "nextToken",
-      Revisions: "revisions",
-    }),
-  ),
-).annotate({
-  identifier: "ListConfigurationRevisionsResponse",
-}) as any as S.Schema<ListConfigurationRevisionsResponse>;
 export interface ListConfigurationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/configurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListConfigurationsRequest",
-}) as any as S.Schema<ListConfigurationsRequest>;
 export interface Configuration {
-  Arn?: string;
-  AuthenticationStrategy?: AuthenticationStrategy;
-  Created?: Date;
-  Description?: string;
-  EngineType?: EngineType;
-  EngineVersion?: string;
-  Id?: string;
-  LatestRevision?: ConfigurationRevision;
-  Name?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  AuthenticationStrategy?: AuthenticationStrategy | undefined;
+  Created?: Date | undefined;
+  Description?: string | undefined;
+  EngineType?: EngineType | undefined;
+  EngineVersion?: string | undefined;
+  Id?: string | undefined;
+  LatestRevision?: ConfigurationRevision | undefined;
+  Name?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
-export const Configuration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    AuthenticationStrategy: S.optional(AuthenticationStrategy),
-    Created: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    Description: S.optional(S.String),
-    EngineType: S.optional(EngineType),
-    EngineVersion: S.optional(S.String),
-    Id: S.optional(S.String),
-    LatestRevision: S.optional(ConfigurationRevision),
-    Name: S.optional(S.String),
-    Tags: S.optional(__mapOf__string),
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      AuthenticationStrategy: "authenticationStrategy",
-      Created: "created",
-      Description: "description",
-      EngineType: "engineType",
-      EngineVersion: "engineVersion",
-      Id: "id",
-      LatestRevision: "latestRevision",
-      Name: "name",
-      Tags: "tags",
-    }),
-  ),
-).annotate({ identifier: "Configuration" }) as any as S.Schema<Configuration>;
 export type __listOfConfiguration = Configuration[];
-export const __listOfConfiguration = /*@__PURE__*/ S.Array(Configuration);
+const __listOfConfiguration = /*@__PURE__*/ __L.at(__c19, 1);
 export interface ListConfigurationsResponse {
-  Configurations?: (Configuration & {
-    Arn: string;
-    AuthenticationStrategy: AuthenticationStrategy;
-    Created: __timestampIso8601;
-    Description: string;
-    EngineType: EngineType;
-    EngineVersion: string;
-    Id: string;
-    LatestRevision: ConfigurationRevision & {
-      Created: __timestampIso8601;
-      Revision: number;
-    };
-    Name: string;
-  })[];
-  MaxResults?: number;
-  NextToken?: string;
+  Configurations?:
+    | (Configuration & {
+        Arn: string;
+        AuthenticationStrategy: AuthenticationStrategy;
+        Created: __timestampIso8601;
+        Description: string;
+        EngineType: EngineType;
+        EngineVersion: string;
+        Id: string;
+        LatestRevision: ConfigurationRevision & { Created: __timestampIso8601; Revision: number };
+        Name: string;
+      })[]
+    | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Configurations: S.optional(__listOfConfiguration),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      Configurations: "configurations",
-      MaxResults: "maxResults",
-      NextToken: "nextToken",
-    }),
-  ),
-).annotate({
-  identifier: "ListConfigurationsResponse",
-}) as any as S.Schema<ListConfigurationsResponse>;
 export interface ListTagsRequest {
   ResourceArn: string;
 }
-export const ListTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsRequest",
-}) as any as S.Schema<ListTagsRequest>;
 export interface ListTagsResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
-export const ListTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(__mapOf__string) }).pipe(
-    S.encodeKeys({ Tags: "tags" }),
-  ),
-).annotate({
-  identifier: "ListTagsResponse",
-}) as any as S.Schema<ListTagsResponse>;
 export interface ListUsersRequest {
   BrokerId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/brokers/{BrokerId}/users" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
 export interface ListUsersResponse {
-  BrokerId?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Users?: (UserSummary & { Username: string })[];
+  BrokerId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Users?: (UserSummary & { Username: string })[] | undefined;
 }
-export const ListUsersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BrokerId: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Users: S.optional(__listOfUserSummary),
-  }).pipe(
-    S.encodeKeys({
-      BrokerId: "brokerId",
-      MaxResults: "maxResults",
-      NextToken: "nextToken",
-      Users: "users",
-    }),
-  ),
-).annotate({
-  identifier: "ListUsersResponse",
-}) as any as S.Schema<ListUsersResponse>;
 export type PromoteMode = "SWITCHOVER" | "FAILOVER" | (string & {});
-export const PromoteMode = S.String;
-
 export interface PromoteRequest {
   BrokerId: string;
-  Mode?: PromoteMode;
+  Mode?: PromoteMode | undefined;
 }
-export const PromoteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
-    Mode: S.optional(PromoteMode),
-  })
-    .pipe(S.encodeKeys({ Mode: "mode" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/brokers/{BrokerId}/promote" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({ identifier: "PromoteRequest" }) as any as S.Schema<PromoteRequest>;
 export interface PromoteResponse {
-  BrokerId?: string;
+  BrokerId?: string | undefined;
 }
-export const PromoteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BrokerId: S.optional(S.String) }).pipe(
-    S.encodeKeys({ BrokerId: "brokerId" }),
-  ),
-).annotate({
-  identifier: "PromoteResponse",
-}) as any as S.Schema<PromoteResponse>;
 export interface RebootBrokerRequest {
   BrokerId: string;
 }
-export const RebootBrokerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BrokerId: S.String.pipe(T.HttpLabel("BrokerId")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/brokers/{BrokerId}/reboot" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RebootBrokerRequest",
-}) as any as S.Schema<RebootBrokerRequest>;
 export interface RebootBrokerResponse {}
-export const RebootBrokerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "RebootBrokerResponse",
-}) as any as S.Schema<RebootBrokerResponse>;
 export interface UpdateBrokerRequest {
-  AuthenticationStrategy?: AuthenticationStrategy;
-  AutoMinorVersionUpgrade?: boolean;
+  AuthenticationStrategy?: AuthenticationStrategy | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
   BrokerId: string;
-  Configuration?: ConfigurationId;
-  EngineVersion?: string;
-  HostInstanceType?: string;
-  LdapServerMetadata?: LdapServerMetadataInput;
-  Logs?: Logs;
-  MaintenanceWindowStartTime?: WeeklyStartTime;
-  ResourceShareArns?: string[];
-  SecurityGroups?: string[];
-  StorageSize?: number;
-  DataReplicationMode?: DataReplicationMode;
+  Configuration?: ConfigurationId | undefined;
+  EngineVersion?: string | undefined;
+  HostInstanceType?: string | undefined;
+  LdapServerMetadata?: LdapServerMetadataInput | undefined;
+  Logs?: Logs | undefined;
+  MaintenanceWindowStartTime?: WeeklyStartTime | undefined;
+  ResourceShareArns?: string[] | undefined;
+  SecurityGroups?: string[] | undefined;
+  StorageSize?: number | undefined;
+  DataReplicationMode?: DataReplicationMode | undefined;
 }
-export const UpdateBrokerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AuthenticationStrategy: S.optional(AuthenticationStrategy),
-    AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
-    Configuration: S.optional(ConfigurationId),
-    EngineVersion: S.optional(S.String),
-    HostInstanceType: S.optional(S.String),
-    LdapServerMetadata: S.optional(LdapServerMetadataInput),
-    Logs: S.optional(Logs),
-    MaintenanceWindowStartTime: S.optional(WeeklyStartTime),
-    ResourceShareArns: S.optional(__listOf__string),
-    SecurityGroups: S.optional(__listOf__string),
-    StorageSize: S.optional(S.Number),
-    DataReplicationMode: S.optional(DataReplicationMode),
-  })
-    .pipe(
-      S.encodeKeys({
-        AuthenticationStrategy: "authenticationStrategy",
-        AutoMinorVersionUpgrade: "autoMinorVersionUpgrade",
-        Configuration: "configuration",
-        EngineVersion: "engineVersion",
-        HostInstanceType: "hostInstanceType",
-        LdapServerMetadata: "ldapServerMetadata",
-        Logs: "logs",
-        MaintenanceWindowStartTime: "maintenanceWindowStartTime",
-        ResourceShareArns: "resourceShareArns",
-        SecurityGroups: "securityGroups",
-        StorageSize: "storageSize",
-        DataReplicationMode: "dataReplicationMode",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/v1/brokers/{BrokerId}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateBrokerRequest",
-}) as any as S.Schema<UpdateBrokerRequest>;
 export interface UpdateBrokerResponse {
-  AuthenticationStrategy?: AuthenticationStrategy;
-  AutoMinorVersionUpgrade?: boolean;
-  BrokerId?: string;
-  Configuration?: ConfigurationId & { Id: string };
-  EngineVersion?: string;
-  HostInstanceType?: string;
-  LdapServerMetadata?: LdapServerMetadataOutput & {
-    Hosts: __listOf__string;
-    RoleBase: string;
-    RoleSearchMatching: string;
-    ServiceAccountUsername: string;
-    UserBase: string;
-    UserSearchMatching: string;
-  };
-  Logs?: Logs;
-  MaintenanceWindowStartTime?: WeeklyStartTime & {
-    DayOfWeek: DayOfWeek;
-    TimeOfDay: string;
-  };
-  ResourceShareArns?: string[];
-  SecurityGroups?: string[];
-  DataReplicationMetadata?: DataReplicationMetadataOutput & {
-    DataReplicationRole: string;
-    DataReplicationCounterpart: DataReplicationCounterpart & {
-      BrokerId: string;
-      Region: string;
-    };
-  };
-  DataReplicationMode?: DataReplicationMode;
-  PendingDataReplicationMetadata?: DataReplicationMetadataOutput & {
-    DataReplicationRole: string;
-    DataReplicationCounterpart: DataReplicationCounterpart & {
-      BrokerId: string;
-      Region: string;
-    };
-  };
-  PendingDataReplicationMode?: DataReplicationMode;
-  StorageSize?: number;
+  AuthenticationStrategy?: AuthenticationStrategy | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  BrokerId?: string | undefined;
+  Configuration?: (ConfigurationId & { Id: string }) | undefined;
+  EngineVersion?: string | undefined;
+  HostInstanceType?: string | undefined;
+  LdapServerMetadata?:
+    | (LdapServerMetadataOutput & {
+        Hosts: __listOf__string;
+        RoleBase: string;
+        RoleSearchMatching: string;
+        ServiceAccountUsername: string;
+        UserBase: string;
+        UserSearchMatching: string;
+      })
+    | undefined;
+  Logs?: Logs | undefined;
+  MaintenanceWindowStartTime?:
+    | (WeeklyStartTime & { DayOfWeek: DayOfWeek; TimeOfDay: string })
+    | undefined;
+  ResourceShareArns?: string[] | undefined;
+  SecurityGroups?: string[] | undefined;
+  DataReplicationMetadata?:
+    | (DataReplicationMetadataOutput & {
+        DataReplicationRole: string;
+        DataReplicationCounterpart: DataReplicationCounterpart & {
+          BrokerId: string;
+          Region: string;
+        };
+      })
+    | undefined;
+  DataReplicationMode?: DataReplicationMode | undefined;
+  PendingDataReplicationMetadata?:
+    | (DataReplicationMetadataOutput & {
+        DataReplicationRole: string;
+        DataReplicationCounterpart: DataReplicationCounterpart & {
+          BrokerId: string;
+          Region: string;
+        };
+      })
+    | undefined;
+  PendingDataReplicationMode?: DataReplicationMode | undefined;
+  StorageSize?: number | undefined;
 }
-export const UpdateBrokerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AuthenticationStrategy: S.optional(AuthenticationStrategy),
-    AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    BrokerId: S.optional(S.String),
-    Configuration: S.optional(ConfigurationId),
-    EngineVersion: S.optional(S.String),
-    HostInstanceType: S.optional(S.String),
-    LdapServerMetadata: S.optional(LdapServerMetadataOutput),
-    Logs: S.optional(Logs),
-    MaintenanceWindowStartTime: S.optional(WeeklyStartTime),
-    ResourceShareArns: S.optional(__listOf__string),
-    SecurityGroups: S.optional(__listOf__string),
-    DataReplicationMetadata: S.optional(DataReplicationMetadataOutput),
-    DataReplicationMode: S.optional(DataReplicationMode),
-    PendingDataReplicationMetadata: S.optional(DataReplicationMetadataOutput),
-    PendingDataReplicationMode: S.optional(DataReplicationMode),
-    StorageSize: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({
-      AuthenticationStrategy: "authenticationStrategy",
-      AutoMinorVersionUpgrade: "autoMinorVersionUpgrade",
-      BrokerId: "brokerId",
-      Configuration: "configuration",
-      EngineVersion: "engineVersion",
-      HostInstanceType: "hostInstanceType",
-      LdapServerMetadata: "ldapServerMetadata",
-      Logs: "logs",
-      MaintenanceWindowStartTime: "maintenanceWindowStartTime",
-      ResourceShareArns: "resourceShareArns",
-      SecurityGroups: "securityGroups",
-      DataReplicationMetadata: "dataReplicationMetadata",
-      DataReplicationMode: "dataReplicationMode",
-      PendingDataReplicationMetadata: "pendingDataReplicationMetadata",
-      PendingDataReplicationMode: "pendingDataReplicationMode",
-      StorageSize: "storageSize",
-    }),
-  ),
-).annotate({
-  identifier: "UpdateBrokerResponse",
-}) as any as S.Schema<UpdateBrokerResponse>;
 export interface UpdateConfigurationRequest {
   ConfigurationId: string;
-  Data?: string;
-  Description?: string;
+  Data?: string | undefined;
+  Description?: string | undefined;
 }
-export const UpdateConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")),
-    Data: S.optional(S.String),
-    Description: S.optional(S.String),
-  })
-    .pipe(S.encodeKeys({ Data: "data", Description: "description" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/v1/configurations/{ConfigurationId}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateConfigurationRequest",
-}) as any as S.Schema<UpdateConfigurationRequest>;
 export type SanitizationWarningReason =
   | "DISALLOWED_ELEMENT_REMOVED"
   | "DISALLOWED_ATTRIBUTE_REMOVED"
   | "INVALID_ATTRIBUTE_VALUE_REMOVED"
   | (string & {});
-export const SanitizationWarningReason = S.String;
-
 export interface SanitizationWarning {
-  AttributeName?: string;
-  ElementName?: string;
-  Reason?: SanitizationWarningReason;
+  AttributeName?: string | undefined;
+  ElementName?: string | undefined;
+  Reason?: SanitizationWarningReason | undefined;
 }
-export const SanitizationWarning = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttributeName: S.optional(S.String),
-    ElementName: S.optional(S.String),
-    Reason: S.optional(SanitizationWarningReason),
-  }).pipe(
-    S.encodeKeys({
-      AttributeName: "attributeName",
-      ElementName: "elementName",
-      Reason: "reason",
-    }),
-  ),
-).annotate({
-  identifier: "SanitizationWarning",
-}) as any as S.Schema<SanitizationWarning>;
 export type __listOfSanitizationWarning = SanitizationWarning[];
-export const __listOfSanitizationWarning =
-  /*@__PURE__*/ S.Array(SanitizationWarning);
+const __listOfSanitizationWarning = /*@__PURE__*/ __L.at(__c25, 2);
 export interface UpdateConfigurationResponse {
-  Arn?: string;
-  Created?: Date;
-  Id?: string;
-  LatestRevision?: ConfigurationRevision & {
-    Created: __timestampIso8601;
-    Revision: number;
-  };
-  Name?: string;
-  Warnings?: (SanitizationWarning & { Reason: SanitizationWarningReason })[];
+  Arn?: string | undefined;
+  Created?: Date | undefined;
+  Id?: string | undefined;
+  LatestRevision?:
+    | (ConfigurationRevision & { Created: __timestampIso8601; Revision: number })
+    | undefined;
+  Name?: string | undefined;
+  Warnings?: (SanitizationWarning & { Reason: SanitizationWarningReason })[] | undefined;
 }
-export const UpdateConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Created: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    Id: S.optional(S.String),
-    LatestRevision: S.optional(ConfigurationRevision),
-    Name: S.optional(S.String),
-    Warnings: S.optional(__listOfSanitizationWarning),
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      Created: "created",
-      Id: "id",
-      LatestRevision: "latestRevision",
-      Name: "name",
-      Warnings: "warnings",
-    }),
-  ),
-).annotate({
-  identifier: "UpdateConfigurationResponse",
-}) as any as S.Schema<UpdateConfigurationResponse>;
 export interface UpdateUserRequest {
   BrokerId: string;
-  ConsoleAccess?: boolean;
-  Groups?: string[];
-  Password?: string | redacted.Redacted<string>;
+  ConsoleAccess?: boolean | undefined;
+  Groups?: string[] | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
   Username: string;
-  ReplicationUser?: boolean;
+  ReplicationUser?: boolean | undefined;
 }
-export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
-    ConsoleAccess: S.optional(S.Boolean),
-    Groups: S.optional(__listOf__string),
-    Password: S.optional(SensitiveString),
-    Username: S.String.pipe(T.HttpLabel("Username")),
-    ReplicationUser: S.optional(S.Boolean),
-  })
-    .pipe(
-      S.encodeKeys({
-        ConsoleAccess: "consoleAccess",
-        Groups: "groups",
-        Password: "password",
-        ReplicationUser: "replicationUser",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/v1/brokers/{BrokerId}/users/{Username}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
 export interface UpdateUserResponse {}
-export const UpdateUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateUserResponse",
-}) as any as S.Schema<UpdateUserResponse>;
 export interface ResourceShareError {
-  ErrorCode?: string;
-  ResourceShareArn?: string;
-  Status?: string;
+  ErrorCode?: string | undefined;
+  ResourceShareArn?: string | undefined;
+  Status?: string | undefined;
 }
-export const ResourceShareError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ErrorCode: S.optional(S.String),
-    ResourceShareArn: S.optional(S.String),
-    Status: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      ErrorCode: "errorCode",
-      ResourceShareArn: "resourceShareArn",
-      Status: "status",
-    }),
-  ),
-).annotate({
-  identifier: "ResourceShareError",
-}) as any as S.Schema<ResourceShareError>;
 export type __listOfResourceShareError = ResourceShareError[];
-export const __listOfResourceShareError =
-  /*@__PURE__*/ S.Array(ResourceShareError);
+const __listOfResourceShareError = /*@__PURE__*/ __L.at(__c0, 1);
 export type CreateBrokerError =
   | BadRequestException
   | ConflictException
@@ -2230,13 +859,13 @@ export type CreateBrokerError =
  * For more information, see Create an IAM User and Get Your Amazon Web Services Credentials and Never Modify or Delete the Amazon MQ Elastic Network Interface in the *Amazon MQ Developer Guide*.
  */
 export const createBroker: API.OperationMethod<
-  CreateBrokerRequest,
+  CreateBrokerRequest & RegionInput,
   CreateBrokerResponse,
   CreateBrokerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateBrokerRequest,
-  output: CreateBrokerResponse,
+  input: __S(434, __c27, 2) as any as S.Schema<CreateBrokerRequest>,
+  output: __S(435, __c27, 3) as any as S.Schema<CreateBrokerResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2247,6 +876,8 @@ export const createBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBroker",
+  telemetry: TELEMETRY,
+  span: "CreateBroker",
 }));
 
 export type CreateConfigurationError =
@@ -2259,13 +890,13 @@ export type CreateConfigurationError =
  * Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
  */
 export const createConfiguration: API.OperationMethod<
-  CreateConfigurationRequest,
+  CreateConfigurationRequest & RegionInput,
   CreateConfigurationResponse,
   CreateConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateConfigurationRequest,
-  output: CreateConfigurationResponse,
+  input: __S(528, __c33, 0) as any as S.Schema<CreateConfigurationRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<CreateConfigurationResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2275,6 +906,8 @@ export const createConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateConfiguration",
 }));
 
 export type CreateTagsError =
@@ -2287,13 +920,13 @@ export type CreateTagsError =
  * Add a tag to a resource.
  */
 export const createTags: API.OperationMethod<
-  CreateTagsRequest,
+  CreateTagsRequest & RegionInput,
   CreateTagsResponse,
   CreateTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTagsRequest,
-  output: CreateTagsResponse,
+  input: __S(560, __c35, 0) as any as S.Schema<CreateTagsRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<CreateTagsResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2303,6 +936,8 @@ export const createTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
+  telemetry: TELEMETRY,
+  span: "CreateTags",
 }));
 
 export type CreateUserError =
@@ -2318,13 +953,13 @@ export type CreateUserError =
  * Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateUserRequest,
-  output: CreateUserResponse,
+  input: __S(592, __c37, 0) as any as S.Schema<CreateUserRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<CreateUserResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2335,6 +970,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeleteBrokerError =
@@ -2347,13 +984,13 @@ export type DeleteBrokerError =
  * Deletes a broker. Note: This API is asynchronous.
  */
 export const deleteBroker: API.OperationMethod<
-  DeleteBrokerRequest,
+  DeleteBrokerRequest & RegionInput,
   DeleteBrokerResponse,
   DeleteBrokerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBrokerRequest,
-  output: DeleteBrokerResponse,
+  input: __S(16, __c1, 0) as any as S.Schema<DeleteBrokerRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<DeleteBrokerResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2363,6 +1000,8 @@ export const deleteBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBroker",
+  telemetry: TELEMETRY,
+  span: "DeleteBroker",
 }));
 
 export type DeleteConfigurationError =
@@ -2376,13 +1015,13 @@ export type DeleteConfigurationError =
  * Deletes the specified configuration.
  */
 export const deleteConfiguration: API.OperationMethod<
-  DeleteConfigurationRequest,
+  DeleteConfigurationRequest & RegionInput,
   DeleteConfigurationResponse,
   DeleteConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteConfigurationRequest,
-  output: DeleteConfigurationResponse,
+  input: __S(48, __c3, 0) as any as S.Schema<DeleteConfigurationRequest>,
+  output: __S(49, __c3, 1) as any as S.Schema<DeleteConfigurationResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2393,6 +1032,8 @@ export const deleteConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguration",
 }));
 
 export type DeleteTagsError =
@@ -2405,13 +1046,13 @@ export type DeleteTagsError =
  * Removes a tag from a resource.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsRequest,
+  DeleteTagsRequest & RegionInput,
   DeleteTagsResponse,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTagsRequest,
-  output: DeleteTagsResponse,
+  input: __S(64, __c4, 0) as any as S.Schema<DeleteTagsRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<DeleteTagsResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2421,6 +1062,8 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  telemetry: TELEMETRY,
+  span: "DeleteTags",
 }));
 
 export type DeleteUserError =
@@ -2433,13 +1076,13 @@ export type DeleteUserError =
  * Deletes an ActiveMQ user.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteUserRequest,
-  output: DeleteUserResponse,
+  input: __S(80, __c5, 0) as any as S.Schema<DeleteUserRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<DeleteUserResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2449,6 +1092,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DescribeBrokerError =
@@ -2461,13 +1106,13 @@ export type DescribeBrokerError =
  * Returns information about the specified broker.
  */
 export const describeBroker: API.OperationMethod<
-  DescribeBrokerRequest,
+  DescribeBrokerRequest & RegionInput,
   DescribeBrokerResponse,
   DescribeBrokerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeBrokerRequest,
-  output: DescribeBrokerResponse,
+  input: __S(96, __c6, 0) as any as S.Schema<DescribeBrokerRequest>,
+  output: __S(104, __c6, 8) as any as S.Schema<DescribeBrokerResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2477,6 +1122,8 @@ export const describeBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBroker",
+  telemetry: TELEMETRY,
+  span: "DescribeBroker",
 }));
 
 export type DescribeBrokerEngineTypesError =
@@ -2488,21 +1135,19 @@ export type DescribeBrokerEngineTypesError =
  * Describe available engine types and versions.
  */
 export const describeBrokerEngineTypes: API.OperationMethod<
-  DescribeBrokerEngineTypesRequest,
+  DescribeBrokerEngineTypesRequest & RegionInput,
   DescribeBrokerEngineTypesResponse,
   DescribeBrokerEngineTypesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeBrokerEngineTypesRequest,
-  output: DescribeBrokerEngineTypesResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-  ],
+  input: __S(144, __c9, 0) as any as S.Schema<DescribeBrokerEngineTypesRequest>,
+  output: __S(147, __c9, 3) as any as S.Schema<DescribeBrokerEngineTypesResponse>,
+  errors: [BadRequestException, ForbiddenException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBrokerEngineTypes",
+  telemetry: TELEMETRY,
+  span: "DescribeBrokerEngineTypes",
 }));
 
 export type DescribeBrokerInstanceOptionsError =
@@ -2514,21 +1159,19 @@ export type DescribeBrokerInstanceOptionsError =
  * Describe available broker instance options.
  */
 export const describeBrokerInstanceOptions: API.OperationMethod<
-  DescribeBrokerInstanceOptionsRequest,
+  DescribeBrokerInstanceOptionsRequest & RegionInput,
   DescribeBrokerInstanceOptionsResponse,
   DescribeBrokerInstanceOptionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeBrokerInstanceOptionsRequest,
-  output: DescribeBrokerInstanceOptionsResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-  ],
+  input: __S(176, __c11, 0) as any as S.Schema<DescribeBrokerInstanceOptionsRequest>,
+  output: __S(180, __c11, 4) as any as S.Schema<DescribeBrokerInstanceOptionsResponse>,
+  errors: [BadRequestException, ForbiddenException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBrokerInstanceOptions",
+  telemetry: TELEMETRY,
+  span: "DescribeBrokerInstanceOptions",
 }));
 
 export type DescribeConfigurationError =
@@ -2541,13 +1184,13 @@ export type DescribeConfigurationError =
  * Returns information about the specified configuration.
  */
 export const describeConfiguration: API.OperationMethod<
-  DescribeConfigurationRequest,
+  DescribeConfigurationRequest & RegionInput,
   DescribeConfigurationResponse,
   DescribeConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeConfigurationRequest,
-  output: DescribeConfigurationResponse,
+  input: __S(192, __c12, 0) as any as S.Schema<DescribeConfigurationRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<DescribeConfigurationResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2557,6 +1200,8 @@ export const describeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeConfiguration",
 }));
 
 export type DescribeConfigurationRevisionError =
@@ -2569,13 +1214,13 @@ export type DescribeConfigurationRevisionError =
  * Returns the specified configuration revision for the specified configuration.
  */
 export const describeConfigurationRevision: API.OperationMethod<
-  DescribeConfigurationRevisionRequest,
+  DescribeConfigurationRevisionRequest & RegionInput,
   DescribeConfigurationRevisionResponse,
   DescribeConfigurationRevisionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeConfigurationRevisionRequest,
-  output: DescribeConfigurationRevisionResponse,
+  input: __S(224, __c14, 0) as any as S.Schema<DescribeConfigurationRevisionRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<DescribeConfigurationRevisionResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2585,6 +1230,8 @@ export const describeConfigurationRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationRevision",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationRevision",
 }));
 
 export type DescribeSharedResourcesError =
@@ -2597,14 +1244,14 @@ export type DescribeSharedResourcesError =
  * Returns the resources shared to a broker.
  */
 export const describeSharedResources: API.PaginatedOperationMethod<
-  DescribeSharedResourcesRequest,
+  DescribeSharedResourcesRequest & RegionInput,
   DescribeSharedResourcesResponse,
   DescribeSharedResourcesError,
   Credentials | HttpClient.HttpClient,
   SharedResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeSharedResourcesRequest,
-  output: DescribeSharedResourcesResponse,
+  input: __S(240, __c15, 0) as any as S.Schema<DescribeSharedResourcesRequest>,
+  output: __S(244, __c15, 4) as any as S.Schema<DescribeSharedResourcesResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2620,6 +1267,8 @@ export const describeSharedResources: API.PaginatedOperationMethod<
     items: "SharedResources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSharedResources",
 })) as any;
 
 export type DescribeUserError =
@@ -2632,13 +1281,13 @@ export type DescribeUserError =
  * Returns information about an ActiveMQ user.
  */
 export const describeUser: API.OperationMethod<
-  DescribeUserRequest,
+  DescribeUserRequest & RegionInput,
   DescribeUserResponse,
   DescribeUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeUserRequest,
-  output: DescribeUserResponse,
+  input: __S(256, __c16, 0) as any as S.Schema<DescribeUserRequest>,
+  output: __S(258, __c16, 2) as any as S.Schema<DescribeUserResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2648,6 +1297,8 @@ export const describeUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUser",
+  telemetry: TELEMETRY,
+  span: "DescribeUser",
 }));
 
 export type ListBrokersError =
@@ -2659,19 +1310,15 @@ export type ListBrokersError =
  * Returns a list of all brokers.
  */
 export const listBrokers: API.PaginatedOperationMethod<
-  ListBrokersRequest,
+  ListBrokersRequest & RegionInput,
   ListBrokersResponse,
   ListBrokersError,
   Credentials | HttpClient.HttpClient,
   BrokerSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListBrokersRequest,
-  output: ListBrokersResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-  ],
+  input: __S(272, __c17, 0) as any as S.Schema<ListBrokersRequest>,
+  output: __S(275, __c17, 3) as any as S.Schema<ListBrokersResponse>,
+  errors: [BadRequestException, ForbiddenException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBrokers",
@@ -2681,6 +1328,8 @@ export const listBrokers: API.PaginatedOperationMethod<
     items: "BrokerSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBrokers",
 })) as any;
 
 export type ListConfigurationRevisionsError =
@@ -2693,13 +1342,13 @@ export type ListConfigurationRevisionsError =
  * Returns a list of all revisions for the specified configuration.
  */
 export const listConfigurationRevisions: API.OperationMethod<
-  ListConfigurationRevisionsRequest,
+  ListConfigurationRevisionsRequest & RegionInput,
   ListConfigurationRevisionsResponse,
   ListConfigurationRevisionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListConfigurationRevisionsRequest,
-  output: ListConfigurationRevisionsResponse,
+  input: __S(288, __c18, 0) as any as S.Schema<ListConfigurationRevisionsRequest>,
+  output: __S(290, __c18, 2) as any as S.Schema<ListConfigurationRevisionsResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2709,6 +1358,8 @@ export const listConfigurationRevisions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationRevisions",
+  telemetry: TELEMETRY,
+  span: "ListConfigurationRevisions",
 }));
 
 export type ListConfigurationsError =
@@ -2720,21 +1371,19 @@ export type ListConfigurationsError =
  * Returns a list of all configurations.
  */
 export const listConfigurations: API.OperationMethod<
-  ListConfigurationsRequest,
+  ListConfigurationsRequest & RegionInput,
   ListConfigurationsResponse,
   ListConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListConfigurationsRequest,
-  output: ListConfigurationsResponse,
-  errors: [
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-  ],
+  input: __S(304, __c19, 0) as any as S.Schema<ListConfigurationsRequest>,
+  output: __S(306, __c19, 2) as any as S.Schema<ListConfigurationsResponse>,
+  errors: [BadRequestException, ForbiddenException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListConfigurations",
 }));
 
 export type ListTagsError =
@@ -2747,13 +1396,13 @@ export type ListTagsError =
  * Lists tags for a resource.
  */
 export const listTags: API.OperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsRequest,
-  output: ListTagsResponse,
+  input: __S(320, __c20, 0) as any as S.Schema<ListTagsRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<ListTagsResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2763,6 +1412,8 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type ListUsersError =
@@ -2775,13 +1426,13 @@ export type ListUsersError =
  * Returns a list of all ActiveMQ users.
  */
 export const listUsers: API.OperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListUsersRequest,
-  output: ListUsersResponse,
+  input: __S(336, __c21, 0) as any as S.Schema<ListUsersRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<ListUsersResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2791,6 +1442,8 @@ export const listUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUsers",
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 }));
 
 export type PromoteError =
@@ -2803,13 +1456,13 @@ export type PromoteError =
  * Promotes a data replication replica broker to the primary broker role.
  */
 export const promote: API.OperationMethod<
-  PromoteRequest,
+  PromoteRequest & RegionInput,
   PromoteResponse,
   PromoteError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PromoteRequest,
-  output: PromoteResponse,
+  input: __S(352, __c22, 0) as any as S.Schema<PromoteRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<PromoteResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2819,6 +1472,8 @@ export const promote: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Promote",
+  telemetry: TELEMETRY,
+  span: "Promote",
 }));
 
 export type RebootBrokerError =
@@ -2831,13 +1486,13 @@ export type RebootBrokerError =
  * Reboots a broker. Note: This API is asynchronous.
  */
 export const rebootBroker: API.OperationMethod<
-  RebootBrokerRequest,
+  RebootBrokerRequest & RegionInput,
   RebootBrokerResponse,
   RebootBrokerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RebootBrokerRequest,
-  output: RebootBrokerResponse,
+  input: __S(368, __c23, 0) as any as S.Schema<RebootBrokerRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<RebootBrokerResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2847,6 +1502,8 @@ export const rebootBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootBroker",
+  telemetry: TELEMETRY,
+  span: "RebootBroker",
 }));
 
 export type UpdateBrokerError =
@@ -2860,13 +1517,13 @@ export type UpdateBrokerError =
  * Adds a pending configuration change to a broker.
  */
 export const updateBroker: API.OperationMethod<
-  UpdateBrokerRequest,
+  UpdateBrokerRequest & RegionInput,
   UpdateBrokerResponse,
   UpdateBrokerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateBrokerRequest,
-  output: UpdateBrokerResponse,
+  input: __S(384, __c24, 0) as any as S.Schema<UpdateBrokerRequest>,
+  output: __S(385, __c24, 1) as any as S.Schema<UpdateBrokerResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2877,6 +1534,8 @@ export const updateBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBroker",
+  telemetry: TELEMETRY,
+  span: "UpdateBroker",
 }));
 
 export type UpdateConfigurationError =
@@ -2890,13 +1549,13 @@ export type UpdateConfigurationError =
  * Updates the specified configuration.
  */
 export const updateConfiguration: API.OperationMethod<
-  UpdateConfigurationRequest,
+  UpdateConfigurationRequest & RegionInput,
   UpdateConfigurationResponse,
   UpdateConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateConfigurationRequest,
-  output: UpdateConfigurationResponse,
+  input: __S(400, __c25, 0) as any as S.Schema<UpdateConfigurationRequest>,
+  output: __S(403, __c25, 3) as any as S.Schema<UpdateConfigurationResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2907,6 +1566,8 @@ export const updateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateConfiguration",
 }));
 
 export type UpdateUserError =
@@ -2920,13 +1581,13 @@ export type UpdateUserError =
  * Updates the information for an ActiveMQ user.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateUserRequest,
-  output: UpdateUserResponse,
+  input: __S(416, __c26, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<UpdateUserResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2937,4 +1598,1330 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ErrorCode: S.optional(S.String),
+          ResourceShareArn: S.optional(S.String),
+          Status: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            ErrorCode: "errorCode",
+            ResourceShareArn: "resourceShareArn",
+            Status: "status",
+          }),
+        ),
+      ).annotate({ identifier: "ResourceShareError" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ BrokerId: S.String.pipe(T.HttpLabel("BrokerId")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/v1/brokers/{BrokerId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteBrokerRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ BrokerId: S.optional(S.String) }).pipe(S.encodeKeys({ BrokerId: "brokerId" })),
+      ).annotate({ identifier: "DeleteBrokerResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/v1/configurations/{ConfigurationId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ConfigurationId: S.optional(S.String) }).pipe(
+          S.encodeKeys({ ConfigurationId: "configurationId" }),
+        ),
+      ).annotate({ identifier: "DeleteConfigurationResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+          TagKeys: S.optional(__listOf__string).pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/v1/tags/{ResourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteTagsRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
+          Username: S.String.pipe(T.HttpLabel("Username")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/v1/brokers/{BrokerId}/users/{Username}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteUserRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ BrokerId: S.String.pipe(T.HttpLabel("BrokerId")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/v1/brokers/{BrokerId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeBrokerRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ActionRequiredCode: S.optional(S.String),
+          ActionRequiredInfo: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            ActionRequiredCode: "actionRequiredCode",
+            ActionRequiredInfo: "actionRequiredInfo",
+          }),
+        ),
+      ).annotate({ identifier: "ActionRequired" });
+    case 2:
+      return S.Array(__S(97, __c6, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ConsoleURL: S.optional(S.String),
+          Endpoints: S.optional(__listOf__string),
+          IpAddress: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            ConsoleURL: "consoleURL",
+            Endpoints: "endpoints",
+            IpAddress: "ipAddress",
+          }),
+        ),
+      ).annotate({ identifier: "BrokerInstance" });
+    case 4:
+      return S.Array(__S(99, __c6, 3));
+    case 5:
+      return S.Array(__S(464, __c29, 0));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          Current: S.optional(__S(464, __c29, 0)),
+          History: S.optional(__listOfConfigurationId),
+          Pending: S.optional(__S(464, __c29, 0)),
+        }).pipe(S.encodeKeys({ Current: "current", History: "history", Pending: "pending" })),
+      ).annotate({ identifier: "Configurations" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          Audit: S.optional(S.Boolean),
+          AuditLogGroup: S.optional(S.String),
+          General: S.optional(S.Boolean),
+          GeneralLogGroup: S.optional(S.String),
+          Pending: S.optional(__S(465, __c29, 1)),
+        }).pipe(
+          S.encodeKeys({
+            Audit: "audit",
+            AuditLogGroup: "auditLogGroup",
+            General: "general",
+            GeneralLogGroup: "generalLogGroup",
+            Pending: "pending",
+          }),
+        ),
+      ).annotate({ identifier: "LogsSummary" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          ActionsRequired: S.optional(__listOfActionRequired),
+          AuthenticationStrategy: S.optional(S.String),
+          AutoMinorVersionUpgrade: S.optional(S.Boolean),
+          BrokerArn: S.optional(S.String),
+          BrokerId: S.optional(S.String),
+          BrokerInstances: S.optional(__listOfBrokerInstance),
+          BrokerName: S.optional(S.String),
+          BrokerState: S.optional(S.String),
+          Configurations: S.optional(__S(102, __c6, 6)),
+          Created: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          DeploymentMode: S.optional(S.String),
+          EncryptionOptions: S.optional(__S(448, __c28, 0)),
+          EngineType: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          HostInstanceType: S.optional(S.String),
+          LdapServerMetadata: S.optional(__S(128, __c8, 0)),
+          Logs: S.optional(__S(103, __c6, 7)),
+          MaintenanceWindowStartTime: S.optional(__S(466, __c29, 2)),
+          PendingAuthenticationStrategy: S.optional(S.String),
+          PendingEngineVersion: S.optional(S.String),
+          PendingHostInstanceType: S.optional(S.String),
+          PendingLdapServerMetadata: S.optional(__S(128, __c8, 0)),
+          PendingSecurityGroups: S.optional(__listOf__string),
+          PendingStorageSize: S.optional(S.Number),
+          PubliclyAccessible: S.optional(S.Boolean),
+          SecurityGroups: S.optional(__listOf__string),
+          StorageSize: S.optional(S.Number),
+          StorageType: S.optional(S.String),
+          SubnetIds: S.optional(__listOf__string),
+          Tags: S.optional(__mapOf__string),
+          Users: S.optional(__listOfUserSummary),
+          DataReplicationMetadata: S.optional(__S(130, __c8, 2)),
+          DataReplicationMode: S.optional(S.String),
+          PendingDataReplicationMetadata: S.optional(__S(130, __c8, 2)),
+          PendingDataReplicationMode: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            ActionsRequired: "actionsRequired",
+            AuthenticationStrategy: "authenticationStrategy",
+            AutoMinorVersionUpgrade: "autoMinorVersionUpgrade",
+            BrokerArn: "brokerArn",
+            BrokerId: "brokerId",
+            BrokerInstances: "brokerInstances",
+            BrokerName: "brokerName",
+            BrokerState: "brokerState",
+            Configurations: "configurations",
+            Created: "created",
+            DeploymentMode: "deploymentMode",
+            EncryptionOptions: "encryptionOptions",
+            EngineType: "engineType",
+            EngineVersion: "engineVersion",
+            HostInstanceType: "hostInstanceType",
+            LdapServerMetadata: "ldapServerMetadata",
+            Logs: "logs",
+            MaintenanceWindowStartTime: "maintenanceWindowStartTime",
+            PendingAuthenticationStrategy: "pendingAuthenticationStrategy",
+            PendingEngineVersion: "pendingEngineVersion",
+            PendingHostInstanceType: "pendingHostInstanceType",
+            PendingLdapServerMetadata: "pendingLdapServerMetadata",
+            PendingSecurityGroups: "pendingSecurityGroups",
+            PendingStorageSize: "pendingStorageSize",
+            PubliclyAccessible: "publiclyAccessible",
+            SecurityGroups: "securityGroups",
+            StorageSize: "storageSize",
+            StorageType: "storageType",
+            SubnetIds: "subnetIds",
+            Tags: "tags",
+            Users: "users",
+            DataReplicationMetadata: "dataReplicationMetadata",
+            DataReplicationMode: "dataReplicationMode",
+            PendingDataReplicationMetadata: "pendingDataReplicationMetadata",
+            PendingDataReplicationMode: "pendingDataReplicationMode",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeBrokerResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ PendingChange: S.optional(S.String), Username: S.optional(S.String) }).pipe(
+          S.encodeKeys({ PendingChange: "pendingChange", Username: "username" }),
+        ),
+      ).annotate({ identifier: "UserSummary" });
+    case 1:
+      return S.Array(__S(112, __c7, 0));
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Hosts: S.optional(__listOf__string),
+          RoleBase: S.optional(S.String),
+          RoleName: S.optional(S.String),
+          RoleSearchMatching: S.optional(S.String),
+          RoleSearchSubtree: S.optional(S.Boolean),
+          ServiceAccountUsername: S.optional(S.String),
+          UserBase: S.optional(S.String),
+          UserRoleName: S.optional(S.String),
+          UserSearchMatching: S.optional(S.String),
+          UserSearchSubtree: S.optional(S.Boolean),
+        }).pipe(
+          S.encodeKeys({
+            Hosts: "hosts",
+            RoleBase: "roleBase",
+            RoleName: "roleName",
+            RoleSearchMatching: "roleSearchMatching",
+            RoleSearchSubtree: "roleSearchSubtree",
+            ServiceAccountUsername: "serviceAccountUsername",
+            UserBase: "userBase",
+            UserRoleName: "userRoleName",
+            UserSearchMatching: "userSearchMatching",
+            UserSearchSubtree: "userSearchSubtree",
+          }),
+        ),
+      ).annotate({ identifier: "LdapServerMetadataOutput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ BrokerId: S.optional(S.String), Region: S.optional(S.String) }).pipe(
+          S.encodeKeys({ BrokerId: "brokerId", Region: "region" }),
+        ),
+      ).annotate({ identifier: "DataReplicationCounterpart" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          DataReplicationCounterpart: S.optional(__S(129, __c8, 1)),
+          DataReplicationRole: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            DataReplicationCounterpart: "dataReplicationCounterpart",
+            DataReplicationRole: "dataReplicationRole",
+          }),
+        ),
+      ).annotate({ identifier: "DataReplicationMetadataOutput" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EngineType: S.optional(S.String).pipe(T.HttpQuery("engineType")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/v1/broker-engine-types" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeBrokerEngineTypesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          EngineType: S.optional(S.String),
+          EngineVersions: S.optional(__listOfEngineVersion),
+        }).pipe(S.encodeKeys({ EngineType: "engineType", EngineVersions: "engineVersions" })),
+      ).annotate({ identifier: "BrokerEngineType" });
+    case 2:
+      return S.Array(__S(145, __c9, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          BrokerEngineTypes: S.optional(__listOfBrokerEngineType),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            BrokerEngineTypes: "brokerEngineTypes",
+            MaxResults: "maxResults",
+            NextToken: "nextToken",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeBrokerEngineTypesResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String) }).pipe(S.encodeKeys({ Name: "name" })),
+      ).annotate({ identifier: "EngineVersion" });
+    case 1:
+      return S.Array(__S(160, __c10, 0));
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EngineType: S.optional(S.String).pipe(T.HttpQuery("engineType")),
+          HostInstanceType: S.optional(S.String).pipe(T.HttpQuery("hostInstanceType")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          StorageType: S.optional(S.String).pipe(T.HttpQuery("storageType")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/v1/broker-instance-options" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeBrokerInstanceOptionsRequest" });
+    case 1:
+      return S.Array(S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          AvailabilityZones: S.optional(__listOfAvailabilityZone),
+          EngineType: S.optional(S.String),
+          HostInstanceType: S.optional(S.String),
+          StorageType: S.optional(S.String),
+          SupportedDeploymentModes: S.optional(__listOfDeploymentMode),
+          SupportedEngineVersions: S.optional(__listOf__string),
+        }).pipe(
+          S.encodeKeys({
+            AvailabilityZones: "availabilityZones",
+            EngineType: "engineType",
+            HostInstanceType: "hostInstanceType",
+            StorageType: "storageType",
+            SupportedDeploymentModes: "supportedDeploymentModes",
+            SupportedEngineVersions: "supportedEngineVersions",
+          }),
+        ),
+      ).annotate({ identifier: "BrokerInstanceOption" });
+    case 3:
+      return S.Array(__S(178, __c11, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          BrokerInstanceOptions: S.optional(__listOfBrokerInstanceOption),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            BrokerInstanceOptions: "brokerInstanceOptions",
+            MaxResults: "maxResults",
+            NextToken: "nextToken",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeBrokerInstanceOptionsResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/v1/configurations/{ConfigurationId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeConfigurationRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Arn: S.optional(S.String),
+          AuthenticationStrategy: S.optional(S.String),
+          Created: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Description: S.optional(S.String),
+          EngineType: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          Id: S.optional(S.String),
+          LatestRevision: S.optional(__S(544, __c34, 0)),
+          Name: S.optional(S.String),
+          Tags: S.optional(__mapOf__string),
+        }).pipe(
+          S.encodeKeys({
+            Arn: "arn",
+            AuthenticationStrategy: "authenticationStrategy",
+            Created: "created",
+            Description: "description",
+            EngineType: "engineType",
+            EngineVersion: "engineVersion",
+            Id: "id",
+            LatestRevision: "latestRevision",
+            Name: "name",
+            Tags: "tags",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeConfigurationResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")),
+          ConfigurationRevision: S.String.pipe(T.HttpLabel("ConfigurationRevision")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/v1/configurations/{ConfigurationId}/revisions/{ConfigurationRevision}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeConfigurationRevisionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ConfigurationId: S.optional(S.String),
+          Created: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Data: S.optional(S.String),
+          Description: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            ConfigurationId: "configurationId",
+            Created: "created",
+            Data: "data",
+            Description: "description",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeConfigurationRevisionResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/v1/brokers/{BrokerId}/shared-resources" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeSharedResourcesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }).pipe(
+          S.encodeKeys({ Code: "code", Message: "message" }),
+        ),
+      ).annotate({ identifier: "SharedResourceError" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          DnsNames: S.optional(__listOf__string),
+          Error: S.optional(__S(241, __c15, 1)),
+          ResourceArn: S.optional(S.String),
+          ResourceShareArns: S.optional(__listOf__string),
+          Status: S.optional(S.String),
+          Type: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            DnsNames: "dnsNames",
+            Error: "error",
+            ResourceArn: "resourceArn",
+            ResourceShareArns: "resourceShareArns",
+            Status: "status",
+            Type: "type",
+          }),
+        ),
+      ).annotate({ identifier: "SharedResource" });
+    case 3:
+      return S.Array(__S(242, __c15, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          SharedResources: S.optional(__listOfSharedResource),
+        }).pipe(S.encodeKeys({ NextToken: "nextToken", SharedResources: "sharedResources" })),
+      ).annotate({ identifier: "DescribeSharedResourcesResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
+          Username: S.String.pipe(T.HttpLabel("Username")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/v1/brokers/{BrokerId}/users/{Username}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeUserRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ConsoleAccess: S.optional(S.Boolean),
+          Groups: S.optional(__listOf__string),
+          PendingChange: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            ConsoleAccess: "consoleAccess",
+            Groups: "groups",
+            PendingChange: "pendingChange",
+          }),
+        ),
+      ).annotate({ identifier: "UserPendingChanges" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          BrokerId: S.optional(S.String),
+          ConsoleAccess: S.optional(S.Boolean),
+          Groups: S.optional(__listOf__string),
+          Pending: S.optional(__S(257, __c16, 1)),
+          Username: S.optional(S.String),
+          ReplicationUser: S.optional(S.Boolean),
+        }).pipe(
+          S.encodeKeys({
+            BrokerId: "brokerId",
+            ConsoleAccess: "consoleAccess",
+            Groups: "groups",
+            Pending: "pending",
+            Username: "username",
+            ReplicationUser: "replicationUser",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeUserResponse" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/brokers" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListBrokersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          BrokerArn: S.optional(S.String),
+          BrokerId: S.optional(S.String),
+          BrokerName: S.optional(S.String),
+          BrokerState: S.optional(S.String),
+          Created: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          DeploymentMode: S.optional(S.String),
+          EngineType: S.optional(S.String),
+          HostInstanceType: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            BrokerArn: "brokerArn",
+            BrokerId: "brokerId",
+            BrokerName: "brokerName",
+            BrokerState: "brokerState",
+            Created: "created",
+            DeploymentMode: "deploymentMode",
+            EngineType: "engineType",
+            HostInstanceType: "hostInstanceType",
+          }),
+        ),
+      ).annotate({ identifier: "BrokerSummary" });
+    case 2:
+      return S.Array(__S(273, __c17, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          BrokerSummaries: S.optional(__listOfBrokerSummary),
+          NextToken: S.optional(S.String),
+        }).pipe(S.encodeKeys({ BrokerSummaries: "brokerSummaries", NextToken: "nextToken" })),
+      ).annotate({ identifier: "ListBrokersResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/v1/configurations/{ConfigurationId}/revisions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListConfigurationRevisionsRequest" });
+    case 1:
+      return S.Array(__S(544, __c34, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ConfigurationId: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Revisions: S.optional(__listOfConfigurationRevision),
+        }).pipe(
+          S.encodeKeys({
+            ConfigurationId: "configurationId",
+            MaxResults: "maxResults",
+            NextToken: "nextToken",
+            Revisions: "revisions",
+          }),
+        ),
+      ).annotate({ identifier: "ListConfigurationRevisionsResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/v1/configurations" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListConfigurationsRequest" });
+    case 1:
+      return S.Array(__S(208, __c13, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Configurations: S.optional(__listOfConfiguration),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            Configurations: "configurations",
+            MaxResults: "maxResults",
+            NextToken: "nextToken",
+          }),
+        ),
+      ).annotate({ identifier: "ListConfigurationsResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/v1/tags/{ResourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTagsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Tags: S.optional(__mapOf__string) }).pipe(S.encodeKeys({ Tags: "tags" })),
+      ).annotate({ identifier: "ListTagsResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/v1/brokers/{BrokerId}/users" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListUsersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          BrokerId: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Users: S.optional(__listOfUserSummary),
+        }).pipe(
+          S.encodeKeys({
+            BrokerId: "brokerId",
+            MaxResults: "maxResults",
+            NextToken: "nextToken",
+            Users: "users",
+          }),
+        ),
+      ).annotate({ identifier: "ListUsersResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ BrokerId: S.String.pipe(T.HttpLabel("BrokerId")), Mode: S.optional(S.String) })
+          .pipe(S.encodeKeys({ Mode: "mode" }))
+          .pipe(
+            T.all(
+              T.Http({ method: "POST", uri: "/v1/brokers/{BrokerId}/promote" }),
+              svc,
+              auth,
+              proto,
+              ver,
+              rules,
+            ),
+          ),
+      ).annotate({ identifier: "PromoteRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ BrokerId: S.String.pipe(T.HttpLabel("BrokerId")) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/v1/brokers/{BrokerId}/reboot" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "RebootBrokerRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AuthenticationStrategy: S.optional(S.String),
+          AutoMinorVersionUpgrade: S.optional(S.Boolean),
+          BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
+          Configuration: S.optional(__S(464, __c29, 0)),
+          EngineVersion: S.optional(S.String),
+          HostInstanceType: S.optional(S.String),
+          LdapServerMetadata: S.optional(__S(480, __c30, 0)),
+          Logs: S.optional(__S(465, __c29, 1)),
+          MaintenanceWindowStartTime: S.optional(__S(466, __c29, 2)),
+          ResourceShareArns: S.optional(__listOf__string),
+          SecurityGroups: S.optional(__listOf__string),
+          StorageSize: S.optional(S.Number),
+          DataReplicationMode: S.optional(S.String),
+        })
+          .pipe(
+            S.encodeKeys({
+              AuthenticationStrategy: "authenticationStrategy",
+              AutoMinorVersionUpgrade: "autoMinorVersionUpgrade",
+              Configuration: "configuration",
+              EngineVersion: "engineVersion",
+              HostInstanceType: "hostInstanceType",
+              LdapServerMetadata: "ldapServerMetadata",
+              Logs: "logs",
+              MaintenanceWindowStartTime: "maintenanceWindowStartTime",
+              ResourceShareArns: "resourceShareArns",
+              SecurityGroups: "securityGroups",
+              StorageSize: "storageSize",
+              DataReplicationMode: "dataReplicationMode",
+            }),
+          )
+          .pipe(
+            T.all(
+              T.Http({ method: "PUT", uri: "/v1/brokers/{BrokerId}" }),
+              svc,
+              auth,
+              proto,
+              ver,
+              rules,
+            ),
+          ),
+      ).annotate({ identifier: "UpdateBrokerRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AuthenticationStrategy: S.optional(S.String),
+          AutoMinorVersionUpgrade: S.optional(S.Boolean),
+          BrokerId: S.optional(S.String),
+          Configuration: S.optional(__S(464, __c29, 0)),
+          EngineVersion: S.optional(S.String),
+          HostInstanceType: S.optional(S.String),
+          LdapServerMetadata: S.optional(__S(128, __c8, 0)),
+          Logs: S.optional(__S(465, __c29, 1)),
+          MaintenanceWindowStartTime: S.optional(__S(466, __c29, 2)),
+          ResourceShareArns: S.optional(__listOf__string),
+          SecurityGroups: S.optional(__listOf__string),
+          DataReplicationMetadata: S.optional(__S(130, __c8, 2)),
+          DataReplicationMode: S.optional(S.String),
+          PendingDataReplicationMetadata: S.optional(__S(130, __c8, 2)),
+          PendingDataReplicationMode: S.optional(S.String),
+          StorageSize: S.optional(S.Number),
+        }).pipe(
+          S.encodeKeys({
+            AuthenticationStrategy: "authenticationStrategy",
+            AutoMinorVersionUpgrade: "autoMinorVersionUpgrade",
+            BrokerId: "brokerId",
+            Configuration: "configuration",
+            EngineVersion: "engineVersion",
+            HostInstanceType: "hostInstanceType",
+            LdapServerMetadata: "ldapServerMetadata",
+            Logs: "logs",
+            MaintenanceWindowStartTime: "maintenanceWindowStartTime",
+            ResourceShareArns: "resourceShareArns",
+            SecurityGroups: "securityGroups",
+            DataReplicationMetadata: "dataReplicationMetadata",
+            DataReplicationMode: "dataReplicationMode",
+            PendingDataReplicationMetadata: "pendingDataReplicationMetadata",
+            PendingDataReplicationMode: "pendingDataReplicationMode",
+            StorageSize: "storageSize",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateBrokerResponse" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")),
+          Data: S.optional(S.String),
+          Description: S.optional(S.String),
+        })
+          .pipe(S.encodeKeys({ Data: "data", Description: "description" }))
+          .pipe(
+            T.all(
+              T.Http({ method: "PUT", uri: "/v1/configurations/{ConfigurationId}" }),
+              svc,
+              auth,
+              proto,
+              ver,
+              rules,
+            ),
+          ),
+      ).annotate({ identifier: "UpdateConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AttributeName: S.optional(S.String),
+          ElementName: S.optional(S.String),
+          Reason: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            AttributeName: "attributeName",
+            ElementName: "elementName",
+            Reason: "reason",
+          }),
+        ),
+      ).annotate({ identifier: "SanitizationWarning" });
+    case 2:
+      return S.Array(__S(401, __c25, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Arn: S.optional(S.String),
+          Created: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Id: S.optional(S.String),
+          LatestRevision: S.optional(__S(544, __c34, 0)),
+          Name: S.optional(S.String),
+          Warnings: S.optional(__listOfSanitizationWarning),
+        }).pipe(
+          S.encodeKeys({
+            Arn: "arn",
+            Created: "created",
+            Id: "id",
+            LatestRevision: "latestRevision",
+            Name: "name",
+            Warnings: "warnings",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateConfigurationResponse" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
+          ConsoleAccess: S.optional(S.Boolean),
+          Groups: S.optional(__listOf__string),
+          Password: S.optional(SensitiveString),
+          Username: S.String.pipe(T.HttpLabel("Username")),
+          ReplicationUser: S.optional(S.Boolean),
+        })
+          .pipe(
+            S.encodeKeys({
+              ConsoleAccess: "consoleAccess",
+              Groups: "groups",
+              Password: "password",
+              ReplicationUser: "replicationUser",
+            }),
+          )
+          .pipe(
+            T.all(
+              T.Http({ method: "PUT", uri: "/v1/brokers/{BrokerId}/users/{Username}" }),
+              svc,
+              auth,
+              proto,
+              ver,
+              rules,
+            ),
+          ),
+      ).annotate({ identifier: "UpdateUserRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ConsoleAccess: S.optional(S.Boolean),
+          Groups: S.optional(__listOf__string),
+          Password: S.optional(SensitiveString),
+          Username: S.optional(S.String),
+          ReplicationUser: S.optional(S.Boolean),
+        }).pipe(
+          S.encodeKeys({
+            ConsoleAccess: "consoleAccess",
+            Groups: "groups",
+            Password: "password",
+            Username: "username",
+            ReplicationUser: "replicationUser",
+          }),
+        ),
+      ).annotate({ identifier: "User" });
+    case 1:
+      return S.Array(__S(432, __c27, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          AuthenticationStrategy: S.optional(S.String),
+          AutoMinorVersionUpgrade: S.optional(S.Boolean),
+          BrokerName: S.optional(S.String),
+          Configuration: S.optional(__S(464, __c29, 0)),
+          CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+          DeploymentMode: S.optional(S.String),
+          EncryptionOptions: S.optional(__S(448, __c28, 0)),
+          EngineType: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          HostInstanceType: S.optional(S.String),
+          LdapServerMetadata: S.optional(__S(480, __c30, 0)),
+          Logs: S.optional(__S(465, __c29, 1)),
+          MaintenanceWindowStartTime: S.optional(__S(466, __c29, 2)),
+          PubliclyAccessible: S.optional(S.Boolean),
+          SecurityGroups: S.optional(__listOf__string),
+          StorageSize: S.optional(S.Number),
+          StorageType: S.optional(S.String),
+          SubnetIds: S.optional(__listOf__string),
+          Tags: S.optional(__mapOf__string),
+          Users: S.optional(__listOfUser),
+          DataReplicationMode: S.optional(S.String),
+          DataReplicationPrimaryBrokerArn: S.optional(S.String),
+        })
+          .pipe(
+            S.encodeKeys({
+              AuthenticationStrategy: "authenticationStrategy",
+              AutoMinorVersionUpgrade: "autoMinorVersionUpgrade",
+              BrokerName: "brokerName",
+              Configuration: "configuration",
+              CreatorRequestId: "creatorRequestId",
+              DeploymentMode: "deploymentMode",
+              EncryptionOptions: "encryptionOptions",
+              EngineType: "engineType",
+              EngineVersion: "engineVersion",
+              HostInstanceType: "hostInstanceType",
+              LdapServerMetadata: "ldapServerMetadata",
+              Logs: "logs",
+              MaintenanceWindowStartTime: "maintenanceWindowStartTime",
+              PubliclyAccessible: "publiclyAccessible",
+              SecurityGroups: "securityGroups",
+              StorageSize: "storageSize",
+              StorageType: "storageType",
+              SubnetIds: "subnetIds",
+              Tags: "tags",
+              Users: "users",
+              DataReplicationMode: "dataReplicationMode",
+              DataReplicationPrimaryBrokerArn: "dataReplicationPrimaryBrokerArn",
+            }),
+          )
+          .pipe(
+            T.all(T.Http({ method: "POST", uri: "/v1/brokers" }), svc, auth, proto, ver, rules),
+          ),
+      ).annotate({ identifier: "CreateBrokerRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ BrokerArn: S.optional(S.String), BrokerId: S.optional(S.String) }).pipe(
+          S.encodeKeys({ BrokerArn: "brokerArn", BrokerId: "brokerId" }),
+        ),
+      ).annotate({ identifier: "CreateBrokerResponse" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ KmsKeyId: S.optional(S.String), UseAwsOwnedKey: S.optional(S.Boolean) }).pipe(
+          S.encodeKeys({ KmsKeyId: "kmsKeyId", UseAwsOwnedKey: "useAwsOwnedKey" }),
+        ),
+      ).annotate({ identifier: "EncryptionOptions" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Id: S.optional(S.String), Revision: S.optional(S.Number) }).pipe(
+          S.encodeKeys({ Id: "id", Revision: "revision" }),
+        ),
+      ).annotate({ identifier: "ConfigurationId" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Audit: S.optional(S.Boolean), General: S.optional(S.Boolean) }).pipe(
+          S.encodeKeys({ Audit: "audit", General: "general" }),
+        ),
+      ).annotate({ identifier: "Logs" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          DayOfWeek: S.optional(S.String),
+          TimeOfDay: S.optional(S.String),
+          TimeZone: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({ DayOfWeek: "dayOfWeek", TimeOfDay: "timeOfDay", TimeZone: "timeZone" }),
+        ),
+      ).annotate({ identifier: "WeeklyStartTime" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Hosts: S.optional(__listOf__string),
+          RoleBase: S.optional(S.String),
+          RoleName: S.optional(S.String),
+          RoleSearchMatching: S.optional(S.String),
+          RoleSearchSubtree: S.optional(S.Boolean),
+          ServiceAccountPassword: S.optional(SensitiveString),
+          ServiceAccountUsername: S.optional(S.String),
+          UserBase: S.optional(S.String),
+          UserRoleName: S.optional(S.String),
+          UserSearchMatching: S.optional(S.String),
+          UserSearchSubtree: S.optional(S.Boolean),
+        }).pipe(
+          S.encodeKeys({
+            Hosts: "hosts",
+            RoleBase: "roleBase",
+            RoleName: "roleName",
+            RoleSearchMatching: "roleSearchMatching",
+            RoleSearchSubtree: "roleSearchSubtree",
+            ServiceAccountPassword: "serviceAccountPassword",
+            ServiceAccountUsername: "serviceAccountUsername",
+            UserBase: "userBase",
+            UserRoleName: "userRoleName",
+            UserSearchMatching: "userSearchMatching",
+            UserSearchSubtree: "userSearchSubtree",
+          }),
+        ),
+      ).annotate({ identifier: "LdapServerMetadataInput" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AuthenticationStrategy: S.optional(S.String),
+          EngineType: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          Name: S.optional(S.String),
+          Tags: S.optional(__mapOf__string),
+        })
+          .pipe(
+            S.encodeKeys({
+              AuthenticationStrategy: "authenticationStrategy",
+              EngineType: "engineType",
+              EngineVersion: "engineVersion",
+              Name: "name",
+              Tags: "tags",
+            }),
+          )
+          .pipe(
+            T.all(
+              T.Http({ method: "POST", uri: "/v1/configurations" }),
+              svc,
+              auth,
+              proto,
+              ver,
+              rules,
+            ),
+          ),
+      ).annotate({ identifier: "CreateConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Arn: S.optional(S.String),
+          AuthenticationStrategy: S.optional(S.String),
+          Created: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Id: S.optional(S.String),
+          LatestRevision: S.optional(__S(544, __c34, 0)),
+          Name: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            Arn: "arn",
+            AuthenticationStrategy: "authenticationStrategy",
+            Created: "created",
+            Id: "id",
+            LatestRevision: "latestRevision",
+            Name: "name",
+          }),
+        ),
+      ).annotate({ identifier: "CreateConfigurationResponse" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Created: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Description: S.optional(S.String),
+          Revision: S.optional(S.Number),
+        }).pipe(
+          S.encodeKeys({ Created: "created", Description: "description", Revision: "revision" }),
+        ),
+      ).annotate({ identifier: "ConfigurationRevision" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+          Tags: S.optional(__mapOf__string),
+        })
+          .pipe(S.encodeKeys({ Tags: "tags" }))
+          .pipe(
+            T.all(
+              T.Http({ method: "POST", uri: "/v1/tags/{ResourceArn}" }),
+              svc,
+              auth,
+              proto,
+              ver,
+              rules,
+            ),
+          ),
+      ).annotate({ identifier: "CreateTagsRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateTagsResponse" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
+          ConsoleAccess: S.optional(S.Boolean),
+          Groups: S.optional(__listOf__string),
+          Password: S.optional(SensitiveString),
+          Username: S.String.pipe(T.HttpLabel("Username")),
+          ReplicationUser: S.optional(S.Boolean),
+        })
+          .pipe(
+            S.encodeKeys({
+              ConsoleAccess: "consoleAccess",
+              Groups: "groups",
+              Password: "password",
+              ReplicationUser: "replicationUser",
+            }),
+          )
+          .pipe(
+            T.all(
+              T.Http({ method: "POST", uri: "/v1/brokers/{BrokerId}/users/{Username}" }),
+              svc,
+              auth,
+              proto,
+              ver,
+              rules,
+            ),
+          ),
+      ).annotate({ identifier: "CreateUserRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

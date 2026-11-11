@@ -2,8 +2,8 @@
  * ZeroSSL-specific error types.
  *
  * ZeroSSL answers failures with `{ success: false, error: { code, type,
- * info? } }`, usually under HTTP 200. Typed errors are generated from
- * `manual-specs/zerossl.json` and matched on `error.type`; this module holds the
+ * info? } }`, usually under HTTP 200. Typed errors are generated from the
+ * error-code tables in ZeroSSL's API reference and matched on `error.type`; this module holds the
  * shared HTTP defaults and the package's own fallback.
  */
 export {
@@ -24,38 +24,34 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
+import * as Category from "@distilled.cloud/core/category";
 import type {
   BadRequest as CoreBadRequest,
   DefaultErrors as CoreDefaultErrors,
   Forbidden as CoreForbidden,
   NotFound as CoreNotFound,
 } from "@distilled.cloud/core/errors";
-import * as Schema from "effect/Schema";
-import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
- * Unknown ZeroSSL error — an error envelope whose `type` matches no typed
+ * Unknown ZeroSSL error -- an error envelope whose `type` matches no typed
  * class on the operation. Carries a redacted body for diagnostics; add
  * newly observed errors to the authored model.
  */
-export class UnknownZeroSslError extends Schema.TaggedError<UnknownZeroSslError>()(
-  "UnknownZeroSslError",
-  {
-    code: Schema.optional(Schema.Number),
-    type: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
+export class UnknownZeroSslError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownZeroSslError>()("UnknownZeroSslError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.Number),
+    type: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
     body: Schema.Unknown,
-  },
-) {}
+  }) {}
 
 /** Schema parse error wrapper. */
-export class ZeroSslParseError extends Schema.TaggedError<ZeroSslParseError>()(
-  "ZeroSslParseError",
-  {
+export class ZeroSslParseError
+  extends /*@__PURE__*/ Schema.TaggedError<ZeroSslParseError>()("ZeroSslParseError", {
     body: Schema.Unknown,
     cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+  }).pipe(Category.withParseError) {}
 
 export type ClientErrors = UnknownZeroSslError | ZeroSslParseError;
 

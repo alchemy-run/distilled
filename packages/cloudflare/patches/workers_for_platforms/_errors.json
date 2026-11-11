@@ -302,6 +302,29 @@
     },
     {
       "op": "add",
+      "path": "/shapes/com.cloudflare.workers_for_platforms#UnknownWorkerEntrypoint",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "code": 10375
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
       "path": "/shapes/com.cloudflare.workers_for_platforms#VectorizeIndexNotFound",
       "value": {
         "type": "structure",
@@ -318,6 +341,32 @@
           "com.cloudflare.protocols#errorMatchers": [
             {
               "code": 10159
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_for_platforms#WorkerHasNoVersions",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "includes": "has no versions"
+              }
             }
           ]
         }

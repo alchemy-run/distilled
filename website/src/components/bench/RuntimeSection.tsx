@@ -12,19 +12,11 @@ const STAGE_LABELS: Record<string, string> = {
   decode: "Decode output",
   "call-error": "Typed error",
 };
-const STAGE_ORDER = [
-  "call",
-  "build",
-  "wire-decode",
-  "decode",
-  "encode",
-  "call-error",
-];
+const STAGE_ORDER = ["call", "build", "wire-decode", "decode", "encode", "call-error"];
 
 const PROVIDER_TONE: Record<string, string> = {
   aws: "border-[color-mix(in_oklab,var(--accent)_45%,var(--line-2))] text-accent",
-  cloudflare:
-    "border-[color-mix(in_oklab,var(--teal)_45%,var(--line-2))] text-teal-2",
+  cloudflare: "border-[color-mix(in_oklab,var(--teal)_45%,var(--line-2))] text-teal-2",
 };
 
 /**
@@ -36,8 +28,7 @@ export const RuntimeSection = (props: { r: RuntimeBench }) => {
   const baseline = () =>
     results().find((x) => x.name === "baseline/mock-http/roundtrip/call") ??
     results().find((x) => x.provider === "baseline" && x.stage === "call");
-  const stages = () =>
-    STAGE_ORDER.filter((s) => results().some((x) => x.stage === s));
+  const stages = () => STAGE_ORDER.filter((s) => results().some((x) => x.stage === s));
   // Fastest p50 first, so the top row is the headline number.
   const byStage = (s: string) =>
     results()
@@ -50,38 +41,27 @@ export const RuntimeSection = (props: { r: RuntimeBench }) => {
 
   // Same rule as the homepage card: lowest p50 of the provider's full calls,
   // with GetCallerIdentity standing in for a signed AWS call.
-  const lowestP50 = (provider: string) =>
-    byStage("call").find((x) => x.provider === provider);
+  const lowestP50 = (provider: string) => byStage("call").find((x) => x.provider === provider);
   const headline = () => {
     const b = baseline();
     const cf = lowestP50("cloudflare");
     const aws =
-      results().find((x) => x.name === "aws/sts/GetCallerIdentity/call") ??
-      lowestP50("aws");
+      results().find((x) => x.name === "aws/sts/GetCallerIdentity/call") ?? lowestP50("aws");
     return [
       ...(b ? [{ n: ns(b.p50), label: "mock round-trip, no SDK" }] : []),
       ...(cf ? [{ n: ns(cf.p50), label: `cloudflare ${cf.op} · p50` }] : []),
-      ...(aws
-        ? [{ n: ns(aws.p50), label: `aws ${aws.op} · p50 (SigV4)` }]
-        : []),
+      ...(aws ? [{ n: ns(aws.p50), label: `aws ${aws.op} · p50 (SigV4)` }] : []),
     ];
   };
 
-  const barWidth = (x: RuntimeResult) =>
-    Math.max(1.5, (x.p50 / maxP50()) * 100);
+  const barWidth = (x: RuntimeResult) => Math.max(1.5, (x.p50 / maxP50()) * 100);
   const baseWidth = (x: RuntimeResult) => {
     const b = baseline();
-    return b && stage() === "call"
-      ? Math.min(barWidth(x), (b.p50 / maxP50()) * 100)
-      : 0;
+    return b && stage() === "call" ? Math.min(barWidth(x), (b.p50 / maxP50()) * 100) : 0;
   };
 
   return (
-    <section
-      id="runtime"
-      class="pt-[clamp(3rem,7vw,5rem)]"
-      aria-labelledby="runtime-title"
-    >
+    <section id="runtime" class="pt-[clamp(3rem,7vw,5rem)]" aria-labelledby="runtime-title">
       <SectionHead
         eyebrow="Runtime"
         id="runtime-title"
@@ -91,10 +71,9 @@ export const RuntimeSection = (props: { r: RuntimeBench }) => {
           </>
         }
       >
-        The HTTP client is mocked, so this is only the SDK's own work: encode,
-        sign, serialize, parse, decode. Lower is better, so rows run fastest p50
-        first; the faint bar on <em>Full call</em> rows is the mocked round-trip
-        with no SDK at all.
+        The HTTP client is mocked, so this is only the SDK's own work: encode, sign, serialize,
+        parse, decode. Lower is better, so rows run fastest p50 first; the faint bar on{" "}
+        <em>Full call</em> rows is the mocked round-trip with no SDK at all.
       </SectionHead>
       <StatRow class="mb-8" tone="teal" stats={headline()} label="Headline" />
 
@@ -147,9 +126,7 @@ export const RuntimeSection = (props: { r: RuntimeBench }) => {
                         {x.service}.{x.op}
                       </code>
                       <Show when={x.note}>
-                        <span class="mt-[0.15rem] block text-[0.76rem] text-fg-3">
-                          {x.note}
-                        </span>
+                        <span class="mt-[0.15rem] block text-[0.76rem] text-fg-3">{x.note}</span>
                       </Show>
                     </th>
                     <td class="text-right! font-mono text-[0.82rem] font-medium whitespace-nowrap text-fg tabular-nums">
@@ -185,9 +162,8 @@ export const RuntimeSection = (props: { r: RuntimeBench }) => {
       </div>
       <p class="mt-4 font-mono text-[0.74rem] text-fg-3 [&_code]:text-fg-2">
         {props.r.machine.runtime}
-        {props.r.machine.cpu ? ` · ${props.r.machine.cpu}` : ""} ·{" "}
-        {props.r.profile} profile · {shortDate(props.r.generatedAt)} ·{" "}
-        <code>{props.r.commit}</code>
+        {props.r.machine.cpu ? ` · ${props.r.machine.cpu}` : ""} · {props.r.profile} profile ·{" "}
+        {shortDate(props.r.generatedAt)} · <code>{props.r.commit}</code>
       </p>
     </section>
   );

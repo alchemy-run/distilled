@@ -1,6 +1,6 @@
+import { fileURLToPath } from "node:url";
 import { solidStart } from "@solidjs/start/config";
 import tailwindcss from "@tailwindcss/vite";
-import { fileURLToPath } from "node:url";
 import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
 import { siteData } from "./build/plugin.ts";
@@ -57,9 +57,7 @@ export default defineConfig(async ({ command, isPreview }) => {
         // pointing it at the build output would make a previous `dist/` shadow
         // the dev server — `/` would resolve to the stale `dist/index.html`.
         // Only redirect the output when something is actually being built.
-        ...(command === "build" || isPreview
-          ? { output: { dir: "dist", publicDir: "dist" } }
-          : {}),
+        ...(command === "build" || isPreview ? { output: { dir: "dist", publicDir: "dist" } } : {}),
         prerender: {
           // `/p/<provider>` is the homepage pinned to one provider: its own
           // social card, its install line and its catalogue entry opened. Each

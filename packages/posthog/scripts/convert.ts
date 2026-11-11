@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — PostHog OpenAPI spec → Smithy JSON models in .generated-specs.
  *
@@ -7,38 +7,28 @@
  * tag. Mirroring distilled v0's driver, the ordering here is load-bearing:
  *
  *   1. Read the full spec.
- *   2. Apply ALL `patches/*.patch.json` ONCE to the full spec (RFC-6902,
- *      sorted name order; stale targets warn+skip — the submodule tracks
- *      upstream and drifts — malformed patches fail the run). Patching
- *      per-slice would hard-fail: a patch targeting one tag's paths doesn't
- *      resolve against another tag's slice.
+ *   2. Patches are Smithy ops on the converted models, under the names the
+ *      spec gives; the finalizeConvert at the end applies them, then the
+ *      deferred verbNoun names (see `@distilled.cloud/dev/codegen/patches`).
  *   3. Bucket operations by PRIMARY (first) tag — a single path can
  *      contribute different methods to different service buckets.
  *   4. Convert each bucket through the shared `convertOpenApiToSmithy`
- *      (skipDeprecated, per-op error shapes from the patched 400/403/404
- *      responses) and write `.generated-specs/<tag_slug>.json`; buckets left
- *      empty (all-deprecated) are dropped.
+ *      (skipDeprecated) and write `.generated-specs/<tag_slug>.json`;
+ *      buckets left empty (all-deprecated) are dropped. The observed
+ *      400/403/404 errors are patches: `patches/<tag_slug>/*-errors.patch.json`.
  *
- * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false` — the
- * patches apply HERE, to the OpenAPI document) then compiles the models.
+ * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false`) then
+ * compiles the already-patched models.
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import {
-  applyOperation,
-  isStaleTargetError,
-  type PatchFile,
-} from "@distilled.cloud/core/json-patch";
-import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
+import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
-const rootDir = path.resolve(import.meta.dir, "..");
-const specPath = resolveSpecPath(
-  rootDir,
-  "specs/spec-mirror-posthog/specs/openapi.json",
-);
-const patchDir = path.join(rootDir, "patches");
+const rootDir = path.resolve(import.meta.dirname, "..");
+const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-posthog/specs/openapi.json");
 const outDir = path.join(rootDir, ".generated-specs");
 
 const HTTP_METHODS = ["get", "post", "put", "patch", "delete"] as const;
@@ -60,53 +50,13 @@ const toPascal = (slug: string): string =>
 // ---- 1. Read the full spec -------------------------------------------------
 const fullSpec = JSON.parse(fs.readFileSync(specPath, "utf-8"));
 
-// ---- 2. Apply the patch chain ONCE to the full spec ------------------------
-let patchFiles = 0;
-let staleOps = 0;
-const badPatches: string[] = [];
-for (const pf of fs
-  .readdirSync(patchDir)
-  .filter((f) => f.endsWith(".patch.json"))
-  .sort((a, b) => a.localeCompare(b))) {
-  const parsed = JSON.parse(
-    fs.readFileSync(path.join(patchDir, pf), "utf-8"),
-  ) as PatchFile;
-  for (const patchOp of parsed.patches ?? []) {
-    try {
-      applyOperation(fullSpec, patchOp);
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
-      if (isStaleTargetError(msg)) {
-        staleOps++;
-        console.warn(`   ⚠️  stale: ${pf} [${patchOp.op} ${patchOp.path}]`);
-      } else {
-        badPatches.push(`${pf} [${patchOp.op} ${patchOp.path}]: ${msg}`);
-      }
-    }
-  }
-  patchFiles++;
-}
-if (badPatches.length) {
-  for (const b of badPatches) console.error(`❌ bad patch: ${b}`);
-  throw new Error(
-    `${badPatches.length} malformed patch operation(s) — fix or remove them`,
-  );
-}
-console.log(
-  `🩹 ${patchFiles} patch files applied` +
-    (staleOps ? ` (${staleOps} stale op(s) skipped)` : ""),
-);
-
 // ---- 3. Bucket paths by primary tag ----------------------------------------
 const tagBuckets = new Map<string, Record<string, Record<string, unknown>>>();
-for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(
-  fullSpec.paths,
-)) {
+for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(fullSpec.paths)) {
   for (const method of HTTP_METHODS) {
     const op = (pathItem as Record<string, any>)[method];
     if (!op) continue;
-    const rawTag: string =
-      Array.isArray(op.tags) && op.tags.length > 0 ? op.tags[0] : "default";
+    const rawTag: string = Array.isArray(op.tags) && op.tags.length > 0 ? op.tags[0] : "default";
     const slug = toSlug(rawTag) || "default";
     if (!tagBuckets.has(slug)) tagBuckets.set(slug, {});
     const bucketPaths = tagBuckets.get(slug)!;
@@ -120,19 +70,19 @@ for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(
 }
 
 // ---- 4. Convert each bucket ------------------------------------------------
-fs.rmSync(outDir, { recursive: true, force: true });
-fs.mkdirSync(outDir, { recursive: true });
+clearModels(outDir);
 
 let written = 0;
 let totalOps = 0;
 for (const slug of [...tagBuckets.keys()].sort()) {
   const subSpec = { ...fullSpec, paths: tagBuckets.get(slug)! };
   const model = convertOpenApiToSmithy(subSpec, {
+    deferNaming: true,
     namespace: `com.posthog.${slug}`,
     serviceName: toPascal(slug),
     skipDeprecated: true,
     // statusToErrorClass / defaultErrorStatuses: the v0 defaults — the
-    // *-errors.patch.json chain injects observed 400/403/404 responses
+    // patches/<tag>/*-errors.patch.json add the observed 400/403/404 errors
     // (PostHog's spec only declares 2xx upstream).
   });
   // Two PostHog ops take application/x-www-form-urlencoded bodies
@@ -144,21 +94,15 @@ for (const slug of [...tagBuckets.keys()].sort()) {
   for (const shape of Object.values(model.shapes) as any[]) {
     if (
       shape.type === "operation" &&
-      shape.traits?.["com.distilled.openapi#contentType"] ===
-        "form-urlencoded" &&
+      shape.traits?.["com.distilled.openapi#contentType"] === "form-urlencoded" &&
       shape.traits["smithy.api#http"]
     ) {
       shape.traits["smithy.api#http"].contentType = "form-urlencoded";
     }
   }
-  const opCount = Object.values(model.shapes).filter(
-    (s: any) => s.type === "operation",
-  ).length;
+  const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
   if (opCount === 0) continue; // all-deprecated bucket — mirror v0's pruning
-  fs.writeFileSync(
-    path.join(outDir, `${slug}.json`),
-    JSON.stringify(model, null, 2) + "\n",
-  );
+  writeModel(path.join(outDir, `${slug}.json`), model);
   written++;
   totalOps += opCount;
 }

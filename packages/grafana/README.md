@@ -12,7 +12,7 @@ npm install @distilled.cloud/grafana effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Grafana from "@distilled.cloud/grafana";
 
 const program = Effect.gen(function* () {

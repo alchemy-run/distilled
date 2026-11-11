@@ -1,0 +1,233 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#PaginatedBatchExportListOutput/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#PaginatedBatchExportListOutput/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportOutput/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportOutput/members/team_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportOutput/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportOutput/members/destination/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportOutput/members/interval/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportOutput/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportOutput/members/last_updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportOutput/members/latest_runs/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportOutput/members/schema/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportDestinationOutput/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportDestinationOutput/members/config/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportRun/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportRun/members/data_interval_end/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportRun/members/status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportRun/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportRun/members/last_updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportRun/members/batch_export/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#CustomChannelRule/members/channel_type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#CustomChannelRule/members/combiner/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#CustomChannelRule/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#CustomChannelRule/members/items/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#CustomChannelCondition/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#CustomChannelCondition/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#CustomChannelCondition/members/op/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#DataWarehouseEventsModifier/members/distinct_id_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#DataWarehouseEventsModifier/members/id_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#DataWarehouseEventsModifier/members/table_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#DataWarehouseEventsModifier/members/timestamp_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#PaginatedBatchExportBackfillList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportBackfill/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportBackfill/members/progress/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportBackfill/members/status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportBackfill/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportBackfill/members/last_updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportBackfill/members/team/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportBackfill/members/batch_export/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsBackfillsCreateRequest/members/status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsBackfillsCreateRequest/members/team/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsBackfillsCreateRequest/members/batch_export/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsBackfillsCancelCreateRequest/members/status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsBackfillsCancelCreateRequest/members/team/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsBackfillsCancelCreateRequest/members/batch_export/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#PaginatedBatchExportRunList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRunsCancelCreateRequest/members/data_interval_end/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRunsCancelCreateRequest/members/status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRunsRetryCreateRequest/members/data_interval_end/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRunsRetryCreateRequest/members/status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportDestination/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportDestination/members/config/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRunTestStepCreateRequest/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRunTestStepCreateRequest/members/destination/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRunTestStepCreateRequest/members/interval/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRunTestStepNewCreateRequest/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRunTestStepNewCreateRequest/members/destination/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRunTestStepNewCreateRequest/members/interval/traits/smithy.api#required"
+    }
+  ]
+}

@@ -12,7 +12,7 @@ npm install @distilled.cloud/adyen effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Adyen from "@distilled.cloud/adyen";
 
 const program = Effect.gen(function* () {

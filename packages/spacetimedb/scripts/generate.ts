@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the
  * SpacetimeDB Effect SDK.
@@ -7,25 +8,21 @@
  * Output: src/services/spacetimedb.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is SpacetimeDB's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is SpacetimeDB's provider spec.
  *
  * WASM publish and SQL/name string bodies are not JSON. The OpenAPI converter
  * only models application/json request bodies, so those operations are typed
  * as a raw `body` payload and this spec stamps `bodyMediaType` on the Http
  * trait so the REST protocol sends bytes/text verbatim.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
 const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
-const OCTET_STREAM = new Set([
-  "POST /v1/database",
-  "PUT /v1/database/{name_or_identity}",
-]);
+const OCTET_STREAM = new Set(["POST /v1/database", "PUT /v1/database/{name_or_identity}"]);
 const TEXT_PLAIN = new Set([
   "POST /v1/database/{name_or_identity}/names",
   "POST /v1/database/{name_or_identity}/sql",
@@ -98,15 +95,16 @@ const spacetimedbSpec: SdkSpec = {
   postProcess: (code) =>
     code.includes("Redacted.Redacted<")
       ? code.replace(
-          `import * as S from "@distilled.cloud/core/schema";\n`,
-          `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
         )
       : code,
 };
 
 runGeneratorCli({
   description: "Generate the SpacetimeDB Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  convert: () => import("./convert.ts"),
+  root: `${import.meta.dirname}/..`,
   patchesDir: false,
   spec: () => spacetimedbSpec,
 });

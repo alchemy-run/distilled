@@ -1,101 +1,109 @@
-import * as BrowserCredentials from "./credentials.browser.ts";
+/**
+ * `@distilled.cloud/aws/Credentials` for Node, Bun and workers: everything
+ * the browser entry exports, with the Node variants of `fromHttp`,
+ * `fromInstanceMetadata` and `fromTemporaryCredentials` in place of the
+ * browser ones, plus the providers that read `~/.aws` or run a process.
+ * Each layer is defined in its provider's own file.
+ */
 export * from "./credentials.browser.ts";
 
+import { loadModule, type SdkError } from "@distilled.cloud/core/sdk-error";
+// Providers load on first use: importing every provider eagerly cost ~700 KB of heap
+// (INI parsing, SSO, Cognito, process, metadata clients) in every program.
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import { Auth } from "./auth.ts";
-import * as Providers from "./credential-providers/node.ts";
-import type * as Region from "./region.ts";
-import { loadSharedConfigFiles } from "./util/shared-config.ts";
-
-/**
- * The region a node credentials provider authenticated against: the
- * environment first, then the active profile's `region` in `~/.aws/config`
- * — the same order, and the same files, the AWS CLI reads.
- *
- * The profile is only consulted when the environment is silent, so
- * `AWS_REGION` still wins for a one-off override without editing config.
- */
-const regionFromEnvOrProfile = BrowserCredentials.regionFromEnv.pipe(
-  Effect.catchTag("Alchemy::AWS::MissingRegion", (missing) =>
-    Effect.flatMap(
-      Effect.tryPromise({
-        try: () => loadSharedConfigFiles(),
-        catch: () => missing,
-      }),
-      (files) => {
-        const profileName =
-          process.env.AWS_PROFILE ??
-          process.env.AWS_DEFAULT_PROFILE ??
-          "default";
-        const region = files.configFile?.[profileName]?.region;
-        return region === undefined
-          ? Effect.fail(
-              new BrowserCredentials.MissingRegion({
-                message: missing.message,
-                hints: [
-                  ...(missing.hints ?? []),
-                  `Or set \`region\` on the [profile ${profileName}] section of ~/.aws/config.`,
-                ],
-              }),
-            )
-          : Effect.succeed(region as Region.RegionName);
-      },
+import type * as __from_http_node from "./credential-providers/from-http.node.ts";
+import type * as __from_ini from "./credential-providers/from-ini.ts";
+import type * as __from_instance_metadata_node from "./credential-providers/from-instance-metadata.node.ts";
+import type * as __from_login_credentials from "./credential-providers/from-login-credentials.ts";
+import type * as __from_node_provider_chain from "./credential-providers/from-node-provider-chain.ts";
+import type * as __from_process from "./credential-providers/from-process.ts";
+import type * as __from_sso from "./credential-providers/from-sso.ts";
+import type * as __from_temporary_credentials_node from "./credential-providers/from-temporary-credentials.node.ts";
+import type * as __from_token_file from "./credential-providers/from-token-file.ts";
+/** A provider loaded on first use: building its layer also fails if its module can't load. */
+type WithLoadError<F> = F extends (...args: infer A) => Layer.Layer<infer S, infer E, infer R>
+  ? (...args: A) => Layer.Layer<S, E | SdkError, R>
+  : never;
+export const fromHttp: WithLoadError<typeof __from_http_node.fromHttp> = (...args: any[]) =>
+  Layer.unwrap(
+    Effect.map(
+      loadModule(() => import("./credential-providers/from-http.node.ts")),
+      (m) => (m.fromHttp as (...a: any[]) => any)(...args),
     ),
-  ),
-);
-
-export const fromEnv = () =>
-  BrowserCredentials.createLazyProvider(Providers.fromEnv, "env");
-
-export const fromChain = () =>
-  BrowserCredentials.createLazyProvider(
-    Providers.fromNodeProviderChain(),
-    "chain",
-    regionFromEnvOrProfile,
-  );
-
-export const fromIni = () =>
-  BrowserCredentials.createLazyProvider(
-    Providers.fromIni(),
-    "ini",
-    regionFromEnvOrProfile,
-  );
-
-export const fromContainerMetadata = () =>
-  BrowserCredentials.createLazyProvider(
-    Providers.fromContainerMetadata(),
-    "container",
-  );
-
-export const fromProcess = () =>
-  BrowserCredentials.createLazyProvider(
-    Providers.fromProcess(),
-    "process",
-    regionFromEnvOrProfile,
-  );
-
-export const fromTokenFile = () =>
-  BrowserCredentials.createLazyProvider(
-    Providers.fromTokenFile(),
-    "token-file",
-  );
-
-/**
- * Create a lazy, cached SSO credentials provider.
- * SSO credential resolution is deferred until the Effect is run,
- * and credentials are cached until they expire.
- */
-export const fromSSO = (profileName: string = "default") =>
-  Layer.effect(
-    BrowserCredentials.Credentials,
-    Auth.use((auth) =>
-      Effect.succeed(
-        BrowserCredentials.createCachedCredentialsEffect(
-          // The resolved credentials carry the profile's own region — see
-          // `loadProfileCredentials` in auth.ts.
-          auth.loadProfileCredentials(profileName),
-        ),
-      ),
+  ) as any;
+export const fromIni: WithLoadError<typeof __from_ini.fromIni> = (...args: any[]) =>
+  Layer.unwrap(
+    Effect.map(
+      loadModule(() => import("./credential-providers/from-ini.ts")),
+      (m) => (m.fromIni as (...a: any[]) => any)(...args),
     ),
-  );
+  ) as any;
+export const fromInstanceMetadata: WithLoadError<
+  typeof __from_instance_metadata_node.fromInstanceMetadata
+> = (...args: any[]) =>
+  Layer.unwrap(
+    Effect.map(
+      loadModule(() => import("./credential-providers/from-instance-metadata.node.ts")),
+      (m) => (m.fromInstanceMetadata as (...a: any[]) => any)(...args),
+    ),
+  ) as any;
+export const fromLoginCredentials: WithLoadError<
+  typeof __from_login_credentials.fromLoginCredentials
+> = (...args: any[]) =>
+  Layer.unwrap(
+    Effect.map(
+      loadModule(() => import("./credential-providers/from-login-credentials.ts")),
+      (m) => (m.fromLoginCredentials as (...a: any[]) => any)(...args),
+    ),
+  ) as any;
+export const fromChain: WithLoadError<typeof __from_node_provider_chain.fromChain> = (
+  ...args: any[]
+) =>
+  Layer.unwrap(
+    Effect.map(
+      loadModule(() => import("./credential-providers/from-node-provider-chain.ts")),
+      (m) => (m.fromChain as (...a: any[]) => any)(...args),
+    ),
+  ) as any;
+export const fromNodeProviderChain: WithLoadError<
+  typeof __from_node_provider_chain.fromNodeProviderChain
+> = (...args: any[]) =>
+  Layer.unwrap(
+    Effect.map(
+      loadModule(() => import("./credential-providers/from-node-provider-chain.ts")),
+      (m) => (m.fromNodeProviderChain as (...a: any[]) => any)(...args),
+    ),
+  ) as any;
+export const fromProcess: WithLoadError<typeof __from_process.fromProcess> = (...args: any[]) =>
+  Layer.unwrap(
+    Effect.map(
+      loadModule(() => import("./credential-providers/from-process.ts")),
+      (m) => (m.fromProcess as (...a: any[]) => any)(...args),
+    ),
+  ) as any;
+export const fromSSO: WithLoadError<typeof __from_sso.fromSSO> = (...args: any[]) =>
+  Layer.unwrap(
+    Effect.map(
+      loadModule(() => import("./credential-providers/from-sso.ts")),
+      (m) => (m.fromSSO as (...a: any[]) => any)(...args),
+    ),
+  ) as any;
+export const fromTemporaryCredentials: WithLoadError<
+  typeof __from_temporary_credentials_node.fromTemporaryCredentials
+> = (...args: any[]) =>
+  Layer.unwrap(
+    Effect.map(
+      loadModule(() => import("./credential-providers/from-temporary-credentials.node.ts")),
+      (m) => (m.fromTemporaryCredentials as (...a: any[]) => any)(...args),
+    ),
+  ) as any;
+export const fromTokenFile: WithLoadError<typeof __from_token_file.fromTokenFile> = (
+  ...args: any[]
+) =>
+  Layer.unwrap(
+    Effect.map(
+      loadModule(() => import("./credential-providers/from-token-file.ts")),
+      (m) => (m.fromTokenFile as (...a: any[]) => any)(...args),
+    ),
+  ) as any;

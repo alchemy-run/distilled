@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — Daytona's three OpenAPI descriptions → Smithy JSON models in
  * `.generated-specs`.
@@ -31,11 +31,12 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
+import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
-const rootDir = path.resolve(import.meta.dir, "..");
+const rootDir = path.resolve(import.meta.dirname, "..");
 const outDir = path.join(rootDir, ".generated-specs");
 
 const HTTP_METHODS = ["get", "post", "put", "patch", "delete"] as const;
@@ -150,9 +151,9 @@ for (const doc of DOCS) {
   const fullSpec = doc.name === "toolbox" ? toolboxSpec : loadSpec(doc);
   const tagBuckets = new Map<string, PathBucket>();
 
-  for (const [pathTemplate, pathItem] of Object.entries<
-    Record<string, unknown>
-  >(fullSpec.paths ?? {})) {
+  for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(
+    fullSpec.paths ?? {},
+  )) {
     for (const method of HTTP_METHODS) {
       const op = (pathItem as Record<string, any>)[method];
       if (!op) continue;
@@ -166,9 +167,7 @@ for (const doc of DOCS) {
       const bucketPaths = tagBuckets.get(slug)!;
       if (!bucketPaths[pathTemplate]) {
         const pathParams = (pathItem as Record<string, any>).parameters;
-        bucketPaths[pathTemplate] = pathParams
-          ? { parameters: pathParams }
-          : {};
+        bucketPaths[pathTemplate] = pathParams ? { parameters: pathParams } : {};
       }
       (bucketPaths[pathTemplate] as Record<string, unknown>)[method] = op;
     }
@@ -176,8 +175,7 @@ for (const doc of DOCS) {
 
   for (const [slug, paths] of tagBuckets) {
     const owner = claimed.get(slug);
-    const finalSlug =
-      owner !== undefined && owner !== doc.name ? `${doc.name}_${slug}` : slug;
+    const finalSlug = owner !== undefined && owner !== doc.name ? `${doc.name}_${slug}` : slug;
     if (claimed.has(finalSlug) && claimed.get(finalSlug) !== doc.name) {
       throw new Error(
         `slug collision: ${finalSlug} from ${doc.name} and ${claimed.get(finalSlug)}`,
@@ -196,16 +194,14 @@ if (unrouted.length) {
 }
 
 // ---- 3. Convert each bucket ------------------------------------------------
-fs.rmSync(outDir, { recursive: true, force: true });
-fs.mkdirSync(outDir, { recursive: true });
+clearModels(outDir);
 
 let written = 0;
 let totalOps = 0;
-for (const { slug, spec, paths } of buckets.sort((a, b) =>
-  a.slug.localeCompare(b.slug),
-)) {
+for (const { slug, spec, paths } of buckets.sort((a, b) => a.slug.localeCompare(b.slug))) {
   const subSpec = { ...spec, paths };
   const model = convertOpenApiToSmithy(subSpec, {
+    deferNaming: true,
     namespace: `com.daytona.${slug}`,
     serviceName: toPascal(slug),
     skipDeprecated: true,
@@ -218,18 +214,13 @@ for (const { slug, spec, paths } of buckets.sort((a, b) =>
     statusToErrorClass: {},
   });
 
-  const operations = Object.entries<any>(model.shapes).filter(
-    ([, s]) => s.type === "operation",
-  );
+  const operations = Object.entries<any>(model.shapes).filter(([, s]) => s.type === "operation");
   if (operations.length === 0) {
     console.warn(`   ⚠️  ${slug}: no operations — bucket dropped`);
     continue;
   }
 
-  fs.writeFileSync(
-    path.join(outDir, `${slug}.json`),
-    JSON.stringify(model, null, 2) + "\n",
-  );
+  writeModel(path.join(outDir, `${slug}.json`), model);
   written++;
   totalOps += operations.length;
 }

@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the
  * Coinbase CDP Effect SDK.
@@ -7,15 +8,14 @@
  * Output: src/services/cdp.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Coinbase's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is Coinbase's provider spec.
  * The CDP API is bearer-REST with camelCase wire names (identity member
  * naming, v0 parity), no response envelope, and no per-op error lists —
  * errors are matched globally in src/protocol.ts. Mirroring distilled v0,
  * no paginated op variants are emitted: the CDP pageToken/nextPageToken ops
  * stay plain operations and callers loop manually.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
@@ -68,22 +68,22 @@ const coinbaseSpec: SdkSpec = {
     retry: "Retry.Retry",
   },
 
-  sourceNote:
-    ".generated-specs (specs/spec-mirror-coinbase/specs/openapi.yaml)",
+  sourceNote: ".generated-specs (specs/spec-mirror-coinbase/specs/openapi.yaml)",
 
   // Sensitive member types reference Redacted; pull the import in when used.
   postProcess: (code) =>
     code.includes("Redacted.Redacted<")
       ? code.replace(
-          `import * as S from "@distilled.cloud/core/schema";\n`,
-          `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
         )
       : code,
 };
 
 runGeneratorCli({
   description: "Generate the Coinbase CDP Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  convert: () => import("./convert.ts"),
+  root: `${import.meta.dirname}/..`,
   // No patch chain: v0 coinbase ships zero patches (its patchDir never
   // existed on disk), and convert.ts runs with patchesDir: false too.
   patchesDir: false,

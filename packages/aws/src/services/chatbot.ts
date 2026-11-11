@@ -1,25 +1,28 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const ns = T.XmlNamespace(
-  "http://wheatley.amazonaws.com/orchestration/2017-10-11/",
-);
-const svc = T.AwsApiService({
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const ns = /*@__PURE__*/ T.XmlNamespace("http://wheatley.amazonaws.com/orchestration/2017-10-11/");
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "chatbot",
   serviceShapeName: "WheatleyOrchestration_20171011",
 });
-const auth = T.AwsAuthSigv4({ name: "chatbot" });
-const ver = T.ServiceVersion("2017-10-11");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "chatbot" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2017-10-11");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -31,14 +34,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -61,13 +60,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://chatbot-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://chatbot-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -75,168 +70,178 @@ const rules = T.EndpointResolver((p, _) => {
               `https://chatbot.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://chatbot.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://chatbot.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://chatbot.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "chatbot",
+  service: "chatbot",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class CreateChimeWebhookConfigurationException
   extends /*@__PURE__*/ S.TaggedError<CreateChimeWebhookConfigurationException>()(
     "CreateChimeWebhookConfigurationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class CreateSlackChannelConfigurationException
   extends /*@__PURE__*/ S.TaggedError<CreateSlackChannelConfigurationException>()(
     "CreateSlackChannelConfigurationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class CreateTeamsChannelConfigurationException
   extends /*@__PURE__*/ S.TaggedError<CreateTeamsChannelConfigurationException>()(
     "CreateTeamsChannelConfigurationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class DeleteChimeWebhookConfigurationException
   extends /*@__PURE__*/ S.TaggedError<DeleteChimeWebhookConfigurationException>()(
     "DeleteChimeWebhookConfigurationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class DeleteMicrosoftTeamsUserIdentityException
   extends /*@__PURE__*/ S.TaggedError<DeleteMicrosoftTeamsUserIdentityException>()(
     "DeleteMicrosoftTeamsUserIdentityException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class DeleteSlackChannelConfigurationException
   extends /*@__PURE__*/ S.TaggedError<DeleteSlackChannelConfigurationException>()(
     "DeleteSlackChannelConfigurationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class DeleteSlackUserIdentityException
   extends /*@__PURE__*/ S.TaggedError<DeleteSlackUserIdentityException>()(
     "DeleteSlackUserIdentityException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class DeleteSlackWorkspaceAuthorizationFault
   extends /*@__PURE__*/ S.TaggedError<DeleteSlackWorkspaceAuthorizationFault>()(
     "DeleteSlackWorkspaceAuthorizationFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class DeleteTeamsChannelConfigurationException
   extends /*@__PURE__*/ S.TaggedError<DeleteTeamsChannelConfigurationException>()(
     "DeleteTeamsChannelConfigurationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class DeleteTeamsConfiguredTeamException
   extends /*@__PURE__*/ S.TaggedError<DeleteTeamsConfiguredTeamException>()(
     "DeleteTeamsConfiguredTeamException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class DescribeChimeWebhookConfigurationsException
   extends /*@__PURE__*/ S.TaggedError<DescribeChimeWebhookConfigurationsException>()(
     "DescribeChimeWebhookConfigurationsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class DescribeSlackChannelConfigurationsException
   extends /*@__PURE__*/ S.TaggedError<DescribeSlackChannelConfigurationsException>()(
     "DescribeSlackChannelConfigurationsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class DescribeSlackUserIdentitiesException
   extends /*@__PURE__*/ S.TaggedError<DescribeSlackUserIdentitiesException>()(
     "DescribeSlackUserIdentitiesException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class DescribeSlackWorkspacesException
   extends /*@__PURE__*/ S.TaggedError<DescribeSlackWorkspacesException>()(
     "DescribeSlackWorkspacesException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class GetAccountPreferencesException
   extends /*@__PURE__*/ S.TaggedError<GetAccountPreferencesException>()(
     "GetAccountPreferencesException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class GetTeamsChannelConfigurationException
   extends /*@__PURE__*/ S.TaggedError<GetTeamsChannelConfigurationException>()(
     "GetTeamsChannelConfigurationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class InternalServiceError
   extends /*@__PURE__*/ S.TaggedError<InternalServiceError>()(
     "InternalServiceError",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class InvalidParameterException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterException>()(
     "InvalidParameterException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InvalidRequestException
   extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
     "InvalidRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
     "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class ListMicrosoftTeamsConfiguredTeamsException
   extends /*@__PURE__*/ S.TaggedError<ListMicrosoftTeamsConfiguredTeamsException>()(
     "ListMicrosoftTeamsConfiguredTeamsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class ListMicrosoftTeamsUserIdentitiesException
   extends /*@__PURE__*/ S.TaggedError<ListMicrosoftTeamsUserIdentitiesException>()(
     "ListMicrosoftTeamsUserIdentitiesException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class ListTeamsChannelConfigurationsException
   extends /*@__PURE__*/ S.TaggedError<ListTeamsChannelConfigurationsException>()(
     "ListTeamsChannelConfigurationsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class MicrosoftTeamsTeamNotConfigured
   extends /*@__PURE__*/ S.TaggedError<MicrosoftTeamsTeamNotConfigured>()(
     "MicrosoftTeamsTeamNotConfigured",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.SyntheticError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.SyntheticError({
       from: "InvalidRequestException",
       message: { includes: "team id you are using is not configured" },
     }),
@@ -244,20 +249,20 @@ export class MicrosoftTeamsTeamNotConfigured
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceUnavailableException
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
     "ServiceUnavailableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError, C.withServerError) {}
 export class SlackWorkspaceNotAuthorized
   extends /*@__PURE__*/ S.TaggedError<SlackWorkspaceNotAuthorized>()(
     "SlackWorkspaceNotAuthorized",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.SyntheticError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.SyntheticError({
       from: "InvalidRequestException",
       message: { includes: "is not authorized with AWS account" },
     }),
@@ -265,38 +270,38 @@ export class SlackWorkspaceNotAuthorized
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
     "UnauthorizedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class UpdateAccountPreferencesException
   extends /*@__PURE__*/ S.TaggedError<UpdateAccountPreferencesException>()(
     "UpdateAccountPreferencesException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class UpdateChimeWebhookConfigurationException
   extends /*@__PURE__*/ S.TaggedError<UpdateChimeWebhookConfigurationException>()(
     "UpdateChimeWebhookConfigurationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class UpdateSlackChannelConfigurationException
   extends /*@__PURE__*/ S.TaggedError<UpdateSlackChannelConfigurationException>()(
     "UpdateSlackChannelConfigurationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class UpdateTeamsChannelConfigurationException
   extends /*@__PURE__*/ S.TaggedError<UpdateTeamsChannelConfigurationException>()(
     "UpdateTeamsChannelConfigurationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export type ResourceIdentifier = string;
 export type ChatConfigurationArn = string;
@@ -304,32 +309,11 @@ export interface AssociateToConfigurationRequest {
   Resource: string;
   ChatConfiguration: string;
 }
-export const AssociateToConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Resource: S.String, ChatConfiguration: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/associate-to-configuration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateToConfigurationRequest",
-}) as any as S.Schema<AssociateToConfigurationRequest>;
 export interface AssociateToConfigurationResult {}
-export const AssociateToConfigurationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AssociateToConfigurationResult",
-}) as any as S.Schema<AssociateToConfigurationResult>;
 export type ChimeWebhookDescription = string | redacted.Redacted<string>;
 export type ChimeWebhookUrl = string | redacted.Redacted<string>;
 export type Arn = string;
 export type SnsTopicArnList = string[];
-export const SnsTopicArnList = /*@__PURE__*/ S.Array(S.String);
 export type ConfigurationName = string;
 export type CustomerCwLogLevel = string;
 export type TagKey = string;
@@ -338,333 +322,123 @@ export interface Tag {
   TagKey: string;
   TagValue: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TagKey: S.String, TagValue: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type Tags = Tag[];
-export const Tags = /*@__PURE__*/ S.Array(Tag);
 export interface CreateChimeWebhookConfigurationRequest {
   WebhookDescription: string | redacted.Redacted<string>;
   WebhookUrl: string | redacted.Redacted<string>;
   SnsTopicArns: string[];
   IamRoleArn: string;
   ConfigurationName: string;
-  LoggingLevel?: string;
-  Tags?: Tag[];
+  LoggingLevel?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateChimeWebhookConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      WebhookDescription: SensitiveString,
-      WebhookUrl: SensitiveString,
-      SnsTopicArns: SnsTopicArnList,
-      IamRoleArn: S.String,
-      ConfigurationName: S.String,
-      LoggingLevel: S.optional(S.String),
-      Tags: S.optional(Tags),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/create-chime-webhook-configuration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateChimeWebhookConfigurationRequest",
-}) as any as S.Schema<CreateChimeWebhookConfigurationRequest>;
 export type ResourceState = string;
 export interface ChimeWebhookConfiguration {
   WebhookDescription: string | redacted.Redacted<string>;
   ChatConfigurationArn: string;
   IamRoleArn: string;
   SnsTopicArns: string[];
-  ConfigurationName?: string;
-  LoggingLevel?: string;
-  Tags?: Tag[];
-  State?: string;
-  StateReason?: string;
+  ConfigurationName?: string | undefined;
+  LoggingLevel?: string | undefined;
+  Tags?: Tag[] | undefined;
+  State?: string | undefined;
+  StateReason?: string | undefined;
 }
-export const ChimeWebhookConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    WebhookDescription: SensitiveString,
-    ChatConfigurationArn: S.String,
-    IamRoleArn: S.String,
-    SnsTopicArns: SnsTopicArnList,
-    ConfigurationName: S.optional(S.String),
-    LoggingLevel: S.optional(S.String),
-    Tags: S.optional(Tags),
-    State: S.optional(S.String),
-    StateReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ChimeWebhookConfiguration",
-}) as any as S.Schema<ChimeWebhookConfiguration>;
 export interface CreateChimeWebhookConfigurationResult {
-  WebhookConfiguration?: ChimeWebhookConfiguration;
+  WebhookConfiguration?: ChimeWebhookConfiguration | undefined;
 }
-export const CreateChimeWebhookConfigurationResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      WebhookConfiguration: S.optional(ChimeWebhookConfiguration),
-    }).pipe(ns),
-).annotate({
-  identifier: "CreateChimeWebhookConfigurationResult",
-}) as any as S.Schema<CreateChimeWebhookConfigurationResult>;
 export interface CustomActionDefinition {
   CommandText: string;
 }
-export const CustomActionDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CommandText: S.String }),
-).annotate({
-  identifier: "CustomActionDefinition",
-}) as any as S.Schema<CustomActionDefinition>;
 export type CustomActionAliasName = string;
 export type CustomActionAttachmentNotificationType = string;
 export type CustomActionButtonText = string;
-export type CustomActionAttachmentCriteriaOperator =
-  | "HAS_VALUE"
-  | "EQUALS"
-  | (string & {});
-export const CustomActionAttachmentCriteriaOperator = S.String;
-
+export type CustomActionAttachmentCriteriaOperator = "HAS_VALUE" | "EQUALS" | (string & {});
 export interface CustomActionAttachmentCriteria {
   Operator: CustomActionAttachmentCriteriaOperator;
   VariableName: string;
-  Value?: string;
+  Value?: string | undefined;
 }
-export const CustomActionAttachmentCriteria = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Operator: CustomActionAttachmentCriteriaOperator,
-    VariableName: S.String,
-    Value: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CustomActionAttachmentCriteria",
-}) as any as S.Schema<CustomActionAttachmentCriteria>;
-export type CustomActionAttachmentCriteriaList =
-  CustomActionAttachmentCriteria[];
-export const CustomActionAttachmentCriteriaList = /*@__PURE__*/ S.Array(
-  CustomActionAttachmentCriteria,
-);
-export type CustomActionAttachmentVariables = {
-  [key: string]: string | undefined;
-};
-export const CustomActionAttachmentVariables = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export type CustomActionAttachmentCriteriaList = CustomActionAttachmentCriteria[];
+export type CustomActionAttachmentVariables = { [key: string]: string | undefined };
 export interface CustomActionAttachment {
   NotificationType: string;
-  ButtonText?: string;
-  Criteria?: CustomActionAttachmentCriteria[];
-  Variables?: { [key: string]: string | undefined };
+  ButtonText?: string | undefined;
+  Criteria?: CustomActionAttachmentCriteria[] | undefined;
+  Variables?: { [key: string]: string | undefined } | undefined;
 }
-export const CustomActionAttachment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NotificationType: S.String,
-    ButtonText: S.optional(S.String),
-    Criteria: S.optional(CustomActionAttachmentCriteriaList),
-    Variables: S.optional(CustomActionAttachmentVariables),
-  }),
-).annotate({
-  identifier: "CustomActionAttachment",
-}) as any as S.Schema<CustomActionAttachment>;
 export type CustomActionAttachmentList = CustomActionAttachment[];
-export const CustomActionAttachmentList = /*@__PURE__*/ S.Array(
-  CustomActionAttachment,
-);
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export type ClientToken = string;
 export type CustomActionName = string;
 export interface CreateCustomActionRequest {
   Definition: CustomActionDefinition;
-  AliasName?: string;
-  Attachments?: CustomActionAttachment[];
-  Tags?: Tag[];
-  ClientToken?: string;
+  AliasName?: string | undefined;
+  Attachments?: CustomActionAttachment[] | undefined;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
   ActionName: string;
 }
-export const CreateCustomActionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Definition: CustomActionDefinition,
-    AliasName: S.optional(S.String),
-    Attachments: S.optional(CustomActionAttachmentList),
-    Tags: S.optional(TagList),
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    ActionName: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/create-custom-action" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateCustomActionRequest",
-}) as any as S.Schema<CreateCustomActionRequest>;
 export type CustomActionArn = string;
 export interface CreateCustomActionResult {
   CustomActionArn: string;
 }
-export const CreateCustomActionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CustomActionArn: S.String }).pipe(ns),
-).annotate({
-  identifier: "CreateCustomActionResult",
-}) as any as S.Schema<CreateCustomActionResult>;
 export type TeamsChannelId = string;
 export type TeamsChannelName = string | redacted.Redacted<string>;
 export type UUID = string;
 export type TeamName = string | redacted.Redacted<string>;
 export type GuardrailPolicyArn = string;
 export type GuardrailPolicyArnList = string[];
-export const GuardrailPolicyArnList = /*@__PURE__*/ S.Array(S.String);
 export type BooleanAccountPreference = boolean;
 export interface CreateTeamsChannelConfigurationRequest {
   ChannelId: string;
-  ChannelName?: string | redacted.Redacted<string>;
+  ChannelName?: string | redacted.Redacted<string> | undefined;
   TeamId: string;
-  TeamName?: string | redacted.Redacted<string>;
+  TeamName?: string | redacted.Redacted<string> | undefined;
   TenantId: string;
-  SnsTopicArns?: string[];
+  SnsTopicArns?: string[] | undefined;
   IamRoleArn: string;
   ConfigurationName: string;
-  LoggingLevel?: string;
-  GuardrailPolicyArns?: string[];
-  UserAuthorizationRequired?: boolean;
-  Tags?: Tag[];
+  LoggingLevel?: string | undefined;
+  GuardrailPolicyArns?: string[] | undefined;
+  UserAuthorizationRequired?: boolean | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateTeamsChannelConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ChannelId: S.String,
-      ChannelName: S.optional(SensitiveString),
-      TeamId: S.String,
-      TeamName: S.optional(SensitiveString),
-      TenantId: S.String,
-      SnsTopicArns: S.optional(SnsTopicArnList),
-      IamRoleArn: S.String,
-      ConfigurationName: S.String,
-      LoggingLevel: S.optional(S.String),
-      GuardrailPolicyArns: S.optional(GuardrailPolicyArnList),
-      UserAuthorizationRequired: S.optional(S.Boolean),
-      Tags: S.optional(Tags),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/create-ms-teams-channel-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateTeamsChannelConfigurationRequest",
-}) as any as S.Schema<CreateTeamsChannelConfigurationRequest>;
 export interface TeamsChannelConfiguration {
   ChannelId: string;
-  ChannelName?: string | redacted.Redacted<string>;
+  ChannelName?: string | redacted.Redacted<string> | undefined;
   TeamId: string;
-  TeamName?: string | redacted.Redacted<string>;
+  TeamName?: string | redacted.Redacted<string> | undefined;
   TenantId: string;
   ChatConfigurationArn: string;
   IamRoleArn: string;
   SnsTopicArns: string[];
-  ConfigurationName?: string;
-  LoggingLevel?: string;
-  GuardrailPolicyArns?: string[];
-  UserAuthorizationRequired?: boolean;
-  Tags?: Tag[];
-  State?: string;
-  StateReason?: string;
+  ConfigurationName?: string | undefined;
+  LoggingLevel?: string | undefined;
+  GuardrailPolicyArns?: string[] | undefined;
+  UserAuthorizationRequired?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  State?: string | undefined;
+  StateReason?: string | undefined;
 }
-export const TeamsChannelConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelId: S.String,
-    ChannelName: S.optional(SensitiveString),
-    TeamId: S.String,
-    TeamName: S.optional(SensitiveString),
-    TenantId: S.String,
-    ChatConfigurationArn: S.String,
-    IamRoleArn: S.String,
-    SnsTopicArns: SnsTopicArnList,
-    ConfigurationName: S.optional(S.String),
-    LoggingLevel: S.optional(S.String),
-    GuardrailPolicyArns: S.optional(GuardrailPolicyArnList),
-    UserAuthorizationRequired: S.optional(S.Boolean),
-    Tags: S.optional(Tags),
-    State: S.optional(S.String),
-    StateReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TeamsChannelConfiguration",
-}) as any as S.Schema<TeamsChannelConfiguration>;
 export interface CreateTeamsChannelConfigurationResult {
-  ChannelConfiguration?: TeamsChannelConfiguration;
+  ChannelConfiguration?: TeamsChannelConfiguration | undefined;
 }
-export const CreateTeamsChannelConfigurationResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ChannelConfiguration: S.optional(TeamsChannelConfiguration),
-    }).pipe(ns),
-).annotate({
-  identifier: "CreateTeamsChannelConfigurationResult",
-}) as any as S.Schema<CreateTeamsChannelConfigurationResult>;
 export type SlackTeamId = string;
 export type SlackChannelId = string;
 export type SlackChannelDisplayName = string | redacted.Redacted<string>;
 export interface CreateSlackChannelConfigurationRequest {
   SlackTeamId: string;
   SlackChannelId: string;
-  SlackChannelName?: string | redacted.Redacted<string>;
-  SnsTopicArns?: string[];
+  SlackChannelName?: string | redacted.Redacted<string> | undefined;
+  SnsTopicArns?: string[] | undefined;
   IamRoleArn: string;
   ConfigurationName: string;
-  LoggingLevel?: string;
-  GuardrailPolicyArns?: string[];
-  UserAuthorizationRequired?: boolean;
-  Tags?: Tag[];
+  LoggingLevel?: string | undefined;
+  GuardrailPolicyArns?: string[] | undefined;
+  UserAuthorizationRequired?: boolean | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateSlackChannelConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SlackTeamId: S.String,
-      SlackChannelId: S.String,
-      SlackChannelName: S.optional(SensitiveString),
-      SnsTopicArns: S.optional(SnsTopicArnList),
-      IamRoleArn: S.String,
-      ConfigurationName: S.String,
-      LoggingLevel: S.optional(S.String),
-      GuardrailPolicyArns: S.optional(GuardrailPolicyArnList),
-      UserAuthorizationRequired: S.optional(S.Boolean),
-      Tags: S.optional(Tags),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/create-slack-channel-configuration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateSlackChannelConfigurationRequest",
-}) as any as S.Schema<CreateSlackChannelConfigurationRequest>;
 export type SlackTeamName = string;
 export interface SlackChannelConfiguration {
   SlackTeamName: string;
@@ -674,1110 +448,278 @@ export interface SlackChannelConfiguration {
   ChatConfigurationArn: string;
   IamRoleArn: string;
   SnsTopicArns: string[];
-  ConfigurationName?: string;
-  LoggingLevel?: string;
-  GuardrailPolicyArns?: string[];
-  UserAuthorizationRequired?: boolean;
-  Tags?: Tag[];
-  State?: string;
-  StateReason?: string;
+  ConfigurationName?: string | undefined;
+  LoggingLevel?: string | undefined;
+  GuardrailPolicyArns?: string[] | undefined;
+  UserAuthorizationRequired?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  State?: string | undefined;
+  StateReason?: string | undefined;
 }
-export const SlackChannelConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SlackTeamName: S.String,
-    SlackTeamId: S.String,
-    SlackChannelId: S.String,
-    SlackChannelName: SensitiveString,
-    ChatConfigurationArn: S.String,
-    IamRoleArn: S.String,
-    SnsTopicArns: SnsTopicArnList,
-    ConfigurationName: S.optional(S.String),
-    LoggingLevel: S.optional(S.String),
-    GuardrailPolicyArns: S.optional(GuardrailPolicyArnList),
-    UserAuthorizationRequired: S.optional(S.Boolean),
-    Tags: S.optional(Tags),
-    State: S.optional(S.String),
-    StateReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SlackChannelConfiguration",
-}) as any as S.Schema<SlackChannelConfiguration>;
 export interface CreateSlackChannelConfigurationResult {
-  ChannelConfiguration?: SlackChannelConfiguration;
+  ChannelConfiguration?: SlackChannelConfiguration | undefined;
 }
-export const CreateSlackChannelConfigurationResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ChannelConfiguration: S.optional(SlackChannelConfiguration),
-    }).pipe(ns),
-).annotate({
-  identifier: "CreateSlackChannelConfigurationResult",
-}) as any as S.Schema<CreateSlackChannelConfigurationResult>;
 export interface DeleteChimeWebhookConfigurationRequest {
   ChatConfigurationArn: string;
 }
-export const DeleteChimeWebhookConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ ChatConfigurationArn: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/delete-chime-webhook-configuration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeleteChimeWebhookConfigurationRequest",
-}) as any as S.Schema<DeleteChimeWebhookConfigurationRequest>;
 export interface DeleteChimeWebhookConfigurationResult {}
-export const DeleteChimeWebhookConfigurationResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteChimeWebhookConfigurationResult",
-}) as any as S.Schema<DeleteChimeWebhookConfigurationResult>;
 export interface DeleteCustomActionRequest {
   CustomActionArn: string;
 }
-export const DeleteCustomActionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CustomActionArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/delete-custom-action" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteCustomActionRequest",
-}) as any as S.Schema<DeleteCustomActionRequest>;
 export interface DeleteCustomActionResult {}
-export const DeleteCustomActionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteCustomActionResult",
-}) as any as S.Schema<DeleteCustomActionResult>;
 export interface DeleteTeamsChannelConfigurationRequest {
   ChatConfigurationArn: string;
 }
-export const DeleteTeamsChannelConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ ChatConfigurationArn: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/delete-ms-teams-channel-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeleteTeamsChannelConfigurationRequest",
-}) as any as S.Schema<DeleteTeamsChannelConfigurationRequest>;
 export interface DeleteTeamsChannelConfigurationResult {}
-export const DeleteTeamsChannelConfigurationResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteTeamsChannelConfigurationResult",
-}) as any as S.Schema<DeleteTeamsChannelConfigurationResult>;
 export interface DeleteTeamsConfiguredTeamRequest {
   TeamId: string;
 }
-export const DeleteTeamsConfiguredTeamRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TeamId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/delete-ms-teams-configured-teams" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteTeamsConfiguredTeamRequest",
-}) as any as S.Schema<DeleteTeamsConfiguredTeamRequest>;
 export interface DeleteTeamsConfiguredTeamResult {}
-export const DeleteTeamsConfiguredTeamResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteTeamsConfiguredTeamResult",
-}) as any as S.Schema<DeleteTeamsConfiguredTeamResult>;
 export interface DeleteMicrosoftTeamsUserIdentityRequest {
   ChatConfigurationArn: string;
   UserId: string;
 }
-export const DeleteMicrosoftTeamsUserIdentityRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ ChatConfigurationArn: S.String, UserId: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/delete-ms-teams-user-identity" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeleteMicrosoftTeamsUserIdentityRequest",
-}) as any as S.Schema<DeleteMicrosoftTeamsUserIdentityRequest>;
 export interface DeleteMicrosoftTeamsUserIdentityResult {}
-export const DeleteMicrosoftTeamsUserIdentityResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteMicrosoftTeamsUserIdentityResult",
-}) as any as S.Schema<DeleteMicrosoftTeamsUserIdentityResult>;
 export interface DeleteSlackChannelConfigurationRequest {
   ChatConfigurationArn: string;
 }
-export const DeleteSlackChannelConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ ChatConfigurationArn: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/delete-slack-channel-configuration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeleteSlackChannelConfigurationRequest",
-}) as any as S.Schema<DeleteSlackChannelConfigurationRequest>;
 export interface DeleteSlackChannelConfigurationResult {}
-export const DeleteSlackChannelConfigurationResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteSlackChannelConfigurationResult",
-}) as any as S.Schema<DeleteSlackChannelConfigurationResult>;
 export type SlackUserId = string;
 export interface DeleteSlackUserIdentityRequest {
   ChatConfigurationArn: string;
   SlackTeamId: string;
   SlackUserId: string;
 }
-export const DeleteSlackUserIdentityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChatConfigurationArn: S.String,
-    SlackTeamId: S.String,
-    SlackUserId: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/delete-slack-user-identity" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteSlackUserIdentityRequest",
-}) as any as S.Schema<DeleteSlackUserIdentityRequest>;
 export interface DeleteSlackUserIdentityResult {}
-export const DeleteSlackUserIdentityResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteSlackUserIdentityResult",
-}) as any as S.Schema<DeleteSlackUserIdentityResult>;
 export interface DeleteSlackWorkspaceAuthorizationRequest {
   SlackTeamId: string;
 }
-export const DeleteSlackWorkspaceAuthorizationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ SlackTeamId: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/delete-slack-workspace-authorization",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeleteSlackWorkspaceAuthorizationRequest",
-}) as any as S.Schema<DeleteSlackWorkspaceAuthorizationRequest>;
 export interface DeleteSlackWorkspaceAuthorizationResult {}
-export const DeleteSlackWorkspaceAuthorizationResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteSlackWorkspaceAuthorizationResult",
-}) as any as S.Schema<DeleteSlackWorkspaceAuthorizationResult>;
 export type MaxResults = number;
 export type PaginationToken = string;
 export interface DescribeChimeWebhookConfigurationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  ChatConfigurationArn?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ChatConfigurationArn?: string | undefined;
 }
-export const DescribeChimeWebhookConfigurationsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-      ChatConfigurationArn: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/describe-chime-webhook-configurations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeChimeWebhookConfigurationsRequest",
-  }) as any as S.Schema<DescribeChimeWebhookConfigurationsRequest>;
 export type ChimeWebhookConfigurationList = ChimeWebhookConfiguration[];
-export const ChimeWebhookConfigurationList = /*@__PURE__*/ S.Array(
-  ChimeWebhookConfiguration,
-);
 export interface DescribeChimeWebhookConfigurationsResult {
-  NextToken?: string;
-  WebhookConfigurations?: ChimeWebhookConfiguration[];
+  NextToken?: string | undefined;
+  WebhookConfigurations?: ChimeWebhookConfiguration[] | undefined;
 }
-export const DescribeChimeWebhookConfigurationsResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      WebhookConfigurations: S.optional(ChimeWebhookConfigurationList),
-    }).pipe(ns),
-).annotate({
-  identifier: "DescribeChimeWebhookConfigurationsResult",
-}) as any as S.Schema<DescribeChimeWebhookConfigurationsResult>;
 export interface DescribeSlackChannelConfigurationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  ChatConfigurationArn?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ChatConfigurationArn?: string | undefined;
 }
-export const DescribeSlackChannelConfigurationsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-      ChatConfigurationArn: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/describe-slack-channel-configurations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeSlackChannelConfigurationsRequest",
-  }) as any as S.Schema<DescribeSlackChannelConfigurationsRequest>;
 export type SlackChannelConfigurationList = SlackChannelConfiguration[];
-export const SlackChannelConfigurationList = /*@__PURE__*/ S.Array(
-  SlackChannelConfiguration,
-);
 export interface DescribeSlackChannelConfigurationsResult {
-  NextToken?: string;
-  SlackChannelConfigurations?: SlackChannelConfiguration[];
+  NextToken?: string | undefined;
+  SlackChannelConfigurations?: SlackChannelConfiguration[] | undefined;
 }
-export const DescribeSlackChannelConfigurationsResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      SlackChannelConfigurations: S.optional(SlackChannelConfigurationList),
-    }).pipe(ns),
-).annotate({
-  identifier: "DescribeSlackChannelConfigurationsResult",
-}) as any as S.Schema<DescribeSlackChannelConfigurationsResult>;
 export interface DescribeSlackUserIdentitiesRequest {
-  ChatConfigurationArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ChatConfigurationArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const DescribeSlackUserIdentitiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChatConfigurationArn: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/describe-slack-user-identities" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeSlackUserIdentitiesRequest",
-}) as any as S.Schema<DescribeSlackUserIdentitiesRequest>;
 export type AwsUserIdentity = string;
 export interface SlackUserIdentity {
   IamRoleArn: string;
   ChatConfigurationArn: string;
   SlackTeamId: string;
   SlackUserId: string;
-  AwsUserIdentity?: string;
+  AwsUserIdentity?: string | undefined;
 }
-export const SlackUserIdentity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IamRoleArn: S.String,
-    ChatConfigurationArn: S.String,
-    SlackTeamId: S.String,
-    SlackUserId: S.String,
-    AwsUserIdentity: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SlackUserIdentity",
-}) as any as S.Schema<SlackUserIdentity>;
 export type SlackUserIdentitiesList = SlackUserIdentity[];
-export const SlackUserIdentitiesList = /*@__PURE__*/ S.Array(SlackUserIdentity);
 export interface DescribeSlackUserIdentitiesResult {
-  SlackUserIdentities?: SlackUserIdentity[];
-  NextToken?: string;
+  SlackUserIdentities?: SlackUserIdentity[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeSlackUserIdentitiesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SlackUserIdentities: S.optional(SlackUserIdentitiesList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeSlackUserIdentitiesResult",
-}) as any as S.Schema<DescribeSlackUserIdentitiesResult>;
 export interface DescribeSlackWorkspacesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeSlackWorkspacesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/describe-slack-workspaces" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeSlackWorkspacesRequest",
-}) as any as S.Schema<DescribeSlackWorkspacesRequest>;
 export interface SlackWorkspace {
   SlackTeamId: string;
   SlackTeamName: string;
-  State?: string;
-  StateReason?: string;
+  State?: string | undefined;
+  StateReason?: string | undefined;
 }
-export const SlackWorkspace = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SlackTeamId: S.String,
-    SlackTeamName: S.String,
-    State: S.optional(S.String),
-    StateReason: S.optional(S.String),
-  }),
-).annotate({ identifier: "SlackWorkspace" }) as any as S.Schema<SlackWorkspace>;
 export type SlackWorkspacesList = SlackWorkspace[];
-export const SlackWorkspacesList = /*@__PURE__*/ S.Array(SlackWorkspace);
 export interface DescribeSlackWorkspacesResult {
-  SlackWorkspaces?: SlackWorkspace[];
-  NextToken?: string;
+  SlackWorkspaces?: SlackWorkspace[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeSlackWorkspacesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SlackWorkspaces: S.optional(SlackWorkspacesList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeSlackWorkspacesResult",
-}) as any as S.Schema<DescribeSlackWorkspacesResult>;
 export interface DisassociateFromConfigurationRequest {
   Resource: string;
   ChatConfiguration: string;
 }
-export const DisassociateFromConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Resource: S.String, ChatConfiguration: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/disassociate-from-configuration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DisassociateFromConfigurationRequest",
-}) as any as S.Schema<DisassociateFromConfigurationRequest>;
 export interface DisassociateFromConfigurationResult {}
-export const DisassociateFromConfigurationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DisassociateFromConfigurationResult",
-}) as any as S.Schema<DisassociateFromConfigurationResult>;
 export interface GetAccountPreferencesRequest {}
-export const GetAccountPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/get-account-preferences" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAccountPreferencesRequest",
-}) as any as S.Schema<GetAccountPreferencesRequest>;
 export interface AccountPreferences {
-  UserAuthorizationRequired?: boolean;
-  TrainingDataCollectionEnabled?: boolean;
+  UserAuthorizationRequired?: boolean | undefined;
+  TrainingDataCollectionEnabled?: boolean | undefined;
 }
-export const AccountPreferences = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserAuthorizationRequired: S.optional(S.Boolean),
-    TrainingDataCollectionEnabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "AccountPreferences",
-}) as any as S.Schema<AccountPreferences>;
 export interface GetAccountPreferencesResult {
-  AccountPreferences?: AccountPreferences;
+  AccountPreferences?: AccountPreferences | undefined;
 }
-export const GetAccountPreferencesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccountPreferences: S.optional(AccountPreferences) }).pipe(ns),
-).annotate({
-  identifier: "GetAccountPreferencesResult",
-}) as any as S.Schema<GetAccountPreferencesResult>;
 export interface GetCustomActionRequest {
   CustomActionArn: string;
 }
-export const GetCustomActionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CustomActionArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/get-custom-action" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetCustomActionRequest",
-}) as any as S.Schema<GetCustomActionRequest>;
 export interface CustomAction {
   CustomActionArn: string;
   Definition: CustomActionDefinition;
-  AliasName?: string;
-  Attachments?: CustomActionAttachment[];
-  ActionName?: string;
+  AliasName?: string | undefined;
+  Attachments?: CustomActionAttachment[] | undefined;
+  ActionName?: string | undefined;
 }
-export const CustomAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CustomActionArn: S.String,
-    Definition: CustomActionDefinition,
-    AliasName: S.optional(S.String),
-    Attachments: S.optional(CustomActionAttachmentList),
-    ActionName: S.optional(S.String),
-  }),
-).annotate({ identifier: "CustomAction" }) as any as S.Schema<CustomAction>;
 export interface GetCustomActionResult {
-  CustomAction?: CustomAction;
+  CustomAction?: CustomAction | undefined;
 }
-export const GetCustomActionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CustomAction: S.optional(CustomAction) }).pipe(ns),
-).annotate({
-  identifier: "GetCustomActionResult",
-}) as any as S.Schema<GetCustomActionResult>;
 export interface GetTeamsChannelConfigurationRequest {
   ChatConfigurationArn: string;
 }
-export const GetTeamsChannelConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ChatConfigurationArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/get-ms-teams-channel-configuration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetTeamsChannelConfigurationRequest",
-}) as any as S.Schema<GetTeamsChannelConfigurationRequest>;
 export interface GetTeamsChannelConfigurationResult {
-  ChannelConfiguration?: TeamsChannelConfiguration;
+  ChannelConfiguration?: TeamsChannelConfiguration | undefined;
 }
-export const GetTeamsChannelConfigurationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelConfiguration: S.optional(TeamsChannelConfiguration),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetTeamsChannelConfigurationResult",
-}) as any as S.Schema<GetTeamsChannelConfigurationResult>;
 export interface ListAssociationsRequest {
   ChatConfiguration: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChatConfiguration: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/list-associations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAssociationsRequest",
-}) as any as S.Schema<ListAssociationsRequest>;
 export interface AssociationListing {
   Resource: string;
 }
-export const AssociationListing = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Resource: S.String }),
-).annotate({
-  identifier: "AssociationListing",
-}) as any as S.Schema<AssociationListing>;
 export type AssociationList = AssociationListing[];
-export const AssociationList = /*@__PURE__*/ S.Array(AssociationListing);
 export interface ListAssociationsResult {
   Associations: AssociationListing[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
-export const ListAssociationsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Associations: AssociationList,
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListAssociationsResult",
-}) as any as S.Schema<ListAssociationsResult>;
 export interface ListCustomActionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListCustomActionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/list-custom-actions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListCustomActionsRequest",
-}) as any as S.Schema<ListCustomActionsRequest>;
 export type CustomActionArnList = string[];
-export const CustomActionArnList = /*@__PURE__*/ S.Array(S.String);
 export interface ListCustomActionsResult {
   CustomActions: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
-export const ListCustomActionsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CustomActions: CustomActionArnList,
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListCustomActionsResult",
-}) as any as S.Schema<ListCustomActionsResult>;
 export interface ListTeamsChannelConfigurationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  TeamId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  TeamId?: string | undefined;
 }
-export const ListTeamsChannelConfigurationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-      TeamId: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/list-ms-teams-channel-configurations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListTeamsChannelConfigurationsRequest",
-}) as any as S.Schema<ListTeamsChannelConfigurationsRequest>;
 export type TeamChannelConfigurationsList = TeamsChannelConfiguration[];
-export const TeamChannelConfigurationsList = /*@__PURE__*/ S.Array(
-  TeamsChannelConfiguration,
-);
 export interface ListTeamsChannelConfigurationsResult {
-  NextToken?: string;
-  TeamChannelConfigurations?: TeamsChannelConfiguration[];
+  NextToken?: string | undefined;
+  TeamChannelConfigurations?: TeamsChannelConfiguration[] | undefined;
 }
-export const ListTeamsChannelConfigurationsResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      TeamChannelConfigurations: S.optional(TeamChannelConfigurationsList),
-    }).pipe(ns),
-).annotate({
-  identifier: "ListTeamsChannelConfigurationsResult",
-}) as any as S.Schema<ListTeamsChannelConfigurationsResult>;
 export interface ListMicrosoftTeamsConfiguredTeamsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListMicrosoftTeamsConfiguredTeamsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/list-ms-teams-configured-teams" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListMicrosoftTeamsConfiguredTeamsRequest",
-}) as any as S.Schema<ListMicrosoftTeamsConfiguredTeamsRequest>;
 export interface ConfiguredTeam {
   TenantId: string;
   TeamId: string;
-  TeamName?: string;
-  State?: string;
-  StateReason?: string;
+  TeamName?: string | undefined;
+  State?: string | undefined;
+  StateReason?: string | undefined;
 }
-export const ConfiguredTeam = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TenantId: S.String,
-    TeamId: S.String,
-    TeamName: S.optional(S.String),
-    State: S.optional(S.String),
-    StateReason: S.optional(S.String),
-  }),
-).annotate({ identifier: "ConfiguredTeam" }) as any as S.Schema<ConfiguredTeam>;
 export type ConfiguredTeamsList = ConfiguredTeam[];
-export const ConfiguredTeamsList = /*@__PURE__*/ S.Array(ConfiguredTeam);
 export interface ListMicrosoftTeamsConfiguredTeamsResult {
-  ConfiguredTeams?: ConfiguredTeam[];
-  NextToken?: string;
+  ConfiguredTeams?: ConfiguredTeam[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListMicrosoftTeamsConfiguredTeamsResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfiguredTeams: S.optional(ConfiguredTeamsList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-).annotate({
-  identifier: "ListMicrosoftTeamsConfiguredTeamsResult",
-}) as any as S.Schema<ListMicrosoftTeamsConfiguredTeamsResult>;
 export interface ListMicrosoftTeamsUserIdentitiesRequest {
-  ChatConfigurationArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ChatConfigurationArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListMicrosoftTeamsUserIdentitiesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ChatConfigurationArn: S.optional(S.String),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/list-ms-teams-user-identities" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListMicrosoftTeamsUserIdentitiesRequest",
-}) as any as S.Schema<ListMicrosoftTeamsUserIdentitiesRequest>;
 export interface TeamsUserIdentity {
   IamRoleArn: string;
   ChatConfigurationArn: string;
   TeamId: string;
-  UserId?: string;
-  AwsUserIdentity?: string;
-  TeamsChannelId?: string;
-  TeamsTenantId?: string;
+  UserId?: string | undefined;
+  AwsUserIdentity?: string | undefined;
+  TeamsChannelId?: string | undefined;
+  TeamsTenantId?: string | undefined;
 }
-export const TeamsUserIdentity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IamRoleArn: S.String,
-    ChatConfigurationArn: S.String,
-    TeamId: S.String,
-    UserId: S.optional(S.String),
-    AwsUserIdentity: S.optional(S.String),
-    TeamsChannelId: S.optional(S.String),
-    TeamsTenantId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TeamsUserIdentity",
-}) as any as S.Schema<TeamsUserIdentity>;
 export type TeamsUserIdentitiesList = TeamsUserIdentity[];
-export const TeamsUserIdentitiesList = /*@__PURE__*/ S.Array(TeamsUserIdentity);
 export interface ListMicrosoftTeamsUserIdentitiesResult {
-  TeamsUserIdentities?: TeamsUserIdentity[];
-  NextToken?: string;
+  TeamsUserIdentities?: TeamsUserIdentity[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListMicrosoftTeamsUserIdentitiesResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      TeamsUserIdentities: S.optional(TeamsUserIdentitiesList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-).annotate({
-  identifier: "ListMicrosoftTeamsUserIdentitiesResult",
-}) as any as S.Schema<ListMicrosoftTeamsUserIdentitiesResult>;
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/list-tags-for-resource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceARN: string;
   Tags: Tag[];
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/tag-resource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceARN: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/untag-resource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAccountPreferencesRequest {
-  UserAuthorizationRequired?: boolean;
-  TrainingDataCollectionEnabled?: boolean;
+  UserAuthorizationRequired?: boolean | undefined;
+  TrainingDataCollectionEnabled?: boolean | undefined;
 }
-export const UpdateAccountPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserAuthorizationRequired: S.optional(S.Boolean),
-    TrainingDataCollectionEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/update-account-preferences" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAccountPreferencesRequest",
-}) as any as S.Schema<UpdateAccountPreferencesRequest>;
 export interface UpdateAccountPreferencesResult {
-  AccountPreferences?: AccountPreferences;
+  AccountPreferences?: AccountPreferences | undefined;
 }
-export const UpdateAccountPreferencesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccountPreferences: S.optional(AccountPreferences) }).pipe(ns),
-).annotate({
-  identifier: "UpdateAccountPreferencesResult",
-}) as any as S.Schema<UpdateAccountPreferencesResult>;
 export interface UpdateChimeWebhookConfigurationRequest {
   ChatConfigurationArn: string;
-  WebhookDescription?: string | redacted.Redacted<string>;
-  WebhookUrl?: string | redacted.Redacted<string>;
-  SnsTopicArns?: string[];
-  IamRoleArn?: string;
-  LoggingLevel?: string;
+  WebhookDescription?: string | redacted.Redacted<string> | undefined;
+  WebhookUrl?: string | redacted.Redacted<string> | undefined;
+  SnsTopicArns?: string[] | undefined;
+  IamRoleArn?: string | undefined;
+  LoggingLevel?: string | undefined;
 }
-export const UpdateChimeWebhookConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ChatConfigurationArn: S.String,
-      WebhookDescription: S.optional(SensitiveString),
-      WebhookUrl: S.optional(SensitiveString),
-      SnsTopicArns: S.optional(SnsTopicArnList),
-      IamRoleArn: S.optional(S.String),
-      LoggingLevel: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/update-chime-webhook-configuration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateChimeWebhookConfigurationRequest",
-}) as any as S.Schema<UpdateChimeWebhookConfigurationRequest>;
 export interface UpdateChimeWebhookConfigurationResult {
-  WebhookConfiguration?: ChimeWebhookConfiguration;
+  WebhookConfiguration?: ChimeWebhookConfiguration | undefined;
 }
-export const UpdateChimeWebhookConfigurationResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      WebhookConfiguration: S.optional(ChimeWebhookConfiguration),
-    }).pipe(ns),
-).annotate({
-  identifier: "UpdateChimeWebhookConfigurationResult",
-}) as any as S.Schema<UpdateChimeWebhookConfigurationResult>;
 export interface UpdateCustomActionRequest {
   CustomActionArn: string;
   Definition: CustomActionDefinition;
-  AliasName?: string;
-  Attachments?: CustomActionAttachment[];
+  AliasName?: string | undefined;
+  Attachments?: CustomActionAttachment[] | undefined;
 }
-export const UpdateCustomActionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CustomActionArn: S.String,
-    Definition: CustomActionDefinition,
-    AliasName: S.optional(S.String),
-    Attachments: S.optional(CustomActionAttachmentList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/update-custom-action" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateCustomActionRequest",
-}) as any as S.Schema<UpdateCustomActionRequest>;
 export interface UpdateCustomActionResult {
   CustomActionArn: string;
 }
-export const UpdateCustomActionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CustomActionArn: S.String }).pipe(ns),
-).annotate({
-  identifier: "UpdateCustomActionResult",
-}) as any as S.Schema<UpdateCustomActionResult>;
 export interface UpdateTeamsChannelConfigurationRequest {
   ChatConfigurationArn: string;
   ChannelId: string;
-  ChannelName?: string | redacted.Redacted<string>;
-  SnsTopicArns?: string[];
-  IamRoleArn?: string;
-  LoggingLevel?: string;
-  GuardrailPolicyArns?: string[];
-  UserAuthorizationRequired?: boolean;
+  ChannelName?: string | redacted.Redacted<string> | undefined;
+  SnsTopicArns?: string[] | undefined;
+  IamRoleArn?: string | undefined;
+  LoggingLevel?: string | undefined;
+  GuardrailPolicyArns?: string[] | undefined;
+  UserAuthorizationRequired?: boolean | undefined;
 }
-export const UpdateTeamsChannelConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ChatConfigurationArn: S.String,
-      ChannelId: S.String,
-      ChannelName: S.optional(SensitiveString),
-      SnsTopicArns: S.optional(SnsTopicArnList),
-      IamRoleArn: S.optional(S.String),
-      LoggingLevel: S.optional(S.String),
-      GuardrailPolicyArns: S.optional(GuardrailPolicyArnList),
-      UserAuthorizationRequired: S.optional(S.Boolean),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/update-ms-teams-channel-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateTeamsChannelConfigurationRequest",
-}) as any as S.Schema<UpdateTeamsChannelConfigurationRequest>;
 export interface UpdateTeamsChannelConfigurationResult {
-  ChannelConfiguration?: TeamsChannelConfiguration;
+  ChannelConfiguration?: TeamsChannelConfiguration | undefined;
 }
-export const UpdateTeamsChannelConfigurationResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ChannelConfiguration: S.optional(TeamsChannelConfiguration),
-    }).pipe(ns),
-).annotate({
-  identifier: "UpdateTeamsChannelConfigurationResult",
-}) as any as S.Schema<UpdateTeamsChannelConfigurationResult>;
 export interface UpdateSlackChannelConfigurationRequest {
   ChatConfigurationArn: string;
   SlackChannelId: string;
-  SlackChannelName?: string | redacted.Redacted<string>;
-  SnsTopicArns?: string[];
-  IamRoleArn?: string;
-  LoggingLevel?: string;
-  GuardrailPolicyArns?: string[];
-  UserAuthorizationRequired?: boolean;
+  SlackChannelName?: string | redacted.Redacted<string> | undefined;
+  SnsTopicArns?: string[] | undefined;
+  IamRoleArn?: string | undefined;
+  LoggingLevel?: string | undefined;
+  GuardrailPolicyArns?: string[] | undefined;
+  UserAuthorizationRequired?: boolean | undefined;
 }
-export const UpdateSlackChannelConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ChatConfigurationArn: S.String,
-      SlackChannelId: S.String,
-      SlackChannelName: S.optional(SensitiveString),
-      SnsTopicArns: S.optional(SnsTopicArnList),
-      IamRoleArn: S.optional(S.String),
-      LoggingLevel: S.optional(S.String),
-      GuardrailPolicyArns: S.optional(GuardrailPolicyArnList),
-      UserAuthorizationRequired: S.optional(S.Boolean),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/update-slack-channel-configuration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateSlackChannelConfigurationRequest",
-}) as any as S.Schema<UpdateSlackChannelConfigurationRequest>;
 export interface UpdateSlackChannelConfigurationResult {
-  ChannelConfiguration?: SlackChannelConfiguration;
+  ChannelConfiguration?: SlackChannelConfiguration | undefined;
 }
-export const UpdateSlackChannelConfigurationResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ChannelConfiguration: S.optional(SlackChannelConfiguration),
-    }).pipe(ns),
-).annotate({
-  identifier: "UpdateSlackChannelConfigurationResult",
-}) as any as S.Schema<UpdateSlackChannelConfigurationResult>;
 export type ErrorMessage = string;
 export type AssociateToConfigurationError =
   | InternalServiceError
@@ -1789,13 +731,13 @@ export type AssociateToConfigurationError =
  * Links a resource (for example, a custom action) to a channel configuration.
  */
 export const associateToConfiguration: API.OperationMethod<
-  AssociateToConfigurationRequest,
+  AssociateToConfigurationRequest & RegionInput,
   AssociateToConfigurationResult,
   AssociateToConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateToConfigurationRequest,
-  output: AssociateToConfigurationResult,
+  input: __S(0, __c0, 0) as any as S.Schema<AssociateToConfigurationRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<AssociateToConfigurationResult>,
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -1805,6 +747,8 @@ export const associateToConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateToConfiguration",
+  telemetry: TELEMETRY,
+  span: "AssociateToConfiguration",
 }));
 
 export type CreateChimeWebhookConfigurationError =
@@ -1818,13 +762,13 @@ export type CreateChimeWebhookConfigurationError =
  * Creates an AWS Chatbot configuration for Amazon Chime.
  */
 export const createChimeWebhookConfiguration: API.OperationMethod<
-  CreateChimeWebhookConfigurationRequest,
+  CreateChimeWebhookConfigurationRequest & RegionInput,
   CreateChimeWebhookConfigurationResult,
   CreateChimeWebhookConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateChimeWebhookConfigurationRequest,
-  output: CreateChimeWebhookConfigurationResult,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateChimeWebhookConfigurationRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<CreateChimeWebhookConfigurationResult>,
   errors: [
     ConflictException,
     CreateChimeWebhookConfigurationException,
@@ -1835,6 +779,8 @@ export const createChimeWebhookConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChimeWebhookConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateChimeWebhookConfiguration",
 }));
 
 export type CreateCustomActionError =
@@ -1848,13 +794,13 @@ export type CreateCustomActionError =
  * Creates a custom action that can be invoked as an alias or as a button on a notification.
  */
 export const createCustomAction: API.OperationMethod<
-  CreateCustomActionRequest,
+  CreateCustomActionRequest & RegionInput,
   CreateCustomActionResult,
   CreateCustomActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCustomActionRequest,
-  output: CreateCustomActionResult,
+  input: __S(56, __c7, 0) as any as S.Schema<CreateCustomActionRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<CreateCustomActionResult>,
   errors: [
     ConflictException,
     InternalServiceError,
@@ -1865,6 +811,8 @@ export const createCustomAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomAction",
+  telemetry: TELEMETRY,
+  span: "CreateCustomAction",
 }));
 
 export type CreateMicrosoftTeamsChannelConfigurationError =
@@ -1879,13 +827,13 @@ export type CreateMicrosoftTeamsChannelConfigurationError =
  * Creates an AWS Chatbot configuration for Microsoft Teams.
  */
 export const createMicrosoftTeamsChannelConfiguration: API.OperationMethod<
-  CreateTeamsChannelConfigurationRequest,
+  CreateTeamsChannelConfigurationRequest & RegionInput,
   CreateTeamsChannelConfigurationResult,
   CreateMicrosoftTeamsChannelConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTeamsChannelConfigurationRequest,
-  output: CreateTeamsChannelConfigurationResult,
+  input: __S(80, __c10, 0) as any as S.Schema<CreateTeamsChannelConfigurationRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<CreateTeamsChannelConfigurationResult>,
   errors: [
     ConflictException,
     CreateTeamsChannelConfigurationException,
@@ -1897,6 +845,8 @@ export const createMicrosoftTeamsChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrosoftTeamsChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateMicrosoftTeamsChannelConfiguration",
 }));
 
 export type CreateSlackChannelConfigurationError =
@@ -1911,13 +861,13 @@ export type CreateSlackChannelConfigurationError =
  * Creates an AWS Chatbot confugration for Slack.
  */
 export const createSlackChannelConfiguration: API.OperationMethod<
-  CreateSlackChannelConfigurationRequest,
+  CreateSlackChannelConfigurationRequest & RegionInput,
   CreateSlackChannelConfigurationResult,
   CreateSlackChannelConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSlackChannelConfigurationRequest,
-  output: CreateSlackChannelConfigurationResult,
+  input: __S(104, __c13, 0) as any as S.Schema<CreateSlackChannelConfigurationRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<CreateSlackChannelConfigurationResult>,
   errors: [
     ConflictException,
     CreateSlackChannelConfigurationException,
@@ -1929,6 +879,8 @@ export const createSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSlackChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateSlackChannelConfiguration",
 }));
 
 export type DeleteChimeWebhookConfigurationError =
@@ -1941,13 +893,13 @@ export type DeleteChimeWebhookConfigurationError =
  * Deletes a Amazon Chime webhook configuration for AWS Chatbot.
  */
 export const deleteChimeWebhookConfiguration: API.OperationMethod<
-  DeleteChimeWebhookConfigurationRequest,
+  DeleteChimeWebhookConfigurationRequest & RegionInput,
   DeleteChimeWebhookConfigurationResult,
   DeleteChimeWebhookConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteChimeWebhookConfigurationRequest,
-  output: DeleteChimeWebhookConfigurationResult,
+  input: __S(128, __c16, 0) as any as S.Schema<DeleteChimeWebhookConfigurationRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeleteChimeWebhookConfigurationResult>,
   errors: [
     DeleteChimeWebhookConfigurationException,
     InvalidParameterException,
@@ -1957,6 +909,8 @@ export const deleteChimeWebhookConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChimeWebhookConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteChimeWebhookConfiguration",
 }));
 
 export type DeleteCustomActionError =
@@ -1969,13 +923,13 @@ export type DeleteCustomActionError =
  * Deletes a custom action.
  */
 export const deleteCustomAction: API.OperationMethod<
-  DeleteCustomActionRequest,
+  DeleteCustomActionRequest & RegionInput,
   DeleteCustomActionResult,
   DeleteCustomActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCustomActionRequest,
-  output: DeleteCustomActionResult,
+  input: __S(136, __c17, 0) as any as S.Schema<DeleteCustomActionRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeleteCustomActionResult>,
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -1985,6 +939,8 @@ export const deleteCustomAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomAction",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomAction",
 }));
 
 export type DeleteMicrosoftTeamsChannelConfigurationError =
@@ -1997,13 +953,13 @@ export type DeleteMicrosoftTeamsChannelConfigurationError =
  * Deletes a Microsoft Teams channel configuration for AWS Chatbot
  */
 export const deleteMicrosoftTeamsChannelConfiguration: API.OperationMethod<
-  DeleteTeamsChannelConfigurationRequest,
+  DeleteTeamsChannelConfigurationRequest & RegionInput,
   DeleteTeamsChannelConfigurationResult,
   DeleteMicrosoftTeamsChannelConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTeamsChannelConfigurationRequest,
-  output: DeleteTeamsChannelConfigurationResult,
+  input: __S(144, __c18, 0) as any as S.Schema<DeleteTeamsChannelConfigurationRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeleteTeamsChannelConfigurationResult>,
   errors: [
     DeleteTeamsChannelConfigurationException,
     InvalidParameterException,
@@ -2013,6 +969,8 @@ export const deleteMicrosoftTeamsChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrosoftTeamsChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteMicrosoftTeamsChannelConfiguration",
 }));
 
 export type DeleteMicrosoftTeamsConfiguredTeamError =
@@ -2024,13 +982,13 @@ export type DeleteMicrosoftTeamsConfiguredTeamError =
  * Deletes the Microsoft Teams team authorization allowing for channels to be configured in that Microsoft Teams team. Note that the Microsoft Teams team must have no channels configured to remove it.
  */
 export const deleteMicrosoftTeamsConfiguredTeam: API.OperationMethod<
-  DeleteTeamsConfiguredTeamRequest,
+  DeleteTeamsConfiguredTeamRequest & RegionInput,
   DeleteTeamsConfiguredTeamResult,
   DeleteMicrosoftTeamsConfiguredTeamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTeamsConfiguredTeamRequest,
-  output: DeleteTeamsConfiguredTeamResult,
+  input: __S(152, __c19, 0) as any as S.Schema<DeleteTeamsConfiguredTeamRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeleteTeamsConfiguredTeamResult>,
   errors: [
     DeleteTeamsConfiguredTeamException,
     InvalidParameterException,
@@ -2039,6 +997,8 @@ export const deleteMicrosoftTeamsConfiguredTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrosoftTeamsConfiguredTeam",
+  telemetry: TELEMETRY,
+  span: "DeleteMicrosoftTeamsConfiguredTeam",
 }));
 
 export type DeleteMicrosoftTeamsUserIdentityError =
@@ -2050,13 +1010,13 @@ export type DeleteMicrosoftTeamsUserIdentityError =
  * Identifes a user level permission for a channel configuration.
  */
 export const deleteMicrosoftTeamsUserIdentity: API.OperationMethod<
-  DeleteMicrosoftTeamsUserIdentityRequest,
+  DeleteMicrosoftTeamsUserIdentityRequest & RegionInput,
   DeleteMicrosoftTeamsUserIdentityResult,
   DeleteMicrosoftTeamsUserIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteMicrosoftTeamsUserIdentityRequest,
-  output: DeleteMicrosoftTeamsUserIdentityResult,
+  input: __S(160, __c20, 0) as any as S.Schema<DeleteMicrosoftTeamsUserIdentityRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeleteMicrosoftTeamsUserIdentityResult>,
   errors: [
     DeleteMicrosoftTeamsUserIdentityException,
     InvalidParameterException,
@@ -2065,6 +1025,8 @@ export const deleteMicrosoftTeamsUserIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrosoftTeamsUserIdentity",
+  telemetry: TELEMETRY,
+  span: "DeleteMicrosoftTeamsUserIdentity",
 }));
 
 export type DeleteSlackChannelConfigurationError =
@@ -2077,13 +1039,13 @@ export type DeleteSlackChannelConfigurationError =
  * Deletes a Slack channel configuration for AWS Chatbot
  */
 export const deleteSlackChannelConfiguration: API.OperationMethod<
-  DeleteSlackChannelConfigurationRequest,
+  DeleteSlackChannelConfigurationRequest & RegionInput,
   DeleteSlackChannelConfigurationResult,
   DeleteSlackChannelConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSlackChannelConfigurationRequest,
-  output: DeleteSlackChannelConfigurationResult,
+  input: __S(168, __c21, 0) as any as S.Schema<DeleteSlackChannelConfigurationRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeleteSlackChannelConfigurationResult>,
   errors: [
     DeleteSlackChannelConfigurationException,
     InvalidParameterException,
@@ -2093,6 +1055,8 @@ export const deleteSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteSlackChannelConfiguration",
 }));
 
 export type DeleteSlackUserIdentityError =
@@ -2104,21 +1068,19 @@ export type DeleteSlackUserIdentityError =
  * Deletes a user level permission for a Slack channel configuration.
  */
 export const deleteSlackUserIdentity: API.OperationMethod<
-  DeleteSlackUserIdentityRequest,
+  DeleteSlackUserIdentityRequest & RegionInput,
   DeleteSlackUserIdentityResult,
   DeleteSlackUserIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSlackUserIdentityRequest,
-  output: DeleteSlackUserIdentityResult,
-  errors: [
-    DeleteSlackUserIdentityException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  input: __S(176, __c22, 0) as any as S.Schema<DeleteSlackUserIdentityRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeleteSlackUserIdentityResult>,
+  errors: [DeleteSlackUserIdentityException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackUserIdentity",
+  telemetry: TELEMETRY,
+  span: "DeleteSlackUserIdentity",
 }));
 
 export type DeleteSlackWorkspaceAuthorizationError =
@@ -2129,17 +1091,19 @@ export type DeleteSlackWorkspaceAuthorizationError =
  * Deletes the Slack workspace authorization that allows channels to be configured in that workspace. This requires all configured channels in the workspace to be deleted.
  */
 export const deleteSlackWorkspaceAuthorization: API.OperationMethod<
-  DeleteSlackWorkspaceAuthorizationRequest,
+  DeleteSlackWorkspaceAuthorizationRequest & RegionInput,
   DeleteSlackWorkspaceAuthorizationResult,
   DeleteSlackWorkspaceAuthorizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSlackWorkspaceAuthorizationRequest,
-  output: DeleteSlackWorkspaceAuthorizationResult,
+  input: __S(184, __c23, 0) as any as S.Schema<DeleteSlackWorkspaceAuthorizationRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeleteSlackWorkspaceAuthorizationResult>,
   errors: [DeleteSlackWorkspaceAuthorizationFault, InvalidParameterException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackWorkspaceAuthorization",
+  telemetry: TELEMETRY,
+  span: "DeleteSlackWorkspaceAuthorization",
 }));
 
 export type DescribeChimeWebhookConfigurationsError =
@@ -2151,14 +1115,14 @@ export type DescribeChimeWebhookConfigurationsError =
  * Lists Amazon Chime webhook configurations optionally filtered by ChatConfigurationArn
  */
 export const describeChimeWebhookConfigurations: API.PaginatedOperationMethod<
-  DescribeChimeWebhookConfigurationsRequest,
+  DescribeChimeWebhookConfigurationsRequest & RegionInput,
   DescribeChimeWebhookConfigurationsResult,
   DescribeChimeWebhookConfigurationsError,
   Credentials | HttpClient.HttpClient,
   ChimeWebhookConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeChimeWebhookConfigurationsRequest,
-  output: DescribeChimeWebhookConfigurationsResult,
+  input: __S(192, __c24, 0) as any as S.Schema<DescribeChimeWebhookConfigurationsRequest>,
+  output: __S(194, __c24, 2) as any as S.Schema<DescribeChimeWebhookConfigurationsResult>,
   errors: [
     DescribeChimeWebhookConfigurationsException,
     InvalidParameterException,
@@ -2173,6 +1137,8 @@ export const describeChimeWebhookConfigurations: API.PaginatedOperationMethod<
     items: "WebhookConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeChimeWebhookConfigurations",
 })) as any;
 
 export type DescribeSlackChannelConfigurationsError =
@@ -2184,14 +1150,14 @@ export type DescribeSlackChannelConfigurationsError =
  * Lists Slack channel configurations optionally filtered by ChatConfigurationArn
  */
 export const describeSlackChannelConfigurations: API.PaginatedOperationMethod<
-  DescribeSlackChannelConfigurationsRequest,
+  DescribeSlackChannelConfigurationsRequest & RegionInput,
   DescribeSlackChannelConfigurationsResult,
   DescribeSlackChannelConfigurationsError,
   Credentials | HttpClient.HttpClient,
   SlackChannelConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeSlackChannelConfigurationsRequest,
-  output: DescribeSlackChannelConfigurationsResult,
+  input: __S(200, __c25, 0) as any as S.Schema<DescribeSlackChannelConfigurationsRequest>,
+  output: __S(202, __c25, 2) as any as S.Schema<DescribeSlackChannelConfigurationsResult>,
   errors: [
     DescribeSlackChannelConfigurationsException,
     InvalidParameterException,
@@ -2206,6 +1172,8 @@ export const describeSlackChannelConfigurations: API.PaginatedOperationMethod<
     items: "SlackChannelConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSlackChannelConfigurations",
 })) as any;
 
 export type DescribeSlackUserIdentitiesError =
@@ -2217,14 +1185,14 @@ export type DescribeSlackUserIdentitiesError =
  * Lists all Slack user identities with a mapped role.
  */
 export const describeSlackUserIdentities: API.PaginatedOperationMethod<
-  DescribeSlackUserIdentitiesRequest,
+  DescribeSlackUserIdentitiesRequest & RegionInput,
   DescribeSlackUserIdentitiesResult,
   DescribeSlackUserIdentitiesError,
   Credentials | HttpClient.HttpClient,
   SlackUserIdentity
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeSlackUserIdentitiesRequest,
-  output: DescribeSlackUserIdentitiesResult,
+  input: __S(208, __c26, 0) as any as S.Schema<DescribeSlackUserIdentitiesRequest>,
+  output: __S(211, __c26, 3) as any as S.Schema<DescribeSlackUserIdentitiesResult>,
   errors: [
     DescribeSlackUserIdentitiesException,
     InvalidParameterException,
@@ -2239,6 +1207,8 @@ export const describeSlackUserIdentities: API.PaginatedOperationMethod<
     items: "SlackUserIdentities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSlackUserIdentities",
 })) as any;
 
 export type DescribeSlackWorkspacesError =
@@ -2250,19 +1220,15 @@ export type DescribeSlackWorkspacesError =
  * List all authorized Slack workspaces connected to the AWS Account onboarded with AWS Chatbot.
  */
 export const describeSlackWorkspaces: API.PaginatedOperationMethod<
-  DescribeSlackWorkspacesRequest,
+  DescribeSlackWorkspacesRequest & RegionInput,
   DescribeSlackWorkspacesResult,
   DescribeSlackWorkspacesError,
   Credentials | HttpClient.HttpClient,
   SlackWorkspace
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeSlackWorkspacesRequest,
-  output: DescribeSlackWorkspacesResult,
-  errors: [
-    DescribeSlackWorkspacesException,
-    InvalidParameterException,
-    InvalidRequestException,
-  ],
+  input: __S(216, __c27, 0) as any as S.Schema<DescribeSlackWorkspacesRequest>,
+  output: __S(219, __c27, 3) as any as S.Schema<DescribeSlackWorkspacesResult>,
+  errors: [DescribeSlackWorkspacesException, InvalidParameterException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSlackWorkspaces",
@@ -2272,6 +1238,8 @@ export const describeSlackWorkspaces: API.PaginatedOperationMethod<
     items: "SlackWorkspaces",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSlackWorkspaces",
 })) as any;
 
 export type DisassociateFromConfigurationError =
@@ -2284,13 +1252,13 @@ export type DisassociateFromConfigurationError =
  * Unlink a resource, for example a custom action, from a channel configuration.
  */
 export const disassociateFromConfiguration: API.OperationMethod<
-  DisassociateFromConfigurationRequest,
+  DisassociateFromConfigurationRequest & RegionInput,
   DisassociateFromConfigurationResult,
   DisassociateFromConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateFromConfigurationRequest,
-  output: DisassociateFromConfigurationResult,
+  input: __S(224, __c28, 0) as any as S.Schema<DisassociateFromConfigurationRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DisassociateFromConfigurationResult>,
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -2300,6 +1268,8 @@ export const disassociateFromConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromConfiguration",
+  telemetry: TELEMETRY,
+  span: "DisassociateFromConfiguration",
 }));
 
 export type GetAccountPreferencesError =
@@ -2310,17 +1280,19 @@ export type GetAccountPreferencesError =
  * Returns AWS Chatbot account preferences.
  */
 export const getAccountPreferences: API.OperationMethod<
-  GetAccountPreferencesRequest,
+  GetAccountPreferencesRequest & RegionInput,
   GetAccountPreferencesResult,
   GetAccountPreferencesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccountPreferencesRequest,
-  output: GetAccountPreferencesResult,
+  input: __S(232, __c29, 0) as any as S.Schema<GetAccountPreferencesRequest>,
+  output: __S(241, __c30, 1) as any as S.Schema<GetAccountPreferencesResult>,
   errors: [GetAccountPreferencesException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountPreferences",
+  telemetry: TELEMETRY,
+  span: "GetAccountPreferences",
 }));
 
 export type GetCustomActionError =
@@ -2333,13 +1305,13 @@ export type GetCustomActionError =
  * Returns a custom action.
  */
 export const getCustomAction: API.OperationMethod<
-  GetCustomActionRequest,
+  GetCustomActionRequest & RegionInput,
   GetCustomActionResult,
   GetCustomActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCustomActionRequest,
-  output: GetCustomActionResult,
+  input: __S(248, __c31, 0) as any as S.Schema<GetCustomActionRequest>,
+  output: __S(250, __c31, 2) as any as S.Schema<GetCustomActionResult>,
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -2349,6 +1321,8 @@ export const getCustomAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomAction",
+  telemetry: TELEMETRY,
+  span: "GetCustomAction",
 }));
 
 export type GetMicrosoftTeamsChannelConfigurationError =
@@ -2361,13 +1335,13 @@ export type GetMicrosoftTeamsChannelConfigurationError =
  * Returns a Microsoft Teams channel configuration in an AWS account.
  */
 export const getMicrosoftTeamsChannelConfiguration: API.OperationMethod<
-  GetTeamsChannelConfigurationRequest,
+  GetTeamsChannelConfigurationRequest & RegionInput,
   GetTeamsChannelConfigurationResult,
   GetMicrosoftTeamsChannelConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTeamsChannelConfigurationRequest,
-  output: GetTeamsChannelConfigurationResult,
+  input: __S(256, __c32, 0) as any as S.Schema<GetTeamsChannelConfigurationRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<GetTeamsChannelConfigurationResult>,
   errors: [
     GetTeamsChannelConfigurationException,
     InvalidParameterException,
@@ -2377,6 +1351,8 @@ export const getMicrosoftTeamsChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrosoftTeamsChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetMicrosoftTeamsChannelConfiguration",
 }));
 
 export type ListAssociationsError = InvalidRequestException | CommonErrors;
@@ -2384,14 +1360,14 @@ export type ListAssociationsError = InvalidRequestException | CommonErrors;
  * Lists resources associated with a channel configuration.
  */
 export const listAssociations: API.PaginatedOperationMethod<
-  ListAssociationsRequest,
+  ListAssociationsRequest & RegionInput,
   ListAssociationsResult,
   ListAssociationsError,
   Credentials | HttpClient.HttpClient,
   AssociationListing
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAssociationsRequest,
-  output: ListAssociationsResult,
+  input: __S(264, __c33, 0) as any as S.Schema<ListAssociationsRequest>,
+  output: __S(267, __c33, 3) as any as S.Schema<ListAssociationsResult>,
   errors: [InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2402,6 +1378,8 @@ export const listAssociations: API.PaginatedOperationMethod<
     items: "Associations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociations",
 })) as any;
 
 export type ListCustomActionsError =
@@ -2413,19 +1391,15 @@ export type ListCustomActionsError =
  * Lists custom actions defined in this account.
  */
 export const listCustomActions: API.PaginatedOperationMethod<
-  ListCustomActionsRequest,
+  ListCustomActionsRequest & RegionInput,
   ListCustomActionsResult,
   ListCustomActionsError,
   Credentials | HttpClient.HttpClient,
   CustomActionArn
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListCustomActionsRequest,
-  output: ListCustomActionsResult,
-  errors: [
-    InternalServiceError,
-    InvalidRequestException,
-    UnauthorizedException,
-  ],
+  input: __S(272, __c34, 0) as any as S.Schema<ListCustomActionsRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<ListCustomActionsResult>,
+  errors: [InternalServiceError, InvalidRequestException, UnauthorizedException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCustomActions",
@@ -2435,6 +1409,8 @@ export const listCustomActions: API.PaginatedOperationMethod<
     items: "CustomActions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomActions",
 })) as any;
 
 export type ListMicrosoftTeamsChannelConfigurationsError =
@@ -2446,14 +1422,14 @@ export type ListMicrosoftTeamsChannelConfigurationsError =
  * Lists all AWS Chatbot Microsoft Teams channel configurations in an AWS account.
  */
 export const listMicrosoftTeamsChannelConfigurations: API.PaginatedOperationMethod<
-  ListTeamsChannelConfigurationsRequest,
+  ListTeamsChannelConfigurationsRequest & RegionInput,
   ListTeamsChannelConfigurationsResult,
   ListMicrosoftTeamsChannelConfigurationsError,
   Credentials | HttpClient.HttpClient,
   TeamsChannelConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTeamsChannelConfigurationsRequest,
-  output: ListTeamsChannelConfigurationsResult,
+  input: __S(280, __c35, 0) as any as S.Schema<ListTeamsChannelConfigurationsRequest>,
+  output: __S(282, __c35, 2) as any as S.Schema<ListTeamsChannelConfigurationsResult>,
   errors: [
     InvalidParameterException,
     InvalidRequestException,
@@ -2468,6 +1444,8 @@ export const listMicrosoftTeamsChannelConfigurations: API.PaginatedOperationMeth
     items: "TeamChannelConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMicrosoftTeamsChannelConfigurations",
 })) as any;
 
 export type ListMicrosoftTeamsConfiguredTeamsError =
@@ -2479,14 +1457,14 @@ export type ListMicrosoftTeamsConfiguredTeamsError =
  * Lists all authorized Microsoft Teams for an AWS Account
  */
 export const listMicrosoftTeamsConfiguredTeams: API.PaginatedOperationMethod<
-  ListMicrosoftTeamsConfiguredTeamsRequest,
+  ListMicrosoftTeamsConfiguredTeamsRequest & RegionInput,
   ListMicrosoftTeamsConfiguredTeamsResult,
   ListMicrosoftTeamsConfiguredTeamsError,
   Credentials | HttpClient.HttpClient,
   ConfiguredTeam
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListMicrosoftTeamsConfiguredTeamsRequest,
-  output: ListMicrosoftTeamsConfiguredTeamsResult,
+  input: __S(288, __c36, 0) as any as S.Schema<ListMicrosoftTeamsConfiguredTeamsRequest>,
+  output: __S(291, __c36, 3) as any as S.Schema<ListMicrosoftTeamsConfiguredTeamsResult>,
   errors: [
     InvalidParameterException,
     InvalidRequestException,
@@ -2501,6 +1479,8 @@ export const listMicrosoftTeamsConfiguredTeams: API.PaginatedOperationMethod<
     items: "ConfiguredTeams",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMicrosoftTeamsConfiguredTeams",
 })) as any;
 
 export type ListMicrosoftTeamsUserIdentitiesError =
@@ -2512,14 +1492,14 @@ export type ListMicrosoftTeamsUserIdentitiesError =
  * A list all Microsoft Teams user identities with a mapped role.
  */
 export const listMicrosoftTeamsUserIdentities: API.PaginatedOperationMethod<
-  ListMicrosoftTeamsUserIdentitiesRequest,
+  ListMicrosoftTeamsUserIdentitiesRequest & RegionInput,
   ListMicrosoftTeamsUserIdentitiesResult,
   ListMicrosoftTeamsUserIdentitiesError,
   Credentials | HttpClient.HttpClient,
   TeamsUserIdentity
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListMicrosoftTeamsUserIdentitiesRequest,
-  output: ListMicrosoftTeamsUserIdentitiesResult,
+  input: __S(296, __c37, 0) as any as S.Schema<ListMicrosoftTeamsUserIdentitiesRequest>,
+  output: __S(299, __c37, 3) as any as S.Schema<ListMicrosoftTeamsUserIdentitiesResult>,
   errors: [
     InvalidParameterException,
     InvalidRequestException,
@@ -2534,6 +1514,8 @@ export const listMicrosoftTeamsUserIdentities: API.PaginatedOperationMethod<
     items: "TeamsUserIdentities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMicrosoftTeamsUserIdentities",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2545,21 +1527,19 @@ export type ListTagsForResourceError =
  * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServiceError,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
+  input: __S(304, __c38, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(305, __c38, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  errors: [InternalServiceError, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -2572,13 +1552,13 @@ export type TagResourceError =
  * Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(312, __c39, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     InternalServiceError,
     ResourceNotFoundException,
@@ -2588,6 +1568,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2599,21 +1581,19 @@ export type UntagResourceError =
  * Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServiceError,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
+  input: __S(320, __c40, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<UntagResourceResponse>,
+  errors: [InternalServiceError, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccountPreferencesError =
@@ -2625,21 +1605,19 @@ export type UpdateAccountPreferencesError =
  * Updates AWS Chatbot account preferences.
  */
 export const updateAccountPreferences: API.OperationMethod<
-  UpdateAccountPreferencesRequest,
+  UpdateAccountPreferencesRequest & RegionInput,
   UpdateAccountPreferencesResult,
   UpdateAccountPreferencesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAccountPreferencesRequest,
-  output: UpdateAccountPreferencesResult,
-  errors: [
-    InvalidParameterException,
-    InvalidRequestException,
-    UpdateAccountPreferencesException,
-  ],
+  input: __S(328, __c41, 0) as any as S.Schema<UpdateAccountPreferencesRequest>,
+  output: __S(241, __c30, 1) as any as S.Schema<UpdateAccountPreferencesResult>,
+  errors: [InvalidParameterException, InvalidRequestException, UpdateAccountPreferencesException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountPreferences",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountPreferences",
 }));
 
 export type UpdateChimeWebhookConfigurationError =
@@ -2652,13 +1630,13 @@ export type UpdateChimeWebhookConfigurationError =
  * Updates a Amazon Chime webhook configuration.
  */
 export const updateChimeWebhookConfiguration: API.OperationMethod<
-  UpdateChimeWebhookConfigurationRequest,
+  UpdateChimeWebhookConfigurationRequest & RegionInput,
   UpdateChimeWebhookConfigurationResult,
   UpdateChimeWebhookConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateChimeWebhookConfigurationRequest,
-  output: UpdateChimeWebhookConfigurationResult,
+  input: __S(336, __c42, 0) as any as S.Schema<UpdateChimeWebhookConfigurationRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<UpdateChimeWebhookConfigurationResult>,
   errors: [
     InvalidParameterException,
     InvalidRequestException,
@@ -2668,6 +1646,8 @@ export const updateChimeWebhookConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChimeWebhookConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateChimeWebhookConfiguration",
 }));
 
 export type UpdateCustomActionError =
@@ -2680,13 +1660,13 @@ export type UpdateCustomActionError =
  * Updates a custom action.
  */
 export const updateCustomAction: API.OperationMethod<
-  UpdateCustomActionRequest,
+  UpdateCustomActionRequest & RegionInput,
   UpdateCustomActionResult,
   UpdateCustomActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateCustomActionRequest,
-  output: UpdateCustomActionResult,
+  input: __S(344, __c43, 0) as any as S.Schema<UpdateCustomActionRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<UpdateCustomActionResult>,
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -2696,6 +1676,8 @@ export const updateCustomAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomAction",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomAction",
 }));
 
 export type UpdateMicrosoftTeamsChannelConfigurationError =
@@ -2708,13 +1690,13 @@ export type UpdateMicrosoftTeamsChannelConfigurationError =
  * Updates an Microsoft Teams channel configuration.
  */
 export const updateMicrosoftTeamsChannelConfiguration: API.OperationMethod<
-  UpdateTeamsChannelConfigurationRequest,
+  UpdateTeamsChannelConfigurationRequest & RegionInput,
   UpdateTeamsChannelConfigurationResult,
   UpdateMicrosoftTeamsChannelConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateTeamsChannelConfigurationRequest,
-  output: UpdateTeamsChannelConfigurationResult,
+  input: __S(352, __c44, 0) as any as S.Schema<UpdateTeamsChannelConfigurationRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<UpdateTeamsChannelConfigurationResult>,
   errors: [
     InvalidParameterException,
     InvalidRequestException,
@@ -2724,6 +1706,8 @@ export const updateMicrosoftTeamsChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMicrosoftTeamsChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateMicrosoftTeamsChannelConfiguration",
 }));
 
 export type UpdateSlackChannelConfigurationError =
@@ -2736,13 +1720,13 @@ export type UpdateSlackChannelConfigurationError =
  * Updates a Slack channel configuration.
  */
 export const updateSlackChannelConfiguration: API.OperationMethod<
-  UpdateSlackChannelConfigurationRequest,
+  UpdateSlackChannelConfigurationRequest & RegionInput,
   UpdateSlackChannelConfigurationResult,
   UpdateSlackChannelConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSlackChannelConfigurationRequest,
-  output: UpdateSlackChannelConfigurationResult,
+  input: __S(360, __c45, 0) as any as S.Schema<UpdateSlackChannelConfigurationRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<UpdateSlackChannelConfigurationResult>,
   errors: [
     InvalidParameterException,
     InvalidRequestException,
@@ -2752,4 +1736,1015 @@ export const updateSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSlackChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateSlackChannelConfiguration",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Resource: S.String, ChatConfiguration: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/associate-to-configuration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AssociateToConfigurationRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "AssociateToConfigurationResult",
+      });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          WebhookDescription: SensitiveString,
+          WebhookUrl: SensitiveString,
+          SnsTopicArns: __S(32, __c4, 0),
+          IamRoleArn: S.String,
+          ConfigurationName: S.String,
+          LoggingLevel: S.optional(S.String),
+          Tags: S.optional(__S(25, __c3, 1)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/create-chime-webhook-configuration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateChimeWebhookConfigurationRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ TagKey: S.String, TagValue: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(24, __c3, 0));
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          WebhookDescription: SensitiveString,
+          ChatConfigurationArn: S.String,
+          IamRoleArn: S.String,
+          SnsTopicArns: __S(32, __c4, 0),
+          ConfigurationName: S.optional(S.String),
+          LoggingLevel: S.optional(S.String),
+          Tags: S.optional(__S(25, __c3, 1)),
+          State: S.optional(S.String),
+          StateReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ChimeWebhookConfiguration" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ WebhookConfiguration: S.optional(__S(40, __c5, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateChimeWebhookConfigurationResult" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Definition: __S(64, __c8, 0),
+          AliasName: S.optional(S.String),
+          Attachments: S.optional(__S(69, __c8, 5)),
+          Tags: S.optional(__S(25, __c3, 1)),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          ActionName: S.String,
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/create-custom-action" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateCustomActionRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ CommandText: S.String })).annotate({
+        identifier: "CustomActionDefinition",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Operator: S.String, VariableName: S.String, Value: S.optional(S.String) }),
+      ).annotate({ identifier: "CustomActionAttachmentCriteria" });
+    case 2:
+      return S.Array(__S(65, __c8, 1));
+    case 3:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          NotificationType: S.String,
+          ButtonText: S.optional(S.String),
+          Criteria: S.optional(__S(66, __c8, 2)),
+          Variables: S.optional(__S(67, __c8, 3)),
+        }),
+      ).annotate({ identifier: "CustomActionAttachment" });
+    case 5:
+      return S.Array(__S(68, __c8, 4));
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ CustomActionArn: S.String }).pipe(ns)).annotate({
+        identifier: "CreateCustomActionResult",
+      });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ChannelId: S.String,
+          ChannelName: S.optional(SensitiveString),
+          TeamId: S.String,
+          TeamName: S.optional(SensitiveString),
+          TenantId: S.String,
+          SnsTopicArns: S.optional(__S(32, __c4, 0)),
+          IamRoleArn: S.String,
+          ConfigurationName: S.String,
+          LoggingLevel: S.optional(S.String),
+          GuardrailPolicyArns: S.optional(__S(32, __c4, 0)),
+          UserAuthorizationRequired: S.optional(S.Boolean),
+          Tags: S.optional(__S(25, __c3, 1)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/create-ms-teams-channel-configuration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateTeamsChannelConfigurationRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ChannelId: S.String,
+          ChannelName: S.optional(SensitiveString),
+          TeamId: S.String,
+          TeamName: S.optional(SensitiveString),
+          TenantId: S.String,
+          ChatConfigurationArn: S.String,
+          IamRoleArn: S.String,
+          SnsTopicArns: __S(32, __c4, 0),
+          ConfigurationName: S.optional(S.String),
+          LoggingLevel: S.optional(S.String),
+          GuardrailPolicyArns: S.optional(__S(32, __c4, 0)),
+          UserAuthorizationRequired: S.optional(S.Boolean),
+          Tags: S.optional(__S(25, __c3, 1)),
+          State: S.optional(S.String),
+          StateReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TeamsChannelConfiguration" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ChannelConfiguration: S.optional(__S(88, __c11, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateTeamsChannelConfigurationResult" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SlackTeamId: S.String,
+          SlackChannelId: S.String,
+          SlackChannelName: S.optional(SensitiveString),
+          SnsTopicArns: S.optional(__S(32, __c4, 0)),
+          IamRoleArn: S.String,
+          ConfigurationName: S.String,
+          LoggingLevel: S.optional(S.String),
+          GuardrailPolicyArns: S.optional(__S(32, __c4, 0)),
+          UserAuthorizationRequired: S.optional(S.Boolean),
+          Tags: S.optional(__S(25, __c3, 1)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/create-slack-channel-configuration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateSlackChannelConfigurationRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SlackTeamName: S.String,
+          SlackTeamId: S.String,
+          SlackChannelId: S.String,
+          SlackChannelName: SensitiveString,
+          ChatConfigurationArn: S.String,
+          IamRoleArn: S.String,
+          SnsTopicArns: __S(32, __c4, 0),
+          ConfigurationName: S.optional(S.String),
+          LoggingLevel: S.optional(S.String),
+          GuardrailPolicyArns: S.optional(__S(32, __c4, 0)),
+          UserAuthorizationRequired: S.optional(S.Boolean),
+          Tags: S.optional(__S(25, __c3, 1)),
+          State: S.optional(S.String),
+          StateReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SlackChannelConfiguration" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ChannelConfiguration: S.optional(__S(112, __c14, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateSlackChannelConfigurationResult" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ChatConfigurationArn: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/delete-chime-webhook-configuration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteChimeWebhookConfigurationRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ CustomActionArn: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/delete-custom-action" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteCustomActionRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ChatConfigurationArn: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/delete-ms-teams-channel-configuration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteTeamsChannelConfigurationRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TeamId: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/delete-ms-teams-configured-teams" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteTeamsConfiguredTeamRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ChatConfigurationArn: S.String, UserId: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/delete-ms-teams-user-identity" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteMicrosoftTeamsUserIdentityRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ChatConfigurationArn: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/delete-slack-channel-configuration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteSlackChannelConfigurationRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ChatConfigurationArn: S.String,
+          SlackTeamId: S.String,
+          SlackUserId: S.String,
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/delete-slack-user-identity" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteSlackUserIdentityRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SlackTeamId: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/delete-slack-workspace-authorization" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteSlackWorkspaceAuthorizationRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          ChatConfigurationArn: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/describe-chime-webhook-configurations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeChimeWebhookConfigurationsRequest" });
+    case 1:
+      return S.Array(__S(40, __c5, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          WebhookConfigurations: S.optional(__S(193, __c24, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeChimeWebhookConfigurationsResult" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          ChatConfigurationArn: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/describe-slack-channel-configurations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeSlackChannelConfigurationsRequest" });
+    case 1:
+      return S.Array(__S(112, __c14, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          SlackChannelConfigurations: S.optional(__S(201, __c25, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeSlackChannelConfigurationsResult" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ChatConfigurationArn: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/describe-slack-user-identities" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeSlackUserIdentitiesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          IamRoleArn: S.String,
+          ChatConfigurationArn: S.String,
+          SlackTeamId: S.String,
+          SlackUserId: S.String,
+          AwsUserIdentity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SlackUserIdentity" });
+    case 2:
+      return S.Array(__S(209, __c26, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          SlackUserIdentities: S.optional(__S(210, __c26, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeSlackUserIdentitiesResult" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/describe-slack-workspaces" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeSlackWorkspacesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SlackTeamId: S.String,
+          SlackTeamName: S.String,
+          State: S.optional(S.String),
+          StateReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SlackWorkspace" });
+    case 2:
+      return S.Array(__S(217, __c27, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          SlackWorkspaces: S.optional(__S(218, __c27, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeSlackWorkspacesResult" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Resource: S.String, ChatConfiguration: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/disassociate-from-configuration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DisassociateFromConfigurationRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/get-account-preferences" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetAccountPreferencesRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserAuthorizationRequired: S.optional(S.Boolean),
+          TrainingDataCollectionEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AccountPreferences" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ AccountPreferences: S.optional(__S(240, __c30, 0)) }).pipe(ns),
+      ).annotate({ identifier: "GetAccountPreferencesResult" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ CustomActionArn: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/get-custom-action" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetCustomActionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CustomActionArn: S.String,
+          Definition: __S(64, __c8, 0),
+          AliasName: S.optional(S.String),
+          Attachments: S.optional(__S(69, __c8, 5)),
+          ActionName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomAction" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ CustomAction: S.optional(__S(249, __c31, 1)) }).pipe(ns),
+      ).annotate({ identifier: "GetCustomActionResult" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ChatConfigurationArn: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/get-ms-teams-channel-configuration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetTeamsChannelConfigurationRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ChatConfiguration: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/list-associations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListAssociationsRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Resource: S.String })).annotate({
+        identifier: "AssociationListing",
+      });
+    case 2:
+      return S.Array(__S(265, __c33, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Associations: __S(266, __c33, 2), NextToken: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "ListAssociationsResult" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/list-custom-actions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListCustomActionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ CustomActions: __S(32, __c4, 0), NextToken: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "ListCustomActionsResult" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          TeamId: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/list-ms-teams-channel-configurations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTeamsChannelConfigurationsRequest" });
+    case 1:
+      return S.Array(__S(88, __c11, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          TeamChannelConfigurations: S.optional(__S(281, __c35, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListTeamsChannelConfigurationsResult" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/list-ms-teams-configured-teams" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListMicrosoftTeamsConfiguredTeamsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TenantId: S.String,
+          TeamId: S.String,
+          TeamName: S.optional(S.String),
+          State: S.optional(S.String),
+          StateReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConfiguredTeam" });
+    case 2:
+      return S.Array(__S(289, __c36, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ConfiguredTeams: S.optional(__S(290, __c36, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListMicrosoftTeamsConfiguredTeamsResult" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ChatConfigurationArn: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/list-ms-teams-user-identities" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListMicrosoftTeamsUserIdentitiesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          IamRoleArn: S.String,
+          ChatConfigurationArn: S.String,
+          TeamId: S.String,
+          UserId: S.optional(S.String),
+          AwsUserIdentity: S.optional(S.String),
+          TeamsChannelId: S.optional(S.String),
+          TeamsTenantId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TeamsUserIdentity" });
+    case 2:
+      return S.Array(__S(297, __c37, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          TeamsUserIdentities: S.optional(__S(298, __c37, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListMicrosoftTeamsUserIdentitiesResult" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/list-tags-for-resource" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(25, __c3, 1)) }).pipe(ns)).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.String, Tags: __S(25, __c3, 1) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/tag-resource" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.String, TagKeys: __S(32, __c4, 0) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/untag-resource" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserAuthorizationRequired: S.optional(S.Boolean),
+          TrainingDataCollectionEnabled: S.optional(S.Boolean),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/update-account-preferences" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateAccountPreferencesRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ChatConfigurationArn: S.String,
+          WebhookDescription: S.optional(SensitiveString),
+          WebhookUrl: S.optional(SensitiveString),
+          SnsTopicArns: S.optional(__S(32, __c4, 0)),
+          IamRoleArn: S.optional(S.String),
+          LoggingLevel: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/update-chime-webhook-configuration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateChimeWebhookConfigurationRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CustomActionArn: S.String,
+          Definition: __S(64, __c8, 0),
+          AliasName: S.optional(S.String),
+          Attachments: S.optional(__S(69, __c8, 5)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/update-custom-action" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateCustomActionRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ChatConfigurationArn: S.String,
+          ChannelId: S.String,
+          ChannelName: S.optional(SensitiveString),
+          SnsTopicArns: S.optional(__S(32, __c4, 0)),
+          IamRoleArn: S.optional(S.String),
+          LoggingLevel: S.optional(S.String),
+          GuardrailPolicyArns: S.optional(__S(32, __c4, 0)),
+          UserAuthorizationRequired: S.optional(S.Boolean),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/update-ms-teams-channel-configuration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateTeamsChannelConfigurationRequest" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ChatConfigurationArn: S.String,
+          SlackChannelId: S.String,
+          SlackChannelName: S.optional(SensitiveString),
+          SnsTopicArns: S.optional(__S(32, __c4, 0)),
+          IamRoleArn: S.optional(S.String),
+          LoggingLevel: S.optional(S.String),
+          GuardrailPolicyArns: S.optional(__S(32, __c4, 0)),
+          UserAuthorizationRequired: S.optional(S.Boolean),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/update-slack-channel-configuration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateSlackChannelConfigurationRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

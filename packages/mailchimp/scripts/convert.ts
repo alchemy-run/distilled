@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn Mailchimp's API documents into Smithy 2.0 JSON models.
  *
@@ -12,17 +12,16 @@
  *         .generated-specs/transactional.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Mailchimp's pipeline
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Mailchimp's pipeline
  * config. `scripts/generate.ts` compiles the model into src/services.
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
-const ROOT = path.resolve(import.meta.dir, "..");
-const TRANSACTIONAL_ERRORS_SPEC =
-  "specs/spec-mirror-mailchimp/specs/transactional.openapi.json";
+const ROOT = path.resolve(import.meta.dirname, "..");
+const TRANSACTIONAL_ERRORS_SPEC = "specs/spec-mirror-mailchimp/specs/transactional.openapi.json";
 
 const METHODS = ["get", "put", "post", "patch", "delete"] as const;
 
@@ -69,10 +68,8 @@ const OVERRIDES: Readonly<Record<string, string>> = {
   "POST /landing-pages": "createLandingPage",
   "GET /search-campaigns": "searchCampaigns",
   "GET /search-members": "searchMembers",
-  "POST /sms-campaigns/{sms_campaign_id}/actions/cancel-send":
-    "cancelSmsCampaignSend",
-  "POST /sms-campaigns/{sms_campaign_id}/actions/schedule":
-    "scheduleSmsCampaign",
+  "POST /sms-campaigns/{sms_campaign_id}/actions/cancel-send": "cancelSmsCampaignSend",
+  "POST /sms-campaigns/{sms_campaign_id}/actions/schedule": "scheduleSmsCampaign",
   "POST /sms-campaigns/{sms_campaign_id}/actions/send": "sendSmsCampaign",
   "PUT /sms-campaigns/{sms_campaign_id}/content": "setSmsCampaignContent",
 };
@@ -197,9 +194,7 @@ const stripTransactionalKey = (spec: any): void => {
       throw new Error(`${route}: expected a \`key\` body member`);
     }
     delete schema.properties.key;
-    schema.required = (schema.required ?? []).filter(
-      (name: string) => name !== "key",
-    );
+    schema.required = (schema.required ?? []).filter((name: string) => name !== "key");
     if (schema.required.length === 0) delete schema.required;
   }
 };
@@ -224,8 +219,7 @@ const declareTransactionalErrors = async (spec: any): Promise<void> => {
     for (const [status, response] of Object.entries<any>(declared)) {
       if (!/^[45]\d\d$/.test(status)) continue;
       const name = response.$ref?.split("/").pop();
-      const description =
-        components[name]?.description ?? response.description ?? name;
+      const description = components[name]?.description ?? response.description ?? name;
       item.post.responses[status] = { description };
     }
   }
@@ -275,8 +269,7 @@ await runOpenApiConvert({
         },
         defaultErrorStatuses: ["401", "429", "500", "502", "503", "504"],
         operationNames: (_id, ctx) => {
-          const name =
-            TRANSACTIONAL_NAMES[`${ctx.method.toUpperCase()} ${ctx.path}`];
+          const name = TRANSACTIONAL_NAMES[`${ctx.method.toUpperCase()} ${ctx.path}`];
           if (name === undefined) {
             throw new Error(`unnamed Transactional route: ${ctx.path}`);
           }
