@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -176,29 +177,31 @@ export type RuleIdentifier = string;
 export type HttpMethod = string;
 export type PathMatchExact = string;
 export type PathMatchPrefix = string;
-export type PathMatchType = { exact: string; prefix?: never } | { exact?: never; prefix: string };
+export type PathMatchType =
+  | { exact: string; prefix?: undefined }
+  | { exact?: undefined; prefix: string };
 export interface PathMatch {
   match: PathMatchType;
-  caseSensitive?: boolean;
+  caseSensitive?: boolean | undefined;
 }
 export type HeaderMatchName = string;
 export type HeaderMatchExact = string;
 export type HeaderMatchPrefix = string;
 export type HeaderMatchContains = string;
 export type HeaderMatchType =
-  | { exact: string; prefix?: never; contains?: never }
-  | { exact?: never; prefix: string; contains?: never }
-  | { exact?: never; prefix?: never; contains: string };
+  | { exact: string; prefix?: undefined; contains?: undefined }
+  | { exact?: undefined; prefix: string; contains?: undefined }
+  | { exact?: undefined; prefix?: undefined; contains: string };
 export interface HeaderMatch {
   name: string;
   match: HeaderMatchType;
-  caseSensitive?: boolean;
+  caseSensitive?: boolean | undefined;
 }
 export type HeaderMatchList = HeaderMatch[];
 export interface HttpMatch {
-  method?: string;
-  pathMatch?: PathMatch;
-  headerMatches?: HeaderMatch[];
+  method?: string | undefined;
+  pathMatch?: PathMatch | undefined;
+  headerMatches?: HeaderMatch[] | undefined;
 }
 export type RuleMatch = { httpMatch: HttpMatch };
 export type RulePriority = number;
@@ -206,7 +209,7 @@ export type TargetGroupIdentifier = string;
 export type TargetGroupWeight = number;
 export interface WeightedTargetGroup {
   targetGroupIdentifier: string;
-  weight?: number;
+  weight?: number | undefined;
 }
 export type WeightedTargetGroupList = WeightedTargetGroup[];
 export interface ForwardAction {
@@ -217,13 +220,13 @@ export interface FixedResponseAction {
   statusCode: number;
 }
 export type RuleAction =
-  | { forward: ForwardAction; fixedResponse?: never }
-  | { forward?: never; fixedResponse: FixedResponseAction };
+  | { forward: ForwardAction; fixedResponse?: undefined }
+  | { forward?: undefined; fixedResponse: FixedResponseAction };
 export interface RuleUpdate {
   ruleIdentifier: string;
-  match?: RuleMatch;
-  priority?: number;
-  action?: RuleAction;
+  match?: RuleMatch | undefined;
+  priority?: number | undefined;
+  action?: RuleAction | undefined;
 }
 export type RuleUpdateList = RuleUpdate[];
 export interface BatchUpdateRuleRequest {
@@ -235,26 +238,26 @@ export type RuleArn = string;
 export type RuleId = string;
 export type RuleName = string;
 export interface RuleUpdateSuccess {
-  arn?: string;
-  id?: string;
-  name?: string;
-  isDefault?: boolean;
-  match?: RuleMatch;
-  priority?: number;
-  action?: RuleAction;
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  isDefault?: boolean | undefined;
+  match?: RuleMatch | undefined;
+  priority?: number | undefined;
+  action?: RuleAction | undefined;
 }
 export type RuleUpdateSuccessList = RuleUpdateSuccess[];
 export type FailureCode = string;
 export type FailureMessage = string;
 export interface RuleUpdateFailure {
-  ruleIdentifier?: string;
-  failureCode?: string;
-  failureMessage?: string;
+  ruleIdentifier?: string | undefined;
+  failureCode?: string | undefined;
+  failureMessage?: string | undefined;
 }
 export type RuleUpdateFailureList = RuleUpdateFailure[];
 export interface BatchUpdateRuleResponse {
-  successful?: RuleUpdateSuccess[];
-  unsuccessful?: RuleUpdateFailure[];
+  successful?: RuleUpdateSuccess[] | undefined;
+  unsuccessful?: RuleUpdateFailure[] | undefined;
 }
 export type ClientToken = string;
 export type ResourceIdentifier = string;
@@ -264,11 +267,11 @@ export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateAccessLogSubscriptionRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   resourceIdentifier: string;
   destinationArn: string;
-  serviceNetworkLogType?: string;
-  tags?: { [key: string]: string | undefined };
+  serviceNetworkLogType?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AccessLogSubscriptionId = string;
 export type AccessLogSubscriptionArn = string;
@@ -279,7 +282,7 @@ export interface CreateAccessLogSubscriptionResponse {
   arn: string;
   resourceId: string;
   resourceArn: string;
-  serviceNetworkLogType?: string;
+  serviceNetworkLogType?: string | undefined;
   destinationArn: string;
 }
 export type ListenerName = string;
@@ -289,24 +292,24 @@ export interface CreateListenerRequest {
   serviceIdentifier: string;
   name: string;
   protocol: string;
-  port?: number;
+  port?: number | undefined;
   defaultAction: RuleAction;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ListenerArn = string;
 export type ListenerId = string;
 export type ServiceArn = string;
 export type ServiceId = string;
 export interface CreateListenerResponse {
-  arn?: string;
-  id?: string;
-  name?: string;
-  protocol?: string;
-  port?: number;
-  serviceArn?: string;
-  serviceId?: string;
-  defaultAction?: RuleAction;
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  protocol?: string | undefined;
+  port?: number | undefined;
+  serviceArn?: string | undefined;
+  serviceId?: string | undefined;
+  defaultAction?: RuleAction | undefined;
 }
 export type ResourceConfigurationName = string;
 export type ResourceConfigurationType =
@@ -324,42 +327,62 @@ export type ResourceConfigurationIdentifier = string;
 export type DomainName = string;
 export type ResourceConfigurationIpAddressType = string;
 export interface DnsResource {
-  domainName?: string;
-  ipAddressType?: string;
+  domainName?: string | undefined;
+  ipAddressType?: string | undefined;
 }
 export type IpAddress = string;
 export interface IpResource {
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 export type WildcardArn = string;
 export interface ArnResource {
-  arn?: string;
+  arn?: string | undefined;
 }
 export type CidrRange = string;
 export type CidrRangeList = string[];
 export interface CidrResource {
-  cidrRanges?: string[];
+  cidrRanges?: string[] | undefined;
 }
 export type ResourceConfigurationDefinition =
-  | { dnsResource: DnsResource; ipResource?: never; arnResource?: never; cidrResource?: never }
-  | { dnsResource?: never; ipResource: IpResource; arnResource?: never; cidrResource?: never }
-  | { dnsResource?: never; ipResource?: never; arnResource: ArnResource; cidrResource?: never }
-  | { dnsResource?: never; ipResource?: never; arnResource?: never; cidrResource: CidrResource };
+  | {
+      dnsResource: DnsResource;
+      ipResource?: undefined;
+      arnResource?: undefined;
+      cidrResource?: undefined;
+    }
+  | {
+      dnsResource?: undefined;
+      ipResource: IpResource;
+      arnResource?: undefined;
+      cidrResource?: undefined;
+    }
+  | {
+      dnsResource?: undefined;
+      ipResource?: undefined;
+      arnResource: ArnResource;
+      cidrResource?: undefined;
+    }
+  | {
+      dnsResource?: undefined;
+      ipResource?: undefined;
+      arnResource?: undefined;
+      cidrResource: CidrResource;
+    };
 export type DomainVerificationIdentifier = string;
 export interface CreateResourceConfigurationRequest {
   name: string;
   type: ResourceConfigurationType;
-  portRanges?: string[];
-  protocol?: ProtocolType;
-  resourceGatewayIdentifier?: string;
-  resourceConfigurationGroupIdentifier?: string;
-  resourceConfigurationDefinition?: ResourceConfigurationDefinition;
-  allowAssociationToShareableServiceNetwork?: boolean;
-  customDomainName?: string;
-  groupDomain?: string;
-  domainVerificationIdentifier?: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  portRanges?: string[] | undefined;
+  protocol?: ProtocolType | undefined;
+  resourceGatewayIdentifier?: string | undefined;
+  resourceConfigurationGroupIdentifier?: string | undefined;
+  resourceConfigurationDefinition?: ResourceConfigurationDefinition | undefined;
+  allowAssociationToShareableServiceNetwork?: boolean | undefined;
+  customDomainName?: string | undefined;
+  groupDomain?: string | undefined;
+  domainVerificationIdentifier?: string | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ResourceConfigurationId = string;
 export type ResourceConfigurationArn = string;
@@ -368,23 +391,23 @@ export type ResourceConfigurationStatus = string;
 export type DomainVerificationId = string;
 export type DomainVerificationArn = string;
 export interface CreateResourceConfigurationResponse {
-  id?: string;
-  name?: string;
-  arn?: string;
-  resourceGatewayId?: string;
-  resourceConfigurationGroupId?: string;
-  type?: ResourceConfigurationType;
-  portRanges?: string[];
-  protocol?: ProtocolType;
-  status?: string;
-  resourceConfigurationDefinition?: ResourceConfigurationDefinition;
-  allowAssociationToShareableServiceNetwork?: boolean;
-  createdAt?: Date;
-  failureReason?: string;
-  customDomainName?: string;
-  domainVerificationId?: string;
-  groupDomain?: string;
-  domainVerificationArn?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  resourceGatewayId?: string | undefined;
+  resourceConfigurationGroupId?: string | undefined;
+  type?: ResourceConfigurationType | undefined;
+  portRanges?: string[] | undefined;
+  protocol?: ProtocolType | undefined;
+  status?: string | undefined;
+  resourceConfigurationDefinition?: ResourceConfigurationDefinition | undefined;
+  allowAssociationToShareableServiceNetwork?: boolean | undefined;
+  createdAt?: Date | undefined;
+  failureReason?: string | undefined;
+  customDomainName?: string | undefined;
+  domainVerificationId?: string | undefined;
+  groupDomain?: string | undefined;
+  domainVerificationArn?: string | undefined;
 }
 export type ResourceGatewayName = string;
 export type VpcId = string;
@@ -396,29 +419,29 @@ export type ResourceGatewayIpAddressType = string;
 export type Ipv4AddressesPerEni = number;
 export type ResourceConfigDnsResolution = string;
 export interface CreateResourceGatewayRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   name: string;
-  vpcIdentifier?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  ipAddressType?: string;
-  ipv4AddressesPerEni?: number;
-  resourceConfigDnsResolution?: string;
-  tags?: { [key: string]: string | undefined };
+  vpcIdentifier?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  ipAddressType?: string | undefined;
+  ipv4AddressesPerEni?: number | undefined;
+  resourceConfigDnsResolution?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ResourceGatewayArn = string;
 export type ResourceGatewayStatus = string;
 export interface CreateResourceGatewayResponse {
-  name?: string;
-  id?: string;
-  arn?: string;
-  status?: string;
-  vpcIdentifier?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  ipAddressType?: string;
-  ipv4AddressesPerEni?: number;
-  resourceConfigDnsResolution?: string;
+  name?: string | undefined;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: string | undefined;
+  vpcIdentifier?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  ipAddressType?: string | undefined;
+  ipv4AddressesPerEni?: number | undefined;
+  resourceConfigDnsResolution?: string | undefined;
 }
 export interface CreateRuleRequest {
   serviceIdentifier: string;
@@ -427,16 +450,16 @@ export interface CreateRuleRequest {
   match: RuleMatch;
   priority: number;
   action: RuleAction;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateRuleResponse {
-  arn?: string;
-  id?: string;
-  name?: string;
-  match?: RuleMatch;
-  priority?: number;
-  action?: RuleAction;
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  match?: RuleMatch | undefined;
+  priority?: number | undefined;
+  action?: RuleAction | undefined;
 }
 export type ServiceName = string;
 export type ServiceCustomDomainName = string;
@@ -444,114 +467,114 @@ export type CertificateArn = string;
 export type AuthType = string;
 export type IdleTimeoutSeconds = number;
 export interface CreateServiceRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   name: string;
-  tags?: { [key: string]: string | undefined };
-  customDomainName?: string;
-  certificateArn?: string;
-  authType?: string;
-  idleTimeoutSeconds?: number;
+  tags?: { [key: string]: string | undefined } | undefined;
+  customDomainName?: string | undefined;
+  certificateArn?: string | undefined;
+  authType?: string | undefined;
+  idleTimeoutSeconds?: number | undefined;
 }
 export type ServiceStatus = string;
 export interface DnsEntry {
-  domainName?: string;
-  hostedZoneId?: string;
+  domainName?: string | undefined;
+  hostedZoneId?: string | undefined;
 }
 export interface CreateServiceResponse {
-  id?: string;
-  arn?: string;
-  name?: string;
-  customDomainName?: string;
-  certificateArn?: string;
-  status?: string;
-  authType?: string;
-  idleTimeoutSeconds?: number;
-  dnsEntry?: DnsEntry;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  customDomainName?: string | undefined;
+  certificateArn?: string | undefined;
+  status?: string | undefined;
+  authType?: string | undefined;
+  idleTimeoutSeconds?: number | undefined;
+  dnsEntry?: DnsEntry | undefined;
 }
 export type ServiceNetworkName = string;
 export interface SharingConfig {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface CreateServiceNetworkRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   name: string;
-  authType?: string;
-  tags?: { [key: string]: string | undefined };
-  sharingConfig?: SharingConfig;
+  authType?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  sharingConfig?: SharingConfig | undefined;
 }
 export type ServiceNetworkId = string;
 export type ServiceNetworkArn = string;
 export interface CreateServiceNetworkResponse {
-  id?: string;
-  name?: string;
-  arn?: string;
-  sharingConfig?: SharingConfig;
-  authType?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  sharingConfig?: SharingConfig | undefined;
+  authType?: string | undefined;
 }
 export type ServiceNetworkIdentifierWithoutRegex = string;
 export interface CreateServiceNetworkResourceAssociationRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   resourceConfigurationIdentifier: string;
   serviceNetworkIdentifier: string;
-  privateDnsEnabled?: boolean;
-  tags?: { [key: string]: string | undefined };
+  privateDnsEnabled?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ServiceNetworkResourceAssociationId = string;
 export type ServiceNetworkResourceAssociationArn = string;
 export type ServiceNetworkResourceAssociationStatus = string;
 export type AccountId = string;
 export interface CreateServiceNetworkResourceAssociationResponse {
-  id?: string;
-  arn?: string;
-  status?: string;
-  createdBy?: string;
-  privateDnsEnabled?: boolean;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: string | undefined;
+  createdBy?: string | undefined;
+  privateDnsEnabled?: boolean | undefined;
 }
 export type ServiceNetworkIdentifier = string;
 export interface CreateServiceNetworkServiceAssociationRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   serviceIdentifier: string;
   serviceNetworkIdentifier: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ServiceNetworkServiceAssociationIdentifier = string;
 export type ServiceNetworkServiceAssociationStatus = string;
 export type ServiceNetworkServiceAssociationArn = string;
 export interface CreateServiceNetworkServiceAssociationResponse {
-  id?: string;
-  status?: string;
-  arn?: string;
-  createdBy?: string;
-  customDomainName?: string;
-  dnsEntry?: DnsEntry;
+  id?: string | undefined;
+  status?: string | undefined;
+  arn?: string | undefined;
+  createdBy?: string | undefined;
+  customDomainName?: string | undefined;
+  dnsEntry?: DnsEntry | undefined;
 }
 export type PrivateDnsPreference = string;
 export type PrivateDnsSpecifiedDomain = string;
 export type PrivateDnsSpecifiedDomainsList = string[];
 export interface DnsOptions {
-  privateDnsPreference?: string;
-  privateDnsSpecifiedDomains?: string[];
+  privateDnsPreference?: string | undefined;
+  privateDnsSpecifiedDomains?: string[] | undefined;
 }
 export interface CreateServiceNetworkVpcAssociationRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   serviceNetworkIdentifier: string;
   vpcIdentifier: string;
-  privateDnsEnabled?: boolean;
-  securityGroupIds?: string[];
-  tags?: { [key: string]: string | undefined };
-  dnsOptions?: DnsOptions;
+  privateDnsEnabled?: boolean | undefined;
+  securityGroupIds?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  dnsOptions?: DnsOptions | undefined;
 }
 export type ServiceNetworkVpcAssociationId = string;
 export type ServiceNetworkVpcAssociationStatus = string;
 export type ServiceNetworkVpcAssociationArn = string;
 export interface CreateServiceNetworkVpcAssociationResponse {
-  id?: string;
-  status?: string;
-  arn?: string;
-  createdBy?: string;
-  securityGroupIds?: string[];
-  privateDnsEnabled?: boolean;
-  dnsOptions?: DnsOptions;
+  id?: string | undefined;
+  status?: string | undefined;
+  arn?: string | undefined;
+  createdBy?: string | undefined;
+  securityGroupIds?: string[] | undefined;
+  privateDnsEnabled?: boolean | undefined;
+  dnsOptions?: DnsOptions | undefined;
 }
 export type TargetGroupName = string;
 export type TargetGroupType = string;
@@ -568,44 +591,44 @@ export type UnhealthyThresholdCount = number;
 export type HttpCodeMatcher = string;
 export type Matcher = { httpCode: string };
 export interface HealthCheckConfig {
-  enabled?: boolean;
-  protocol?: string;
-  protocolVersion?: string;
-  port?: number;
-  path?: string;
-  healthCheckIntervalSeconds?: number;
-  healthCheckTimeoutSeconds?: number;
-  healthyThresholdCount?: number;
-  unhealthyThresholdCount?: number;
-  matcher?: Matcher;
+  enabled?: boolean | undefined;
+  protocol?: string | undefined;
+  protocolVersion?: string | undefined;
+  port?: number | undefined;
+  path?: string | undefined;
+  healthCheckIntervalSeconds?: number | undefined;
+  healthCheckTimeoutSeconds?: number | undefined;
+  healthyThresholdCount?: number | undefined;
+  unhealthyThresholdCount?: number | undefined;
+  matcher?: Matcher | undefined;
 }
 export type LambdaEventStructureVersion = string;
 export interface TargetGroupConfig {
-  port?: number;
-  protocol?: string;
-  protocolVersion?: string;
-  ipAddressType?: string;
-  vpcIdentifier?: string;
-  healthCheck?: HealthCheckConfig;
-  lambdaEventStructureVersion?: string;
+  port?: number | undefined;
+  protocol?: string | undefined;
+  protocolVersion?: string | undefined;
+  ipAddressType?: string | undefined;
+  vpcIdentifier?: string | undefined;
+  healthCheck?: HealthCheckConfig | undefined;
+  lambdaEventStructureVersion?: string | undefined;
 }
 export interface CreateTargetGroupRequest {
   name: string;
   type: string;
-  config?: TargetGroupConfig;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  config?: TargetGroupConfig | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TargetGroupId = string;
 export type TargetGroupArn = string;
 export type TargetGroupStatus = string;
 export interface CreateTargetGroupResponse {
-  id?: string;
-  arn?: string;
-  name?: string;
-  type?: string;
-  config?: TargetGroupConfig;
-  status?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
+  config?: TargetGroupConfig | undefined;
+  status?: string | undefined;
 }
 export type AccessLogSubscriptionIdentifier = string;
 export interface DeleteAccessLogSubscriptionRequest {
@@ -637,20 +660,20 @@ export type ResourceEndpointAssociationId = string;
 export type ResourceEndpointAssociationArn = string;
 export type VpcEndpointId = string;
 export interface DeleteResourceEndpointAssociationResponse {
-  id?: string;
-  arn?: string;
-  resourceConfigurationId?: string;
-  resourceConfigurationArn?: string;
-  vpcEndpointId?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  resourceConfigurationId?: string | undefined;
+  resourceConfigurationArn?: string | undefined;
+  vpcEndpointId?: string | undefined;
 }
 export interface DeleteResourceGatewayRequest {
   resourceGatewayIdentifier: string;
 }
 export interface DeleteResourceGatewayResponse {
-  id?: string;
-  arn?: string;
-  name?: string;
-  status?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
 }
 export interface DeleteResourcePolicyRequest {
   resourceArn: string;
@@ -666,10 +689,10 @@ export interface DeleteServiceRequest {
   serviceIdentifier: string;
 }
 export interface DeleteServiceResponse {
-  id?: string;
-  arn?: string;
-  name?: string;
-  status?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
 }
 export interface DeleteServiceNetworkRequest {
   serviceNetworkIdentifier: string;
@@ -680,38 +703,38 @@ export interface DeleteServiceNetworkResourceAssociationRequest {
   serviceNetworkResourceAssociationIdentifier: string;
 }
 export interface DeleteServiceNetworkResourceAssociationResponse {
-  id?: string;
-  arn?: string;
-  status?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: string | undefined;
 }
 export interface DeleteServiceNetworkServiceAssociationRequest {
   serviceNetworkServiceAssociationIdentifier: string;
 }
 export interface DeleteServiceNetworkServiceAssociationResponse {
-  id?: string;
-  status?: string;
-  arn?: string;
+  id?: string | undefined;
+  status?: string | undefined;
+  arn?: string | undefined;
 }
 export type ServiceNetworkVpcAssociationIdentifier = string;
 export interface DeleteServiceNetworkVpcAssociationRequest {
   serviceNetworkVpcAssociationIdentifier: string;
 }
 export interface DeleteServiceNetworkVpcAssociationResponse {
-  id?: string;
-  status?: string;
-  arn?: string;
+  id?: string | undefined;
+  status?: string | undefined;
+  arn?: string | undefined;
 }
 export interface DeleteTargetGroupRequest {
   targetGroupIdentifier: string;
 }
 export interface DeleteTargetGroupResponse {
-  id?: string;
-  arn?: string;
-  status?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: string | undefined;
 }
 export interface Target {
   id: string;
-  port?: number;
+  port?: number | undefined;
 }
 export type TargetList = Target[];
 export interface DeregisterTargetsRequest {
@@ -719,15 +742,15 @@ export interface DeregisterTargetsRequest {
   targets: Target[];
 }
 export interface TargetFailure {
-  id?: string;
-  port?: number;
-  failureCode?: string;
-  failureMessage?: string;
+  id?: string | undefined;
+  port?: number | undefined;
+  failureCode?: string | undefined;
+  failureMessage?: string | undefined;
 }
 export type TargetFailureList = TargetFailure[];
 export interface DeregisterTargetsResponse {
-  successful?: Target[];
-  unsuccessful?: TargetFailure[];
+  successful?: Target[] | undefined;
+  unsuccessful?: TargetFailure[] | undefined;
 }
 export interface GetAccessLogSubscriptionRequest {
   accessLogSubscriptionIdentifier: string;
@@ -738,7 +761,7 @@ export interface GetAccessLogSubscriptionResponse {
   resourceId: string;
   resourceArn: string;
   destinationArn: string;
-  serviceNetworkLogType?: string;
+  serviceNetworkLogType?: string | undefined;
   createdAt: Date;
   lastUpdatedAt: Date;
 }
@@ -748,10 +771,10 @@ export interface GetAuthPolicyRequest {
 export type AuthPolicyString = string;
 export type AuthPolicyState = string;
 export interface GetAuthPolicyResponse {
-  policy?: string;
-  state?: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  policy?: string | undefined;
+  state?: string | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export interface GetDomainVerificationRequest {
   domainVerificationIdentifier: string;
@@ -766,77 +789,77 @@ export interface GetDomainVerificationResponse {
   arn: string;
   domainName: string;
   status: string;
-  txtMethodConfig?: TxtMethodConfig;
+  txtMethodConfig?: TxtMethodConfig | undefined;
   createdAt: Date;
-  lastVerifiedTime?: Date;
-  tags?: { [key: string]: string | undefined };
+  lastVerifiedTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetListenerRequest {
   serviceIdentifier: string;
   listenerIdentifier: string;
 }
 export interface GetListenerResponse {
-  arn?: string;
-  id?: string;
-  name?: string;
-  protocol?: string;
-  port?: number;
-  serviceArn?: string;
-  serviceId?: string;
-  defaultAction?: RuleAction;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  protocol?: string | undefined;
+  port?: number | undefined;
+  serviceArn?: string | undefined;
+  serviceId?: string | undefined;
+  defaultAction?: RuleAction | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export interface GetResourceConfigurationRequest {
   resourceConfigurationIdentifier: string;
 }
 export interface GetResourceConfigurationResponse {
-  id?: string;
-  name?: string;
-  arn?: string;
-  resourceGatewayId?: string;
-  resourceConfigurationGroupId?: string;
-  type?: ResourceConfigurationType;
-  allowAssociationToShareableServiceNetwork?: boolean;
-  portRanges?: string[];
-  protocol?: ProtocolType;
-  customDomainName?: string;
-  status?: string;
-  resourceConfigurationDefinition?: ResourceConfigurationDefinition;
-  createdAt?: Date;
-  amazonManaged?: boolean;
-  failureReason?: string;
-  lastUpdatedAt?: Date;
-  domainVerificationId?: string;
-  domainVerificationArn?: string;
-  domainVerificationStatus?: string;
-  groupDomain?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  resourceGatewayId?: string | undefined;
+  resourceConfigurationGroupId?: string | undefined;
+  type?: ResourceConfigurationType | undefined;
+  allowAssociationToShareableServiceNetwork?: boolean | undefined;
+  portRanges?: string[] | undefined;
+  protocol?: ProtocolType | undefined;
+  customDomainName?: string | undefined;
+  status?: string | undefined;
+  resourceConfigurationDefinition?: ResourceConfigurationDefinition | undefined;
+  createdAt?: Date | undefined;
+  amazonManaged?: boolean | undefined;
+  failureReason?: string | undefined;
+  lastUpdatedAt?: Date | undefined;
+  domainVerificationId?: string | undefined;
+  domainVerificationArn?: string | undefined;
+  domainVerificationStatus?: string | undefined;
+  groupDomain?: string | undefined;
 }
 export interface GetResourceGatewayRequest {
   resourceGatewayIdentifier: string;
 }
 export interface GetResourceGatewayResponse {
-  name?: string;
-  id?: string;
-  arn?: string;
-  status?: string;
-  vpcId?: string;
-  subnetIds?: string[];
-  serviceManaged?: boolean;
-  managedBy?: string;
-  securityGroupIds?: string[];
-  ipAddressType?: string;
-  ipv4AddressesPerEni?: number;
-  resourceConfigDnsResolution?: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  name?: string | undefined;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: string | undefined;
+  vpcId?: string | undefined;
+  subnetIds?: string[] | undefined;
+  serviceManaged?: boolean | undefined;
+  managedBy?: string | undefined;
+  securityGroupIds?: string[] | undefined;
+  ipAddressType?: string | undefined;
+  ipv4AddressesPerEni?: number | undefined;
+  resourceConfigDnsResolution?: string | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export interface GetResourcePolicyRequest {
   resourceArn: string;
 }
 export type PolicyString = string;
 export interface GetResourcePolicyResponse {
-  policy?: string;
+  policy?: string | undefined;
 }
 export interface GetRuleRequest {
   serviceIdentifier: string;
@@ -844,136 +867,136 @@ export interface GetRuleRequest {
   ruleIdentifier: string;
 }
 export interface GetRuleResponse {
-  arn?: string;
-  id?: string;
-  name?: string;
-  isDefault?: boolean;
-  match?: RuleMatch;
-  priority?: number;
-  action?: RuleAction;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  isDefault?: boolean | undefined;
+  match?: RuleMatch | undefined;
+  priority?: number | undefined;
+  action?: RuleAction | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export interface GetServiceRequest {
   serviceIdentifier: string;
 }
 export interface GetServiceResponse {
-  id?: string;
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  dnsEntry?: DnsEntry;
-  customDomainName?: string;
-  certificateArn?: string;
-  status?: string;
-  authType?: string;
-  idleTimeoutSeconds?: number;
-  failureCode?: string;
-  failureMessage?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  dnsEntry?: DnsEntry | undefined;
+  customDomainName?: string | undefined;
+  certificateArn?: string | undefined;
+  status?: string | undefined;
+  authType?: string | undefined;
+  idleTimeoutSeconds?: number | undefined;
+  failureCode?: string | undefined;
+  failureMessage?: string | undefined;
 }
 export interface GetServiceNetworkRequest {
   serviceNetworkIdentifier: string;
 }
 export interface GetServiceNetworkResponse {
-  id?: string;
-  name?: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  arn?: string;
-  authType?: string;
-  sharingConfig?: SharingConfig;
-  numberOfAssociatedVPCs?: number;
-  numberOfAssociatedServices?: number;
+  id?: string | undefined;
+  name?: string | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  arn?: string | undefined;
+  authType?: string | undefined;
+  sharingConfig?: SharingConfig | undefined;
+  numberOfAssociatedVPCs?: number | undefined;
+  numberOfAssociatedServices?: number | undefined;
 }
 export interface GetServiceNetworkResourceAssociationRequest {
   serviceNetworkResourceAssociationIdentifier: string;
 }
 export type ServiceNetworkNameWithoutRegex = string;
 export interface GetServiceNetworkResourceAssociationResponse {
-  id?: string;
-  arn?: string;
-  status?: string;
-  createdBy?: string;
-  createdAt?: Date;
-  resourceConfigurationId?: string;
-  resourceConfigurationArn?: string;
-  resourceConfigurationName?: string;
-  serviceNetworkId?: string;
-  serviceNetworkArn?: string;
-  serviceNetworkName?: string;
-  failureReason?: string;
-  failureCode?: string;
-  lastUpdatedAt?: Date;
-  privateDnsEntry?: DnsEntry;
-  privateDnsEnabled?: boolean;
-  dnsEntry?: DnsEntry;
-  isManagedAssociation?: boolean;
-  domainVerificationStatus?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: string | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
+  resourceConfigurationId?: string | undefined;
+  resourceConfigurationArn?: string | undefined;
+  resourceConfigurationName?: string | undefined;
+  serviceNetworkId?: string | undefined;
+  serviceNetworkArn?: string | undefined;
+  serviceNetworkName?: string | undefined;
+  failureReason?: string | undefined;
+  failureCode?: string | undefined;
+  lastUpdatedAt?: Date | undefined;
+  privateDnsEntry?: DnsEntry | undefined;
+  privateDnsEnabled?: boolean | undefined;
+  dnsEntry?: DnsEntry | undefined;
+  isManagedAssociation?: boolean | undefined;
+  domainVerificationStatus?: string | undefined;
 }
 export interface GetServiceNetworkServiceAssociationRequest {
   serviceNetworkServiceAssociationIdentifier: string;
 }
 export interface GetServiceNetworkServiceAssociationResponse {
-  id?: string;
-  status?: string;
-  arn?: string;
-  createdBy?: string;
-  createdAt?: Date;
-  serviceId?: string;
-  serviceName?: string;
-  serviceArn?: string;
-  serviceNetworkId?: string;
-  serviceNetworkName?: string;
-  serviceNetworkArn?: string;
-  dnsEntry?: DnsEntry;
-  customDomainName?: string;
-  failureMessage?: string;
-  failureCode?: string;
+  id?: string | undefined;
+  status?: string | undefined;
+  arn?: string | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
+  serviceId?: string | undefined;
+  serviceName?: string | undefined;
+  serviceArn?: string | undefined;
+  serviceNetworkId?: string | undefined;
+  serviceNetworkName?: string | undefined;
+  serviceNetworkArn?: string | undefined;
+  dnsEntry?: DnsEntry | undefined;
+  customDomainName?: string | undefined;
+  failureMessage?: string | undefined;
+  failureCode?: string | undefined;
 }
 export interface GetServiceNetworkVpcAssociationRequest {
   serviceNetworkVpcAssociationIdentifier: string;
 }
 export interface GetServiceNetworkVpcAssociationResponse {
-  id?: string;
-  status?: string;
-  arn?: string;
-  createdBy?: string;
-  createdAt?: Date;
-  serviceNetworkId?: string;
-  serviceNetworkName?: string;
-  serviceNetworkArn?: string;
-  vpcId?: string;
-  securityGroupIds?: string[];
-  privateDnsEnabled?: boolean;
-  failureMessage?: string;
-  failureCode?: string;
-  lastUpdatedAt?: Date;
-  dnsOptions?: DnsOptions;
+  id?: string | undefined;
+  status?: string | undefined;
+  arn?: string | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
+  serviceNetworkId?: string | undefined;
+  serviceNetworkName?: string | undefined;
+  serviceNetworkArn?: string | undefined;
+  vpcId?: string | undefined;
+  securityGroupIds?: string[] | undefined;
+  privateDnsEnabled?: boolean | undefined;
+  failureMessage?: string | undefined;
+  failureCode?: string | undefined;
+  lastUpdatedAt?: Date | undefined;
+  dnsOptions?: DnsOptions | undefined;
 }
 export interface GetTargetGroupRequest {
   targetGroupIdentifier: string;
 }
 export type ServiceArnList = string[];
 export interface GetTargetGroupResponse {
-  id?: string;
-  arn?: string;
-  name?: string;
-  type?: string;
-  config?: TargetGroupConfig;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  status?: string;
-  serviceArns?: string[];
-  failureMessage?: string;
-  failureCode?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
+  config?: TargetGroupConfig | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  status?: string | undefined;
+  serviceArns?: string[] | undefined;
+  failureMessage?: string | undefined;
+  failureCode?: string | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListAccessLogSubscriptionsRequest {
   resourceIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AccessLogSubscriptionSummary {
   id: string;
@@ -981,88 +1004,88 @@ export interface AccessLogSubscriptionSummary {
   resourceId: string;
   resourceArn: string;
   destinationArn: string;
-  serviceNetworkLogType?: string;
+  serviceNetworkLogType?: string | undefined;
   createdAt: Date;
   lastUpdatedAt: Date;
 }
 export type AccessLogSubscriptionList = AccessLogSubscriptionSummary[];
 export interface ListAccessLogSubscriptionsResponse {
   items: AccessLogSubscriptionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDomainVerificationsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DomainVerificationSummary {
   id: string;
   arn: string;
   domainName: string;
   status: string;
-  txtMethodConfig?: TxtMethodConfig;
+  txtMethodConfig?: TxtMethodConfig | undefined;
   createdAt: Date;
-  lastVerifiedTime?: Date;
-  tags?: { [key: string]: string | undefined };
+  lastVerifiedTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DomainVerificationList = DomainVerificationSummary[];
 export interface ListDomainVerificationsResponse {
   items: DomainVerificationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListListenersRequest {
   serviceIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListenerSummary {
-  arn?: string;
-  id?: string;
-  name?: string;
-  protocol?: string;
-  port?: number;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  protocol?: string | undefined;
+  port?: number | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export type ListenerSummaryList = ListenerSummary[];
 export interface ListListenersResponse {
   items: ListenerSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListResourceConfigurationsRequest {
-  resourceGatewayIdentifier?: string;
-  resourceConfigurationGroupIdentifier?: string;
-  domainVerificationIdentifier?: string;
-  maxResults?: number;
-  nextToken?: string;
+  resourceGatewayIdentifier?: string | undefined;
+  resourceConfigurationGroupIdentifier?: string | undefined;
+  domainVerificationIdentifier?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ResourceConfigurationSummary {
-  id?: string;
-  name?: string;
-  arn?: string;
-  resourceGatewayId?: string;
-  resourceConfigurationGroupId?: string;
-  type?: ResourceConfigurationType;
-  status?: string;
-  amazonManaged?: boolean;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  customDomainName?: string;
-  domainVerificationId?: string;
-  groupDomain?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  resourceGatewayId?: string | undefined;
+  resourceConfigurationGroupId?: string | undefined;
+  type?: ResourceConfigurationType | undefined;
+  status?: string | undefined;
+  amazonManaged?: boolean | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  customDomainName?: string | undefined;
+  domainVerificationId?: string | undefined;
+  groupDomain?: string | undefined;
 }
 export type ResourceConfigurationSummaryList = ResourceConfigurationSummary[];
 export interface ListResourceConfigurationsResponse {
-  items?: ResourceConfigurationSummary[];
-  nextToken?: string;
+  items?: ResourceConfigurationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type VpcEndpointOwner = string;
 export interface ListResourceEndpointAssociationsRequest {
   resourceConfigurationIdentifier: string;
-  resourceEndpointAssociationIdentifier?: string;
-  vpcEndpointId?: string;
-  vpcEndpointOwner?: string;
-  maxResults?: number;
-  nextToken?: string;
+  resourceEndpointAssociationIdentifier?: string | undefined;
+  vpcEndpointId?: string | undefined;
+  vpcEndpointOwner?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type PayerResponsibilityScope = "ResourceGatewayCharges" | (string & {});
 export type PayerResponsibilityPayer =
@@ -1070,267 +1093,267 @@ export type PayerResponsibilityPayer =
   | "ResourceGatewayAccount"
   | (string & {});
 export interface PayerResponsibilityEntry {
-  scope?: PayerResponsibilityScope;
-  payerResponsibilityType?: PayerResponsibilityPayer;
+  scope?: PayerResponsibilityScope | undefined;
+  payerResponsibilityType?: PayerResponsibilityPayer | undefined;
 }
 export type PayerResponsibilityList = PayerResponsibilityEntry[];
 export interface ResourceEndpointAssociationSummary {
-  id?: string;
-  arn?: string;
-  resourceConfigurationId?: string;
-  resourceConfigurationArn?: string;
-  resourceConfigurationName?: string;
-  vpcEndpointId?: string;
-  vpcEndpointOwner?: string;
-  createdBy?: string;
-  createdAt?: Date;
-  payerResponsibility?: PayerResponsibilityEntry[];
+  id?: string | undefined;
+  arn?: string | undefined;
+  resourceConfigurationId?: string | undefined;
+  resourceConfigurationArn?: string | undefined;
+  resourceConfigurationName?: string | undefined;
+  vpcEndpointId?: string | undefined;
+  vpcEndpointOwner?: string | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
+  payerResponsibility?: PayerResponsibilityEntry[] | undefined;
 }
 export type ResourceEndpointAssociationList = ResourceEndpointAssociationSummary[];
 export interface ListResourceEndpointAssociationsResponse {
   items: ResourceEndpointAssociationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListResourceGatewaysRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ResourceGatewaySummary {
-  name?: string;
-  id?: string;
-  arn?: string;
-  status?: string;
-  vpcIdentifier?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  ipAddressType?: string;
-  ipv4AddressesPerEni?: number;
-  resourceConfigDnsResolution?: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  name?: string | undefined;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: string | undefined;
+  vpcIdentifier?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  ipAddressType?: string | undefined;
+  ipv4AddressesPerEni?: number | undefined;
+  resourceConfigDnsResolution?: string | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export type ResourceGatewayList = ResourceGatewaySummary[];
 export interface ListResourceGatewaysResponse {
-  items?: ResourceGatewaySummary[];
-  nextToken?: string;
+  items?: ResourceGatewaySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListRulesRequest {
   serviceIdentifier: string;
   listenerIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface RuleSummary {
-  arn?: string;
-  id?: string;
-  name?: string;
-  isDefault?: boolean;
-  priority?: number;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  isDefault?: boolean | undefined;
+  priority?: number | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export type RuleSummaryList = RuleSummary[];
 export interface ListRulesResponse {
   items: RuleSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListServiceNetworkResourceAssociationsRequest {
-  serviceNetworkIdentifier?: string;
-  resourceConfigurationIdentifier?: string;
-  maxResults?: number;
-  nextToken?: string;
-  includeChildren?: boolean;
+  serviceNetworkIdentifier?: string | undefined;
+  resourceConfigurationIdentifier?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  includeChildren?: boolean | undefined;
 }
 export type ServiceNetworkArnWithoutRegex = string;
 export interface ServiceNetworkResourceAssociationSummary {
-  id?: string;
-  arn?: string;
-  status?: string;
-  createdBy?: string;
-  createdAt?: Date;
-  resourceConfigurationId?: string;
-  resourceConfigurationArn?: string;
-  resourceConfigurationName?: string;
-  serviceNetworkId?: string;
-  serviceNetworkArn?: string;
-  serviceNetworkName?: string;
-  dnsEntry?: DnsEntry;
-  privateDnsEntry?: DnsEntry;
-  isManagedAssociation?: boolean;
-  failureCode?: string;
-  privateDnsEnabled?: boolean;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: string | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
+  resourceConfigurationId?: string | undefined;
+  resourceConfigurationArn?: string | undefined;
+  resourceConfigurationName?: string | undefined;
+  serviceNetworkId?: string | undefined;
+  serviceNetworkArn?: string | undefined;
+  serviceNetworkName?: string | undefined;
+  dnsEntry?: DnsEntry | undefined;
+  privateDnsEntry?: DnsEntry | undefined;
+  isManagedAssociation?: boolean | undefined;
+  failureCode?: string | undefined;
+  privateDnsEnabled?: boolean | undefined;
 }
 export type ServiceNetworkResourceAssociationList = ServiceNetworkResourceAssociationSummary[];
 export interface ListServiceNetworkResourceAssociationsResponse {
   items: ServiceNetworkResourceAssociationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListServiceNetworksRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ServiceNetworkSummary {
-  id?: string;
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  numberOfAssociatedVPCs?: number;
-  numberOfAssociatedServices?: number;
-  numberOfAssociatedResourceConfigurations?: number;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  numberOfAssociatedVPCs?: number | undefined;
+  numberOfAssociatedServices?: number | undefined;
+  numberOfAssociatedResourceConfigurations?: number | undefined;
 }
 export type ServiceNetworkList = ServiceNetworkSummary[];
 export interface ListServiceNetworksResponse {
   items: ServiceNetworkSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListServiceNetworkServiceAssociationsRequest {
-  serviceNetworkIdentifier?: string;
-  serviceIdentifier?: string;
-  maxResults?: number;
-  nextToken?: string;
+  serviceNetworkIdentifier?: string | undefined;
+  serviceIdentifier?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ServiceNetworkServiceAssociationSummary {
-  id?: string;
-  status?: string;
-  arn?: string;
-  createdBy?: string;
-  createdAt?: Date;
-  serviceId?: string;
-  serviceName?: string;
-  serviceArn?: string;
-  serviceNetworkId?: string;
-  serviceNetworkName?: string;
-  serviceNetworkArn?: string;
-  dnsEntry?: DnsEntry;
-  customDomainName?: string;
+  id?: string | undefined;
+  status?: string | undefined;
+  arn?: string | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
+  serviceId?: string | undefined;
+  serviceName?: string | undefined;
+  serviceArn?: string | undefined;
+  serviceNetworkId?: string | undefined;
+  serviceNetworkName?: string | undefined;
+  serviceNetworkArn?: string | undefined;
+  dnsEntry?: DnsEntry | undefined;
+  customDomainName?: string | undefined;
 }
 export type ServiceNetworkServiceAssociationList = ServiceNetworkServiceAssociationSummary[];
 export interface ListServiceNetworkServiceAssociationsResponse {
   items: ServiceNetworkServiceAssociationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListServiceNetworkVpcAssociationsRequest {
-  serviceNetworkIdentifier?: string;
-  vpcIdentifier?: string;
-  maxResults?: number;
-  nextToken?: string;
+  serviceNetworkIdentifier?: string | undefined;
+  vpcIdentifier?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ServiceNetworkVpcAssociationSummary {
-  id?: string;
-  arn?: string;
-  status?: string;
-  createdBy?: string;
-  createdAt?: Date;
-  serviceNetworkId?: string;
-  serviceNetworkName?: string;
-  serviceNetworkArn?: string;
-  privateDnsEnabled?: boolean;
-  dnsOptions?: DnsOptions;
-  vpcId?: string;
-  lastUpdatedAt?: Date;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: string | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
+  serviceNetworkId?: string | undefined;
+  serviceNetworkName?: string | undefined;
+  serviceNetworkArn?: string | undefined;
+  privateDnsEnabled?: boolean | undefined;
+  dnsOptions?: DnsOptions | undefined;
+  vpcId?: string | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export type ServiceNetworkVpcAssociationList = ServiceNetworkVpcAssociationSummary[];
 export interface ListServiceNetworkVpcAssociationsResponse {
   items: ServiceNetworkVpcAssociationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListServiceNetworkVpcEndpointAssociationsRequest {
   serviceNetworkIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ServiceNetworkEndpointAssociation {
-  vpcEndpointId?: string;
-  vpcId?: string;
-  vpcEndpointOwnerId?: string;
-  id?: string;
-  state?: string;
-  serviceNetworkArn?: string;
-  createdAt?: Date;
+  vpcEndpointId?: string | undefined;
+  vpcId?: string | undefined;
+  vpcEndpointOwnerId?: string | undefined;
+  id?: string | undefined;
+  state?: string | undefined;
+  serviceNetworkArn?: string | undefined;
+  createdAt?: Date | undefined;
 }
 export type ServiceNetworkVpcEndpointAssociationList = ServiceNetworkEndpointAssociation[];
 export interface ListServiceNetworkVpcEndpointAssociationsResponse {
   items: ServiceNetworkEndpointAssociation[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListServicesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ServiceSummary {
-  id?: string;
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  dnsEntry?: DnsEntry;
-  customDomainName?: string;
-  status?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  dnsEntry?: DnsEntry | undefined;
+  customDomainName?: string | undefined;
+  status?: string | undefined;
 }
 export type ServiceList = ServiceSummary[];
 export interface ListServicesResponse {
-  items?: ServiceSummary[];
-  nextToken?: string;
+  items?: ServiceSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTargetGroupsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  vpcIdentifier?: string;
-  targetGroupType?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  vpcIdentifier?: string | undefined;
+  targetGroupType?: string | undefined;
 }
 export interface TargetGroupSummary {
-  id?: string;
-  arn?: string;
-  name?: string;
-  type?: string;
-  createdAt?: Date;
-  port?: number;
-  protocol?: string;
-  ipAddressType?: string;
-  vpcIdentifier?: string;
-  lastUpdatedAt?: Date;
-  status?: string;
-  serviceArns?: string[];
-  lambdaEventStructureVersion?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
+  createdAt?: Date | undefined;
+  port?: number | undefined;
+  protocol?: string | undefined;
+  ipAddressType?: string | undefined;
+  vpcIdentifier?: string | undefined;
+  lastUpdatedAt?: Date | undefined;
+  status?: string | undefined;
+  serviceArns?: string[] | undefined;
+  lambdaEventStructureVersion?: string | undefined;
 }
 export type TargetGroupList = TargetGroupSummary[];
 export interface ListTargetGroupsResponse {
-  items?: TargetGroupSummary[];
-  nextToken?: string;
+  items?: TargetGroupSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTargetsRequest {
   targetGroupIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
-  targets?: Target[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  targets?: Target[] | undefined;
 }
 export type TargetStatus = string;
 export interface TargetSummary {
-  id?: string;
-  port?: number;
-  status?: string;
-  reasonCode?: string;
+  id?: string | undefined;
+  port?: number | undefined;
+  status?: string | undefined;
+  reasonCode?: string | undefined;
 }
 export type TargetSummaryList = TargetSummary[];
 export interface ListTargetsResponse {
   items: TargetSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface PutAuthPolicyRequest {
   resourceIdentifier: string;
   policy: string;
 }
 export interface PutAuthPolicyResponse {
-  policy?: string;
-  state?: string;
+  policy?: string | undefined;
+  state?: string | undefined;
 }
 export interface PutResourcePolicyRequest {
   resourceArn: string;
@@ -1342,20 +1365,20 @@ export interface RegisterTargetsRequest {
   targets: Target[];
 }
 export interface RegisterTargetsResponse {
-  successful?: Target[];
-  unsuccessful?: TargetFailure[];
+  successful?: Target[] | undefined;
+  unsuccessful?: TargetFailure[] | undefined;
 }
 export interface StartDomainVerificationRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   domainName: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartDomainVerificationResponse {
   id: string;
   arn: string;
   domainName: string;
   status: string;
-  txtMethodConfig?: TxtMethodConfig;
+  txtMethodConfig?: TxtMethodConfig | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -1385,116 +1408,116 @@ export interface UpdateListenerRequest {
   defaultAction: RuleAction;
 }
 export interface UpdateListenerResponse {
-  arn?: string;
-  id?: string;
-  name?: string;
-  protocol?: string;
-  port?: number;
-  serviceArn?: string;
-  serviceId?: string;
-  defaultAction?: RuleAction;
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  protocol?: string | undefined;
+  port?: number | undefined;
+  serviceArn?: string | undefined;
+  serviceId?: string | undefined;
+  defaultAction?: RuleAction | undefined;
 }
 export interface UpdateResourceConfigurationRequest {
   resourceConfigurationIdentifier: string;
-  resourceConfigurationDefinition?: ResourceConfigurationDefinition;
-  allowAssociationToShareableServiceNetwork?: boolean;
-  portRanges?: string[];
+  resourceConfigurationDefinition?: ResourceConfigurationDefinition | undefined;
+  allowAssociationToShareableServiceNetwork?: boolean | undefined;
+  portRanges?: string[] | undefined;
 }
 export interface UpdateResourceConfigurationResponse {
-  id?: string;
-  name?: string;
-  arn?: string;
-  resourceGatewayId?: string;
-  resourceConfigurationGroupId?: string;
-  type?: ResourceConfigurationType;
-  portRanges?: string[];
-  allowAssociationToShareableServiceNetwork?: boolean;
-  protocol?: ProtocolType;
-  status?: string;
-  resourceConfigurationDefinition?: ResourceConfigurationDefinition;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  resourceGatewayId?: string | undefined;
+  resourceConfigurationGroupId?: string | undefined;
+  type?: ResourceConfigurationType | undefined;
+  portRanges?: string[] | undefined;
+  allowAssociationToShareableServiceNetwork?: boolean | undefined;
+  protocol?: ProtocolType | undefined;
+  status?: string | undefined;
+  resourceConfigurationDefinition?: ResourceConfigurationDefinition | undefined;
 }
 export interface UpdateResourceGatewayRequest {
   resourceGatewayIdentifier: string;
-  securityGroupIds?: string[];
+  securityGroupIds?: string[] | undefined;
 }
 export interface UpdateResourceGatewayResponse {
-  name?: string;
-  id?: string;
-  arn?: string;
-  status?: string;
-  vpcId?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  ipAddressType?: string;
+  name?: string | undefined;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: string | undefined;
+  vpcId?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  ipAddressType?: string | undefined;
 }
 export interface UpdateRuleRequest {
   serviceIdentifier: string;
   listenerIdentifier: string;
   ruleIdentifier: string;
-  match?: RuleMatch;
-  priority?: number;
-  action?: RuleAction;
+  match?: RuleMatch | undefined;
+  priority?: number | undefined;
+  action?: RuleAction | undefined;
 }
 export interface UpdateRuleResponse {
-  arn?: string;
-  id?: string;
-  name?: string;
-  isDefault?: boolean;
-  match?: RuleMatch;
-  priority?: number;
-  action?: RuleAction;
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  isDefault?: boolean | undefined;
+  match?: RuleMatch | undefined;
+  priority?: number | undefined;
+  action?: RuleAction | undefined;
 }
 export interface UpdateServiceRequest {
   serviceIdentifier: string;
-  certificateArn?: string;
-  authType?: string;
-  idleTimeoutSeconds?: number;
+  certificateArn?: string | undefined;
+  authType?: string | undefined;
+  idleTimeoutSeconds?: number | undefined;
 }
 export interface UpdateServiceResponse {
-  id?: string;
-  arn?: string;
-  name?: string;
-  customDomainName?: string;
-  certificateArn?: string;
-  authType?: string;
-  idleTimeoutSeconds?: number;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  customDomainName?: string | undefined;
+  certificateArn?: string | undefined;
+  authType?: string | undefined;
+  idleTimeoutSeconds?: number | undefined;
 }
 export interface UpdateServiceNetworkRequest {
   serviceNetworkIdentifier: string;
   authType: string;
 }
 export interface UpdateServiceNetworkResponse {
-  id?: string;
-  name?: string;
-  arn?: string;
-  authType?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  authType?: string | undefined;
 }
 export interface UpdateServiceNetworkVpcAssociationRequest {
   serviceNetworkVpcAssociationIdentifier: string;
-  securityGroupIds?: string[];
-  privateDnsEnabled?: boolean;
-  dnsOptions?: DnsOptions;
+  securityGroupIds?: string[] | undefined;
+  privateDnsEnabled?: boolean | undefined;
+  dnsOptions?: DnsOptions | undefined;
 }
 export interface UpdateServiceNetworkVpcAssociationResponse {
-  id?: string;
-  arn?: string;
-  status?: string;
-  createdBy?: string;
-  securityGroupIds?: string[];
-  privateDnsEnabled?: boolean;
-  dnsOptions?: DnsOptions;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: string | undefined;
+  createdBy?: string | undefined;
+  securityGroupIds?: string[] | undefined;
+  privateDnsEnabled?: boolean | undefined;
+  dnsOptions?: DnsOptions | undefined;
 }
 export interface UpdateTargetGroupRequest {
   targetGroupIdentifier: string;
   healthCheck: HealthCheckConfig;
 }
 export interface UpdateTargetGroupResponse {
-  id?: string;
-  arn?: string;
-  name?: string;
-  type?: string;
-  config?: TargetGroupConfig;
-  status?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
+  config?: TargetGroupConfig | undefined;
+  status?: string | undefined;
 }
 export type ValidationExceptionReason = string;
 export interface ValidationExceptionField {
@@ -1518,7 +1541,7 @@ export type BatchUpdateRuleError =
  * For more information, see How Amazon VPC Lattice works with IAM in the *Amazon VPC Lattice User Guide*.
  */
 export const batchUpdateRule: API.OperationMethod<
-  BatchUpdateRuleRequest,
+  BatchUpdateRuleRequest & RegionInput,
   BatchUpdateRuleResponse,
   BatchUpdateRuleError,
   Credentials | HttpClient.HttpClient
@@ -1552,7 +1575,7 @@ export type CreateAccessLogSubscriptionError =
  * Enables access logs to be sent to Amazon CloudWatch, Amazon S3, and Amazon Kinesis Data Firehose. The service network owner can use the access logs to audit the services in the network. The service network owner can only see access logs from clients and services that are associated with their service network. Access log entries represent traffic originated from VPCs associated with that network. For more information, see Access logs in the *Amazon VPC Lattice User Guide*.
  */
 export const createAccessLogSubscription: API.OperationMethod<
-  CreateAccessLogSubscriptionRequest,
+  CreateAccessLogSubscriptionRequest & RegionInput,
   CreateAccessLogSubscriptionResponse,
   CreateAccessLogSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1587,7 +1610,7 @@ export type CreateListenerError =
  * Creates a listener for a service. Before you start using your Amazon VPC Lattice service, you must add one or more listeners. A listener is a process that checks for connection requests to your services. For more information, see Listeners in the *Amazon VPC Lattice User Guide*.
  */
 export const createListener: API.OperationMethod<
-  CreateListenerRequest,
+  CreateListenerRequest & RegionInput,
   CreateListenerResponse,
   CreateListenerError,
   Credentials | HttpClient.HttpClient
@@ -1623,7 +1646,7 @@ export type CreateResourceConfigurationError =
  * Creates a resource configuration. A resource configuration defines a specific resource. You can associate a resource configuration with a service network or a VPC endpoint.
  */
 export const createResourceConfiguration: API.OperationMethod<
-  CreateResourceConfigurationRequest,
+  CreateResourceConfigurationRequest & RegionInput,
   CreateResourceConfigurationResponse,
   CreateResourceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1659,7 +1682,7 @@ export type CreateResourceGatewayError =
  * A resource gateway is a point of ingress into the VPC where a resource resides. It spans multiple Availability Zones. For your resource to be accessible from all Availability Zones, you should create your resource gateways to span as many Availability Zones as possible. A VPC can have multiple resource gateways.
  */
 export const createResourceGateway: API.OperationMethod<
-  CreateResourceGatewayRequest,
+  CreateResourceGatewayRequest & RegionInput,
   CreateResourceGatewayResponse,
   CreateResourceGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1695,7 +1718,7 @@ export type CreateRuleError =
  * Creates a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. For more information, see Listener rules in the *Amazon VPC Lattice User Guide*.
  */
 export const createRule: API.OperationMethod<
-  CreateRuleRequest,
+  CreateRuleRequest & RegionInput,
   CreateRuleResponse,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
@@ -1733,7 +1756,7 @@ export type CreateServiceError =
  * For more information, see Services in the *Amazon VPC Lattice User Guide*.
  */
 export const createService: API.OperationMethod<
-  CreateServiceRequest,
+  CreateServiceRequest & RegionInput,
   CreateServiceResponse,
   CreateServiceError,
   Credentials | HttpClient.HttpClient
@@ -1771,7 +1794,7 @@ export type CreateServiceNetworkError =
  * For more information, see Service networks in the *Amazon VPC Lattice User Guide*.
  */
 export const createServiceNetwork: API.OperationMethod<
-  CreateServiceNetworkRequest,
+  CreateServiceNetworkRequest & RegionInput,
   CreateServiceNetworkResponse,
   CreateServiceNetworkError,
   Credentials | HttpClient.HttpClient
@@ -1807,7 +1830,7 @@ export type CreateServiceNetworkResourceAssociationError =
  * Associates the specified service network with the specified resource configuration. This allows the resource configuration to receive connections through the service network, including through a service network VPC endpoint.
  */
 export const createServiceNetworkResourceAssociation: API.OperationMethod<
-  CreateServiceNetworkResourceAssociationRequest,
+  CreateServiceNetworkResourceAssociationRequest & RegionInput,
   CreateServiceNetworkResourceAssociationResponse,
   CreateServiceNetworkResourceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1849,7 +1872,7 @@ export type CreateServiceNetworkServiceAssociationError =
  * As a result of this operation, the association is created in the service network account and the association owner account.
  */
 export const createServiceNetworkServiceAssociation: API.OperationMethod<
-  CreateServiceNetworkServiceAssociationRequest,
+  CreateServiceNetworkServiceAssociationRequest & RegionInput,
   CreateServiceNetworkServiceAssociationResponse,
   CreateServiceNetworkServiceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1891,7 +1914,7 @@ export type CreateServiceNetworkVpcAssociationError =
  * If you add a security group to the service network and VPC association, the association must continue to always have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and recreate it without security groups.
  */
 export const createServiceNetworkVpcAssociation: API.OperationMethod<
-  CreateServiceNetworkVpcAssociationRequest,
+  CreateServiceNetworkVpcAssociationRequest & RegionInput,
   CreateServiceNetworkVpcAssociationResponse,
   CreateServiceNetworkVpcAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1929,7 +1952,7 @@ export type CreateTargetGroupError =
  * For more information, see Target groups in the *Amazon VPC Lattice User Guide*.
  */
 export const createTargetGroup: API.OperationMethod<
-  CreateTargetGroupRequest,
+  CreateTargetGroupRequest & RegionInput,
   CreateTargetGroupResponse,
   CreateTargetGroupError,
   Credentials | HttpClient.HttpClient
@@ -1963,7 +1986,7 @@ export type DeleteAccessLogSubscriptionError =
  * Deletes the specified access log subscription.
  */
 export const deleteAccessLogSubscription: API.OperationMethod<
-  DeleteAccessLogSubscriptionRequest,
+  DeleteAccessLogSubscriptionRequest & RegionInput,
   DeleteAccessLogSubscriptionResponse,
   DeleteAccessLogSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1995,7 +2018,7 @@ export type DeleteAuthPolicyError =
  * Deletes the specified auth policy. If an auth is set to `AWS_IAM` and the auth policy is deleted, all requests are denied. If you are trying to remove the auth policy completely, you must set the auth type to `NONE`. If auth is enabled on the resource, but no auth policy is set, all requests are denied.
  */
 export const deleteAuthPolicy: API.OperationMethod<
-  DeleteAuthPolicyRequest,
+  DeleteAuthPolicyRequest & RegionInput,
   DeleteAuthPolicyResponse,
   DeleteAuthPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2027,7 +2050,7 @@ export type DeleteDomainVerificationError =
  * Deletes the specified domain verification.
  */
 export const deleteDomainVerification: API.OperationMethod<
-  DeleteDomainVerificationRequest,
+  DeleteDomainVerificationRequest & RegionInput,
   DeleteDomainVerificationResponse,
   DeleteDomainVerificationError,
   Credentials | HttpClient.HttpClient
@@ -2060,7 +2083,7 @@ export type DeleteListenerError =
  * Deletes the specified listener.
  */
 export const deleteListener: API.OperationMethod<
-  DeleteListenerRequest,
+  DeleteListenerRequest & RegionInput,
   DeleteListenerResponse,
   DeleteListenerError,
   Credentials | HttpClient.HttpClient
@@ -2094,7 +2117,7 @@ export type DeleteResourceConfigurationError =
  * Deletes the specified resource configuration.
  */
 export const deleteResourceConfiguration: API.OperationMethod<
-  DeleteResourceConfigurationRequest,
+  DeleteResourceConfigurationRequest & RegionInput,
   DeleteResourceConfigurationResponse,
   DeleteResourceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2127,7 +2150,7 @@ export type DeleteResourceEndpointAssociationError =
  * Disassociates the resource configuration from the resource VPC endpoint.
  */
 export const deleteResourceEndpointAssociation: API.OperationMethod<
-  DeleteResourceEndpointAssociationRequest,
+  DeleteResourceEndpointAssociationRequest & RegionInput,
   DeleteResourceEndpointAssociationResponse,
   DeleteResourceEndpointAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2160,7 +2183,7 @@ export type DeleteResourceGatewayError =
  * Deletes the specified resource gateway.
  */
 export const deleteResourceGateway: API.OperationMethod<
-  DeleteResourceGatewayRequest,
+  DeleteResourceGatewayRequest & RegionInput,
   DeleteResourceGatewayResponse,
   DeleteResourceGatewayError,
   Credentials | HttpClient.HttpClient
@@ -2193,7 +2216,7 @@ export type DeleteResourcePolicyError =
  * Deletes the specified resource policy.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2228,7 +2251,7 @@ export type DeleteRuleError =
  * For more information, see Listener rules in the *Amazon VPC Lattice User Guide*.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleRequest,
+  DeleteRuleRequest & RegionInput,
   DeleteRuleResponse,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
@@ -2262,7 +2285,7 @@ export type DeleteServiceError =
  * Deletes a service. A service can't be deleted if it's associated with a service network. If you delete a service, all resources related to the service, such as the resource policy, auth policy, listeners, listener rules, and access log subscriptions, are also deleted. For more information, see Delete a service in the *Amazon VPC Lattice User Guide*.
  */
 export const deleteService: API.OperationMethod<
-  DeleteServiceRequest,
+  DeleteServiceRequest & RegionInput,
   DeleteServiceResponse,
   DeleteServiceError,
   Credentials | HttpClient.HttpClient
@@ -2296,7 +2319,7 @@ export type DeleteServiceNetworkError =
  * Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see Delete a service network in the *Amazon VPC Lattice User Guide*.
  */
 export const deleteServiceNetwork: API.OperationMethod<
-  DeleteServiceNetworkRequest,
+  DeleteServiceNetworkRequest & RegionInput,
   DeleteServiceNetworkResponse,
   DeleteServiceNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2330,7 +2353,7 @@ export type DeleteServiceNetworkResourceAssociationError =
  * Deletes the association between a service network and a resource configuration.
  */
 export const deleteServiceNetworkResourceAssociation: API.OperationMethod<
-  DeleteServiceNetworkResourceAssociationRequest,
+  DeleteServiceNetworkResourceAssociationRequest & RegionInput,
   DeleteServiceNetworkResourceAssociationResponse,
   DeleteServiceNetworkResourceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2364,7 +2387,7 @@ export type DeleteServiceNetworkServiceAssociationError =
  * Deletes the association between a service and a service network. This operation fails if an association is still in progress.
  */
 export const deleteServiceNetworkServiceAssociation: API.OperationMethod<
-  DeleteServiceNetworkServiceAssociationRequest,
+  DeleteServiceNetworkServiceAssociationRequest & RegionInput,
   DeleteServiceNetworkServiceAssociationResponse,
   DeleteServiceNetworkServiceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2398,7 +2421,7 @@ export type DeleteServiceNetworkVpcAssociationError =
  * Disassociates the VPC from the service network. You can't disassociate the VPC if there is a create or update association in progress.
  */
 export const deleteServiceNetworkVpcAssociation: API.OperationMethod<
-  DeleteServiceNetworkVpcAssociationRequest,
+  DeleteServiceNetworkVpcAssociationRequest & RegionInput,
   DeleteServiceNetworkVpcAssociationResponse,
   DeleteServiceNetworkVpcAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2431,7 +2454,7 @@ export type DeleteTargetGroupError =
  * Deletes a target group. You can't delete a target group if it is used in a listener rule or if the target group creation is in progress.
  */
 export const deleteTargetGroup: API.OperationMethod<
-  DeleteTargetGroupRequest,
+  DeleteTargetGroupRequest & RegionInput,
   DeleteTargetGroupResponse,
   DeleteTargetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2464,7 +2487,7 @@ export type DeregisterTargetsError =
  * Deregisters the specified targets from the specified target group.
  */
 export const deregisterTargets: API.OperationMethod<
-  DeregisterTargetsRequest,
+  DeregisterTargetsRequest & RegionInput,
   DeregisterTargetsResponse,
   DeregisterTargetsError,
   Credentials | HttpClient.HttpClient
@@ -2497,7 +2520,7 @@ export type GetAccessLogSubscriptionError =
  * Retrieves information about the specified access log subscription.
  */
 export const getAccessLogSubscription: API.OperationMethod<
-  GetAccessLogSubscriptionRequest,
+  GetAccessLogSubscriptionRequest & RegionInput,
   GetAccessLogSubscriptionResponse,
   GetAccessLogSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2529,7 +2552,7 @@ export type GetAuthPolicyError =
  * Retrieves information about the auth policy for the specified service or service network.
  */
 export const getAuthPolicy: API.OperationMethod<
-  GetAuthPolicyRequest,
+  GetAuthPolicyRequest & RegionInput,
   GetAuthPolicyResponse,
   GetAuthPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2561,7 +2584,7 @@ export type GetDomainVerificationError =
  * Retrieves information about a domain verification.ß
  */
 export const getDomainVerification: API.OperationMethod<
-  GetDomainVerificationRequest,
+  GetDomainVerificationRequest & RegionInput,
   GetDomainVerificationResponse,
   GetDomainVerificationError,
   Credentials | HttpClient.HttpClient
@@ -2593,7 +2616,7 @@ export type GetListenerError =
  * Retrieves information about the specified listener for the specified service.
  */
 export const getListener: API.OperationMethod<
-  GetListenerRequest,
+  GetListenerRequest & RegionInput,
   GetListenerResponse,
   GetListenerError,
   Credentials | HttpClient.HttpClient
@@ -2625,7 +2648,7 @@ export type GetResourceConfigurationError =
  * Retrieves information about the specified resource configuration.
  */
 export const getResourceConfiguration: API.OperationMethod<
-  GetResourceConfigurationRequest,
+  GetResourceConfigurationRequest & RegionInput,
   GetResourceConfigurationResponse,
   GetResourceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2657,7 +2680,7 @@ export type GetResourceGatewayError =
  * Retrieves information about the specified resource gateway.
  */
 export const getResourceGateway: API.OperationMethod<
-  GetResourceGatewayRequest,
+  GetResourceGatewayRequest & RegionInput,
   GetResourceGatewayResponse,
   GetResourceGatewayError,
   Credentials | HttpClient.HttpClient
@@ -2689,7 +2712,7 @@ export type GetResourcePolicyError =
  * Retrieves information about the specified resource policy. The resource policy is an IAM policy created on behalf of the resource owner when they share a resource.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2721,7 +2744,7 @@ export type GetRuleError =
  * Retrieves information about the specified listener rules. You can also retrieve information about the default listener rule. For more information, see Listener rules in the *Amazon VPC Lattice User Guide*.
  */
 export const getRule: API.OperationMethod<
-  GetRuleRequest,
+  GetRuleRequest & RegionInput,
   GetRuleResponse,
   GetRuleError,
   Credentials | HttpClient.HttpClient
@@ -2753,7 +2776,7 @@ export type GetServiceError =
  * Retrieves information about the specified service.
  */
 export const getService: API.OperationMethod<
-  GetServiceRequest,
+  GetServiceRequest & RegionInput,
   GetServiceResponse,
   GetServiceError,
   Credentials | HttpClient.HttpClient
@@ -2785,7 +2808,7 @@ export type GetServiceNetworkError =
  * Retrieves information about the specified service network.
  */
 export const getServiceNetwork: API.OperationMethod<
-  GetServiceNetworkRequest,
+  GetServiceNetworkRequest & RegionInput,
   GetServiceNetworkResponse,
   GetServiceNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2817,7 +2840,7 @@ export type GetServiceNetworkResourceAssociationError =
  * Retrieves information about the specified association between a service network and a resource configuration.
  */
 export const getServiceNetworkResourceAssociation: API.OperationMethod<
-  GetServiceNetworkResourceAssociationRequest,
+  GetServiceNetworkResourceAssociationRequest & RegionInput,
   GetServiceNetworkResourceAssociationResponse,
   GetServiceNetworkResourceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2849,7 +2872,7 @@ export type GetServiceNetworkServiceAssociationError =
  * Retrieves information about the specified association between a service network and a service.
  */
 export const getServiceNetworkServiceAssociation: API.OperationMethod<
-  GetServiceNetworkServiceAssociationRequest,
+  GetServiceNetworkServiceAssociationRequest & RegionInput,
   GetServiceNetworkServiceAssociationResponse,
   GetServiceNetworkServiceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2881,7 +2904,7 @@ export type GetServiceNetworkVpcAssociationError =
  * Retrieves information about the specified association between a service network and a VPC.
  */
 export const getServiceNetworkVpcAssociation: API.OperationMethod<
-  GetServiceNetworkVpcAssociationRequest,
+  GetServiceNetworkVpcAssociationRequest & RegionInput,
   GetServiceNetworkVpcAssociationResponse,
   GetServiceNetworkVpcAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2913,7 +2936,7 @@ export type GetTargetGroupError =
  * Retrieves information about the specified target group.
  */
 export const getTargetGroup: API.OperationMethod<
-  GetTargetGroupRequest,
+  GetTargetGroupRequest & RegionInput,
   GetTargetGroupResponse,
   GetTargetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2945,7 +2968,7 @@ export type ListAccessLogSubscriptionsError =
  * Lists the access log subscriptions for the specified service network or service.
  */
 export const listAccessLogSubscriptions: API.PaginatedOperationMethod<
-  ListAccessLogSubscriptionsRequest,
+  ListAccessLogSubscriptionsRequest & RegionInput,
   ListAccessLogSubscriptionsResponse,
   ListAccessLogSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -2984,7 +3007,7 @@ export type ListDomainVerificationsError =
  * Lists the domain verifications.
  */
 export const listDomainVerifications: API.PaginatedOperationMethod<
-  ListDomainVerificationsRequest,
+  ListDomainVerificationsRequest & RegionInput,
   ListDomainVerificationsResponse,
   ListDomainVerificationsError,
   Credentials | HttpClient.HttpClient,
@@ -3023,7 +3046,7 @@ export type ListListenersError =
  * Lists the listeners for the specified service.
  */
 export const listListeners: API.PaginatedOperationMethod<
-  ListListenersRequest,
+  ListListenersRequest & RegionInput,
   ListListenersResponse,
   ListListenersError,
   Credentials | HttpClient.HttpClient,
@@ -3061,7 +3084,7 @@ export type ListResourceConfigurationsError =
  * Lists the resource configurations owned by or shared with this account.
  */
 export const listResourceConfigurations: API.PaginatedOperationMethod<
-  ListResourceConfigurationsRequest,
+  ListResourceConfigurationsRequest & RegionInput,
   ListResourceConfigurationsResponse,
   ListResourceConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3098,7 +3121,7 @@ export type ListResourceEndpointAssociationsError =
  * Lists the associations for the specified VPC endpoint.
  */
 export const listResourceEndpointAssociations: API.PaginatedOperationMethod<
-  ListResourceEndpointAssociationsRequest,
+  ListResourceEndpointAssociationsRequest & RegionInput,
   ListResourceEndpointAssociationsResponse,
   ListResourceEndpointAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3135,7 +3158,7 @@ export type ListResourceGatewaysError =
  * Lists the resource gateways that you own or that were shared with you.
  */
 export const listResourceGateways: API.PaginatedOperationMethod<
-  ListResourceGatewaysRequest,
+  ListResourceGatewaysRequest & RegionInput,
   ListResourceGatewaysResponse,
   ListResourceGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -3173,7 +3196,7 @@ export type ListRulesError =
  * Lists the rules for the specified listener.
  */
 export const listRules: API.PaginatedOperationMethod<
-  ListRulesRequest,
+  ListRulesRequest & RegionInput,
   ListRulesResponse,
   ListRulesError,
   Credentials | HttpClient.HttpClient,
@@ -3211,7 +3234,7 @@ export type ListServiceNetworkResourceAssociationsError =
  * Lists the associations between a service network and a resource configuration.
  */
 export const listServiceNetworkResourceAssociations: API.PaginatedOperationMethod<
-  ListServiceNetworkResourceAssociationsRequest,
+  ListServiceNetworkResourceAssociationsRequest & RegionInput,
   ListServiceNetworkResourceAssociationsResponse,
   ListServiceNetworkResourceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3248,7 +3271,7 @@ export type ListServiceNetworksError =
  * Lists the service networks owned by or shared with this account. The account ID in the ARN shows which account owns the service network.
  */
 export const listServiceNetworks: API.PaginatedOperationMethod<
-  ListServiceNetworksRequest,
+  ListServiceNetworksRequest & RegionInput,
   ListServiceNetworksResponse,
   ListServiceNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -3287,7 +3310,7 @@ export type ListServiceNetworkServiceAssociationsError =
  * Every association in Amazon VPC Lattice has a unique Amazon Resource Name (ARN), such as when a service network is associated with a VPC or when a service is associated with a service network. If the association is for a resource is shared with another account, the association includes the local account ID as the prefix in the ARN.
  */
 export const listServiceNetworkServiceAssociations: API.PaginatedOperationMethod<
-  ListServiceNetworkServiceAssociationsRequest,
+  ListServiceNetworkServiceAssociationsRequest & RegionInput,
   ListServiceNetworkServiceAssociationsResponse,
   ListServiceNetworkServiceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3324,7 +3347,7 @@ export type ListServiceNetworkVpcAssociationsError =
  * Lists the associations between a service network and a VPC. You can filter the list either by VPC or service network. You must provide either the ID of the service network identifier or the ID of the VPC.
  */
 export const listServiceNetworkVpcAssociations: API.PaginatedOperationMethod<
-  ListServiceNetworkVpcAssociationsRequest,
+  ListServiceNetworkVpcAssociationsRequest & RegionInput,
   ListServiceNetworkVpcAssociationsResponse,
   ListServiceNetworkVpcAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3361,7 +3384,7 @@ export type ListServiceNetworkVpcEndpointAssociationsError =
  * Lists the associations between a service network and a VPC endpoint.
  */
 export const listServiceNetworkVpcEndpointAssociations: API.PaginatedOperationMethod<
-  ListServiceNetworkVpcEndpointAssociationsRequest,
+  ListServiceNetworkVpcEndpointAssociationsRequest & RegionInput,
   ListServiceNetworkVpcEndpointAssociationsResponse,
   ListServiceNetworkVpcEndpointAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3398,7 +3421,7 @@ export type ListServicesError =
  * Lists the services owned by the caller account or shared with the caller account.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesRequest,
+  ListServicesRequest & RegionInput,
   ListServicesResponse,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -3435,7 +3458,7 @@ export type ListTagsForResourceError =
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3465,7 +3488,7 @@ export type ListTargetGroupsError =
  * Lists your target groups. You can narrow your search by using the filters below in your request.
  */
 export const listTargetGroups: API.PaginatedOperationMethod<
-  ListTargetGroupsRequest,
+  ListTargetGroupsRequest & RegionInput,
   ListTargetGroupsResponse,
   ListTargetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3503,7 +3526,7 @@ export type ListTargetsError =
  * Lists the targets for the target group. By default, all targets are included. You can use this API to check the health status of targets. You can also U+FB01lter the results by target.
  */
 export const listTargets: API.PaginatedOperationMethod<
-  ListTargetsRequest,
+  ListTargetsRequest & RegionInput,
   ListTargetsResponse,
   ListTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -3544,7 +3567,7 @@ export type PutAuthPolicyError =
  * For more information, see Auth policies in the *Amazon VPC Lattice User Guide*.
  */
 export const putAuthPolicy: API.OperationMethod<
-  PutAuthPolicyRequest,
+  PutAuthPolicyRequest & RegionInput,
   PutAuthPolicyResponse,
   PutAuthPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3576,7 +3599,7 @@ export type PutResourcePolicyError =
  * Attaches a resource-based permission policy to a service or service network. The policy must contain the same actions and condition statements as the Amazon Web Services Resource Access Manager permission for sharing services and service networks.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3610,7 +3633,7 @@ export type RegisterTargetsError =
  * Registers the targets with the target group. If it's a Lambda target, you can only have one target in a target group.
  */
 export const registerTargets: API.OperationMethod<
-  RegisterTargetsRequest,
+  RegisterTargetsRequest & RegionInput,
   RegisterTargetsResponse,
   RegisterTargetsError,
   Credentials | HttpClient.HttpClient
@@ -3645,7 +3668,7 @@ export type StartDomainVerificationError =
  * Starts the domain verification process for a custom domain name.
  */
 export const startDomainVerification: API.OperationMethod<
-  StartDomainVerificationRequest,
+  StartDomainVerificationRequest & RegionInput,
   StartDomainVerificationResponse,
   StartDomainVerificationError,
   Credentials | HttpClient.HttpClient
@@ -3678,7 +3701,7 @@ export type TagResourceError =
  * Adds the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3709,7 +3732,7 @@ export type UntagResourceError =
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3741,7 +3764,7 @@ export type UpdateAccessLogSubscriptionError =
  * Updates the specified access log subscription.
  */
 export const updateAccessLogSubscription: API.OperationMethod<
-  UpdateAccessLogSubscriptionRequest,
+  UpdateAccessLogSubscriptionRequest & RegionInput,
   UpdateAccessLogSubscriptionResponse,
   UpdateAccessLogSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -3776,7 +3799,7 @@ export type UpdateListenerError =
  * Updates the specified listener for the specified service.
  */
 export const updateListener: API.OperationMethod<
-  UpdateListenerRequest,
+  UpdateListenerRequest & RegionInput,
   UpdateListenerResponse,
   UpdateListenerError,
   Credentials | HttpClient.HttpClient
@@ -3811,7 +3834,7 @@ export type UpdateResourceConfigurationError =
  * Updates the specified resource configuration.
  */
 export const updateResourceConfiguration: API.OperationMethod<
-  UpdateResourceConfigurationRequest,
+  UpdateResourceConfigurationRequest & RegionInput,
   UpdateResourceConfigurationResponse,
   UpdateResourceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3845,7 +3868,7 @@ export type UpdateResourceGatewayError =
  * Updates the specified resource gateway.
  */
 export const updateResourceGateway: API.OperationMethod<
-  UpdateResourceGatewayRequest,
+  UpdateResourceGatewayRequest & RegionInput,
   UpdateResourceGatewayResponse,
   UpdateResourceGatewayError,
   Credentials | HttpClient.HttpClient
@@ -3880,7 +3903,7 @@ export type UpdateRuleError =
  * Updates a specified rule for the listener. You can't modify a default listener rule. To modify a default listener rule, use `UpdateListener`.
  */
 export const updateRule: API.OperationMethod<
-  UpdateRuleRequest,
+  UpdateRuleRequest & RegionInput,
   UpdateRuleResponse,
   UpdateRuleError,
   Credentials | HttpClient.HttpClient
@@ -3916,7 +3939,7 @@ export type UpdateServiceError =
  * Updates the specified service.
  */
 export const updateService: API.OperationMethod<
-  UpdateServiceRequest,
+  UpdateServiceRequest & RegionInput,
   UpdateServiceResponse,
   UpdateServiceError,
   Credentials | HttpClient.HttpClient
@@ -3951,7 +3974,7 @@ export type UpdateServiceNetworkError =
  * Updates the specified service network.
  */
 export const updateServiceNetwork: API.OperationMethod<
-  UpdateServiceNetworkRequest,
+  UpdateServiceNetworkRequest & RegionInput,
   UpdateServiceNetworkResponse,
   UpdateServiceNetworkError,
   Credentials | HttpClient.HttpClient
@@ -3985,7 +4008,7 @@ export type UpdateServiceNetworkVpcAssociationError =
  * Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups.
  */
 export const updateServiceNetworkVpcAssociation: API.OperationMethod<
-  UpdateServiceNetworkVpcAssociationRequest,
+  UpdateServiceNetworkVpcAssociationRequest & RegionInput,
   UpdateServiceNetworkVpcAssociationResponse,
   UpdateServiceNetworkVpcAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4020,7 +4043,7 @@ export type UpdateTargetGroupError =
  * Updates the specified target group.
  */
 export const updateTargetGroup: API.OperationMethod<
-  UpdateTargetGroupRequest,
+  UpdateTargetGroupRequest & RegionInput,
   UpdateTargetGroupResponse,
   UpdateTargetGroupError,
   Credentials | HttpClient.HttpClient

@@ -19,7 +19,10 @@
  * the span, as in those instrumentations: the conventions ask clients not
  * to end a span later, in clean-up. `firstChunk` names the attribute that
  * records the seconds from the span's start to the first item
- * (`gen_ai.response.time_to_first_chunk`).
+ * (`gen_ai.response.time_to_first_chunk`). `events` reads attributes from
+ * the items as they pass, by event member, with the same rules as the
+ * output's: Bedrock `ConverseStream`'s `metadata` carries the token usage
+ * and its `messageStop` the finish reason.
  */
 import * as Cause from "effect/Cause";
 import * as Clock from "effect/Clock";
@@ -27,18 +30,20 @@ import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as References from "effect/References";
 import * as Stream from "effect/Stream";
-import { type SpanHold, tagOf } from "./telemetry.ts";
+import { type AttributeRule, flatten, readRules, type SpanHold, tagOf } from "./telemetry.ts";
 
 export interface StreamRule {
   /** The output member holding the stream (the generated property name). */
   readonly member: string;
   /** Attribute for the seconds from the span's start to the first item. */
   readonly firstChunk?: string;
+  /** Attributes read from each item, by event member (the generated property name). */
+  readonly events?: Readonly<Record<string, ReadonlyArray<AttributeRule>>>;
 }
 
-export const holdForStream =
-  (rule: StreamRule): SpanHold =>
-  (fiber, name, options, debug, inSpan) => {
+export const holdForStream = (rule: StreamRule): SpanHold => {
+  const events = flatten(rule.events);
+  return (fiber, name, options, debug, inSpan) => {
     const clock = fiber.getRef(Clock.Clock);
     const timing = fiber.getRef(References.TracerTimingEnabled);
     const now = () => (timing ? clock.currentTimeNanosUnsafe() : 0n);
@@ -57,13 +62,16 @@ export const holdForStream =
           const read = Stream.suspend(() => {
             let items = debug === undefined ? stream : debug.readStream(stream, span, rule.member);
             const attribute = rule.firstChunk;
-            if (attribute !== undefined) {
+            if (attribute !== undefined || events.length > 0) {
               let first = true;
               items = Stream.map(items, (item) => {
                 if (first) {
                   first = false;
-                  span.attribute(attribute, Number(now() - span.status.startTime) / 1e9);
+                  if (attribute !== undefined) {
+                    span.attribute(attribute, Number(now() - span.status.startTime) / 1e9);
+                  }
                 }
+                readRules(events, item, (key, value) => span.attribute(key, value));
                 return item;
               });
             }
@@ -89,3 +97,4 @@ export const holdForStream =
       }),
     );
   };
+};

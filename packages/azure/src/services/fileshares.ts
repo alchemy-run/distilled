@@ -38,19 +38,19 @@ export interface CheckFileShareNameAvailabilityRequest {
   /** The name of the Azure region. */
   location: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type CheckFileShareNameAvailabilityResponseReason = "Invalid" | "AlreadyExists";
 export interface CheckFileShareNameAvailabilityResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: CheckFileShareNameAvailabilityResponseReason;
+  reason?: CheckFileShareNameAvailabilityResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The private endpoint resource. */
 export interface PrivateEndpointInput {}
@@ -59,16 +59,16 @@ export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "R
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -82,7 +82,7 @@ export interface CreatePrivateEndpointConnectionRequest {
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -91,24 +91,24 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** The private endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -119,31 +119,31 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface CreatePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFileShareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -155,9 +155,9 @@ export interface DeleteFileShareRequest {
 }
 export interface DeleteFileShareResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFileShareSnapshotRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -171,9 +171,9 @@ export interface DeleteFileShareSnapshotRequest {
 }
 export interface DeleteFileShareSnapshotResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -187,20 +187,22 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type FileSharesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Media Tier enum. */
-export type MediaTier = "SSD";
+export type MediaTier = "SSD" | "HDD";
 /** Redundancy enum. */
 export type Redundancy = "Local" | "Zone";
 /** Protocol enum. */
 export type Protocol = "NFS";
+/** Scale mode for a file share. */
+export type ScaleMode = "Compatibility" | "Scale";
 /** Share root squash enum. */
 export type ShareRootSquash = "NoRootSquash" | "RootSquash" | "AllSquash";
 /** State of NFS encryption in transit. */
@@ -208,41 +210,109 @@ export type EncryptionInTransitRequired = "Enabled" | "Disabled";
 /** Properties specific to the NFS protocol. */
 export interface NfsProtocolProperties {
   /** Root squash defines how root users on clients are mapped to the NFS share. */
-  rootSquash?: ShareRootSquash | (string & {});
+  rootSquash?: ShareRootSquash | (string & {}) | undefined;
   /** Encryption in transit defines whether data is encrypted for NFS shares. */
-  encryptionInTransitRequired?: EncryptionInTransitRequired | (string & {});
+  encryptionInTransitRequired?: EncryptionInTransitRequired | (string & {}) | undefined;
 }
 /** The allowed set of subnets when access is restricted. */
 export type PublicAccessPropertiesAllowedSubnetsList = Array<string>;
 /** The set of properties for control public access. */
 export interface PublicAccessProperties {
   /** The allowed set of subnets when access is restricted. */
-  allowedSubnets?: PublicAccessPropertiesAllowedSubnetsList;
+  allowedSubnets?: PublicAccessPropertiesAllowedSubnetsList | undefined;
 }
 /** State of the public network access. */
 export type PublicNetworkAccess = "Enabled" | "Disabled";
+/** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
+export type AzureResourceManagerCommonTypesInfrastructureEncryption = "enabled" | "disabled";
+/** The type of identity to use. */
+export type AzureResourceManagerCommonTypesKeyEncryptionKeyIdentityType =
+  | "systemAssignedIdentity"
+  | "userAssignedIdentity"
+  | "delegatedResourceIdentity";
+/** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+export interface AzureResourceManagerCommonTypesKeyEncryptionKeyIdentity {
+  /** The type of identity to use. Values can be systemAssignedIdentity, userAssignedIdentity, or delegatedResourceIdentity. */
+  identityType?:
+    | AzureResourceManagerCommonTypesKeyEncryptionKeyIdentityType
+    | (string & {})
+    | undefined;
+  /** User assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity. */
+  userAssignedIdentityResourceId?: string | undefined;
+  /** application client identity to use for accessing key encryption key Url in a different tenant. Ex: f83c6b1b-4d34-47e4-bb34-9d83df58b540 */
+  federatedClientId?: string | undefined;
+  /** delegated identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity and userAssignedIdentity - internal use only. */
+  delegatedIdentityClientId?: string | undefined;
+}
+/** Customer-managed key encryption properties for the resource. */
+export interface AzureResourceManagerCommonTypesCustomerManagedKeyEncryption {
+  /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+  keyEncryptionKeyIdentity?: AzureResourceManagerCommonTypesKeyEncryptionKeyIdentity | undefined;
+  /** key encryption key Url, versioned or non-versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
+  keyEncryptionKeyUrl?: string | undefined;
+}
+/** The error detail. */
+export type FileShareEncryptionInputAutoKeyRotationError = PrivateEndpointInput;
+/** Encryption settings for the file share. Composes the standard common encryption type with read-only customer-managed key rotation status owned by the file share resource provider. Automatic key rotation follows the Azure Storage account model and is derived from the key URL shape: an unversioned customerManagedKeyEncryption.keyEncryptionKeyUrl opts into automatic rotation to the latest key version, while a versioned URL pins a specific version. */
+export interface FileShareEncryptionInput {
+  /** Values are enabled and disabled. */
+  infrastructureEncryption?:
+    | AzureResourceManagerCommonTypesInfrastructureEncryption
+    | (string & {})
+    | undefined;
+  /** All Customer-managed key encryption properties for the resource. */
+  customerManagedKeyEncryption?:
+    | AzureResourceManagerCommonTypesCustomerManagedKeyEncryption
+    | undefined;
+  /** The error detail. */
+  autoKeyRotationError?: PrivateEndpointInput | undefined;
+}
 /** File share properties */
 export interface FileSharePropertiesInput {
   /** The name of the file share as seen by the end user when mounting the share, such as in a URI or UNC format in their operating system. */
-  mountName?: string;
+  mountName?: string | undefined;
   /** The storage media tier of the file share. */
-  mediaTier?: MediaTier | (string & {});
+  mediaTier?: MediaTier | (string & {}) | undefined;
   /** The chosen redundancy level of the file share. */
-  redundancy?: Redundancy | (string & {});
+  redundancy?: Redundancy | (string & {}) | undefined;
   /** The file sharing protocol for this file share. */
-  protocol?: Protocol | (string & {});
+  protocol?: Protocol | (string & {}) | undefined;
+  /** The scale mode selected when the file share is created. */
+  scaleMode?: ScaleMode | (string & {}) | undefined;
   /** The provisioned storage size of the share in GiB (1 GiB is 1024^3 bytes or 1073741824 bytes). A component of the file share's bill is the provisioned storage, regardless of the amount of used storage. */
-  provisionedStorageGiB?: number;
+  provisionedStorageGiB?: number | undefined;
   /** The provisioned IO / sec of the share. */
-  provisionedIOPerSec?: number;
+  provisionedIOPerSec?: number | undefined;
   /** The provisioned throughput / sec of the share. */
-  provisionedThroughputMiBPerSec?: number;
+  provisionedThroughputMiBPerSec?: number | undefined;
   /** Protocol settings specific NFS. */
-  nfsProtocolProperties?: NfsProtocolProperties;
+  nfsProtocolProperties?: NfsProtocolProperties | undefined;
   /** The set of properties for control public access. */
-  publicAccessProperties?: PublicAccessProperties;
+  publicAccessProperties?: PublicAccessProperties | undefined;
   /** Gets or sets allow or disallow public network access to azure managed file share */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
+  /** Encryption settings for the file share. */
+  encryption?: FileShareEncryptionInput | undefined;
+}
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export type ManagedServiceIdentityType =
+  | "None"
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned,UserAssigned";
+/** User assigned identity properties */
+export type UserAssignedIdentityInput = PrivateEndpointInput;
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type FileSharesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
+  [key: string]: PrivateEndpointInput | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface FileSharesCreateOrUpdateRequestIdentity {
+  type: ManagedServiceIdentityType | (string & {});
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?:
+    | FileSharesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface FileSharesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -252,11 +322,13 @@ export interface FileSharesCreateOrUpdateRequest {
   /** The resource name of the file share, as seen by the administrator through Azure Resource Manager. */
   resourceName: string;
   /** Resource tags. */
-  tags?: FileSharesCreateOrUpdateRequestTagsMap;
+  tags?: FileSharesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FileSharePropertiesInput;
+  properties?: FileSharePropertiesInput | undefined;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: FileSharesCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type FileSharesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -277,86 +349,178 @@ export type FileShareProvisioningState =
 /** The private endpoint connection resource. */
 export interface FileSharePropertiesPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** The list of associated private endpoint connections. */
 export type FileSharePropertiesPrivateEndpointConnectionsList =
   Array<FileSharePropertiesPrivateEndpointConnectionsItem>;
+/** Summary of the current migration state for the file share. */
+export interface MigrationState {
+  /** Indicates whether a redundancy conversion is in progress for the file share. */
+  redundancyConversionInProgress: boolean;
+}
+/** The error details. */
+export type ErrorDetailDetailsList = Array<ErrorDetail>;
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  type?: string | undefined;
+  /** The additional info. */
+  info?: unknown | undefined;
+}
+/** The error additional info. */
+export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  code?: string | undefined;
+  /** The error message. */
+  message?: string | undefined;
+  /** The error target. */
+  target?: string | undefined;
+  /** The error details. */
+  details?: ErrorDetailDetailsList | undefined;
+  /** The error additional info. */
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
+}
+/** The error details. */
+export type FileShareEncryptionAutoKeyRotationErrorDetailsList = Array<ErrorDetail>;
+/** The error additional info. */
+export type FileShareEncryptionAutoKeyRotationErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
+/** The error detail. */
+export interface FileShareEncryptionAutoKeyRotationError {
+  /** The error code. */
+  code?: string | undefined;
+  /** The error message. */
+  message?: string | undefined;
+  /** The error target. */
+  target?: string | undefined;
+  /** The error details. */
+  details?: FileShareEncryptionAutoKeyRotationErrorDetailsList | undefined;
+  /** The error additional info. */
+  additionalInfo?: FileShareEncryptionAutoKeyRotationErrorAdditionalInfoList | undefined;
+}
+/** Encryption settings for the file share. Composes the standard common encryption type with read-only customer-managed key rotation status owned by the file share resource provider. Automatic key rotation follows the Azure Storage account model and is derived from the key URL shape: an unversioned customerManagedKeyEncryption.keyEncryptionKeyUrl opts into automatic rotation to the latest key version, while a versioned URL pins a specific version. */
+export interface FileShareEncryption {
+  /** Values are enabled and disabled. */
+  infrastructureEncryption?: AzureResourceManagerCommonTypesInfrastructureEncryption | undefined;
+  /** All Customer-managed key encryption properties for the resource. */
+  customerManagedKeyEncryption?:
+    | AzureResourceManagerCommonTypesCustomerManagedKeyEncryption
+    | undefined;
+  /** The versioned key encryption key URL currently applied to the file share by the service. When an unversioned keyEncryptionKeyUrl is supplied, this reflects the resolved latest key version currently in use. */
+  currentKeyEncryptionKeyUrl?: string | undefined;
+  /** The UTC timestamp when the service last successfully rotated the active customer-managed key version. */
+  lastKeyRotationTimestamp?: string | undefined;
+  /** The error detail. */
+  autoKeyRotationError?: FileShareEncryptionAutoKeyRotationError | undefined;
+}
 /** File share properties */
 export interface FileShareProperties {
   /** The name of the file share as seen by the end user when mounting the share, such as in a URI or UNC format in their operating system. */
-  mountName?: string;
+  mountName?: string | undefined;
   /** The host name of the file share. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** The storage media tier of the file share. */
-  mediaTier?: MediaTier;
+  mediaTier?: MediaTier | undefined;
   /** The chosen redundancy level of the file share. */
-  redundancy?: Redundancy;
+  redundancy?: Redundancy | undefined;
   /** The file sharing protocol for this file share. */
-  protocol?: Protocol;
+  protocol?: Protocol | undefined;
+  /** The scale mode selected when the file share is created. */
+  scaleMode?: ScaleMode | undefined;
   /** The provisioned storage size of the share in GiB (1 GiB is 1024^3 bytes or 1073741824 bytes). A component of the file share's bill is the provisioned storage, regardless of the amount of used storage. */
-  provisionedStorageGiB?: number;
+  provisionedStorageGiB?: number | undefined;
   /** A date/time value that specifies when the provisioned storage for the file share is permitted to be reduced. */
-  provisionedStorageNextAllowedDowngrade?: string;
+  provisionedStorageNextAllowedDowngrade?: string | undefined;
   /** The provisioned IO / sec of the share. */
-  provisionedIOPerSec?: number;
+  provisionedIOPerSec?: number | undefined;
   /** A date/time value that specifies when the provisioned IOPS for the file share is permitted to be reduced. */
-  provisionedIOPerSecNextAllowedDowngrade?: string;
+  provisionedIOPerSecNextAllowedDowngrade?: string | undefined;
   /** The provisioned throughput / sec of the share. */
-  provisionedThroughputMiBPerSec?: number;
+  provisionedThroughputMiBPerSec?: number | undefined;
   /** A date/time value that specifies when the provisioned throughput for the file share is permitted to be reduced. */
-  provisionedThroughputNextAllowedDowngrade?: string;
+  provisionedThroughputNextAllowedDowngrade?: string | undefined;
   /** Burst IOPS are extra buffer IOPS enabling you to consume more than your provisioned IOPS for a short period of time, depending on the burst credits available for your share. */
-  includedBurstIOPerSec?: number;
+  includedBurstIOPerSec?: number | undefined;
   /** Max burst IOPS credits shows the maximum number of burst credits the share can have at the current IOPS provisioning level. */
-  maxBurstIOPerSecCredits?: number;
+  maxBurstIOPerSecCredits?: number | undefined;
   /** Protocol settings specific NFS. */
-  nfsProtocolProperties?: NfsProtocolProperties;
+  nfsProtocolProperties?: NfsProtocolProperties | undefined;
   /** The set of properties for control public access. */
-  publicAccessProperties?: PublicAccessProperties;
+  publicAccessProperties?: PublicAccessProperties | undefined;
   /** The status of the last operation. */
-  provisioningState?: FileShareProvisioningState;
+  provisioningState?: FileShareProvisioningState | undefined;
   /** Gets or sets allow or disallow public network access to azure managed file share */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** The list of associated private endpoint connections. */
-  privateEndpointConnections?: FileSharePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: FileSharePropertiesPrivateEndpointConnectionsList | undefined;
+  /** The current migration state of the file share. */
+  migrationState?: MigrationState | undefined;
+  /** Encryption settings for the file share. */
+  encryption?: FileShareEncryption | undefined;
+}
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /** The principal ID of the assigned identity. */
+  principalId?: string | undefined;
+  /** The client ID of the assigned identity. */
+  clientId?: string | undefined;
+}
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type FileSharesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface FileSharesCreateOrUpdateResponseIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string | undefined;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string | undefined;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?:
+    | FileSharesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface FileSharesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: FileSharesCreateOrUpdateResponseTagsMap;
+  tags?: FileSharesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareProperties;
+  properties?: FileShareProperties | undefined;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: FileSharesCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The metadata */
 export type FileShareSnapshotPropertiesInputMetadataMap = { [key: string]: string | undefined };
 /** FileShareSnapshot properties */
 export interface FileShareSnapshotPropertiesInput {
   /** The initiator of the FileShareSnapshot. This is a user-defined value. */
-  initiatorId?: string;
+  initiatorId?: string | undefined;
   /** The metadata */
-  metadata?: FileShareSnapshotPropertiesInputMetadataMap;
+  metadata?: FileShareSnapshotPropertiesInputMetadataMap | undefined;
 }
 export interface FileShareSnapshotCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -368,15 +532,15 @@ export interface FileShareSnapshotCreateOrUpdateRequest {
   /** The name of the FileShareSnapshot */
   name: string;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareSnapshotPropertiesInput;
+  properties?: FileShareSnapshotPropertiesInput | undefined;
 }
 export interface FileShareSnapshotCreateOrUpdateResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetFileShareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -388,27 +552,54 @@ export interface GetFileShareRequest {
 }
 /** Resource tags. */
 export type GetFileShareResponseTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type GetFileShareResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface GetFileShareResponseIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string | undefined;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string | undefined;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: GetFileShareResponseIdentityUserAssignedIdentitiesMap | undefined;
+}
 export interface GetFileShareResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetFileShareResponseTagsMap;
+  tags?: GetFileShareResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareProperties;
+  properties?: FileShareProperties | undefined;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: GetFileShareResponseIdentity | undefined;
+}
+/** File share offer dimensions. */
+export interface FileShareOfferInput {
+  /** The file sharing protocol. Defaults to NFS. */
+  protocol?: Protocol | (string & {}) | undefined;
+  /** The storage media tier. Defaults to SSD. */
+  mediaTier?: MediaTier | (string & {}) | undefined;
+  /** The scale mode. Defaults to Compatibility. */
+  scaleMode?: ScaleMode | (string & {}) | undefined;
 }
 export interface GetFileShareLimitsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
+  /** Properties used to select the file share offer. */
+  properties: FileShareOfferInput;
 }
 /** File share-related limits in the specified subscription/location. */
 export interface FileShareLimits {
@@ -464,6 +655,12 @@ export interface FileShareLimitsResponse {
 export interface FileShareProvisioningRecommendationInput {
   /** The desired provisioned storage size of the share in GiB. Will be use to calculate the values of remaining provisioning parameters. */
   provisionedStorageGiB: number;
+  /** The file sharing protocol. Defaults to NFS. */
+  protocol?: Protocol | (string & {}) | undefined;
+  /** The storage media tier. Defaults to SSD. */
+  mediaTier?: MediaTier | (string & {}) | undefined;
+  /** The scale mode. Defaults to Compatibility. */
+  scaleMode?: ScaleMode | (string & {}) | undefined;
 }
 export interface GetFileShareProvisioningRecommendationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -490,6 +687,36 @@ export interface FileShareProvisioningRecommendationResponse {
   /** The properties of the file share provisioning recommendation output. */
   properties: FileShareProvisioningRecommendationOutput;
 }
+export interface GetFileShareRedundancyConversionStatusRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The resource name of the file share, as seen by the administrator through Azure Resource Manager. */
+  resourceName: string;
+}
+/** Status of the redundancy conversion. */
+export type RedundancyConversionStatus =
+  | "SubmittedForConversion"
+  | "InProgress"
+  | "Complete"
+  | "Failed";
+/** The status and details of the current or most recent redundancy conversion. */
+export interface RedundancyConversionStatusOutput {
+  /** The target redundancy requested for the redundancy conversion. */
+  targetRedundancy: Redundancy;
+  /** The current status of the redundancy conversion. */
+  conversionStatus: RedundancyConversionStatus;
+  /** The reason the redundancy conversion failed. */
+  conversionFailedReason?: string | undefined;
+  /** Detailed information about why the redundancy conversion failed. */
+  conversionFailedDetailedReason?: string | undefined;
+}
+/** Response containing the status and details of the current or most recent redundancy conversion. */
+export interface RedundancyConversionStatusResponse {
+  /** Properties containing the redundancy conversion status output. */
+  properties: RedundancyConversionStatusOutput;
+}
 export interface GetFileShareSnapshotRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -505,23 +732,23 @@ export type FileShareSnapshotPropertiesMetadataMap = { [key: string]: string | u
 /** FileShareSnapshot properties */
 export interface FileShareSnapshotProperties {
   /** The FileShareSnapshot time in UTC in string representation */
-  snapshotTime?: string;
+  snapshotTime?: string | undefined;
   /** The initiator of the FileShareSnapshot. This is a user-defined value. */
-  initiatorId?: string;
+  initiatorId?: string | undefined;
   /** The metadata */
-  metadata?: FileShareSnapshotPropertiesMetadataMap;
+  metadata?: FileShareSnapshotPropertiesMetadataMap | undefined;
 }
 export interface GetFileShareSnapshotResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareSnapshotProperties;
+  properties?: FileShareSnapshotProperties | undefined;
 }
 export interface GetFileShareUsageDataRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -556,15 +783,15 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -583,23 +810,23 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface ListFileShareByParentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -609,22 +836,38 @@ export interface ListFileShareByParentRequest {
 }
 /** Resource tags. */
 export type FileShareTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type FileShareIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface FileShareIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string | undefined;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string | undefined;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: FileShareIdentityUserAssignedIdentitiesMap | undefined;
+}
 /** File share resource */
 export interface FileShare {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: FileShareTagsMap;
+  tags?: FileShareTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareProperties;
+  properties?: FileShareProperties | undefined;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: FileShareIdentity | undefined;
 }
 /** The FileShare items on this page */
 export type FileShareListResultValueList = Array<FileShare>;
@@ -633,7 +876,7 @@ export interface FileShareListResult {
   /** The FileShare items on this page */
   value: FileShareListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFileShareBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -650,15 +893,15 @@ export interface ListFileShareSnapshotRequest {
 /** FileShareSnapshot resource */
 export interface FileShareSnapshot {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareSnapshotProperties;
+  properties?: FileShareSnapshotProperties | undefined;
 }
 /** The FileShareSnapshot items on this page */
 export type FileShareSnapshotListResultValueList = Array<FileShareSnapshot>;
@@ -667,19 +910,19 @@ export interface FileShareSnapshotListResult {
   /** The FileShareSnapshot items on this page */
   value: FileShareSnapshotListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -688,23 +931,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByFileShareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -725,7 +968,7 @@ export interface PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -738,15 +981,15 @@ export interface ListPrivateLinkResourcesRequest {
 /** A private link resource. */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -755,24 +998,52 @@ export interface PrivateLinkResourceListResult {
   /** The PrivateLinkResource items on this page */
   value: PrivateLinkResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
+}
+/** Input for starting a redundancy conversion. */
+export interface StartRedundancyConversionInput {
+  /** The requested target redundancy for the conversion. */
+  targetRedundancy: Redundancy | (string & {});
+}
+export interface StartFileShareRedundancyConversionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The resource name of the file share, as seen by the administrator through Azure Resource Manager. */
+  resourceName: string;
+  /** Properties containing the redundancy conversion input. */
+  properties: StartRedundancyConversionInput;
+}
+export interface StartFileShareRedundancyConversionResponse {}
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type UpdateFileShareRequestIdentityUserAssignedIdentitiesMap = {
+  [key: string]: PrivateEndpointInput | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface UpdateFileShareRequestIdentity {
+  type: ManagedServiceIdentityType | (string & {});
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: UpdateFileShareRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Resource tags. */
 export type UpdateFileShareRequestTagsMap = { [key: string]: string | undefined };
 /** The updatable properties of the FileShare. */
-export interface FileShareUpdateProperties {
+export interface FileShareUpdatePropertiesInput {
   /** The provisioned storage size of the share in GiB (1 GiB is 1024^3 bytes or 1073741824 bytes). A component of the file share's bill is the provisioned storage, regardless of the amount of used storage. */
-  provisionedStorageGiB?: number;
+  provisionedStorageGiB?: number | undefined;
   /** The provisioned IO / sec of the share. */
-  provisionedIOPerSec?: number;
+  provisionedIOPerSec?: number | undefined;
   /** The provisioned throughput / sec of the share. */
-  provisionedThroughputMiBPerSec?: number;
+  provisionedThroughputMiBPerSec?: number | undefined;
   /** Protocol settings specific NFS. */
-  nfsProtocolProperties?: NfsProtocolProperties;
+  nfsProtocolProperties?: NfsProtocolProperties | undefined;
   /** The set of properties for control public access. */
-  publicAccessProperties?: PublicAccessProperties;
+  publicAccessProperties?: PublicAccessProperties | undefined;
   /** Gets or sets allow or disallow public network access to azure managed file share */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
+  /** Encryption settings for the file share. */
+  encryption?: FileShareEncryptionInput | undefined;
 }
 export interface UpdateFileShareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -781,39 +1052,57 @@ export interface UpdateFileShareRequest {
   resourceGroupName: string;
   /** The resource name of the file share, as seen by the administrator through Azure Resource Manager. */
   resourceName: string;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: UpdateFileShareRequestIdentity | undefined;
   /** Resource tags. */
-  tags?: UpdateFileShareRequestTagsMap;
+  tags?: UpdateFileShareRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareUpdateProperties;
+  properties?: FileShareUpdatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateFileShareResponseTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type UpdateFileShareResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface UpdateFileShareResponseIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string | undefined;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string | undefined;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: UpdateFileShareResponseIdentityUserAssignedIdentitiesMap | undefined;
+}
 export interface UpdateFileShareResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateFileShareResponseTagsMap;
+  tags?: UpdateFileShareResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareProperties;
+  properties?: FileShareProperties | undefined;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: UpdateFileShareResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The metadata */
 export type FileShareSnapshotUpdatePropertiesMetadataMap = { [key: string]: string | undefined };
 /** The updatable properties of the FileShareSnapshot. */
 export interface FileShareSnapshotUpdateProperties {
   /** The metadata */
-  metadata?: FileShareSnapshotUpdatePropertiesMetadataMap;
+  metadata?: FileShareSnapshotUpdatePropertiesMetadataMap | undefined;
 }
 export interface UpdateFileShareSnapshotRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -825,25 +1114,25 @@ export interface UpdateFileShareSnapshotRequest {
   /** The name of the FileShareSnapshot */
   name: string;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareSnapshotUpdateProperties;
+  properties?: FileShareSnapshotUpdateProperties | undefined;
 }
 export interface UpdateFileShareSnapshotResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareSnapshotProperties;
+  properties?: FileShareSnapshotProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CheckFileShareNameAvailabilityError = AzureOpError;
 /** Implements local CheckNameAvailability operations */
@@ -870,8 +1159,8 @@ export const CreatePrivateEndpointConnection: API.OperationMethod<
   CreatePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c1, 2) as any as S.Schema<CreatePrivateEndpointConnectionRequest>,
-  output: __S(11, __c1, 3) as any as S.Schema<CreatePrivateEndpointConnectionResponse>,
+  input: __S(17, __c1, 1) as any as S.Schema<CreatePrivateEndpointConnectionRequest>,
+  output: __S(18, __c1, 2) as any as S.Schema<CreatePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -887,8 +1176,8 @@ export const DeleteFileShare: API.OperationMethod<
   DeleteFileShareError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<DeleteFileShareRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<DeleteFileShareResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<DeleteFileShareRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<DeleteFileShareResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -904,8 +1193,8 @@ export const DeleteFileShareSnapshot: API.OperationMethod<
   DeleteFileShareSnapshotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<DeleteFileShareSnapshotRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<DeleteFileShareSnapshotResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<DeleteFileShareSnapshotRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<DeleteFileShareSnapshotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -921,8 +1210,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   DeletePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -938,8 +1227,8 @@ export const FileSharesCreateOrUpdate: API.OperationMethod<
   FileSharesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(209, __c26, 1) as any as S.Schema<FileSharesCreateOrUpdateRequest>,
-  output: __S(210, __c26, 2) as any as S.Schema<FileSharesCreateOrUpdateResponse>,
+  input: __S(465, __c29, 1) as any as S.Schema<FileSharesCreateOrUpdateRequest>,
+  output: __S(466, __c29, 2) as any as S.Schema<FileSharesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -955,8 +1244,8 @@ export const FileShareSnapshotCreateOrUpdate: API.OperationMethod<
   FileShareSnapshotCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(249, __c31, 1) as any as S.Schema<FileShareSnapshotCreateOrUpdateRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<FileShareSnapshotCreateOrUpdateResponse>,
+  input: __S(561, __c35, 1) as any as S.Schema<FileShareSnapshotCreateOrUpdateRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<FileShareSnapshotCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -972,8 +1261,8 @@ export const GetFileShare: API.OperationMethod<
   GetFileShareError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<GetFileShareRequest>,
-  output: __S(264, __c33, 0) as any as S.Schema<GetFileShareResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetFileShareRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<GetFileShareResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -989,8 +1278,8 @@ export const GetFileShareLimits: API.OperationMethod<
   GetFileShareLimitsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<GetFileShareLimitsRequest>,
-  output: __S(276, __c34, 4) as any as S.Schema<FileShareLimitsResponse>,
+  input: __S(609, __c38, 1) as any as S.Schema<GetFileShareLimitsRequest>,
+  output: __S(613, __c38, 5) as any as S.Schema<FileShareLimitsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1006,13 +1295,30 @@ export const GetFileShareProvisioningRecommendation: API.OperationMethod<
   GetFileShareProvisioningRecommendationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(281, __c35, 1) as any as S.Schema<GetFileShareProvisioningRecommendationRequest>,
-  output: __S(284, __c35, 4) as any as S.Schema<FileShareProvisioningRecommendationResponse>,
+  input: __S(625, __c39, 1) as any as S.Schema<GetFileShareProvisioningRecommendationRequest>,
+  output: __S(628, __c39, 4) as any as S.Schema<FileShareProvisioningRecommendationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFileShareProvisioningRecommendation",
+}));
+
+export type GetFileShareRedundancyConversionStatusError = AzureOpError;
+/** Gets the status and details of the current or most recent redundancy conversion for the file share. */
+export const GetFileShareRedundancyConversionStatus: API.OperationMethod<
+  GetFileShareRedundancyConversionStatusRequest,
+  RedundancyConversionStatusResponse,
+  GetFileShareRedundancyConversionStatusError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c6, 0) as any as S.Schema<GetFileShareRedundancyConversionStatusRequest>,
+  output: __S(98, __c6, 2) as any as S.Schema<RedundancyConversionStatusResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileShareRedundancyConversionStatus",
 }));
 
 export type GetFileShareSnapshotError = AzureOpError;
@@ -1023,8 +1329,8 @@ export const GetFileShareSnapshot: API.OperationMethod<
   GetFileShareSnapshotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetFileShareSnapshotRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<GetFileShareSnapshotResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetFileShareSnapshotRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<GetFileShareSnapshotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1040,8 +1346,8 @@ export const GetFileShareUsageData: API.OperationMethod<
   GetFileShareUsageDataError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetFileShareUsageDataRequest>,
-  output: __S(67, __c8, 3) as any as S.Schema<FileShareUsageDataResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetFileShareUsageDataRequest>,
+  output: __S(163, __c10, 3) as any as S.Schema<FileShareUsageDataResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1057,8 +1363,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   GetPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1074,8 +1380,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   GetPrivateLinkResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1091,8 +1397,8 @@ export const ListFileShareByParent: API.OperationMethod<
   ListFileShareByParentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ListFileShareByParentRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<FileShareListResult>,
+  input: __S(224, __c14, 0) as any as S.Schema<ListFileShareByParentRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<FileShareListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1108,8 +1414,8 @@ export const ListFileShareBySubscription: API.OperationMethod<
   ListFileShareBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<ListFileShareBySubscriptionRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<FileShareListResult>,
+  input: __S(256, __c16, 0) as any as S.Schema<ListFileShareBySubscriptionRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<FileShareListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1125,8 +1431,8 @@ export const ListFileShareSnapshot: API.OperationMethod<
   ListFileShareSnapshotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<ListFileShareSnapshotRequest>,
-  output: __S(122, __c15, 2) as any as S.Schema<FileShareSnapshotListResult>,
+  input: __S(272, __c17, 0) as any as S.Schema<ListFileShareSnapshotRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<FileShareSnapshotListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1142,8 +1448,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(132, __c16, 4) as any as S.Schema<ListOperationsResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(292, __c18, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1159,8 +1465,8 @@ export const ListPrivateEndpointConnectionByFileShare: API.OperationMethod<
   ListPrivateEndpointConnectionByFileShareError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<ListPrivateEndpointConnectionByFileShareRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
+  input: __S(304, __c19, 0) as any as S.Schema<ListPrivateEndpointConnectionByFileShareRequest>,
+  output: __S(305, __c19, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1176,13 +1482,30 @@ export const ListPrivateLinkResources: API.OperationMethod<
   ListPrivateLinkResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
-  output: __S(146, __c18, 2) as any as S.Schema<PrivateLinkResourceListResult>,
+  input: __S(352, __c22, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
+  output: __S(354, __c22, 2) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResources",
+}));
+
+export type StartFileShareRedundancyConversionError = AzureOpError;
+/** Starts a redundancy conversion for the file share. */
+export const StartFileShareRedundancyConversion: API.OperationMethod<
+  StartFileShareRedundancyConversionRequest,
+  StartFileShareRedundancyConversionResponse,
+  StartFileShareRedundancyConversionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(369, __c23, 1) as any as S.Schema<StartFileShareRedundancyConversionRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<StartFileShareRedundancyConversionResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartFileShareRedundancyConversion",
 }));
 
 export type UpdateFileShareError = AzureOpError;
@@ -1193,8 +1516,8 @@ export const UpdateFileShare: API.OperationMethod<
   UpdateFileShareError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(169, __c21, 1) as any as S.Schema<UpdateFileShareRequest>,
-  output: __S(170, __c21, 2) as any as S.Schema<UpdateFileShareResponse>,
+  input: __S(385, __c24, 1) as any as S.Schema<UpdateFileShareRequest>,
+  output: __S(386, __c24, 2) as any as S.Schema<UpdateFileShareResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1210,8 +1533,8 @@ export const UpdateFileShareSnapshot: API.OperationMethod<
   UpdateFileShareSnapshotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(177, __c22, 1) as any as S.Schema<UpdateFileShareSnapshotRequest>,
-  output: __S(178, __c22, 2) as any as S.Schema<UpdateFileShareSnapshotResponse>,
+  input: __S(401, __c25, 1) as any as S.Schema<UpdateFileShareSnapshotRequest>,
+  output: __S(402, __c25, 2) as any as S.Schema<UpdateFileShareSnapshotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1234,7 +1557,7 @@ function __c0(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.FileShares/locations/{location}/checkNameAvailability",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CheckFileShareNameAvailabilityRequest" });
@@ -1251,39 +1574,37 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "PrivateEndpointInput" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(8, __c1, 0)),
-          privateLinkServiceConnectionState: __S(32, __c4, 0),
+          privateEndpoint: S.optional(__S(32, __c2, 0)),
+          privateLinkServiceConnectionState: __S(80, __c5, 0),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionPropertiesInput" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(9, __c1, 1)),
+          properties: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CreatePrivateEndpointConnectionRequest" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c2, 0)),
-          properties: S.optional(__S(34, __c4, 2)),
+          systemData: S.optional(__S(48, __c3, 0)),
+          properties: S.optional(__S(82, __c5, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -1292,6 +1613,12 @@ function __c1(j: number): any {
   }
 }
 function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "PrivateEndpointInput" });
+  }
+}
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1306,13 +1633,13 @@ function __c2(j: number): any {
       ).annotate({ identifier: "SystemData" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1331,15 +1658,49 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          groupIds: S.optional(__S(24, __c3, 0)),
-          privateEndpoint: S.optional(__S(33, __c4, 1)),
-          privateLinkServiceConnectionState: __S(32, __c4, 0),
+          groupIds: S.optional(__S(64, __c4, 0)),
+          privateEndpoint: S.optional(__S(81, __c5, 1)),
+          privateLinkServiceConnectionState: __S(80, __c5, 0),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionProperties" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          resourceName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}/getRedundancyConversionStatus",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetFileShareRedundancyConversionStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          targetRedundancy: S.String,
+          conversionStatus: S.String,
+          conversionFailedReason: S.optional(S.String),
+          conversionFailedDetailedReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RedundancyConversionStatusOutput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          properties: __S(97, __c6, 1),
+        }),
+      ).annotate({ identifier: "RedundancyConversionStatusResponse" });
+  }
+}
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1353,13 +1714,13 @@ function __c5(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}/fileShareSnapshots/{name}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetFileShareSnapshotRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1367,25 +1728,25 @@ function __c6(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c2, 0)),
-          properties: S.optional(__S(56, __c7, 0)),
+          systemData: S.optional(__S(48, __c3, 0)),
+          properties: S.optional(__S(144, __c9, 0)),
         }),
       ).annotate({ identifier: "GetFileShareSnapshotResponse" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           snapshotTime: S.optional(S.String),
           initiatorId: S.optional(S.String),
-          metadata: S.optional(__S(216, __c27, 0)),
+          metadata: S.optional(__S(496, __c31, 0)),
         }),
       ).annotate({ identifier: "FileShareSnapshotProperties" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1397,7 +1758,7 @@ function __c8(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.FileShares/locations/{location}/getUsageData",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetFileShareUsageDataRequest" });
@@ -1410,18 +1771,18 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          liveShares: __S(65, __c8, 1),
+          liveShares: __S(161, __c10, 1),
         }),
       ).annotate({ identifier: "FileShareUsageDataOutput" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(66, __c8, 2),
+          properties: __S(162, __c10, 2),
         }),
       ).annotate({ identifier: "FileShareUsageDataResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1435,13 +1796,13 @@ function __c9(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1455,20 +1816,20 @@ function __c10(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}/privateLinkResources/{privateLinkResourceName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateLinkResourceRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           groupId: S.optional(S.String),
-          requiredMembers: S.optional(__S(24, __c3, 0)),
-          requiredZoneNames: S.optional(__S(24, __c3, 0)),
+          requiredMembers: S.optional(__S(64, __c4, 0)),
+          requiredZoneNames: S.optional(__S(64, __c4, 0)),
         }),
       ).annotate({ identifier: "PrivateLinkResourceProperties" });
     case 1:
@@ -1477,13 +1838,13 @@ function __c11(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c2, 0)),
-          properties: S.optional(__S(88, __c11, 0)),
+          systemData: S.optional(__S(48, __c3, 0)),
+          properties: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "GetPrivateLinkResourceResponse" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1495,26 +1856,26 @@ function __c12(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListFileShareByParentRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(264, __c33, 0));
+      return S.Array(__S(592, __c37, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(104, __c13, 0),
+          value: __S(240, __c15, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FileShareListResult" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1525,13 +1886,13 @@ function __c14(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.FileShares/fileShares",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListFileShareBySubscriptionRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1544,22 +1905,22 @@ function __c15(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}/fileShareSnapshots",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListFileShareSnapshotRequest" });
     case 1:
-      return S.Array(__S(48, __c6, 0));
+      return S.Array(__S(128, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(121, __c15, 1),
+          value: __S(273, __c17, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FileShareSnapshotListResult" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1568,7 +1929,7 @@ function __c16(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.FileShares/operations",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1586,74 +1947,20 @@ function __c16(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(129, __c16, 1)),
+          display: S.optional(__S(289, __c18, 1)),
           origin: S.optional(S.String),
           actionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(130, __c16, 2));
+      return S.Array(__S(290, __c18, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(131, __c16, 3)),
+          value: S.optional(__S(291, __c18, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          resourceName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}/privateEndpointConnections",
-            code: 200,
-            apiVersion: "2026-06-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListPrivateEndpointConnectionByFileShareRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(232, __c29, 0),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          resourceName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}/privateLinkResources",
-            code: 200,
-            apiVersion: "2026-06-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListPrivateLinkResourcesRequest" });
-    case 1:
-      return S.Array(__S(89, __c11, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(145, __c18, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PrivateLinkResourceListResult" });
   }
 }
 function __c19(j: number): any {
@@ -1666,16 +1973,42 @@ function __c19(j: number): any {
           resourceName: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}/privateEndpointConnections",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListPrivateEndpointConnectionByFileShareRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(528, __c33, 0),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          resourceName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteFileShareRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1686,7 +2019,61 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteFileShareResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          resourceName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}/privateLinkResources",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListPrivateLinkResourcesRequest" });
+    case 1:
+      return S.Array(__S(209, __c13, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(353, __c22, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateLinkResourceListResult" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          targetRedundancy: S.String,
+        }),
+      ).annotate({ identifier: "StartRedundancyConversionInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          resourceName: S.String.pipe(T.Label()),
+          properties: __S(368, __c23, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}/startRedundancyConversion",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "StartFileShareRedundancyConversionRequest" });
+  }
+}
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1694,25 +2081,27 @@ function __c21(j: number): any {
           provisionedStorageGiB: S.optional(S.Number),
           provisionedIOPerSec: S.optional(S.Number),
           provisionedThroughputMiBPerSec: S.optional(S.Number),
-          nfsProtocolProperties: S.optional(__S(240, __c30, 0)),
-          publicAccessProperties: S.optional(__S(241, __c30, 1)),
+          nfsProtocolProperties: S.optional(__S(544, __c34, 0)),
+          publicAccessProperties: S.optional(__S(545, __c34, 1)),
           publicNetworkAccess: S.optional(S.String),
+          encryption: S.optional(__S(480, __c30, 0)),
         }),
-      ).annotate({ identifier: "FileShareUpdateProperties" });
+      ).annotate({ identifier: "FileShareUpdatePropertiesInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(216, __c27, 0)),
-          properties: S.optional(__S(168, __c21, 0)),
+          identity: S.optional(__S(482, __c30, 2)),
+          tags: S.optional(__S(496, __c31, 0)),
+          properties: S.optional(__S(384, __c24, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateFileShareRequest" });
@@ -1722,22 +2111,23 @@ function __c21(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c2, 0)),
-          tags: S.optional(__S(216, __c27, 0)),
+          systemData: S.optional(__S(48, __c3, 0)),
+          tags: S.optional(__S(496, __c31, 0)),
           location: S.String,
-          properties: S.optional(__S(242, __c30, 2)),
+          properties: S.optional(__S(556, __c34, 12)),
+          identity: S.optional(__S(559, __c34, 15)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateFileShareResponse" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(216, __c27, 0)),
+          metadata: S.optional(__S(496, __c31, 0)),
         }),
       ).annotate({ identifier: "FileShareSnapshotUpdateProperties" });
     case 1:
@@ -1747,13 +2137,13 @@ function __c22(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(176, __c22, 0)),
+          properties: S.optional(__S(400, __c25, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}/fileShareSnapshots/{name}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateFileShareSnapshotRequest" });
@@ -1763,8 +2153,8 @@ function __c22(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c2, 0)),
-          properties: S.optional(__S(56, __c7, 0)),
+          systemData: S.optional(__S(48, __c3, 0)),
+          properties: S.optional(__S(144, __c9, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -1772,7 +2162,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "UpdateFileShareSnapshotResponse" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1786,13 +2176,13 @@ function __c23(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}/fileShareSnapshots/{name}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteFileShareSnapshotRequest" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1806,13 +2196,13 @@ function __c24(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1824,7 +2214,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeletePrivateEndpointConnectionResponse" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1833,12 +2223,14 @@ function __c26(j: number): any {
           mediaTier: S.optional(S.String),
           redundancy: S.optional(S.String),
           protocol: S.optional(S.String),
+          scaleMode: S.optional(S.String),
           provisionedStorageGiB: S.optional(S.Number),
           provisionedIOPerSec: S.optional(S.Number),
           provisionedThroughputMiBPerSec: S.optional(S.Number),
-          nfsProtocolProperties: S.optional(__S(240, __c30, 0)),
-          publicAccessProperties: S.optional(__S(241, __c30, 1)),
+          nfsProtocolProperties: S.optional(__S(544, __c34, 0)),
+          publicAccessProperties: S.optional(__S(545, __c34, 1)),
           publicNetworkAccess: S.optional(S.String),
+          encryption: S.optional(__S(480, __c30, 0)),
         }),
       ).annotate({ identifier: "FileSharePropertiesInput" });
     case 1:
@@ -1847,15 +2239,16 @@ function __c26(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(216, __c27, 0)),
+          tags: S.optional(__S(496, __c31, 0)),
           location: S.String,
-          properties: S.optional(__S(208, __c26, 0)),
+          properties: S.optional(__S(464, __c29, 0)),
+          identity: S.optional(__S(482, __c30, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "FileSharesCreateOrUpdateRequest" });
@@ -1865,23 +2258,45 @@ function __c26(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c2, 0)),
-          tags: S.optional(__S(216, __c27, 0)),
+          systemData: S.optional(__S(48, __c3, 0)),
+          tags: S.optional(__S(496, __c31, 0)),
           location: S.String,
-          properties: S.optional(__S(242, __c30, 2)),
+          properties: S.optional(__S(556, __c34, 12)),
+          identity: S.optional(__S(559, __c34, 15)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "FileSharesCreateOrUpdateResponse" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          infrastructureEncryption: S.optional(S.String),
+          customerManagedKeyEncryption: S.optional(__S(547, __c34, 3)),
+          autoKeyRotationError: S.optional(__S(32, __c2, 0)),
+        }),
+      ).annotate({ identifier: "FileShareEncryptionInput" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(32, __c2, 0)));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          userAssignedIdentities: S.optional(__S(481, __c30, 1)),
+        }),
+      ).annotate({ identifier: "FileSharesCreateOrUpdateRequestIdentity" });
+  }
+}
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c28(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1889,19 +2304,19 @@ function __c28(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c2, 0)),
-          properties: S.optional(__S(34, __c4, 2)),
+          systemData: S.optional(__S(48, __c3, 0)),
+          properties: S.optional(__S(82, __c5, 2)),
         }),
       ).annotate({ identifier: "FileSharePropertiesPrivateEndpointConnectionsItem" });
   }
 }
-function __c29(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(224, __c28, 0));
+      return S.Array(__S(512, __c32, 0));
   }
 }
-function __c30(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1913,10 +2328,75 @@ function __c30(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          allowedSubnets: S.optional(__S(24, __c3, 0)),
+          allowedSubnets: S.optional(__S(64, __c4, 0)),
         }),
       ).annotate({ identifier: "PublicAccessProperties" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          identityType: S.optional(S.String),
+          userAssignedIdentityResourceId: S.optional(S.String),
+          federatedClientId: S.optional(S.String),
+          delegatedIdentityClientId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureResourceManagerCommonTypesKeyEncryptionKeyIdentity" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          keyEncryptionKeyIdentity: S.optional(__S(546, __c34, 2)),
+          keyEncryptionKeyUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureResourceManagerCommonTypesCustomerManagedKeyEncryption" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          redundancyConversionInProgress: S.Boolean,
+        }),
+      ).annotate({ identifier: "MigrationState" });
+    case 5:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(552, __c34, 8)));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          info: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "ErrorAdditionalInfo" });
+    case 7:
+      return S.Array(__S(550, __c34, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+          target: S.optional(S.String),
+          details: S.optional(__S(549, __c34, 5)),
+          additionalInfo: S.optional(__S(551, __c34, 7)),
+        }),
+      ).annotate({ identifier: "ErrorDetail" });
+    case 9:
+      return S.Array(__S(552, __c34, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+          target: S.optional(S.String),
+          details: S.optional(__S(553, __c34, 9)),
+          additionalInfo: S.optional(__S(551, __c34, 7)),
+        }),
+      ).annotate({ identifier: "FileShareEncryptionAutoKeyRotationError" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          infrastructureEncryption: S.optional(S.String),
+          customerManagedKeyEncryption: S.optional(__S(547, __c34, 3)),
+          currentKeyEncryptionKeyUrl: S.optional(S.String),
+          lastKeyRotationTimestamp: S.optional(S.String),
+          autoKeyRotationError: S.optional(__S(554, __c34, 10)),
+        }),
+      ).annotate({ identifier: "FileShareEncryption" });
+    case 12:
       return S.suspend(() =>
         S.Struct({
           mountName: S.optional(S.String),
@@ -1924,6 +2404,7 @@ function __c30(j: number): any {
           mediaTier: S.optional(S.String),
           redundancy: S.optional(S.String),
           protocol: S.optional(S.String),
+          scaleMode: S.optional(S.String),
           provisionedStorageGiB: S.optional(S.Number),
           provisionedStorageNextAllowedDowngrade: S.optional(S.String),
           provisionedIOPerSec: S.optional(S.Number),
@@ -1932,22 +2413,42 @@ function __c30(j: number): any {
           provisionedThroughputNextAllowedDowngrade: S.optional(S.String),
           includedBurstIOPerSec: S.optional(S.Number),
           maxBurstIOPerSecCredits: S.optional(S.Number),
-          nfsProtocolProperties: S.optional(__S(240, __c30, 0)),
-          publicAccessProperties: S.optional(__S(241, __c30, 1)),
+          nfsProtocolProperties: S.optional(__S(544, __c34, 0)),
+          publicAccessProperties: S.optional(__S(545, __c34, 1)),
           provisioningState: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
-          privateEndpointConnections: S.optional(__S(232, __c29, 0)),
+          privateEndpointConnections: S.optional(__S(528, __c33, 0)),
+          migrationState: S.optional(__S(548, __c34, 4)),
+          encryption: S.optional(__S(555, __c34, 11)),
         }),
       ).annotate({ identifier: "FileShareProperties" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          principalId: S.optional(S.String),
+          clientId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserAssignedIdentity" });
+    case 14:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(557, __c34, 13)));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          principalId: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          type: S.String,
+          userAssignedIdentities: S.optional(__S(558, __c34, 14)),
+        }),
+      ).annotate({ identifier: "FileSharesCreateOrUpdateResponseIdentity" });
   }
 }
-function __c31(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           initiatorId: S.optional(S.String),
-          metadata: S.optional(__S(216, __c27, 0)),
+          metadata: S.optional(__S(496, __c31, 0)),
         }),
       ).annotate({ identifier: "FileShareSnapshotPropertiesInput" });
     case 1:
@@ -1957,19 +2458,19 @@ function __c31(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(248, __c31, 0)),
+          properties: S.optional(__S(560, __c35, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}/fileShareSnapshots/{name}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "FileShareSnapshotCreateOrUpdateRequest" });
   }
 }
-function __c32(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1982,13 +2483,13 @@ function __c32(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FileShares/fileShares/{resourceName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetFileShareRequest" });
   }
 }
-function __c33(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1996,31 +2497,41 @@ function __c33(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c2, 0)),
-          tags: S.optional(__S(216, __c27, 0)),
+          systemData: S.optional(__S(48, __c3, 0)),
+          tags: S.optional(__S(496, __c31, 0)),
           location: S.String,
-          properties: S.optional(__S(242, __c30, 2)),
+          properties: S.optional(__S(556, __c34, 12)),
+          identity: S.optional(__S(559, __c34, 15)),
         }),
       ).annotate({ identifier: "GetFileShareResponse" });
   }
 }
-function __c34(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          protocol: S.optional(S.String),
+          mediaTier: S.optional(S.String),
+          scaleMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FileShareOfferInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          properties: __S(608, __c38, 0),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.FileShares/locations/{location}/getLimits",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetFileShareLimitsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           maxFileShares: S.Number,
@@ -2035,7 +2546,7 @@ function __c34(j: number): any {
           maxProvisionedThroughputMiBPerSec: S.Number,
         }),
       ).annotate({ identifier: "FileShareLimits" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           baseIOPerSec: S.Number,
@@ -2046,27 +2557,30 @@ function __c34(j: number): any {
           guardrailThroughputScalar: S.Number,
         }),
       ).annotate({ identifier: "FileShareProvisioningConstants" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          limits: __S(273, __c34, 1),
-          provisioningConstants: __S(274, __c34, 2),
-        }),
-      ).annotate({ identifier: "FileShareLimitsOutput" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(275, __c34, 3),
+          limits: __S(610, __c38, 2),
+          provisioningConstants: __S(611, __c38, 3),
+        }),
+      ).annotate({ identifier: "FileShareLimitsOutput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          properties: __S(612, __c38, 4),
         }),
       ).annotate({ identifier: "FileShareLimitsResponse" });
   }
 }
-function __c35(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           provisionedStorageGiB: S.Number,
+          protocol: S.optional(S.String),
+          mediaTier: S.optional(S.String),
+          scaleMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "FileShareProvisioningRecommendationInput" });
     case 1:
@@ -2074,13 +2588,13 @@ function __c35(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
-          properties: __S(280, __c35, 0),
+          properties: __S(624, __c39, 0),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.FileShares/locations/{location}/getProvisioningRecommendation",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetFileShareProvisioningRecommendationRequest" });
@@ -2091,13 +2605,13 @@ function __c35(j: number): any {
         S.Struct({
           provisionedIOPerSec: S.Number,
           provisionedThroughputMiBPerSec: S.Number,
-          availableRedundancyOptions: __S(282, __c35, 2),
+          availableRedundancyOptions: __S(626, __c39, 2),
         }),
       ).annotate({ identifier: "FileShareProvisioningRecommendationOutput" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(283, __c35, 3),
+          properties: __S(627, __c39, 3),
         }),
       ).annotate({ identifier: "FileShareProvisioningRecommendationResponse" });
   }

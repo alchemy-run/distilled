@@ -5,6 +5,7 @@ import {
   type RestErrorInfo,
   type RestParseErrorInfo,
 } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * 1Password protocols -- hand-written. Every 1Password API is plain JSON
  * REST, so each protocol is one `makeRestProtocol` call from
@@ -58,7 +59,8 @@ export type OnepasswordOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | OnepasswordParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) of every generated Connect operation. */
 export type ConnectOpContext = ConnectCredentials | HttpClient.HttpClient;

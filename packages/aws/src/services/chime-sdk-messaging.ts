@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -204,23 +205,23 @@ export type MemberArns = string[];
 export type SubChannelId = string;
 export interface BatchCreateChannelMembershipRequest {
   ChannelArn: string;
-  Type?: ChannelMembershipType;
+  Type?: ChannelMembershipType | undefined;
   MemberArns: string[];
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export type ResourceName = string | redacted.Redacted<string>;
 export interface Identity {
-  Arn?: string;
-  Name?: string | redacted.Redacted<string>;
+  Arn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
 }
 export type Members = Identity[];
 export interface BatchChannelMemberships {
-  InvitedBy?: Identity;
-  Type?: ChannelMembershipType;
-  Members?: Identity[];
-  ChannelArn?: string;
-  SubChannelId?: string;
+  InvitedBy?: Identity | undefined;
+  Type?: ChannelMembershipType | undefined;
+  Members?: Identity[] | undefined;
+  ChannelArn?: string | undefined;
+  SubChannelId?: string | undefined;
 }
 export type ErrorCode =
   | "BadRequest"
@@ -240,14 +241,14 @@ export type ErrorCode =
   | "PhoneNumberAssociationsExist"
   | (string & {});
 export interface BatchCreateChannelMembershipError_ {
-  MemberArn?: string;
-  ErrorCode?: ErrorCode;
-  ErrorMessage?: string;
+  MemberArn?: string | undefined;
+  ErrorCode?: ErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type BatchCreateChannelMembershipErrors = BatchCreateChannelMembershipError_[];
 export interface BatchCreateChannelMembershipResponse {
-  BatchChannelMemberships?: BatchChannelMemberships;
-  Errors?: BatchCreateChannelMembershipError_[];
+  BatchChannelMemberships?: BatchChannelMemberships | undefined;
+  Errors?: BatchCreateChannelMembershipError_[] | undefined;
 }
 export type CallbackIdType = string;
 export type NonNullableBoolean = boolean;
@@ -258,36 +259,36 @@ export type PushNotificationTitle = string | redacted.Redacted<string>;
 export type PushNotificationBody = string | redacted.Redacted<string>;
 export type PushNotificationType = "DEFAULT" | "VOIP" | (string & {});
 export interface PushNotificationConfiguration {
-  Title?: string | redacted.Redacted<string>;
-  Body?: string | redacted.Redacted<string>;
-  Type?: PushNotificationType;
+  Title?: string | redacted.Redacted<string> | undefined;
+  Body?: string | redacted.Redacted<string> | undefined;
+  Type?: PushNotificationType | undefined;
 }
 export type MessageAttributeName = string | redacted.Redacted<string>;
 export type MessageAttributeStringValue = string | redacted.Redacted<string>;
 export type MessageAttributeStringValues = (string | redacted.Redacted<string>)[];
 export interface MessageAttributeValue {
-  StringValues?: (string | redacted.Redacted<string>)[];
+  StringValues?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type MessageAttributeMap = { [key: string]: MessageAttributeValue | undefined };
 export type ContentType = string | redacted.Redacted<string>;
 export interface ChannelMessageCallback {
   MessageId: string;
-  Content?: string | redacted.Redacted<string>;
-  Metadata?: string | redacted.Redacted<string>;
-  PushNotification?: PushNotificationConfiguration;
-  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
-  SubChannelId?: string;
-  ContentType?: string | redacted.Redacted<string>;
+  Content?: string | redacted.Redacted<string> | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
+  PushNotification?: PushNotificationConfiguration | undefined;
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
+  SubChannelId?: string | undefined;
+  ContentType?: string | redacted.Redacted<string> | undefined;
 }
 export interface ChannelFlowCallbackRequest {
   CallbackId: string;
   ChannelArn: string;
-  DeleteResource?: boolean;
+  DeleteResource?: boolean | undefined;
   ChannelMessage: ChannelMessageCallback;
 }
 export interface ChannelFlowCallbackResponse {
-  ChannelArn?: string;
-  CallbackId?: string;
+  ChannelArn?: string | undefined;
+  CallbackId?: string | undefined;
 }
 export type NonEmptyResourceName = string | redacted.Redacted<string>;
 export type ChannelMode = "UNRESTRICTED" | "RESTRICTED" | (string & {});
@@ -320,20 +321,20 @@ export interface ExpirationSettings {
 export interface CreateChannelRequest {
   AppInstanceArn: string;
   Name: string | redacted.Redacted<string>;
-  Mode?: ChannelMode;
-  Privacy?: ChannelPrivacy;
-  Metadata?: string | redacted.Redacted<string>;
+  Mode?: ChannelMode | undefined;
+  Privacy?: ChannelPrivacy | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
   ClientRequestToken: string | redacted.Redacted<string>;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   ChimeBearer: string;
-  ChannelId?: string | redacted.Redacted<string>;
-  MemberArns?: string[];
-  ModeratorArns?: string[];
-  ElasticChannelConfiguration?: ElasticChannelConfiguration;
-  ExpirationSettings?: ExpirationSettings;
+  ChannelId?: string | redacted.Redacted<string> | undefined;
+  MemberArns?: string[] | undefined;
+  ModeratorArns?: string[] | undefined;
+  ElasticChannelConfiguration?: ElasticChannelConfiguration | undefined;
+  ExpirationSettings?: ExpirationSettings | undefined;
 }
 export interface CreateChannelResponse {
-  ChannelArn?: string;
+  ChannelArn?: string | undefined;
 }
 export interface CreateChannelBanRequest {
   ChannelArn: string;
@@ -341,8 +342,8 @@ export interface CreateChannelBanRequest {
   ChimeBearer: string;
 }
 export interface CreateChannelBanResponse {
-  ChannelArn?: string;
-  Member?: Identity;
+  ChannelArn?: string | undefined;
+  Member?: Identity | undefined;
 }
 export type LambdaFunctionArn = string;
 export type InvocationType = "ASYNC" | (string & {});
@@ -366,23 +367,23 @@ export interface CreateChannelFlowRequest {
   AppInstanceArn: string;
   Processors: Processor[];
   Name: string | redacted.Redacted<string>;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   ClientRequestToken: string | redacted.Redacted<string>;
 }
 export interface CreateChannelFlowResponse {
-  ChannelFlowArn?: string;
+  ChannelFlowArn?: string | undefined;
 }
 export interface CreateChannelMembershipRequest {
   ChannelArn: string;
   MemberArn: string;
   Type: ChannelMembershipType;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export interface CreateChannelMembershipResponse {
-  ChannelArn?: string;
-  Member?: Identity;
-  SubChannelId?: string;
+  ChannelArn?: string | undefined;
+  Member?: Identity | undefined;
+  SubChannelId?: string | undefined;
 }
 export interface CreateChannelModeratorRequest {
   ChannelArn: string;
@@ -390,8 +391,8 @@ export interface CreateChannelModeratorRequest {
   ChimeBearer: string;
 }
 export interface CreateChannelModeratorResponse {
-  ChannelArn?: string;
-  ChannelModerator?: Identity;
+  ChannelArn?: string | undefined;
+  ChannelModerator?: Identity | undefined;
 }
 export interface DeleteChannelRequest {
   ChannelArn: string;
@@ -412,14 +413,14 @@ export interface DeleteChannelMembershipRequest {
   ChannelArn: string;
   MemberArn: string;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export interface DeleteChannelMembershipResponse {}
 export interface DeleteChannelMessageRequest {
   ChannelArn: string;
   MessageId: string;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export interface DeleteChannelMessageResponse {}
 export interface DeleteChannelModeratorRequest {
@@ -437,21 +438,21 @@ export interface DescribeChannelRequest {
   ChimeBearer: string;
 }
 export interface Channel {
-  Name?: string | redacted.Redacted<string>;
-  ChannelArn?: string;
-  Mode?: ChannelMode;
-  Privacy?: ChannelPrivacy;
-  Metadata?: string | redacted.Redacted<string>;
-  CreatedBy?: Identity;
-  CreatedTimestamp?: Date;
-  LastMessageTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
-  ChannelFlowArn?: string;
-  ElasticChannelConfiguration?: ElasticChannelConfiguration;
-  ExpirationSettings?: ExpirationSettings;
+  Name?: string | redacted.Redacted<string> | undefined;
+  ChannelArn?: string | undefined;
+  Mode?: ChannelMode | undefined;
+  Privacy?: ChannelPrivacy | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
+  CreatedBy?: Identity | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastMessageTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  ChannelFlowArn?: string | undefined;
+  ElasticChannelConfiguration?: ElasticChannelConfiguration | undefined;
+  ExpirationSettings?: ExpirationSettings | undefined;
 }
 export interface DescribeChannelResponse {
-  Channel?: Channel;
+  Channel?: Channel | undefined;
 }
 export interface DescribeChannelBanRequest {
   ChannelArn: string;
@@ -459,44 +460,44 @@ export interface DescribeChannelBanRequest {
   ChimeBearer: string;
 }
 export interface ChannelBan {
-  Member?: Identity;
-  ChannelArn?: string;
-  CreatedTimestamp?: Date;
-  CreatedBy?: Identity;
+  Member?: Identity | undefined;
+  ChannelArn?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  CreatedBy?: Identity | undefined;
 }
 export interface DescribeChannelBanResponse {
-  ChannelBan?: ChannelBan;
+  ChannelBan?: ChannelBan | undefined;
 }
 export interface DescribeChannelFlowRequest {
   ChannelFlowArn: string;
 }
 export interface ChannelFlow {
-  ChannelFlowArn?: string;
-  Processors?: Processor[];
-  Name?: string | redacted.Redacted<string>;
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
+  ChannelFlowArn?: string | undefined;
+  Processors?: Processor[] | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
 }
 export interface DescribeChannelFlowResponse {
-  ChannelFlow?: ChannelFlow;
+  ChannelFlow?: ChannelFlow | undefined;
 }
 export interface DescribeChannelMembershipRequest {
   ChannelArn: string;
   MemberArn: string;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export interface ChannelMembership {
-  InvitedBy?: Identity;
-  Type?: ChannelMembershipType;
-  Member?: Identity;
-  ChannelArn?: string;
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
-  SubChannelId?: string;
+  InvitedBy?: Identity | undefined;
+  Type?: ChannelMembershipType | undefined;
+  Member?: Identity | undefined;
+  ChannelArn?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  SubChannelId?: string | undefined;
 }
 export interface DescribeChannelMembershipResponse {
-  ChannelMembership?: ChannelMembership;
+  ChannelMembership?: ChannelMembership | undefined;
 }
 export interface DescribeChannelMembershipForAppInstanceUserRequest {
   ChannelArn: string;
@@ -504,24 +505,24 @@ export interface DescribeChannelMembershipForAppInstanceUserRequest {
   ChimeBearer: string;
 }
 export interface ChannelSummary {
-  Name?: string | redacted.Redacted<string>;
-  ChannelArn?: string;
-  Mode?: ChannelMode;
-  Privacy?: ChannelPrivacy;
-  Metadata?: string | redacted.Redacted<string>;
-  LastMessageTimestamp?: Date;
+  Name?: string | redacted.Redacted<string> | undefined;
+  ChannelArn?: string | undefined;
+  Mode?: ChannelMode | undefined;
+  Privacy?: ChannelPrivacy | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
+  LastMessageTimestamp?: Date | undefined;
 }
 export interface AppInstanceUserMembershipSummary {
-  Type?: ChannelMembershipType;
-  ReadMarkerTimestamp?: Date;
-  SubChannelId?: string;
+  Type?: ChannelMembershipType | undefined;
+  ReadMarkerTimestamp?: Date | undefined;
+  SubChannelId?: string | undefined;
 }
 export interface ChannelMembershipForAppInstanceUserSummary {
-  ChannelSummary?: ChannelSummary;
-  AppInstanceUserMembershipSummary?: AppInstanceUserMembershipSummary;
+  ChannelSummary?: ChannelSummary | undefined;
+  AppInstanceUserMembershipSummary?: AppInstanceUserMembershipSummary | undefined;
 }
 export interface DescribeChannelMembershipForAppInstanceUserResponse {
-  ChannelMembership?: ChannelMembershipForAppInstanceUserSummary;
+  ChannelMembership?: ChannelMembershipForAppInstanceUserSummary | undefined;
 }
 export interface DescribeChannelModeratedByAppInstanceUserRequest {
   ChannelArn: string;
@@ -529,10 +530,10 @@ export interface DescribeChannelModeratedByAppInstanceUserRequest {
   ChimeBearer: string;
 }
 export interface ChannelModeratedByAppInstanceUserSummary {
-  ChannelSummary?: ChannelSummary;
+  ChannelSummary?: ChannelSummary | undefined;
 }
 export interface DescribeChannelModeratedByAppInstanceUserResponse {
-  Channel?: ChannelModeratedByAppInstanceUserSummary;
+  Channel?: ChannelModeratedByAppInstanceUserSummary | undefined;
 }
 export interface DescribeChannelModeratorRequest {
   ChannelArn: string;
@@ -540,13 +541,13 @@ export interface DescribeChannelModeratorRequest {
   ChimeBearer: string;
 }
 export interface ChannelModerator {
-  Moderator?: Identity;
-  ChannelArn?: string;
-  CreatedTimestamp?: Date;
-  CreatedBy?: Identity;
+  Moderator?: Identity | undefined;
+  ChannelArn?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  CreatedBy?: Identity | undefined;
 }
 export interface DescribeChannelModeratorResponse {
-  ChannelModerator?: ChannelModerator;
+  ChannelModerator?: ChannelModerator | undefined;
 }
 export interface DisassociateChannelFlowRequest {
   ChannelArn: string;
@@ -563,21 +564,21 @@ export type AllowNotifications = "ALL" | "NONE" | "FILTERED" | (string & {});
 export type FilterRule = string | redacted.Redacted<string>;
 export interface PushNotificationPreferences {
   AllowNotifications: AllowNotifications;
-  FilterRule?: string | redacted.Redacted<string>;
+  FilterRule?: string | redacted.Redacted<string> | undefined;
 }
 export interface ChannelMembershipPreferences {
-  PushNotifications?: PushNotificationPreferences;
+  PushNotifications?: PushNotificationPreferences | undefined;
 }
 export interface GetChannelMembershipPreferencesResponse {
-  ChannelArn?: string;
-  Member?: Identity;
-  Preferences?: ChannelMembershipPreferences;
+  ChannelArn?: string | undefined;
+  Member?: Identity | undefined;
+  Preferences?: ChannelMembershipPreferences | undefined;
 }
 export interface GetChannelMessageRequest {
   ChannelArn: string;
   MessageId: string;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export type Content = string | redacted.Redacted<string>;
 export type ChannelMessageType = "STANDARD" | "CONTROL" | (string & {});
@@ -585,53 +586,53 @@ export type ChannelMessagePersistenceType = "PERSISTENT" | "NON_PERSISTENT" | (s
 export type ChannelMessageStatus = "SENT" | "PENDING" | "FAILED" | "DENIED" | (string & {});
 export type StatusDetail = string;
 export interface ChannelMessageStatusStructure {
-  Value?: ChannelMessageStatus;
-  Detail?: string;
+  Value?: ChannelMessageStatus | undefined;
+  Detail?: string | undefined;
 }
 export interface Target {
-  MemberArn?: string;
+  MemberArn?: string | undefined;
 }
 export type TargetList = Target[];
 export interface ChannelMessage {
-  ChannelArn?: string;
-  MessageId?: string;
-  Content?: string | redacted.Redacted<string>;
-  Metadata?: string | redacted.Redacted<string>;
-  Type?: ChannelMessageType;
-  CreatedTimestamp?: Date;
-  LastEditedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
-  Sender?: Identity;
-  Redacted?: boolean;
-  Persistence?: ChannelMessagePersistenceType;
-  Status?: ChannelMessageStatusStructure;
-  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
-  SubChannelId?: string;
-  ContentType?: string | redacted.Redacted<string>;
-  Target?: Target[];
+  ChannelArn?: string | undefined;
+  MessageId?: string | undefined;
+  Content?: string | redacted.Redacted<string> | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
+  Type?: ChannelMessageType | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastEditedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  Sender?: Identity | undefined;
+  Redacted?: boolean | undefined;
+  Persistence?: ChannelMessagePersistenceType | undefined;
+  Status?: ChannelMessageStatusStructure | undefined;
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
+  SubChannelId?: string | undefined;
+  ContentType?: string | redacted.Redacted<string> | undefined;
+  Target?: Target[] | undefined;
 }
 export interface GetChannelMessageResponse {
-  ChannelMessage?: ChannelMessage;
+  ChannelMessage?: ChannelMessage | undefined;
 }
 export interface GetChannelMessageStatusRequest {
   ChannelArn: string;
   MessageId: string;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export interface GetChannelMessageStatusResponse {
-  Status?: ChannelMessageStatusStructure;
+  Status?: ChannelMessageStatusStructure | undefined;
 }
 export type NetworkType = "IPV4_ONLY" | "DUAL_STACK" | (string & {});
 export interface GetMessagingSessionEndpointRequest {
-  NetworkType?: NetworkType;
+  NetworkType?: NetworkType | undefined;
 }
 export type UrlType = string;
 export interface MessagingSessionEndpoint {
-  Url?: string;
+  Url?: string | undefined;
 }
 export interface GetMessagingSessionEndpointResponse {
-  Endpoint?: MessagingSessionEndpoint;
+  Endpoint?: MessagingSessionEndpoint | undefined;
 }
 export interface GetMessagingStreamingConfigurationsRequest {
   AppInstanceArn: string;
@@ -643,189 +644,189 @@ export interface StreamingConfiguration {
 }
 export type StreamingConfigurationList = StreamingConfiguration[];
 export interface GetMessagingStreamingConfigurationsResponse {
-  StreamingConfigurations?: StreamingConfiguration[];
+  StreamingConfigurations?: StreamingConfiguration[] | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string | redacted.Redacted<string>;
 export interface ListChannelBansRequest {
   ChannelArn: string;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
 }
 export interface ChannelBanSummary {
-  Member?: Identity;
+  Member?: Identity | undefined;
 }
 export type ChannelBanSummaryList = ChannelBanSummary[];
 export interface ListChannelBansResponse {
-  ChannelArn?: string;
-  NextToken?: string | redacted.Redacted<string>;
-  ChannelBans?: ChannelBanSummary[];
+  ChannelArn?: string | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  ChannelBans?: ChannelBanSummary[] | undefined;
 }
 export interface ListChannelFlowsRequest {
   AppInstanceArn: string;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ChannelFlowSummary {
-  ChannelFlowArn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Processors?: Processor[];
+  ChannelFlowArn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Processors?: Processor[] | undefined;
 }
 export type ChannelFlowSummaryList = ChannelFlowSummary[];
 export interface ListChannelFlowsResponse {
-  ChannelFlows?: ChannelFlowSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  ChannelFlows?: ChannelFlowSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListChannelMembershipsRequest {
   ChannelArn: string;
-  Type?: ChannelMembershipType;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  Type?: ChannelMembershipType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export interface ChannelMembershipSummary {
-  Member?: Identity;
+  Member?: Identity | undefined;
 }
 export type ChannelMembershipSummaryList = ChannelMembershipSummary[];
 export interface ListChannelMembershipsResponse {
-  ChannelArn?: string;
-  ChannelMemberships?: ChannelMembershipSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  ChannelArn?: string | undefined;
+  ChannelMemberships?: ChannelMembershipSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListChannelMembershipsForAppInstanceUserRequest {
-  AppInstanceUserArn?: string;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  AppInstanceUserArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
 }
 export type ChannelMembershipForAppInstanceUserSummaryList =
   ChannelMembershipForAppInstanceUserSummary[];
 export interface ListChannelMembershipsForAppInstanceUserResponse {
-  ChannelMemberships?: ChannelMembershipForAppInstanceUserSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  ChannelMemberships?: ChannelMembershipForAppInstanceUserSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface ListChannelMessagesRequest {
   ChannelArn: string;
-  SortOrder?: SortOrder;
-  NotBefore?: Date;
-  NotAfter?: Date;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  SortOrder?: SortOrder | undefined;
+  NotBefore?: Date | undefined;
+  NotAfter?: Date | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export interface ChannelMessageSummary {
-  MessageId?: string;
-  Content?: string | redacted.Redacted<string>;
-  Metadata?: string | redacted.Redacted<string>;
-  Type?: ChannelMessageType;
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
-  LastEditedTimestamp?: Date;
-  Sender?: Identity;
-  Redacted?: boolean;
-  Status?: ChannelMessageStatusStructure;
-  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
-  ContentType?: string | redacted.Redacted<string>;
-  Target?: Target[];
+  MessageId?: string | undefined;
+  Content?: string | redacted.Redacted<string> | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
+  Type?: ChannelMessageType | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  LastEditedTimestamp?: Date | undefined;
+  Sender?: Identity | undefined;
+  Redacted?: boolean | undefined;
+  Status?: ChannelMessageStatusStructure | undefined;
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
+  ContentType?: string | redacted.Redacted<string> | undefined;
+  Target?: Target[] | undefined;
 }
 export type ChannelMessageSummaryList = ChannelMessageSummary[];
 export interface ListChannelMessagesResponse {
-  ChannelArn?: string;
-  NextToken?: string | redacted.Redacted<string>;
-  ChannelMessages?: ChannelMessageSummary[];
-  SubChannelId?: string;
+  ChannelArn?: string | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  ChannelMessages?: ChannelMessageSummary[] | undefined;
+  SubChannelId?: string | undefined;
 }
 export interface ListChannelModeratorsRequest {
   ChannelArn: string;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
 }
 export interface ChannelModeratorSummary {
-  Moderator?: Identity;
+  Moderator?: Identity | undefined;
 }
 export type ChannelModeratorSummaryList = ChannelModeratorSummary[];
 export interface ListChannelModeratorsResponse {
-  ChannelArn?: string;
-  NextToken?: string | redacted.Redacted<string>;
-  ChannelModerators?: ChannelModeratorSummary[];
+  ChannelArn?: string | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  ChannelModerators?: ChannelModeratorSummary[] | undefined;
 }
 export interface ListChannelsRequest {
   AppInstanceArn: string;
-  Privacy?: ChannelPrivacy;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  Privacy?: ChannelPrivacy | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
 }
 export type ChannelSummaryList = ChannelSummary[];
 export interface ListChannelsResponse {
-  Channels?: ChannelSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  Channels?: ChannelSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListChannelsAssociatedWithChannelFlowRequest {
   ChannelFlowArn: string;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ChannelAssociatedWithFlowSummary {
-  Name?: string | redacted.Redacted<string>;
-  ChannelArn?: string;
-  Mode?: ChannelMode;
-  Privacy?: ChannelPrivacy;
-  Metadata?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string> | undefined;
+  ChannelArn?: string | undefined;
+  Mode?: ChannelMode | undefined;
+  Privacy?: ChannelPrivacy | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
 }
 export type ChannelAssociatedWithFlowSummaryList = ChannelAssociatedWithFlowSummary[];
 export interface ListChannelsAssociatedWithChannelFlowResponse {
-  Channels?: ChannelAssociatedWithFlowSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  Channels?: ChannelAssociatedWithFlowSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListChannelsModeratedByAppInstanceUserRequest {
-  AppInstanceUserArn?: string;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  AppInstanceUserArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
 }
 export type ChannelModeratedByAppInstanceUserSummaryList =
   ChannelModeratedByAppInstanceUserSummary[];
 export interface ListChannelsModeratedByAppInstanceUserResponse {
-  Channels?: ChannelModeratedByAppInstanceUserSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  Channels?: ChannelModeratedByAppInstanceUserSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListSubChannelsRequest {
   ChannelArn: string;
   ChimeBearer: string;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export type MembershipCount = number;
 export interface SubChannelSummary {
-  SubChannelId?: string;
-  MembershipCount?: number;
+  SubChannelId?: string | undefined;
+  MembershipCount?: number | undefined;
 }
 export type SubChannelSummaryList = SubChannelSummary[];
 export interface ListSubChannelsResponse {
-  ChannelArn?: string;
-  SubChannels?: SubChannelSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  ChannelArn?: string | undefined;
+  SubChannels?: SubChannelSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutChannelExpirationSettingsRequest {
   ChannelArn: string;
-  ChimeBearer?: string;
-  ExpirationSettings?: ExpirationSettings;
+  ChimeBearer?: string | undefined;
+  ExpirationSettings?: ExpirationSettings | undefined;
 }
 export interface PutChannelExpirationSettingsResponse {
-  ChannelArn?: string;
-  ExpirationSettings?: ExpirationSettings;
+  ChannelArn?: string | undefined;
+  ExpirationSettings?: ExpirationSettings | undefined;
 }
 export interface PutChannelMembershipPreferencesRequest {
   ChannelArn: string;
@@ -834,27 +835,27 @@ export interface PutChannelMembershipPreferencesRequest {
   Preferences: ChannelMembershipPreferences;
 }
 export interface PutChannelMembershipPreferencesResponse {
-  ChannelArn?: string;
-  Member?: Identity;
-  Preferences?: ChannelMembershipPreferences;
+  ChannelArn?: string | undefined;
+  Member?: Identity | undefined;
+  Preferences?: ChannelMembershipPreferences | undefined;
 }
 export interface PutMessagingStreamingConfigurationsRequest {
   AppInstanceArn: string;
   StreamingConfigurations: StreamingConfiguration[];
 }
 export interface PutMessagingStreamingConfigurationsResponse {
-  StreamingConfigurations?: StreamingConfiguration[];
+  StreamingConfigurations?: StreamingConfiguration[] | undefined;
 }
 export interface RedactChannelMessageRequest {
   ChannelArn: string;
   MessageId: string;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export interface RedactChannelMessageResponse {
-  ChannelArn?: string;
-  MessageId?: string;
-  SubChannelId?: string;
+  ChannelArn?: string | undefined;
+  MessageId?: string | undefined;
+  SubChannelId?: string | undefined;
 }
 export type SearchFieldKey = "MEMBERS" | (string & {});
 export type SearchFieldValue = string;
@@ -867,34 +868,34 @@ export interface SearchField {
 }
 export type SearchFields = SearchField[];
 export interface SearchChannelsRequest {
-  ChimeBearer?: string;
+  ChimeBearer?: string | undefined;
   Fields: SearchField[];
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface SearchChannelsResponse {
-  Channels?: ChannelSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  Channels?: ChannelSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface SendChannelMessageRequest {
   ChannelArn: string;
   Content: string | redacted.Redacted<string>;
   Type: ChannelMessageType;
   Persistence: ChannelMessagePersistenceType;
-  Metadata?: string | redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string> | undefined;
   ClientRequestToken: string | redacted.Redacted<string>;
   ChimeBearer: string;
-  PushNotification?: PushNotificationConfiguration;
-  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
-  SubChannelId?: string;
-  ContentType?: string | redacted.Redacted<string>;
-  Target?: Target[];
+  PushNotification?: PushNotificationConfiguration | undefined;
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
+  SubChannelId?: string | undefined;
+  ContentType?: string | redacted.Redacted<string> | undefined;
+  Target?: Target[] | undefined;
 }
 export interface SendChannelMessageResponse {
-  ChannelArn?: string;
-  MessageId?: string;
-  Status?: ChannelMessageStatusStructure;
-  SubChannelId?: string;
+  ChannelArn?: string | undefined;
+  MessageId?: string | undefined;
+  Status?: ChannelMessageStatusStructure | undefined;
+  SubChannelId?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -909,13 +910,13 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateChannelRequest {
   ChannelArn: string;
-  Name?: string | redacted.Redacted<string>;
-  Mode?: ChannelMode;
-  Metadata?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Mode?: ChannelMode | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
 }
 export interface UpdateChannelResponse {
-  ChannelArn?: string;
+  ChannelArn?: string | undefined;
 }
 export interface UpdateChannelFlowRequest {
   ChannelFlowArn: string;
@@ -923,29 +924,29 @@ export interface UpdateChannelFlowRequest {
   Name: string | redacted.Redacted<string>;
 }
 export interface UpdateChannelFlowResponse {
-  ChannelFlowArn?: string;
+  ChannelFlowArn?: string | undefined;
 }
 export interface UpdateChannelMessageRequest {
   ChannelArn: string;
   MessageId: string;
   Content: string | redacted.Redacted<string>;
-  Metadata?: string | redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
-  SubChannelId?: string;
-  ContentType?: string | redacted.Redacted<string>;
+  SubChannelId?: string | undefined;
+  ContentType?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateChannelMessageResponse {
-  ChannelArn?: string;
-  MessageId?: string;
-  Status?: ChannelMessageStatusStructure;
-  SubChannelId?: string;
+  ChannelArn?: string | undefined;
+  MessageId?: string | undefined;
+  Status?: ChannelMessageStatusStructure | undefined;
+  SubChannelId?: string | undefined;
 }
 export interface UpdateChannelReadMarkerRequest {
   ChannelArn: string;
   ChimeBearer: string;
 }
 export interface UpdateChannelReadMarkerResponse {
-  ChannelArn?: string;
+  ChannelArn?: string | undefined;
 }
 export type AssociateChannelFlowError =
   | BadRequestException
@@ -967,7 +968,7 @@ export type AssociateChannelFlowError =
  * that makes the API call as the value in the header.
  */
 export const associateChannelFlow: API.OperationMethod<
-  AssociateChannelFlowRequest,
+  AssociateChannelFlowRequest & RegionInput,
   AssociateChannelFlowResponse,
   AssociateChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -1005,7 +1006,7 @@ export type BatchCreateChannelMembershipError =
  * Adds a specified number of users and bots to a channel.
  */
 export const batchCreateChannelMembership: API.OperationMethod<
-  BatchCreateChannelMembershipRequest,
+  BatchCreateChannelMembershipRequest & RegionInput,
   BatchCreateChannelMembershipResponse,
   BatchCreateChannelMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1050,7 +1051,7 @@ export type ChannelFlowCallbackError =
  * - Make no changes to the message
  */
 export const channelFlowCallback: API.OperationMethod<
-  ChannelFlowCallbackRequest,
+  ChannelFlowCallbackRequest & RegionInput,
   ChannelFlowCallbackResponse,
   ChannelFlowCallbackError,
   Credentials | HttpClient.HttpClient
@@ -1094,7 +1095,7 @@ export type CreateChannelError =
  * the header.
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
+  CreateChannelRequest & RegionInput,
   CreateChannelResponse,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
@@ -1142,7 +1143,7 @@ export type CreateChannelBanError =
  * the header.
  */
 export const createChannelBan: API.OperationMethod<
-  CreateChannelBanRequest,
+  CreateChannelBanRequest & RegionInput,
   CreateChannelBanResponse,
   CreateChannelBanError,
   Credentials | HttpClient.HttpClient
@@ -1194,7 +1195,7 @@ export type CreateChannelFlowError =
  * Message types in the *Amazon Chime developer guide*.
  */
 export const createChannelFlow: API.OperationMethod<
-  CreateChannelFlowRequest,
+  CreateChannelFlowRequest & RegionInput,
   CreateChannelFlowResponse,
   CreateChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -1255,7 +1256,7 @@ export type CreateChannelMembershipError =
  * as the value in the header.
  */
 export const createChannelMembership: API.OperationMethod<
-  CreateChannelMembershipRequest,
+  CreateChannelMembershipRequest & RegionInput,
   CreateChannelMembershipResponse,
   CreateChannelMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1308,7 +1309,7 @@ export type CreateChannelModeratorError =
  * the header.
  */
 export const createChannelModerator: API.OperationMethod<
-  CreateChannelModeratorRequest,
+  CreateChannelModeratorRequest & RegionInput,
   CreateChannelModeratorResponse,
   CreateChannelModeratorError,
   Credentials | HttpClient.HttpClient
@@ -1350,7 +1351,7 @@ export type DeleteChannelError =
  * the header.
  */
 export const deleteChannel: API.OperationMethod<
-  DeleteChannelRequest,
+  DeleteChannelRequest & RegionInput,
   DeleteChannelResponse,
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
@@ -1389,7 +1390,7 @@ export type DeleteChannelBanError =
  * the header.
  */
 export const deleteChannelBan: API.OperationMethod<
-  DeleteChannelBanRequest,
+  DeleteChannelBanRequest & RegionInput,
   DeleteChannelBanResponse,
   DeleteChannelBanError,
   Credentials | HttpClient.HttpClient
@@ -1427,7 +1428,7 @@ export type DeleteChannelFlowError =
  * `ListChannelsAssociatedWithChannelFlow` API. Use the `DisassociateChannelFlow` API to disassociate a channel flow from all channels.
  */
 export const deleteChannelFlow: API.OperationMethod<
-  DeleteChannelFlowRequest,
+  DeleteChannelFlowRequest & RegionInput,
   DeleteChannelFlowResponse,
   DeleteChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -1467,7 +1468,7 @@ export type DeleteChannelMembershipError =
  * the header.
  */
 export const deleteChannelMembership: API.OperationMethod<
-  DeleteChannelMembershipRequest,
+  DeleteChannelMembershipRequest & RegionInput,
   DeleteChannelMembershipResponse,
   DeleteChannelMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1508,7 +1509,7 @@ export type DeleteChannelMessageError =
  * the header.
  */
 export const deleteChannelMessage: API.OperationMethod<
-  DeleteChannelMessageRequest,
+  DeleteChannelMessageRequest & RegionInput,
   DeleteChannelMessageResponse,
   DeleteChannelMessageError,
   Credentials | HttpClient.HttpClient
@@ -1546,7 +1547,7 @@ export type DeleteChannelModeratorError =
  * the header.
  */
 export const deleteChannelModerator: API.OperationMethod<
-  DeleteChannelModeratorRequest,
+  DeleteChannelModeratorRequest & RegionInput,
   DeleteChannelModeratorResponse,
   DeleteChannelModeratorError,
   Credentials | HttpClient.HttpClient
@@ -1581,7 +1582,7 @@ export type DeleteMessagingStreamingConfigurationsError =
  * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
  */
 export const deleteMessagingStreamingConfigurations: API.OperationMethod<
-  DeleteMessagingStreamingConfigurationsRequest,
+  DeleteMessagingStreamingConfigurationsRequest & RegionInput,
   DeleteMessagingStreamingConfigurationsResponse,
   DeleteMessagingStreamingConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -1620,7 +1621,7 @@ export type DescribeChannelError =
  * the header.
  */
 export const describeChannel: API.OperationMethod<
-  DescribeChannelRequest,
+  DescribeChannelRequest & RegionInput,
   DescribeChannelResponse,
   DescribeChannelError,
   Credentials | HttpClient.HttpClient
@@ -1659,7 +1660,7 @@ export type DescribeChannelBanError =
  * the header.
  */
 export const describeChannelBan: API.OperationMethod<
-  DescribeChannelBanRequest,
+  DescribeChannelBanRequest & RegionInput,
   DescribeChannelBanResponse,
   DescribeChannelBanError,
   Credentials | HttpClient.HttpClient
@@ -1694,7 +1695,7 @@ export type DescribeChannelFlowError =
  * Returns the full details of a channel flow in an Amazon Chime `AppInstance`. This is a developer API.
  */
 export const describeChannelFlow: API.OperationMethod<
-  DescribeChannelFlowRequest,
+  DescribeChannelFlowRequest & RegionInput,
   DescribeChannelFlowResponse,
   DescribeChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -1733,7 +1734,7 @@ export type DescribeChannelMembershipError =
  * the header.
  */
 export const describeChannelMembership: API.OperationMethod<
-  DescribeChannelMembershipRequest,
+  DescribeChannelMembershipRequest & RegionInput,
   DescribeChannelMembershipResponse,
   DescribeChannelMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1773,7 +1774,7 @@ export type DescribeChannelMembershipForAppInstanceUserError =
  * the header.
  */
 export const describeChannelMembershipForAppInstanceUser: API.OperationMethod<
-  DescribeChannelMembershipForAppInstanceUserRequest,
+  DescribeChannelMembershipForAppInstanceUserRequest & RegionInput,
   DescribeChannelMembershipForAppInstanceUserResponse,
   DescribeChannelMembershipForAppInstanceUserError,
   Credentials | HttpClient.HttpClient
@@ -1816,7 +1817,7 @@ export type DescribeChannelModeratedByAppInstanceUserError =
  * the header.
  */
 export const describeChannelModeratedByAppInstanceUser: API.OperationMethod<
-  DescribeChannelModeratedByAppInstanceUserRequest,
+  DescribeChannelModeratedByAppInstanceUserRequest & RegionInput,
   DescribeChannelModeratedByAppInstanceUserResponse,
   DescribeChannelModeratedByAppInstanceUserError,
   Credentials | HttpClient.HttpClient
@@ -1855,7 +1856,7 @@ export type DescribeChannelModeratorError =
  * the header.
  */
 export const describeChannelModerator: API.OperationMethod<
-  DescribeChannelModeratorRequest,
+  DescribeChannelModeratorRequest & RegionInput,
   DescribeChannelModeratorResponse,
   DescribeChannelModeratorError,
   Credentials | HttpClient.HttpClient
@@ -1899,7 +1900,7 @@ export type DisassociateChannelFlowError =
  * the header.
  */
 export const disassociateChannelFlow: API.OperationMethod<
-  DisassociateChannelFlowRequest,
+  DisassociateChannelFlowRequest & RegionInput,
   DisassociateChannelFlowResponse,
   DisassociateChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -1943,7 +1944,7 @@ export type GetChannelMembershipPreferencesError =
  * the header.
  */
 export const getChannelMembershipPreferences: API.OperationMethod<
-  GetChannelMembershipPreferencesRequest,
+  GetChannelMembershipPreferencesRequest & RegionInput,
   GetChannelMembershipPreferencesResponse,
   GetChannelMembershipPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1982,7 +1983,7 @@ export type GetChannelMessageError =
  * the header.
  */
 export const getChannelMessage: API.OperationMethod<
-  GetChannelMessageRequest,
+  GetChannelMessageRequest & RegionInput,
   GetChannelMessageResponse,
   GetChannelMessageError,
   Credentials | HttpClient.HttpClient
@@ -2044,7 +2045,7 @@ export type GetChannelMessageStatusError =
  * the header.
  */
 export const getChannelMessageStatus: API.OperationMethod<
-  GetChannelMessageStatusRequest,
+  GetChannelMessageStatusRequest & RegionInput,
   GetChannelMessageStatusResponse,
   GetChannelMessageStatusError,
   Credentials | HttpClient.HttpClient
@@ -2077,7 +2078,7 @@ export type GetMessagingSessionEndpointError =
  * The details of the endpoint for the messaging session.
  */
 export const getMessagingSessionEndpoint: API.OperationMethod<
-  GetMessagingSessionEndpointRequest,
+  GetMessagingSessionEndpointRequest & RegionInput,
   GetMessagingSessionEndpointResponse,
   GetMessagingSessionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2112,7 +2113,7 @@ export type GetMessagingStreamingConfigurationsError =
  * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
  */
 export const getMessagingStreamingConfigurations: API.OperationMethod<
-  GetMessagingStreamingConfigurationsRequest,
+  GetMessagingStreamingConfigurationsRequest & RegionInput,
   GetMessagingStreamingConfigurationsResponse,
   GetMessagingStreamingConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -2151,7 +2152,7 @@ export type ListChannelBansError =
  * the header.
  */
 export const listChannelBans: API.PaginatedOperationMethod<
-  ListChannelBansRequest,
+  ListChannelBansRequest & RegionInput,
   ListChannelBansResponse,
   ListChannelBansError,
   Credentials | HttpClient.HttpClient,
@@ -2191,7 +2192,7 @@ export type ListChannelFlowsError =
  * Returns a paginated lists of all the channel flows created under a single Chime. This is a developer API.
  */
 export const listChannelFlows: API.PaginatedOperationMethod<
-  ListChannelFlowsRequest,
+  ListChannelFlowsRequest & RegionInput,
   ListChannelFlowsResponse,
   ListChannelFlowsError,
   Credentials | HttpClient.HttpClient,
@@ -2238,7 +2239,7 @@ export type ListChannelMembershipsError =
  * ListChannelMembershipsForAppInstanceUser API.
  */
 export const listChannelMemberships: API.PaginatedOperationMethod<
-  ListChannelMembershipsRequest,
+  ListChannelMembershipsRequest & RegionInput,
   ListChannelMembershipsResponse,
   ListChannelMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -2283,7 +2284,7 @@ export type ListChannelMembershipsForAppInstanceUserError =
  * the header.
  */
 export const listChannelMembershipsForAppInstanceUser: API.PaginatedOperationMethod<
-  ListChannelMembershipsForAppInstanceUserRequest,
+  ListChannelMembershipsForAppInstanceUserRequest & RegionInput,
   ListChannelMembershipsForAppInstanceUserResponse,
   ListChannelMembershipsForAppInstanceUserError,
   Credentials | HttpClient.HttpClient,
@@ -2333,7 +2334,7 @@ export type ListChannelMessagesError =
  * the header.
  */
 export const listChannelMessages: API.PaginatedOperationMethod<
-  ListChannelMessagesRequest,
+  ListChannelMessagesRequest & RegionInput,
   ListChannelMessagesResponse,
   ListChannelMessagesError,
   Credentials | HttpClient.HttpClient,
@@ -2377,7 +2378,7 @@ export type ListChannelModeratorsError =
  * the header.
  */
 export const listChannelModerators: API.PaginatedOperationMethod<
-  ListChannelModeratorsRequest,
+  ListChannelModeratorsRequest & RegionInput,
   ListChannelModeratorsResponse,
   ListChannelModeratorsError,
   Credentials | HttpClient.HttpClient,
@@ -2430,7 +2431,7 @@ export type ListChannelsError =
  * the header.
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -2470,7 +2471,7 @@ export type ListChannelsAssociatedWithChannelFlowError =
  * Lists all channels associated with a specified channel flow. You can associate a channel flow with multiple channels, but you can only associate a channel with one channel flow. This is a developer API.
  */
 export const listChannelsAssociatedWithChannelFlow: API.PaginatedOperationMethod<
-  ListChannelsAssociatedWithChannelFlowRequest,
+  ListChannelsAssociatedWithChannelFlowRequest & RegionInput,
   ListChannelsAssociatedWithChannelFlowResponse,
   ListChannelsAssociatedWithChannelFlowError,
   Credentials | HttpClient.HttpClient,
@@ -2514,7 +2515,7 @@ export type ListChannelsModeratedByAppInstanceUserError =
  * the header.
  */
 export const listChannelsModeratedByAppInstanceUser: API.PaginatedOperationMethod<
-  ListChannelsModeratedByAppInstanceUserRequest,
+  ListChannelsModeratedByAppInstanceUserRequest & RegionInput,
   ListChannelsModeratedByAppInstanceUserResponse,
   ListChannelsModeratedByAppInstanceUserError,
   Credentials | HttpClient.HttpClient,
@@ -2554,7 +2555,7 @@ export type ListSubChannelsError =
  * Lists all the SubChannels in an elastic channel when given a channel ID. Available only to the app instance admins and channel moderators of elastic channels.
  */
 export const listSubChannels: API.PaginatedOperationMethod<
-  ListSubChannelsRequest,
+  ListSubChannelsRequest & RegionInput,
   ListSubChannelsResponse,
   ListSubChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -2594,7 +2595,7 @@ export type ListTagsForResourceError =
  * Lists the tags applied to an Amazon Chime SDK messaging resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2639,7 +2640,7 @@ export type PutChannelExpirationSettingsError =
  * the header.
  */
 export const putChannelExpirationSettings: API.OperationMethod<
-  PutChannelExpirationSettingsRequest,
+  PutChannelExpirationSettingsRequest & RegionInput,
   PutChannelExpirationSettingsResponse,
   PutChannelExpirationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2683,7 +2684,7 @@ export type PutChannelMembershipPreferencesError =
  * header.
  */
 export const putChannelMembershipPreferences: API.OperationMethod<
-  PutChannelMembershipPreferencesRequest,
+  PutChannelMembershipPreferencesRequest & RegionInput,
   PutChannelMembershipPreferencesResponse,
   PutChannelMembershipPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -2721,7 +2722,7 @@ export type PutMessagingStreamingConfigurationsError =
  * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
  */
 export const putMessagingStreamingConfigurations: API.OperationMethod<
-  PutMessagingStreamingConfigurationsRequest,
+  PutMessagingStreamingConfigurationsRequest & RegionInput,
   PutMessagingStreamingConfigurationsResponse,
   PutMessagingStreamingConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -2763,7 +2764,7 @@ export type RedactChannelMessageError =
  * the header.
  */
 export const redactChannelMessage: API.OperationMethod<
-  RedactChannelMessageRequest,
+  RedactChannelMessageRequest & RegionInput,
   RedactChannelMessageResponse,
   RedactChannelMessageError,
   Credentials | HttpClient.HttpClient
@@ -2806,7 +2807,7 @@ export type SearchChannelsError =
  * This operation isn't supported for `AppInstanceUsers` with a large number of memberships.
  */
 export const searchChannels: API.PaginatedOperationMethod<
-  SearchChannelsRequest,
+  SearchChannelsRequest & RegionInput,
   SearchChannelsResponse,
   SearchChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -2856,7 +2857,7 @@ export type SendChannelMessageError =
  * `CONTROL` messages are limited to 30 bytes and do not contain metadata.
  */
 export const sendChannelMessage: API.OperationMethod<
-  SendChannelMessageRequest,
+  SendChannelMessageRequest & RegionInput,
   SendChannelMessageResponse,
   SendChannelMessageError,
   Credentials | HttpClient.HttpClient
@@ -2892,7 +2893,7 @@ export type TagResourceError =
  * Applies the specified tags to the specified Amazon Chime SDK messaging resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2927,7 +2928,7 @@ export type UntagResourceError =
  * Removes the specified tags from the specified Amazon Chime SDK messaging resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2968,7 +2969,7 @@ export type UpdateChannelError =
  * the header.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
+  UpdateChannelRequest & RegionInput,
   UpdateChannelResponse,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
@@ -3004,7 +3005,7 @@ export type UpdateChannelFlowError =
  * Updates channel flow attributes. This is a developer API.
  */
 export const updateChannelFlow: API.OperationMethod<
-  UpdateChannelFlowRequest,
+  UpdateChannelFlowRequest & RegionInput,
   UpdateChannelFlowResponse,
   UpdateChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -3044,7 +3045,7 @@ export type UpdateChannelMessageError =
  * the header.
  */
 export const updateChannelMessage: API.OperationMethod<
-  UpdateChannelMessageRequest,
+  UpdateChannelMessageRequest & RegionInput,
   UpdateChannelMessageResponse,
   UpdateChannelMessageError,
   Credentials | HttpClient.HttpClient
@@ -3084,7 +3085,7 @@ export type UpdateChannelReadMarkerError =
  * the header.
  */
 export const updateChannelReadMarker: API.OperationMethod<
-  UpdateChannelReadMarkerRequest,
+  UpdateChannelReadMarkerRequest & RegionInput,
   UpdateChannelReadMarkerResponse,
   UpdateChannelReadMarkerError,
   Credentials | HttpClient.HttpClient

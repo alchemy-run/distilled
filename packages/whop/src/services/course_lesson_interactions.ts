@@ -118,14 +118,14 @@ export interface CourseLessonInteraction {
   user: CourseLessonInteractionUser;
 }
 export interface ListCourseLessonInteractionRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  user_id?: string;
-  lesson_id?: string;
-  course_id?: string;
-  completed?: boolean;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  user_id?: string | undefined;
+  lesson_id?: string | undefined;
+  course_id?: string | undefined;
+  completed?: boolean | undefined;
 }
 /** The parent chapter that contains this lesson. */
 export type CourseLessonInteractionListItemLessonChapter = CourseLessonInteractionLessonChapter;

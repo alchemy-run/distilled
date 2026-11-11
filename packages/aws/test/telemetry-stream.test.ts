@@ -2,9 +2,13 @@
  * When an operation span ends for a streamed response (issue #979), as the
  * OpenTelemetry AWS SDK instrumentations do: a GenAI stream (Bedrock
  * ConverseStream) keeps the span open until the caller has read it; an S3
- * object body does not, so GetObject ends at the response headers.
+ * object body does not, so GetObject ends at the response headers. The
+ * ConverseStream span also records usage and finish reason from the stream's
+ * events (issue #978).
  */
 import { TelemetryDebug } from "@distilled.cloud/core/telemetry-debug";
+import { encodeEvent } from "@distilled.cloud/s3/eventstream/codec";
+import { serializeInputEvent } from "@distilled.cloud/s3/eventstream/serializer";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as HttpClient from "effect/http/HttpClient";
@@ -14,14 +18,14 @@ import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import * as Tracer from "effect/Tracer";
 import { beforeAll, describe, expect, test } from "vitest";
-import * as Credentials from "../src/credentials.browser.ts";
-import { encodeEvent } from "../src/eventstream/codec.ts";
-import { serializeInputEvent } from "../src/eventstream/serializer.ts";
+import * as Credentials from "../src/credentials.ts";
 import * as Retry from "../src/retry.ts";
 import * as Bedrock from "../src/services/bedrock-runtime.ts";
 import * as S3 from "../src/services/s3.ts";
 
-const PART_MS = 40;
+// Wide enough that a loaded CI runner's scheduling jitter stays well inside
+// one part; at 40ms the span-ends-before-body check failed on main.
+const PART_MS = 200;
 
 /** A 200 response whose body sends `parts`, PART_MS apart, then ends with `end`. */
 const http = (
@@ -87,25 +91,62 @@ const failed = (span: Tracer.NativeSpan) =>
   span.status._tag === "Ended" && Exit.isFailure(span.status.exit);
 
 describe("S3 GetObject", () => {
-  const body = ["part1;", "part2;", "part3;"].map((s) => new TextEncoder().encode(s));
-  const s3 = http(body, { "content-type": "application/octet-stream", "x-amz-request-id": "R1" });
+  const parts = ["part1;", "part2;", "part3;"].map((s) => new TextEncoder().encode(s));
+
+  /**
+   * A 200 response whose body counts its reads. With `highWaterMark: 0` the
+   * body pulls only when someone reads it, so `reads.count` says whether
+   * anything read the body before a given point.
+   */
+  const s3 = (reads: { count: number }) =>
+    Layer.succeed(
+      HttpClient.HttpClient,
+      HttpClient.make((request) =>
+        Effect.sync(() => {
+          let sent = 0;
+          const body = new ReadableStream<Uint8Array>(
+            {
+              pull(controller) {
+                reads.count++;
+                if (sent < parts.length) controller.enqueue(parts[sent++]!);
+                else controller.close();
+              },
+            },
+            { highWaterMark: 0 },
+          );
+          return HttpClientResponse.fromWeb(
+            request,
+            new Response(body, {
+              status: 200,
+              headers: { "content-type": "application/octet-stream", "x-amz-request-id": "R1" },
+            }),
+          );
+        }),
+      ),
+    );
 
   test("the span ends at the response headers; reading the body is the caller's", async () => {
     const spans: Tracer.NativeSpan[] = [];
+    const reads = { count: 0 };
     let endedBeforeRead: boolean | undefined;
+    let readsBeforeReturn: number | undefined;
     const { exit } = await run(
       Effect.gen(function* () {
         const out = yield* S3.getObject({ Bucket: "b", Key: "k" });
         endedBeforeRead = spans[0]!.status._tag === "Ended";
+        readsBeforeReturn = reads.count;
         return yield* Stream.mkString(Stream.decodeText(out.Body as Stream.Stream<Uint8Array>));
       }),
-      s3,
+      s3(reads),
       spans,
     );
     expect(exit).toEqual(Exit.succeed("part1;part2;part3;"));
-    expect(endedBeforeRead).toBe(true);
     expect(spans.map((s) => s.name)).toEqual(["S3.GetObject"]);
-    expect(ms(spans[0]!)).toBeLessThan(PART_MS);
+    // The span had ended when the call returned, and nothing had read the
+    // body by then: every read of the body falls after the span's end.
+    expect(endedBeforeRead).toBe(true);
+    expect(readsBeforeReturn).toBe(0);
+    expect(reads.count).toBeGreaterThan(0);
   });
 });
 
@@ -117,6 +158,12 @@ describe("Bedrock ConverseStream", () => {
         { messageStart: { role: "assistant" } },
         { contentBlockDelta: { contentBlockIndex: 0, delta: { text: "hi" } } },
         { messageStop: { stopReason: "end_turn" } },
+        {
+          metadata: {
+            usage: { inputTokens: 12, outputTokens: 3, totalTokens: 15, cacheReadInputTokens: 0 },
+            metrics: { latencyMs: 120 },
+          },
+        },
       ].map((event) => Effect.runPromise(encodeEvent(serializeInputEvent(event)))),
     );
   });
@@ -150,12 +197,38 @@ describe("Bedrock ConverseStream", () => {
     const span = spans[0]!;
     expect(span.name).toBe("chat m");
     expect(ok(span)).toBe(true);
-    // 3 events and the end of the body, PART_MS each.
-    expect(ms(span)).toBeGreaterThanOrEqual(4 * PART_MS - 5);
+    // 4 events and the end of the body, PART_MS each.
+    expect(ms(span)).toBeGreaterThanOrEqual(5 * PART_MS - 5);
     const first = span.attributes.get("gen_ai.response.time_to_first_chunk") as number;
     expect(first).toBeGreaterThanOrEqual((PART_MS - 5) / 1000);
     expect(first).toBeLessThan((2 * PART_MS) / 1000);
     expect(span.attributes.get("aws.request_id")).toBe("B1");
+  });
+
+  test("usage and finish reason come from the stream's events (issue #978)", async () => {
+    const { spans, exit } = await run(readAll, bedrock());
+    expect(Exit.isSuccess(exit)).toBe(true);
+    const attributes = Object.fromEntries(spans[0]!.attributes);
+    expect(attributes).toMatchObject({
+      "gen_ai.request.stream": true,
+      "gen_ai.usage.input_tokens": 12,
+      "gen_ai.usage.output_tokens": 3,
+      "gen_ai.response.finish_reasons": ["end_turn"],
+    });
+    // nonZero: a cache that was not used records nothing.
+    expect(attributes).not.toHaveProperty("gen_ai.usage.cache_read.input_tokens");
+    expect(attributes).not.toHaveProperty("gen_ai.usage.cache_write.input_tokens");
+  });
+
+  test("a caller that stops before the metadata event records no usage", async () => {
+    const { spans } = await run(
+      Effect.flatMap(converse, (out) =>
+        Stream.runCollect(Stream.take(out.stream as Stream.Stream<unknown, unknown>, 1)),
+      ),
+      bedrock(),
+    );
+    expect(spans[0]!.attributes.has("gen_ai.usage.input_tokens")).toBe(false);
+    expect(spans[0]!.attributes.has("gen_ai.response.finish_reasons")).toBe(false);
   });
 
   test("an error while reading fails the span", async () => {
@@ -188,8 +261,8 @@ describe("Bedrock ConverseStream", () => {
     expect(read.parent._tag === "Some" && read.parent.value.spanId).toBe(op.spanId);
     expect(Object.fromEntries(read.attributes)).toMatchObject({
       "distilled.stream.member": "stream",
-      "distilled.stream.items": 3,
+      "distilled.stream.items": 4,
     });
-    expect(ms(read)).toBeGreaterThanOrEqual(4 * PART_MS - 5);
+    expect(ms(read)).toBeGreaterThanOrEqual(5 * PART_MS - 5);
   });
 });

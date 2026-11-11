@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -214,32 +215,32 @@ export interface CustomAttribute {
 }
 export type CustomAttributeList = CustomAttribute[];
 export interface ASN1Subject {
-  Country?: string;
-  Organization?: string;
-  OrganizationalUnit?: string;
-  DistinguishedNameQualifier?: string;
-  State?: string;
-  CommonName?: string;
-  SerialNumber?: string;
-  Locality?: string;
-  Title?: string;
-  Surname?: string;
-  GivenName?: string;
-  Initials?: string;
-  Pseudonym?: string;
-  GenerationQualifier?: string;
-  CustomAttributes?: CustomAttribute[];
+  Country?: string | undefined;
+  Organization?: string | undefined;
+  OrganizationalUnit?: string | undefined;
+  DistinguishedNameQualifier?: string | undefined;
+  State?: string | undefined;
+  CommonName?: string | undefined;
+  SerialNumber?: string | undefined;
+  Locality?: string | undefined;
+  Title?: string | undefined;
+  Surname?: string | undefined;
+  GivenName?: string | undefined;
+  Initials?: string | undefined;
+  Pseudonym?: string | undefined;
+  GenerationQualifier?: string | undefined;
+  CustomAttributes?: CustomAttribute[] | undefined;
 }
 export interface KeyUsage {
-  DigitalSignature?: boolean;
-  NonRepudiation?: boolean;
-  KeyEncipherment?: boolean;
-  DataEncipherment?: boolean;
-  KeyAgreement?: boolean;
-  KeyCertSign?: boolean;
-  CRLSign?: boolean;
-  EncipherOnly?: boolean;
-  DecipherOnly?: boolean;
+  DigitalSignature?: boolean | undefined;
+  NonRepudiation?: boolean | undefined;
+  KeyEncipherment?: boolean | undefined;
+  DataEncipherment?: boolean | undefined;
+  KeyAgreement?: boolean | undefined;
+  KeyCertSign?: boolean | undefined;
+  CRLSign?: boolean | undefined;
+  EncipherOnly?: boolean | undefined;
+  DecipherOnly?: boolean | undefined;
 }
 export type AccessMethodType =
   | "CA_REPOSITORY"
@@ -247,8 +248,8 @@ export type AccessMethodType =
   | "RESOURCE_PKI_NOTIFY"
   | (string & {});
 export interface AccessMethod {
-  CustomObjectIdentifier?: string;
-  AccessMethodType?: AccessMethodType;
+  CustomObjectIdentifier?: string | undefined;
+  AccessMethodType?: AccessMethodType | undefined;
 }
 export type String256 = string;
 export interface OtherName {
@@ -258,18 +259,18 @@ export interface OtherName {
 export type String253 = string;
 export interface EdiPartyName {
   PartyName: string;
-  NameAssigner?: string;
+  NameAssigner?: string | undefined;
 }
 export type String39 = string;
 export interface GeneralName {
-  OtherName?: OtherName;
-  Rfc822Name?: string;
-  DnsName?: string;
-  DirectoryName?: ASN1Subject;
-  EdiPartyName?: EdiPartyName;
-  UniformResourceIdentifier?: string;
-  IpAddress?: string;
-  RegisteredId?: string;
+  OtherName?: OtherName | undefined;
+  Rfc822Name?: string | undefined;
+  DnsName?: string | undefined;
+  DirectoryName?: ASN1Subject | undefined;
+  EdiPartyName?: EdiPartyName | undefined;
+  UniformResourceIdentifier?: string | undefined;
+  IpAddress?: string | undefined;
+  RegisteredId?: string | undefined;
 }
 export interface AccessDescription {
   AccessMethod: AccessMethod;
@@ -277,14 +278,14 @@ export interface AccessDescription {
 }
 export type AccessDescriptionList = AccessDescription[];
 export interface CsrExtensions {
-  KeyUsage?: KeyUsage;
-  SubjectInformationAccess?: AccessDescription[];
+  KeyUsage?: KeyUsage | undefined;
+  SubjectInformationAccess?: AccessDescription[] | undefined;
 }
 export interface CertificateAuthorityConfiguration {
   KeyAlgorithm: KeyAlgorithm;
   SigningAlgorithm: SigningAlgorithm;
   Subject: ASN1Subject;
-  CsrExtensions?: CsrExtensions;
+  CsrExtensions?: CsrExtensions | undefined;
 }
 export type Integer1To5000 = number;
 export type CnameString = string;
@@ -297,21 +298,23 @@ export type CrlType = "COMPLETE" | "PARTITIONED" | (string & {});
 export type CrlPathString = string;
 export interface CrlConfiguration {
   Enabled: boolean;
-  ExpirationInDays?: number;
-  CustomCname?: string;
-  S3BucketName?: string;
-  S3ObjectAcl?: S3ObjectAcl;
-  CrlDistributionPointExtensionConfiguration?: CrlDistributionPointExtensionConfiguration;
-  CrlType?: CrlType;
-  CustomPath?: string;
+  ExpirationInDays?: number | undefined;
+  CustomCname?: string | undefined;
+  S3BucketName?: string | undefined;
+  S3ObjectAcl?: S3ObjectAcl | undefined;
+  CrlDistributionPointExtensionConfiguration?:
+    | CrlDistributionPointExtensionConfiguration
+    | undefined;
+  CrlType?: CrlType | undefined;
+  CustomPath?: string | undefined;
 }
 export interface OcspConfiguration {
   Enabled: boolean;
-  OcspCustomCname?: string;
+  OcspCustomCname?: string | undefined;
 }
 export interface RevocationConfiguration {
-  CrlConfiguration?: CrlConfiguration;
-  OcspConfiguration?: OcspConfiguration;
+  CrlConfiguration?: CrlConfiguration | undefined;
+  OcspConfiguration?: OcspConfiguration | undefined;
 }
 export type CertificateAuthorityType = "ROOT" | "SUBORDINATE" | (string & {});
 export type IdempotencyToken = string;
@@ -324,7 +327,7 @@ export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export type CertificateAuthorityUsageMode =
@@ -333,16 +336,16 @@ export type CertificateAuthorityUsageMode =
   | (string & {});
 export interface CreateCertificateAuthorityRequest {
   CertificateAuthorityConfiguration: CertificateAuthorityConfiguration;
-  RevocationConfiguration?: RevocationConfiguration;
+  RevocationConfiguration?: RevocationConfiguration | undefined;
   CertificateAuthorityType: CertificateAuthorityType;
-  IdempotencyToken?: string;
-  KeyStorageSecurityStandard?: KeyStorageSecurityStandard;
-  Tags?: Tag[];
-  UsageMode?: CertificateAuthorityUsageMode;
+  IdempotencyToken?: string | undefined;
+  KeyStorageSecurityStandard?: KeyStorageSecurityStandard | undefined;
+  Tags?: Tag[] | undefined;
+  UsageMode?: CertificateAuthorityUsageMode | undefined;
 }
 export type Arn = string;
 export interface CreateCertificateAuthorityResponse {
-  CertificateAuthorityArn?: string;
+  CertificateAuthorityArn?: string | undefined;
 }
 export type S3BucketName = string;
 export type AuditReportResponseFormat = "JSON" | "CSV" | (string & {});
@@ -354,8 +357,8 @@ export interface CreateCertificateAuthorityAuditReportRequest {
 export type AuditReportId = string;
 export type S3Key = string;
 export interface CreateCertificateAuthorityAuditReportResponse {
-  AuditReportId?: string;
-  S3Key?: string;
+  AuditReportId?: string | undefined;
+  S3Key?: string | undefined;
 }
 export type Principal = string;
 export type AccountId = string;
@@ -364,20 +367,20 @@ export type ActionList = ActionType[];
 export interface CreatePermissionRequest {
   CertificateAuthorityArn: string;
   Principal: string;
-  SourceAccount?: string;
+  SourceAccount?: string | undefined;
   Actions: ActionType[];
 }
 export interface CreatePermissionResponse {}
 export type PermanentDeletionTimeInDays = number;
 export interface DeleteCertificateAuthorityRequest {
   CertificateAuthorityArn: string;
-  PermanentDeletionTimeInDays?: number;
+  PermanentDeletionTimeInDays?: number | undefined;
 }
 export interface DeleteCertificateAuthorityResponse {}
 export interface DeletePermissionRequest {
   CertificateAuthorityArn: string;
   Principal: string;
-  SourceAccount?: string;
+  SourceAccount?: string | undefined;
 }
 export interface DeletePermissionResponse {}
 export interface DeletePolicyRequest {
@@ -398,24 +401,24 @@ export type CertificateAuthorityStatus =
   | (string & {});
 export type FailureReason = "REQUEST_TIMED_OUT" | "UNSUPPORTED_ALGORITHM" | "OTHER" | (string & {});
 export interface CertificateAuthority {
-  Arn?: string;
-  OwnerAccount?: string;
-  CreatedAt?: Date;
-  LastStateChangeAt?: Date;
-  Type?: CertificateAuthorityType;
-  Serial?: string;
-  Status?: CertificateAuthorityStatus;
-  NotBefore?: Date;
-  NotAfter?: Date;
-  FailureReason?: FailureReason;
-  CertificateAuthorityConfiguration?: CertificateAuthorityConfiguration;
-  RevocationConfiguration?: RevocationConfiguration;
-  RestorableUntil?: Date;
-  KeyStorageSecurityStandard?: KeyStorageSecurityStandard;
-  UsageMode?: CertificateAuthorityUsageMode;
+  Arn?: string | undefined;
+  OwnerAccount?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastStateChangeAt?: Date | undefined;
+  Type?: CertificateAuthorityType | undefined;
+  Serial?: string | undefined;
+  Status?: CertificateAuthorityStatus | undefined;
+  NotBefore?: Date | undefined;
+  NotAfter?: Date | undefined;
+  FailureReason?: FailureReason | undefined;
+  CertificateAuthorityConfiguration?: CertificateAuthorityConfiguration | undefined;
+  RevocationConfiguration?: RevocationConfiguration | undefined;
+  RestorableUntil?: Date | undefined;
+  KeyStorageSecurityStandard?: KeyStorageSecurityStandard | undefined;
+  UsageMode?: CertificateAuthorityUsageMode | undefined;
 }
 export interface DescribeCertificateAuthorityResponse {
-  CertificateAuthority?: CertificateAuthority;
+  CertificateAuthority?: CertificateAuthority | undefined;
 }
 export interface DescribeCertificateAuthorityAuditReportRequest {
   CertificateAuthorityArn: string;
@@ -423,10 +426,10 @@ export interface DescribeCertificateAuthorityAuditReportRequest {
 }
 export type AuditReportStatus = "CREATING" | "SUCCESS" | "FAILED" | (string & {});
 export interface DescribeCertificateAuthorityAuditReportResponse {
-  AuditReportStatus?: AuditReportStatus;
-  S3BucketName?: string;
-  S3Key?: string;
-  CreatedAt?: Date;
+  AuditReportStatus?: AuditReportStatus | undefined;
+  S3BucketName?: string | undefined;
+  S3Key?: string | undefined;
+  CreatedAt?: Date | undefined;
 }
 export interface GetCertificateRequest {
   CertificateAuthorityArn: string;
@@ -435,36 +438,36 @@ export interface GetCertificateRequest {
 export type CertificateBody = string;
 export type CertificateChain = string;
 export interface GetCertificateResponse {
-  Certificate?: string;
-  CertificateChain?: string;
+  Certificate?: string | undefined;
+  CertificateChain?: string | undefined;
 }
 export interface GetCertificateAuthorityCertificateRequest {
   CertificateAuthorityArn: string;
 }
 export interface GetCertificateAuthorityCertificateResponse {
-  Certificate?: string;
-  CertificateChain?: string;
+  Certificate?: string | undefined;
+  CertificateChain?: string | undefined;
 }
 export interface GetCertificateAuthorityCsrRequest {
   CertificateAuthorityArn: string;
 }
 export type CsrBody = string;
 export interface GetCertificateAuthorityCsrResponse {
-  Csr?: string;
+  Csr?: string | undefined;
 }
 export interface GetPolicyRequest {
   ResourceArn: string;
 }
 export type AWSPolicy = string;
 export interface GetPolicyResponse {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export type CertificateBodyBlob = Uint8Array;
 export type CertificateChainBlob = Uint8Array;
 export interface ImportCertificateAuthorityCertificateRequest {
   CertificateAuthorityArn: string;
   Certificate: Uint8Array;
-  CertificateChain?: Uint8Array;
+  CertificateChain?: Uint8Array | undefined;
 }
 export interface ImportCertificateAuthorityCertificateResponse {}
 export type PolicyQualifierId = "CPS" | (string & {});
@@ -478,7 +481,7 @@ export interface PolicyQualifierInfo {
 export type PolicyQualifierInfoList = PolicyQualifierInfo[];
 export interface PolicyInformation {
   CertPolicyId: string;
-  PolicyQualifiers?: PolicyQualifierInfo[];
+  PolicyQualifiers?: PolicyQualifierInfo[] | undefined;
 }
 export type CertificatePolicyList = PolicyInformation[];
 export type ExtendedKeyUsageType =
@@ -493,8 +496,8 @@ export type ExtendedKeyUsageType =
   | "CERTIFICATE_TRANSPARENCY"
   | (string & {});
 export interface ExtendedKeyUsage {
-  ExtendedKeyUsageType?: ExtendedKeyUsageType;
-  ExtendedKeyUsageObjectIdentifier?: string;
+  ExtendedKeyUsageType?: ExtendedKeyUsageType | undefined;
+  ExtendedKeyUsageObjectIdentifier?: string | undefined;
 }
 export type ExtendedKeyUsageList = ExtendedKeyUsage[];
 export type GeneralNameList = GeneralName[];
@@ -502,19 +505,19 @@ export type Base64String1To4096 = string;
 export interface CustomExtension {
   ObjectIdentifier: string;
   Value: string;
-  Critical?: boolean;
+  Critical?: boolean | undefined;
 }
 export type CustomExtensionList = CustomExtension[];
 export interface Extensions {
-  CertificatePolicies?: PolicyInformation[];
-  ExtendedKeyUsage?: ExtendedKeyUsage[];
-  KeyUsage?: KeyUsage;
-  SubjectAlternativeNames?: GeneralName[];
-  CustomExtensions?: CustomExtension[];
+  CertificatePolicies?: PolicyInformation[] | undefined;
+  ExtendedKeyUsage?: ExtendedKeyUsage[] | undefined;
+  KeyUsage?: KeyUsage | undefined;
+  SubjectAlternativeNames?: GeneralName[] | undefined;
+  CustomExtensions?: CustomExtension[] | undefined;
 }
 export interface ApiPassthrough {
-  Extensions?: Extensions;
-  Subject?: ASN1Subject;
+  Extensions?: Extensions | undefined;
+  Subject?: ASN1Subject | undefined;
 }
 export type CsrBlob = Uint8Array;
 export type PositiveLong = number;
@@ -530,57 +533,57 @@ export interface Validity {
   Type: ValidityPeriodType;
 }
 export interface IssueCertificateRequest {
-  ApiPassthrough?: ApiPassthrough;
+  ApiPassthrough?: ApiPassthrough | undefined;
   CertificateAuthorityArn: string;
   Csr: Uint8Array;
   SigningAlgorithm: SigningAlgorithm;
-  TemplateArn?: string;
+  TemplateArn?: string | undefined;
   Validity: Validity;
-  ValidityNotBefore?: Validity;
-  IdempotencyToken?: string;
+  ValidityNotBefore?: Validity | undefined;
+  IdempotencyToken?: string | undefined;
 }
 export interface IssueCertificateResponse {
-  CertificateArn?: string;
+  CertificateArn?: string | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export type ResourceOwner = "SELF" | "OTHER_ACCOUNTS" | (string & {});
 export interface ListCertificateAuthoritiesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  ResourceOwner?: ResourceOwner;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ResourceOwner?: ResourceOwner | undefined;
 }
 export type CertificateAuthorities = CertificateAuthority[];
 export interface ListCertificateAuthoritiesResponse {
-  NextToken?: string;
-  CertificateAuthorities?: CertificateAuthority[];
+  NextToken?: string | undefined;
+  CertificateAuthorities?: CertificateAuthority[] | undefined;
 }
 export interface ListPermissionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   CertificateAuthorityArn: string;
 }
 export interface Permission {
-  CertificateAuthorityArn?: string;
-  CreatedAt?: Date;
-  Principal?: string;
-  SourceAccount?: string;
-  Actions?: ActionType[];
-  Policy?: string;
+  CertificateAuthorityArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Principal?: string | undefined;
+  SourceAccount?: string | undefined;
+  Actions?: ActionType[] | undefined;
+  Policy?: string | undefined;
 }
 export type PermissionList = Permission[];
 export interface ListPermissionsResponse {
-  NextToken?: string;
-  Permissions?: Permission[];
+  NextToken?: string | undefined;
+  Permissions?: Permission[] | undefined;
 }
 export interface ListTagsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   CertificateAuthorityArn: string;
 }
 export interface ListTagsResponse {
-  NextToken?: string;
-  Tags?: Tag[];
+  NextToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface PutPolicyRequest {
   ResourceArn: string;
@@ -619,8 +622,8 @@ export interface UntagCertificateAuthorityRequest {
 export interface UntagCertificateAuthorityResponse {}
 export interface UpdateCertificateAuthorityRequest {
   CertificateAuthorityArn: string;
-  RevocationConfiguration?: RevocationConfiguration;
-  Status?: CertificateAuthorityStatus;
+  RevocationConfiguration?: RevocationConfiguration | undefined;
+  Status?: CertificateAuthorityStatus | undefined;
 }
 export interface UpdateCertificateAuthorityResponse {}
 export type CreateCertificateAuthorityError =
@@ -637,7 +640,7 @@ export type CreateCertificateAuthorityError =
  * Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with encryption. For more information, see Encrypting Your CRLs.
  */
 export const createCertificateAuthority: API.OperationMethod<
-  CreateCertificateAuthorityRequest,
+  CreateCertificateAuthorityRequest & RegionInput,
   CreateCertificateAuthorityResponse,
   CreateCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -675,7 +678,7 @@ export type CreateCertificateAuthorityAuditReportError =
  * You can generate a maximum of one report every 30 minutes.
  */
 export const createCertificateAuthorityAuditReport: API.OperationMethod<
-  CreateCertificateAuthorityAuditReportRequest,
+  CreateCertificateAuthorityAuditReportRequest & RegionInput,
   CreateCertificateAuthorityAuditReportResponse,
   CreateCertificateAuthorityAuditReportError,
   Credentials | HttpClient.HttpClient
@@ -718,7 +721,7 @@ export type CreatePermissionError =
  * - If the private CA and the ACM certificates reside in different accounts, then permissions cannot be used to enable automatic renewals. Instead, the ACM certificate owner must set up a resource-based policy to enable cross-account issuance and renewals. For more information, see Using a Resource Based Policy with Amazon Web Services Private CA.
  */
 export const createPermission: API.OperationMethod<
-  CreatePermissionRequest,
+  CreatePermissionRequest & RegionInput,
   CreatePermissionResponse,
   CreatePermissionError,
   Credentials | HttpClient.HttpClient
@@ -760,7 +763,7 @@ export type DeleteCertificateAuthorityError =
  * A private CA can be deleted if it is in the `PENDING_CERTIFICATE`, `CREATING`, `EXPIRED`, `DISABLED`, or `FAILED` state. To delete a CA in the `ACTIVE` state, you must first disable it, or else the delete request results in an exception. If you are deleting a private CA in the `PENDING_CERTIFICATE` or `DISABLED` state, you can set the length of its restoration period to 7-30 days. The default is 30. During this time, the status is set to `DELETED` and the CA can be restored. A private CA deleted in the `CREATING` or `FAILED` state has no assigned restoration period and cannot be restored.
  */
 export const deleteCertificateAuthority: API.OperationMethod<
-  DeleteCertificateAuthorityRequest,
+  DeleteCertificateAuthorityRequest & RegionInput,
   DeleteCertificateAuthorityResponse,
   DeleteCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -801,7 +804,7 @@ export type DeletePermissionError =
  * - If the private CA and the ACM certificates reside in different accounts, then permissions cannot be used to enable automatic renewals. Instead, the ACM certificate owner must set up a resource-based policy to enable cross-account issuance and renewals. For more information, see Using a Resource Based Policy with Amazon Web Services Private CA.
  */
 export const deletePermission: API.OperationMethod<
-  DeletePermissionRequest,
+  DeletePermissionRequest & RegionInput,
   DeletePermissionResponse,
   DeletePermissionError,
   Credentials | HttpClient.HttpClient
@@ -848,7 +851,7 @@ export type DeletePolicyError =
  * - Updates made in Amazon Web Services Resource Manager (RAM) are reflected in policies. For more information, see Attach a Policy for Cross-Account Access.
  */
 export const deletePolicy: API.OperationMethod<
-  DeletePolicyRequest,
+  DeletePolicyRequest & RegionInput,
   DeletePolicyResponse,
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
@@ -892,7 +895,7 @@ export type DescribeCertificateAuthorityError =
  * - `DELETED` - Your private CA is within the restoration period, after which it is permanently deleted. The length of time remaining in the CA's restoration period is also included in this action's output.
  */
 export const describeCertificateAuthority: API.OperationMethod<
-  DescribeCertificateAuthorityRequest,
+  DescribeCertificateAuthorityRequest & RegionInput,
   DescribeCertificateAuthorityResponse,
   DescribeCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -916,7 +919,7 @@ export type DescribeCertificateAuthorityAuditReportError =
  * Lists information about a specific audit report created by calling the CreateCertificateAuthorityAuditReport action. Audit information is created every time the certificate authority (CA) private key is used. The private key is used when you call the IssueCertificate action or the RevokeCertificate action.
  */
 export const describeCertificateAuthorityAuditReport: API.OperationMethod<
-  DescribeCertificateAuthorityAuditReportRequest,
+  DescribeCertificateAuthorityAuditReportRequest & RegionInput,
   DescribeCertificateAuthorityAuditReportResponse,
   DescribeCertificateAuthorityAuditReportError,
   Credentials | HttpClient.HttpClient
@@ -942,7 +945,7 @@ export type GetCertificateError =
  * Retrieves a certificate from your private CA or one that has been shared with you. The ARN of the certificate is returned when you call the IssueCertificate action. You must specify both the ARN of your private CA and the ARN of the issued certificate when calling the **GetCertificate** action. You can retrieve the certificate if it is in the **ISSUED**, **EXPIRED**, or **REVOKED** state. You can call the CreateCertificateAuthorityAuditReport action to create a report that contains information about all of the certificates issued and revoked by your private CA.
  */
 export const getCertificate: API.OperationMethod<
-  GetCertificateRequest,
+  GetCertificateRequest & RegionInput,
   GetCertificateResponse,
   GetCertificateError,
   Credentials | HttpClient.HttpClient
@@ -972,7 +975,7 @@ export type GetCertificateAuthorityCertificateError =
  * Retrieves the certificate and certificate chain for your private certificate authority (CA) or one that has been shared with you. Both the certificate and the chain are base64 PEM-encoded. The chain does not include the CA certificate. Each certificate in the chain signs the one before it.
  */
 export const getCertificateAuthorityCertificate: API.OperationMethod<
-  GetCertificateAuthorityCertificateRequest,
+  GetCertificateAuthorityCertificateRequest & RegionInput,
   GetCertificateAuthorityCertificateResponse,
   GetCertificateAuthorityCertificateError,
   Credentials | HttpClient.HttpClient
@@ -998,7 +1001,7 @@ export type GetCertificateAuthorityCsrError =
  * Retrieves the certificate signing request (CSR) for your private certificate authority (CA). The CSR is created when you call the CreateCertificateAuthority action. Sign the CSR with your Amazon Web Services Private CA-hosted or on-premises root or subordinate CA. Then import the signed certificate back into Amazon Web Services Private CA by calling the ImportCertificateAuthorityCertificate action. The CSR is returned as a base64 PEM-encoded string.
  */
 export const getCertificateAuthorityCsr: API.OperationMethod<
-  GetCertificateAuthorityCsrRequest,
+  GetCertificateAuthorityCsrRequest & RegionInput,
   GetCertificateAuthorityCsrResponse,
   GetCertificateAuthorityCsrError,
   Credentials | HttpClient.HttpClient
@@ -1040,7 +1043,7 @@ export type GetPolicyError =
  * - Updates made in Amazon Web Services Resource Manager (RAM) are reflected in policies. For more information, see Attach a Policy for Cross-Account Access.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyRequest,
+  GetPolicyRequest & RegionInput,
   GetPolicyResponse,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1149,7 +1152,7 @@ export type ImportCertificateAuthorityCertificateError =
  * Amazon Web Services Private Certificate Authority will also reject any other extension marked as critical not contained on the preceding list of allowed extensions.
  */
 export const importCertificateAuthorityCertificate: API.OperationMethod<
-  ImportCertificateAuthorityCertificateRequest,
+  ImportCertificateAuthorityCertificateRequest & RegionInput,
   ImportCertificateAuthorityCertificateResponse,
   ImportCertificateAuthorityCertificateError,
   Credentials | HttpClient.HttpClient
@@ -1188,7 +1191,7 @@ export type IssueCertificateError =
  * You cannot use the ACM **ListCertificateAuthorities** action to retrieve the ARNs of the certificates that you issue by using Amazon Web Services Private CA.
  */
 export const issueCertificate: API.OperationMethod<
-  IssueCertificateRequest,
+  IssueCertificateRequest & RegionInput,
   IssueCertificateResponse,
   IssueCertificateError,
   Credentials | HttpClient.HttpClient
@@ -1215,7 +1218,7 @@ export type ListCertificateAuthoritiesError = InvalidNextTokenException | Common
  * Lists the private certificate authorities that you created by using the CreateCertificateAuthority action.
  */
 export const listCertificateAuthorities: API.PaginatedOperationMethod<
-  ListCertificateAuthoritiesRequest,
+  ListCertificateAuthoritiesRequest & RegionInput,
   ListCertificateAuthoritiesResponse,
   ListCertificateAuthoritiesError,
   Credentials | HttpClient.HttpClient,
@@ -1259,7 +1262,7 @@ export type ListPermissionsError =
  * - If the private CA and the ACM certificates reside in different accounts, then permissions cannot be used to enable automatic renewals. Instead, the ACM certificate owner must set up a resource-based policy to enable cross-account issuance and renewals. For more information, see Using a Resource Based Policy with Amazon Web Services Private CA.
  */
 export const listPermissions: API.PaginatedOperationMethod<
-  ListPermissionsRequest,
+  ListPermissionsRequest & RegionInput,
   ListPermissionsResponse,
   ListPermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -1297,7 +1300,7 @@ export type ListTagsError =
  * Lists the tags, if any, that are associated with your private CA or one that has been shared with you. Tags are labels that you can use to identify and organize your CAs. Each tag consists of a key and an optional value. Call the TagCertificateAuthority action to add one or more tags to your CA. Call the UntagCertificateAuthority action to remove tags.
  */
 export const listTags: API.PaginatedOperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient,
@@ -1350,7 +1353,7 @@ export type PutPolicyError =
  * - Updates made in Amazon Web Services Resource Manager (RAM) are reflected in policies. For more information, see Attach a Policy for Cross-Account Access.
  */
 export const putPolicy: API.OperationMethod<
-  PutPolicyRequest,
+  PutPolicyRequest & RegionInput,
   PutPolicyResponse,
   PutPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1382,7 +1385,7 @@ export type RestoreCertificateAuthorityError =
  * Restores a certificate authority (CA) that is in the `DELETED` state. You can restore a CA during the period that you defined in the **PermanentDeletionTimeInDays** parameter of the DeleteCertificateAuthority action. Currently, you can specify 7 to 30 days. If you did not specify a **PermanentDeletionTimeInDays** value, by default you can restore the CA at any time in a 30 day period. You can check the time remaining in the restoration period of a private CA in the `DELETED` state by calling the DescribeCertificateAuthority or ListCertificateAuthorities actions. The status of a restored CA is set to its pre-deletion status when the **RestoreCertificateAuthority** action returns. To change its status to `ACTIVE`, call the UpdateCertificateAuthority action. If the private CA was in the `PENDING_CERTIFICATE` state at deletion, you must use the ImportCertificateAuthorityCertificate action to import a certificate authority into the private CA before it can be activated. You cannot restore a CA after the restoration period has ended.
  */
 export const restoreCertificateAuthority: API.OperationMethod<
-  RestoreCertificateAuthorityRequest,
+  RestoreCertificateAuthorityRequest & RegionInput,
   RestoreCertificateAuthorityResponse,
   RestoreCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -1418,7 +1421,7 @@ export type RevokeCertificateError =
  * You cannot revoke a root CA self-signed certificate.
  */
 export const revokeCertificate: API.OperationMethod<
-  RevokeCertificateRequest,
+  RevokeCertificateRequest & RegionInput,
   RevokeCertificateResponse,
   RevokeCertificateError,
   Credentials | HttpClient.HttpClient
@@ -1456,7 +1459,7 @@ export type TagCertificateAuthorityError =
  * To attach tags to a private CA during the creation procedure, a CA administrator must first associate an inline IAM policy with the `CreateCertificateAuthority` action and explicitly allow tagging. For more information, see Attaching tags to a CA at the time of creation.
  */
 export const tagCertificateAuthority: API.OperationMethod<
-  TagCertificateAuthorityRequest,
+  TagCertificateAuthorityRequest & RegionInput,
   TagCertificateAuthorityResponse,
   TagCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -1487,7 +1490,7 @@ export type UntagCertificateAuthorityError =
  * Remove one or more tags from your private CA. A tag consists of a key-value pair. If you do not specify the value portion of the tag when calling this action, the tag will be removed regardless of value. If you specify a value, the tag is removed only if it is associated with the specified value. To add tags to a private CA, use the TagCertificateAuthority. Call the ListTags action to see what tags are associated with your CA.
  */
 export const untagCertificateAuthority: API.OperationMethod<
-  UntagCertificateAuthorityRequest,
+  UntagCertificateAuthorityRequest & RegionInput,
   UntagCertificateAuthorityResponse,
   UntagCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -1521,7 +1524,7 @@ export type UpdateCertificateAuthorityError =
  * Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exception is thrown. For more information, see Access policies for CRLs in Amazon S3.
  */
 export const updateCertificateAuthority: API.OperationMethod<
-  UpdateCertificateAuthorityRequest,
+  UpdateCertificateAuthorityRequest & RegionInput,
   UpdateCertificateAuthorityResponse,
   UpdateCertificateAuthorityError,
   Credentials | HttpClient.HttpClient

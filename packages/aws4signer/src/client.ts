@@ -25,7 +25,6 @@ import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import * as UrlParams from "effect/http/UrlParams";
 import * as Option from "effect/Option";
 import type * as Redacted from "effect/Redacted";
 import * as Signer from "./index.ts";
@@ -97,6 +96,23 @@ const signableBody = (
 };
 
 /**
+ * `request` sent to `signedUrl`, which already carries the query. Effect sends
+ * `urlParams` on top of the URL, and `setUrlParams` only replaces the keys it
+ * is given, so it cannot empty them. `setUrl` with a `URL` moves that URL's
+ * query into `urlParams`: a query-free URL empties them. `setUrl` with a string
+ * then keeps the signed query exactly as signed, with no re-encoding.
+ */
+const withSignedUrl = (
+  request: HttpClientRequest.HttpClientRequest,
+  url: URL,
+  signedUrl: string,
+): HttpClientRequest.HttpClientRequest =>
+  HttpClientRequest.setUrl(
+    HttpClientRequest.setUrl(request, new URL(url.origin + url.pathname)),
+    signedUrl,
+  );
+
+/**
  * `request` signed with SigV4: `aws4fetch`'s `AwsClient.sign`. The signature
  * goes into the `Authorization` header, or into the query string with
  * `signQuery`. The signing time is the effect `Clock`'s, so `TestClock`
@@ -138,13 +154,7 @@ export const signRequest = <E = never, R = never>(
           }),
         ),
         (signed) =>
-          HttpClientRequest.setHeaders(
-            HttpClientRequest.setUrlParams(
-              HttpClientRequest.setUrl(request, signed.url),
-              UrlParams.empty,
-            ),
-            signed.headers,
-          ),
+          HttpClientRequest.setHeaders(withSignedUrl(request, url, signed.url), signed.headers),
       );
     },
   );

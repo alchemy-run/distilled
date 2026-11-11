@@ -71,23 +71,23 @@ export interface CreateAnnotationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Annotation text shown on charts to describe the change, release, or incident. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** When this annotation happened (ISO 8601 timestamp). Used to position it on charts. */
-  date_marker?: string | null;
+  date_marker?: string | null | undefined;
   /** Who created this annotation. Use `USR` for user-created notes and `GIT` for bot/deployment notes. * `USR` - user * `GIT` - GitHub */
-  creation_type?: AnnotationCreationTypeEnum | (string & {});
+  creation_type?: AnnotationCreationTypeEnum | (string & {}) | undefined;
   /** Optional insight ID to attach this annotation to. Must belong to the current project. */
-  dashboard_item?: number | null;
+  dashboard_item?: number | null | undefined;
   /** Optional dashboard ID to attach this annotation to. Must belong to the current project. */
-  dashboard_id?: number | null;
+  dashboard_id?: number | null | undefined;
   /** Soft-delete flag. Set to true to hide the annotation, or false to restore it. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Annotation visibility scope: `project`, `organization`, `dashboard`, or `dashboard_item`. `recording` is deprecated and rejected. * `dashboard_item` - insight * `dashboard` - dashboard * `project` - project * `organization` - organization * `recording` - recording */
-  scope?: AnnotationScopeEnum | (string & {});
+  scope?: AnnotationScopeEnum | (string & {}) | undefined;
   /** Optional emoji shown in place of the default badge when this annotation is surfaced on a chart. */
-  emoji?: string | null;
+  emoji?: string | null | undefined;
   /** When true, the annotation is hidden from the PostHog UI (charts and the annotations list) but still readable over the API and MCP. Use for high-frequency markers like deployments that would otherwise crowd the UI. Null (the default) means the annotation is shown. */
-  hidden_in_user_interface?: boolean | null;
+  hidden_in_user_interface?: boolean | null | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -104,43 +104,43 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface Annotation {
-  id?: number;
+  id?: number | undefined;
   /** Annotation text shown on charts to describe the change, release, or incident. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** When this annotation happened (ISO 8601 timestamp). Used to position it on charts. */
-  date_marker?: string | null;
+  date_marker?: string | null | undefined;
   /** Who created this annotation. Use `USR` for user-created notes and `GIT` for bot/deployment notes. * `USR` - user * `GIT` - GitHub */
-  creation_type?: AnnotationCreationTypeEnum;
+  creation_type?: AnnotationCreationTypeEnum | undefined;
   /** Optional insight ID to attach this annotation to. Must belong to the current project. */
-  dashboard_item?: number | null;
+  dashboard_item?: number | null | undefined;
   /** Optional dashboard ID to attach this annotation to. Must belong to the current project. */
-  dashboard_id?: number | null;
-  dashboard_name?: string | null;
-  insight_short_id?: string | null;
-  insight_name?: string | null;
-  insight_derived_name?: string | null;
-  created_by?: UserBasic | null;
-  created_at?: string | null;
-  updated_at?: string;
+  dashboard_id?: number | null | undefined;
+  dashboard_name?: string | null | undefined;
+  insight_short_id?: string | null | undefined;
+  insight_name?: string | null | undefined;
+  insight_derived_name?: string | null | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | undefined;
   /** Soft-delete flag. Set to true to hide the annotation, or false to restore it. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Annotation visibility scope: `project`, `organization`, `dashboard`, or `dashboard_item`. `recording` is deprecated and rejected. * `dashboard_item` - insight * `dashboard` - dashboard * `project` - project * `organization` - organization * `recording` - recording */
-  scope?: AnnotationScopeEnum;
+  scope?: AnnotationScopeEnum | undefined;
   /** Optional emoji shown in place of the default badge when this annotation is surfaced on a chart. */
-  emoji?: string | null;
+  emoji?: string | null | undefined;
   /** When true, the annotation is hidden from the PostHog UI (charts and the annotations list) but still readable over the API and MCP. Use for high-frequency markers like deployments that would otherwise crowd the UI. Null (the default) means the annotation is shown. */
-  hidden_in_user_interface?: boolean | null;
+  hidden_in_user_interface?: boolean | null | undefined;
 }
 export interface GetAnnotationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -152,18 +152,18 @@ export interface ListAnnotationsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** A search term. */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedAnnotationListResultsList = Array<Annotation>;
 export interface PaginatedAnnotationList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedAnnotationListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedAnnotationListResultsList | undefined;
 }
 export interface UpdateAnnotationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -171,23 +171,23 @@ export interface UpdateAnnotationRequest {
   /** A unique integer value identifying this annotation. */
   id: number;
   /** Annotation text shown on charts to describe the change, release, or incident. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** When this annotation happened (ISO 8601 timestamp). Used to position it on charts. */
-  date_marker?: string | null;
+  date_marker?: string | null | undefined;
   /** Who created this annotation. Use `USR` for user-created notes and `GIT` for bot/deployment notes. * `USR` - user * `GIT` - GitHub */
-  creation_type?: AnnotationCreationTypeEnum | (string & {});
+  creation_type?: AnnotationCreationTypeEnum | (string & {}) | undefined;
   /** Optional insight ID to attach this annotation to. Must belong to the current project. */
-  dashboard_item?: number | null;
+  dashboard_item?: number | null | undefined;
   /** Optional dashboard ID to attach this annotation to. Must belong to the current project. */
-  dashboard_id?: number | null;
+  dashboard_id?: number | null | undefined;
   /** Soft-delete flag. Set to true to hide the annotation, or false to restore it. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Annotation visibility scope: `project`, `organization`, `dashboard`, or `dashboard_item`. `recording` is deprecated and rejected. * `dashboard_item` - insight * `dashboard` - dashboard * `project` - project * `organization` - organization * `recording` - recording */
-  scope?: AnnotationScopeEnum | (string & {});
+  scope?: AnnotationScopeEnum | (string & {}) | undefined;
   /** Optional emoji shown in place of the default badge when this annotation is surfaced on a chart. */
-  emoji?: string | null;
+  emoji?: string | null | undefined;
   /** When true, the annotation is hidden from the PostHog UI (charts and the annotations list) but still readable over the API and MCP. Use for high-frequency markers like deployments that would otherwise crowd the UI. Null (the default) means the annotation is shown. */
-  hidden_in_user_interface?: boolean | null;
+  hidden_in_user_interface?: boolean | null | undefined;
 }
 export interface UpdateAnnotationsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -195,23 +195,23 @@ export interface UpdateAnnotationsPartialRequest {
   /** A unique integer value identifying this annotation. */
   id: number;
   /** Annotation text shown on charts to describe the change, release, or incident. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** When this annotation happened (ISO 8601 timestamp). Used to position it on charts. */
-  date_marker?: string | null;
+  date_marker?: string | null | undefined;
   /** Who created this annotation. Use `USR` for user-created notes and `GIT` for bot/deployment notes. * `USR` - user * `GIT` - GitHub */
-  creation_type?: AnnotationCreationTypeEnum | (string & {});
+  creation_type?: AnnotationCreationTypeEnum | (string & {}) | undefined;
   /** Optional insight ID to attach this annotation to. Must belong to the current project. */
-  dashboard_item?: number | null;
+  dashboard_item?: number | null | undefined;
   /** Optional dashboard ID to attach this annotation to. Must belong to the current project. */
-  dashboard_id?: number | null;
+  dashboard_id?: number | null | undefined;
   /** Soft-delete flag. Set to true to hide the annotation, or false to restore it. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Annotation visibility scope: `project`, `organization`, `dashboard`, or `dashboard_item`. `recording` is deprecated and rejected. * `dashboard_item` - insight * `dashboard` - dashboard * `project` - project * `organization` - organization * `recording` - recording */
-  scope?: AnnotationScopeEnum | (string & {});
+  scope?: AnnotationScopeEnum | (string & {}) | undefined;
   /** Optional emoji shown in place of the default badge when this annotation is surfaced on a chart. */
-  emoji?: string | null;
+  emoji?: string | null | undefined;
   /** When true, the annotation is hidden from the PostHog UI (charts and the annotations list) but still readable over the API and MCP. Use for high-frequency markers like deployments that would otherwise crowd the UI. Null (the default) means the annotation is shown. */
-  hidden_in_user_interface?: boolean | null;
+  hidden_in_user_interface?: boolean | null | undefined;
 }
 export type AnnotationsDestroyError = Forbidden | NotFound | PosthogOpError;
 /** Hard delete of this model is not allowed. Use a patch API call to set "deleted" to true */

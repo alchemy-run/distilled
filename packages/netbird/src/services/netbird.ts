@@ -110,7 +110,7 @@ export interface User {
   /** User's email address */
   email: string;
   /** User's password. Only present when user is created (create user endpoint is called) and only when IdP supports user creation with password. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** User's name from idp provider */
   name: string;
   /** User's NetBird account role */
@@ -118,22 +118,22 @@ export interface User {
   /** User's status */
   status: UserStatus;
   /** Last time this user performed a login to the dashboard */
-  last_login?: string;
+  last_login?: string | undefined;
   /** Group IDs to auto-assign to peers registered by this user */
   auto_groups: UserAutoGroupsList;
   /** Is true if authenticated user is the same as this user */
-  is_current?: boolean;
+  is_current?: boolean | undefined;
   /** Is true if this user is a service user */
-  is_service_user?: boolean;
+  is_service_user?: boolean | undefined;
   /** Is true if this user is blocked. Blocked users can't use the system */
   is_blocked: boolean;
   /** Is true if this user requires approval before being activated. Only applicable for users joining via domain matching when user_approval_required is enabled. */
   pending_approval: boolean;
   /** How user was issued by API or Integration */
-  issued?: string;
+  issued?: string | undefined;
   /** Identity provider ID (connector ID) that the user authenticated with. Only populated for users with Dex-encoded user IDs. */
-  idp_id?: string;
-  permissions?: UserPermissions;
+  idp_id?: string | undefined;
+  permissions?: UserPermissions | undefined;
 }
 export interface BypassComplianceRequest {
   /** The unique identifier of the peer */
@@ -177,11 +177,11 @@ export interface CreateAgentNetworkBudgetRuleRequest {
   /** Display name for the budget rule. */
   name: string;
   /** Whether the rule is enforced. Defaults to true on create. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** NetBird group ids the rule binds. Empty plus empty target_users means account-wide. */
-  target_groups?: CreateAgentNetworkBudgetRuleRequestTargetGroupsList;
+  target_groups?: CreateAgentNetworkBudgetRuleRequestTargetGroupsList | undefined;
   /** NetBird user ids the rule binds directly. */
-  target_users?: CreateAgentNetworkBudgetRuleRequestTargetUsersList;
+  target_users?: CreateAgentNetworkBudgetRuleRequestTargetUsersList | undefined;
   limits: AgentNetworkPolicyLimits;
 }
 /** NetBird group ids the rule binds. Empty plus empty target_users means account-wide. */
@@ -208,17 +208,17 @@ export interface CreateAgentNetworkCatalogProviderModelRequest {
   /** Catalog provider to query (AgentNetworkCatalogProvider.id). Determines the listing endpoint, the auth header and the response shape. */
   catalog_provider_id: string;
   /** The upstream being configured. Used to reach vendors that serve their listing from the same host as inference, and to read back the region for those whose host embeds one. Sent alongside provider_id, it overrides the stored upstream, so an edit can be listed against the URL on the form before it is saved. */
-  upstream_url?: string;
+  upstream_url?: string | undefined;
   /** Credential to query the vendor with, for a provider that has not been saved yet. Mutually exclusive with provider_id. */
-  api_key?: string | Redacted.Redacted<string>;
+  api_key?: string | Redacted.Redacted<string> | undefined;
   /** Existing Agent Network provider record to query with. Its stored credential is used, and its upstream unless upstream_url overrides it, so the form can refresh the list without the client holding the key. */
-  provider_id?: string;
+  provider_id?: string | undefined;
 }
 export interface AgentNetworkDiscoveredModel {
   /** Identifier to register on the provider record, in the form the vendor issues it. For Bedrock this is the region-prefixed inference-profile id, which is the only form AWS accepts at invoke time. */
   id: string;
   /** Vendor-supplied display name, where the vendor supplies one. */
-  label?: string;
+  label?: string | undefined;
   /** Whether NetBird's shipped pricing table can price this model. When false the rates below are all zero and the operator must set them, or requests to this model would record a cost of zero. */
   pricing_known: boolean;
   /** Default input token price per 1k tokens, in USD, from the same table the proxy bills with. Zero when pricing_known is false. */
@@ -226,11 +226,11 @@ export interface AgentNetworkDiscoveredModel {
   /** Default output token price per 1k tokens, in USD. Zero when pricing_known is false. */
   output_per_1k: number;
   /** OpenAI-shape cache rate -- default cost per 1k cached prompt tokens (a subset of input tokens), in USD. Absent when the model has no cached-input discount. */
-  cached_input_per_1k?: number;
+  cached_input_per_1k?: number | undefined;
   /** Anthropic-shape cache rate -- default cost per 1k cache-read tokens (additive to input tokens), in USD. Absent when the model has no cache-read rate. */
-  cache_read_per_1k?: number;
+  cache_read_per_1k?: number | undefined;
   /** Anthropic-shape cache rate -- default cost per 1k cache-creation tokens (additive to input tokens), in USD. Absent when the model has no cache-creation rate. */
-  cache_creation_per_1k?: number;
+  cache_creation_per_1k?: number | undefined;
 }
 /** Models the credential can reach, in the order the vendor returned them. */
 export type AgentNetworkModelDiscoveryResponseModelsList = Array<AgentNetworkDiscoveredModel>;
@@ -258,7 +258,7 @@ export interface CreateAgentNetworkGuardrailRequest {
   /** Display name for the guardrail. */
   name: string;
   /** Optional human-readable description. */
-  description?: string;
+  description?: string | undefined;
   checks: AgentNetworkGuardrailChecks;
 }
 export interface AgentNetworkGuardrail {
@@ -284,16 +284,16 @@ export interface CreateAgentNetworkPolicyRequest {
   /** Display name for the policy. */
   name: string;
   /** Optional human-readable description. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the policy is enabled. Defaults to true on create. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** NetBird group ids whose members are allowed to call the destination providers. */
   source_groups: CreateAgentNetworkPolicyRequestSourceGroupsList;
   /** Agent Network provider ids the source groups can reach. */
   destination_provider_ids: CreateAgentNetworkPolicyRequestDestinationProviderIdsList;
   /** Agent Network guardrail ids to attach to this policy. */
-  guardrail_ids?: CreateAgentNetworkPolicyRequestGuardrailIdsList;
-  limits?: AgentNetworkPolicyLimits;
+  guardrail_ids?: CreateAgentNetworkPolicyRequestGuardrailIdsList | undefined;
+  limits?: AgentNetworkPolicyLimits | undefined;
 }
 /** NetBird group ids whose members are allowed to call the destination providers. */
 export type AgentNetworkPolicySourceGroupsList = Array<string>;
@@ -331,11 +331,11 @@ export interface AgentNetworkProviderModel {
   /** Cost per 1k output tokens, in USD. */
   output_per_1k: number;
   /** OpenAI-shape cache rate -- cost per 1k cached prompt tokens (a subset of input tokens), in USD. Omitted means inherit NetBird's default rate for this model when one exists; 0 means no discount (cached tokens bill at input_per_1k). */
-  cached_input_per_1k?: number;
+  cached_input_per_1k?: number | undefined;
   /** Anthropic-shape cache rate -- cost per 1k cache-read tokens (additive to input tokens), in USD. Omitted means inherit NetBird's default rate for this model when one exists; 0 means cache reads bill at input_per_1k. */
-  cache_read_per_1k?: number;
+  cache_read_per_1k?: number | undefined;
   /** Anthropic-shape cache rate -- cost per 1k cache-creation tokens (additive to input tokens), in USD. Omitted means inherit NetBird's default rate for this model when one exists; 0 means cache writes bill at input_per_1k. */
-  cache_creation_per_1k?: number;
+  cache_creation_per_1k?: number | undefined;
 }
 /** Models exposed through this endpoint, with the operator's per-1k input/output prices. Empty means all catalog models are allowed at catalog prices. */
 export type CreateAgentNetworkProviderRequestModelsList = Array<AgentNetworkProviderModel>;
@@ -349,21 +349,21 @@ export interface CreateAgentNetworkProviderRequest {
   /** Full upstream URL (with scheme) that NetBird forwards traffic to. */
   upstream_url: string;
   /** Upstream provider API key. Sealed at rest on the management server and never returned in responses. Required on create; optional on update (omit to keep the existing key). */
-  api_key?: string | Redacted.Redacted<string>;
+  api_key?: string | Redacted.Redacted<string> | undefined;
   /** Models exposed through this endpoint, with the operator's per-1k input/output prices. Empty means all catalog models are allowed at catalog prices. */
-  models?: CreateAgentNetworkProviderRequestModelsList;
+  models?: CreateAgentNetworkProviderRequestModelsList | undefined;
   /** Operator-typed values for catalog-declared extra headers (see AgentNetworkProvider.extra_values). The request's map replaces the stored values; empty strings drop the corresponding key. */
-  extra_values?: CreateAgentNetworkProviderRequestExtraValuesMap;
+  extra_values?: CreateAgentNetworkProviderRequestExtraValuesMap | undefined;
   /** Wire header name for the caller's display identity. See AgentNetworkProvider.identity_header_user_id. Empty or omitted disables stamping for this dimension. */
-  identity_header_user_id?: string;
+  identity_header_user_id?: string | undefined;
   /** Wire header name for the caller's groups CSV. See AgentNetworkProvider.identity_header_groups. Same semantics as `identity_header_user_id`. */
-  identity_header_groups?: string;
+  identity_header_groups?: string | undefined;
   /** Whether the provider is enabled. Defaults to true on create. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Skip upstream TLS certificate verification when the proxy dials this provider's URL. For self-hosted / internal gateways behind a private or self-signed certificate. Defaults to false. */
-  skip_tls_verification?: boolean;
+  skip_tls_verification?: boolean | undefined;
   /** Disable identity metadata injection (the caller's user + authorizing group) for this provider. Defaults to false (metadata is injected). */
-  metadata_disabled?: boolean;
+  metadata_disabled?: boolean | undefined;
 }
 /** Models exposed through this endpoint, with the operator's per-1k input/output prices. Empty means all catalog models are allowed at catalog prices. */
 export type AgentNetworkProviderModelsList = Array<AgentNetworkProviderModel>;
@@ -381,7 +381,7 @@ export interface AgentNetworkProvider {
   /** Models exposed through this endpoint, with the operator's per-1k input/output prices. Empty means all catalog models are allowed at catalog prices. */
   models: AgentNetworkProviderModelsList;
   /** Operator-typed values for catalog-declared extra headers. Keys are wire header names (e.g. `x-portkey-config`); values are the strings the proxy stamps on every upstream request to this provider. Catalog (AgentNetworkCatalogProvider.extra_headers) declares which keys are accepted; values not declared by the catalog are ignored at synth time. Empty / missing values mean no header stamped. */
-  extra_values?: AgentNetworkProviderExtraValuesMap;
+  extra_values?: AgentNetworkProviderExtraValuesMap | undefined;
   /** Wire header name the proxy stamps with the caller's display identity (user email or peer name) when the catalog entry's HeaderPair is `customizable`. Always present in responses; empty disables stamping for this dimension. Ignored when the catalog entry has a fixed HeaderPair (e.g. LiteLLM, Portkey). Used today by Bifrost: typical values are `x-bf-lh-netbird_user_id` (always-on log metadata) or `x-bf-dim-netbird_user_id` (Prometheus / OTEL -- requires the label to be pre-declared in the gateway's `client.prometheus_labels` config). */
   identity_header_user_id: string;
   /** Wire header name the proxy stamps with the caller's NetBird groups as a comma-separated list (sorted) when the catalog entry's HeaderPair is `customizable`. Always present in responses; empty disables stamping for this dimension. Same per-catalog semantics as `identity_header_user_id`. */
@@ -399,17 +399,17 @@ export interface AgentNetworkProvider {
 }
 export interface CreateAgentNetworkSettingsRequest {
   /** Cluster address to allocate a labeled endpoint beneath. Mutually exclusive with `endpoint`. */
-  proxy_address?: string;
+  proxy_address?: string | undefined;
   /** Hostname to claim as the account's self-addressed (dedicated) endpoint. Mutually exclusive with `proxy_address`. Rejected when another account already holds it. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Whether per-request access-log entries are collected for this account's agent-network traffic. Defaults to true. */
-  enable_log_collection?: boolean;
+  enable_log_collection?: boolean | undefined;
   /** Master switch for request/response prompt capture. Defaults to false. */
-  enable_prompt_collection?: boolean;
+  enable_prompt_collection?: boolean | undefined;
   /** Whether captured prompts have PII redacted. Defaults to false. */
-  redact_pii?: boolean;
+  redact_pii?: boolean | undefined;
   /** Days to retain full access-log rows; older rows are swept. 0 or less means keep indefinitely. Defaults to 30. */
-  access_log_retention_days?: number;
+  access_log_retention_days?: number | undefined;
 }
 /** Per-account Agent Network gateway settings. One row per account; endpoint and proxy_address are assigned at bootstrap (POST) and immutable thereafter. Before bootstrap the account reads as the default values with empty endpoint and proxy_address. */
 export interface AgentNetworkSettings {
@@ -426,11 +426,11 @@ export interface AgentNetworkSettings {
   /** Whether captured prompts have PII redacted. Effective redaction is the OR of this and any policy guardrail's redact setting. */
   redact_pii: boolean;
   /** Days to retain full access-log rows; older rows are swept. 0 or less means keep indefinitely. Usage records are retained independently. */
-  access_log_retention_days?: number;
+  access_log_retention_days?: number | undefined;
   /** Timestamp when the settings row was created. Absent until the account is bootstrapped. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp when the settings row was last updated. Absent until the account is bootstrapped. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** List of start_with string patterns for groups to sync */
 export type CreateAzureIntegrationRequestGroupPrefixesList = Array<string>;
@@ -440,11 +440,11 @@ export type CreateAzureIntegrationRequestUserGroupPrefixesList = Array<string>;
 export type CreateAzureIntegrationRequestHost = "microsoft.com" | "microsoft.us";
 export interface CreateAzureIntegrationRequest {
   /** List of start_with string patterns for groups to sync */
-  group_prefixes?: CreateAzureIntegrationRequestGroupPrefixesList;
+  group_prefixes?: CreateAzureIntegrationRequestGroupPrefixesList | undefined;
   /** List of start_with string patterns for groups which users to sync */
-  user_group_prefixes?: CreateAzureIntegrationRequestUserGroupPrefixesList;
+  user_group_prefixes?: CreateAzureIntegrationRequestUserGroupPrefixesList | undefined;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** Base64-encoded Azure AD client secret */
   client_secret: string | Redacted.Redacted<string>;
   /** Azure AD application (client) ID */
@@ -452,7 +452,7 @@ export interface CreateAzureIntegrationRequest {
   /** Azure AD tenant ID */
   tenant_id: string;
   /** Sync interval in seconds (minimum 300). Defaults to 300 if not specified. */
-  sync_interval?: number;
+  sync_interval?: number | undefined;
   /** Azure host domain for the Graph API */
   host: CreateAzureIntegrationRequestHost | (string & {});
 }
@@ -468,7 +468,7 @@ export interface CreateAzureIntegrationResponse {
   /** List of start_with string patterns for groups which users to sync */
   user_group_prefixes: CreateAzureIntegrationResponseUserGroupPrefixesList;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The unique identifier for the integration */
   id: number;
   /** Azure AD application (client) ID */
@@ -550,7 +550,7 @@ export interface CreateDnsZoneRequest {
   /** Zone domain (FQDN) */
   domain: string;
   /** Zone status */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Enable this zone as a search domain */
   enable_search_domain: boolean;
   /** Group IDs that defines groups of peers that will resolve this zone */
@@ -625,9 +625,9 @@ export interface CreateEDRIntegrationRequest {
   /** The devices last sync requirement interval in hours. Minimum value is 24 hours. */
   last_synced_interval: number;
   /** How often devices are synced from the integration, in minutes. Minimum value is 1 minute, maximum is 1440 minutes. */
-  sync_interval?: number;
+  sync_interval?: number | undefined;
   /** Indicates whether the integration is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** How the group was issued (api, integration, jwt) */
 export type GroupIssued = "api" | "integration" | "jwt";
@@ -656,7 +656,7 @@ export interface Group {
   /** Count of resources associated to the group */
   resources_count: number;
   /** How the group was issued (api, integration, jwt) */
-  issued?: GroupIssued;
+  issued?: GroupIssued | undefined;
   /** List of peers object */
   peers: GroupPeersList | null;
   resources: GroupResourcesList | null;
@@ -704,9 +704,9 @@ export interface CreateFalconEDRIntegrationRequest {
   /** The minimum Zero Trust Assessment score required for agent approval (0-100) */
   zta_score_threshold: number;
   /** How often devices are synced from the integration, in minutes. Minimum value is 1 minute, maximum is 1440 minutes. */
-  sync_interval?: number;
+  sync_interval?: number | undefined;
   /** Indicates whether the integration is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** List of groups */
 export type EDRFalconResponseGroupsList = Array<Group>;
@@ -742,15 +742,15 @@ export type FleetDMMatchAttributesRequiredPoliciesList = Array<number>;
 /** Attribute conditions to match when approving FleetDM hosts. Most attributes work with FleetDM's free/open source version. Premium-only attributes are marked accordingly */
 export interface FleetDMMatchAttributes {
   /** Whether disk encryption (FileVault/BitLocker) must be enabled on the host */
-  disk_encryption_enabled?: boolean;
+  disk_encryption_enabled?: boolean | undefined;
   /** Maximum number of allowed failing policies. Use 0 to require all policies to pass */
-  failing_policies_count_max?: number;
+  failing_policies_count_max?: number | undefined;
   /** Maximum number of allowed vulnerable software on the host */
-  vulnerable_software_count_max?: number;
+  vulnerable_software_count_max?: number | undefined;
   /** Whether the host must be online (recently seen by Fleet) */
-  status_online?: boolean;
+  status_online?: boolean | undefined;
   /** List of FleetDM policy IDs that must be passing on the host. If any of these policies is failing, the host is non-compliant */
-  required_policies?: FleetDMMatchAttributesRequiredPoliciesList;
+  required_policies?: FleetDMMatchAttributesRequiredPoliciesList | undefined;
 }
 export interface CreateFleetDMEDRIntegrationRequest {
   /** FleetDM server URL */
@@ -762,9 +762,9 @@ export interface CreateFleetDMEDRIntegrationRequest {
   /** The devices last sync requirement interval in hours. Minimum value is 24 hours */
   last_synced_interval: number;
   /** How often devices are synced from the integration, in minutes. Minimum value is 1 minute, maximum is 1440 minutes. */
-  sync_interval?: number;
+  sync_interval?: number | undefined;
   /** Indicates whether the integration is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   match_attributes: FleetDMMatchAttributes;
 }
 /** List of groups */
@@ -801,17 +801,17 @@ export type CreateGoogleIntegrationRequestGroupPrefixesList = Array<string>;
 export type CreateGoogleIntegrationRequestUserGroupPrefixesList = Array<string>;
 export interface CreateGoogleIntegrationRequest {
   /** List of start_with string patterns for groups to sync */
-  group_prefixes?: CreateGoogleIntegrationRequestGroupPrefixesList;
+  group_prefixes?: CreateGoogleIntegrationRequestGroupPrefixesList | undefined;
   /** List of start_with string patterns for groups which users to sync */
-  user_group_prefixes?: CreateGoogleIntegrationRequestUserGroupPrefixesList;
+  user_group_prefixes?: CreateGoogleIntegrationRequestUserGroupPrefixesList | undefined;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** Base64-encoded Google service account key */
   service_account_key: string | Redacted.Redacted<string>;
   /** Customer ID from Google Workspace Account Settings */
   customer_id: string;
   /** Sync interval in seconds (minimum 300). Defaults to 300 if not specified. */
-  sync_interval?: number;
+  sync_interval?: number | undefined;
 }
 /** List of start_with string patterns for groups to sync */
 export type CreateGoogleIntegrationResponseGroupPrefixesList = Array<string>;
@@ -825,7 +825,7 @@ export interface CreateGoogleIntegrationResponse {
   /** List of start_with string patterns for groups which users to sync */
   user_group_prefixes: CreateGoogleIntegrationResponseUserGroupPrefixesList;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The unique identifier for the integration */
   id: number;
   /** Customer ID from Google Workspace */
@@ -842,8 +842,8 @@ export interface CreateGroupRequest {
   /** Group name identifier */
   name: string;
   /** List of peers ids */
-  peers?: CreateGroupRequestPeersList;
-  resources?: CreateGroupRequestResourcesList;
+  peers?: CreateGroupRequestPeersList | undefined;
+  resources?: CreateGroupRequestResourcesList | undefined;
 }
 /** How the group was issued (api, integration, jwt) */
 export type CreateGroupResponseIssued = "api" | "integration" | "jwt";
@@ -860,7 +860,7 @@ export interface CreateGroupResponse {
   /** Count of resources associated to the group */
   resources_count: number;
   /** How the group was issued (api, integration, jwt) */
-  issued?: CreateGroupResponseIssued;
+  issued?: CreateGroupResponseIssued | undefined;
   /** List of peers object */
   peers: CreateGroupResponsePeersList | null;
   resources: CreateGroupResponseResourcesList | null;
@@ -870,13 +870,13 @@ export type CreateHuntressEDRIntegrationRequestGroupsList = Array<string>;
 /** Attribute conditions to match when approving agents */
 export interface HuntressMatchAttributes {
   /** Policy status of Defender AV for Managed Antivirus. */
-  defender_policy_status?: string;
+  defender_policy_status?: string | undefined;
   /** Status of Defender AV Managed Antivirus. */
-  defender_status?: string;
+  defender_status?: string | undefined;
   /** Sub-status of Defender AV Managed Antivirus. */
-  defender_substatus?: string;
+  defender_substatus?: string | undefined;
   /** Status of agent firewall. Can be one of Disabled, Enabled, Pending Isolation, Isolated, Pending Release. */
-  firewall_status?: string;
+  firewall_status?: string | undefined;
 }
 export interface CreateHuntressEDRIntegrationRequest {
   /** Huntress API key */
@@ -888,9 +888,9 @@ export interface CreateHuntressEDRIntegrationRequest {
   /** The devices last sync requirement interval in hours. Minimum value is 24 hours */
   last_synced_interval: number;
   /** How often devices are synced from the integration, in minutes. Minimum value is 1 minute, maximum is 1440 minutes. */
-  sync_interval?: number;
+  sync_interval?: number | undefined;
   /** Indicates whether the integration is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   match_attributes: HuntressMatchAttributes;
 }
 /** List of groups */
@@ -942,7 +942,7 @@ export interface CreateIdentityProviderRequest {
 }
 export interface IdentityProvider {
   /** Identity provider ID */
-  id?: string;
+  id?: string | undefined;
   type: IdentityProviderType;
   /** Human-readable name for the identity provider */
   name: string;
@@ -970,19 +970,19 @@ export type IntegrationResponseConfigMap = { [key: string]: string | undefined }
 /** Represents an event streaming integration. */
 export interface IntegrationResponse {
   /** The unique numeric identifier for the integration. */
-  id?: number;
+  id?: number | undefined;
   /** The identifier of the account this integration belongs to. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Whether the integration is currently active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The event streaming platform. */
-  platform?: IntegrationResponsePlatform;
+  platform?: IntegrationResponsePlatform | undefined;
   /** Timestamp of when the integration was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the integration was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Configuration for the integration. Sensitive keys (like API keys, secret keys) are masked with '****' in responses, as indicated by the GetIntegration handler logic. */
-  config?: IntegrationResponseConfigMap;
+  config?: IntegrationResponseConfigMap | undefined;
 }
 export interface CreateIntegrationAgentNetworkManagedProxyRequest {}
 /** Derived deployment state. `provisioning` until the gateway is rolled out and connected, `ready` while the gateway actively serves the endpoint, `failed` when the rollout reported a failure, `disabled` while the gateway is turned off and the endpoint is not served. */
@@ -996,9 +996,9 @@ export interface AgentNetworkManagedProxy {
   /** The account's gateway hostname. */
   endpoint: string;
   /** Region of the cluster hosting the deployment. */
-  region?: string;
+  region?: string | undefined;
   /** Failure detail reported by the rollout. Only set when state is `failed`. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CreateIntegrationBillingAwsMarketplaceEnrichRequest {
   /** The AWS user ID. */
@@ -1011,7 +1011,7 @@ export interface CreateIntegrationBillingCheckoutRequest {
   /** The Price ID for checkout. */
   priceID: string;
   /** Enables a 14-day trial for the account. */
-  enableTrial?: boolean;
+  enableTrial?: boolean | undefined;
 }
 export interface CheckoutResponse {
   /** The unique identifier for the checkout session. */
@@ -1049,7 +1049,7 @@ export interface TenantResponse {
   /** MSP users Groups that can access the Tenant and Roles to assume */
   groups: TenantResponseGroupsList;
   /** The date and time when the tenant was activated. */
-  activated_at?: string;
+  activated_at?: string | undefined;
   /** The DNS challenge to set in a TXT record */
   dns_challenge: string;
   /** The date and time when the tenant was created. */
@@ -1057,7 +1057,7 @@ export interface TenantResponse {
   /** The date and time when the tenant was last updated. */
   updated_at: string;
   /** The date and time when the existing tenant was invited. */
-  invited_at?: string;
+  invited_at?: string | undefined;
   /** The status of the tenant */
   status: TenantResponseStatus;
 }
@@ -1077,7 +1077,7 @@ export interface CreateNetworkRequest {
   /** Network name */
   name: string;
   /** Network description */
-  description?: string;
+  description?: string | undefined;
 }
 /** List of router IDs associated with the network */
 export type CreateNetworkResponseRoutersList = Array<string>;
@@ -1099,7 +1099,7 @@ export interface CreateNetworkResponse {
   /** Network name */
   name: string;
   /** Network description */
-  description?: string;
+  description?: string | undefined;
 }
 /** Group IDs containing the resource */
 export type CreateNetworkResourceRequestGroupsList = Array<string>;
@@ -1109,7 +1109,7 @@ export interface CreateNetworkResourceRequest {
   /** Network resource name */
   name: string;
   /** Network resource description */
-  description?: string;
+  description?: string | undefined;
   /** Network resource address (either a direct host like 1.1.1.1 or 1.1.1.1/32, or a subnet like 192.168.178.0/24, or domains like example.com and *.example.com) */
   address: string;
   /** Network resource status */
@@ -1131,7 +1131,7 @@ export interface GroupMinimum {
   /** Count of resources associated to the group */
   resources_count: number;
   /** How the group was issued (api, integration, jwt) */
-  issued?: GroupMinimumIssued;
+  issued?: GroupMinimumIssued | undefined;
 }
 /** Groups that the resource belongs to */
 export type CreateNetworkResourceResponseGroupsList = Array<GroupMinimum>;
@@ -1144,7 +1144,7 @@ export interface CreateNetworkResourceResponse {
   /** Network resource name */
   name: string;
   /** Network resource description */
-  description?: string;
+  description?: string | undefined;
   /** Network resource address (either a direct host like 1.1.1.1 or 1.1.1.1/32, or a subnet like 192.168.178.0/24, or domains like example.com and *.example.com) */
   address: string;
   /** Network resource status */
@@ -1156,9 +1156,9 @@ export interface CreateNetworkRouterRequest {
   /** The unique identifier of a network */
   networkId: string;
   /** Peer Identifier associated with route. This property can not be set together with `peer_groups` */
-  peer?: string;
+  peer?: string | undefined;
   /** Peers Group Identifier associated with route. This property can not be set together with `peer` */
-  peer_groups?: CreateNetworkRouterRequestPeerGroupsList;
+  peer_groups?: CreateNetworkRouterRequestPeerGroupsList | undefined;
   /** Route metric number. Lowest number has higher priority */
   metric: number;
   /** Indicate if peer should masquerade traffic to this route's prefix */
@@ -1172,9 +1172,9 @@ export interface CreateNetworkRouterResponse {
   /** Network Router Id */
   id: string;
   /** Peer Identifier associated with route. This property can not be set together with `peer_groups` */
-  peer?: string;
+  peer?: string | undefined;
   /** Peers Group Identifier associated with route. This property can not be set together with `peer` */
-  peer_groups?: CreateNetworkRouterResponsePeerGroupsList;
+  peer_groups?: CreateNetworkRouterResponsePeerGroupsList | undefined;
   /** Route metric number. Lowest number has higher priority */
   metric: number;
   /** Indicate if peer should masquerade traffic to this route's prefix */
@@ -1198,7 +1198,7 @@ export interface WebhookTarget {
   /** The webhook endpoint URL to send notifications to. */
   url: string;
   /** Custom HTTP headers sent with each webhook request. Values are write-only; in GET responses all values are masked. */
-  headers?: WebhookTargetHeadersMap;
+  headers?: WebhookTargetHeadersMap | undefined;
 }
 /** Channel-specific target configuration. The shape depends on the `type` field: - `email`: requires an `EmailTarget` object - `webhook`: requires a `WebhookTarget` object */
 export type CreateNotificationChannelRequestTarget = EmailTarget | WebhookTarget;
@@ -1207,7 +1207,7 @@ export type CreateNotificationChannelRequestEventTypesList = Array<string>;
 export interface CreateNotificationChannelRequest {
   type: NotificationChannelType | (string & {});
   /** Channel-specific target configuration. The shape depends on the `type` field: - `email`: requires an `EmailTarget` object - `webhook`: requires a `WebhookTarget` object */
-  target?: CreateNotificationChannelRequestTarget;
+  target?: CreateNotificationChannelRequestTarget | undefined;
   /** List of activity event type codes this channel subscribes to. */
   event_types: CreateNotificationChannelRequestEventTypesList;
   /** Whether this notification channel is active. */
@@ -1223,7 +1223,7 @@ export interface NotificationChannelResponse {
   id: string;
   type: NotificationChannelType;
   /** Channel-specific target configuration. The shape depends on the `type` field: - `email`: an `EmailTarget` object - `webhook`: a `WebhookTarget` object */
-  target?: NotificationChannelResponseTarget;
+  target?: NotificationChannelResponseTarget | undefined;
   /** List of activity event type codes this channel subscribes to. */
   event_types: NotificationChannelResponseEventTypesList;
   /** Whether this notification channel is active. */
@@ -1235,11 +1235,11 @@ export type CreateOktaScimIntegrationRequestGroupPrefixesList = Array<string>;
 export type CreateOktaScimIntegrationRequestUserGroupPrefixesList = Array<string>;
 export interface CreateOktaScimIntegrationRequest {
   /** List of start_with string patterns for groups to sync */
-  group_prefixes?: CreateOktaScimIntegrationRequestGroupPrefixesList;
+  group_prefixes?: CreateOktaScimIntegrationRequestGroupPrefixesList | undefined;
   /** List of start_with string patterns for groups which users to sync */
-  user_group_prefixes?: CreateOktaScimIntegrationRequestUserGroupPrefixesList;
+  user_group_prefixes?: CreateOktaScimIntegrationRequestUserGroupPrefixesList | undefined;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The Okta enterprise connection name on Auth0 */
   connection_name: string;
 }
@@ -1255,7 +1255,7 @@ export interface CreateOktaScimIntegrationResponse {
   /** List of start_with string patterns for groups which users to sync */
   user_group_prefixes: CreateOktaScimIntegrationResponseUserGroupPrefixesList;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The unique identifier for the integration */
   id: number;
   /** SCIM API token (full on creation/regeneration, masked on retrieval) */
@@ -1276,9 +1276,9 @@ export interface BundleParameters {
   /** Whether sensitive data should be anonymized in the bundle. */
   anonymize: boolean;
   /** How much the anonymizer redacts. "default" (or empty) keeps internal IP ranges, "strict" also anonymizes them. */
-  anonymize_level?: string;
+  anonymize_level?: string | undefined;
   /** Service URL the client requests an upload URL from before uploading the bundle. Empty selects the default upload server. */
-  upload_url?: string;
+  upload_url?: string | undefined;
 }
 export interface BundleWorkloadRequest {
   type: WorkloadType | (string & {});
@@ -1291,7 +1291,7 @@ export interface CreatePeerJobRequest {
 }
 export type JobResponseStatus = "pending" | "succeeded" | "failed";
 export interface BundleResult {
-  upload_key?: string | Redacted.Redacted<string> | null;
+  upload_key?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface BundleWorkloadResponse {
   type: WorkloadType;
@@ -1301,10 +1301,10 @@ export interface BundleWorkloadResponse {
 export interface JobResponse {
   id: string;
   created_at: string;
-  completed_at?: string | null;
+  completed_at?: string | null | undefined;
   triggered_by: string;
   status: JobResponseStatus;
-  failed_reason?: string | null;
+  failed_reason?: string | null | undefined;
   workload: BundleWorkloadResponse;
 }
 /** List of temporary access rules */
@@ -1359,7 +1359,7 @@ export interface PolicyRuleUpdate {
   /** Policy rule name identifier */
   name: string;
   /** Policy rule friendly description */
-  description?: string;
+  description?: string | undefined;
   /** Policy rule status */
   enabled: boolean;
   /** Policy rule accept or drops packets */
@@ -1369,21 +1369,21 @@ export interface PolicyRuleUpdate {
   /** Policy rule type of the traffic */
   protocol: PolicyRuleUpdateProtocol | (string & {});
   /** Policy rule affected ports. Mutually exclusive with `port_ranges`. A rule accepts either individual ports or port ranges, not both. */
-  ports?: PolicyRuleUpdatePortsList;
+  ports?: PolicyRuleUpdatePortsList | undefined;
   /** Policy rule affected ports ranges list. Mutually exclusive with `ports`. To mix individual ports with ranges in one rule, express each single port as a range with identical start and end values (for example, start 443, end 443). */
-  port_ranges?: PolicyRuleUpdatePortRangesList;
+  port_ranges?: PolicyRuleUpdatePortRangesList | undefined;
   /** Map of user group ids to a list of local users */
-  authorized_groups?: PolicyRuleUpdateAuthorizedGroupsMap;
+  authorized_groups?: PolicyRuleUpdateAuthorizedGroupsMap | undefined;
   /** Policy rule ID */
-  id?: string;
+  id?: string | undefined;
   /** Policy rule source group IDs */
-  sources?: PolicyRuleUpdateSourcesList;
+  sources?: PolicyRuleUpdateSourcesList | undefined;
   /** Policy rule source resource that the rule is applied to */
-  sourceResource?: Resource;
+  sourceResource?: Resource | undefined;
   /** Policy rule destination group IDs */
-  destinations?: PolicyRuleUpdateDestinationsList;
+  destinations?: PolicyRuleUpdateDestinationsList | undefined;
   /** Policy rule destination resource that the rule is applied to */
-  destinationResource?: Resource;
+  destinationResource?: Resource | undefined;
 }
 /** Policy rule object for policy UI editor */
 export type CreatePolicyRequestRulesList = Array<PolicyRuleUpdate>;
@@ -1391,11 +1391,11 @@ export interface CreatePolicyRequest {
   /** Policy name identifier */
   name: string;
   /** Policy friendly description */
-  description?: string;
+  description?: string | undefined;
   /** Policy status */
   enabled: boolean;
   /** Posture checks ID's applied to policy source groups */
-  source_posture_checks?: CreatePolicyRequestSourcePostureChecksList;
+  source_posture_checks?: CreatePolicyRequestSourcePostureChecksList | undefined;
   /** Policy rule object for policy UI editor */
   rules: CreatePolicyRequestRulesList;
 }
@@ -1422,7 +1422,7 @@ export interface PolicyRule {
   /** Policy rule name identifier */
   name: string;
   /** Policy rule friendly description */
-  description?: string;
+  description?: string | undefined;
   /** Policy rule status */
   enabled: boolean;
   /** Policy rule accept or drops packets */
@@ -1432,21 +1432,21 @@ export interface PolicyRule {
   /** Policy rule type of the traffic */
   protocol: PolicyRuleProtocol;
   /** Policy rule affected ports. Mutually exclusive with `port_ranges`. A rule accepts either individual ports or port ranges, not both. */
-  ports?: PolicyRulePortsList;
+  ports?: PolicyRulePortsList | undefined;
   /** Policy rule affected ports ranges list. Mutually exclusive with `ports`. To mix individual ports with ranges in one rule, express each single port as a range with identical start and end values (for example, start 443, end 443). */
-  port_ranges?: PolicyRulePortRangesList;
+  port_ranges?: PolicyRulePortRangesList | undefined;
   /** Map of user group ids to a list of local users */
-  authorized_groups?: PolicyRuleAuthorizedGroupsMap;
+  authorized_groups?: PolicyRuleAuthorizedGroupsMap | undefined;
   /** Policy rule ID */
-  id?: string;
+  id?: string | undefined;
   /** Policy rule source group IDs */
-  sources?: PolicyRuleSourcesList | null;
+  sources?: PolicyRuleSourcesList | null | undefined;
   /** Policy rule source resource that the rule is applied to */
-  sourceResource?: Resource;
+  sourceResource?: Resource | undefined;
   /** Policy rule destination group IDs */
-  destinations?: PolicyRuleDestinationsList | null;
+  destinations?: PolicyRuleDestinationsList | null | undefined;
   /** Policy rule destination resource that the rule is applied to */
-  destinationResource?: Resource;
+  destinationResource?: Resource | undefined;
 }
 /** Policy rule object for policy UI editor */
 export type CreatePolicyResponseRulesList = Array<PolicyRule>;
@@ -1454,11 +1454,11 @@ export interface CreatePolicyResponse {
   /** Policy name identifier */
   name: string;
   /** Policy friendly description */
-  description?: string;
+  description?: string | undefined;
   /** Policy status */
   enabled: boolean;
   /** Policy ID */
-  id?: string;
+  id?: string | undefined;
   /** Posture checks ID's applied to policy source groups */
   source_posture_checks: CreatePolicyResponseSourcePostureChecksList | null;
   /** Policy rule object for policy UI editor */
@@ -1477,19 +1477,19 @@ export interface MinKernelVersionCheck {
 /** Posture check for the version of operating system */
 export interface OSVersionCheck {
   /** Minimum version of Android */
-  android?: MinVersionCheck;
-  darwin?: MinVersionCheck;
+  android?: MinVersionCheck | undefined;
+  darwin?: MinVersionCheck | undefined;
   /** Minimum version of iOS */
-  ios?: MinVersionCheck;
+  ios?: MinVersionCheck | undefined;
   /** Minimum Linux kernel version */
-  linux?: MinKernelVersionCheck;
+  linux?: MinKernelVersionCheck | undefined;
   /** Minimum Windows kernel build version */
-  windows?: MinKernelVersionCheck;
+  windows?: MinKernelVersionCheck | undefined;
 }
 /** Describe geographical location information */
 export interface Location {
   country_code: string;
-  city_name?: string;
+  city_name?: string | undefined;
 }
 /** List of geo locations to which the policy applies */
 export type GeoLocationCheckLocationsList = Array<Location>;
@@ -1516,11 +1516,11 @@ export interface PeerNetworkRangeCheck {
 /** Describes the operational activity within a peer's system. */
 export interface Process {
   /** Path to the process executable file in a Linux operating system */
-  linux_path?: string;
+  linux_path?: string | undefined;
   /** Path to the process executable file in a Mac operating system */
-  mac_path?: string;
+  mac_path?: string | undefined;
   /** Path to the process executable file in a Windows operating system */
-  windows_path?: string;
+  windows_path?: string | undefined;
 }
 export type ProcessCheckProcessesList = Array<Process>;
 /** Posture Check for binaries exist and are running in the peer's system */
@@ -1536,19 +1536,19 @@ export interface CertificateCheck {
 }
 /** List of objects that perform the actual checks */
 export interface Checks {
-  nb_version_check?: MinVersionCheck;
-  os_version_check?: OSVersionCheck;
-  geo_location_check?: GeoLocationCheck;
-  peer_network_range_check?: PeerNetworkRangeCheck;
-  process_check?: ProcessCheck;
-  certificate_check?: CertificateCheck;
+  nb_version_check?: MinVersionCheck | undefined;
+  os_version_check?: OSVersionCheck | undefined;
+  geo_location_check?: GeoLocationCheck | undefined;
+  peer_network_range_check?: PeerNetworkRangeCheck | undefined;
+  process_check?: ProcessCheck | undefined;
+  certificate_check?: CertificateCheck | undefined;
 }
 export interface CreatePostureCheckRequest {
   /** Posture check name identifier */
   name: string;
   /** Posture check friendly description */
   description: string;
-  checks?: Checks;
+  checks?: Checks | undefined;
 }
 export interface PostureCheck {
   /** Posture check ID */
@@ -1556,7 +1556,7 @@ export interface PostureCheck {
   /** Posture check unique name identifier */
   name: string;
   /** Posture check friendly description */
-  description?: string;
+  description?: string | undefined;
   checks: Checks;
 }
 export interface CreateReverseProxyDomainRequest {
@@ -1579,19 +1579,19 @@ export type ServiceTargetOptionsPathRewrite = "preserve";
 export type ServiceTargetOptionsCustomHeadersMap = { [key: string]: string | undefined };
 export interface ServiceTargetOptions {
   /** Skip TLS certificate verification for this backend */
-  skip_tls_verify?: boolean;
+  skip_tls_verify?: boolean | undefined;
   /** Per-target response timeout as a Go duration string (e.g. "30s", "2m") */
-  request_timeout?: string;
+  request_timeout?: string | undefined;
   /** Controls how the request path is rewritten before forwarding to the backend. Default strips the matched prefix. "preserve" keeps the full original request path. */
-  path_rewrite?: ServiceTargetOptionsPathRewrite | (string & {});
+  path_rewrite?: ServiceTargetOptionsPathRewrite | (string & {}) | undefined;
   /** Extra headers sent to the backend. Hop-by-hop and proxy-managed headers (Host, Connection, Transfer-Encoding, etc.) are rejected. */
-  custom_headers?: ServiceTargetOptionsCustomHeadersMap;
+  custom_headers?: ServiceTargetOptionsCustomHeadersMap | undefined;
   /** Send PROXY Protocol v2 header to this backend (TCP/TLS only) */
-  proxy_protocol?: boolean;
+  proxy_protocol?: boolean | undefined;
   /** Idle timeout before a UDP session is reaped, as a Go duration string (e.g. "30s", "2m"). */
-  session_idle_timeout?: string;
+  session_idle_timeout?: string | undefined;
   /** When true, the proxy dials this target via the host's network stack instead of through its embedded NetBird client. Use for upstreams reachable without WireGuard (public APIs, LAN services, localhost sidecars). */
-  direct_upstream?: boolean;
+  direct_upstream?: boolean | undefined;
 }
 export interface ServiceTarget {
   /** Target ID */
@@ -1599,18 +1599,18 @@ export interface ServiceTarget {
   /** Target type */
   target_type: ServiceTargetTargetType | (string & {});
   /** URL path prefix for this target (HTTP only) */
-  path?: string;
+  path?: string | undefined;
   /** Access action applied after this target's HTTP path prefix is selected. "inherit" uses the service authentication configuration, "bypass" skips service authentication, and "block" denies access. HTTP services only. */
-  access_action?: ServiceTargetAccessAction | (string & {});
+  access_action?: ServiceTargetAccessAction | (string & {}) | undefined;
   /** Protocol to use when connecting to the backend */
   protocol: ServiceTargetProtocol | (string & {});
   /** Backend ip or domain for this target */
-  host?: string;
+  host?: string | undefined;
   /** Backend port for this target */
   port: number;
   /** Whether this target is enabled */
   enabled: boolean;
-  options?: ServiceTargetOptions;
+  options?: ServiceTargetOptions | undefined;
 }
 /** List of target backends for this service */
 export type ServiceTargetsList = Array<ServiceTarget>;
@@ -1632,7 +1632,7 @@ export interface BearerAuthConfig {
   /** Whether bearer auth is enabled */
   enabled: boolean;
   /** List of group IDs that can use bearer auth */
-  distribution_groups?: BearerAuthConfigDistributionGroupsList;
+  distribution_groups?: BearerAuthConfigDistributionGroupsList | undefined;
 }
 export interface LinkAuthConfig {
   /** Whether link auth is enabled */
@@ -1649,11 +1649,11 @@ export interface HeaderAuthConfig {
 }
 export type ServiceAuthConfigHeaderAuthsList = Array<HeaderAuthConfig>;
 export interface ServiceAuthConfig {
-  password_auth?: PasswordAuthConfig;
-  pin_auth?: PINAuthConfig;
-  bearer_auth?: BearerAuthConfig;
-  link_auth?: LinkAuthConfig;
-  header_auths?: ServiceAuthConfigHeaderAuthsList;
+  password_auth?: PasswordAuthConfig | undefined;
+  pin_auth?: PINAuthConfig | undefined;
+  bearer_auth?: BearerAuthConfig | undefined;
+  link_auth?: LinkAuthConfig | undefined;
+  header_auths?: ServiceAuthConfigHeaderAuthsList | undefined;
 }
 /** CIDR allowlist. If non-empty, only IPs matching these CIDRs are allowed. */
 export type AccessRestrictionsAllowedCidrsList = Array<string>;
@@ -1668,15 +1668,15 @@ export type AccessRestrictionsCrowdsecMode = "off" | "enforce" | "observe";
 /** Connection-level access restrictions based on IP address or geography. Applies to both HTTP and L4 services. */
 export interface AccessRestrictions {
   /** CIDR allowlist. If non-empty, only IPs matching these CIDRs are allowed. */
-  allowed_cidrs?: AccessRestrictionsAllowedCidrsList;
+  allowed_cidrs?: AccessRestrictionsAllowedCidrsList | undefined;
   /** CIDR blocklist. Connections from these CIDRs are rejected. Evaluated after allowed_cidrs. */
-  blocked_cidrs?: AccessRestrictionsBlockedCidrsList;
+  blocked_cidrs?: AccessRestrictionsBlockedCidrsList | undefined;
   /** ISO 3166-1 alpha-2 country codes to allow. If non-empty, only these countries are permitted. */
-  allowed_countries?: AccessRestrictionsAllowedCountriesList;
+  allowed_countries?: AccessRestrictionsAllowedCountriesList | undefined;
   /** ISO 3166-1 alpha-2 country codes to block. */
-  blocked_countries?: AccessRestrictionsBlockedCountriesList;
+  blocked_countries?: AccessRestrictionsBlockedCountriesList | undefined;
   /** CrowdSec IP reputation mode. Only available when the proxy cluster supports CrowdSec. */
-  crowdsec_mode?: AccessRestrictionsCrowdsecMode | (string & {});
+  crowdsec_mode?: AccessRestrictionsCrowdsecMode | (string & {}) | undefined;
 }
 /** Current status of the service */
 export type ServiceMetaStatus =
@@ -1690,7 +1690,7 @@ export interface ServiceMeta {
   /** Timestamp when the service was created */
   created_at: string;
   /** Timestamp when the certificate was issued (empty if not yet issued) */
-  certificate_issued_at?: string;
+  certificate_issued_at?: string | undefined;
   /** Current status of the service */
   status: ServiceMetaStatus;
 }
@@ -1704,43 +1704,43 @@ export interface Service {
   /** Domain for the service */
   domain: string;
   /** Service mode. "http" for L7 reverse proxy, "tcp"/"udp"/"tls" for L4 passthrough. */
-  mode?: ServiceMode;
+  mode?: ServiceMode | undefined;
   /** Port the proxy listens on (L4/TLS only) */
-  listen_port?: number;
+  listen_port?: number | undefined;
   /** Whether the listen port was auto-assigned */
-  port_auto_assigned?: boolean;
+  port_auto_assigned?: boolean | undefined;
   /** The proxy cluster handling this service (derived from domain) */
-  proxy_cluster?: string;
+  proxy_cluster?: string | undefined;
   /** List of target backends for this service */
   targets: ServiceTargetsList;
   /** Whether the service is enabled */
   enabled: boolean;
   /** Whether the service has been terminated. Terminated services cannot be updated. Services that violate the Terms of Service will be terminated. */
-  terminated?: boolean;
+  terminated?: boolean | undefined;
   /** When true, the original client Host header is passed through to the backend instead of being rewritten to the backend's address */
-  pass_host_header?: boolean;
+  pass_host_header?: boolean | undefined;
   /** When true, Location headers in backend responses are rewritten to replace the backend address with the public-facing domain */
-  rewrite_redirects?: boolean;
+  rewrite_redirects?: boolean | undefined;
   auth: ServiceAuthConfig;
-  access_restrictions?: AccessRestrictions;
+  access_restrictions?: AccessRestrictions | undefined;
   meta: ServiceMeta;
   /** When true, the service is NetBird-only -- its target points at a proxy cluster, inbound peers authenticate via their WireGuard tunnel identity (no OIDC), and an ACL policy is auto-generated from access_groups to the cluster's proxy-peer group. Requires mode=http. */
-  private?: boolean;
+  private?: boolean | undefined;
   /** NetBird group IDs whose peers may reach this private service over the tunnel. Required when private=true; ignored otherwise. Mutually exclusive with bearer auth (SSO). */
-  access_groups?: ServiceAccessGroupsList;
+  access_groups?: ServiceAccessGroupsList | undefined;
 }
 export interface CreateReverseProxyProxyTokenRequest {
   /** Human-readable token name */
   name: string;
   /** Token expiration in seconds (0 = never expires) */
-  expires_in?: number;
+  expires_in?: number | undefined;
 }
 export interface CreateReverseProxyProxyTokenResponse {
   id: string;
   name: string;
-  expires_at?: string;
+  expires_at?: string | undefined;
   created_at: string;
-  last_used?: string;
+  last_used?: string | undefined;
   revoked: boolean;
   /** The plain text token (shown only once) */
   plain_token: string | Redacted.Redacted<string>;
@@ -1757,23 +1757,23 @@ export interface CreateReverseProxyServiceRequest {
   /** Domain for the service */
   domain: string;
   /** Service mode. "http" for L7 reverse proxy, "tcp"/"udp"/"tls" for L4 passthrough. */
-  mode?: CreateReverseProxyServiceRequestMode | (string & {});
+  mode?: CreateReverseProxyServiceRequestMode | (string & {}) | undefined;
   /** Port the proxy listens on (L4/TLS only). Set to 0 for auto-assignment. */
-  listen_port?: number;
+  listen_port?: number | undefined;
   /** List of target backends for this service */
-  targets?: CreateReverseProxyServiceRequestTargetsList;
+  targets?: CreateReverseProxyServiceRequestTargetsList | undefined;
   /** Whether the service is enabled */
   enabled: boolean;
   /** When true, the original client Host header is passed through to the backend instead of being rewritten to the backend's address */
-  pass_host_header?: boolean;
+  pass_host_header?: boolean | undefined;
   /** When true, Location headers in backend responses are rewritten to replace the backend address with the public-facing domain */
-  rewrite_redirects?: boolean;
-  auth?: ServiceAuthConfig;
-  access_restrictions?: AccessRestrictions;
+  rewrite_redirects?: boolean | undefined;
+  auth?: ServiceAuthConfig | undefined;
+  access_restrictions?: AccessRestrictions | undefined;
   /** When true, the service is NetBird-only -- its target points at a proxy cluster, inbound peers authenticate via their WireGuard tunnel identity (no OIDC), and an ACL policy is auto-generated from access_groups to the cluster's proxy-peer group. Requires mode=http. */
-  private?: boolean;
+  private?: boolean | undefined;
   /** NetBird group IDs whose peers may reach this private service over the tunnel. Required when private=true; ignored otherwise. Mutually exclusive with bearer auth (SSO). */
-  access_groups?: CreateReverseProxyServiceRequestAccessGroupsList;
+  access_groups?: CreateReverseProxyServiceRequestAccessGroupsList | undefined;
 }
 /** Peers Group Identifier associated with route. This property can not be set together with `peer` */
 export type CreateRouteRequestPeerGroupsList = Array<string>;
@@ -1791,13 +1791,13 @@ export interface CreateRouteRequest {
   /** Route status */
   enabled: boolean;
   /** Peer Identifier associated with route. This property can not be set together with `peer_groups` */
-  peer?: string;
+  peer?: string | undefined;
   /** Peers Group Identifier associated with route. This property can not be set together with `peer` */
-  peer_groups?: CreateRouteRequestPeerGroupsList;
+  peer_groups?: CreateRouteRequestPeerGroupsList | undefined;
   /** Network range in CIDR format, Conflicts with domains */
-  network?: string;
+  network?: string | undefined;
   /** Domain list to be dynamically resolved. Max of 32 domains can be added per route configuration. Conflicts with network */
-  domains?: CreateRouteRequestDomainsList;
+  domains?: CreateRouteRequestDomainsList | undefined;
   /** Route metric number. Lowest number has higher priority */
   metric: number;
   /** Indicate if peer should masquerade traffic to this route's prefix */
@@ -1807,9 +1807,9 @@ export interface CreateRouteRequest {
   /** Indicate if the route should be kept after a domain doesn't resolve that IP anymore */
   keep_route: boolean;
   /** Access control group identifier associated with route. */
-  access_control_groups?: CreateRouteRequestAccessControlGroupsList;
+  access_control_groups?: CreateRouteRequestAccessControlGroupsList | undefined;
   /** Indicate if this exit node route (0.0.0.0/0) should skip auto-application for client routing */
-  skip_auto_apply?: boolean;
+  skip_auto_apply?: boolean | undefined;
 }
 /** Peers Group Identifier associated with route. This property can not be set together with `peer` */
 export type CreateRouteResponsePeerGroupsList = Array<string>;
@@ -1831,13 +1831,13 @@ export interface CreateRouteResponse {
   /** Route status */
   enabled: boolean;
   /** Peer Identifier associated with route. This property can not be set together with `peer_groups` */
-  peer?: string;
+  peer?: string | undefined;
   /** Peers Group Identifier associated with route. This property can not be set together with `peer` */
-  peer_groups?: CreateRouteResponsePeerGroupsList;
+  peer_groups?: CreateRouteResponsePeerGroupsList | undefined;
   /** Network range in CIDR format, Conflicts with domains */
-  network?: string;
+  network?: string | undefined;
   /** Domain list to be dynamically resolved. Max of 32 domains can be added per route configuration. Conflicts with network */
-  domains?: CreateRouteResponseDomainsList;
+  domains?: CreateRouteResponseDomainsList | undefined;
   /** Route metric number. Lowest number has higher priority */
   metric: number;
   /** Indicate if peer should masquerade traffic to this route's prefix */
@@ -1847,9 +1847,9 @@ export interface CreateRouteResponse {
   /** Indicate if the route should be kept after a domain doesn't resolve that IP anymore */
   keep_route: boolean;
   /** Access control group identifier associated with route. */
-  access_control_groups?: CreateRouteResponseAccessControlGroupsList;
+  access_control_groups?: CreateRouteResponseAccessControlGroupsList | undefined;
   /** Indicate if this exit node route (0.0.0.0/0) should skip auto-application for client routing */
-  skip_auto_apply?: boolean;
+  skip_auto_apply?: boolean | undefined;
 }
 /** List of start_with string patterns for groups to sync */
 export type CreateSCIMIntegrationRequestGroupPrefixesList = Array<string>;
@@ -1857,11 +1857,11 @@ export type CreateSCIMIntegrationRequestGroupPrefixesList = Array<string>;
 export type CreateSCIMIntegrationRequestUserGroupPrefixesList = Array<string>;
 export interface CreateSCIMIntegrationRequest {
   /** List of start_with string patterns for groups to sync */
-  group_prefixes?: CreateSCIMIntegrationRequestGroupPrefixesList;
+  group_prefixes?: CreateSCIMIntegrationRequestGroupPrefixesList | undefined;
   /** List of start_with string patterns for groups which users to sync */
-  user_group_prefixes?: CreateSCIMIntegrationRequestUserGroupPrefixesList;
+  user_group_prefixes?: CreateSCIMIntegrationRequestUserGroupPrefixesList | undefined;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The connection prefix used for the SCIM provider */
   prefix: string;
   /** Name of the SCIM identity provider */
@@ -1879,7 +1879,7 @@ export interface CreateSCIMIntegrationResponse {
   /** List of start_with string patterns for groups which users to sync */
   user_group_prefixes: CreateSCIMIntegrationResponseUserGroupPrefixesList;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The unique identifier for the integration */
   id: number;
   /** The connection prefix used for the SCIM provider */
@@ -1898,21 +1898,21 @@ export type SentinelOneMatchAttributesNetworkStatus = "connected" | "disconnecte
 /** Attribute conditions to match when approving agents */
 export interface SentinelOneMatchAttributes {
   /** The maximum allowed number of active threats on the agent */
-  active_threats?: number;
+  active_threats?: number | undefined;
   /** Whether disk encryption is enabled on the agent */
-  encrypted_applications?: boolean;
+  encrypted_applications?: boolean | undefined;
   /** Whether the agent firewall is enabled */
-  firewall_enabled?: boolean;
+  firewall_enabled?: boolean | undefined;
   /** Whether the agent is currently flagged as infected */
-  infected?: boolean;
+  infected?: boolean | undefined;
   /** Whether the agent has been recently active and reporting */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** Whether the agent is running the latest available version */
-  is_up_to_date?: boolean;
+  is_up_to_date?: boolean | undefined;
   /** The current network connectivity status of the device */
-  network_status?: SentinelOneMatchAttributesNetworkStatus | (string & {});
+  network_status?: SentinelOneMatchAttributesNetworkStatus | (string & {}) | undefined;
   /** The current operational state of the agent */
-  operational_state?: string;
+  operational_state?: string | undefined;
 }
 export interface CreateSentinelOneEDRIntegrationRequest {
   /** SentinelOne API token */
@@ -1924,9 +1924,9 @@ export interface CreateSentinelOneEDRIntegrationRequest {
   /** The devices last sync requirement interval in hours. Minimum value is 24 hours. */
   last_synced_interval: number;
   /** How often devices are synced from the integration, in minutes. Minimum value is 1 minute, maximum is 1440 minutes. */
-  sync_interval?: number;
+  sync_interval?: number | undefined;
   /** Indicates whether the integration is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   match_attributes: SentinelOneMatchAttributes;
 }
 /** List of groups */
@@ -1965,9 +1965,9 @@ export interface CreateSetupRequest {
   /** Display name for the admin user (defaults to email if not provided) */
   name: string;
   /** If true and the server has setup-time PAT issuance enabled (NB_SETUP_PAT_ENABLED=true), create a Personal Access Token for the new owner user and return it in the response. Ignored when the server feature is disabled. */
-  create_pat?: boolean;
+  create_pat?: boolean | undefined;
   /** Expiration of the Personal Access Token in days. Applies only when create_pat is true and the server feature is enabled. Defaults to 1 day when omitted. */
-  pat_expire_in?: number;
+  pat_expire_in?: number | undefined;
 }
 /** Response after successful instance setup */
 export interface SetupResponse {
@@ -1976,7 +1976,7 @@ export interface SetupResponse {
   /** Email address of the created user */
   email: string;
   /** Plain text Personal Access Token created during setup. Present only when create_pat was requested and the NB_SETUP_PAT_ENABLED feature was enabled on the server. */
-  personal_access_token?: string | Redacted.Redacted<string>;
+  personal_access_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** List of group IDs to auto-assign to peers registered with this key */
 export type CreateSetupKeyRequestAutoGroupsList = Array<string>;
@@ -1992,9 +1992,9 @@ export interface CreateSetupKeyRequest {
   /** A number of times this key can be used. The value of 0 indicates the unlimited usage. */
   usage_limit: number;
   /** Indicate that the peer will be ephemeral or not */
-  ephemeral?: boolean;
+  ephemeral?: boolean | undefined;
   /** Allow extra DNS labels to be added to the peer */
-  allow_extra_dns_labels?: boolean;
+  allow_extra_dns_labels?: boolean | undefined;
 }
 /** List of group IDs to auto-assign to peers registered with this key */
 export type CreateSetupKeyResponseAutoGroupsList = Array<string>;
@@ -2034,9 +2034,9 @@ export interface CreateSetupKeyResponse {
 export type CreateUserRequestAutoGroupsList = Array<string>;
 export interface CreateUserRequest {
   /** User's Email to send invite to */
-  email?: string;
+  email?: string | undefined;
   /** User's full name */
-  name?: string;
+  name?: string | undefined;
   /** User's NetBird account role */
   role: string;
   /** Group IDs to auto-assign to peers registered by this user */
@@ -2056,7 +2056,7 @@ export interface CreateUserInviteRequest {
   /** Group IDs to auto-assign to peers registered by this user */
   auto_groups: CreateUserInviteRequestAutoGroupsList;
   /** Invite expiration time in seconds (default 72 hours) */
-  expires_in?: number;
+  expires_in?: number | undefined;
 }
 /** Group IDs to auto-assign to peers registered by this user */
 export type UserInviteAutoGroupsList = Array<string>;
@@ -2079,7 +2079,7 @@ export interface UserInvite {
   /** Whether the invite has expired */
   expired: boolean;
   /** The invite link to be shared with the user. Only returned when the invite is created or regenerated. */
-  invite_token?: string | Redacted.Redacted<string>;
+  invite_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateUserTokenRequest {
   /** The unique identifier of a user */
@@ -2101,7 +2101,7 @@ export interface PersonalAccessToken {
   /** Date the token was created */
   created_at: string;
   /** Date the token was last used */
-  last_used?: string;
+  last_used?: string | undefined;
 }
 export interface PersonalAccessTokenGenerated {
   /** Plain text representation of the generated token */
@@ -2305,33 +2305,33 @@ export type GetAgentNetworkAccessLogsRequestProviderIdList = Array<string>;
 export type GetAgentNetworkAccessLogsRequestModelList = Array<string>;
 export interface GetAgentNetworkAccessLogsRequest {
   /** Page number for pagination (1-indexed). */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page (max 100). */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Field to sort by. */
-  sort_by?: GetAgentNetworkAccessLogsRequestSortBy | (string & {});
+  sort_by?: GetAgentNetworkAccessLogsRequestSortBy | (string & {}) | undefined;
   /** Sort order (ascending or descending). */
-  sort_order?: GetAgentNetworkAccessLogsRequestSortOrder | (string & {});
+  sort_order?: GetAgentNetworkAccessLogsRequestSortOrder | (string & {}) | undefined;
   /** General search across log ID, host, path, model, and user email/name. */
-  search?: string;
+  search?: string | undefined;
   /** Filter by authenticated user ID. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Filter to a single conversation / coding session id (groups all requests of one session). */
-  session_id?: string;
+  session_id?: string | undefined;
   /** Filter by authorising group id. Repeat for multiple (matches any). */
-  group_id?: GetAgentNetworkAccessLogsRequestGroupIdList;
+  group_id?: GetAgentNetworkAccessLogsRequestGroupIdList | undefined;
   /** Filter by resolved provider id. Repeat for multiple (matches any). */
-  provider_id?: GetAgentNetworkAccessLogsRequestProviderIdList;
+  provider_id?: GetAgentNetworkAccessLogsRequestProviderIdList | undefined;
   /** Filter by model. Repeat for multiple (matches any). */
-  model?: GetAgentNetworkAccessLogsRequestModelList;
+  model?: GetAgentNetworkAccessLogsRequestModelList | undefined;
   /** Filter by policy decision (e.g. allow, deny). */
-  decision?: string;
+  decision?: string | undefined;
   /** Filter by request path prefix (matches entries whose path starts with this value). */
-  path?: string;
+  path?: string | undefined;
   /** Filter by timestamp >= start_date (RFC3339 format). */
-  start_date?: string;
+  start_date?: string | undefined;
   /** Filter by timestamp <= end_date (RFC3339 format). */
-  end_date?: string;
+  end_date?: string | undefined;
 }
 /** NetBird group ids that authorised the request (the caller's groups intersected with the policy's source groups). */
 export type AgentNetworkAccessLogGroupIdsList = Array<string>;
@@ -2348,29 +2348,29 @@ export interface AgentNetworkAccessLog {
   /** Duration of the request in milliseconds. */
   duration_ms: number;
   /** NetBird user id of the authenticated caller, if applicable. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Source IP of the request. Empty when log collection is disabled. */
-  source_ip?: string;
+  source_ip?: string | undefined;
   /** HTTP method of the request. */
-  method?: string;
+  method?: string | undefined;
   /** Upstream host the request was routed to. Empty when log collection is disabled. */
-  host?: string;
+  host?: string | undefined;
   /** Request path. Empty when log collection is disabled. */
-  path?: string;
+  path?: string | undefined;
   /** LLM provider vendor (e.g. openai, anthropic). */
-  provider?: string;
+  provider?: string | undefined;
   /** Requested LLM model. */
-  model?: string;
+  model?: string | undefined;
   /** Conversation / coding-session identifier that groups related requests. Sourced from the client's session marker (e.g. OpenAI Codex client_metadata.session_id, Claude Code metadata.user_id). Empty for clients that send none. */
-  session_id?: string;
+  session_id?: string | undefined;
   /** NetBird agent-network provider id that served the request. */
-  resolved_provider_id?: string;
+  resolved_provider_id?: string | undefined;
   /** Agent-network policy id that authorised (or denied) the request. */
-  selected_policy_id?: string;
+  selected_policy_id?: string | undefined;
   /** Policy decision for the request (e.g. allow, deny). */
-  decision?: string;
+  decision?: string | undefined;
   /** Raw deny reason code when the request was blocked (e.g. llm_policy.token_cap_exceeded). */
-  deny_reason?: string;
+  deny_reason?: string | undefined;
   /** Input (prompt) tokens consumed. */
   input_tokens: number;
   /** Output (completion) tokens produced. */
@@ -2394,13 +2394,13 @@ export interface AgentNetworkAccessLog {
   /** Portion of cost_usd billed for prompt-cache usage. */
   cache_cost_usd: number;
   /** Whether the request was a streaming completion. */
-  stream?: boolean;
+  stream?: boolean | undefined;
   /** NetBird group ids that authorised the request (the caller's groups intersected with the policy's source groups). */
-  group_ids?: AgentNetworkAccessLogGroupIdsList;
+  group_ids?: AgentNetworkAccessLogGroupIdsList | undefined;
   /** Captured request prompt. Present only when prompt collection is enabled. */
-  request_prompt?: string;
+  request_prompt?: string | undefined;
   /** Captured response completion. Present only when prompt collection is enabled. */
-  response_completion?: string;
+  response_completion?: string | undefined;
 }
 /** List of agent-network access log entries. */
 export type AgentNetworkAccessLogsResponseDataList = Array<AgentNetworkAccessLog>;
@@ -2432,33 +2432,33 @@ export type GetAgentNetworkAccessLogSessionsRequestProviderIdList = Array<string
 export type GetAgentNetworkAccessLogSessionsRequestModelList = Array<string>;
 export interface GetAgentNetworkAccessLogSessionsRequest {
   /** Page number for pagination (1-indexed). */
-  page?: number;
+  page?: number | undefined;
   /** Number of sessions per page (max 100). */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Session-level field to sort by. "timestamp" is the session's last activity, "started_at" its first. */
-  sort_by?: GetAgentNetworkAccessLogSessionsRequestSortBy | (string & {});
+  sort_by?: GetAgentNetworkAccessLogSessionsRequestSortBy | (string & {}) | undefined;
   /** Sort order (ascending or descending). */
-  sort_order?: GetAgentNetworkAccessLogSessionsRequestSortOrder | (string & {});
+  sort_order?: GetAgentNetworkAccessLogSessionsRequestSortOrder | (string & {}) | undefined;
   /** General search across log ID, host, path, model, and user email/name. */
-  search?: string;
+  search?: string | undefined;
   /** Filter by authenticated user ID. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Filter to a single conversation / coding session id. */
-  session_id?: string;
+  session_id?: string | undefined;
   /** Filter by authorising group id. Repeat for multiple (matches any). */
-  group_id?: GetAgentNetworkAccessLogSessionsRequestGroupIdList;
+  group_id?: GetAgentNetworkAccessLogSessionsRequestGroupIdList | undefined;
   /** Filter by resolved provider id. Repeat for multiple (matches any). */
-  provider_id?: GetAgentNetworkAccessLogSessionsRequestProviderIdList;
+  provider_id?: GetAgentNetworkAccessLogSessionsRequestProviderIdList | undefined;
   /** Filter by model. Repeat for multiple (matches any). */
-  model?: GetAgentNetworkAccessLogSessionsRequestModelList;
+  model?: GetAgentNetworkAccessLogSessionsRequestModelList | undefined;
   /** Filter by policy decision (e.g. allow, deny). */
-  decision?: string;
+  decision?: string | undefined;
   /** Filter by request path prefix (matches entries whose path starts with this value). */
-  path?: string;
+  path?: string | undefined;
   /** Filter by timestamp >= start_date (RFC3339 format). */
-  start_date?: string;
+  start_date?: string | undefined;
   /** Filter by timestamp <= end_date (RFC3339 format). */
-  end_date?: string;
+  end_date?: string | undefined;
 }
 /** Union of the authorising group ids across the session's entries. */
 export type AgentNetworkAccessLogSessionGroupIdsList = Array<string>;
@@ -2471,11 +2471,11 @@ export type AgentNetworkAccessLogSessionEntriesList = Array<AgentNetworkAccessLo
 /** A session-grouped view of agent-network access logs -- all requests sharing a session id (or a single session-less request) folded into one summary plus its ordered entries. */
 export interface AgentNetworkAccessLogSession {
   /** Conversation / coding-session identifier shared by the entries. Empty for a session-less (singleton) request grouped on its own id. */
-  session_id?: string;
+  session_id?: string | undefined;
   /** NetBird user id of the session's caller. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Union of the authorising group ids across the session's entries. */
-  group_ids?: AgentNetworkAccessLogSessionGroupIdsList;
+  group_ids?: AgentNetworkAccessLogSessionGroupIdsList | undefined;
   /** Timestamp of the session's earliest request. */
   started_at: string;
   /** Timestamp of the session's latest request. */
@@ -2505,9 +2505,9 @@ export interface AgentNetworkAccessLogSession {
   /** Portion of cost_usd billed for prompt-cache usage across the session. */
   cache_cost_usd: number;
   /** Distinct LLM provider vendors seen in the session. */
-  providers?: AgentNetworkAccessLogSessionProvidersList;
+  providers?: AgentNetworkAccessLogSessionProvidersList | undefined;
   /** Distinct models seen in the session. */
-  models?: AgentNetworkAccessLogSessionModelsList;
+  models?: AgentNetworkAccessLogSessionModelsList | undefined;
   /** Session decision -- "deny" if any request was denied, otherwise "allow". */
   decision: string;
   /** The session's access-log entries, oldest first. */
@@ -2557,7 +2557,7 @@ export interface AzureIntegration {
   /** List of start_with string patterns for groups which users to sync */
   user_group_prefixes: AzureIntegrationUserGroupPrefixesList;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The unique identifier for the integration */
   id: number;
   /** Azure AD application (client) ID */
@@ -2586,7 +2586,7 @@ export interface GoogleIntegration {
   /** List of start_with string patterns for groups which users to sync */
   user_group_prefixes: GoogleIntegrationUserGroupPrefixesList;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The unique identifier for the integration */
   id: number;
   /** Customer ID from Google Workspace */
@@ -2614,7 +2614,7 @@ export interface OktaScimIntegration {
   /** List of start_with string patterns for groups which users to sync */
   user_group_prefixes: OktaScimIntegrationUserGroupPrefixesList;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The unique identifier for the integration */
   id: number;
   /** SCIM API token (full on creation/regeneration, masked on retrieval) */
@@ -2637,7 +2637,7 @@ export interface ScimIntegration {
   /** List of start_with string patterns for groups which users to sync */
   user_group_prefixes: ScimIntegrationUserGroupPrefixesList;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The unique identifier for the integration */
   id: number;
   /** The connection prefix used for the SCIM provider */
@@ -2667,7 +2667,7 @@ export interface GetAzureIntegrationResponse {
   /** List of start_with string patterns for groups which users to sync */
   user_group_prefixes: GetAzureIntegrationResponseUserGroupPrefixesList;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The unique identifier for the integration */
   id: number;
   /** Azure AD application (client) ID */
@@ -2779,31 +2779,31 @@ export type GetEventNetworkTrafficRequestConnectionType = "P2P" | "ROUTED";
 export type GetEventNetworkTrafficRequestDirection = "INGRESS" | "EGRESS" | "DIRECTION_UNKNOWN";
 export interface GetEventNetworkTrafficRequest {
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Filter by user ID */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Filter by reporter ID */
-  reporter_id?: string;
+  reporter_id?: string | undefined;
   /** Filter by source endpoint ID */
-  source_id?: string;
+  source_id?: string | undefined;
   /** Filter by destination endpoint ID */
-  destination_id?: string;
+  destination_id?: string | undefined;
   /** Filter by protocol */
-  protocol?: number;
+  protocol?: number | undefined;
   /** Filter by event type */
-  type?: GetEventNetworkTrafficRequestType | (string & {});
+  type?: GetEventNetworkTrafficRequestType | (string & {}) | undefined;
   /** Filter by connection type */
-  connection_type?: GetEventNetworkTrafficRequestConnectionType | (string & {});
+  connection_type?: GetEventNetworkTrafficRequestConnectionType | (string & {}) | undefined;
   /** Filter by direction */
-  direction?: GetEventNetworkTrafficRequestDirection | (string & {});
+  direction?: GetEventNetworkTrafficRequestDirection | (string & {}) | undefined;
   /** Case-insensitive partial match on user email, source/destination names, and source/destination addresses */
-  search?: string;
+  search?: string | undefined;
   /** Start date for filtering events (ISO 8601 format, e.g., 2024-01-01T00:00:00Z). */
-  start_date?: string;
+  start_date?: string | undefined;
   /** End date for filtering events (ISO 8601 format, e.g., 2024-01-31T23:59:59Z). */
-  end_date?: string;
+  end_date?: string | undefined;
 }
 export interface NetworkTrafficLocation {
   /** Name of the city (if known). */
@@ -2927,37 +2927,37 @@ export type GetEventProxyRequestMethod =
 export type GetEventProxyRequestStatus = "success" | "failed";
 export interface GetEventProxyRequest {
   /** Page number for pagination (1-indexed) */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page (max 100) */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Field to sort by (url sorts by host then path) */
-  sort_by?: GetEventProxyRequestSortBy | (string & {});
+  sort_by?: GetEventProxyRequestSortBy | (string & {}) | undefined;
   /** Sort order (ascending or descending) */
-  sort_order?: GetEventProxyRequestSortOrder | (string & {});
+  sort_order?: GetEventProxyRequestSortOrder | (string & {}) | undefined;
   /** General search across request ID, host, path, and source IP */
-  search?: string;
+  search?: string | undefined;
   /** Filter by source IP address */
-  source_ip?: string;
+  source_ip?: string | undefined;
   /** Filter by host header */
-  host?: string;
+  host?: string | undefined;
   /** Filter by request path (supports partial matching) */
-  path?: string;
+  path?: string | undefined;
   /** Filter by authenticated user ID */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Filter by user email (partial matching) */
-  user_email?: string;
+  user_email?: string | undefined;
   /** Filter by user name (partial matching) */
-  user_name?: string;
+  user_name?: string | undefined;
   /** Filter by HTTP method */
-  method?: GetEventProxyRequestMethod | (string & {});
+  method?: GetEventProxyRequestMethod | (string & {}) | undefined;
   /** Filter by status (success = 2xx/3xx, failed = 1xx/4xx/5xx) */
-  status?: GetEventProxyRequestStatus | (string & {});
+  status?: GetEventProxyRequestStatus | (string & {}) | undefined;
   /** Filter by HTTP status code */
-  status_code?: number;
+  status_code?: number | undefined;
   /** Filter by timestamp >= start_date (RFC3339 format) */
-  start_date?: string;
+  start_date?: string | undefined;
   /** Filter by timestamp <= end_date (RFC3339 format) */
-  end_date?: string;
+  end_date?: string | undefined;
 }
 /** Extra context about the request (e.g. crowdsec_verdict) */
 export type ProxyAccessLogMetadataMap = { [key: string]: string | undefined };
@@ -2979,27 +2979,27 @@ export interface ProxyAccessLog {
   /** HTTP status code returned */
   status_code: number;
   /** Source IP address of the request */
-  source_ip?: string;
+  source_ip?: string | undefined;
   /** Reason for the request result (e.g., authentication failure) */
-  reason?: string;
+  reason?: string | undefined;
   /** ID of the authenticated user, if applicable */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Authentication method used (e.g., password, pin, oidc) */
-  auth_method_used?: string;
+  auth_method_used?: string | undefined;
   /** Country code from geolocation */
-  country_code?: string;
+  country_code?: string | undefined;
   /** City name from geolocation */
-  city_name?: string;
+  city_name?: string | undefined;
   /** First-level administrative subdivision ISO code (e.g. state/province) */
-  subdivision_code?: string;
+  subdivision_code?: string | undefined;
   /** Bytes uploaded (request body size) */
   bytes_upload: number;
   /** Bytes downloaded (response body size) */
   bytes_download: number;
   /** Protocol type: http, tcp, or udp */
-  protocol?: string;
+  protocol?: string | undefined;
   /** Extra context about the request (e.g. crowdsec_verdict) */
-  metadata?: ProxyAccessLogMetadataMap;
+  metadata?: ProxyAccessLogMetadataMap | undefined;
 }
 /** List of proxy access log entries */
 export type ProxyAccessLogsResponseDataList = Array<ProxyAccessLog>;
@@ -3031,7 +3031,7 @@ export interface GetGoogleIntegrationResponse {
   /** List of start_with string patterns for groups which users to sync */
   user_group_prefixes: GetGoogleIntegrationResponseUserGroupPrefixesList;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The unique identifier for the integration */
   id: number;
   /** Customer ID from Google Workspace */
@@ -3066,7 +3066,7 @@ export interface GetGroupResponse {
   /** Count of resources associated to the group */
   resources_count: number;
   /** How the group was issued (api, integration, jwt) */
-  issued?: GetGroupResponseIssued;
+  issued?: GetGroupResponseIssued | undefined;
   /** List of peers object */
   peers: GetGroupResponsePeersList | null;
   resources: GetGroupResponseResourcesList | null;
@@ -3087,9 +3087,9 @@ export interface InstanceVersionInfo {
   /** The current running version of the management server */
   management_current_version: string;
   /** The latest available version of the dashboard (from GitHub releases) */
-  dashboard_available_version?: string;
+  dashboard_available_version?: string | undefined;
   /** The latest available version of the management server (from GitHub releases) */
-  management_available_version?: string;
+  management_available_version?: string | undefined;
   /** Indicates if a newer management version is available */
   management_update_available: boolean;
 }
@@ -3132,9 +3132,9 @@ export interface Subscription {
   /** Unique identifier for the price of the subscription. */
   price_id: string;
   /** The remaining time for the trial period, in seconds. */
-  remaining_trial?: number;
+  remaining_trial?: number | undefined;
   /** List of features included in the subscription. */
-  features?: SubscriptionFeaturesList;
+  features?: SubscriptionFeaturesList | undefined;
   /** Currency code of the subscription. */
   currency: string;
   /** Price amount in minor units (e.g., cents). */
@@ -3193,7 +3193,7 @@ export interface GetNetworkResponse {
   /** Network name */
   name: string;
   /** Network description */
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetNetworkResourceRequest {
   /** The unique identifier of a network */
@@ -3212,7 +3212,7 @@ export interface GetNetworkResourceResponse {
   /** Network resource name */
   name: string;
   /** Network resource description */
-  description?: string;
+  description?: string | undefined;
   /** Network resource address (either a direct host like 1.1.1.1 or 1.1.1.1/32, or a subnet like 192.168.178.0/24, or domains like example.com and *.example.com) */
   address: string;
   /** Network resource status */
@@ -3230,9 +3230,9 @@ export interface GetNetworkRouterResponse {
   /** Network Router Id */
   id: string;
   /** Peer Identifier associated with route. This property can not be set together with `peer_groups` */
-  peer?: string;
+  peer?: string | undefined;
   /** Peers Group Identifier associated with route. This property can not be set together with `peer` */
-  peer_groups?: GetNetworkRouterResponsePeerGroupsList;
+  peer_groups?: GetNetworkRouterResponsePeerGroupsList | undefined;
   /** Route metric number. Lowest number has higher priority */
   metric: number;
   /** Indicate if peer should masquerade traffic to this route's prefix */
@@ -3260,7 +3260,7 @@ export interface GetOktaScimIntegrationResponse {
   /** List of start_with string patterns for groups which users to sync */
   user_group_prefixes: GetOktaScimIntegrationResponseUserGroupPrefixesList;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The unique identifier for the integration */
   id: number;
   /** SCIM API token (full on creation/regeneration, masked on retrieval) */
@@ -3292,27 +3292,27 @@ export type GetPeerResponseGroupsList = Array<GroupMinimum>;
 export type GetPeerResponseExtraDnsLabelsList = Array<string>;
 export interface PeerLocalFlags {
   /** Indicates whether Rosenpass is enabled on this peer */
-  rosenpass_enabled?: boolean;
+  rosenpass_enabled?: boolean | undefined;
   /** Indicates whether Rosenpass is in permissive mode or not */
-  rosenpass_permissive?: boolean;
+  rosenpass_permissive?: boolean | undefined;
   /** Indicates whether SSH access this peer is allowed or not */
-  server_ssh_allowed?: boolean;
+  server_ssh_allowed?: boolean | undefined;
   /** Indicates whether the peer has opted into management-requested remote jobs (e.g. debug bundles) */
-  remote_jobs_allowed?: boolean;
+  remote_jobs_allowed?: boolean | undefined;
   /** Indicates whether client routes are disabled on this peer or not */
-  disable_client_routes?: boolean;
+  disable_client_routes?: boolean | undefined;
   /** Indicates whether server routes are disabled on this peer or not */
-  disable_server_routes?: boolean;
+  disable_server_routes?: boolean | undefined;
   /** Indicates whether DNS management is disabled on this peer or not */
-  disable_dns?: boolean;
+  disable_dns?: boolean | undefined;
   /** Indicates whether firewall management is disabled on this peer or not */
-  disable_firewall?: boolean;
+  disable_firewall?: boolean | undefined;
   /** Indicates whether LAN access is blocked on this peer when used as a routing peer */
-  block_lan_access?: boolean;
+  block_lan_access?: boolean | undefined;
   /** Indicates whether inbound traffic is blocked on this peer */
-  block_inbound?: boolean;
+  block_inbound?: boolean | undefined;
   /** Indicates whether lazy connection is enabled on this peer */
-  lazy_connection_enabled?: boolean;
+  lazy_connection_enabled?: boolean | undefined;
 }
 export interface GetPeerResponse {
   /** Peer ID */
@@ -3324,9 +3324,9 @@ export interface GetPeerResponse {
   /** Peer's IP address */
   ip: string;
   /** Peer's IPv6 overlay address */
-  ipv6?: string;
+  ipv6?: string | undefined;
   /** Network interfaces (IP + MAC) reported by the peer */
-  network_addresses?: GetPeerResponseNetworkAddressesList;
+  network_addresses?: GetPeerResponseNetworkAddressesList | undefined;
   /** Peer's public connection IP address */
   connection_ip: string;
   /** Peer to Management connection status */
@@ -3364,7 +3364,7 @@ export interface GetPeerResponse {
   /** (Cloud only) Indicates whether peer needs approval */
   approval_required: boolean;
   /** (Cloud only) Reason why the peer requires approval */
-  disapproval_reason?: string;
+  disapproval_reason?: string | undefined;
   country_code: string;
   city_name: string;
   /** System serial number */
@@ -3373,7 +3373,7 @@ export interface GetPeerResponse {
   extra_dns_labels: GetPeerResponseExtraDnsLabelsList;
   /** Indicates whether the peer is ephemeral or not */
   ephemeral: boolean;
-  local_flags?: PeerLocalFlags;
+  local_flags?: PeerLocalFlags | undefined;
 }
 export interface GetPeerJobRequest {
   /** The unique identifier of a peer */
@@ -3393,11 +3393,11 @@ export interface GetPolicyResponse {
   /** Policy name identifier */
   name: string;
   /** Policy friendly description */
-  description?: string;
+  description?: string | undefined;
   /** Policy status */
   enabled: boolean;
   /** Policy ID */
-  id?: string;
+  id?: string | undefined;
   /** Posture checks ID's applied to policy source groups */
   source_posture_checks: GetPolicyResponseSourcePostureChecksList | null;
   /** Policy rule object for policy UI editor */
@@ -3440,13 +3440,13 @@ export interface GetRouteResponse {
   /** Route status */
   enabled: boolean;
   /** Peer Identifier associated with route. This property can not be set together with `peer_groups` */
-  peer?: string;
+  peer?: string | undefined;
   /** Peers Group Identifier associated with route. This property can not be set together with `peer` */
-  peer_groups?: GetRouteResponsePeerGroupsList;
+  peer_groups?: GetRouteResponsePeerGroupsList | undefined;
   /** Network range in CIDR format, Conflicts with domains */
-  network?: string;
+  network?: string | undefined;
   /** Domain list to be dynamically resolved. Max of 32 domains can be added per route configuration. Conflicts with network */
-  domains?: GetRouteResponseDomainsList;
+  domains?: GetRouteResponseDomainsList | undefined;
   /** Route metric number. Lowest number has higher priority */
   metric: number;
   /** Indicate if peer should masquerade traffic to this route's prefix */
@@ -3456,9 +3456,9 @@ export interface GetRouteResponse {
   /** Indicate if the route should be kept after a domain doesn't resolve that IP anymore */
   keep_route: boolean;
   /** Access control group identifier associated with route. */
-  access_control_groups?: GetRouteResponseAccessControlGroupsList;
+  access_control_groups?: GetRouteResponseAccessControlGroupsList | undefined;
   /** Indicate if this exit node route (0.0.0.0/0) should skip auto-application for client routing */
-  skip_auto_apply?: boolean;
+  skip_auto_apply?: boolean | undefined;
 }
 export interface GetSCIMIntegrationRequest {
   /** The unique identifier of the SCIM IDP integration. */
@@ -3476,7 +3476,7 @@ export interface GetSCIMIntegrationResponse {
   /** List of start_with string patterns for groups which users to sync */
   user_group_prefixes: GetSCIMIntegrationResponseUserGroupPrefixesList;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The unique identifier for the integration */
   id: number;
   /** The connection prefix used for the SCIM provider */
@@ -3587,7 +3587,7 @@ export interface AccountExtraSettings {
 /** Per-account dashboard section visibility overrides. Omitted keys follow the default dashboard behavior. */
 export interface AccountDashboardFeatures {
   /** Controls the Agent Network menu for the account regardless of the deployment feature flag. When true the menu is shown, when false it is hidden, and when omitted the default behavior applies. Must be true when agent_network_only is enabled. */
-  agent_network?: boolean;
+  agent_network?: boolean | undefined;
 }
 /** List of group IDs whose peers receive IPv6 overlay addresses. Peers not in any of these groups will not be allocated an IPv6 address. New accounts default to the All group. */
 export type AccountSettingsIpv6EnabledGroupsList = Array<string>;
@@ -3603,47 +3603,47 @@ export interface AccountSettings {
   /** Allows blocking regular users from viewing parts of the system. */
   regular_users_view_blocked: boolean;
   /** Allows propagate the new user auto groups to peers that belongs to the user */
-  groups_propagation_enabled?: boolean;
+  groups_propagation_enabled?: boolean | undefined;
   /** Allows extract groups from JWT claim and add it to account groups. */
-  jwt_groups_enabled?: boolean;
+  jwt_groups_enabled?: boolean | undefined;
   /** Name of the claim from which we extract groups names to add it to account groups. */
-  jwt_groups_claim_name?: string;
+  jwt_groups_claim_name?: string | undefined;
   /** List of groups to which users are allowed access */
-  jwt_allow_groups?: AccountSettingsJwtAllowGroupsList;
+  jwt_allow_groups?: AccountSettingsJwtAllowGroupsList | undefined;
   /** Enables or disables DNS resolution on the routing peers */
-  routing_peer_dns_resolution_enabled?: boolean;
+  routing_peer_dns_resolution_enabled?: boolean | undefined;
   /** Allows to define a custom dns domain for the account */
-  dns_domain?: string;
+  dns_domain?: string | undefined;
   /** Allows to define a custom network range for the account in CIDR format */
-  network_range?: string;
+  network_range?: string | undefined;
   /** Allows to define a custom IPv6 network range for the account in CIDR format. */
-  network_range_v6?: string;
+  network_range_v6?: string | undefined;
   /** Enables or disables peer expose. If enabled, peers can expose local services through the reverse proxy using the CLI. */
   peer_expose_enabled: boolean;
   /** Limits which peer groups are allowed to expose services. If empty, all peers are allowed when peer expose is enabled. */
   peer_expose_groups: AccountSettingsPeerExposeGroupsList;
-  extra?: AccountExtraSettings;
+  extra?: AccountExtraSettings | undefined;
   /** Enables or disables experimental lazy connection */
-  lazy_connection_enabled?: boolean;
+  lazy_connection_enabled?: boolean | undefined;
   /** Set Clients auto-update version. "latest", "disabled", or a specific version (e.g "0.50.1") */
-  auto_update_version?: string;
+  auto_update_version?: string | undefined;
   /** When true, updates are installed automatically in the background. When false, updates require user interaction from the UI. */
-  auto_update_always?: boolean;
+  auto_update_always?: boolean | undefined;
   /** Enables or disables client metrics push for all peers in the account */
-  metrics_push_enabled?: boolean;
+  metrics_push_enabled?: boolean | undefined;
   /** When enabled, registering or renaming a peer to a hostname already used by another peer in the account fails instead of receiving an IP-based suffix. Applies to ephemeral peers as well. */
-  peer_hostname_collision_rejected?: boolean;
+  peer_hostname_collision_rejected?: boolean | undefined;
   /** Limits the dashboard to the Agent Network surface for this account. Set for accounts created via netbird.ai signups and can be disabled later. Enabling this requires dashboard_features.agent_network to be true in the same request. */
-  agent_network_only?: boolean;
-  dashboard_features?: AccountDashboardFeatures;
+  agent_network_only?: boolean | undefined;
+  dashboard_features?: AccountDashboardFeatures | undefined;
   /** Indicates whether the embedded identity provider (Dex) is enabled for this account. This is a read-only field. */
-  embedded_idp_enabled?: boolean;
+  embedded_idp_enabled?: boolean | undefined;
   /** Indicates whether local (email/password) authentication is disabled. When true, users can only authenticate via external identity providers. This is a read-only field. */
-  local_auth_disabled?: boolean;
+  local_auth_disabled?: boolean | undefined;
   /** Enables or disables TOTP multi-factor authentication for local users. Only applicable when the embedded identity provider is enabled. */
-  local_mfa_enabled?: boolean;
+  local_mfa_enabled?: boolean | undefined;
   /** List of group IDs whose peers receive IPv6 overlay addresses. Peers not in any of these groups will not be allocated an IPv6 address. New accounts default to the All group. */
-  ipv6_enabled_groups?: AccountSettingsIpv6EnabledGroupsList;
+  ipv6_enabled_groups?: AccountSettingsIpv6EnabledGroupsList | undefined;
 }
 export interface AccountOnboarding {
   /** Indicates whether the account signup form is pending */
@@ -3729,8 +3729,8 @@ export interface AgentNetworkCatalogJSONMetadataInjection {
 }
 /** Catalog-declared identity-injection shape. Present when this provider supports stamping the caller's NetBird identity onto upstream requests. Exactly one of `header_pair` or `json_metadata` is set per provider entry. The dashboard reads the `customizable` flag on whichever shape is present to decide whether to surface the labels as editable inputs (true -> editable with the catalog values shown as placeholders; false -> fixed and read-only). */
 export interface AgentNetworkCatalogIdentityInjection {
-  header_pair?: AgentNetworkCatalogHeaderPairInjection;
-  json_metadata?: AgentNetworkCatalogJSONMetadataInjection;
+  header_pair?: AgentNetworkCatalogHeaderPairInjection | undefined;
+  json_metadata?: AgentNetworkCatalogJSONMetadataInjection | undefined;
 }
 /** Cost-meter pricing surfaces this provider's traffic is metered under ("openai", "anthropic", "bedrock"). Tells the dashboard which cache-rate fields apply to this provider's models: "openai" -> cached_input_per_1k (cached prompt tokens are a subset of input); "anthropic"/"bedrock" -> cache_read_per_1k + cache_creation_per_1k (additive buckets). Absent/empty for gateway and custom entries, whose upstream shape NetBird cannot know ahead of time -- surface all cache fields for those. */
 export type AgentNetworkCatalogProviderPricingSurfacesList = Array<string>;
@@ -3744,11 +3744,11 @@ export interface AgentNetworkCatalogModel {
   /** Output token price per 1k tokens, in USD. */
   output_per_1k: number;
   /** OpenAI-shape cache rate -- default cost per 1k cached prompt tokens (a subset of input tokens), in USD. Absent when the model has no cached-input discount. */
-  cached_input_per_1k?: number;
+  cached_input_per_1k?: number | undefined;
   /** Anthropic-shape cache rate -- default cost per 1k cache-read tokens (additive to input tokens), in USD. Absent when the model has no cache-read rate. */
-  cache_read_per_1k?: number;
+  cache_read_per_1k?: number | undefined;
   /** Anthropic-shape cache rate -- default cost per 1k cache-creation tokens (additive to input tokens), in USD. Absent when the model has no cache-creation rate. */
-  cache_creation_per_1k?: number;
+  cache_creation_per_1k?: number | undefined;
   /** Maximum context window in tokens. */
   context_window: number;
 }
@@ -3772,10 +3772,10 @@ export interface AgentNetworkCatalogProvider {
   /** Presentation grouping for the provider Select on the dashboard. "provider" -- first-party vendor API (OpenAI, Anthropic, ...); the upstream is the model itself. "gateway" -- routing/aggregation layer in front of multiple providers (LiteLLM, Portkey, ...); typically pairs with NetBird identity stamping. "custom" -- generic OpenAI-compatible self-hosted endpoint catch-all. */
   kind: AgentNetworkCatalogProviderKind;
   /** Catalog-declared list of optional per-provider routing/config headers the proxy stamps on every upstream request. Each entry surfaces an input on the dashboard's provider modal (one per item, labeled with `label`). Operators fill any subset; values land on the provider record's `extra_values` map keyed by `name`. Used by gateways like Portkey for `x-portkey-config: pc-...` (saved-config id resolving upstream provider + virtual key). */
-  extra_headers?: AgentNetworkCatalogProviderExtraHeadersList;
-  identity_injection?: AgentNetworkCatalogIdentityInjection;
+  extra_headers?: AgentNetworkCatalogProviderExtraHeadersList | undefined;
+  identity_injection?: AgentNetworkCatalogIdentityInjection | undefined;
   /** Cost-meter pricing surfaces this provider's traffic is metered under ("openai", "anthropic", "bedrock"). Tells the dashboard which cache-rate fields apply to this provider's models: "openai" -> cached_input_per_1k (cached prompt tokens are a subset of input); "anthropic"/"bedrock" -> cache_read_per_1k + cache_creation_per_1k (additive buckets). Absent/empty for gateway and custom entries, whose upstream shape NetBird cannot know ahead of time -- surface all cache fields for those. */
-  pricing_surfaces?: AgentNetworkCatalogProviderPricingSurfacesList;
+  pricing_surfaces?: AgentNetworkCatalogProviderPricingSurfacesList | undefined;
   /** Catalog models available for this provider. */
   models: AgentNetworkCatalogProviderModelsList;
 }
@@ -3802,7 +3802,7 @@ export interface AgentNetworkConsumption {
   /** Total USD spend booked against this dimension for the window. */
   cost_usd: number;
   /** Timestamp of the last increment recorded for this row. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export type ListAgentNetworkConsumptionResponseBodyList = Array<AgentNetworkConsumption>;
 export type ListAgentNetworkConsumptionResponse = ListAgentNetworkConsumptionResponseBodyList;
@@ -3821,21 +3821,21 @@ export type ListAgentNetworkUsageOverviewRequestProviderIdList = Array<string>;
 export type ListAgentNetworkUsageOverviewRequestModelList = Array<string>;
 export interface ListAgentNetworkUsageOverviewRequest {
   /** Time bucket width. Defaults to day. */
-  granularity?: ListAgentNetworkUsageOverviewRequestGranularity | (string & {});
+  granularity?: ListAgentNetworkUsageOverviewRequestGranularity | (string & {}) | undefined;
   /** Filter by timestamp >= start_date (RFC3339 format). */
-  start_date?: string;
+  start_date?: string | undefined;
   /** Filter by timestamp <= end_date (RFC3339 format). */
-  end_date?: string;
+  end_date?: string | undefined;
   /** Filter by user ID. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Filter to a single conversation / coding session id. */
-  session_id?: string;
+  session_id?: string | undefined;
   /** Filter by authorising group id. Repeat for multiple (matches any). */
-  group_id?: ListAgentNetworkUsageOverviewRequestGroupIdList;
+  group_id?: ListAgentNetworkUsageOverviewRequestGroupIdList | undefined;
   /** Filter by resolved provider id. Repeat for multiple (matches any). */
-  provider_id?: ListAgentNetworkUsageOverviewRequestProviderIdList;
+  provider_id?: ListAgentNetworkUsageOverviewRequestProviderIdList | undefined;
   /** Filter by model. Repeat for multiple (matches any). */
-  model?: ListAgentNetworkUsageOverviewRequestModelList;
+  model?: ListAgentNetworkUsageOverviewRequestModelList | undefined;
 }
 /** One aggregated agent-network usage time bucket (UTC). The bucket width is set by the request's granularity. */
 export interface AgentNetworkUsageBucket {
@@ -4070,7 +4070,7 @@ export type ListEventAuditResponseBodyList = Array<Event>;
 export type ListEventAuditResponse = ListEventAuditResponseBodyList;
 export interface ListGroupsRequest {
   /** Filter groups by name (exact match) */
-  name?: string;
+  name?: string | undefined;
 }
 export type ListGroupsResponseBodyList = Array<Group>;
 export type ListGroupsResponse = ListGroupsResponseBodyList;
@@ -4142,7 +4142,7 @@ export interface NetworkResource {
   /** Network resource name */
   name: string;
   /** Network resource description */
-  description?: string;
+  description?: string | undefined;
   /** Network resource address (either a direct host like 1.1.1.1 or 1.1.1.1/32, or a subnet like 192.168.178.0/24, or domains like example.com and *.example.com) */
   address: string;
   /** Network resource status */
@@ -4160,9 +4160,9 @@ export interface NetworkRouter {
   /** Network Router Id */
   id: string;
   /** Peer Identifier associated with route. This property can not be set together with `peer_groups` */
-  peer?: string;
+  peer?: string | undefined;
   /** Peers Group Identifier associated with route. This property can not be set together with `peer` */
-  peer_groups?: NetworkRouterPeerGroupsList;
+  peer_groups?: NetworkRouterPeerGroupsList | undefined;
   /** Route metric number. Lowest number has higher priority */
   metric: number;
   /** Indicate if peer should masquerade traffic to this route's prefix */
@@ -4196,7 +4196,7 @@ export interface Network {
   /** Network name */
   name: string;
   /** Network description */
-  description?: string;
+  description?: string | undefined;
 }
 export type ListNetworksResponseBodyList = Array<Network>;
 export type ListNetworksResponse = ListNetworksResponseBodyList;
@@ -4219,7 +4219,7 @@ export interface AccessiblePeer {
   /** Peer's IP address */
   ip: string;
   /** Peer's IPv6 overlay address */
-  ipv6?: string;
+  ipv6?: string | undefined;
   /** Peer's DNS label is the parsed peer name for domain resolution. It is used to form an FQDN by appending the account's domain to the peer label. e.g. peer-dns-label.netbird.cloud */
   dns_label: string;
   /** User ID of the user that enrolled this peer */
@@ -4245,11 +4245,11 @@ export type ListPeerJobsResponseBodyList = Array<JobResponse>;
 export type ListPeerJobsResponse = ListPeerJobsResponseBodyList;
 export interface ListPeersRequest {
   /** Filter peers by name */
-  name?: string;
+  name?: string | undefined;
   /** Filter peers by IP address */
-  ip?: string;
+  ip?: string | undefined;
   /** Filter peers by MAC address of a network interface */
-  mac?: string;
+  mac?: string | undefined;
 }
 /** Network interfaces (IP + MAC) reported by the peer */
 export type PeerBatchNetworkAddressesList = Array<NetworkAddress>;
@@ -4267,9 +4267,9 @@ export interface PeerBatch {
   /** Peer's IP address */
   ip: string;
   /** Peer's IPv6 overlay address */
-  ipv6?: string;
+  ipv6?: string | undefined;
   /** Network interfaces (IP + MAC) reported by the peer */
-  network_addresses?: PeerBatchNetworkAddressesList;
+  network_addresses?: PeerBatchNetworkAddressesList | undefined;
   /** Peer's public connection IP address */
   connection_ip: string;
   /** Peer to Management connection status */
@@ -4307,7 +4307,7 @@ export interface PeerBatch {
   /** (Cloud only) Indicates whether peer needs approval */
   approval_required: boolean;
   /** (Cloud only) Reason why the peer requires approval */
-  disapproval_reason?: string;
+  disapproval_reason?: string | undefined;
   country_code: string;
   city_name: string;
   /** System serial number */
@@ -4316,7 +4316,7 @@ export interface PeerBatch {
   extra_dns_labels: PeerBatchExtraDnsLabelsList;
   /** Indicates whether the peer is ephemeral or not */
   ephemeral: boolean;
-  local_flags?: PeerLocalFlags;
+  local_flags?: PeerLocalFlags | undefined;
   /** Number of accessible peers */
   accessible_peers_count: number;
 }
@@ -4331,11 +4331,11 @@ export interface Policy {
   /** Policy name identifier */
   name: string;
   /** Policy friendly description */
-  description?: string;
+  description?: string | undefined;
   /** Policy status */
   enabled: boolean;
   /** Policy ID */
-  id?: string;
+  id?: string | undefined;
   /** Posture checks ID's applied to policy source groups */
   source_posture_checks: PolicySourcePostureChecksList | null;
   /** Policy rule object for policy UI editor */
@@ -4361,13 +4361,13 @@ export interface ProxyCluster {
   /** Number of proxy nodes currently connected (heartbeat within the active window) */
   connected_proxies: number;
   /** Whether the cluster supports binding arbitrary TCP/UDP ports */
-  supports_custom_ports?: boolean;
+  supports_custom_ports?: boolean | undefined;
   /** Whether services on this cluster must include a subdomain label */
-  require_subdomain?: boolean;
+  require_subdomain?: boolean | undefined;
   /** Whether all active proxies in the cluster have CrowdSec configured */
-  supports_crowdsec?: boolean;
+  supports_crowdsec?: boolean | undefined;
   /** True when at least one connected proxy in this cluster is running embedded in a netbird client (`netbird proxy`) and serving over a WireGuard tunnel. Lets the dashboard distinguish per-peer / private clusters from centralised ones. */
-  private?: boolean;
+  private?: boolean | undefined;
 }
 export type ListReverseProxyClustersResponseBodyList = Array<ProxyCluster>;
 export type ListReverseProxyClustersResponse = ListReverseProxyClustersResponseBodyList;
@@ -4383,15 +4383,15 @@ export interface ReverseProxyDomain {
   validated: boolean;
   type: ReverseProxyDomainType;
   /** The proxy cluster this domain is validated against (only for custom domains) */
-  target_cluster?: string;
+  target_cluster?: string | undefined;
   /** Whether the cluster supports binding arbitrary TCP/UDP ports */
-  supports_custom_ports?: boolean;
+  supports_custom_ports?: boolean | undefined;
   /** Whether a subdomain label is required in front of this domain. When true, the domain cannot be used bare. */
-  require_subdomain?: boolean;
+  require_subdomain?: boolean | undefined;
   /** Whether the proxy cluster has CrowdSec configured */
-  supports_crowdsec?: boolean;
+  supports_crowdsec?: boolean | undefined;
   /** Whether the proxy cluster supports private (NetBird-only) services. True when at least one connected proxy in the cluster runs embedded in a netbird client. */
-  supports_private?: boolean;
+  supports_private?: boolean | undefined;
 }
 export type ListReverseProxyDomainsResponseBodyList = Array<ReverseProxyDomain>;
 export type ListReverseProxyDomainsResponse = ListReverseProxyDomainsResponseBodyList;
@@ -4399,9 +4399,9 @@ export interface ListReverseProxyProxyTokensRequest {}
 export interface ProxyToken {
   id: string;
   name: string;
-  expires_at?: string;
+  expires_at?: string | undefined;
   created_at: string;
-  last_used?: string;
+  last_used?: string | undefined;
   revoked: boolean;
 }
 export type ListReverseProxyProxyTokensResponseBodyList = Array<ProxyToken>;
@@ -4430,13 +4430,13 @@ export interface Route {
   /** Route status */
   enabled: boolean;
   /** Peer Identifier associated with route. This property can not be set together with `peer_groups` */
-  peer?: string;
+  peer?: string | undefined;
   /** Peers Group Identifier associated with route. This property can not be set together with `peer` */
-  peer_groups?: RoutePeerGroupsList;
+  peer_groups?: RoutePeerGroupsList | undefined;
   /** Network range in CIDR format, Conflicts with domains */
-  network?: string;
+  network?: string | undefined;
   /** Domain list to be dynamically resolved. Max of 32 domains can be added per route configuration. Conflicts with network */
-  domains?: RouteDomainsList;
+  domains?: RouteDomainsList | undefined;
   /** Route metric number. Lowest number has higher priority */
   metric: number;
   /** Indicate if peer should masquerade traffic to this route's prefix */
@@ -4446,9 +4446,9 @@ export interface Route {
   /** Indicate if the route should be kept after a domain doesn't resolve that IP anymore */
   keep_route: boolean;
   /** Access control group identifier associated with route. */
-  access_control_groups?: RouteAccessControlGroupsList;
+  access_control_groups?: RouteAccessControlGroupsList | undefined;
   /** Indicate if this exit node route (0.0.0.0/0) should skip auto-application for client routing */
-  skip_auto_apply?: boolean;
+  skip_auto_apply?: boolean | undefined;
 }
 export type ListRoutesResponseBodyList = Array<Route>;
 export type ListRoutesResponse = ListRoutesResponseBodyList;
@@ -4494,7 +4494,7 @@ export type ListUserInvitesResponseBodyList = Array<UserInvite>;
 export type ListUserInvitesResponse = ListUserInvitesResponseBodyList;
 export interface ListUsersRequest {
   /** Filters users and returns either regular users or service users */
-  service_user?: boolean;
+  service_user?: boolean | undefined;
 }
 export type ListUsersResponseBodyList = Array<User>;
 export type ListUsersResponse = ListUsersResponseBodyList;
@@ -4522,49 +4522,49 @@ export interface AccountSettingsInput {
   /** Allows blocking regular users from viewing parts of the system. */
   regular_users_view_blocked: boolean;
   /** Allows propagate the new user auto groups to peers that belongs to the user */
-  groups_propagation_enabled?: boolean;
+  groups_propagation_enabled?: boolean | undefined;
   /** Allows extract groups from JWT claim and add it to account groups. */
-  jwt_groups_enabled?: boolean;
+  jwt_groups_enabled?: boolean | undefined;
   /** Name of the claim from which we extract groups names to add it to account groups. */
-  jwt_groups_claim_name?: string;
+  jwt_groups_claim_name?: string | undefined;
   /** List of groups to which users are allowed access */
-  jwt_allow_groups?: AccountSettingsInputJwtAllowGroupsList;
+  jwt_allow_groups?: AccountSettingsInputJwtAllowGroupsList | undefined;
   /** Enables or disables DNS resolution on the routing peers */
-  routing_peer_dns_resolution_enabled?: boolean;
+  routing_peer_dns_resolution_enabled?: boolean | undefined;
   /** Allows to define a custom dns domain for the account */
-  dns_domain?: string;
+  dns_domain?: string | undefined;
   /** Allows to define a custom network range for the account in CIDR format */
-  network_range?: string;
+  network_range?: string | undefined;
   /** Allows to define a custom IPv6 network range for the account in CIDR format. */
-  network_range_v6?: string;
+  network_range_v6?: string | undefined;
   /** Enables or disables peer expose. If enabled, peers can expose local services through the reverse proxy using the CLI. */
   peer_expose_enabled: boolean;
   /** Limits which peer groups are allowed to expose services. If empty, all peers are allowed when peer expose is enabled. */
   peer_expose_groups: AccountSettingsInputPeerExposeGroupsList;
-  extra?: AccountExtraSettings;
+  extra?: AccountExtraSettings | undefined;
   /** Enables or disables experimental lazy connection */
-  lazy_connection_enabled?: boolean;
+  lazy_connection_enabled?: boolean | undefined;
   /** Set Clients auto-update version. "latest", "disabled", or a specific version (e.g "0.50.1") */
-  auto_update_version?: string;
+  auto_update_version?: string | undefined;
   /** When true, updates are installed automatically in the background. When false, updates require user interaction from the UI. */
-  auto_update_always?: boolean;
+  auto_update_always?: boolean | undefined;
   /** Enables or disables client metrics push for all peers in the account */
-  metrics_push_enabled?: boolean;
+  metrics_push_enabled?: boolean | undefined;
   /** When enabled, registering or renaming a peer to a hostname already used by another peer in the account fails instead of receiving an IP-based suffix. Applies to ephemeral peers as well. */
-  peer_hostname_collision_rejected?: boolean;
+  peer_hostname_collision_rejected?: boolean | undefined;
   /** Limits the dashboard to the Agent Network surface for this account. Set for accounts created via netbird.ai signups and can be disabled later. Enabling this requires dashboard_features.agent_network to be true in the same request. */
-  agent_network_only?: boolean;
-  dashboard_features?: AccountDashboardFeatures;
+  agent_network_only?: boolean | undefined;
+  dashboard_features?: AccountDashboardFeatures | undefined;
   /** Enables or disables TOTP multi-factor authentication for local users. Only applicable when the embedded identity provider is enabled. */
-  local_mfa_enabled?: boolean;
+  local_mfa_enabled?: boolean | undefined;
   /** List of group IDs whose peers receive IPv6 overlay addresses. Peers not in any of these groups will not be allocated an IPv6 address. New accounts default to the All group. */
-  ipv6_enabled_groups?: AccountSettingsInputIpv6EnabledGroupsList;
+  ipv6_enabled_groups?: AccountSettingsInputIpv6EnabledGroupsList | undefined;
 }
 export interface PutAccountRequest {
   /** The unique identifier of an account */
   accountId: string;
   settings: AccountSettingsInput;
-  onboarding?: AccountOnboarding;
+  onboarding?: AccountOnboarding | undefined;
 }
 /** NetBird group ids the rule binds. Empty plus empty target_users means account-wide. */
 export type PutAgentNetworkBudgetRuleRequestTargetGroupsList = Array<string>;
@@ -4576,11 +4576,11 @@ export interface PutAgentNetworkBudgetRuleRequest {
   /** Display name for the budget rule. */
   name: string;
   /** Whether the rule is enforced. Defaults to true on create. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** NetBird group ids the rule binds. Empty plus empty target_users means account-wide. */
-  target_groups?: PutAgentNetworkBudgetRuleRequestTargetGroupsList;
+  target_groups?: PutAgentNetworkBudgetRuleRequestTargetGroupsList | undefined;
   /** NetBird user ids the rule binds directly. */
-  target_users?: PutAgentNetworkBudgetRuleRequestTargetUsersList;
+  target_users?: PutAgentNetworkBudgetRuleRequestTargetUsersList | undefined;
   limits: AgentNetworkPolicyLimits;
 }
 export interface PutAgentNetworkGuardrailRequest {
@@ -4589,7 +4589,7 @@ export interface PutAgentNetworkGuardrailRequest {
   /** Display name for the guardrail. */
   name: string;
   /** Optional human-readable description. */
-  description?: string;
+  description?: string | undefined;
   checks: AgentNetworkGuardrailChecks;
 }
 /** NetBird group ids whose members are allowed to call the destination providers. */
@@ -4604,16 +4604,16 @@ export interface PutAgentNetworkPolicyRequest {
   /** Display name for the policy. */
   name: string;
   /** Optional human-readable description. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the policy is enabled. Defaults to true on create. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** NetBird group ids whose members are allowed to call the destination providers. */
   source_groups: PutAgentNetworkPolicyRequestSourceGroupsList;
   /** Agent Network provider ids the source groups can reach. */
   destination_provider_ids: PutAgentNetworkPolicyRequestDestinationProviderIdsList;
   /** Agent Network guardrail ids to attach to this policy. */
-  guardrail_ids?: PutAgentNetworkPolicyRequestGuardrailIdsList;
-  limits?: AgentNetworkPolicyLimits;
+  guardrail_ids?: PutAgentNetworkPolicyRequestGuardrailIdsList | undefined;
+  limits?: AgentNetworkPolicyLimits | undefined;
 }
 /** Models exposed through this endpoint, with the operator's per-1k input/output prices. Empty means all catalog models are allowed at catalog prices. */
 export type PutAgentNetworkProviderRequestModelsList = Array<AgentNetworkProviderModel>;
@@ -4629,21 +4629,21 @@ export interface PutAgentNetworkProviderRequest {
   /** Full upstream URL (with scheme) that NetBird forwards traffic to. */
   upstream_url: string;
   /** Upstream provider API key. Sealed at rest on the management server and never returned in responses. Required on create; optional on update (omit to keep the existing key). */
-  api_key?: string | Redacted.Redacted<string>;
+  api_key?: string | Redacted.Redacted<string> | undefined;
   /** Models exposed through this endpoint, with the operator's per-1k input/output prices. Empty means all catalog models are allowed at catalog prices. */
-  models?: PutAgentNetworkProviderRequestModelsList;
+  models?: PutAgentNetworkProviderRequestModelsList | undefined;
   /** Operator-typed values for catalog-declared extra headers (see AgentNetworkProvider.extra_values). The request's map replaces the stored values; empty strings drop the corresponding key. */
-  extra_values?: PutAgentNetworkProviderRequestExtraValuesMap;
+  extra_values?: PutAgentNetworkProviderRequestExtraValuesMap | undefined;
   /** Wire header name for the caller's display identity. See AgentNetworkProvider.identity_header_user_id. Empty or omitted disables stamping for this dimension. */
-  identity_header_user_id?: string;
+  identity_header_user_id?: string | undefined;
   /** Wire header name for the caller's groups CSV. See AgentNetworkProvider.identity_header_groups. Same semantics as `identity_header_user_id`. */
-  identity_header_groups?: string;
+  identity_header_groups?: string | undefined;
   /** Whether the provider is enabled. Defaults to true on create. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Skip upstream TLS certificate verification when the proxy dials this provider's URL. For self-hosted / internal gateways behind a private or self-signed certificate. Defaults to false. */
-  skip_tls_verification?: boolean;
+  skip_tls_verification?: boolean | undefined;
   /** Disable identity metadata injection (the caller's user + authorizing group) for this provider. Defaults to false (metadata is injected). */
-  metadata_disabled?: boolean;
+  metadata_disabled?: boolean | undefined;
 }
 export interface PutAgentNetworkSettingsRequest {
   /** The account's gateway endpoint hostname. Immutable -- must match the assigned value; a different value is rejected. */
@@ -4733,7 +4733,7 @@ export interface PutDnsZoneRequest {
   /** Zone domain (FQDN) */
   domain: string;
   /** Zone status */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Enable this zone as a search domain */
   enable_search_domain: boolean;
   /** Group IDs that defines groups of peers that will resolve this zone */
@@ -4792,8 +4792,8 @@ export interface PutGroupRequest {
   /** Group name identifier */
   name: string;
   /** List of peers ids */
-  peers?: PutGroupRequestPeersList;
-  resources?: PutGroupRequestResourcesList;
+  peers?: PutGroupRequestPeersList | undefined;
+  resources?: PutGroupRequestResourcesList | undefined;
 }
 /** How the group was issued (api, integration, jwt) */
 export type PutGroupResponseIssued = "api" | "integration" | "jwt";
@@ -4810,7 +4810,7 @@ export interface PutGroupResponse {
   /** Count of resources associated to the group */
   resources_count: number;
   /** How the group was issued (api, integration, jwt) */
-  issued?: PutGroupResponseIssued;
+  issued?: PutGroupResponseIssued | undefined;
   /** List of peers object */
   peers: PutGroupResponsePeersList | null;
   resources: PutGroupResponseResourcesList | null;
@@ -4830,9 +4830,9 @@ export interface PutIdentityProviderRequest {
 }
 export interface PutIntegrationBillingSubscriptionRequest {
   /** The Price ID to change the subscription to. */
-  priceID?: string;
+  priceID?: string | undefined;
   /** The plan tier to change the subscription to. */
-  plan_tier?: string;
+  plan_tier?: string | undefined;
 }
 export interface PutIntegrationBillingSubscriptionResponse {}
 /** MSP users Groups that can access the Tenant and Roles to assume */
@@ -4860,7 +4860,7 @@ export interface PutNetworkRequest {
   /** Network name */
   name: string;
   /** Network description */
-  description?: string;
+  description?: string | undefined;
 }
 /** List of router IDs associated with the network */
 export type PutNetworkResponseRoutersList = Array<string>;
@@ -4882,7 +4882,7 @@ export interface PutNetworkResponse {
   /** Network name */
   name: string;
   /** Network description */
-  description?: string;
+  description?: string | undefined;
 }
 /** Group IDs containing the resource */
 export type PutNetworkResourceRequestGroupsList = Array<string>;
@@ -4894,7 +4894,7 @@ export interface PutNetworkResourceRequest {
   /** Network resource name */
   name: string;
   /** Network resource description */
-  description?: string;
+  description?: string | undefined;
   /** Network resource address (either a direct host like 1.1.1.1 or 1.1.1.1/32, or a subnet like 192.168.178.0/24, or domains like example.com and *.example.com) */
   address: string;
   /** Network resource status */
@@ -4913,7 +4913,7 @@ export interface PutNetworkResourceResponse {
   /** Network resource name */
   name: string;
   /** Network resource description */
-  description?: string;
+  description?: string | undefined;
   /** Network resource address (either a direct host like 1.1.1.1 or 1.1.1.1/32, or a subnet like 192.168.178.0/24, or domains like example.com and *.example.com) */
   address: string;
   /** Network resource status */
@@ -4927,9 +4927,9 @@ export interface PutNetworkRouterRequest {
   /** The unique identifier of a router */
   routerId: string;
   /** Peer Identifier associated with route. This property can not be set together with `peer_groups` */
-  peer?: string;
+  peer?: string | undefined;
   /** Peers Group Identifier associated with route. This property can not be set together with `peer` */
-  peer_groups?: PutNetworkRouterRequestPeerGroupsList;
+  peer_groups?: PutNetworkRouterRequestPeerGroupsList | undefined;
   /** Route metric number. Lowest number has higher priority */
   metric: number;
   /** Indicate if peer should masquerade traffic to this route's prefix */
@@ -4943,9 +4943,9 @@ export interface PutNetworkRouterResponse {
   /** Network Router Id */
   id: string;
   /** Peer Identifier associated with route. This property can not be set together with `peer_groups` */
-  peer?: string;
+  peer?: string | undefined;
   /** Peers Group Identifier associated with route. This property can not be set together with `peer` */
-  peer_groups?: PutNetworkRouterResponsePeerGroupsList;
+  peer_groups?: PutNetworkRouterResponsePeerGroupsList | undefined;
   /** Route metric number. Lowest number has higher priority */
   metric: number;
   /** Indicate if peer should masquerade traffic to this route's prefix */
@@ -4961,11 +4961,11 @@ export interface PutPeerRequest {
   login_expiration_enabled: boolean;
   inactivity_expiration_enabled: boolean;
   /** (Cloud only) Indicates whether peer needs approval */
-  approval_required?: boolean;
+  approval_required?: boolean | undefined;
   /** Peer's IP address */
-  ip?: string;
+  ip?: string | undefined;
   /** Peer's IPv6 overlay address. Omitted if IPv6 is not enabled for the account. */
-  ipv6?: string;
+  ipv6?: string | undefined;
 }
 /** Network interfaces (IP + MAC) reported by the peer */
 export type PutPeerResponseNetworkAddressesList = Array<NetworkAddress>;
@@ -4983,9 +4983,9 @@ export interface PutPeerResponse {
   /** Peer's IP address */
   ip: string;
   /** Peer's IPv6 overlay address */
-  ipv6?: string;
+  ipv6?: string | undefined;
   /** Network interfaces (IP + MAC) reported by the peer */
-  network_addresses?: PutPeerResponseNetworkAddressesList;
+  network_addresses?: PutPeerResponseNetworkAddressesList | undefined;
   /** Peer's public connection IP address */
   connection_ip: string;
   /** Peer to Management connection status */
@@ -5023,7 +5023,7 @@ export interface PutPeerResponse {
   /** (Cloud only) Indicates whether peer needs approval */
   approval_required: boolean;
   /** (Cloud only) Reason why the peer requires approval */
-  disapproval_reason?: string;
+  disapproval_reason?: string | undefined;
   country_code: string;
   city_name: string;
   /** System serial number */
@@ -5032,7 +5032,7 @@ export interface PutPeerResponse {
   extra_dns_labels: PutPeerResponseExtraDnsLabelsList;
   /** Indicates whether the peer is ephemeral or not */
   ephemeral: boolean;
-  local_flags?: PeerLocalFlags;
+  local_flags?: PeerLocalFlags | undefined;
 }
 /** Posture checks ID's applied to policy source groups */
 export type PutPolicyRequestSourcePostureChecksList = Array<string>;
@@ -5044,11 +5044,11 @@ export interface PutPolicyRequest {
   /** Policy name identifier */
   name: string;
   /** Policy friendly description */
-  description?: string;
+  description?: string | undefined;
   /** Policy status */
   enabled: boolean;
   /** Posture checks ID's applied to policy source groups */
-  source_posture_checks?: PutPolicyRequestSourcePostureChecksList;
+  source_posture_checks?: PutPolicyRequestSourcePostureChecksList | undefined;
   /** Policy rule object for policy UI editor */
   rules: PutPolicyRequestRulesList;
 }
@@ -5060,11 +5060,11 @@ export interface PutPolicyResponse {
   /** Policy name identifier */
   name: string;
   /** Policy friendly description */
-  description?: string;
+  description?: string | undefined;
   /** Policy status */
   enabled: boolean;
   /** Policy ID */
-  id?: string;
+  id?: string | undefined;
   /** Posture checks ID's applied to policy source groups */
   source_posture_checks: PutPolicyResponseSourcePostureChecksList | null;
   /** Policy rule object for policy UI editor */
@@ -5077,7 +5077,7 @@ export interface PutPostureCheckRequest {
   name: string;
   /** Posture check friendly description */
   description: string;
-  checks?: Checks;
+  checks?: Checks | undefined;
 }
 /** Service mode. "http" for L7 reverse proxy, "tcp"/"udp"/"tls" for L4 passthrough. */
 export type PutReverseProxyServiceRequestMode = "http" | "tcp" | "udp" | "tls";
@@ -5093,23 +5093,23 @@ export interface PutReverseProxyServiceRequest {
   /** Domain for the service */
   domain: string;
   /** Service mode. "http" for L7 reverse proxy, "tcp"/"udp"/"tls" for L4 passthrough. */
-  mode?: PutReverseProxyServiceRequestMode | (string & {});
+  mode?: PutReverseProxyServiceRequestMode | (string & {}) | undefined;
   /** Port the proxy listens on (L4/TLS only). Set to 0 for auto-assignment. */
-  listen_port?: number;
+  listen_port?: number | undefined;
   /** List of target backends for this service */
-  targets?: PutReverseProxyServiceRequestTargetsList;
+  targets?: PutReverseProxyServiceRequestTargetsList | undefined;
   /** Whether the service is enabled */
   enabled: boolean;
   /** When true, the original client Host header is passed through to the backend instead of being rewritten to the backend's address */
-  pass_host_header?: boolean;
+  pass_host_header?: boolean | undefined;
   /** When true, Location headers in backend responses are rewritten to replace the backend address with the public-facing domain */
-  rewrite_redirects?: boolean;
-  auth?: ServiceAuthConfig;
-  access_restrictions?: AccessRestrictions;
+  rewrite_redirects?: boolean | undefined;
+  auth?: ServiceAuthConfig | undefined;
+  access_restrictions?: AccessRestrictions | undefined;
   /** When true, the service is NetBird-only -- its target points at a proxy cluster, inbound peers authenticate via their WireGuard tunnel identity (no OIDC), and an ACL policy is auto-generated from access_groups to the cluster's proxy-peer group. Requires mode=http. */
-  private?: boolean;
+  private?: boolean | undefined;
   /** NetBird group IDs whose peers may reach this private service over the tunnel. Required when private=true; ignored otherwise. Mutually exclusive with bearer auth (SSO). */
-  access_groups?: PutReverseProxyServiceRequestAccessGroupsList;
+  access_groups?: PutReverseProxyServiceRequestAccessGroupsList | undefined;
 }
 /** Peers Group Identifier associated with route. This property can not be set together with `peer` */
 export type PutRouteRequestPeerGroupsList = Array<string>;
@@ -5129,13 +5129,13 @@ export interface PutRouteRequest {
   /** Route status */
   enabled: boolean;
   /** Peer Identifier associated with route. This property can not be set together with `peer_groups` */
-  peer?: string;
+  peer?: string | undefined;
   /** Peers Group Identifier associated with route. This property can not be set together with `peer` */
-  peer_groups?: PutRouteRequestPeerGroupsList;
+  peer_groups?: PutRouteRequestPeerGroupsList | undefined;
   /** Network range in CIDR format, Conflicts with domains */
-  network?: string;
+  network?: string | undefined;
   /** Domain list to be dynamically resolved. Max of 32 domains can be added per route configuration. Conflicts with network */
-  domains?: PutRouteRequestDomainsList;
+  domains?: PutRouteRequestDomainsList | undefined;
   /** Route metric number. Lowest number has higher priority */
   metric: number;
   /** Indicate if peer should masquerade traffic to this route's prefix */
@@ -5145,9 +5145,9 @@ export interface PutRouteRequest {
   /** Indicate if the route should be kept after a domain doesn't resolve that IP anymore */
   keep_route: boolean;
   /** Access control group identifier associated with route. */
-  access_control_groups?: PutRouteRequestAccessControlGroupsList;
+  access_control_groups?: PutRouteRequestAccessControlGroupsList | undefined;
   /** Indicate if this exit node route (0.0.0.0/0) should skip auto-application for client routing */
-  skip_auto_apply?: boolean;
+  skip_auto_apply?: boolean | undefined;
 }
 /** Peers Group Identifier associated with route. This property can not be set together with `peer` */
 export type PutRouteResponsePeerGroupsList = Array<string>;
@@ -5169,13 +5169,13 @@ export interface PutRouteResponse {
   /** Route status */
   enabled: boolean;
   /** Peer Identifier associated with route. This property can not be set together with `peer_groups` */
-  peer?: string;
+  peer?: string | undefined;
   /** Peers Group Identifier associated with route. This property can not be set together with `peer` */
-  peer_groups?: PutRouteResponsePeerGroupsList;
+  peer_groups?: PutRouteResponsePeerGroupsList | undefined;
   /** Network range in CIDR format, Conflicts with domains */
-  network?: string;
+  network?: string | undefined;
   /** Domain list to be dynamically resolved. Max of 32 domains can be added per route configuration. Conflicts with network */
-  domains?: PutRouteResponseDomainsList;
+  domains?: PutRouteResponseDomainsList | undefined;
   /** Route metric number. Lowest number has higher priority */
   metric: number;
   /** Indicate if peer should masquerade traffic to this route's prefix */
@@ -5185,9 +5185,9 @@ export interface PutRouteResponse {
   /** Indicate if the route should be kept after a domain doesn't resolve that IP anymore */
   keep_route: boolean;
   /** Access control group identifier associated with route. */
-  access_control_groups?: PutRouteResponseAccessControlGroupsList;
+  access_control_groups?: PutRouteResponseAccessControlGroupsList | undefined;
   /** Indicate if this exit node route (0.0.0.0/0) should skip auto-application for client routing */
-  skip_auto_apply?: boolean;
+  skip_auto_apply?: boolean | undefined;
 }
 /** List of group IDs to auto-assign to peers registered with this key */
 export type PutSetupKeyRequestAutoGroupsList = Array<string>;
@@ -5271,7 +5271,7 @@ export interface RegenerateUsersInviteRequest {
   /** The ID of the invite to regenerate */
   inviteId: string;
   /** Invite expiration time in seconds (default 72 hours) */
-  expires_in?: number;
+  expires_in?: number | undefined;
 }
 /** Response after regenerating an invite */
 export interface UserInviteRegenerateResponse {
@@ -5291,7 +5291,7 @@ export interface SyncAzureIntegrationRequest {
 }
 /** Response for a manual sync trigger */
 export interface SyncResult {
-  result?: string;
+  result?: string | undefined;
 }
 export interface SyncGoogleIntegrationRequest {
   /** The unique identifier of the Google IDP integration. */
@@ -5312,21 +5312,21 @@ export interface UpdateAzureIntegrationRequest {
   /** The unique identifier of the Azure IDP integration. */
   id: number;
   /** Whether the integration is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** List of start_with string patterns for groups to sync */
-  group_prefixes?: UpdateAzureIntegrationRequestGroupPrefixesList;
+  group_prefixes?: UpdateAzureIntegrationRequestGroupPrefixesList | undefined;
   /** List of start_with string patterns for groups which users to sync */
-  user_group_prefixes?: UpdateAzureIntegrationRequestUserGroupPrefixesList;
+  user_group_prefixes?: UpdateAzureIntegrationRequestUserGroupPrefixesList | undefined;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** Base64-encoded Azure AD client secret */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** Azure AD application (client) ID */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Azure AD tenant ID */
-  tenant_id?: string;
+  tenant_id?: string | undefined;
   /** Sync interval in seconds (minimum 300) */
-  sync_interval?: number;
+  sync_interval?: number | undefined;
 }
 /** List of start_with string patterns for groups to sync */
 export type UpdateAzureIntegrationResponseGroupPrefixesList = Array<string>;
@@ -5340,7 +5340,7 @@ export interface UpdateAzureIntegrationResponse {
   /** List of start_with string patterns for groups which users to sync */
   user_group_prefixes: UpdateAzureIntegrationResponseUserGroupPrefixesList;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The unique identifier for the integration */
   id: number;
   /** Azure AD application (client) ID */
@@ -5368,9 +5368,9 @@ export interface UpdateEDRIntegrationRequest {
   /** The devices last sync requirement interval in hours. Minimum value is 24 hours. */
   last_synced_interval: number;
   /** How often devices are synced from the integration, in minutes. Minimum value is 1 minute, maximum is 1440 minutes. */
-  sync_interval?: number;
+  sync_interval?: number | undefined;
   /** Indicates whether the integration is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The Groups this integration applies to */
 export type UpdateFalconEDRIntegrationRequestGroupsList = Array<string>;
@@ -5386,9 +5386,9 @@ export interface UpdateFalconEDRIntegrationRequest {
   /** The minimum Zero Trust Assessment score required for agent approval (0-100) */
   zta_score_threshold: number;
   /** How often devices are synced from the integration, in minutes. Minimum value is 1 minute, maximum is 1440 minutes. */
-  sync_interval?: number;
+  sync_interval?: number | undefined;
   /** Indicates whether the integration is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The Groups this integrations applies to */
 export type UpdateFleetDMEDRIntegrationRequestGroupsList = Array<string>;
@@ -5402,9 +5402,9 @@ export interface UpdateFleetDMEDRIntegrationRequest {
   /** The devices last sync requirement interval in hours. Minimum value is 24 hours */
   last_synced_interval: number;
   /** How often devices are synced from the integration, in minutes. Minimum value is 1 minute, maximum is 1440 minutes. */
-  sync_interval?: number;
+  sync_interval?: number | undefined;
   /** Indicates whether the integration is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   match_attributes: FleetDMMatchAttributes;
 }
 /** List of start_with string patterns for groups to sync */
@@ -5415,19 +5415,19 @@ export interface UpdateGoogleIntegrationRequest {
   /** The unique identifier of the Google IDP integration. */
   id: number;
   /** Whether the integration is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** List of start_with string patterns for groups to sync */
-  group_prefixes?: UpdateGoogleIntegrationRequestGroupPrefixesList;
+  group_prefixes?: UpdateGoogleIntegrationRequestGroupPrefixesList | undefined;
   /** List of start_with string patterns for groups which users to sync */
-  user_group_prefixes?: UpdateGoogleIntegrationRequestUserGroupPrefixesList;
+  user_group_prefixes?: UpdateGoogleIntegrationRequestUserGroupPrefixesList | undefined;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** Base64-encoded Google service account key */
-  service_account_key?: string | Redacted.Redacted<string>;
+  service_account_key?: string | Redacted.Redacted<string> | undefined;
   /** Customer ID from Google Workspace Account Settings */
-  customer_id?: string;
+  customer_id?: string | undefined;
   /** Sync interval in seconds (minimum 300) */
-  sync_interval?: number;
+  sync_interval?: number | undefined;
 }
 /** List of start_with string patterns for groups to sync */
 export type UpdateGoogleIntegrationResponseGroupPrefixesList = Array<string>;
@@ -5441,7 +5441,7 @@ export interface UpdateGoogleIntegrationResponse {
   /** List of start_with string patterns for groups which users to sync */
   user_group_prefixes: UpdateGoogleIntegrationResponseUserGroupPrefixesList;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The unique identifier for the integration */
   id: number;
   /** Customer ID from Google Workspace */
@@ -5463,9 +5463,9 @@ export interface UpdateHuntressEDRIntegrationRequest {
   /** The devices last sync requirement interval in hours. Minimum value is 24 hours */
   last_synced_interval: number;
   /** How often devices are synced from the integration, in minutes. Minimum value is 1 minute, maximum is 1440 minutes. */
-  sync_interval?: number;
+  sync_interval?: number | undefined;
   /** Indicates whether the integration is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   match_attributes: HuntressMatchAttributes;
 }
 /** The event streaming platform to integrate with (e.g., "datadog", "s3", "firehose"). This field is used for creation. For updates (PUT), this field, if sent, is ignored by the backend. */
@@ -5491,7 +5491,7 @@ export interface UpdateNotificationChannelRequest {
   channelId: string;
   type: NotificationChannelType | (string & {});
   /** Channel-specific target configuration. The shape depends on the `type` field: - `email`: requires an `EmailTarget` object - `webhook`: requires a `WebhookTarget` object */
-  target?: UpdateNotificationChannelRequestTarget;
+  target?: UpdateNotificationChannelRequestTarget | undefined;
   /** List of activity event type codes this channel subscribes to. */
   event_types: UpdateNotificationChannelRequestEventTypesList;
   /** Whether this notification channel is active. */
@@ -5505,13 +5505,13 @@ export interface UpdateOktaScimIntegrationRequest {
   /** The unique identifier of the Okta SCIM IDP integration. */
   id: number;
   /** Whether the integration is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** List of start_with string patterns for groups to sync */
-  group_prefixes?: UpdateOktaScimIntegrationRequestGroupPrefixesList;
+  group_prefixes?: UpdateOktaScimIntegrationRequestGroupPrefixesList | undefined;
   /** List of start_with string patterns for groups which users to sync */
-  user_group_prefixes?: UpdateOktaScimIntegrationRequestUserGroupPrefixesList;
+  user_group_prefixes?: UpdateOktaScimIntegrationRequestUserGroupPrefixesList | undefined;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
 }
 /** List of start_with string patterns for groups to sync */
 export type UpdateOktaScimIntegrationResponseGroupPrefixesList = Array<string>;
@@ -5525,7 +5525,7 @@ export interface UpdateOktaScimIntegrationResponse {
   /** List of start_with string patterns for groups which users to sync */
   user_group_prefixes: UpdateOktaScimIntegrationResponseUserGroupPrefixesList;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The unique identifier for the integration */
   id: number;
   /** SCIM API token (full on creation/regeneration, masked on retrieval) */
@@ -5541,15 +5541,15 @@ export interface UpdateSCIMIntegrationRequest {
   /** The unique identifier of the SCIM IDP integration. */
   id: number;
   /** Whether the integration is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** List of start_with string patterns for groups to sync */
-  group_prefixes?: UpdateSCIMIntegrationRequestGroupPrefixesList;
+  group_prefixes?: UpdateSCIMIntegrationRequestGroupPrefixesList | undefined;
   /** List of start_with string patterns for groups which users to sync */
-  user_group_prefixes?: UpdateSCIMIntegrationRequestUserGroupPrefixesList;
+  user_group_prefixes?: UpdateSCIMIntegrationRequestUserGroupPrefixesList | undefined;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The connection prefix used for the SCIM provider */
-  prefix?: string;
+  prefix?: string | undefined;
 }
 /** List of start_with string patterns for groups to sync */
 export type UpdateSCIMIntegrationResponseGroupPrefixesList = Array<string>;
@@ -5563,7 +5563,7 @@ export interface UpdateSCIMIntegrationResponse {
   /** List of start_with string patterns for groups which users to sync */
   user_group_prefixes: UpdateSCIMIntegrationResponseUserGroupPrefixesList;
   /** DEX connector ID for embedded IDP setups */
-  connector_id?: string;
+  connector_id?: string | undefined;
   /** The unique identifier for the integration */
   id: number;
   /** The connection prefix used for the SCIM provider */
@@ -5587,9 +5587,9 @@ export interface UpdateSentinelOneEDRIntegrationRequest {
   /** The devices last sync requirement interval in hours. Minimum value is 24 hours. */
   last_synced_interval: number;
   /** How often devices are synced from the integration, in minutes. Minimum value is 1 minute, maximum is 1440 minutes. */
-  sync_interval?: number;
+  sync_interval?: number | undefined;
   /** Indicates whether the integration is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   match_attributes: SentinelOneMatchAttributes;
 }
 export type AcceptUsersInviteError = BadRequest | NotFound | UnprocessableEntity | NetBirdOpError;

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -160,9 +161,9 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateBrandProfileInput {
   brandProfileName: string;
-  clientToken?: string | redacted.Redacted<string>;
-  deletionProtectionEnabled?: boolean;
-  tags?: Tag[];
+  clientToken?: string | redacted.Redacted<string> | undefined;
+  deletionProtectionEnabled?: boolean | undefined;
+  tags?: Tag[] | undefined;
 }
 export type BrandProfileIdOrArn = string;
 export type AmazonResourceName = string;
@@ -186,22 +187,22 @@ export type BrandProfileAttributeCategory = string;
 export interface BrandProfileAttributeInput {
   attributeName: string | redacted.Redacted<string>;
   attributeType: BrandProfileAttributeType;
-  attributeValue?: string | redacted.Redacted<string>;
-  attachmentBody?: Uint8Array | redacted.Redacted<Uint8Array>;
-  description?: string | redacted.Redacted<string>;
-  category?: string;
+  attributeValue?: string | redacted.Redacted<string> | undefined;
+  attachmentBody?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  category?: string | undefined;
 }
 export type BrandProfileAttributeInputList = BrandProfileAttributeInput[];
 export interface CreateBrandProfileAttributesInput {
   brandProfileId: string;
   attributes: BrandProfileAttributeInput[];
-  clientToken?: string | redacted.Redacted<string>;
+  clientToken?: string | redacted.Redacted<string> | undefined;
 }
 export type MediaDownloadUrl = string | redacted.Redacted<string>;
 export interface BrandProfileAttributeOutput {
   attributeName: string | redacted.Redacted<string>;
   attributeType: BrandProfileAttributeType;
-  mediaDownloadUrl?: string | redacted.Redacted<string>;
+  mediaDownloadUrl?: string | redacted.Redacted<string> | undefined;
 }
 export type BrandProfileAttributeOutputList = BrandProfileAttributeOutput[];
 export interface CreateBrandProfileAttributesOutput {
@@ -211,9 +212,9 @@ export type RegistrationIdOrArn = string;
 export interface CreateBrandProfileFromRegistrationInput {
   registrationId: string;
   brandProfileName: string;
-  smartMatch?: boolean;
-  tags?: Tag[];
-  clientToken?: string | redacted.Redacted<string>;
+  smartMatch?: boolean | undefined;
+  tags?: Tag[] | undefined;
+  clientToken?: string | redacted.Redacted<string> | undefined;
 }
 export type JobId = string;
 export type JobResourceIdentifier = string;
@@ -231,10 +232,10 @@ export type CodeLength = number;
 export type ValidityPeriodMinutes = number;
 export type MaxVerificationAttempts = number;
 export interface CodeConfigurationParameters {
-  codeType?: CodeType;
-  codeLength?: number;
-  validityPeriodMinutes?: number;
-  maxAttempts?: number;
+  codeType?: CodeType | undefined;
+  codeLength?: number | undefined;
+  validityPeriodMinutes?: number | undefined;
+  maxAttempts?: number | undefined;
 }
 export type InlineTemplateBody = string | redacted.Redacted<string>;
 export type DestinationCountryParameterKey = string;
@@ -243,49 +244,51 @@ export type DestinationCountryParameters = {
   [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export interface TextParameters {
-  inlineTemplateBody?: string | redacted.Redacted<string>;
-  destinationCountryParameters?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  inlineTemplateBody?: string | redacted.Redacted<string> | undefined;
+  destinationCountryParameters?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
 }
 export type LanguageCode = string;
 export type VoiceId = string;
 export type VoiceMessageBodyTextType = "TEXT" | "SSML" | (string & {});
 export interface VoiceParameters {
-  inlineTemplateBody?: string | redacted.Redacted<string>;
-  languageCode?: string;
-  voiceId?: string;
-  voiceMessageBodyTextType?: VoiceMessageBodyTextType;
+  inlineTemplateBody?: string | redacted.Redacted<string> | undefined;
+  languageCode?: string | undefined;
+  voiceId?: string | undefined;
+  voiceMessageBodyTextType?: VoiceMessageBodyTextType | undefined;
 }
 export type NotifyTemplateId = string;
 export interface NotifyParameters {
-  notifyTemplateId?: string;
-  voiceId?: string;
+  notifyTemplateId?: string | undefined;
+  voiceId?: string | undefined;
 }
 export type WhatsAppTemplateName = string;
 export interface WhatsAppParameters {
-  whatsAppTemplateName?: string;
-  languageCode?: string;
+  whatsAppTemplateName?: string | undefined;
+  languageCode?: string | undefined;
 }
 export interface ChannelParameters {
-  text?: TextParameters;
-  voice?: VoiceParameters;
-  notify?: NotifyParameters;
-  whatsApp?: WhatsAppParameters;
+  text?: TextParameters | undefined;
+  voice?: VoiceParameters | undefined;
+  notify?: NotifyParameters | undefined;
+  whatsApp?: WhatsAppParameters | undefined;
 }
 export interface CreateNotifyCodeConfigurationInput {
   notifyCodeConfigurationName: string;
-  codeConfigurationParameters?: CodeConfigurationParameters;
-  channelParameters?: ChannelParameters;
-  deletionProtectionEnabled?: boolean;
-  clientToken?: string | redacted.Redacted<string>;
-  tags?: Tag[];
+  codeConfigurationParameters?: CodeConfigurationParameters | undefined;
+  channelParameters?: ChannelParameters | undefined;
+  deletionProtectionEnabled?: boolean | undefined;
+  clientToken?: string | redacted.Redacted<string> | undefined;
+  tags?: Tag[] | undefined;
 }
 export type NotifyCodeConfigurationId = string;
 export interface NotifyCodeConfiguration {
   notifyCodeConfigurationId: string;
   notifyCodeConfigurationArn: string;
   notifyCodeConfigurationName: string;
-  codeConfigurationParameters?: CodeConfigurationParameters;
-  channelParameters?: ChannelParameters;
+  codeConfigurationParameters?: CodeConfigurationParameters | undefined;
+  channelParameters?: ChannelParameters | undefined;
   deletionProtectionEnabled: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -298,8 +301,8 @@ export type RegistrationTypeList = string[];
 export interface CreateRegistrationsFromBrandProfileInput {
   brandProfileId: string;
   registrationTypes: string[];
-  smartMatch?: boolean;
-  clientToken?: string | redacted.Redacted<string>;
+  smartMatch?: boolean | undefined;
+  clientToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateRegistrationsFromBrandProfileOutput {
   results: JobResult[];
@@ -343,12 +346,12 @@ export interface GetBrandProfileAttributeInput {
 export interface GetBrandProfileAttributeOutput {
   attributeName: string | redacted.Redacted<string>;
   attributeType: BrandProfileAttributeType;
-  attributeValue?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  category?: string;
-  mediaContentType?: string;
-  mediaSizeBytes?: number;
-  mediaDownloadUrl?: string | redacted.Redacted<string>;
+  attributeValue?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  category?: string | undefined;
+  mediaContentType?: string | undefined;
+  mediaSizeBytes?: number | undefined;
+  mediaDownloadUrl?: string | redacted.Redacted<string> | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -373,10 +376,10 @@ export interface Job {
   operationType: string;
   createdAt: Date;
   updatedAt: Date;
-  brandProfileId?: string;
-  errorCode?: string;
-  errorMessage?: string;
-  resources?: JobResource[];
+  brandProfileId?: string | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
+  resources?: JobResource[] | undefined;
 }
 export interface GetNotifyCodeConfigurationInput {
   notifyCodeConfigurationId: string;
@@ -388,25 +391,25 @@ export type NextToken = string;
 export type MaxResults = number;
 export interface ListBrandProfileAttributesInput {
   brandProfileId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface BrandProfileAttributeSummary {
   attributeName: string | redacted.Redacted<string>;
   attributeType: BrandProfileAttributeType;
-  description?: string | redacted.Redacted<string>;
-  category?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  category?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
 export type BrandProfileAttributeSummaryList = BrandProfileAttributeSummary[];
 export interface ListBrandProfileAttributesOutput {
   brandProfileAttributes: BrandProfileAttributeSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListBrandProfilesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface BrandProfileInfo {
   brandProfileId: string;
@@ -420,14 +423,14 @@ export interface BrandProfileInfo {
 export type BrandProfileInfoList = BrandProfileInfo[];
 export interface ListBrandProfilesOutput {
   brandProfiles: BrandProfileInfo[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListJobsInput {
-  maxResults?: number;
-  nextToken?: string;
-  status?: JobStatus;
-  brandProfileId?: string;
-  operationType?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  status?: JobStatus | undefined;
+  brandProfileId?: string | undefined;
+  operationType?: string | undefined;
 }
 export interface JobSummary {
   jobId: string;
@@ -435,29 +438,29 @@ export interface JobSummary {
   operationType: string;
   createdAt: Date;
   updatedAt: Date;
-  brandProfileId?: string;
-  errorCode?: string;
-  errorMessage?: string;
-  resources?: JobResource[];
+  brandProfileId?: string | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
+  resources?: JobResource[] | undefined;
 }
 export type JobSummaryList = JobSummary[];
 export interface ListJobsOutput {
   jobs: JobSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListNotifyCodeConfigurationsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type NotifyCodeConfigurationList = NotifyCodeConfiguration[];
 export interface ListNotifyCodeConfigurationsOutput {
   notifyCodeConfigurations: NotifyCodeConfiguration[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListRegistrationsFromBrandProfileInput {
   brandProfileId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type RegistrationId = string;
 export interface RegistrationAssociationSummary {
@@ -469,13 +472,13 @@ export interface RegistrationAssociationSummary {
 export type RegistrationAssociationSummaryList = RegistrationAssociationSummary[];
 export interface ListRegistrationsFromBrandProfileOutput {
   registrationAssociations: RegistrationAssociationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type NotifyChannel = "TEXT" | "VOICE" | "WHATSAPP" | (string & {});
 export type DestinationIdentity = string | redacted.Redacted<string>;
@@ -489,12 +492,12 @@ export interface SendNotifyCodeVerificationInput {
   channel: NotifyChannel;
   destinationIdentity: string | redacted.Redacted<string>;
   originationIdentity: string;
-  notifyCodeConfiguration?: string;
-  overrideChannelParameters?: ChannelParameters;
-  overrideCodeConfigurationParameters?: CodeConfigurationParameters;
-  configurationSetName?: string;
-  context?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  referenceId?: string;
+  notifyCodeConfiguration?: string | undefined;
+  overrideChannelParameters?: ChannelParameters | undefined;
+  overrideCodeConfigurationParameters?: CodeConfigurationParameters | undefined;
+  configurationSetName?: string | undefined;
+  context?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  referenceId?: string | undefined;
 }
 export type VerificationId = string;
 export type MessageId = string;
@@ -515,8 +518,8 @@ export interface UntagResourceInput {
 export interface UntagResourceOutput {}
 export interface UpdateBrandProfileInput {
   brandProfileId: string;
-  brandProfileName?: string;
-  deletionProtectionEnabled?: boolean;
+  brandProfileName?: string | undefined;
+  deletionProtectionEnabled?: boolean | undefined;
 }
 export interface UpdateBrandProfileOutput {
   brandProfileId: string;
@@ -530,19 +533,19 @@ export interface UpdateBrandProfileOutput {
 export interface UpdateBrandProfileAttributeInput {
   brandProfileId: string;
   attributeName: string | redacted.Redacted<string>;
-  attributeValue?: string | redacted.Redacted<string>;
-  attachmentBody?: Uint8Array;
-  description?: string | redacted.Redacted<string>;
-  category?: string;
+  attributeValue?: string | redacted.Redacted<string> | undefined;
+  attachmentBody?: Uint8Array | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  category?: string | undefined;
 }
 export interface UpdateBrandProfileAttributeOutput {
   attributeName: string | redacted.Redacted<string>;
   attributeType: BrandProfileAttributeType;
-  attributeValue?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  category?: string;
-  mediaContentType?: string;
-  mediaSizeBytes?: number;
+  attributeValue?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  category?: string | undefined;
+  mediaContentType?: string | undefined;
+  mediaSizeBytes?: number | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -550,57 +553,59 @@ export type OnAttributeConflict = "REPLACE" | "PRESERVE" | (string & {});
 export interface UpdateBrandProfileFromRegistrationInput {
   brandProfileId: string;
   registrationId: string;
-  smartMatch?: boolean;
-  onAttributeConflict?: OnAttributeConflict;
-  clientToken?: string | redacted.Redacted<string>;
+  smartMatch?: boolean | undefined;
+  onAttributeConflict?: OnAttributeConflict | undefined;
+  clientToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateBrandProfileFromRegistrationOutput {
   results: JobResult[];
 }
 export interface UpdateCodeConfigurationParameters {
-  codeType?: CodeType;
-  codeLength?: number;
-  validityPeriodMinutes?: number;
-  maxAttempts?: number;
+  codeType?: CodeType | undefined;
+  codeLength?: number | undefined;
+  validityPeriodMinutes?: number | undefined;
+  maxAttempts?: number | undefined;
 }
 export type UpdateInlineTemplateBody = string | redacted.Redacted<string>;
 export type UpdateDestinationCountryParameters = {
   [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export interface UpdateTextParameters {
-  inlineTemplateBody?: string | redacted.Redacted<string>;
-  destinationCountryParameters?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  inlineTemplateBody?: string | redacted.Redacted<string> | undefined;
+  destinationCountryParameters?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
 }
 export type UpdateLanguageCode = string;
 export type UpdateVoiceId = string;
 export interface UpdateVoiceParameters {
-  inlineTemplateBody?: string | redacted.Redacted<string>;
-  languageCode?: string;
-  voiceId?: string;
-  voiceMessageBodyTextType?: VoiceMessageBodyTextType;
+  inlineTemplateBody?: string | redacted.Redacted<string> | undefined;
+  languageCode?: string | undefined;
+  voiceId?: string | undefined;
+  voiceMessageBodyTextType?: VoiceMessageBodyTextType | undefined;
 }
 export type UpdateNotifyTemplateId = string;
 export interface UpdateNotifyParameters {
-  notifyTemplateId?: string;
-  voiceId?: string;
+  notifyTemplateId?: string | undefined;
+  voiceId?: string | undefined;
 }
 export type UpdateWhatsAppTemplateName = string;
 export interface UpdateWhatsAppParameters {
-  whatsAppTemplateName?: string;
-  languageCode?: string;
+  whatsAppTemplateName?: string | undefined;
+  languageCode?: string | undefined;
 }
 export interface UpdateChannelParameters {
-  text?: UpdateTextParameters;
-  voice?: UpdateVoiceParameters;
-  notify?: UpdateNotifyParameters;
-  whatsApp?: UpdateWhatsAppParameters;
+  text?: UpdateTextParameters | undefined;
+  voice?: UpdateVoiceParameters | undefined;
+  notify?: UpdateNotifyParameters | undefined;
+  whatsApp?: UpdateWhatsAppParameters | undefined;
 }
 export interface UpdateNotifyCodeConfigurationInput {
   notifyCodeConfigurationId: string;
-  notifyCodeConfigurationName?: string;
-  codeConfigurationParameters?: UpdateCodeConfigurationParameters;
-  channelParameters?: UpdateChannelParameters;
-  deletionProtectionEnabled?: boolean;
+  notifyCodeConfigurationName?: string | undefined;
+  codeConfigurationParameters?: UpdateCodeConfigurationParameters | undefined;
+  channelParameters?: UpdateChannelParameters | undefined;
+  deletionProtectionEnabled?: boolean | undefined;
 }
 export interface UpdateNotifyCodeConfigurationOutput {
   notifyCodeConfiguration: NotifyCodeConfiguration;
@@ -609,9 +614,9 @@ export type RegistrationIdList = string[];
 export interface UpdateRegistrationsFromBrandProfileInput {
   brandProfileId: string;
   registrationIds: string[];
-  smartMatch?: boolean;
-  onAttributeConflict?: OnAttributeConflict;
-  clientToken?: string | redacted.Redacted<string>;
+  smartMatch?: boolean | undefined;
+  onAttributeConflict?: OnAttributeConflict | undefined;
+  clientToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateRegistrationsFromBrandProfileOutput {
   results: JobResult[];
@@ -619,7 +624,7 @@ export interface UpdateRegistrationsFromBrandProfileOutput {
 export type VerificationCode = string | redacted.Redacted<string>;
 export interface ValidateNotifyCodeVerificationInput {
   destinationIdentity: string | redacted.Redacted<string>;
-  referenceId?: string;
+  referenceId?: string | undefined;
   code: string | redacted.Redacted<string>;
 }
 export type VerificationStatus = "VALID" | "INVALID" | (string & {});
@@ -643,7 +648,7 @@ export type CreateBrandProfileError =
  * Creates a brand profile. A brand profile is a lightweight container that holds your brand identity information as flexible attributes. After you create a brand profile, use the CreateBrandProfileAttributes operation to add company information, addresses, compliance documents, and logos.
  */
 export const createBrandProfile: API.OperationMethod<
-  CreateBrandProfileInput,
+  CreateBrandProfileInput & RegionInput,
   CreateBrandProfileOutput,
   CreateBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -678,7 +683,7 @@ export type CreateBrandProfileAttributesError =
  * Creates up to 10 attributes for a brand profile in a single request. For attributes of type IMAGE or DOCUMENT, the response includes a presigned Amazon S3 URL that you use to upload the media. This operation is atomic: either all of the attributes are created, or none of them are.
  */
 export const createBrandProfileAttributes: API.OperationMethod<
-  CreateBrandProfileAttributesInput,
+  CreateBrandProfileAttributesInput & RegionInput,
   CreateBrandProfileAttributesOutput,
   CreateBrandProfileAttributesError,
   Credentials | HttpClient.HttpClient
@@ -714,7 +719,7 @@ export type CreateBrandProfileFromRegistrationError =
  * Creates a brand profile and populates its attributes from an existing registration. This operation runs asynchronously. Use the GetJob operation to track its progress.
  */
 export const createBrandProfileFromRegistration: API.OperationMethod<
-  CreateBrandProfileFromRegistrationInput,
+  CreateBrandProfileFromRegistrationInput & RegionInput,
   CreateBrandProfileFromRegistrationOutput,
   CreateBrandProfileFromRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -749,7 +754,7 @@ export type CreateNotifyCodeConfigurationError =
  * Creates a notify code configuration. A notify code configuration is a reusable policy that defines how one-time passcodes are generated and rendered, including the code type, length, validity period, maximum number of attempts, and channel templates.
  */
 export const createNotifyCodeConfiguration: API.OperationMethod<
-  CreateNotifyCodeConfigurationInput,
+  CreateNotifyCodeConfigurationInput & RegionInput,
   CreateNotifyCodeConfigurationOutput,
   CreateNotifyCodeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -783,7 +788,7 @@ export type CreateRegistrationsFromBrandProfileError =
  * Creates one or more registrations in the DRAFT state and prefills their fields from the attributes of a brand profile. This operation runs asynchronously. Use the GetJob operation to track its progress.
  */
 export const createRegistrationsFromBrandProfile: API.OperationMethod<
-  CreateRegistrationsFromBrandProfileInput,
+  CreateRegistrationsFromBrandProfileInput & RegionInput,
   CreateRegistrationsFromBrandProfileOutput,
   CreateRegistrationsFromBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -817,7 +822,7 @@ export type DeleteBrandProfileError =
  * Deletes a brand profile. This operation also deletes the attributes of the profile and any associated media. The request fails if deletion protection is enabled for the profile.
  */
 export const deleteBrandProfile: API.OperationMethod<
-  DeleteBrandProfileInput,
+  DeleteBrandProfileInput & RegionInput,
   DeleteBrandProfileOutput,
   DeleteBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -851,7 +856,7 @@ export type DeleteBrandProfileAttributeError =
  * Deletes a brand profile attribute. If the attribute stores media, this operation also deletes the associated media.
  */
 export const deleteBrandProfileAttribute: API.OperationMethod<
-  DeleteBrandProfileAttributeInput,
+  DeleteBrandProfileAttributeInput & RegionInput,
   DeleteBrandProfileAttributeOutput,
   DeleteBrandProfileAttributeError,
   Credentials | HttpClient.HttpClient
@@ -885,7 +890,7 @@ export type DeleteNotifyCodeConfigurationError =
  * Deletes a notify code configuration. Verifications that are already in progress are not affected, because they capture the policy at the time that the passcode was sent.
  */
 export const deleteNotifyCodeConfiguration: API.OperationMethod<
-  DeleteNotifyCodeConfigurationInput,
+  DeleteNotifyCodeConfigurationInput & RegionInput,
   DeleteNotifyCodeConfigurationOutput,
   DeleteNotifyCodeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -918,7 +923,7 @@ export type GetBrandProfileError =
  * Retrieves the metadata for a brand profile, including its name, status, deletion protection setting, and timestamps. To retrieve the attributes of the profile, use the ListBrandProfileAttributes operation.
  */
 export const getBrandProfile: API.OperationMethod<
-  GetBrandProfileInput,
+  GetBrandProfileInput & RegionInput,
   GetBrandProfileOutput,
   GetBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -950,7 +955,7 @@ export type GetBrandProfileAttributeError =
  * Retrieves a single brand profile attribute.
  */
 export const getBrandProfileAttribute: API.OperationMethod<
-  GetBrandProfileAttributeInput,
+  GetBrandProfileAttributeInput & RegionInput,
   GetBrandProfileAttributeOutput,
   GetBrandProfileAttributeError,
   Credentials | HttpClient.HttpClient
@@ -982,7 +987,7 @@ export type GetJobError =
  * Retrieves the current state of an asynchronous job, including its status and any resources that it created or updated.
  */
 export const getJob: API.OperationMethod<
-  GetJobInput,
+  GetJobInput & RegionInput,
   Job,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -1014,7 +1019,7 @@ export type GetNotifyCodeConfigurationError =
  * Retrieves a notify code configuration.
  */
 export const getNotifyCodeConfiguration: API.OperationMethod<
-  GetNotifyCodeConfigurationInput,
+  GetNotifyCodeConfigurationInput & RegionInput,
   GetNotifyCodeConfigurationOutput,
   GetNotifyCodeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1046,7 +1051,7 @@ export type ListBrandProfileAttributesError =
  * Retrieves a paginated list of the attributes for a brand profile.
  */
 export const listBrandProfileAttributes: API.PaginatedOperationMethod<
-  ListBrandProfileAttributesInput,
+  ListBrandProfileAttributesInput & RegionInput,
   ListBrandProfileAttributesOutput,
   ListBrandProfileAttributesError,
   Credentials | HttpClient.HttpClient,
@@ -1084,7 +1089,7 @@ export type ListBrandProfilesError =
  * Retrieves a paginated list of the brand profiles in your account. Use the nextToken parameter to retrieve additional results.
  */
 export const listBrandProfiles: API.PaginatedOperationMethod<
-  ListBrandProfilesInput,
+  ListBrandProfilesInput & RegionInput,
   ListBrandProfilesOutput,
   ListBrandProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -1121,7 +1126,7 @@ export type ListJobsError =
  * Retrieves a paginated list of the asynchronous jobs in your account. You can filter the results by status, brand profile, or operation type.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsInput,
+  ListJobsInput & RegionInput,
   ListJobsOutput,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1158,7 +1163,7 @@ export type ListNotifyCodeConfigurationsError =
  * Retrieves a paginated list of the notify code configurations in your account.
  */
 export const listNotifyCodeConfigurations: API.PaginatedOperationMethod<
-  ListNotifyCodeConfigurationsInput,
+  ListNotifyCodeConfigurationsInput & RegionInput,
   ListNotifyCodeConfigurationsOutput,
   ListNotifyCodeConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1196,7 +1201,7 @@ export type ListRegistrationsFromBrandProfileError =
  * Retrieves a paginated list of the registrations that were created from a brand profile through the synchronization operations.
  */
 export const listRegistrationsFromBrandProfile: API.PaginatedOperationMethod<
-  ListRegistrationsFromBrandProfileInput,
+  ListRegistrationsFromBrandProfileInput & RegionInput,
   ListRegistrationsFromBrandProfileOutput,
   ListRegistrationsFromBrandProfileError,
   Credentials | HttpClient.HttpClient,
@@ -1235,7 +1240,7 @@ export type ListTagsForResourceError =
  * Retrieves the tags that are associated with a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1269,7 +1274,7 @@ export type SendNotifyCodeVerificationError =
  * Generates a one-time passcode and delivers it to a recipient over the requested channel. The passcode policy is captured from the referenced notify code configuration at the time of the request, so later updates to the configuration do not affect verifications that are already in progress.
  */
 export const sendNotifyCodeVerification: API.OperationMethod<
-  SendNotifyCodeVerificationInput,
+  SendNotifyCodeVerificationInput & RegionInput,
   SendNotifyCodeVerificationOutput,
   SendNotifyCodeVerificationError,
   Credentials | HttpClient.HttpClient
@@ -1304,7 +1309,7 @@ export type TagResourceError =
  * Adds or overwrites the tags on a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1337,7 +1342,7 @@ export type UntagResourceError =
  * Removes the specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1370,7 +1375,7 @@ export type UpdateBrandProfileError =
  * Updates the name or the deletion protection setting of a brand profile. To change the information that is stored in the profile, use the brand profile attribute operations.
  */
 export const updateBrandProfile: API.OperationMethod<
-  UpdateBrandProfileInput,
+  UpdateBrandProfileInput & RegionInput,
   UpdateBrandProfileOutput,
   UpdateBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -1404,7 +1409,7 @@ export type UpdateBrandProfileAttributeError =
  * Updates the value, description, or category of an existing brand profile attribute.
  */
 export const updateBrandProfileAttribute: API.OperationMethod<
-  UpdateBrandProfileAttributeInput,
+  UpdateBrandProfileAttributeInput & RegionInput,
   UpdateBrandProfileAttributeOutput,
   UpdateBrandProfileAttributeError,
   Credentials | HttpClient.HttpClient
@@ -1438,7 +1443,7 @@ export type UpdateBrandProfileFromRegistrationError =
  * Imports or refreshes the attributes of an existing brand profile from an existing registration. This operation runs asynchronously. Use the GetJob operation to track its progress.
  */
 export const updateBrandProfileFromRegistration: API.OperationMethod<
-  UpdateBrandProfileFromRegistrationInput,
+  UpdateBrandProfileFromRegistrationInput & RegionInput,
   UpdateBrandProfileFromRegistrationOutput,
   UpdateBrandProfileFromRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -1472,7 +1477,7 @@ export type UpdateNotifyCodeConfigurationError =
  * Updates the mutable fields of a notify code configuration. Only the fields that you supply are changed. For the template and language fields, supplying an empty value clears the currently stored value.
  */
 export const updateNotifyCodeConfiguration: API.OperationMethod<
-  UpdateNotifyCodeConfigurationInput,
+  UpdateNotifyCodeConfigurationInput & RegionInput,
   UpdateNotifyCodeConfigurationOutput,
   UpdateNotifyCodeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1506,7 +1511,7 @@ export type UpdateRegistrationsFromBrandProfileError =
  * Repushes the attributes of a brand profile into existing DRAFT registrations. This operation runs asynchronously. Use the GetJob operation to track its progress.
  */
 export const updateRegistrationsFromBrandProfile: API.OperationMethod<
-  UpdateRegistrationsFromBrandProfileInput,
+  UpdateRegistrationsFromBrandProfileInput & RegionInput,
   UpdateRegistrationsFromBrandProfileOutput,
   UpdateRegistrationsFromBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -1538,7 +1543,7 @@ export type ValidateNotifyCodeVerificationError =
  * Validates a one-time passcode that a recipient submitted. Validation succeeds when the passcode matches, the validity period has not elapsed, and the maximum number of attempts has not been exceeded.
  */
 export const validateNotifyCodeVerification: API.OperationMethod<
-  ValidateNotifyCodeVerificationInput,
+  ValidateNotifyCodeVerificationInput & RegionInput,
   ValidateNotifyCodeVerificationOutput,
   ValidateNotifyCodeVerificationError,
   Credentials | HttpClient.HttpClient

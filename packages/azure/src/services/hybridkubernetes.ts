@@ -52,22 +52,22 @@ export type AadProfileAdminGroupObjectIDsList = Array<string>;
 /** AAD Profile specifies attributes for Azure Active Directory integration. */
 export interface AadProfile {
   /** Whether to enable Azure RBAC for Kubernetes authorization. */
-  enableAzureRBAC?: boolean;
+  enableAzureRBAC?: boolean | undefined;
   /** The list of AAD group object IDs that will have admin role of the cluster. */
-  adminGroupObjectIDs?: AadProfileAdminGroupObjectIDsList;
+  adminGroupObjectIDs?: AadProfileAdminGroupObjectIDsList | undefined;
   /** The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment subscription. */
-  tenantID?: string;
+  tenantID?: string | undefined;
 }
 /** Indicates whether the Arc agents on the be upgraded automatically to the latest version. Defaults to Enabled. */
 export type ArcAgentProfileInputAgentAutoUpgrade = "Enabled" | "Disabled";
 /** System extensions and its current versions installed on the cluster resource. */
 export interface SystemComponentInput {
   /** Type of the system extension */
-  type?: string;
+  type?: string | undefined;
   /** Version of the system extension to be installed on the cluster resource. */
-  userSpecifiedVersion?: string;
+  userSpecifiedVersion?: string | undefined;
   /** Major Version of the system extension that is currently installed on the cluster resource. */
-  majorVersion?: number;
+  majorVersion?: number | undefined;
 }
 /** List of system extensions that are installed on the cluster resource. */
 export type ArcAgentProfileInputSystemComponentsList = Array<SystemComponentInput>;
@@ -78,34 +78,34 @@ export type ArcAgentProfileInputAgentErrorsList = Array<AgentErrorInput>;
 /** Defines the Arc Agent properties for the clusters. */
 export interface ArcAgentProfileInput {
   /** Version of the Arc agents to be installed on the cluster resource */
-  desiredAgentVersion?: string;
+  desiredAgentVersion?: string | undefined;
   /** Indicates whether the Arc agents on the be upgraded automatically to the latest version. Defaults to Enabled. */
-  agentAutoUpgrade?: ArcAgentProfileInputAgentAutoUpgrade | (string & {});
+  agentAutoUpgrade?: ArcAgentProfileInputAgentAutoUpgrade | (string & {}) | undefined;
   /** List of system extensions that are installed on the cluster resource. */
-  systemComponents?: ArcAgentProfileInputSystemComponentsList;
+  systemComponents?: ArcAgentProfileInputSystemComponentsList | undefined;
   /** List of arc agentry and system components errors on the cluster resource. */
-  agentErrors?: ArcAgentProfileInputAgentErrorsList;
+  agentErrors?: ArcAgentProfileInputAgentErrorsList | undefined;
 }
 /** The workload identity feature webhook. */
 export interface SecurityProfileWorkloadIdentity {
   /** Whether to enable or disable the workload identity Webhook */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Security Profile specifies attributes for cluster security features. */
 export interface SecurityProfile {
   /** The workload identity feature webhook. */
-  workloadIdentity?: SecurityProfileWorkloadIdentity;
+  workloadIdentity?: SecurityProfileWorkloadIdentity | undefined;
 }
 /** OIDC Issuer Profile specifies attributes for workload identity integration. */
 export interface OidcIssuerProfileInput {
   /** Whether to enable oidc issuer for workload identity integration. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The issuer url for public cloud clusters - AKS, EKS, GKE - used for the workload identity feature. */
-  selfHostedIssuerUrl?: string;
+  selfHostedIssuerUrl?: string | undefined;
 }
 export interface Gateway {
   /** Indicates whether the gateway for arc router connectivity is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The configuration settings for the feature that do not contain any sensitive or secret information. */
 export type ArcAgentryConfigurationsSettingsMap = { [key: string]: string | undefined };
@@ -113,11 +113,11 @@ export type ArcAgentryConfigurationsSettingsMap = { [key: string]: string | unde
 export type ArcAgentryConfigurationsProtectedSettingsMap = { [key: string]: string | undefined };
 export interface ArcAgentryConfigurations {
   /** Specifies the name of the feature for the configuration setting. */
-  feature?: string;
+  feature?: string | undefined;
   /** The configuration settings for the feature that do not contain any sensitive or secret information. */
-  settings?: ArcAgentryConfigurationsSettingsMap | null;
+  settings?: ArcAgentryConfigurationsSettingsMap | null | undefined;
   /** The configuration settings for the feature that contain any sensitive or secret information. */
-  protectedSettings?: ArcAgentryConfigurationsProtectedSettingsMap | null;
+  protectedSettings?: ArcAgentryConfigurationsProtectedSettingsMap | null | undefined;
 }
 /** Configuration settings for customizing the behavior of the connected cluster. */
 export type ConnectedClusterPropertiesInputArcAgentryConfigurationsList =
@@ -127,31 +127,37 @@ export interface ConnectedClusterPropertiesInput {
   /** Base64 encoded public certificate used by the agent to do the initial handshake to the backend services in Azure. */
   agentPublicKeyCertificate: string;
   /** Provisioning state of the connected cluster resource. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
   /** The Kubernetes distribution running on this connected cluster. */
-  distribution?: string;
+  distribution?: string | undefined;
   /** The Kubernetes distribution version on this connected cluster. */
-  distributionVersion?: string;
+  distributionVersion?: string | undefined;
   /** The infrastructure on which the Kubernetes cluster represented by this connected cluster is running on. */
-  infrastructure?: string;
+  infrastructure?: string | undefined;
   /** Property which describes the state of private link on a connected cluster resource. */
-  privateLinkState?: ConnectedClusterPropertiesInputPrivateLinkState | (string & {});
+  privateLinkState?: ConnectedClusterPropertiesInputPrivateLinkState | (string & {}) | undefined;
   /** This is populated only if privateLinkState is enabled. The resource id of the private link scope this connected cluster is assigned to, if any. */
-  privateLinkScopeResourceId?: string;
+  privateLinkScopeResourceId?: string | undefined;
   /** Indicates whether Azure Hybrid Benefit is opted in */
-  azureHybridBenefit?: ConnectedClusterPropertiesInputAzureHybridBenefit | (string & {});
+  azureHybridBenefit?:
+    | ConnectedClusterPropertiesInputAzureHybridBenefit
+    | (string & {})
+    | undefined;
   /** AAD profile for the connected cluster. */
-  aadProfile?: AadProfile;
+  aadProfile?: AadProfile | undefined;
   /** Arc agentry configuration for the provisioned cluster. */
-  arcAgentProfile?: ArcAgentProfileInput;
+  arcAgentProfile?: ArcAgentProfileInput | undefined;
   /** Security profile for the connected cluster. */
-  securityProfile?: SecurityProfile;
+  securityProfile?: SecurityProfile | undefined;
   /** Open ID Connect (OIDC) Issuer Profile for the connected cluster. */
-  oidcIssuerProfile?: OidcIssuerProfileInput;
+  oidcIssuerProfile?: OidcIssuerProfileInput | undefined;
   /** Details of the gateway used by the Arc router for connectivity. */
-  gateway?: Gateway | null;
+  gateway?: Gateway | null | undefined;
   /** Configuration settings for customizing the behavior of the connected cluster. */
-  arcAgentryConfigurations?: ConnectedClusterPropertiesInputArcAgentryConfigurationsList | null;
+  arcAgentryConfigurations?:
+    | ConnectedClusterPropertiesInputArcAgentryConfigurationsList
+    | null
+    | undefined;
 }
 /** The type of identity used for the connected cluster. The type 'SystemAssigned, includes a system created identity. The type 'None' means no identity is assigned to the connected cluster. */
 export type ConnectedClusterIdentityInputType = "None" | "SystemAssigned";
@@ -170,7 +176,7 @@ export interface ConnectedClusterCreateOrReplaceRequest {
   /** The name of the Kubernetes cluster on which get is called. */
   clusterName: string;
   /** Resource tags. */
-  tags?: ConnectedClusterCreateOrReplaceRequestTagsMap;
+  tags?: ConnectedClusterCreateOrReplaceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the connected cluster resource properties. */
@@ -178,7 +184,7 @@ export interface ConnectedClusterCreateOrReplaceRequest {
   /** The identity of the connected cluster. */
   identity: ConnectedClusterIdentityInput;
   /** The kind of connected cluster. */
-  kind?: ConnectedClusterKind | (string & {});
+  kind?: ConnectedClusterKind | (string & {}) | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -187,17 +193,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type ConnectedClusterCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
@@ -217,50 +223,50 @@ export type ArcAgentProfileAgentAutoUpgrade = "Enabled" | "Disabled";
 /** System extensions and its current versions installed on the cluster resource. */
 export interface SystemComponent {
   /** Type of the system extension */
-  type?: string;
+  type?: string | undefined;
   /** Version of the system extension to be installed on the cluster resource. */
-  userSpecifiedVersion?: string;
+  userSpecifiedVersion?: string | undefined;
   /** Major Version of the system extension that is currently installed on the cluster resource. */
-  majorVersion?: number;
+  majorVersion?: number | undefined;
   /** Version of the system extension that is currently installed on the cluster resource. */
-  currentVersion?: string;
+  currentVersion?: string | undefined;
 }
 /** List of system extensions that are installed on the cluster resource. */
 export type ArcAgentProfileSystemComponentsList = Array<SystemComponent>;
 /** Agent Errors if any during agent or system component upgrade. */
 export interface AgentError {
   /** Agent error message. */
-  message?: string;
+  message?: string | undefined;
   /** Severity of the error message. */
-  severity?: string;
+  severity?: string | undefined;
   /** Agent component where error message occured. */
-  component?: string;
+  component?: string | undefined;
   /** The timestamp of error occured (UTC). */
-  time?: string;
+  time?: string | undefined;
 }
 /** List of arc agentry and system components errors on the cluster resource. */
 export type ArcAgentProfileAgentErrorsList = Array<AgentError>;
 /** Defines the Arc Agent properties for the clusters. */
 export interface ArcAgentProfile {
   /** Version of the Arc agents to be installed on the cluster resource */
-  desiredAgentVersion?: string;
+  desiredAgentVersion?: string | undefined;
   /** Indicates whether the Arc agents on the be upgraded automatically to the latest version. Defaults to Enabled. */
-  agentAutoUpgrade?: ArcAgentProfileAgentAutoUpgrade;
+  agentAutoUpgrade?: ArcAgentProfileAgentAutoUpgrade | undefined;
   /** List of system extensions that are installed on the cluster resource. */
-  systemComponents?: ArcAgentProfileSystemComponentsList;
+  systemComponents?: ArcAgentProfileSystemComponentsList | undefined;
   /** List of arc agentry and system components errors on the cluster resource. */
-  agentErrors?: ArcAgentProfileAgentErrorsList;
+  agentErrors?: ArcAgentProfileAgentErrorsList | undefined;
   /** Represents the current state of the Arc agentry and its dependent components. */
-  agentState?: string;
+  agentState?: string | undefined;
 }
 /** OIDC Issuer Profile specifies attributes for workload identity integration. */
 export interface OidcIssuerProfile {
   /** Whether to enable oidc issuer for workload identity integration. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The issuer url for hybrid clusters connected to Arc used for the workload identity feature. */
-  issuerUrl?: string;
+  issuerUrl?: string | undefined;
   /** The issuer url for public cloud clusters - AKS, EKS, GKE - used for the workload identity feature. */
-  selfHostedIssuerUrl?: string;
+  selfHostedIssuerUrl?: string | undefined;
 }
 /** Configuration settings for customizing the behavior of the connected cluster. */
 export type ConnectedClusterPropertiesArcAgentryConfigurationsList =
@@ -274,72 +280,75 @@ export interface ConnectedClusterProperties {
   /** Base64 encoded public certificate used by the agent to do the initial handshake to the backend services in Azure. */
   agentPublicKeyCertificate: string;
   /** The Kubernetes version of the connected cluster resource */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
   /** Number of nodes present in the connected cluster resource */
-  totalNodeCount?: number;
+  totalNodeCount?: number | undefined;
   /** Number of CPU cores present in the connected cluster resource */
-  totalCoreCount?: number;
+  totalCoreCount?: number | undefined;
   /** Version of the agent running on the connected cluster resource */
-  agentVersion?: string;
+  agentVersion?: string | undefined;
   /** Provisioning state of the connected cluster resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The Kubernetes distribution running on this connected cluster. */
-  distribution?: string;
+  distribution?: string | undefined;
   /** The Kubernetes distribution version on this connected cluster. */
-  distributionVersion?: string;
+  distributionVersion?: string | undefined;
   /** The infrastructure on which the Kubernetes cluster represented by this connected cluster is running on. */
-  infrastructure?: string;
+  infrastructure?: string | undefined;
   /** Connected cluster offering */
-  offering?: string;
+  offering?: string | undefined;
   /** Expiration time of the managed identity certificate */
-  managedIdentityCertificateExpirationTime?: string;
+  managedIdentityCertificateExpirationTime?: string | undefined;
   /** Time representing the last instance when heart beat was received from the cluster */
-  lastConnectivityTime?: string;
+  lastConnectivityTime?: string | undefined;
   /** Represents the connectivity status of the connected cluster. */
-  connectivityStatus?: ConnectivityStatus;
+  connectivityStatus?: ConnectivityStatus | undefined;
   /** Property which describes the state of private link on a connected cluster resource. */
-  privateLinkState?: ConnectedClusterPropertiesPrivateLinkState;
+  privateLinkState?: ConnectedClusterPropertiesPrivateLinkState | undefined;
   /** This is populated only if privateLinkState is enabled. The resource id of the private link scope this connected cluster is assigned to, if any. */
-  privateLinkScopeResourceId?: string;
+  privateLinkScopeResourceId?: string | undefined;
   /** Indicates whether Azure Hybrid Benefit is opted in */
-  azureHybridBenefit?: ConnectedClusterPropertiesAzureHybridBenefit;
+  azureHybridBenefit?: ConnectedClusterPropertiesAzureHybridBenefit | undefined;
   /** AAD profile for the connected cluster. */
-  aadProfile?: AadProfile;
+  aadProfile?: AadProfile | undefined;
   /** Arc agentry configuration for the provisioned cluster. */
-  arcAgentProfile?: ArcAgentProfile;
+  arcAgentProfile?: ArcAgentProfile | undefined;
   /** Security profile for the connected cluster. */
-  securityProfile?: SecurityProfile;
+  securityProfile?: SecurityProfile | undefined;
   /** Open ID Connect (OIDC) Issuer Profile for the connected cluster. */
-  oidcIssuerProfile?: OidcIssuerProfile;
+  oidcIssuerProfile?: OidcIssuerProfile | undefined;
   /** Details of the gateway used by the Arc router for connectivity. */
-  gateway?: Gateway | null;
+  gateway?: Gateway | null | undefined;
   /** Configuration settings for customizing the behavior of the connected cluster. */
-  arcAgentryConfigurations?: ConnectedClusterPropertiesArcAgentryConfigurationsList | null;
+  arcAgentryConfigurations?:
+    | ConnectedClusterPropertiesArcAgentryConfigurationsList
+    | null
+    | undefined;
   /** More properties related to the Connected Cluster */
-  miscellaneousProperties?: ConnectedClusterPropertiesMiscellaneousPropertiesMap;
+  miscellaneousProperties?: ConnectedClusterPropertiesMiscellaneousPropertiesMap | undefined;
 }
 /** The type of identity used for the connected cluster. The type 'SystemAssigned, includes a system created identity. The type 'None' means no identity is assigned to the connected cluster. */
 export type ConnectedClusterIdentityType = "None" | "SystemAssigned";
 /** Identity for the connected cluster. */
 export interface ConnectedClusterIdentity {
   /** The principal id of connected cluster identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant id associated with the connected cluster. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of identity used for the connected cluster. The type 'SystemAssigned, includes a system created identity. The type 'None' means no identity is assigned to the connected cluster. */
   type: ConnectedClusterIdentityType;
 }
 export interface ConnectedClusterCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConnectedClusterCreateOrReplaceResponseTagsMap;
+  tags?: ConnectedClusterCreateOrReplaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the connected cluster resource properties. */
@@ -347,11 +356,11 @@ export interface ConnectedClusterCreateOrReplaceResponse {
   /** The identity of the connected cluster. */
   identity: ConnectedClusterIdentity;
   /** The kind of connected cluster. */
-  kind?: ConnectedClusterKind;
+  kind?: ConnectedClusterKind | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteConnectedClusterRequest {
   /** The ID of the target subscription. */
@@ -363,9 +372,9 @@ export interface DeleteConnectedClusterRequest {
 }
 export interface DeleteConnectedClusterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetConnectedClusterRequest {
   /** The ID of the target subscription. */
@@ -379,15 +388,15 @@ export interface GetConnectedClusterRequest {
 export type GetConnectedClusterResponseTagsMap = { [key: string]: string | undefined };
 export interface GetConnectedClusterResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetConnectedClusterResponseTagsMap;
+  tags?: GetConnectedClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the connected cluster resource properties. */
@@ -395,19 +404,19 @@ export interface GetConnectedClusterResponse {
   /** The identity of the connected cluster. */
   identity: ConnectedClusterIdentity;
   /** The kind of connected cluster. */
-  kind?: ConnectedClusterKind;
+  kind?: ConnectedClusterKind | undefined;
 }
 export interface GetOperationRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationListValueItemDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationListValueItemOrigin = "user" | "system" | "user,system";
@@ -416,15 +425,15 @@ export type OperationListValueItemActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface OperationListValueItem {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationListValueItemDisplay;
+  display?: OperationListValueItemDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationListValueItemOrigin;
+  origin?: OperationListValueItemOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationListValueItemActionType;
+  actionType?: OperationListValueItemActionType | undefined;
 }
 /** The list of connected cluster API operations. */
 export type OperationListValueList = Array<OperationListValueItem>;
@@ -433,7 +442,7 @@ export interface OperationList {
   /** The list of connected cluster API operations. */
   value: OperationListValueList;
   /** The link to fetch the next page of connected cluster API operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConnectedClusterByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -446,15 +455,15 @@ export type ConnectedClusterTagsMap = { [key: string]: string | undefined };
 /** Represents a connected cluster. */
 export interface ConnectedCluster {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConnectedClusterTagsMap;
+  tags?: ConnectedClusterTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the connected cluster resource properties. */
@@ -462,7 +471,7 @@ export interface ConnectedCluster {
   /** The identity of the connected cluster. */
   identity: ConnectedClusterIdentity;
   /** The kind of connected cluster. */
-  kind?: ConnectedClusterKind;
+  kind?: ConnectedClusterKind | undefined;
 }
 /** The ConnectedCluster items on this page */
 export type ConnectedClusterListValueList = Array<ConnectedCluster>;
@@ -471,7 +480,7 @@ export interface ConnectedClusterList {
   /** The ConnectedCluster items on this page */
   value: ConnectedClusterListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConnectedClusterBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -494,33 +503,33 @@ export interface ListConnectedClusterClusterUserCredentialRequest {
 /** Contains the REP (rendezvous endpoint) and "Sender" access token. */
 export interface HybridConnectionConfig {
   /** Timestamp when this token will be expired. */
-  expirationTime?: number;
+  expirationTime?: number | undefined;
   /** Name of the connection */
-  hybridConnectionName?: string;
+  hybridConnectionName?: string | undefined;
   /** Name of the relay. */
-  relay?: string;
+  relay?: string | undefined;
   /** Sender access token */
-  token?: string;
+  token?: string | undefined;
   /** TenantID of the relay */
-  relayTid?: string;
+  relayTid?: string | undefined;
   /** Type of relay */
-  relayType?: string;
+  relayType?: string | undefined;
 }
 /** The credential result response. */
 export interface CredentialResult {
   /** The name of the credential. */
-  name?: string;
+  name?: string | undefined;
   /** Base64-encoded Kubernetes configuration file. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Base64-encoded Kubernetes configuration file. */
 export type CredentialResultsKubeconfigsList = Array<CredentialResult>;
 /** The list of credential result response. */
 export interface CredentialResults {
   /** Contains the REP (rendezvous endpoint) and "Sender" access token. */
-  hybridConnectionConfig?: HybridConnectionConfig;
+  hybridConnectionConfig?: HybridConnectionConfig | undefined;
   /** Base64-encoded Kubernetes configuration file. */
-  kubeconfigs?: CredentialResultsKubeconfigsList;
+  kubeconfigs?: CredentialResultsKubeconfigsList | undefined;
 }
 /** Resource tags. */
 export type UpdateConnectedClusterRequestTagsMap = { [key: string]: string | undefined };
@@ -529,13 +538,13 @@ export type AzureHybridBenefit = "True" | "False" | "NotApplicable";
 /** Properties which can be patched on the connected cluster resource. */
 export interface ConnectedClusterPatchProperties {
   /** Represents the distribution of the connected cluster */
-  distribution?: string;
+  distribution?: string | undefined;
   /** Represents the Kubernetes distribution version on this connected cluster. */
-  distributionVersion?: string;
+  distributionVersion?: string | undefined;
   /** Indicates whether Azure Hybrid Benefit is opted in */
-  azureHybridBenefit?: AzureHybridBenefit | (string & {});
+  azureHybridBenefit?: AzureHybridBenefit | (string & {}) | undefined;
   /** Indicates whether Gateway is enabled for the connected cluster resource */
-  gateway?: Gateway;
+  gateway?: Gateway | undefined;
 }
 export interface UpdateConnectedClusterRequest {
   /** The ID of the target subscription. */
@@ -545,23 +554,23 @@ export interface UpdateConnectedClusterRequest {
   /** The name of the Kubernetes cluster on which get is called. */
   clusterName: string;
   /** Resource tags. */
-  tags?: UpdateConnectedClusterRequestTagsMap;
+  tags?: UpdateConnectedClusterRequestTagsMap | undefined;
   /** Describes the connected cluster resource properties that can be updated during PATCH operation. */
-  properties?: ConnectedClusterPatchProperties;
+  properties?: ConnectedClusterPatchProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateConnectedClusterResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateConnectedClusterResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateConnectedClusterResponseTagsMap;
+  tags?: UpdateConnectedClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes the connected cluster resource properties. */
@@ -569,11 +578,11 @@ export interface UpdateConnectedClusterResponse {
   /** The identity of the connected cluster. */
   identity: ConnectedClusterIdentity;
   /** The kind of connected cluster. */
-  kind?: ConnectedClusterKind;
+  kind?: ConnectedClusterKind | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type ConnectedClusterCreateOrReplaceError = AzureOpError;
 /** Register a new Kubernetes cluster with Azure Resource Manager. API to register a new Kubernetes cluster and create or replace a connected cluster tracked resource in Azure Resource Manager (ARM). */

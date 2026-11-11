@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -150,8 +151,8 @@ export type NotificationRuleResource = string;
 export type TargetType = string;
 export type TargetAddress = string | redacted.Redacted<string>;
 export interface Target {
-  TargetType?: string;
-  TargetAddress?: string | redacted.Redacted<string>;
+  TargetType?: string | undefined;
+  TargetAddress?: string | redacted.Redacted<string> | undefined;
 }
 export type Targets = Target[];
 export type DetailType = "BASIC" | "FULL" | (string & {});
@@ -166,24 +167,24 @@ export interface CreateNotificationRuleRequest {
   Resource: string;
   Targets: Target[];
   DetailType: DetailType;
-  ClientRequestToken?: string;
-  Tags?: { [key: string]: string | undefined };
-  Status?: NotificationRuleStatus;
+  ClientRequestToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Status?: NotificationRuleStatus | undefined;
 }
 export type NotificationRuleArn = string;
 export interface CreateNotificationRuleResult {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface DeleteNotificationRuleRequest {
   Arn: string;
 }
 export interface DeleteNotificationRuleResult {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type ForceUnsubscribeAll = boolean;
 export interface DeleteTargetRequest {
   TargetAddress: string | redacted.Redacted<string>;
-  ForceUnsubscribeAll?: boolean;
+  ForceUnsubscribeAll?: boolean | undefined;
 }
 export interface DeleteTargetResult {}
 export interface DescribeNotificationRuleRequest {
@@ -193,10 +194,10 @@ export type ServiceName = string;
 export type EventTypeName = string;
 export type ResourceType = string;
 export interface EventTypeSummary {
-  EventTypeId?: string;
-  ServiceName?: string;
-  EventTypeName?: string;
-  ResourceType?: string;
+  EventTypeId?: string | undefined;
+  ServiceName?: string | undefined;
+  EventTypeName?: string | undefined;
+  ResourceType?: string | undefined;
 }
 export type EventTypeBatch = EventTypeSummary[];
 export type TargetStatus =
@@ -207,9 +208,9 @@ export type TargetStatus =
   | "DEACTIVATED"
   | (string & {});
 export interface TargetSummary {
-  TargetAddress?: string | redacted.Redacted<string>;
-  TargetType?: string;
-  TargetStatus?: TargetStatus;
+  TargetAddress?: string | redacted.Redacted<string> | undefined;
+  TargetType?: string | undefined;
+  TargetStatus?: TargetStatus | undefined;
 }
 export type TargetsBatch = TargetSummary[];
 export type NotificationRuleCreatedBy = string;
@@ -217,16 +218,16 @@ export type CreatedTimestamp = Date;
 export type LastModifiedTimestamp = Date;
 export interface DescribeNotificationRuleResult {
   Arn: string;
-  Name?: string | redacted.Redacted<string>;
-  EventTypes?: EventTypeSummary[];
-  Resource?: string;
-  Targets?: TargetSummary[];
-  DetailType?: DetailType;
-  CreatedBy?: string;
-  Status?: NotificationRuleStatus;
-  CreatedTimestamp?: Date;
-  LastModifiedTimestamp?: Date;
-  Tags?: { [key: string]: string | undefined };
+  Name?: string | redacted.Redacted<string> | undefined;
+  EventTypes?: EventTypeSummary[] | undefined;
+  Resource?: string | undefined;
+  Targets?: TargetSummary[] | undefined;
+  DetailType?: DetailType | undefined;
+  CreatedBy?: string | undefined;
+  Status?: NotificationRuleStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastModifiedTimestamp?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ListEventTypesFilterName = "RESOURCE_TYPE" | "SERVICE_NAME" | (string & {});
 export type ListEventTypesFilterValue = string;
@@ -238,13 +239,13 @@ export type ListEventTypesFilters = ListEventTypesFilter[];
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListEventTypesRequest {
-  Filters?: ListEventTypesFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: ListEventTypesFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListEventTypesResult {
-  EventTypes?: EventTypeSummary[];
-  NextToken?: string;
+  EventTypes?: EventTypeSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListNotificationRulesFilterName =
   | "EVENT_TYPE_ID"
@@ -259,25 +260,25 @@ export interface ListNotificationRulesFilter {
 }
 export type ListNotificationRulesFilters = ListNotificationRulesFilter[];
 export interface ListNotificationRulesRequest {
-  Filters?: ListNotificationRulesFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: ListNotificationRulesFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type NotificationRuleId = string;
 export interface NotificationRuleSummary {
-  Id?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
 }
 export type NotificationRuleBatch = NotificationRuleSummary[];
 export interface ListNotificationRulesResult {
-  NextToken?: string;
-  NotificationRules?: NotificationRuleSummary[];
+  NextToken?: string | undefined;
+  NotificationRules?: NotificationRuleSummary[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   Arn: string;
 }
 export interface ListTagsForResourceResult {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ListTargetsFilterName =
   | "TARGET_TYPE"
@@ -291,28 +292,28 @@ export interface ListTargetsFilter {
 }
 export type ListTargetsFilters = ListTargetsFilter[];
 export interface ListTargetsRequest {
-  Filters?: ListTargetsFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: ListTargetsFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListTargetsResult {
-  Targets?: TargetSummary[];
-  NextToken?: string;
+  Targets?: TargetSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface SubscribeRequest {
   Arn: string;
   Target: Target;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
 }
 export interface SubscribeResult {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface TagResourceRequest {
   Arn: string;
   Tags: { [key: string]: string | undefined };
 }
 export interface TagResourceResult {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UnsubscribeRequest {
   Arn: string;
@@ -329,11 +330,11 @@ export interface UntagResourceRequest {
 export interface UntagResourceResult {}
 export interface UpdateNotificationRuleRequest {
   Arn: string;
-  Name?: string | redacted.Redacted<string>;
-  Status?: NotificationRuleStatus;
-  EventTypeIds?: string[];
-  Targets?: Target[];
-  DetailType?: DetailType;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Status?: NotificationRuleStatus | undefined;
+  EventTypeIds?: string[] | undefined;
+  Targets?: Target[] | undefined;
+  DetailType?: DetailType | undefined;
 }
 export interface UpdateNotificationRuleResult {}
 export type Message = string;
@@ -351,7 +352,7 @@ export type CreateNotificationRuleError =
  * them.
  */
 export const createNotificationRule: API.OperationMethod<
-  CreateNotificationRuleRequest,
+  CreateNotificationRuleRequest & RegionInput,
   CreateNotificationRuleResult,
   CreateNotificationRuleError,
   Credentials | HttpClient.HttpClient
@@ -382,7 +383,7 @@ export type DeleteNotificationRuleError =
  * Deletes a notification rule for a resource.
  */
 export const deleteNotificationRule: API.OperationMethod<
-  DeleteNotificationRuleRequest,
+  DeleteNotificationRuleRequest & RegionInput,
   DeleteNotificationRuleResult,
   DeleteNotificationRuleError,
   Credentials | HttpClient.HttpClient
@@ -402,7 +403,7 @@ export type DeleteTargetError = ValidationException | CommonErrors;
  * Deletes a specified target for notifications.
  */
 export const deleteTarget: API.OperationMethod<
-  DeleteTargetRequest,
+  DeleteTargetRequest & RegionInput,
   DeleteTargetResult,
   DeleteTargetError,
   Credentials | HttpClient.HttpClient
@@ -425,7 +426,7 @@ export type DescribeNotificationRuleError =
  * Returns information about a specified notification rule.
  */
 export const describeNotificationRule: API.OperationMethod<
-  DescribeNotificationRuleRequest,
+  DescribeNotificationRuleRequest & RegionInput,
   DescribeNotificationRuleResult,
   DescribeNotificationRuleError,
   Credentials | HttpClient.HttpClient
@@ -445,7 +446,7 @@ export type ListEventTypesError = InvalidNextTokenException | ValidationExceptio
  * Returns information about the event types available for configuring notifications.
  */
 export const listEventTypes: API.PaginatedOperationMethod<
-  ListEventTypesRequest,
+  ListEventTypesRequest & RegionInput,
   ListEventTypesResult,
   ListEventTypesError,
   Credentials | HttpClient.HttpClient,
@@ -475,7 +476,7 @@ export type ListNotificationRulesError =
  * Returns a list of the notification rules for an Amazon Web Services account.
  */
 export const listNotificationRules: API.PaginatedOperationMethod<
-  ListNotificationRulesRequest,
+  ListNotificationRulesRequest & RegionInput,
   ListNotificationRulesResult,
   ListNotificationRulesError,
   Credentials | HttpClient.HttpClient,
@@ -505,7 +506,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags associated with a notification rule.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -525,7 +526,7 @@ export type ListTargetsError = InvalidNextTokenException | ValidationException |
  * Returns a list of the notification rule targets for an Amazon Web Services account.
  */
 export const listTargets: API.PaginatedOperationMethod<
-  ListTargetsRequest,
+  ListTargetsRequest & RegionInput,
   ListTargetsResult,
   ListTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -558,7 +559,7 @@ export type SubscribeError =
  * triggered.
  */
 export const subscribe: API.OperationMethod<
-  SubscribeRequest,
+  SubscribeRequest & RegionInput,
   SubscribeResult,
   SubscribeError,
   Credentials | HttpClient.HttpClient
@@ -583,7 +584,7 @@ export type TagResourceError =
  * Associates a set of provided tags with a notification rule.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResult,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -610,7 +611,7 @@ export type UnsubscribeError = ValidationException | CommonErrors;
  * rule are triggered.
  */
 export const unsubscribe: API.OperationMethod<
-  UnsubscribeRequest,
+  UnsubscribeRequest & RegionInput,
   UnsubscribeResult,
   UnsubscribeError,
   Credentials | HttpClient.HttpClient
@@ -636,7 +637,7 @@ export type UntagResourceError =
  * rule.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResult,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -669,7 +670,7 @@ export type UpdateNotificationRuleError =
  * To add or remove tags for a notification rule, you must use TagResource and UntagResource.
  */
 export const updateNotificationRule: API.OperationMethod<
-  UpdateNotificationRuleRequest,
+  UpdateNotificationRuleRequest & RegionInput,
   UpdateNotificationRuleResult,
   UpdateNotificationRuleError,
   Credentials | HttpClient.HttpClient

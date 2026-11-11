@@ -1,21 +1,21 @@
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as S from "@distilled.cloud/core/schema-lite";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
-import * as Stream from "effect/Stream";
-import { describe, expect, test } from "vitest";
-import type { Operation } from "../../src/client/operation.ts";
-import { withEffects } from "../../src/client/protocol.ts";
-import type { Request } from "../../src/client/request.ts";
-import type { Response } from "../../src/client/response.ts";
-import { ParseError } from "../../src/errors.ts";
+import type { Operation } from "@distilled.cloud/s3/client/operation";
+import { withEffects } from "@distilled.cloud/s3/client/protocol";
+import type { Request } from "@distilled.cloud/s3/client/request";
+import type { Response } from "@distilled.cloud/s3/client/response";
 import {
   decodeMessage,
   encodeMessage,
   getStringHeader,
   HeaderType,
   stringHeader,
-} from "../../src/eventstream/codec.ts";
+} from "@distilled.cloud/s3/eventstream/codec";
+import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
+import * as Stream from "effect/Stream";
+import { describe, expect, test } from "vitest";
+import { ParseError } from "../../src/errors.ts";
 import {
   awsJson1_0Protocol as json10,
   awsJson1_1Protocol as json11,

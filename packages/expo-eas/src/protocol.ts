@@ -1,9 +1,9 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import { HTTP_STATUS_MAP, type ConfigError } from "@distilled.cloud/core/errors";
 import { getAnn } from "@distilled.cloud/core/protocol-http";
 import { failUnlessLenient, validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ExpoGraphqlProtocol -- hand-written.
  *
@@ -64,7 +64,11 @@ import {
  * the GraphQL `errors[]` envelope is matched against `EAS_ERROR_CODE_MAP`
  * regardless of which operation was called.
  */
-export type ExpoEasOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type ExpoEasOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | SdkError;
 
 /** Context (requirements) shared by every generated EAS operation. */
 export type ExpoEasOpContext = Credentials | HttpClient.HttpClient;
@@ -220,8 +224,9 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 
     const op = getAnn(inputAst, graphqlOpSymbol) as GraphQLOpTrait | undefined;
     if (!op) {
-      // A codegen bug -- surfaced as a defect by the calling Effect context.
-      throw new Error("operation input is missing the GraphQLOp() trait");
+      return yield* fail(
+        new SdkError({ message: "operation input is missing the GraphQLOp() trait" }),
+      );
     }
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
 
@@ -233,11 +238,6 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     }
 
     const url = `${creds.apiBaseUrl}${http?.uri ?? "/graphql"}`;
-    if (debugHttp()) {
-      console.error(
-        `[distilled] POST ${url} op=${op.operationName} variables=${JSON.stringify(variables).slice(0, 400)}`,
-      );
-    }
     return HttpClientRequest.make("POST")(url).pipe(
       HttpClientRequest.setHeaders({
         Authorization: `Bearer ${Redacted.value(creds.accessToken)}`,
@@ -261,9 +261,6 @@ const decode = ({
 }) =>
   Effect.gen(function* () {
     const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
     const status = response.status;
     const headers = response.headers as Record<string, string | undefined>;
 

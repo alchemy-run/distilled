@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -170,17 +171,17 @@ export type AwsLogSourceName =
   | (string & {});
 export type AwsLogSourceVersion = string;
 export interface AwsLogSourceConfiguration {
-  accounts?: string[];
+  accounts?: string[] | undefined;
   regions: string[];
   sourceName: AwsLogSourceName;
-  sourceVersion?: string;
+  sourceVersion?: string | undefined;
 }
 export type AwsLogSourceConfigurationList = AwsLogSourceConfiguration[];
 export interface CreateAwsLogSourceRequest {
   sources: AwsLogSourceConfiguration[];
 }
 export interface CreateAwsLogSourceResponse {
-  failed?: string[];
+  failed?: string[] | undefined;
 }
 export type CustomLogSourceName = string;
 export type CustomLogSourceVersion = string;
@@ -202,55 +203,55 @@ export interface CustomLogSourceConfiguration {
 }
 export interface CreateCustomLogSourceRequest {
   sourceName: string;
-  sourceVersion?: string;
-  eventClasses?: string[];
+  sourceVersion?: string | undefined;
+  eventClasses?: string[] | undefined;
   configuration: CustomLogSourceConfiguration;
 }
 export type S3URI = string;
 export interface CustomLogSourceProvider {
-  roleArn?: string;
-  location?: string;
+  roleArn?: string | undefined;
+  location?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface CustomLogSourceAttributes {
-  crawlerArn?: string;
-  databaseArn?: string;
-  tableArn?: string;
+  crawlerArn?: string | undefined;
+  databaseArn?: string | undefined;
+  tableArn?: string | undefined;
 }
 export interface CustomLogSourceResource {
-  sourceName?: string;
-  sourceVersion?: string;
-  provider?: CustomLogSourceProvider;
-  attributes?: CustomLogSourceAttributes;
+  sourceName?: string | undefined;
+  sourceVersion?: string | undefined;
+  provider?: CustomLogSourceProvider | undefined;
+  attributes?: CustomLogSourceAttributes | undefined;
 }
 export interface CreateCustomLogSourceResponse {
-  source?: CustomLogSourceResource;
+  source?: CustomLogSourceResource | undefined;
 }
 export interface DataLakeEncryptionConfiguration {
-  kmsKeyId?: string;
+  kmsKeyId?: string | undefined;
 }
 export interface DataLakeLifecycleExpiration {
-  days?: number;
+  days?: number | undefined;
 }
 export type DataLakeStorageClass = string;
 export interface DataLakeLifecycleTransition {
-  storageClass?: string;
-  days?: number;
+  storageClass?: string | undefined;
+  days?: number | undefined;
 }
 export type DataLakeLifecycleTransitionList = DataLakeLifecycleTransition[];
 export interface DataLakeLifecycleConfiguration {
-  expiration?: DataLakeLifecycleExpiration;
-  transitions?: DataLakeLifecycleTransition[];
+  expiration?: DataLakeLifecycleExpiration | undefined;
+  transitions?: DataLakeLifecycleTransition[] | undefined;
 }
 export interface DataLakeReplicationConfiguration {
-  regions?: string[];
-  roleArn?: string;
+  regions?: string[] | undefined;
+  roleArn?: string | undefined;
 }
 export interface DataLakeConfiguration {
   region: string;
-  encryptionConfiguration?: DataLakeEncryptionConfiguration;
-  lifecycleConfiguration?: DataLakeLifecycleConfiguration;
-  replicationConfiguration?: DataLakeReplicationConfiguration;
+  encryptionConfiguration?: DataLakeEncryptionConfiguration | undefined;
+  lifecycleConfiguration?: DataLakeLifecycleConfiguration | undefined;
+  replicationConfiguration?: DataLakeReplicationConfiguration | undefined;
 }
 export type DataLakeConfigurationList = DataLakeConfiguration[];
 export type TagKey = string;
@@ -263,44 +264,44 @@ export type TagList = Tag[];
 export interface CreateDataLakeRequest {
   configurations: DataLakeConfiguration[];
   metaStoreManagerRoleArn: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type S3BucketArn = string;
 export type DataLakeStatus = "INITIALIZED" | "PENDING" | "COMPLETED" | "FAILED" | (string & {});
 export interface DataLakeUpdateException {
-  reason?: string;
-  code?: string;
+  reason?: string | undefined;
+  code?: string | undefined;
 }
 export interface DataLakeUpdateStatus {
-  requestId?: string;
-  status?: DataLakeStatus;
-  exception?: DataLakeUpdateException;
+  requestId?: string | undefined;
+  status?: DataLakeStatus | undefined;
+  exception?: DataLakeUpdateException | undefined;
 }
 export interface DataLakeResource {
   dataLakeArn: string;
   region: string;
-  s3BucketArn?: string;
-  encryptionConfiguration?: DataLakeEncryptionConfiguration;
-  lifecycleConfiguration?: DataLakeLifecycleConfiguration;
-  replicationConfiguration?: DataLakeReplicationConfiguration;
-  createStatus?: DataLakeStatus;
-  updateStatus?: DataLakeUpdateStatus;
+  s3BucketArn?: string | undefined;
+  encryptionConfiguration?: DataLakeEncryptionConfiguration | undefined;
+  lifecycleConfiguration?: DataLakeLifecycleConfiguration | undefined;
+  replicationConfiguration?: DataLakeReplicationConfiguration | undefined;
+  createStatus?: DataLakeStatus | undefined;
+  updateStatus?: DataLakeUpdateStatus | undefined;
 }
 export type DataLakeResourceList = DataLakeResource[];
 export interface CreateDataLakeResponse {
-  dataLakes?: DataLakeResource[];
+  dataLakes?: DataLakeResource[] | undefined;
 }
 export type SubscriptionProtocol = string;
 export type SafeString = string;
 export interface CreateDataLakeExceptionSubscriptionRequest {
   subscriptionProtocol: string;
   notificationEndpoint: string;
-  exceptionTimeToLive?: number;
+  exceptionTimeToLive?: number | undefined;
 }
 export interface CreateDataLakeExceptionSubscriptionResponse {}
 export interface AwsLogSourceResource {
-  sourceName?: AwsLogSourceName;
-  sourceVersion?: string;
+  sourceName?: AwsLogSourceName | undefined;
+  sourceVersion?: string | undefined;
 }
 export type AwsLogSourceResourceList = AwsLogSourceResource[];
 export interface DataLakeAutoEnableNewAccountConfiguration {
@@ -310,23 +311,23 @@ export interface DataLakeAutoEnableNewAccountConfiguration {
 export type DataLakeAutoEnableNewAccountConfigurationList =
   DataLakeAutoEnableNewAccountConfiguration[];
 export interface CreateDataLakeOrganizationConfigurationRequest {
-  autoEnableNewAccount?: DataLakeAutoEnableNewAccountConfiguration[];
+  autoEnableNewAccount?: DataLakeAutoEnableNewAccountConfiguration[] | undefined;
 }
 export interface CreateDataLakeOrganizationConfigurationResponse {}
 export type DescriptionString = string;
 export type LogSourceResource =
-  | { awsLogSource: AwsLogSourceResource; customLogSource?: never }
-  | { awsLogSource?: never; customLogSource: CustomLogSourceResource };
+  | { awsLogSource: AwsLogSourceResource; customLogSource?: undefined }
+  | { awsLogSource?: undefined; customLogSource: CustomLogSourceResource };
 export type LogSourceResourceList = LogSourceResource[];
 export type AccessType = "LAKEFORMATION" | "S3" | (string & {});
 export type AccessTypeList = AccessType[];
 export interface CreateSubscriberRequest {
   subscriberIdentity: AwsIdentity;
   subscriberName: string;
-  subscriberDescription?: string;
+  subscriberDescription?: string | undefined;
   sources: LogSourceResource[];
-  accessTypes?: AccessType[];
-  tags?: Tag[];
+  accessTypes?: AccessType[] | undefined;
+  tags?: Tag[] | undefined;
 }
 export type UUID = string;
 export type SubscriberStatus = "ACTIVE" | "DEACTIVATED" | "PENDING" | "READY" | (string & {});
@@ -337,37 +338,37 @@ export interface SubscriberResource {
   subscriberArn: string;
   subscriberIdentity: AwsIdentity;
   subscriberName: string;
-  subscriberDescription?: string;
+  subscriberDescription?: string | undefined;
   sources: LogSourceResource[];
-  accessTypes?: AccessType[];
-  roleArn?: string;
-  s3BucketArn?: string;
-  subscriberEndpoint?: string;
-  subscriberStatus?: SubscriberStatus;
-  resourceShareArn?: string;
-  resourceShareName?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  accessTypes?: AccessType[] | undefined;
+  roleArn?: string | undefined;
+  s3BucketArn?: string | undefined;
+  subscriberEndpoint?: string | undefined;
+  subscriberStatus?: SubscriberStatus | undefined;
+  resourceShareArn?: string | undefined;
+  resourceShareName?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreateSubscriberResponse {
-  subscriber?: SubscriberResource;
+  subscriber?: SubscriberResource | undefined;
 }
 export interface SqsNotificationConfiguration {}
 export type HttpMethod = "POST" | "PUT" | (string & {});
 export interface HttpsNotificationConfiguration {
   endpoint: string;
-  authorizationApiKeyName?: string;
-  authorizationApiKeyValue?: string | redacted.Redacted<string>;
-  httpMethod?: HttpMethod;
+  authorizationApiKeyName?: string | undefined;
+  authorizationApiKeyValue?: string | redacted.Redacted<string> | undefined;
+  httpMethod?: HttpMethod | undefined;
   targetRoleArn: string;
 }
 export type NotificationConfiguration =
   | {
       sqsNotificationConfiguration: SqsNotificationConfiguration;
-      httpsNotificationConfiguration?: never;
+      httpsNotificationConfiguration?: undefined;
     }
   | {
-      sqsNotificationConfiguration?: never;
+      sqsNotificationConfiguration?: undefined;
       httpsNotificationConfiguration: HttpsNotificationConfiguration;
     };
 export interface CreateSubscriberNotificationRequest {
@@ -375,17 +376,17 @@ export interface CreateSubscriberNotificationRequest {
   configuration: NotificationConfiguration;
 }
 export interface CreateSubscriberNotificationResponse {
-  subscriberEndpoint?: string;
+  subscriberEndpoint?: string | undefined;
 }
 export interface DeleteAwsLogSourceRequest {
   sources: AwsLogSourceConfiguration[];
 }
 export interface DeleteAwsLogSourceResponse {
-  failed?: string[];
+  failed?: string[] | undefined;
 }
 export interface DeleteCustomLogSourceRequest {
   sourceName: string;
-  sourceVersion?: string;
+  sourceVersion?: string | undefined;
 }
 export interface DeleteCustomLogSourceResponse {}
 export interface DeleteDataLakeRequest {
@@ -395,7 +396,7 @@ export interface DeleteDataLakeResponse {}
 export interface DeleteDataLakeExceptionSubscriptionRequest {}
 export interface DeleteDataLakeExceptionSubscriptionResponse {}
 export interface DeleteDataLakeOrganizationConfigurationRequest {
-  autoEnableNewAccount?: DataLakeAutoEnableNewAccountConfiguration[];
+  autoEnableNewAccount?: DataLakeAutoEnableNewAccountConfiguration[] | undefined;
 }
 export interface DeleteDataLakeOrganizationConfigurationResponse {}
 export interface DeleteSubscriberRequest {
@@ -410,20 +411,20 @@ export interface DeregisterDataLakeDelegatedAdministratorRequest {}
 export interface DeregisterDataLakeDelegatedAdministratorResponse {}
 export interface GetDataLakeExceptionSubscriptionRequest {}
 export interface GetDataLakeExceptionSubscriptionResponse {
-  subscriptionProtocol?: string;
-  notificationEndpoint?: string;
-  exceptionTimeToLive?: number;
+  subscriptionProtocol?: string | undefined;
+  notificationEndpoint?: string | undefined;
+  exceptionTimeToLive?: number | undefined;
 }
 export interface GetDataLakeOrganizationConfigurationRequest {}
 export interface GetDataLakeOrganizationConfigurationResponse {
-  autoEnableNewAccount?: DataLakeAutoEnableNewAccountConfiguration[];
+  autoEnableNewAccount?: DataLakeAutoEnableNewAccountConfiguration[] | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface GetDataLakeSourcesRequest {
-  accounts?: string[];
-  maxResults?: number;
-  nextToken?: string;
+  accounts?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type SourceCollectionStatus =
   | "COLLECTING"
@@ -431,81 +432,81 @@ export type SourceCollectionStatus =
   | "NOT_COLLECTING"
   | (string & {});
 export interface DataLakeSourceStatus {
-  resource?: string;
-  status?: SourceCollectionStatus;
+  resource?: string | undefined;
+  status?: SourceCollectionStatus | undefined;
 }
 export type DataLakeSourceStatusList = DataLakeSourceStatus[];
 export interface DataLakeSource {
-  account?: string;
-  sourceName?: string;
-  eventClasses?: string[];
-  sourceStatuses?: DataLakeSourceStatus[];
+  account?: string | undefined;
+  sourceName?: string | undefined;
+  eventClasses?: string[] | undefined;
+  sourceStatuses?: DataLakeSourceStatus[] | undefined;
 }
 export type DataLakeSourceList = DataLakeSource[];
 export interface GetDataLakeSourcesResponse {
-  dataLakeArn?: string;
-  dataLakeSources?: DataLakeSource[];
-  nextToken?: string;
+  dataLakeArn?: string | undefined;
+  dataLakeSources?: DataLakeSource[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetSubscriberRequest {
   subscriberId: string;
 }
 export interface GetSubscriberResponse {
-  subscriber?: SubscriberResource;
+  subscriber?: SubscriberResource | undefined;
 }
 export interface ListDataLakeExceptionsRequest {
-  regions?: string[];
-  maxResults?: number;
-  nextToken?: string;
+  regions?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DataLakeException {
-  region?: string;
-  exception?: string;
-  remediation?: string;
-  timestamp?: Date;
+  region?: string | undefined;
+  exception?: string | undefined;
+  remediation?: string | undefined;
+  timestamp?: Date | undefined;
 }
 export type DataLakeExceptionList = DataLakeException[];
 export interface ListDataLakeExceptionsResponse {
-  exceptions?: DataLakeException[];
-  nextToken?: string;
+  exceptions?: DataLakeException[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDataLakesRequest {
-  regions?: string[];
+  regions?: string[] | undefined;
 }
 export interface ListDataLakesResponse {
-  dataLakes?: DataLakeResource[];
+  dataLakes?: DataLakeResource[] | undefined;
 }
 export interface ListLogSourcesRequest {
-  accounts?: string[];
-  regions?: string[];
-  sources?: LogSourceResource[];
-  maxResults?: number;
-  nextToken?: string;
+  accounts?: string[] | undefined;
+  regions?: string[] | undefined;
+  sources?: LogSourceResource[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface LogSource {
-  account?: string;
-  region?: string;
-  sources?: LogSourceResource[];
+  account?: string | undefined;
+  region?: string | undefined;
+  sources?: LogSourceResource[] | undefined;
 }
 export type LogSourceList = LogSource[];
 export interface ListLogSourcesResponse {
-  sources?: LogSource[];
-  nextToken?: string;
+  sources?: LogSource[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSubscribersRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SubscriberResourceList = SubscriberResource[];
 export interface ListSubscribersResponse {
-  subscribers?: SubscriberResource[];
-  nextToken?: string;
+  subscribers?: SubscriberResource[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface RegisterDataLakeDelegatedAdministratorRequest {
   accountId: string;
@@ -524,33 +525,33 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateDataLakeRequest {
   configurations: DataLakeConfiguration[];
-  metaStoreManagerRoleArn?: string;
+  metaStoreManagerRoleArn?: string | undefined;
 }
 export interface UpdateDataLakeResponse {
-  dataLakes?: DataLakeResource[];
+  dataLakes?: DataLakeResource[] | undefined;
 }
 export interface UpdateDataLakeExceptionSubscriptionRequest {
   subscriptionProtocol: string;
   notificationEndpoint: string;
-  exceptionTimeToLive?: number;
+  exceptionTimeToLive?: number | undefined;
 }
 export interface UpdateDataLakeExceptionSubscriptionResponse {}
 export interface UpdateSubscriberRequest {
   subscriberId: string;
-  subscriberIdentity?: AwsIdentity;
-  subscriberName?: string;
-  subscriberDescription?: string;
-  sources?: LogSourceResource[];
+  subscriberIdentity?: AwsIdentity | undefined;
+  subscriberName?: string | undefined;
+  subscriberDescription?: string | undefined;
+  sources?: LogSourceResource[] | undefined;
 }
 export interface UpdateSubscriberResponse {
-  subscriber?: SubscriberResource;
+  subscriber?: SubscriberResource | undefined;
 }
 export interface UpdateSubscriberNotificationRequest {
   subscriberId: string;
   configuration: NotificationConfiguration;
 }
 export interface UpdateSubscriberNotificationResponse {
-  subscriberEndpoint?: string;
+  subscriberEndpoint?: string | undefined;
 }
 export type CreateAwsLogSourceError =
   | AccessDeniedException
@@ -572,7 +573,7 @@ export type CreateAwsLogSourceError =
  * source.
  */
 export const createAwsLogSource: API.OperationMethod<
-  CreateAwsLogSourceRequest,
+  CreateAwsLogSourceRequest & RegionInput,
   CreateAwsLogSourceResponse,
   CreateAwsLogSourceError,
   Credentials | HttpClient.HttpClient
@@ -614,7 +615,7 @@ export type CreateCustomLogSourceError =
  * associated Glue table and an Glue crawler.
  */
 export const createCustomLogSource: API.OperationMethod<
-  CreateCustomLogSourceRequest,
+  CreateCustomLogSourceRequest & RegionInput,
   CreateCustomLogSourceResponse,
   CreateCustomLogSourceError,
   Credentials | HttpClient.HttpClient
@@ -664,7 +665,7 @@ export type CreateDataLakeError =
  * Guide.
  */
 export const createDataLake: API.OperationMethod<
-  CreateDataLakeRequest,
+  CreateDataLakeRequest & RegionInput,
   CreateDataLakeResponse,
   CreateDataLakeError,
   Credentials | HttpClient.HttpClient
@@ -701,7 +702,7 @@ export type CreateDataLakeExceptionSubscriptionError =
  * you specify. The notification subscription is created for exceptions that cannot be resolved by Security Lake automatically.
  */
 export const createDataLakeExceptionSubscription: API.OperationMethod<
-  CreateDataLakeExceptionSubscriptionRequest,
+  CreateDataLakeExceptionSubscriptionRequest & RegionInput,
   CreateDataLakeExceptionSubscriptionResponse,
   CreateDataLakeExceptionSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -740,7 +741,7 @@ export type CreateDataLakeOrganizationConfigurationError =
  * This operation merges the new data lake organization configuration with the existing configuration for Security Lake in your organization. If you want to create a new data lake organization configuration, you must delete the existing one using DeleteDataLakeOrganizationConfiguration.
  */
 export const createDataLakeOrganizationConfiguration: API.OperationMethod<
-  CreateDataLakeOrganizationConfigurationRequest,
+  CreateDataLakeOrganizationConfigurationRequest & RegionInput,
   CreateDataLakeOrganizationConfigurationResponse,
   CreateDataLakeOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -776,7 +777,7 @@ export type CreateSubscriberError =
  * create a subscriber with access to data in the current Amazon Web Services Region.
  */
 export const createSubscriber: API.OperationMethod<
-  CreateSubscriberRequest,
+  CreateSubscriberRequest & RegionInput,
   CreateSubscriberResponse,
   CreateSubscriberError,
   Credentials | HttpClient.HttpClient
@@ -814,7 +815,7 @@ export type CreateSubscriberNotificationError =
  * subscriber.
  */
 export const createSubscriberNotification: API.OperationMethod<
-  CreateSubscriberNotificationRequest,
+  CreateSubscriberNotificationRequest & RegionInput,
   CreateSubscriberNotificationResponse,
   CreateSubscriberNotificationError,
   Credentials | HttpClient.HttpClient
@@ -857,7 +858,7 @@ export type DeleteAwsLogSourceError =
  * are part of a trusted organization or standalone accounts.
  */
 export const deleteAwsLogSource: API.OperationMethod<
-  DeleteAwsLogSourceRequest,
+  DeleteAwsLogSourceRequest & RegionInput,
   DeleteAwsLogSourceResponse,
   DeleteAwsLogSourceError,
   Credentials | HttpClient.HttpClient
@@ -894,7 +895,7 @@ export type DeleteCustomLogSourceError =
  * source to Security Lake.
  */
 export const deleteCustomLogSource: API.OperationMethod<
-  DeleteCustomLogSourceRequest,
+  DeleteCustomLogSourceRequest & RegionInput,
   DeleteCustomLogSourceResponse,
   DeleteCustomLogSourceError,
   Credentials | HttpClient.HttpClient
@@ -938,7 +939,7 @@ export type DeleteDataLakeError =
  * Guide.
  */
 export const deleteDataLake: API.OperationMethod<
-  DeleteDataLakeRequest,
+  DeleteDataLakeRequest & RegionInput,
   DeleteDataLakeResponse,
   DeleteDataLakeError,
   Credentials | HttpClient.HttpClient
@@ -975,7 +976,7 @@ export type DeleteDataLakeExceptionSubscriptionError =
  * you specify.
  */
 export const deleteDataLakeExceptionSubscription: API.OperationMethod<
-  DeleteDataLakeExceptionSubscriptionRequest,
+  DeleteDataLakeExceptionSubscriptionRequest & RegionInput,
   DeleteDataLakeExceptionSubscriptionResponse,
   DeleteDataLakeExceptionSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1012,7 +1013,7 @@ export type DeleteDataLakeOrganizationConfigurationError =
  * accounts won't automatically contribute data to the data lake.
  */
 export const deleteDataLakeOrganizationConfiguration: API.OperationMethod<
-  DeleteDataLakeOrganizationConfigurationRequest,
+  DeleteDataLakeOrganizationConfigurationRequest & RegionInput,
   DeleteDataLakeOrganizationConfigurationResponse,
   DeleteDataLakeOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1050,7 +1051,7 @@ export type DeleteSubscriberError =
  * operation deletes the subscriber and removes access to data in the current Amazon Web Services Region.
  */
 export const deleteSubscriber: API.OperationMethod<
-  DeleteSubscriberRequest,
+  DeleteSubscriberRequest & RegionInput,
   DeleteSubscriberResponse,
   DeleteSubscriberError,
   Credentials | HttpClient.HttpClient
@@ -1087,7 +1088,7 @@ export type DeleteSubscriberNotificationError =
  * you specify.
  */
 export const deleteSubscriberNotification: API.OperationMethod<
-  DeleteSubscriberNotificationRequest,
+  DeleteSubscriberNotificationRequest & RegionInput,
   DeleteSubscriberNotificationResponse,
   DeleteSubscriberNotificationError,
   Credentials | HttpClient.HttpClient
@@ -1124,7 +1125,7 @@ export type DeregisterDataLakeDelegatedAdministratorError =
  * account cannot be the delegated administrator account.
  */
 export const deregisterDataLakeDelegatedAdministrator: API.OperationMethod<
-  DeregisterDataLakeDelegatedAdministratorRequest,
+  DeregisterDataLakeDelegatedAdministratorRequest & RegionInput,
   DeregisterDataLakeDelegatedAdministratorResponse,
   DeregisterDataLakeDelegatedAdministratorError,
   Credentials | HttpClient.HttpClient
@@ -1159,7 +1160,7 @@ export type GetDataLakeExceptionSubscriptionError =
  * Retrieves the protocol and endpoint that were provided when subscribing to Amazon SNS topics for exception notifications.
  */
 export const getDataLakeExceptionSubscription: API.OperationMethod<
-  GetDataLakeExceptionSubscriptionRequest,
+  GetDataLakeExceptionSubscriptionRequest & RegionInput,
   GetDataLakeExceptionSubscriptionResponse,
   GetDataLakeExceptionSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1196,7 +1197,7 @@ export type GetDataLakeOrganizationConfigurationError =
  * input parameters.
  */
 export const getDataLakeOrganizationConfiguration: API.OperationMethod<
-  GetDataLakeOrganizationConfigurationRequest,
+  GetDataLakeOrganizationConfigurationRequest & RegionInput,
   GetDataLakeOrganizationConfigurationResponse,
   GetDataLakeOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1232,7 +1233,7 @@ export type GetDataLakeSourcesError =
  * for those accounts and which sources Security Lake is collecting data from.
  */
 export const getDataLakeSources: API.PaginatedOperationMethod<
-  GetDataLakeSourcesRequest,
+  GetDataLakeSourcesRequest & RegionInput,
   GetDataLakeSourcesResponse,
   GetDataLakeSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1276,7 +1277,7 @@ export type GetSubscriberError =
  * information about a specific subscriber.
  */
 export const getSubscriber: API.OperationMethod<
-  GetSubscriberRequest,
+  GetSubscriberRequest & RegionInput,
   GetSubscriberResponse,
   GetSubscriberError,
   Credentials | HttpClient.HttpClient
@@ -1313,7 +1314,7 @@ export type ListDataLakeExceptionsError =
  * fix them.
  */
 export const listDataLakeExceptions: API.PaginatedOperationMethod<
-  ListDataLakeExceptionsRequest,
+  ListDataLakeExceptionsRequest & RegionInput,
   ListDataLakeExceptionsResponse,
   ListDataLakeExceptionsError,
   Credentials | HttpClient.HttpClient,
@@ -1357,7 +1358,7 @@ export type ListDataLakesError =
  * Security Lake is enabled for a Region.
  */
 export const listDataLakes: API.OperationMethod<
-  ListDataLakesRequest,
+  ListDataLakesRequest & RegionInput,
   ListDataLakesResponse,
   ListDataLakesError,
   Credentials | HttpClient.HttpClient
@@ -1393,7 +1394,7 @@ export type ListLogSourcesError =
  * Retrieves the log sources.
  */
 export const listLogSources: API.PaginatedOperationMethod<
-  ListLogSourcesRequest,
+  ListLogSourcesRequest & RegionInput,
   ListLogSourcesResponse,
   ListLogSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1437,7 +1438,7 @@ export type ListSubscribersError =
  * of subscriptions associated with a specific organization or Amazon Web Services account.
  */
 export const listSubscribers: API.PaginatedOperationMethod<
-  ListSubscribersRequest,
+  ListSubscribersRequest & RegionInput,
   ListSubscribersResponse,
   ListSubscribersError,
   Credentials | HttpClient.HttpClient,
@@ -1481,7 +1482,7 @@ export type ListTagsForResourceError =
  * your Amazon Web Services account in a particular Amazon Web Services Region.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1518,7 +1519,7 @@ export type RegisterDataLakeDelegatedAdministratorError =
  * account cannot be the delegated administrator account.
  */
 export const registerDataLakeDelegatedAdministrator: API.OperationMethod<
-  RegisterDataLakeDelegatedAdministratorRequest,
+  RegisterDataLakeDelegatedAdministratorRequest & RegionInput,
   RegisterDataLakeDelegatedAdministratorResponse,
   RegisterDataLakeDelegatedAdministratorError,
   Credentials | HttpClient.HttpClient
@@ -1560,7 +1561,7 @@ export type TagResourceError =
  * *Amazon Security Lake User Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1597,7 +1598,7 @@ export type UntagResourceError =
  * Amazon Web Services account in a particular Amazon Web Services Region.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1645,7 +1646,7 @@ export type UpdateDataLakeError =
  * For more details about lifecycle management and how to update retention settings for one or more Regions after enabling Security Lake, see the Amazon Security Lake User Guide.
  */
 export const updateDataLake: API.OperationMethod<
-  UpdateDataLakeRequest,
+  UpdateDataLakeRequest & RegionInput,
   UpdateDataLakeResponse,
   UpdateDataLakeError,
   Credentials | HttpClient.HttpClient
@@ -1682,7 +1683,7 @@ export type UpdateDataLakeExceptionSubscriptionError =
  * you specify.
  */
 export const updateDataLakeExceptionSubscription: API.OperationMethod<
-  UpdateDataLakeExceptionSubscriptionRequest,
+  UpdateDataLakeExceptionSubscriptionRequest & RegionInput,
   UpdateDataLakeExceptionSubscriptionResponse,
   UpdateDataLakeExceptionSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1719,7 +1720,7 @@ export type UpdateSubscriberError =
  * a subscriber by changing the sources that the subscriber consumes data from.
  */
 export const updateSubscriber: API.OperationMethod<
-  UpdateSubscriberRequest,
+  UpdateSubscriberRequest & RegionInput,
   UpdateSubscriberResponse,
   UpdateSubscriberError,
   Credentials | HttpClient.HttpClient
@@ -1756,7 +1757,7 @@ export type UpdateSubscriberNotificationError =
  * switches the notification subscription endpoint for a subscriber.
  */
 export const updateSubscriberNotification: API.OperationMethod<
-  UpdateSubscriberNotificationRequest,
+  UpdateSubscriberNotificationRequest & RegionInput,
   UpdateSubscriberNotificationResponse,
   UpdateSubscriberNotificationError,
   Credentials | HttpClient.HttpClient

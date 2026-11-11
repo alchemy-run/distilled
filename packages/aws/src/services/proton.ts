@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -157,8 +158,8 @@ export interface EnvironmentAccountConnection {
   requestedAt: Date;
   lastModifiedAt: Date;
   status: string;
-  componentRoleArn?: string;
-  codebuildRoleArn?: string;
+  componentRoleArn?: string | undefined;
+  codebuildRoleArn?: string | undefined;
 }
 export interface AcceptEnvironmentAccountConnectionOutput {
   environmentAccountConnection: EnvironmentAccountConnection;
@@ -174,21 +175,21 @@ export type SpecContents = string | redacted.Redacted<string>;
 export type DeploymentId = string;
 export interface Component {
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   arn: string;
   environmentName: string;
-  serviceName?: string;
-  serviceInstanceName?: string;
+  serviceName?: string | undefined;
+  serviceInstanceName?: string | undefined;
   createdAt: Date;
   lastModifiedAt: Date;
-  lastDeploymentAttemptedAt?: Date;
-  lastDeploymentSucceededAt?: Date;
+  lastDeploymentAttemptedAt?: Date | undefined;
+  lastDeploymentSucceededAt?: Date | undefined;
   deploymentStatus: string;
-  deploymentStatusMessage?: string | redacted.Redacted<string>;
-  serviceSpec?: string | redacted.Redacted<string>;
-  lastClientRequestToken?: string;
-  lastAttemptedDeploymentId?: string;
-  lastSucceededDeploymentId?: string;
+  deploymentStatusMessage?: string | redacted.Redacted<string> | undefined;
+  serviceSpec?: string | redacted.Redacted<string> | undefined;
+  lastClientRequestToken?: string | undefined;
+  lastAttemptedDeploymentId?: string | undefined;
+  lastSucceededDeploymentId?: string | undefined;
 }
 export interface CancelComponentDeploymentOutput {
   component: Component;
@@ -211,7 +212,7 @@ export interface RepositoryBranch {
 }
 export interface Environment {
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   createdAt: Date;
   lastDeploymentAttemptedAt: Date;
   lastDeploymentSucceededAt: Date;
@@ -220,17 +221,17 @@ export interface Environment {
   templateMajorVersion: string;
   templateMinorVersion: string;
   deploymentStatus: string;
-  deploymentStatusMessage?: string | redacted.Redacted<string>;
-  protonServiceRoleArn?: string;
-  environmentAccountConnectionId?: string;
-  environmentAccountId?: string;
-  spec?: string | redacted.Redacted<string>;
-  provisioning?: string;
-  provisioningRepository?: RepositoryBranch;
-  componentRoleArn?: string;
-  codebuildRoleArn?: string;
-  lastAttemptedDeploymentId?: string;
-  lastSucceededDeploymentId?: string;
+  deploymentStatusMessage?: string | redacted.Redacted<string> | undefined;
+  protonServiceRoleArn?: string | undefined;
+  environmentAccountConnectionId?: string | undefined;
+  environmentAccountId?: string | undefined;
+  spec?: string | redacted.Redacted<string> | undefined;
+  provisioning?: string | undefined;
+  provisioningRepository?: RepositoryBranch | undefined;
+  componentRoleArn?: string | undefined;
+  codebuildRoleArn?: string | undefined;
+  lastAttemptedDeploymentId?: string | undefined;
+  lastSucceededDeploymentId?: string | undefined;
 }
 export interface CancelEnvironmentDeploymentOutput {
   environment: Environment;
@@ -252,11 +253,11 @@ export interface ServiceInstance {
   templateMajorVersion: string;
   templateMinorVersion: string;
   deploymentStatus: string;
-  deploymentStatusMessage?: string | redacted.Redacted<string>;
-  spec?: string | redacted.Redacted<string>;
-  lastClientRequestToken?: string;
-  lastAttemptedDeploymentId?: string;
-  lastSucceededDeploymentId?: string;
+  deploymentStatusMessage?: string | redacted.Redacted<string> | undefined;
+  spec?: string | redacted.Redacted<string> | undefined;
+  lastClientRequestToken?: string | undefined;
+  lastAttemptedDeploymentId?: string | undefined;
+  lastSucceededDeploymentId?: string | undefined;
 }
 export interface CancelServiceInstanceDeploymentOutput {
   serviceInstance: ServiceInstance;
@@ -273,10 +274,10 @@ export interface ServicePipeline {
   templateMajorVersion: string;
   templateMinorVersion: string;
   deploymentStatus: string;
-  deploymentStatusMessage?: string | redacted.Redacted<string>;
-  spec?: string | redacted.Redacted<string>;
-  lastAttemptedDeploymentId?: string;
-  lastSucceededDeploymentId?: string;
+  deploymentStatusMessage?: string | redacted.Redacted<string> | undefined;
+  spec?: string | redacted.Redacted<string> | undefined;
+  lastAttemptedDeploymentId?: string | undefined;
+  lastSucceededDeploymentId?: string | undefined;
 }
 export interface CancelServicePipelineDeploymentOutput {
   pipeline: ServicePipeline;
@@ -293,15 +294,15 @@ export type TagList = Tag[];
 export type ClientToken = string;
 export interface CreateComponentInput {
   name: string;
-  description?: string | redacted.Redacted<string>;
-  serviceName?: string;
-  serviceInstanceName?: string;
-  environmentName?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  serviceName?: string | undefined;
+  serviceInstanceName?: string | undefined;
+  environmentName?: string | undefined;
   templateFile: string | redacted.Redacted<string>;
   manifest: string | redacted.Redacted<string>;
-  serviceSpec?: string | redacted.Redacted<string>;
-  tags?: Tag[];
-  clientToken?: string;
+  serviceSpec?: string | redacted.Redacted<string> | undefined;
+  tags?: Tag[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateComponentOutput {
   component: Component;
@@ -315,27 +316,27 @@ export interface CreateEnvironmentInput {
   name: string;
   templateName: string;
   templateMajorVersion: string;
-  templateMinorVersion?: string;
-  description?: string | redacted.Redacted<string>;
+  templateMinorVersion?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   spec: string | redacted.Redacted<string>;
-  protonServiceRoleArn?: string;
-  environmentAccountConnectionId?: string;
-  tags?: Tag[];
-  provisioningRepository?: RepositoryBranchInput;
-  componentRoleArn?: string;
-  codebuildRoleArn?: string;
+  protonServiceRoleArn?: string | undefined;
+  environmentAccountConnectionId?: string | undefined;
+  tags?: Tag[] | undefined;
+  provisioningRepository?: RepositoryBranchInput | undefined;
+  componentRoleArn?: string | undefined;
+  codebuildRoleArn?: string | undefined;
 }
 export interface CreateEnvironmentOutput {
   environment: Environment;
 }
 export interface CreateEnvironmentAccountConnectionInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   managementAccountId: string;
-  roleArn?: string;
+  roleArn?: string | undefined;
   environmentName: string;
-  tags?: Tag[];
-  componentRoleArn?: string;
-  codebuildRoleArn?: string;
+  tags?: Tag[] | undefined;
+  componentRoleArn?: string | undefined;
+  codebuildRoleArn?: string | undefined;
 }
 export interface CreateEnvironmentAccountConnectionOutput {
   environmentAccountConnection: EnvironmentAccountConnection;
@@ -343,11 +344,11 @@ export interface CreateEnvironmentAccountConnectionOutput {
 export type DisplayName = string | redacted.Redacted<string>;
 export interface CreateEnvironmentTemplateInput {
   name: string;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  encryptionKey?: string;
-  provisioning?: string;
-  tags?: Tag[];
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  encryptionKey?: string | undefined;
+  provisioning?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type EnvironmentTemplateArn = string;
 export type FullTemplateVersionNumber = string;
@@ -356,11 +357,11 @@ export interface EnvironmentTemplate {
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  recommendedVersion?: string;
-  encryptionKey?: string;
-  provisioning?: string;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  recommendedVersion?: string | undefined;
+  encryptionKey?: string | undefined;
+  provisioning?: string | undefined;
 }
 export interface CreateEnvironmentTemplateOutput {
   environmentTemplate: EnvironmentTemplate;
@@ -373,12 +374,12 @@ export interface S3ObjectSource {
 }
 export type TemplateVersionSourceInput = { s3: S3ObjectSource };
 export interface CreateEnvironmentTemplateVersionInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   templateName: string;
-  description?: string | redacted.Redacted<string>;
-  majorVersion?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  majorVersion?: string | undefined;
   source: TemplateVersionSourceInput;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type TemplateVersionStatus = string;
 export type EnvironmentTemplateVersionArn = string;
@@ -387,14 +388,14 @@ export interface EnvironmentTemplateVersion {
   templateName: string;
   majorVersion: string;
   minorVersion: string;
-  recommendedMinorVersion?: string;
+  recommendedMinorVersion?: string | undefined;
   status: string;
-  statusMessage?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  statusMessage?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
-  schema?: string | redacted.Redacted<string>;
+  schema?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateEnvironmentTemplateVersionOutput {
   environmentTemplateVersion: EnvironmentTemplateVersion;
@@ -403,15 +404,15 @@ export interface CreateRepositoryInput {
   provider: string;
   name: string;
   connectionArn: string;
-  encryptionKey?: string;
-  tags?: Tag[];
+  encryptionKey?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface Repository {
   arn: string;
   provider: string;
   name: string;
   connectionArn: string;
-  encryptionKey?: string;
+  encryptionKey?: string | undefined;
 }
 export interface CreateRepositoryOutput {
   repository: Repository;
@@ -419,32 +420,32 @@ export interface CreateRepositoryOutput {
 export type RepositoryId = string;
 export interface CreateServiceInput {
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   templateName: string;
   templateMajorVersion: string;
-  templateMinorVersion?: string;
+  templateMinorVersion?: string | undefined;
   spec: string | redacted.Redacted<string>;
-  repositoryConnectionArn?: string;
-  repositoryId?: string;
-  branchName?: string;
-  tags?: Tag[];
+  repositoryConnectionArn?: string | undefined;
+  repositoryId?: string | undefined;
+  branchName?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type ServiceArn = string;
 export type ServiceStatus = string;
 export interface Service {
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   arn: string;
   templateName: string;
   createdAt: Date;
   lastModifiedAt: Date;
   status: string;
-  statusMessage?: string | redacted.Redacted<string>;
+  statusMessage?: string | redacted.Redacted<string> | undefined;
   spec: string | redacted.Redacted<string>;
-  pipeline?: ServicePipeline;
-  repositoryConnectionArn?: string;
-  repositoryId?: string;
-  branchName?: string;
+  pipeline?: ServicePipeline | undefined;
+  repositoryConnectionArn?: string | undefined;
+  repositoryId?: string | undefined;
+  branchName?: string | undefined;
 }
 export interface CreateServiceOutput {
   service: Service;
@@ -453,10 +454,10 @@ export interface CreateServiceInstanceInput {
   name: string;
   serviceName: string;
   spec: string | redacted.Redacted<string>;
-  templateMajorVersion?: string;
-  templateMinorVersion?: string;
-  tags?: Tag[];
-  clientToken?: string;
+  templateMajorVersion?: string | undefined;
+  templateMinorVersion?: string | undefined;
+  tags?: Tag[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateServiceInstanceOutput {
   serviceInstance: ServiceInstance;
@@ -477,15 +478,15 @@ export interface ServiceSyncConfig {
   filePath: string;
 }
 export interface CreateServiceSyncConfigOutput {
-  serviceSyncConfig?: ServiceSyncConfig;
+  serviceSyncConfig?: ServiceSyncConfig | undefined;
 }
 export interface CreateServiceTemplateInput {
   name: string;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  encryptionKey?: string;
-  pipelineProvisioning?: string;
-  tags?: Tag[];
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  encryptionKey?: string | undefined;
+  pipelineProvisioning?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type ServiceTemplateArn = string;
 export interface ServiceTemplate {
@@ -493,11 +494,11 @@ export interface ServiceTemplate {
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  recommendedVersion?: string;
-  encryptionKey?: string;
-  pipelineProvisioning?: string;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  recommendedVersion?: string | undefined;
+  encryptionKey?: string | undefined;
+  pipelineProvisioning?: string | undefined;
 }
 export interface CreateServiceTemplateOutput {
   serviceTemplate: ServiceTemplate;
@@ -510,14 +511,14 @@ export type CompatibleEnvironmentTemplateInputList = CompatibleEnvironmentTempla
 export type ServiceTemplateSupportedComponentSourceType = string;
 export type ServiceTemplateSupportedComponentSourceInputList = string[];
 export interface CreateServiceTemplateVersionInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   templateName: string;
-  description?: string | redacted.Redacted<string>;
-  majorVersion?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  majorVersion?: string | undefined;
   source: TemplateVersionSourceInput;
   compatibleEnvironmentTemplates: CompatibleEnvironmentTemplateInput[];
-  tags?: Tag[];
-  supportedComponentSources?: string[];
+  tags?: Tag[] | undefined;
+  supportedComponentSources?: string[] | undefined;
 }
 export type ServiceTemplateVersionArn = string;
 export interface CompatibleEnvironmentTemplate {
@@ -529,16 +530,16 @@ export interface ServiceTemplateVersion {
   templateName: string;
   majorVersion: string;
   minorVersion: string;
-  recommendedMinorVersion?: string;
+  recommendedMinorVersion?: string | undefined;
   status: string;
-  statusMessage?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  statusMessage?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
   compatibleEnvironmentTemplates: CompatibleEnvironmentTemplate[];
-  schema?: string | redacted.Redacted<string>;
-  supportedComponentSources?: string[];
+  schema?: string | redacted.Redacted<string> | undefined;
+  supportedComponentSources?: string[] | undefined;
 }
 export interface CreateServiceTemplateVersionOutput {
   serviceTemplateVersion: ServiceTemplateVersion;
@@ -551,7 +552,7 @@ export interface CreateTemplateSyncConfigInput {
   repositoryProvider: string;
   repositoryName: string;
   branch: string;
-  subdirectory?: string;
+  subdirectory?: string | undefined;
 }
 export interface TemplateSyncConfig {
   templateName: string;
@@ -559,16 +560,16 @@ export interface TemplateSyncConfig {
   repositoryProvider: string;
   repositoryName: string;
   branch: string;
-  subdirectory?: string;
+  subdirectory?: string | undefined;
 }
 export interface CreateTemplateSyncConfigOutput {
-  templateSyncConfig?: TemplateSyncConfig;
+  templateSyncConfig?: TemplateSyncConfig | undefined;
 }
 export interface DeleteComponentInput {
   name: string;
 }
 export interface DeleteComponentOutput {
-  component?: Component;
+  component?: Component | undefined;
 }
 export interface DeleteDeploymentInput {
   id: string;
@@ -581,52 +582,52 @@ export interface ServiceInstanceState {
   templateName: string;
   templateMajorVersion: string;
   templateMinorVersion: string;
-  lastSuccessfulComponentDeploymentIds?: string[];
-  lastSuccessfulEnvironmentDeploymentId?: string;
-  lastSuccessfulServicePipelineDeploymentId?: string;
+  lastSuccessfulComponentDeploymentIds?: string[] | undefined;
+  lastSuccessfulEnvironmentDeploymentId?: string | undefined;
+  lastSuccessfulServicePipelineDeploymentId?: string | undefined;
 }
 export interface EnvironmentState {
-  spec?: string | redacted.Redacted<string>;
+  spec?: string | redacted.Redacted<string> | undefined;
   templateName: string;
   templateMajorVersion: string;
   templateMinorVersion: string;
 }
 export interface ServicePipelineState {
-  spec?: string | redacted.Redacted<string>;
+  spec?: string | redacted.Redacted<string> | undefined;
   templateName: string;
   templateMajorVersion: string;
   templateMinorVersion: string;
 }
 export type ResourceNameOrEmpty = string;
 export interface ComponentState {
-  serviceName?: string;
-  serviceInstanceName?: string;
-  serviceSpec?: string | redacted.Redacted<string>;
-  templateFile?: string | redacted.Redacted<string>;
+  serviceName?: string | undefined;
+  serviceInstanceName?: string | undefined;
+  serviceSpec?: string | redacted.Redacted<string> | undefined;
+  templateFile?: string | redacted.Redacted<string> | undefined;
 }
 export type DeploymentState =
   | {
       serviceInstance: ServiceInstanceState;
-      environment?: never;
-      servicePipeline?: never;
-      component?: never;
+      environment?: undefined;
+      servicePipeline?: undefined;
+      component?: undefined;
     }
   | {
-      serviceInstance?: never;
+      serviceInstance?: undefined;
       environment: EnvironmentState;
-      servicePipeline?: never;
-      component?: never;
+      servicePipeline?: undefined;
+      component?: undefined;
     }
   | {
-      serviceInstance?: never;
-      environment?: never;
+      serviceInstance?: undefined;
+      environment?: undefined;
       servicePipeline: ServicePipelineState;
-      component?: never;
+      component?: undefined;
     }
   | {
-      serviceInstance?: never;
-      environment?: never;
-      servicePipeline?: never;
+      serviceInstance?: undefined;
+      environment?: undefined;
+      servicePipeline?: undefined;
       component: ComponentState;
     };
 export interface Deployment {
@@ -636,39 +637,39 @@ export interface Deployment {
   targetResourceCreatedAt: Date;
   targetResourceType: string;
   environmentName: string;
-  serviceName?: string;
-  serviceInstanceName?: string;
-  componentName?: string;
+  serviceName?: string | undefined;
+  serviceInstanceName?: string | undefined;
+  componentName?: string | undefined;
   deploymentStatus: string;
-  deploymentStatusMessage?: string | redacted.Redacted<string>;
+  deploymentStatusMessage?: string | redacted.Redacted<string> | undefined;
   createdAt: Date;
   lastModifiedAt: Date;
-  completedAt?: Date;
-  lastAttemptedDeploymentId?: string;
-  lastSucceededDeploymentId?: string;
-  initialState?: DeploymentState;
-  targetState?: DeploymentState;
+  completedAt?: Date | undefined;
+  lastAttemptedDeploymentId?: string | undefined;
+  lastSucceededDeploymentId?: string | undefined;
+  initialState?: DeploymentState | undefined;
+  targetState?: DeploymentState | undefined;
 }
 export interface DeleteDeploymentOutput {
-  deployment?: Deployment;
+  deployment?: Deployment | undefined;
 }
 export interface DeleteEnvironmentInput {
   name: string;
 }
 export interface DeleteEnvironmentOutput {
-  environment?: Environment;
+  environment?: Environment | undefined;
 }
 export interface DeleteEnvironmentAccountConnectionInput {
   id: string;
 }
 export interface DeleteEnvironmentAccountConnectionOutput {
-  environmentAccountConnection?: EnvironmentAccountConnection;
+  environmentAccountConnection?: EnvironmentAccountConnection | undefined;
 }
 export interface DeleteEnvironmentTemplateInput {
   name: string;
 }
 export interface DeleteEnvironmentTemplateOutput {
-  environmentTemplate?: EnvironmentTemplate;
+  environmentTemplate?: EnvironmentTemplate | undefined;
 }
 export interface DeleteEnvironmentTemplateVersionInput {
   templateName: string;
@@ -676,32 +677,32 @@ export interface DeleteEnvironmentTemplateVersionInput {
   minorVersion: string;
 }
 export interface DeleteEnvironmentTemplateVersionOutput {
-  environmentTemplateVersion?: EnvironmentTemplateVersion;
+  environmentTemplateVersion?: EnvironmentTemplateVersion | undefined;
 }
 export interface DeleteRepositoryInput {
   provider: string;
   name: string;
 }
 export interface DeleteRepositoryOutput {
-  repository?: Repository;
+  repository?: Repository | undefined;
 }
 export interface DeleteServiceInput {
   name: string;
 }
 export interface DeleteServiceOutput {
-  service?: Service;
+  service?: Service | undefined;
 }
 export interface DeleteServiceSyncConfigInput {
   serviceName: string;
 }
 export interface DeleteServiceSyncConfigOutput {
-  serviceSyncConfig?: ServiceSyncConfig;
+  serviceSyncConfig?: ServiceSyncConfig | undefined;
 }
 export interface DeleteServiceTemplateInput {
   name: string;
 }
 export interface DeleteServiceTemplateOutput {
-  serviceTemplate?: ServiceTemplate;
+  serviceTemplate?: ServiceTemplate | undefined;
 }
 export interface DeleteServiceTemplateVersionInput {
   templateName: string;
@@ -709,40 +710,40 @@ export interface DeleteServiceTemplateVersionInput {
   minorVersion: string;
 }
 export interface DeleteServiceTemplateVersionOutput {
-  serviceTemplateVersion?: ServiceTemplateVersion;
+  serviceTemplateVersion?: ServiceTemplateVersion | undefined;
 }
 export interface DeleteTemplateSyncConfigInput {
   templateName: string;
   templateType: string;
 }
 export interface DeleteTemplateSyncConfigOutput {
-  templateSyncConfig?: TemplateSyncConfig;
+  templateSyncConfig?: TemplateSyncConfig | undefined;
 }
 export interface GetAccountSettingsInput {}
 export type RoleArnOrEmptyString = string;
 export interface AccountSettings {
-  pipelineServiceRoleArn?: string;
-  pipelineProvisioningRepository?: RepositoryBranch;
-  pipelineCodebuildRoleArn?: string;
+  pipelineServiceRoleArn?: string | undefined;
+  pipelineProvisioningRepository?: RepositoryBranch | undefined;
+  pipelineCodebuildRoleArn?: string | undefined;
 }
 export interface GetAccountSettingsOutput {
-  accountSettings?: AccountSettings;
+  accountSettings?: AccountSettings | undefined;
 }
 export interface GetComponentInput {
   name: string;
 }
 export interface GetComponentOutput {
-  component?: Component;
+  component?: Component | undefined;
 }
 export interface GetDeploymentInput {
   id: string;
-  environmentName?: string;
-  serviceName?: string;
-  serviceInstanceName?: string;
-  componentName?: string;
+  environmentName?: string | undefined;
+  serviceName?: string | undefined;
+  serviceInstanceName?: string | undefined;
+  componentName?: string | undefined;
 }
 export interface GetDeploymentOutput {
-  deployment?: Deployment;
+  deployment?: Deployment | undefined;
 }
 export interface GetEnvironmentInput {
   name: string;
@@ -787,7 +788,7 @@ export interface GetRepositorySyncStatusInput {
 export type RepositorySyncStatus = string;
 export interface RepositorySyncEvent {
   type: string;
-  externalId?: string;
+  externalId?: string | undefined;
   time: Date;
   event: string;
 }
@@ -798,24 +799,24 @@ export interface RepositorySyncAttempt {
   events: RepositorySyncEvent[];
 }
 export interface GetRepositorySyncStatusOutput {
-  latestSync?: RepositorySyncAttempt;
+  latestSync?: RepositorySyncAttempt | undefined;
 }
 export interface GetResourcesSummaryInput {}
 export interface ResourceCountsSummary {
   total: number;
-  failed?: number;
-  upToDate?: number;
-  behindMajor?: number;
-  behindMinor?: number;
+  failed?: number | undefined;
+  upToDate?: number | undefined;
+  behindMajor?: number | undefined;
+  behindMinor?: number | undefined;
 }
 export interface CountsSummary {
-  components?: ResourceCountsSummary;
-  environments?: ResourceCountsSummary;
-  environmentTemplates?: ResourceCountsSummary;
-  serviceInstances?: ResourceCountsSummary;
-  services?: ResourceCountsSummary;
-  serviceTemplates?: ResourceCountsSummary;
-  pipelines?: ResourceCountsSummary;
+  components?: ResourceCountsSummary | undefined;
+  environments?: ResourceCountsSummary | undefined;
+  environmentTemplates?: ResourceCountsSummary | undefined;
+  serviceInstances?: ResourceCountsSummary | undefined;
+  services?: ResourceCountsSummary | undefined;
+  serviceTemplates?: ResourceCountsSummary | undefined;
+  pipelines?: ResourceCountsSummary | undefined;
 }
 export interface GetResourcesSummaryOutput {
   counts: CountsSummary;
@@ -824,7 +825,7 @@ export interface GetServiceInput {
   name: string;
 }
 export interface GetServiceOutput {
-  service?: Service;
+  service?: Service | undefined;
 }
 export interface GetServiceInstanceInput {
   name: string;
@@ -848,7 +849,7 @@ export interface Revision {
 export type ResourceSyncStatus = string;
 export interface ResourceSyncEvent {
   type: string;
-  externalId?: string;
+  externalId?: string | undefined;
   time: Date;
   event: string;
 }
@@ -862,13 +863,13 @@ export interface ResourceSyncAttempt {
   events: ResourceSyncEvent[];
 }
 export interface GetServiceInstanceSyncStatusOutput {
-  latestSync?: ResourceSyncAttempt;
-  latestSuccessfulSync?: ResourceSyncAttempt;
-  desiredState?: Revision;
+  latestSync?: ResourceSyncAttempt | undefined;
+  latestSuccessfulSync?: ResourceSyncAttempt | undefined;
+  desiredState?: Revision | undefined;
 }
 export interface GetServiceSyncBlockerSummaryInput {
   serviceName: string;
-  serviceInstanceName?: string;
+  serviceInstanceName?: string | undefined;
 }
 export type BlockerType = string;
 export type BlockerStatus = string;
@@ -883,24 +884,24 @@ export interface SyncBlocker {
   status: string;
   createdReason: string;
   createdAt: Date;
-  contexts?: SyncBlockerContext[];
-  resolvedReason?: string;
-  resolvedAt?: Date;
+  contexts?: SyncBlockerContext[] | undefined;
+  resolvedReason?: string | undefined;
+  resolvedAt?: Date | undefined;
 }
 export type LatestSyncBlockers = SyncBlocker[];
 export interface ServiceSyncBlockerSummary {
   serviceName: string;
-  serviceInstanceName?: string;
-  latestBlockers?: SyncBlocker[];
+  serviceInstanceName?: string | undefined;
+  latestBlockers?: SyncBlocker[] | undefined;
 }
 export interface GetServiceSyncBlockerSummaryOutput {
-  serviceSyncBlockerSummary?: ServiceSyncBlockerSummary;
+  serviceSyncBlockerSummary?: ServiceSyncBlockerSummary | undefined;
 }
 export interface GetServiceSyncConfigInput {
   serviceName: string;
 }
 export interface GetServiceSyncConfigOutput {
-  serviceSyncConfig?: ServiceSyncConfig;
+  serviceSyncConfig?: ServiceSyncConfig | undefined;
 }
 export interface GetServiceTemplateInput {
   name: string;
@@ -921,7 +922,7 @@ export interface GetTemplateSyncConfigInput {
   templateType: string;
 }
 export interface GetTemplateSyncConfigOutput {
-  templateSyncConfig?: TemplateSyncConfig;
+  templateSyncConfig?: TemplateSyncConfig | undefined;
 }
 export interface GetTemplateSyncStatusInput {
   templateName: string;
@@ -929,80 +930,80 @@ export interface GetTemplateSyncStatusInput {
   templateVersion: string;
 }
 export interface GetTemplateSyncStatusOutput {
-  latestSync?: ResourceSyncAttempt;
-  latestSuccessfulSync?: ResourceSyncAttempt;
-  desiredState?: Revision;
+  latestSync?: ResourceSyncAttempt | undefined;
+  latestSuccessfulSync?: ResourceSyncAttempt | undefined;
+  desiredState?: Revision | undefined;
 }
 export type EmptyNextToken = string;
 export interface ListComponentOutputsInput {
   componentName: string;
-  nextToken?: string;
-  deploymentId?: string;
+  nextToken?: string | undefined;
+  deploymentId?: string | undefined;
 }
 export type OutputKey = string;
 export type OutputValueString = string;
 export interface Output {
-  key?: string;
-  valueString?: string;
+  key?: string | undefined;
+  valueString?: string | undefined;
 }
 export type OutputsList = Output[];
 export interface ListComponentOutputsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   outputs: Output[];
 }
 export interface ListComponentProvisionedResourcesInput {
   componentName: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ProvisionedResourceName = string;
 export type ProvisionedResourceIdentifier = string;
 export type ProvisionedResourceEngine = string;
 export interface ProvisionedResource {
-  name?: string;
-  identifier?: string;
-  provisioningEngine?: string;
+  name?: string | undefined;
+  identifier?: string | undefined;
+  provisioningEngine?: string | undefined;
 }
 export type ProvisionedResourceList = ProvisionedResource[];
 export interface ListComponentProvisionedResourcesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   provisionedResources: ProvisionedResource[];
 }
 export type NextToken = string;
 export type MaxPageResults = number;
 export interface ListComponentsInput {
-  nextToken?: string;
-  environmentName?: string;
-  serviceName?: string;
-  serviceInstanceName?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  environmentName?: string | undefined;
+  serviceName?: string | undefined;
+  serviceInstanceName?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ComponentSummary {
   name: string;
   arn: string;
   environmentName: string;
-  serviceName?: string;
-  serviceInstanceName?: string;
+  serviceName?: string | undefined;
+  serviceInstanceName?: string | undefined;
   createdAt: Date;
   lastModifiedAt: Date;
-  lastDeploymentAttemptedAt?: Date;
-  lastDeploymentSucceededAt?: Date;
+  lastDeploymentAttemptedAt?: Date | undefined;
+  lastDeploymentSucceededAt?: Date | undefined;
   deploymentStatus: string;
-  deploymentStatusMessage?: string | redacted.Redacted<string>;
-  lastAttemptedDeploymentId?: string;
-  lastSucceededDeploymentId?: string;
+  deploymentStatusMessage?: string | redacted.Redacted<string> | undefined;
+  lastAttemptedDeploymentId?: string | undefined;
+  lastSucceededDeploymentId?: string | undefined;
 }
 export type ComponentSummaryList = ComponentSummary[];
 export interface ListComponentsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   components: ComponentSummary[];
 }
 export interface ListDeploymentsInput {
-  nextToken?: string;
-  environmentName?: string;
-  serviceName?: string;
-  serviceInstanceName?: string;
-  componentName?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  environmentName?: string | undefined;
+  serviceName?: string | undefined;
+  serviceInstanceName?: string | undefined;
+  componentName?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DeploymentSummary {
   id: string;
@@ -1012,28 +1013,28 @@ export interface DeploymentSummary {
   targetResourceType: string;
   createdAt: Date;
   lastModifiedAt: Date;
-  completedAt?: Date;
+  completedAt?: Date | undefined;
   environmentName: string;
-  serviceName?: string;
-  serviceInstanceName?: string;
-  componentName?: string;
-  lastAttemptedDeploymentId?: string;
-  lastSucceededDeploymentId?: string;
+  serviceName?: string | undefined;
+  serviceInstanceName?: string | undefined;
+  componentName?: string | undefined;
+  lastAttemptedDeploymentId?: string | undefined;
+  lastSucceededDeploymentId?: string | undefined;
   deploymentStatus: string;
 }
 export type DeploymentSummaryList = DeploymentSummary[];
 export interface ListDeploymentsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   deployments: DeploymentSummary[];
 }
 export type EnvironmentAccountConnectionRequesterAccountType = string;
 export type EnvironmentAccountConnectionStatusList = string[];
 export interface ListEnvironmentAccountConnectionsInput {
   requestedBy: string;
-  environmentName?: string;
-  statuses?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  environmentName?: string | undefined;
+  statuses?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface EnvironmentAccountConnectionSummary {
   id: string;
@@ -1045,28 +1046,28 @@ export interface EnvironmentAccountConnectionSummary {
   requestedAt: Date;
   lastModifiedAt: Date;
   status: string;
-  componentRoleArn?: string;
+  componentRoleArn?: string | undefined;
 }
 export type EnvironmentAccountConnectionSummaryList = EnvironmentAccountConnectionSummary[];
 export interface ListEnvironmentAccountConnectionsOutput {
   environmentAccountConnections: EnvironmentAccountConnectionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListEnvironmentOutputsInput {
   environmentName: string;
-  nextToken?: string;
-  deploymentId?: string;
+  nextToken?: string | undefined;
+  deploymentId?: string | undefined;
 }
 export interface ListEnvironmentOutputsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   outputs: Output[];
 }
 export interface ListEnvironmentProvisionedResourcesInput {
   environmentName: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListEnvironmentProvisionedResourcesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   provisionedResources: ProvisionedResource[];
 }
 export interface EnvironmentTemplateFilter {
@@ -1075,13 +1076,13 @@ export interface EnvironmentTemplateFilter {
 }
 export type EnvironmentTemplateFilterList = EnvironmentTemplateFilter[];
 export interface ListEnvironmentsInput {
-  nextToken?: string;
-  maxResults?: number;
-  environmentTemplates?: EnvironmentTemplateFilter[];
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  environmentTemplates?: EnvironmentTemplateFilter[] | undefined;
 }
 export interface EnvironmentSummary {
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   createdAt: Date;
   lastDeploymentAttemptedAt: Date;
   lastDeploymentSucceededAt: Date;
@@ -1090,65 +1091,65 @@ export interface EnvironmentSummary {
   templateMajorVersion: string;
   templateMinorVersion: string;
   deploymentStatus: string;
-  deploymentStatusMessage?: string | redacted.Redacted<string>;
-  protonServiceRoleArn?: string;
-  environmentAccountConnectionId?: string;
-  environmentAccountId?: string;
-  provisioning?: string;
-  componentRoleArn?: string;
-  lastAttemptedDeploymentId?: string;
-  lastSucceededDeploymentId?: string;
+  deploymentStatusMessage?: string | redacted.Redacted<string> | undefined;
+  protonServiceRoleArn?: string | undefined;
+  environmentAccountConnectionId?: string | undefined;
+  environmentAccountId?: string | undefined;
+  provisioning?: string | undefined;
+  componentRoleArn?: string | undefined;
+  lastAttemptedDeploymentId?: string | undefined;
+  lastSucceededDeploymentId?: string | undefined;
 }
 export type EnvironmentSummaryList = EnvironmentSummary[];
 export interface ListEnvironmentsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   environments: EnvironmentSummary[];
 }
 export interface ListEnvironmentTemplatesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface EnvironmentTemplateSummary {
   name: string;
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  recommendedVersion?: string;
-  provisioning?: string;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  recommendedVersion?: string | undefined;
+  provisioning?: string | undefined;
 }
 export type EnvironmentTemplateSummaryList = EnvironmentTemplateSummary[];
 export interface ListEnvironmentTemplatesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   templates: EnvironmentTemplateSummary[];
 }
 export interface ListEnvironmentTemplateVersionsInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   templateName: string;
-  majorVersion?: string;
+  majorVersion?: string | undefined;
 }
 export interface EnvironmentTemplateVersionSummary {
   templateName: string;
   majorVersion: string;
   minorVersion: string;
-  recommendedMinorVersion?: string;
+  recommendedMinorVersion?: string | undefined;
   status: string;
-  statusMessage?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  statusMessage?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
 }
 export type EnvironmentTemplateVersionSummaryList = EnvironmentTemplateVersionSummary[];
 export interface ListEnvironmentTemplateVersionsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   templateVersions: EnvironmentTemplateVersionSummary[];
 }
 export interface ListRepositoriesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface RepositorySummary {
   arn: string;
@@ -1158,14 +1159,14 @@ export interface RepositorySummary {
 }
 export type RepositorySummaryList = RepositorySummary[];
 export interface ListRepositoriesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   repositories: RepositorySummary[];
 }
 export interface ListRepositorySyncDefinitionsInput {
   repositoryName: string;
   repositoryProvider: string;
   syncType: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface RepositorySyncDefinition {
   target: string;
@@ -1175,44 +1176,44 @@ export interface RepositorySyncDefinition {
 }
 export type RepositorySyncDefinitionList = RepositorySyncDefinition[];
 export interface ListRepositorySyncDefinitionsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   syncDefinitions: RepositorySyncDefinition[];
 }
 export interface ListServiceInstanceOutputsInput {
   serviceInstanceName: string;
   serviceName: string;
-  nextToken?: string;
-  deploymentId?: string;
+  nextToken?: string | undefined;
+  deploymentId?: string | undefined;
 }
 export interface ListServiceInstanceOutputsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   outputs: Output[];
 }
 export interface ListServiceInstanceProvisionedResourcesInput {
   serviceName: string;
   serviceInstanceName: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListServiceInstanceProvisionedResourcesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   provisionedResources: ProvisionedResource[];
 }
 export type ListServiceInstancesFilterBy = string;
 export type ListServiceInstancesFilterValue = string;
 export interface ListServiceInstancesFilter {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type ListServiceInstancesFilterList = ListServiceInstancesFilter[];
 export type ListServiceInstancesSortBy = string;
 export type SortOrder = string;
 export interface ListServiceInstancesInput {
-  serviceName?: string;
-  nextToken?: string;
-  maxResults?: number;
-  filters?: ListServiceInstancesFilter[];
-  sortBy?: string;
-  sortOrder?: string;
+  serviceName?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filters?: ListServiceInstancesFilter[] | undefined;
+  sortBy?: string | undefined;
+  sortOrder?: string | undefined;
 }
 export interface ServiceInstanceSummary {
   name: string;
@@ -1226,109 +1227,109 @@ export interface ServiceInstanceSummary {
   templateMajorVersion: string;
   templateMinorVersion: string;
   deploymentStatus: string;
-  deploymentStatusMessage?: string | redacted.Redacted<string>;
-  lastAttemptedDeploymentId?: string;
-  lastSucceededDeploymentId?: string;
+  deploymentStatusMessage?: string | redacted.Redacted<string> | undefined;
+  lastAttemptedDeploymentId?: string | undefined;
+  lastSucceededDeploymentId?: string | undefined;
 }
 export type ServiceInstanceSummaryList = ServiceInstanceSummary[];
 export interface ListServiceInstancesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   serviceInstances: ServiceInstanceSummary[];
 }
 export interface ListServicePipelineOutputsInput {
   serviceName: string;
-  nextToken?: string;
-  deploymentId?: string;
+  nextToken?: string | undefined;
+  deploymentId?: string | undefined;
 }
 export interface ListServicePipelineOutputsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   outputs: Output[];
 }
 export interface ListServicePipelineProvisionedResourcesInput {
   serviceName: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListServicePipelineProvisionedResourcesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   provisionedResources: ProvisionedResource[];
 }
 export interface ListServicesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ServiceSummary {
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   arn: string;
   templateName: string;
   createdAt: Date;
   lastModifiedAt: Date;
   status: string;
-  statusMessage?: string | redacted.Redacted<string>;
+  statusMessage?: string | redacted.Redacted<string> | undefined;
 }
 export type ServiceSummaryList = ServiceSummary[];
 export interface ListServicesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   services: ServiceSummary[];
 }
 export interface ListServiceTemplatesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ServiceTemplateSummary {
   name: string;
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  recommendedVersion?: string;
-  pipelineProvisioning?: string;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  recommendedVersion?: string | undefined;
+  pipelineProvisioning?: string | undefined;
 }
 export type ServiceTemplateSummaryList = ServiceTemplateSummary[];
 export interface ListServiceTemplatesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   templates: ServiceTemplateSummary[];
 }
 export interface ListServiceTemplateVersionsInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   templateName: string;
-  majorVersion?: string;
+  majorVersion?: string | undefined;
 }
 export interface ServiceTemplateVersionSummary {
   templateName: string;
   majorVersion: string;
   minorVersion: string;
-  recommendedMinorVersion?: string;
+  recommendedMinorVersion?: string | undefined;
   status: string;
-  statusMessage?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  statusMessage?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
 }
 export type ServiceTemplateVersionSummaryList = ServiceTemplateVersionSummary[];
 export interface ListServiceTemplateVersionsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   templateVersions: ServiceTemplateVersionSummary[];
 }
 export interface ListTagsForResourceInput {
   resourceArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListTagsForResourceOutput {
   tags: Tag[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ResourceDeploymentStatus = string;
 export interface NotifyResourceDeploymentStatusChangeInput {
   resourceArn: string;
-  status?: string;
-  outputs?: Output[];
-  deploymentId?: string;
-  statusMessage?: string | redacted.Redacted<string>;
+  status?: string | undefined;
+  outputs?: Output[] | undefined;
+  deploymentId?: string | undefined;
+  statusMessage?: string | redacted.Redacted<string> | undefined;
 }
 export interface NotifyResourceDeploymentStatusChangeOutput {}
 export interface RejectEnvironmentAccountConnectionInput {
@@ -1349,10 +1350,10 @@ export interface UntagResourceInput {
 }
 export interface UntagResourceOutput {}
 export interface UpdateAccountSettingsInput {
-  pipelineServiceRoleArn?: string;
-  pipelineProvisioningRepository?: RepositoryBranchInput;
-  deletePipelineProvisioningRepository?: boolean;
-  pipelineCodebuildRoleArn?: string;
+  pipelineServiceRoleArn?: string | undefined;
+  pipelineProvisioningRepository?: RepositoryBranchInput | undefined;
+  deletePipelineProvisioningRepository?: boolean | undefined;
+  pipelineCodebuildRoleArn?: string | undefined;
 }
 export interface UpdateAccountSettingsOutput {
   accountSettings: AccountSettings;
@@ -1361,12 +1362,12 @@ export type ComponentDeploymentUpdateType = string;
 export interface UpdateComponentInput {
   name: string;
   deploymentType: string;
-  description?: string | redacted.Redacted<string>;
-  serviceName?: string;
-  serviceInstanceName?: string;
-  serviceSpec?: string | redacted.Redacted<string>;
-  templateFile?: string | redacted.Redacted<string>;
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  serviceName?: string | undefined;
+  serviceInstanceName?: string | undefined;
+  serviceSpec?: string | redacted.Redacted<string> | undefined;
+  templateFile?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateComponentOutput {
   component: Component;
@@ -1374,33 +1375,33 @@ export interface UpdateComponentOutput {
 export type DeploymentUpdateType = string;
 export interface UpdateEnvironmentInput {
   name: string;
-  description?: string | redacted.Redacted<string>;
-  spec?: string | redacted.Redacted<string>;
-  templateMajorVersion?: string;
-  templateMinorVersion?: string;
-  protonServiceRoleArn?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  spec?: string | redacted.Redacted<string> | undefined;
+  templateMajorVersion?: string | undefined;
+  templateMinorVersion?: string | undefined;
+  protonServiceRoleArn?: string | undefined;
   deploymentType: string;
-  environmentAccountConnectionId?: string;
-  provisioningRepository?: RepositoryBranchInput;
-  componentRoleArn?: string;
-  codebuildRoleArn?: string;
+  environmentAccountConnectionId?: string | undefined;
+  provisioningRepository?: RepositoryBranchInput | undefined;
+  componentRoleArn?: string | undefined;
+  codebuildRoleArn?: string | undefined;
 }
 export interface UpdateEnvironmentOutput {
   environment: Environment;
 }
 export interface UpdateEnvironmentAccountConnectionInput {
   id: string;
-  roleArn?: string;
-  componentRoleArn?: string;
-  codebuildRoleArn?: string;
+  roleArn?: string | undefined;
+  componentRoleArn?: string | undefined;
+  codebuildRoleArn?: string | undefined;
 }
 export interface UpdateEnvironmentAccountConnectionOutput {
   environmentAccountConnection: EnvironmentAccountConnection;
 }
 export interface UpdateEnvironmentTemplateInput {
   name: string;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateEnvironmentTemplateOutput {
   environmentTemplate: EnvironmentTemplate;
@@ -1409,16 +1410,16 @@ export interface UpdateEnvironmentTemplateVersionInput {
   templateName: string;
   majorVersion: string;
   minorVersion: string;
-  description?: string | redacted.Redacted<string>;
-  status?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: string | undefined;
 }
 export interface UpdateEnvironmentTemplateVersionOutput {
   environmentTemplateVersion: EnvironmentTemplateVersion;
 }
 export interface UpdateServiceInput {
   name: string;
-  description?: string | redacted.Redacted<string>;
-  spec?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
+  spec?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateServiceOutput {
   service: Service;
@@ -1427,10 +1428,10 @@ export interface UpdateServiceInstanceInput {
   name: string;
   serviceName: string;
   deploymentType: string;
-  spec?: string | redacted.Redacted<string>;
-  templateMajorVersion?: string;
-  templateMinorVersion?: string;
-  clientToken?: string;
+  spec?: string | redacted.Redacted<string> | undefined;
+  templateMajorVersion?: string | undefined;
+  templateMinorVersion?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateServiceInstanceOutput {
   serviceInstance: ServiceInstance;
@@ -1439,8 +1440,8 @@ export interface UpdateServicePipelineInput {
   serviceName: string;
   spec: string | redacted.Redacted<string>;
   deploymentType: string;
-  templateMajorVersion?: string;
-  templateMinorVersion?: string;
+  templateMajorVersion?: string | undefined;
+  templateMinorVersion?: string | undefined;
 }
 export interface UpdateServicePipelineOutput {
   pipeline: ServicePipeline;
@@ -1451,7 +1452,7 @@ export interface UpdateServiceSyncBlockerInput {
 }
 export interface UpdateServiceSyncBlockerOutput {
   serviceName: string;
-  serviceInstanceName?: string;
+  serviceInstanceName?: string | undefined;
   serviceSyncBlocker: SyncBlocker;
 }
 export interface UpdateServiceSyncConfigInput {
@@ -1462,12 +1463,12 @@ export interface UpdateServiceSyncConfigInput {
   filePath: string;
 }
 export interface UpdateServiceSyncConfigOutput {
-  serviceSyncConfig?: ServiceSyncConfig;
+  serviceSyncConfig?: ServiceSyncConfig | undefined;
 }
 export interface UpdateServiceTemplateInput {
   name: string;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateServiceTemplateOutput {
   serviceTemplate: ServiceTemplate;
@@ -1476,10 +1477,10 @@ export interface UpdateServiceTemplateVersionInput {
   templateName: string;
   majorVersion: string;
   minorVersion: string;
-  description?: string | redacted.Redacted<string>;
-  status?: string;
-  compatibleEnvironmentTemplates?: CompatibleEnvironmentTemplateInput[];
-  supportedComponentSources?: string[];
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: string | undefined;
+  compatibleEnvironmentTemplates?: CompatibleEnvironmentTemplateInput[] | undefined;
+  supportedComponentSources?: string[] | undefined;
 }
 export interface UpdateServiceTemplateVersionOutput {
   serviceTemplateVersion: ServiceTemplateVersion;
@@ -1490,10 +1491,10 @@ export interface UpdateTemplateSyncConfigInput {
   repositoryProvider: string;
   repositoryName: string;
   branch: string;
-  subdirectory?: string;
+  subdirectory?: string | undefined;
 }
 export interface UpdateTemplateSyncConfigOutput {
-  templateSyncConfig?: TemplateSyncConfig;
+  templateSyncConfig?: TemplateSyncConfig | undefined;
 }
 export type ErrorMessage = string | redacted.Redacted<string>;
 export type AcceptEnvironmentAccountConnectionError =
@@ -1512,7 +1513,7 @@ export type AcceptEnvironmentAccountConnectionError =
  * connections in the *Proton User guide*.
  */
 export const acceptEnvironmentAccountConnection: API.OperationMethod<
-  AcceptEnvironmentAccountConnectionInput,
+  AcceptEnvironmentAccountConnectionInput & RegionInput,
   AcceptEnvironmentAccountConnectionOutput,
   AcceptEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1550,7 +1551,7 @@ export type CancelComponentDeploymentError =
  * *Proton User Guide*.
  */
 export const cancelComponentDeployment: API.OperationMethod<
-  CancelComponentDeploymentInput,
+  CancelComponentDeploymentInput & RegionInput,
   CancelComponentDeploymentOutput,
   CancelComponentDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1595,7 +1596,7 @@ export type CancelEnvironmentDeploymentError =
  * `SUCCEEDED` and the cancellation attempt has no effect.
  */
 export const cancelEnvironmentDeployment: API.OperationMethod<
-  CancelEnvironmentDeploymentInput,
+  CancelEnvironmentDeploymentInput & RegionInput,
   CancelEnvironmentDeploymentOutput,
   CancelEnvironmentDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1643,7 +1644,7 @@ export type CancelServiceInstanceDeploymentError =
  * the cancellation attempt has no effect.
  */
 export const cancelServiceInstanceDeployment: API.OperationMethod<
-  CancelServiceInstanceDeploymentInput,
+  CancelServiceInstanceDeploymentInput & RegionInput,
   CancelServiceInstanceDeploymentOutput,
   CancelServiceInstanceDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1691,7 +1692,7 @@ export type CancelServicePipelineDeploymentError =
  * the cancellation attempt has no effect.
  */
 export const cancelServicePipelineDeployment: API.OperationMethod<
-  CancelServicePipelineDeploymentInput,
+  CancelServicePipelineDeploymentInput & RegionInput,
   CancelServicePipelineDeploymentOutput,
   CancelServicePipelineDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1730,7 +1731,7 @@ export type CreateComponentError =
  * *Proton User Guide*.
  */
 export const createComponent: API.OperationMethod<
-  CreateComponentInput,
+  CreateComponentInput & RegionInput,
   CreateComponentOutput,
   CreateComponentError,
   Credentials | HttpClient.HttpClient
@@ -1777,7 +1778,7 @@ export type CreateEnvironmentError =
  * Guide.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentInput,
+  CreateEnvironmentInput & RegionInput,
   CreateEnvironmentOutput,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1817,7 +1818,7 @@ export type CreateEnvironmentAccountConnectionError =
  * guide.
  */
 export const createEnvironmentAccountConnection: API.OperationMethod<
-  CreateEnvironmentAccountConnectionInput,
+  CreateEnvironmentAccountConnectionInput & RegionInput,
   CreateEnvironmentAccountConnectionOutput,
   CreateEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1862,7 +1863,7 @@ export type CreateEnvironmentTemplateError =
  * and publish an environment template in the *Proton User Guide*.
  */
 export const createEnvironmentTemplate: API.OperationMethod<
-  CreateEnvironmentTemplateInput,
+  CreateEnvironmentTemplateInput & RegionInput,
   CreateEnvironmentTemplateOutput,
   CreateEnvironmentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1899,7 +1900,7 @@ export type CreateEnvironmentTemplateVersionError =
  * version.
  */
 export const createEnvironmentTemplateVersion: API.OperationMethod<
-  CreateEnvironmentTemplateVersionInput,
+  CreateEnvironmentTemplateVersionInput & RegionInput,
   CreateEnvironmentTemplateVersionOutput,
   CreateEnvironmentTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -1940,7 +1941,7 @@ export type CreateRepositoryError =
  * User Guide.
  */
 export const createRepository: API.OperationMethod<
-  CreateRepositoryInput,
+  CreateRepositoryInput & RegionInput,
   CreateRepositoryOutput,
   CreateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -1978,7 +1979,7 @@ export type CreateServiceError =
  * in the *Proton User Guide*.
  */
 export const createService: API.OperationMethod<
-  CreateServiceInput,
+  CreateServiceInput & RegionInput,
   CreateServiceOutput,
   CreateServiceError,
   Credentials | HttpClient.HttpClient
@@ -2013,7 +2014,7 @@ export type CreateServiceInstanceError =
  * Create a service instance.
  */
 export const createServiceInstance: API.OperationMethod<
-  CreateServiceInstanceInput,
+  CreateServiceInstanceInput & RegionInput,
   CreateServiceInstanceOutput,
   CreateServiceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2047,7 +2048,7 @@ export type CreateServiceSyncConfigError =
  * Create the Proton Ops configuration file.
  */
 export const createServiceSyncConfig: API.OperationMethod<
-  CreateServiceSyncConfigInput,
+  CreateServiceSyncConfigInput & RegionInput,
   CreateServiceSyncConfigOutput,
   CreateServiceSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -2086,7 +2087,7 @@ export type CreateServiceTemplateError =
  * information, see Proton templates in the *Proton User Guide*.
  */
 export const createServiceTemplate: API.OperationMethod<
-  CreateServiceTemplateInput,
+  CreateServiceTemplateInput & RegionInput,
   CreateServiceTemplateOutput,
   CreateServiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2123,7 +2124,7 @@ export type CreateServiceTemplateVersionError =
  * a service template is a version that's backward compatible within its major version.
  */
 export const createServiceTemplateVersion: API.OperationMethod<
-  CreateServiceTemplateVersionInput,
+  CreateServiceTemplateVersionInput & RegionInput,
   CreateServiceTemplateVersionOutput,
   CreateServiceTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -2163,7 +2164,7 @@ export type CreateTemplateSyncConfigError =
  * User Guide.
  */
 export const createTemplateSyncConfig: API.OperationMethod<
-  CreateTemplateSyncConfigInput,
+  CreateTemplateSyncConfigInput & RegionInput,
   CreateTemplateSyncConfigOutput,
   CreateTemplateSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -2201,7 +2202,7 @@ export type DeleteComponentError =
  * *Proton User Guide*.
  */
 export const deleteComponent: API.OperationMethod<
-  DeleteComponentInput,
+  DeleteComponentInput & RegionInput,
   DeleteComponentOutput,
   DeleteComponentError,
   Credentials | HttpClient.HttpClient
@@ -2234,7 +2235,7 @@ export type DeleteDeploymentError =
  * Delete the deployment.
  */
 export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentInput,
+  DeleteDeploymentInput & RegionInput,
   DeleteDeploymentOutput,
   DeleteDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2267,7 +2268,7 @@ export type DeleteEnvironmentError =
  * Delete an environment.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentInput,
+  DeleteEnvironmentInput & RegionInput,
   DeleteEnvironmentOutput,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2308,7 +2309,7 @@ export type DeleteEnvironmentAccountConnectionError =
  * connections in the *Proton User guide*.
  */
 export const deleteEnvironmentAccountConnection: API.OperationMethod<
-  DeleteEnvironmentAccountConnectionInput,
+  DeleteEnvironmentAccountConnectionInput & RegionInput,
   DeleteEnvironmentAccountConnectionOutput,
   DeleteEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2342,7 +2343,7 @@ export type DeleteEnvironmentTemplateError =
  * If no other major or minor versions of an environment template exist, delete the environment template.
  */
 export const deleteEnvironmentTemplate: API.OperationMethod<
-  DeleteEnvironmentTemplateInput,
+  DeleteEnvironmentTemplateInput & RegionInput,
   DeleteEnvironmentTemplateOutput,
   DeleteEnvironmentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2382,7 +2383,7 @@ export type DeleteEnvironmentTemplateVersionError =
  * environment template is a version that's backward compatible.
  */
 export const deleteEnvironmentTemplateVersion: API.OperationMethod<
-  DeleteEnvironmentTemplateVersionInput,
+  DeleteEnvironmentTemplateVersionInput & RegionInput,
   DeleteEnvironmentTemplateVersionOutput,
   DeleteEnvironmentTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -2416,7 +2417,7 @@ export type DeleteRepositoryError =
  * De-register and unlink your repository.
  */
 export const deleteRepository: API.OperationMethod<
-  DeleteRepositoryInput,
+  DeleteRepositoryInput & RegionInput,
   DeleteRepositoryOutput,
   DeleteRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -2457,7 +2458,7 @@ export type DeleteServiceError =
  * *Proton User Guide*.
  */
 export const deleteService: API.OperationMethod<
-  DeleteServiceInput,
+  DeleteServiceInput & RegionInput,
   DeleteServiceOutput,
   DeleteServiceError,
   Credentials | HttpClient.HttpClient
@@ -2491,7 +2492,7 @@ export type DeleteServiceSyncConfigError =
  * Delete the Proton Ops file.
  */
 export const deleteServiceSyncConfig: API.OperationMethod<
-  DeleteServiceSyncConfigInput,
+  DeleteServiceSyncConfigInput & RegionInput,
   DeleteServiceSyncConfigOutput,
   DeleteServiceSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -2526,7 +2527,7 @@ export type DeleteServiceTemplateError =
  * template.
  */
 export const deleteServiceTemplate: API.OperationMethod<
-  DeleteServiceTemplateInput,
+  DeleteServiceTemplateInput & RegionInput,
   DeleteServiceTemplateOutput,
   DeleteServiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2569,7 +2570,7 @@ export type DeleteServiceTemplateVersionError =
  * version that's backwards compatible.
  */
 export const deleteServiceTemplateVersion: API.OperationMethod<
-  DeleteServiceTemplateVersionInput,
+  DeleteServiceTemplateVersionInput & RegionInput,
   DeleteServiceTemplateVersionOutput,
   DeleteServiceTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -2603,7 +2604,7 @@ export type DeleteTemplateSyncConfigError =
  * Delete a template sync configuration.
  */
 export const deleteTemplateSyncConfig: API.OperationMethod<
-  DeleteTemplateSyncConfigInput,
+  DeleteTemplateSyncConfigInput & RegionInput,
   DeleteTemplateSyncConfigOutput,
   DeleteTemplateSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -2636,7 +2637,7 @@ export type GetAccountSettingsError =
  * Get detail data for Proton account-wide settings.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsInput,
+  GetAccountSettingsInput & RegionInput,
   GetAccountSettingsOutput,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2672,7 +2673,7 @@ export type GetComponentError =
  * *Proton User Guide*.
  */
 export const getComponent: API.OperationMethod<
-  GetComponentInput,
+  GetComponentInput & RegionInput,
   GetComponentOutput,
   GetComponentError,
   Credentials | HttpClient.HttpClient
@@ -2704,7 +2705,7 @@ export type GetDeploymentError =
  * Get detailed data for a deployment.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentInput,
+  GetDeploymentInput & RegionInput,
   GetDeploymentOutput,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2736,7 +2737,7 @@ export type GetEnvironmentError =
  * Get detailed data for an environment.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentInput,
+  GetEnvironmentInput & RegionInput,
   GetEnvironmentOutput,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2771,7 +2772,7 @@ export type GetEnvironmentAccountConnectionError =
  * connections in the *Proton User guide*.
  */
 export const getEnvironmentAccountConnection: API.OperationMethod<
-  GetEnvironmentAccountConnectionInput,
+  GetEnvironmentAccountConnectionInput & RegionInput,
   GetEnvironmentAccountConnectionOutput,
   GetEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2803,7 +2804,7 @@ export type GetEnvironmentTemplateError =
  * Get detailed data for an environment template.
  */
 export const getEnvironmentTemplate: API.OperationMethod<
-  GetEnvironmentTemplateInput,
+  GetEnvironmentTemplateInput & RegionInput,
   GetEnvironmentTemplateOutput,
   GetEnvironmentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2835,7 +2836,7 @@ export type GetEnvironmentTemplateVersionError =
  * Get detailed data for a major or minor version of an environment template.
  */
 export const getEnvironmentTemplateVersion: API.OperationMethod<
-  GetEnvironmentTemplateVersionInput,
+  GetEnvironmentTemplateVersionInput & RegionInput,
   GetEnvironmentTemplateVersionOutput,
   GetEnvironmentTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -2867,7 +2868,7 @@ export type GetRepositoryError =
  * Get detail data for a linked repository.
  */
 export const getRepository: API.OperationMethod<
-  GetRepositoryInput,
+  GetRepositoryInput & RegionInput,
   GetRepositoryOutput,
   GetRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -2906,7 +2907,7 @@ export type GetRepositorySyncStatusError =
  * Guide.
  */
 export const getRepositorySyncStatus: API.OperationMethod<
-  GetRepositorySyncStatusInput,
+  GetRepositorySyncStatusInput & RegionInput,
   GetRepositorySyncStatusOutput,
   GetRepositorySyncStatusError,
   Credentials | HttpClient.HttpClient
@@ -2950,7 +2951,7 @@ export type GetResourcesSummaryError =
  * *Proton User Guide*.
  */
 export const getResourcesSummary: API.OperationMethod<
-  GetResourcesSummaryInput,
+  GetResourcesSummaryInput & RegionInput,
   GetResourcesSummaryOutput,
   GetResourcesSummaryError,
   Credentials | HttpClient.HttpClient
@@ -2981,7 +2982,7 @@ export type GetServiceError =
  * Get detailed data for a service.
  */
 export const getService: API.OperationMethod<
-  GetServiceInput,
+  GetServiceInput & RegionInput,
   GetServiceOutput,
   GetServiceError,
   Credentials | HttpClient.HttpClient
@@ -3014,7 +3015,7 @@ export type GetServiceInstanceError =
  * service template and it runs in a specific environment.
  */
 export const getServiceInstance: API.OperationMethod<
-  GetServiceInstanceInput,
+  GetServiceInstanceInput & RegionInput,
   GetServiceInstanceOutput,
   GetServiceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3046,7 +3047,7 @@ export type GetServiceInstanceSyncStatusError =
  * Get the status of the synced service instance.
  */
 export const getServiceInstanceSyncStatus: API.OperationMethod<
-  GetServiceInstanceSyncStatusInput,
+  GetServiceInstanceSyncStatusInput & RegionInput,
   GetServiceInstanceSyncStatusOutput,
   GetServiceInstanceSyncStatusError,
   Credentials | HttpClient.HttpClient
@@ -3078,7 +3079,7 @@ export type GetServiceSyncBlockerSummaryError =
  * Get detailed data for the service sync blocker summary.
  */
 export const getServiceSyncBlockerSummary: API.OperationMethod<
-  GetServiceSyncBlockerSummaryInput,
+  GetServiceSyncBlockerSummaryInput & RegionInput,
   GetServiceSyncBlockerSummaryOutput,
   GetServiceSyncBlockerSummaryError,
   Credentials | HttpClient.HttpClient
@@ -3110,7 +3111,7 @@ export type GetServiceSyncConfigError =
  * Get detailed information for the service sync configuration.
  */
 export const getServiceSyncConfig: API.OperationMethod<
-  GetServiceSyncConfigInput,
+  GetServiceSyncConfigInput & RegionInput,
   GetServiceSyncConfigOutput,
   GetServiceSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -3142,7 +3143,7 @@ export type GetServiceTemplateError =
  * Get detailed data for a service template.
  */
 export const getServiceTemplate: API.OperationMethod<
-  GetServiceTemplateInput,
+  GetServiceTemplateInput & RegionInput,
   GetServiceTemplateOutput,
   GetServiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3174,7 +3175,7 @@ export type GetServiceTemplateVersionError =
  * Get detailed data for a major or minor version of a service template.
  */
 export const getServiceTemplateVersion: API.OperationMethod<
-  GetServiceTemplateVersionInput,
+  GetServiceTemplateVersionInput & RegionInput,
   GetServiceTemplateVersionOutput,
   GetServiceTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -3206,7 +3207,7 @@ export type GetTemplateSyncConfigError =
  * Get detail data for a template sync configuration.
  */
 export const getTemplateSyncConfig: API.OperationMethod<
-  GetTemplateSyncConfigInput,
+  GetTemplateSyncConfigInput & RegionInput,
   GetTemplateSyncConfigOutput,
   GetTemplateSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -3238,7 +3239,7 @@ export type GetTemplateSyncStatusError =
  * Get the status of a template sync.
  */
 export const getTemplateSyncStatus: API.OperationMethod<
-  GetTemplateSyncStatusInput,
+  GetTemplateSyncStatusInput & RegionInput,
   GetTemplateSyncStatusOutput,
   GetTemplateSyncStatusError,
   Credentials | HttpClient.HttpClient
@@ -3274,7 +3275,7 @@ export type ListComponentOutputsError =
  * *Proton User Guide*.
  */
 export const listComponentOutputs: API.PaginatedOperationMethod<
-  ListComponentOutputsInput,
+  ListComponentOutputsInput & RegionInput,
   ListComponentOutputsOutput,
   ListComponentOutputsError,
   Credentials | HttpClient.HttpClient,
@@ -3312,7 +3313,7 @@ export type ListComponentProvisionedResourcesError =
  * *Proton User Guide*.
  */
 export const listComponentProvisionedResources: API.PaginatedOperationMethod<
-  ListComponentProvisionedResourcesInput,
+  ListComponentProvisionedResourcesInput & RegionInput,
   ListComponentProvisionedResourcesOutput,
   ListComponentProvisionedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3353,7 +3354,7 @@ export type ListComponentsError =
  * *Proton User Guide*.
  */
 export const listComponents: API.PaginatedOperationMethod<
-  ListComponentsInput,
+  ListComponentsInput & RegionInput,
   ListComponentsOutput,
   ListComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -3391,7 +3392,7 @@ export type ListDeploymentsError =
  * List deployments. You can filter the result list by environment, service, or a single service instance.
  */
 export const listDeployments: API.PaginatedOperationMethod<
-  ListDeploymentsInput,
+  ListDeploymentsInput & RegionInput,
   ListDeploymentsOutput,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -3432,7 +3433,7 @@ export type ListEnvironmentAccountConnectionsError =
  * connections in the *Proton User guide*.
  */
 export const listEnvironmentAccountConnections: API.PaginatedOperationMethod<
-  ListEnvironmentAccountConnectionsInput,
+  ListEnvironmentAccountConnectionsInput & RegionInput,
   ListEnvironmentAccountConnectionsOutput,
   ListEnvironmentAccountConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -3470,7 +3471,7 @@ export type ListEnvironmentOutputsError =
  * List the infrastructure as code outputs for your environment.
  */
 export const listEnvironmentOutputs: API.PaginatedOperationMethod<
-  ListEnvironmentOutputsInput,
+  ListEnvironmentOutputsInput & RegionInput,
   ListEnvironmentOutputsOutput,
   ListEnvironmentOutputsError,
   Credentials | HttpClient.HttpClient,
@@ -3504,7 +3505,7 @@ export type ListEnvironmentProvisionedResourcesError =
  * List the provisioned resources for your environment.
  */
 export const listEnvironmentProvisionedResources: API.PaginatedOperationMethod<
-  ListEnvironmentProvisionedResourcesInput,
+  ListEnvironmentProvisionedResourcesInput & RegionInput,
   ListEnvironmentProvisionedResourcesOutput,
   ListEnvironmentProvisionedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3542,7 +3543,7 @@ export type ListEnvironmentsError =
  * List environments with detail data summaries.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsInput,
+  ListEnvironmentsInput & RegionInput,
   ListEnvironmentsOutput,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -3580,7 +3581,7 @@ export type ListEnvironmentTemplatesError =
  * List environment templates.
  */
 export const listEnvironmentTemplates: API.PaginatedOperationMethod<
-  ListEnvironmentTemplatesInput,
+  ListEnvironmentTemplatesInput & RegionInput,
   ListEnvironmentTemplatesOutput,
   ListEnvironmentTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -3618,7 +3619,7 @@ export type ListEnvironmentTemplateVersionsError =
  * List major or minor versions of an environment template with detail data.
  */
 export const listEnvironmentTemplateVersions: API.PaginatedOperationMethod<
-  ListEnvironmentTemplateVersionsInput,
+  ListEnvironmentTemplateVersionsInput & RegionInput,
   ListEnvironmentTemplateVersionsOutput,
   ListEnvironmentTemplateVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3657,7 +3658,7 @@ export type ListRepositoriesError =
  * List linked repositories with detail data.
  */
 export const listRepositories: API.PaginatedOperationMethod<
-  ListRepositoriesInput,
+  ListRepositoriesInput & RegionInput,
   ListRepositoriesOutput,
   ListRepositoriesError,
   Credentials | HttpClient.HttpClient,
@@ -3695,7 +3696,7 @@ export type ListRepositorySyncDefinitionsError =
  * List repository sync definitions with detail data.
  */
 export const listRepositorySyncDefinitions: API.PaginatedOperationMethod<
-  ListRepositorySyncDefinitionsInput,
+  ListRepositorySyncDefinitionsInput & RegionInput,
   ListRepositorySyncDefinitionsOutput,
   ListRepositorySyncDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -3732,7 +3733,7 @@ export type ListServiceInstanceOutputsError =
  * Get a list service of instance Infrastructure as Code (IaC) outputs.
  */
 export const listServiceInstanceOutputs: API.PaginatedOperationMethod<
-  ListServiceInstanceOutputsInput,
+  ListServiceInstanceOutputsInput & RegionInput,
   ListServiceInstanceOutputsOutput,
   ListServiceInstanceOutputsError,
   Credentials | HttpClient.HttpClient,
@@ -3766,7 +3767,7 @@ export type ListServiceInstanceProvisionedResourcesError =
  * List provisioned resources for a service instance with details.
  */
 export const listServiceInstanceProvisionedResources: API.PaginatedOperationMethod<
-  ListServiceInstanceProvisionedResourcesInput,
+  ListServiceInstanceProvisionedResourcesInput & RegionInput,
   ListServiceInstanceProvisionedResourcesOutput,
   ListServiceInstanceProvisionedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3805,7 +3806,7 @@ export type ListServiceInstancesError =
  * services in the Amazon Web Services account.
  */
 export const listServiceInstances: API.PaginatedOperationMethod<
-  ListServiceInstancesInput,
+  ListServiceInstancesInput & RegionInput,
   ListServiceInstancesOutput,
   ListServiceInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -3844,7 +3845,7 @@ export type ListServicePipelineOutputsError =
  * Get a list of service pipeline Infrastructure as Code (IaC) outputs.
  */
 export const listServicePipelineOutputs: API.PaginatedOperationMethod<
-  ListServicePipelineOutputsInput,
+  ListServicePipelineOutputsInput & RegionInput,
   ListServicePipelineOutputsOutput,
   ListServicePipelineOutputsError,
   Credentials | HttpClient.HttpClient,
@@ -3878,7 +3879,7 @@ export type ListServicePipelineProvisionedResourcesError =
  * List provisioned resources for a service and pipeline with details.
  */
 export const listServicePipelineProvisionedResources: API.PaginatedOperationMethod<
-  ListServicePipelineProvisionedResourcesInput,
+  ListServicePipelineProvisionedResourcesInput & RegionInput,
   ListServicePipelineProvisionedResourcesOutput,
   ListServicePipelineProvisionedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3915,7 +3916,7 @@ export type ListServicesError =
  * List services with summaries of detail data.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesInput,
+  ListServicesInput & RegionInput,
   ListServicesOutput,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -3952,7 +3953,7 @@ export type ListServiceTemplatesError =
  * List service templates with detail data.
  */
 export const listServiceTemplates: API.PaginatedOperationMethod<
-  ListServiceTemplatesInput,
+  ListServiceTemplatesInput & RegionInput,
   ListServiceTemplatesOutput,
   ListServiceTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -3990,7 +3991,7 @@ export type ListServiceTemplateVersionsError =
  * List major or minor versions of a service template with detail data.
  */
 export const listServiceTemplateVersions: API.PaginatedOperationMethod<
-  ListServiceTemplateVersionsInput,
+  ListServiceTemplateVersionsInput & RegionInput,
   ListServiceTemplateVersionsOutput,
   ListServiceTemplateVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4030,7 +4031,7 @@ export type ListTagsForResourceError =
  * resources and tagging in the *Proton User Guide*.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -4073,7 +4074,7 @@ export type NotifyResourceDeploymentStatusChangeError =
  * For more information, see Self-managed provisioning in the *Proton User Guide*.
  */
 export const notifyResourceDeploymentStatusChange: API.OperationMethod<
-  NotifyResourceDeploymentStatusChangeInput,
+  NotifyResourceDeploymentStatusChangeInput & RegionInput,
   NotifyResourceDeploymentStatusChangeOutput,
   NotifyResourceDeploymentStatusChangeError,
   Credentials | HttpClient.HttpClient
@@ -4116,7 +4117,7 @@ export type RejectEnvironmentAccountConnectionError =
  * connections in the *Proton User guide*.
  */
 export const rejectEnvironmentAccountConnection: API.OperationMethod<
-  RejectEnvironmentAccountConnectionInput,
+  RejectEnvironmentAccountConnectionInput & RegionInput,
   RejectEnvironmentAccountConnectionOutput,
   RejectEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -4153,7 +4154,7 @@ export type TagResourceError =
  * the *Proton User Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4190,7 +4191,7 @@ export type UntagResourceError =
  * the *Proton User Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4223,7 +4224,7 @@ export type UpdateAccountSettingsError =
  * Update Proton settings that are used for multiple services in the Amazon Web Services account.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsInput,
+  UpdateAccountSettingsInput & RegionInput,
   UpdateAccountSettingsOutput,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -4266,7 +4267,7 @@ export type UpdateComponentError =
  * *Proton User Guide*.
  */
 export const updateComponent: API.OperationMethod<
-  UpdateComponentInput,
+  UpdateComponentInput & RegionInput,
   UpdateComponentOutput,
   UpdateComponentError,
   Credentials | HttpClient.HttpClient
@@ -4343,7 +4344,7 @@ export type UpdateEnvironmentError =
  * by default. You can also specify a different major version that's higher than the major version in use and a minor version.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentInput,
+  UpdateEnvironmentInput & RegionInput,
   UpdateEnvironmentOutput,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -4380,7 +4381,7 @@ export type UpdateEnvironmentAccountConnectionError =
  * connections in the *Proton User guide*.
  */
 export const updateEnvironmentAccountConnection: API.OperationMethod<
-  UpdateEnvironmentAccountConnectionInput,
+  UpdateEnvironmentAccountConnectionInput & RegionInput,
   UpdateEnvironmentAccountConnectionOutput,
   UpdateEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -4414,7 +4415,7 @@ export type UpdateEnvironmentTemplateError =
  * Update an environment template.
  */
 export const updateEnvironmentTemplate: API.OperationMethod<
-  UpdateEnvironmentTemplateInput,
+  UpdateEnvironmentTemplateInput & RegionInput,
   UpdateEnvironmentTemplateOutput,
   UpdateEnvironmentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4448,7 +4449,7 @@ export type UpdateEnvironmentTemplateVersionError =
  * Update a major or minor version of an environment template.
  */
 export const updateEnvironmentTemplateVersion: API.OperationMethod<
-  UpdateEnvironmentTemplateVersionInput,
+  UpdateEnvironmentTemplateVersionInput & RegionInput,
   UpdateEnvironmentTemplateVersionOutput,
   UpdateEnvironmentTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -4497,7 +4498,7 @@ export type UpdateServiceError =
  * *Proton User Guide*.
  */
 export const updateService: API.OperationMethod<
-  UpdateServiceInput,
+  UpdateServiceInput & RegionInput,
   UpdateServiceOutput,
   UpdateServiceError,
   Credentials | HttpClient.HttpClient
@@ -4542,7 +4543,7 @@ export type UpdateServiceInstanceError =
  * *Proton User Guide*.
  */
 export const updateServiceInstance: API.OperationMethod<
-  UpdateServiceInstanceInput,
+  UpdateServiceInstanceInput & RegionInput,
   UpdateServiceInstanceOutput,
   UpdateServiceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -4603,7 +4604,7 @@ export type UpdateServicePipelineError =
  * minor version.
  */
 export const updateServicePipeline: API.OperationMethod<
-  UpdateServicePipelineInput,
+  UpdateServicePipelineInput & RegionInput,
   UpdateServicePipelineOutput,
   UpdateServicePipelineError,
   Credentials | HttpClient.HttpClient
@@ -4637,7 +4638,7 @@ export type UpdateServiceSyncBlockerError =
  * Update the service sync blocker by resolving it.
  */
 export const updateServiceSyncBlocker: API.OperationMethod<
-  UpdateServiceSyncBlockerInput,
+  UpdateServiceSyncBlockerInput & RegionInput,
   UpdateServiceSyncBlockerOutput,
   UpdateServiceSyncBlockerError,
   Credentials | HttpClient.HttpClient
@@ -4671,7 +4672,7 @@ export type UpdateServiceSyncConfigError =
  * Update the Proton Ops config file.
  */
 export const updateServiceSyncConfig: API.OperationMethod<
-  UpdateServiceSyncConfigInput,
+  UpdateServiceSyncConfigInput & RegionInput,
   UpdateServiceSyncConfigOutput,
   UpdateServiceSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -4705,7 +4706,7 @@ export type UpdateServiceTemplateError =
  * Update a service template.
  */
 export const updateServiceTemplate: API.OperationMethod<
-  UpdateServiceTemplateInput,
+  UpdateServiceTemplateInput & RegionInput,
   UpdateServiceTemplateOutput,
   UpdateServiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4739,7 +4740,7 @@ export type UpdateServiceTemplateVersionError =
  * Update a major or minor version of a service template.
  */
 export const updateServiceTemplateVersion: API.OperationMethod<
-  UpdateServiceTemplateVersionInput,
+  UpdateServiceTemplateVersionInput & RegionInput,
   UpdateServiceTemplateVersionOutput,
   UpdateServiceTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -4775,7 +4776,7 @@ export type UpdateTemplateSyncConfigError =
  * more information, see CreateRepository.
  */
 export const updateTemplateSyncConfig: API.OperationMethod<
-  UpdateTemplateSyncConfigInput,
+  UpdateTemplateSyncConfigInput & RegionInput,
   UpdateTemplateSyncConfigOutput,
   UpdateTemplateSyncConfigError,
   Credentials | HttpClient.HttpClient

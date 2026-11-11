@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -88,8 +89,8 @@ const TELEMETRY = {
 export type DirectConnectGatewayAttachPoint = string;
 export type AmazonResourceName = string;
 export type AttachPoint =
-  | { directConnectGateway: string; arn?: never }
-  | { directConnectGateway?: never; arn: string };
+  | { directConnectGateway: string; arn?: undefined }
+  | { directConnectGateway?: undefined; arn: string };
 export type ActivationKey = string | redacted.Redacted<string>;
 export type ConnectionDescription = string;
 export type TagKey = string;
@@ -98,9 +99,9 @@ export type TagMap = { [key: string]: string | undefined };
 export interface AcceptConnectionProposalRequest {
   attachPoint: AttachPoint;
   activationKey: string | redacted.Redacted<string>;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type ConnectionId = string;
 export type ConnectionBandwidth = string;
@@ -108,8 +109,8 @@ export type EnvironmentId = string;
 export type CloudServiceProvider = string;
 export type LastMileProvider = string;
 export type Provider =
-  | { cloudServiceProvider: string; lastMileProvider?: never }
-  | { cloudServiceProvider?: never; lastMileProvider: string };
+  | { cloudServiceProvider: string; lastMileProvider?: undefined }
+  | { cloudServiceProvider?: undefined; lastMileProvider: string };
 export type Location = string;
 export type ProductType = string;
 export type ConnectionState =
@@ -137,31 +138,31 @@ export interface Connection {
   type: string;
   state: ConnectionState;
   sharedId: string;
-  billingTier?: number;
+  billingTier?: number | undefined;
   ownerAccount: string;
   activationKey: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface AcceptConnectionProposalResponse {
-  connection?: Connection;
+  connection?: Connection | undefined;
 }
 export type RemoteOwnerAccount = string;
 export type RemoteAccountIdentifier = { identifier: string };
 export interface CreateConnectionRequest {
-  description?: string;
+  description?: string | undefined;
   bandwidth: string;
   attachPoint: AttachPoint;
   environmentId: string;
-  remoteAccount?: RemoteAccountIdentifier;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  remoteAccount?: RemoteAccountIdentifier | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateConnectionResponse {
-  connection?: Connection;
+  connection?: Connection | undefined;
 }
 export interface DeleteConnectionRequest {
   identifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteConnectionResponse {
   connection: Connection;
@@ -179,7 +180,7 @@ export interface GetConnectionRequest {
   identifier: string;
 }
 export interface GetConnectionResponse {
-  connection?: Connection;
+  connection?: Connection | undefined;
 }
 export interface GetEnvironmentRequest {
   id: string;
@@ -187,8 +188,8 @@ export interface GetEnvironmentRequest {
 export type EnvironmentState = "available" | "limited" | "unavailable" | (string & {});
 export type BandwidthList = string[];
 export interface Bandwidths {
-  available?: string[];
-  supported?: string[];
+  available?: string[] | undefined;
+  supported?: string[] | undefined;
 }
 export type RemoteAccountIdentifierType = "account" | "email" | (string & {});
 export interface Environment {
@@ -198,8 +199,8 @@ export interface Environment {
   state: EnvironmentState;
   bandwidths: Bandwidths;
   type: string;
-  activationPageUrl?: string;
-  remoteIdentifierType?: RemoteAccountIdentifierType;
+  activationPageUrl?: string | undefined;
+  remoteIdentifierType?: RemoteAccountIdentifierType | undefined;
 }
 export interface GetEnvironmentResponse {
   environment: Environment;
@@ -208,8 +209,8 @@ export type MaxResults = number;
 export type NextToken = string;
 export interface ListAttachPointsRequest {
   environmentId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AttachPointType = "DirectConnectGateway" | (string & {});
 export interface AttachPointDescriptor {
@@ -220,15 +221,15 @@ export interface AttachPointDescriptor {
 export type AttachPointDescriptorList = AttachPointDescriptor[];
 export interface ListAttachPointsResponse {
   attachPoints: AttachPointDescriptor[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListConnectionsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  state?: ConnectionState;
-  environmentId?: string;
-  provider?: Provider;
-  attachPoint?: AttachPoint;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  state?: ConnectionState | undefined;
+  environmentId?: string | undefined;
+  provider?: Provider | undefined;
+  attachPoint?: AttachPoint | undefined;
 }
 export interface ConnectionSummary {
   id: string;
@@ -242,29 +243,29 @@ export interface ConnectionSummary {
   type: string;
   state: ConnectionState;
   sharedId: string;
-  billingTier?: number;
+  billingTier?: number | undefined;
 }
 export type ConnectionSummariesList = ConnectionSummary[];
 export interface ListConnectionsResponse {
-  connections?: ConnectionSummary[];
-  nextToken?: string;
+  connections?: ConnectionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListEnvironmentsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  provider?: Provider;
-  location?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  provider?: Provider | undefined;
+  location?: string | undefined;
 }
 export type EnvironmentList = Environment[];
 export interface ListEnvironmentsResponse {
   environments: Environment[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   arn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   arn: string;
@@ -279,12 +280,12 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateConnectionRequest {
   identifier: string;
-  description?: string;
-  bandwidth?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  bandwidth?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateConnectionResponse {
-  connection?: Connection;
+  connection?: Connection | undefined;
 }
 export type AcceptConnectionProposalError = CommonErrors;
 /**
@@ -295,7 +296,7 @@ export type AcceptConnectionProposalError = CommonErrors;
  * Upon accepting the proposal a connection will be made between the AWS network as accessed via the selected Attach Point and the network previously selected network on the partner's portal.
  */
 export const acceptConnectionProposal: API.OperationMethod<
-  AcceptConnectionProposalRequest,
+  AcceptConnectionProposalRequest & RegionInput,
   AcceptConnectionProposalResponse,
   AcceptConnectionProposalError,
   Credentials | HttpClient.HttpClient
@@ -321,7 +322,7 @@ export type CreateConnectionError = CommonErrors;
  * After a successful call to this method, the resulting Connection will return an Activation Key which will need to be brought to the specific partner's portal to confirm the Connection on both sides. (See Environment$activationPageUrl for a direct link to the partner portal).
  */
 export const createConnection: API.OperationMethod<
-  CreateConnectionRequest,
+  CreateConnectionRequest & RegionInput,
   CreateConnectionResponse,
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -343,7 +344,7 @@ export type DeleteConnectionError = CommonErrors;
  * This operation will also inform the remote partner of your intention to delete your connection. Note, the partner may still require you to delete to fully clean up resources, but the network connectivity provided by the Connection will cease to exist.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionRequest,
+  DeleteConnectionRequest & RegionInput,
   DeleteConnectionResponse,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -363,7 +364,7 @@ export type DescribeConnectionProposalError = CommonErrors;
  * Describes the details of a connection proposal generated at a partner's portal.
  */
 export const describeConnectionProposal: API.OperationMethod<
-  DescribeConnectionProposalRequest,
+  DescribeConnectionProposalRequest & RegionInput,
   DescribeConnectionProposalResponse,
   DescribeConnectionProposalError,
   Credentials | HttpClient.HttpClient
@@ -383,7 +384,7 @@ export type GetConnectionError = CommonErrors;
  * Describes the current state of a Connection resource as specified by the identifier.
  */
 export const getConnection: API.OperationMethod<
-  GetConnectionRequest,
+  GetConnectionRequest & RegionInput,
   GetConnectionResponse,
   GetConnectionError,
   Credentials | HttpClient.HttpClient
@@ -403,7 +404,7 @@ export type GetEnvironmentError = CommonErrors;
  * Describes a specific Environment
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentRequest,
+  GetEnvironmentRequest & RegionInput,
   GetEnvironmentResponse,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -423,7 +424,7 @@ export type ListAttachPointsError = CommonErrors;
  * Lists all Attach Points the caller has access to that are valid for the specified Environment.
  */
 export const listAttachPoints: API.PaginatedOperationMethod<
-  ListAttachPointsRequest,
+  ListAttachPointsRequest & RegionInput,
   ListAttachPointsResponse,
   ListAttachPointsError,
   Credentials | HttpClient.HttpClient,
@@ -462,7 +463,7 @@ export type ListConnectionsError = CommonErrors;
  * Only Connection objects matching all filters will be returned.
  */
 export const listConnections: API.PaginatedOperationMethod<
-  ListConnectionsRequest,
+  ListConnectionsRequest & RegionInput,
   ListConnectionsResponse,
   ListConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -489,7 +490,7 @@ export type ListEnvironmentsError = CommonErrors;
  * Lists all of the environments that can produce connections that will land in the called AWS region.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsRequest,
+  ListEnvironmentsRequest & RegionInput,
   ListEnvironmentsResponse,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -516,7 +517,7 @@ export type ListTagsForResourceError = CommonErrors;
  * List all current tags on the specified resource. Currently this supports Connection resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -536,7 +537,7 @@ export type TagResourceError = CommonErrors;
  * Add new tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -556,7 +557,7 @@ export type UntagResourceError = CommonErrors;
  * Removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -576,7 +577,7 @@ export type UpdateConnectionError = CommonErrors;
  * Modifies an existing connection. Currently we support modifications to the connection's description and/or bandwidth.
  */
 export const updateConnection: API.OperationMethod<
-  UpdateConnectionRequest,
+  UpdateConnectionRequest & RegionInput,
   UpdateConnectionResponse,
   UpdateConnectionError,
   Credentials | HttpClient.HttpClient

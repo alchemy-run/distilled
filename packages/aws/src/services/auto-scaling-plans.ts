@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -158,13 +159,13 @@ export type XmlStringMaxLen128 = string;
 export type XmlStringMaxLen256 = string;
 export type TagValues = string[];
 export interface TagFilter {
-  Key?: string;
-  Values?: string[];
+  Key?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type TagFilters = TagFilter[];
 export interface ApplicationSource {
-  CloudFormationStackARN?: string;
-  TagFilters?: TagFilter[];
+  CloudFormationStackARN?: string | undefined;
+  TagFilters?: TagFilter[] | undefined;
 }
 export type ServiceNamespace = "autoscaling" | "ecs" | "ec2" | "rds" | "dynamodb" | (string & {});
 export type ResourceIdMaxLen1600 = string;
@@ -197,7 +198,7 @@ export type ScalingMetricType =
 export type ResourceLabel = string;
 export interface PredefinedScalingMetricSpecification {
   PredefinedScalingMetricType: ScalingMetricType;
-  ResourceLabel?: string;
+  ResourceLabel?: string | undefined;
 }
 export type MetricName = string;
 export type MetricNamespace = string;
@@ -219,21 +220,21 @@ export type MetricUnit = string;
 export interface CustomizedScalingMetricSpecification {
   MetricName: string;
   Namespace: string;
-  Dimensions?: MetricDimension[];
+  Dimensions?: MetricDimension[] | undefined;
   Statistic: MetricStatistic;
-  Unit?: string;
+  Unit?: string | undefined;
 }
 export type MetricScale = number;
 export type DisableScaleIn = boolean;
 export type Cooldown = number;
 export interface TargetTrackingConfiguration {
-  PredefinedScalingMetricSpecification?: PredefinedScalingMetricSpecification;
-  CustomizedScalingMetricSpecification?: CustomizedScalingMetricSpecification;
+  PredefinedScalingMetricSpecification?: PredefinedScalingMetricSpecification | undefined;
+  CustomizedScalingMetricSpecification?: CustomizedScalingMetricSpecification | undefined;
   TargetValue: number;
-  DisableScaleIn?: boolean;
-  ScaleOutCooldown?: number;
-  ScaleInCooldown?: number;
-  EstimatedInstanceWarmup?: number;
+  DisableScaleIn?: boolean | undefined;
+  ScaleOutCooldown?: number | undefined;
+  ScaleInCooldown?: number | undefined;
+  EstimatedInstanceWarmup?: number | undefined;
 }
 export type TargetTrackingConfigurations = TargetTrackingConfiguration[];
 export type LoadMetricType =
@@ -244,14 +245,14 @@ export type LoadMetricType =
   | (string & {});
 export interface PredefinedLoadMetricSpecification {
   PredefinedLoadMetricType: LoadMetricType;
-  ResourceLabel?: string;
+  ResourceLabel?: string | undefined;
 }
 export interface CustomizedLoadMetricSpecification {
   MetricName: string;
   Namespace: string;
-  Dimensions?: MetricDimension[];
+  Dimensions?: MetricDimension[] | undefined;
   Statistic: MetricStatistic;
-  Unit?: string;
+  Unit?: string | undefined;
 }
 export type ScheduledActionBufferTime = number;
 export type PredictiveScalingMaxCapacityBehavior =
@@ -272,14 +273,14 @@ export interface ScalingInstruction {
   MinCapacity: number;
   MaxCapacity: number;
   TargetTrackingConfigurations: TargetTrackingConfiguration[];
-  PredefinedLoadMetricSpecification?: PredefinedLoadMetricSpecification;
-  CustomizedLoadMetricSpecification?: CustomizedLoadMetricSpecification;
-  ScheduledActionBufferTime?: number;
-  PredictiveScalingMaxCapacityBehavior?: PredictiveScalingMaxCapacityBehavior;
-  PredictiveScalingMaxCapacityBuffer?: number;
-  PredictiveScalingMode?: PredictiveScalingMode;
-  ScalingPolicyUpdateBehavior?: ScalingPolicyUpdateBehavior;
-  DisableDynamicScaling?: boolean;
+  PredefinedLoadMetricSpecification?: PredefinedLoadMetricSpecification | undefined;
+  CustomizedLoadMetricSpecification?: CustomizedLoadMetricSpecification | undefined;
+  ScheduledActionBufferTime?: number | undefined;
+  PredictiveScalingMaxCapacityBehavior?: PredictiveScalingMaxCapacityBehavior | undefined;
+  PredictiveScalingMaxCapacityBuffer?: number | undefined;
+  PredictiveScalingMode?: PredictiveScalingMode | undefined;
+  ScalingPolicyUpdateBehavior?: ScalingPolicyUpdateBehavior | undefined;
+  DisableDynamicScaling?: boolean | undefined;
 }
 export type ScalingInstructions = ScalingInstruction[];
 export interface CreateScalingPlanRequest {
@@ -301,15 +302,15 @@ export type NextToken = string;
 export interface DescribeScalingPlanResourcesRequest {
   ScalingPlanName: string;
   ScalingPlanVersion: number;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type PolicyName = string;
 export type PolicyType = "TargetTrackingScaling" | (string & {});
 export interface ScalingPolicy {
   PolicyName: string;
   PolicyType: PolicyType;
-  TargetTrackingConfiguration?: TargetTrackingConfiguration;
+  TargetTrackingConfiguration?: TargetTrackingConfiguration | undefined;
 }
 export type ScalingPolicies = ScalingPolicy[];
 export type ScalingStatusCode = "Inactive" | "PartiallyActive" | "Active" | (string & {});
@@ -319,23 +320,23 @@ export interface ScalingPlanResource {
   ServiceNamespace: ServiceNamespace;
   ResourceId: string;
   ScalableDimension: ScalableDimension;
-  ScalingPolicies?: ScalingPolicy[];
+  ScalingPolicies?: ScalingPolicy[] | undefined;
   ScalingStatusCode: ScalingStatusCode;
-  ScalingStatusMessage?: string;
+  ScalingStatusMessage?: string | undefined;
 }
 export type ScalingPlanResources = ScalingPlanResource[];
 export interface DescribeScalingPlanResourcesResponse {
-  ScalingPlanResources?: ScalingPlanResource[];
-  NextToken?: string;
+  ScalingPlanResources?: ScalingPlanResource[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ScalingPlanNames = string[];
 export type ApplicationSources = ApplicationSource[];
 export interface DescribeScalingPlansRequest {
-  ScalingPlanNames?: string[];
-  ScalingPlanVersion?: number;
-  ApplicationSources?: ApplicationSource[];
-  MaxResults?: number;
-  NextToken?: string;
+  ScalingPlanNames?: string[] | undefined;
+  ScalingPlanVersion?: number | undefined;
+  ApplicationSources?: ApplicationSource[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ScalingPlanStatusCode =
   | "Active"
@@ -353,14 +354,14 @@ export interface ScalingPlan {
   ApplicationSource: ApplicationSource;
   ScalingInstructions: ScalingInstruction[];
   StatusCode: ScalingPlanStatusCode;
-  StatusMessage?: string;
-  StatusStartTime?: Date;
-  CreationTime?: Date;
+  StatusMessage?: string | undefined;
+  StatusStartTime?: Date | undefined;
+  CreationTime?: Date | undefined;
 }
 export type ScalingPlans = ScalingPlan[];
 export interface DescribeScalingPlansResponse {
-  ScalingPlans?: ScalingPlan[];
-  NextToken?: string;
+  ScalingPlans?: ScalingPlan[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ForecastDataType =
   | "CapacityForecast"
@@ -379,8 +380,8 @@ export interface GetScalingPlanResourceForecastDataRequest {
   EndTime: Date;
 }
 export interface Datapoint {
-  Timestamp?: Date;
-  Value?: number;
+  Timestamp?: Date | undefined;
+  Value?: number | undefined;
 }
 export type Datapoints = Datapoint[];
 export interface GetScalingPlanResourceForecastDataResponse {
@@ -389,8 +390,8 @@ export interface GetScalingPlanResourceForecastDataResponse {
 export interface UpdateScalingPlanRequest {
   ScalingPlanName: string;
   ScalingPlanVersion: number;
-  ApplicationSource?: ApplicationSource;
-  ScalingInstructions?: ScalingInstruction[];
+  ApplicationSource?: ApplicationSource | undefined;
+  ScalingInstructions?: ScalingInstruction[] | undefined;
 }
 export interface UpdateScalingPlanResponse {}
 export type ErrorMessage = string;
@@ -404,7 +405,7 @@ export type CreateScalingPlanError =
  * Creates a scaling plan.
  */
 export const createScalingPlan: API.OperationMethod<
-  CreateScalingPlanRequest,
+  CreateScalingPlanRequest & RegionInput,
   CreateScalingPlanResponse,
   CreateScalingPlanError,
   Credentials | HttpClient.HttpClient
@@ -440,7 +441,7 @@ export type DeleteScalingPlanError =
  * delete those resources separately.
  */
 export const deleteScalingPlan: API.OperationMethod<
-  DeleteScalingPlanRequest,
+  DeleteScalingPlanRequest & RegionInput,
   DeleteScalingPlanResponse,
   DeleteScalingPlanError,
   Credentials | HttpClient.HttpClient
@@ -470,7 +471,7 @@ export type DescribeScalingPlanResourcesError =
  * Describes the scalable resources in the specified scaling plan.
  */
 export const describeScalingPlanResources: API.OperationMethod<
-  DescribeScalingPlanResourcesRequest,
+  DescribeScalingPlanResourcesRequest & RegionInput,
   DescribeScalingPlanResourcesResponse,
   DescribeScalingPlanResourcesError,
   Credentials | HttpClient.HttpClient
@@ -500,7 +501,7 @@ export type DescribeScalingPlansError =
  * Describes one or more of your scaling plans.
  */
 export const describeScalingPlans: API.OperationMethod<
-  DescribeScalingPlansRequest,
+  DescribeScalingPlansRequest & RegionInput,
   DescribeScalingPlansResponse,
   DescribeScalingPlansError,
   Credentials | HttpClient.HttpClient
@@ -532,7 +533,7 @@ export type GetScalingPlanResourceForecastDataError =
  * available for up to 56 days.
  */
 export const getScalingPlanResourceForecastData: API.OperationMethod<
-  GetScalingPlanResourceForecastDataRequest,
+  GetScalingPlanResourceForecastDataRequest & RegionInput,
   GetScalingPlanResourceForecastDataResponse,
   GetScalingPlanResourceForecastDataError,
   Credentials | HttpClient.HttpClient
@@ -560,7 +561,7 @@ export type UpdateScalingPlanError =
  * deleted.
  */
 export const updateScalingPlan: API.OperationMethod<
-  UpdateScalingPlanRequest,
+  UpdateScalingPlanRequest & RegionInput,
   UpdateScalingPlanResponse,
   UpdateScalingPlanError,
   Credentials | HttpClient.HttpClient

@@ -49,7 +49,7 @@ export interface Sku {
   /** The name of the SKU for Azure Dev Spaces Controller. */
   name: SkuName | (string & {});
   /** The tier of the SKU for Azure Dev Spaces Controller. */
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
 }
 export interface CreateControllerRequest {
   /** Azure subscription ID. */
@@ -59,7 +59,7 @@ export interface CreateControllerRequest {
   /** Name of the resource. */
   name: string;
   /** Tags for the Azure resource. */
-  tags?: CreateControllerRequestTagsMap;
+  tags?: CreateControllerRequestTagsMap | undefined;
   /** Region where the Azure resource is located. */
   location: string;
   properties: ControllerPropertiesInput;
@@ -78,13 +78,13 @@ export type ControllerPropertiesProvisioningState =
   | "Deleted";
 export interface ControllerProperties {
   /** Provisioning state of the Azure Dev Spaces Controller. */
-  provisioningState?: ControllerPropertiesProvisioningState;
+  provisioningState?: ControllerPropertiesProvisioningState | undefined;
   /** DNS suffix for public endpoints running in the Azure Dev Spaces Controller. */
-  hostSuffix?: string;
+  hostSuffix?: string | undefined;
   /** DNS name for accessing DataPlane services */
-  dataPlaneFqdn?: string;
+  dataPlaneFqdn?: string | undefined;
   /** DNS of the target container host's API server */
-  targetContainerHostApiServerFqdn?: string;
+  targetContainerHostApiServerFqdn?: string | undefined;
   /** Resource ID of the target container host */
   targetContainerHostResourceId: string;
   /** Credentials of the target container host (base64). */
@@ -92,13 +92,13 @@ export interface ControllerProperties {
 }
 export interface CreateControllerResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Tags for the Azure resource. */
-  tags?: CreateControllerResponseTagsMap;
+  tags?: CreateControllerResponseTagsMap | undefined;
   /** Region where the Azure resource is located. */
   location: string;
   properties: ControllerProperties;
@@ -121,14 +121,14 @@ export interface GetContainerHostMappingContainerHostMappingRequest {
   /** Location of the container host. */
   location: string;
   /** ARM ID of the Container Host resource */
-  containerHostResourceId?: string;
+  containerHostResourceId?: string | undefined;
 }
 /** Container host mapping object specifying the Container host resource ID and its associated Controller resource. */
 export interface ContainerHostMapping {
   /** ARM ID of the Container Host resource */
-  containerHostResourceId?: string;
+  containerHostResourceId?: string | undefined;
   /** ARM ID of the mapped Controller resource */
-  mappedControllerResourceId?: string;
+  mappedControllerResourceId?: string | undefined;
 }
 export interface GetControllerRequest {
   /** Azure subscription ID. */
@@ -142,13 +142,13 @@ export interface GetControllerRequest {
 export type GetControllerResponseTagsMap = { [key: string]: string | undefined };
 export interface GetControllerResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Tags for the Azure resource. */
-  tags?: GetControllerResponseTagsMap;
+  tags?: GetControllerResponseTagsMap | undefined;
   /** Region where the Azure resource is located. */
   location: string;
   properties: ControllerProperties;
@@ -164,13 +164,13 @@ export interface ListControllerByResourceGroupRequest {
 export type ControllerTagsMap = { [key: string]: string | undefined };
 export interface Controller {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Tags for the Azure resource. */
-  tags?: ControllerTagsMap;
+  tags?: ControllerTagsMap | undefined;
   /** Region where the Azure resource is located. */
   location: string;
   properties: ControllerProperties;
@@ -180,9 +180,9 @@ export interface Controller {
 export type ControllerListValueList = Array<Controller>;
 export interface ControllerList {
   /** List of Azure Dev Spaces Controllers. */
-  value?: ControllerListValueList;
+  value?: ControllerListValueList | undefined;
   /** The URI that can be used to request the next page for list of Azure Dev Spaces Controllers. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListControllerConnectionDetailsRequest {
   /** Azure subscription ID. */
@@ -197,17 +197,17 @@ export interface ListControllerConnectionDetailsRequest {
 /** Base class for types that supply values used to connect to container orchestrators */
 export interface OrchestratorSpecificConnectionDetails {
   /** Gets the Instance type. */
-  instanceType?: string;
+  instanceType?: string | undefined;
 }
 export interface ControllerConnectionDetails {
-  orchestratorSpecificConnectionDetails?: OrchestratorSpecificConnectionDetails;
+  orchestratorSpecificConnectionDetails?: OrchestratorSpecificConnectionDetails | undefined;
 }
 /** List of Azure Dev Spaces Controller connection details. */
 export type ControllerConnectionDetailsListConnectionDetailsListList =
   Array<ControllerConnectionDetails>;
 export interface ControllerConnectionDetailsList {
   /** List of Azure Dev Spaces Controller connection details. */
-  connectionDetailsList?: ControllerConnectionDetailsListConnectionDetailsListList;
+  connectionDetailsList?: ControllerConnectionDetailsListConnectionDetailsListList | undefined;
 }
 export interface ListControllersRequest {
   /** Azure subscription ID. */
@@ -216,32 +216,32 @@ export interface ListControllersRequest {
 export interface ListOperationsRequest {}
 export interface ResourceProviderOperationDisplay {
   /** Name of the resource provider. */
-  provider?: string;
+  provider?: string | undefined;
   /** Name of the resource type. */
-  resource?: string;
+  resource?: string | undefined;
   /** Name of the resource provider operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the resource provider operation. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface ResourceProviderOperationDefinition {
   /** Resource provider operation name. */
-  name?: string;
-  display?: ResourceProviderOperationDisplay;
+  name?: string | undefined;
+  display?: ResourceProviderOperationDisplay | undefined;
 }
 /** Resource provider operations list. */
 export type ResourceProviderOperationListValueList = Array<ResourceProviderOperationDefinition>;
 export interface ResourceProviderOperationList {
   /** Resource provider operations list. */
-  value?: ResourceProviderOperationListValueList;
+  value?: ResourceProviderOperationListValueList | undefined;
   /** The URI that can be used to request the next page for list of Azure operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Tags for the Azure Dev Spaces Controller. */
 export type UpdateControllerRequestTagsMap = { [key: string]: string | undefined };
 export interface ControllerUpdateParametersProperties {
   /** Credentials of the target container host (base64). */
-  targetContainerHostCredentialsBase64?: string;
+  targetContainerHostCredentialsBase64?: string | undefined;
 }
 export interface UpdateControllerRequest {
   /** Azure subscription ID. */
@@ -251,20 +251,20 @@ export interface UpdateControllerRequest {
   /** Name of the resource. */
   name: string;
   /** Tags for the Azure Dev Spaces Controller. */
-  tags?: UpdateControllerRequestTagsMap;
-  properties?: ControllerUpdateParametersProperties;
+  tags?: UpdateControllerRequestTagsMap | undefined;
+  properties?: ControllerUpdateParametersProperties | undefined;
 }
 /** Tags for the Azure resource. */
 export type UpdateControllerResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateControllerResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Tags for the Azure resource. */
-  tags?: UpdateControllerResponseTagsMap;
+  tags?: UpdateControllerResponseTagsMap | undefined;
   /** Region where the Azure resource is located. */
   location: string;
   properties: ControllerProperties;

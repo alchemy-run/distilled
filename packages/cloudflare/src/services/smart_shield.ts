@@ -36,15 +36,15 @@ export interface CacheReserveClearStatusRequest {
 export type CacheReserveClearStatusResultState = "In-progress" | "Completed";
 export interface CacheReserveClearStatusResult {
   /** ID of the zone setting. */
-  id?: unknown | null;
+  id?: unknown | null | undefined;
   /** The time that the latest Cache Reserve Clear operation completed. */
-  endTs?: string | null;
+  endTs?: string | null | undefined;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The time that the latest Cache Reserve Clear operation started. */
-  startTs?: string | null;
+  startTs?: string | null | undefined;
   /** The current state of the Cache Reserve Clear operation. */
-  state?: CacheReserveClearStatusResultState | null;
+  state?: CacheReserveClearStatusResultState | null | undefined;
 }
 export type CacheReserveClearStatusResponse = CacheReserveClearStatusResult;
 export interface ClearCacheReserveClearRequest {
@@ -54,15 +54,15 @@ export interface ClearCacheReserveClearRequest {
 export type ClearCacheReserveClearResultState = "In-progress" | "Completed";
 export interface ClearCacheReserveClearResult {
   /** ID of the zone setting. */
-  id?: unknown | null;
+  id?: unknown | null | undefined;
   /** The time that the latest Cache Reserve Clear operation completed. */
-  endTs?: string | null;
+  endTs?: string | null | undefined;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The time that the latest Cache Reserve Clear operation started. */
-  startTs?: string | null;
+  startTs?: string | null | undefined;
   /** The current state of the Cache Reserve Clear operation. */
-  state?: ClearCacheReserveClearResultState | null;
+  state?: ClearCacheReserveClearResultState | null | undefined;
 }
 export type ClearCacheReserveClearResponse = ClearCacheReserveClearResult;
 export type CreateHealthCheckRequestCheckRegionsItem =
@@ -91,28 +91,28 @@ export type CreateHealthCheckRequestHttpConfigHeaderMap = {
 export type CreateHealthCheckRequestHttpConfigMethod = "GET" | "HEAD";
 export interface CreateHealthCheckRequestHttpConfig {
   /** Do not validate the certificate when the health check uses HTTPS. */
-  allowInsecure?: boolean;
+  allowInsecure?: boolean | undefined;
   /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
-  expectedBody?: string;
+  expectedBody?: string | undefined;
   /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
-  expectedCodes?: CreateHealthCheckRequestHttpConfigExpectedCodesList;
+  expectedCodes?: CreateHealthCheckRequestHttpConfigExpectedCodesList | undefined;
   /** Follow redirects if the origin returns a 3xx status code. */
-  followRedirects?: boolean;
+  followRedirects?: boolean | undefined;
   /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
-  header?: CreateHealthCheckRequestHttpConfigHeaderMap;
+  header?: CreateHealthCheckRequestHttpConfigHeaderMap | undefined;
   /** The HTTP method to use for the health check. */
-  method?: CreateHealthCheckRequestHttpConfigMethod | (string & {});
+  method?: CreateHealthCheckRequestHttpConfigMethod | (string & {}) | undefined;
   /** The endpoint path to health check against. */
-  path?: string;
+  path?: string | undefined;
   /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
-  port?: number;
+  port?: number | undefined;
 }
 export type CreateHealthCheckRequestTcpConfigMethod = "connection_established";
 export interface CreateHealthCheckRequestTcpConfig {
   /** The TCP connection method to use for the health check. */
-  method?: CreateHealthCheckRequestTcpConfigMethod | (string & {});
+  method?: CreateHealthCheckRequestTcpConfigMethod | (string & {}) | undefined;
   /** Port number to connect to for the health check. Defaults to 80. */
-  port?: number;
+  port?: number | undefined;
 }
 export interface CreateHealthCheckRequest {
   /** Identifier. */
@@ -122,27 +122,27 @@ export interface CreateHealthCheckRequest {
   /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
   name: string;
   /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
-  checkRegions?: CreateHealthCheckRequestCheckRegionsList;
+  checkRegions?: CreateHealthCheckRequestCheckRegionsList | undefined;
   /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
-  consecutiveFails?: number;
+  consecutiveFails?: number | undefined;
   /** The number of consecutive successes required from a health check before changing the health to healthy. */
-  consecutiveSuccesses?: number;
+  consecutiveSuccesses?: number | undefined;
   /** A human-readable description of the health check. */
-  description?: string;
+  description?: string | undefined;
   /** Parameters specific to an HTTP or HTTPS health check. */
-  httpConfig?: CreateHealthCheckRequestHttpConfig;
+  httpConfig?: CreateHealthCheckRequestHttpConfig | undefined;
   /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
-  interval?: number;
+  interval?: number | undefined;
   /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
-  retries?: number;
+  retries?: number | undefined;
   /** If suspended, no health checks are sent to the origin. */
-  suspended?: boolean;
+  suspended?: boolean | undefined;
   /** Parameters specific to TCP health check. */
-  tcpConfig?: CreateHealthCheckRequestTcpConfig;
+  tcpConfig?: CreateHealthCheckRequestTcpConfig | undefined;
   /** The timeout (in seconds) before marking the health check as failed. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
-  type?: string;
+  type?: string | undefined;
 }
 export type CreateHealthCheckResultCheckRegionsItem =
   | "WNAM"
@@ -169,65 +169,65 @@ export type CreateHealthCheckResultHttpConfigHeaderMap = {
 export type CreateHealthCheckResultHttpConfigMethod = "GET" | "HEAD";
 export interface CreateHealthCheckResultHttpConfig {
   /** Do not validate the certificate when the health check uses HTTPS. */
-  allowInsecure?: boolean | null;
+  allowInsecure?: boolean | null | undefined;
   /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
-  expectedBody?: string | null;
+  expectedBody?: string | null | undefined;
   /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
-  expectedCodes?: CreateHealthCheckResultHttpConfigExpectedCodesList | null;
+  expectedCodes?: CreateHealthCheckResultHttpConfigExpectedCodesList | null | undefined;
   /** Follow redirects if the origin returns a 3xx status code. */
-  followRedirects?: boolean | null;
+  followRedirects?: boolean | null | undefined;
   /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
-  header?: CreateHealthCheckResultHttpConfigHeaderMap | null;
+  header?: CreateHealthCheckResultHttpConfigHeaderMap | null | undefined;
   /** The HTTP method to use for the health check. */
-  method?: CreateHealthCheckResultHttpConfigMethod | null;
+  method?: CreateHealthCheckResultHttpConfigMethod | null | undefined;
   /** The endpoint path to health check against. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
-  port?: number | null;
+  port?: number | null | undefined;
 }
 export type CreateHealthCheckResultStatus = "unknown" | "healthy" | "unhealthy" | "suspended";
 export type CreateHealthCheckResultTcpConfigMethod = "connection_established";
 export interface CreateHealthCheckResultTcpConfig {
   /** The TCP connection method to use for the health check. */
-  method?: CreateHealthCheckResultTcpConfigMethod | null;
+  method?: CreateHealthCheckResultTcpConfigMethod | null | undefined;
   /** Port number to connect to for the health check. Defaults to 80. */
-  port?: number | null;
+  port?: number | null | undefined;
 }
 export interface CreateHealthCheckResult {
   /** Identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The hostname or IP address of the origin server to run health checks on. */
-  address?: string | null;
+  address?: string | null | undefined;
   /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
-  checkRegions?: CreateHealthCheckResultCheckRegionsList | null;
+  checkRegions?: CreateHealthCheckResultCheckRegionsList | null | undefined;
   /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
-  consecutiveFails?: number | null;
+  consecutiveFails?: number | null | undefined;
   /** The number of consecutive successes required from a health check before changing the health to healthy. */
-  consecutiveSuccesses?: number | null;
-  createdOn?: string | null;
+  consecutiveSuccesses?: number | null | undefined;
+  createdOn?: string | null | undefined;
   /** A human-readable description of the health check. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The current failure reason if status is unhealthy. */
-  failureReason?: string | null;
+  failureReason?: string | null | undefined;
   /** Parameters specific to an HTTP or HTTPS health check. */
-  httpConfig?: CreateHealthCheckResultHttpConfig | null;
+  httpConfig?: CreateHealthCheckResultHttpConfig | null | undefined;
   /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
-  interval?: number | null;
-  modifiedOn?: string | null;
+  interval?: number | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
-  retries?: number | null;
+  retries?: number | null | undefined;
   /** The current status of the origin server according to the health check. */
-  status?: CreateHealthCheckResultStatus | null;
+  status?: CreateHealthCheckResultStatus | null | undefined;
   /** If suspended, no health checks are sent to the origin. */
-  suspended?: boolean | null;
+  suspended?: boolean | null | undefined;
   /** Parameters specific to TCP health check. */
-  tcpConfig?: CreateHealthCheckResultTcpConfig | null;
+  tcpConfig?: CreateHealthCheckResultTcpConfig | null | undefined;
   /** The timeout (in seconds) before marking the health check as failed. */
-  timeout?: number | null;
+  timeout?: number | null | undefined;
   /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type CreateHealthCheckResponse = CreateHealthCheckResult;
 export interface DeleteHealthCheckRequest {
@@ -238,7 +238,7 @@ export interface DeleteHealthCheckRequest {
 }
 export interface DeleteHealthCheckResult {
   /** Identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export type DeleteHealthCheckResponse = DeleteHealthCheckResult;
 export type EditHealthCheckRequestCheckRegionsItem =
@@ -267,28 +267,28 @@ export type EditHealthCheckRequestHttpConfigHeaderMap = {
 export type EditHealthCheckRequestHttpConfigMethod = "GET" | "HEAD";
 export interface EditHealthCheckRequestHttpConfig {
   /** Do not validate the certificate when the health check uses HTTPS. */
-  allowInsecure?: boolean;
+  allowInsecure?: boolean | undefined;
   /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
-  expectedBody?: string;
+  expectedBody?: string | undefined;
   /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
-  expectedCodes?: EditHealthCheckRequestHttpConfigExpectedCodesList;
+  expectedCodes?: EditHealthCheckRequestHttpConfigExpectedCodesList | undefined;
   /** Follow redirects if the origin returns a 3xx status code. */
-  followRedirects?: boolean;
+  followRedirects?: boolean | undefined;
   /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
-  header?: EditHealthCheckRequestHttpConfigHeaderMap;
+  header?: EditHealthCheckRequestHttpConfigHeaderMap | undefined;
   /** The HTTP method to use for the health check. */
-  method?: EditHealthCheckRequestHttpConfigMethod | (string & {});
+  method?: EditHealthCheckRequestHttpConfigMethod | (string & {}) | undefined;
   /** The endpoint path to health check against. */
-  path?: string;
+  path?: string | undefined;
   /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
-  port?: number;
+  port?: number | undefined;
 }
 export type EditHealthCheckRequestTcpConfigMethod = "connection_established";
 export interface EditHealthCheckRequestTcpConfig {
   /** The TCP connection method to use for the health check. */
-  method?: EditHealthCheckRequestTcpConfigMethod | (string & {});
+  method?: EditHealthCheckRequestTcpConfigMethod | (string & {}) | undefined;
   /** Port number to connect to for the health check. Defaults to 80. */
-  port?: number;
+  port?: number | undefined;
 }
 export interface EditHealthCheckRequest {
   /** Identifier. */
@@ -300,27 +300,27 @@ export interface EditHealthCheckRequest {
   /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
   name: string;
   /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
-  checkRegions?: EditHealthCheckRequestCheckRegionsList;
+  checkRegions?: EditHealthCheckRequestCheckRegionsList | undefined;
   /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
-  consecutiveFails?: number;
+  consecutiveFails?: number | undefined;
   /** The number of consecutive successes required from a health check before changing the health to healthy. */
-  consecutiveSuccesses?: number;
+  consecutiveSuccesses?: number | undefined;
   /** A human-readable description of the health check. */
-  description?: string;
+  description?: string | undefined;
   /** Parameters specific to an HTTP or HTTPS health check. */
-  httpConfig?: EditHealthCheckRequestHttpConfig;
+  httpConfig?: EditHealthCheckRequestHttpConfig | undefined;
   /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
-  interval?: number;
+  interval?: number | undefined;
   /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
-  retries?: number;
+  retries?: number | undefined;
   /** If suspended, no health checks are sent to the origin. */
-  suspended?: boolean;
+  suspended?: boolean | undefined;
   /** Parameters specific to TCP health check. */
-  tcpConfig?: EditHealthCheckRequestTcpConfig;
+  tcpConfig?: EditHealthCheckRequestTcpConfig | undefined;
   /** The timeout (in seconds) before marking the health check as failed. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
-  type?: string;
+  type?: string | undefined;
 }
 export type EditHealthCheckResultCheckRegionsItem =
   | "WNAM"
@@ -346,65 +346,65 @@ export type EditHealthCheckResultHttpConfigHeaderMap = {
 export type EditHealthCheckResultHttpConfigMethod = "GET" | "HEAD";
 export interface EditHealthCheckResultHttpConfig {
   /** Do not validate the certificate when the health check uses HTTPS. */
-  allowInsecure?: boolean | null;
+  allowInsecure?: boolean | null | undefined;
   /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
-  expectedBody?: string | null;
+  expectedBody?: string | null | undefined;
   /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
-  expectedCodes?: EditHealthCheckResultHttpConfigExpectedCodesList | null;
+  expectedCodes?: EditHealthCheckResultHttpConfigExpectedCodesList | null | undefined;
   /** Follow redirects if the origin returns a 3xx status code. */
-  followRedirects?: boolean | null;
+  followRedirects?: boolean | null | undefined;
   /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
-  header?: EditHealthCheckResultHttpConfigHeaderMap | null;
+  header?: EditHealthCheckResultHttpConfigHeaderMap | null | undefined;
   /** The HTTP method to use for the health check. */
-  method?: EditHealthCheckResultHttpConfigMethod | null;
+  method?: EditHealthCheckResultHttpConfigMethod | null | undefined;
   /** The endpoint path to health check against. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
-  port?: number | null;
+  port?: number | null | undefined;
 }
 export type EditHealthCheckResultStatus = "unknown" | "healthy" | "unhealthy" | "suspended";
 export type EditHealthCheckResultTcpConfigMethod = "connection_established";
 export interface EditHealthCheckResultTcpConfig {
   /** The TCP connection method to use for the health check. */
-  method?: EditHealthCheckResultTcpConfigMethod | null;
+  method?: EditHealthCheckResultTcpConfigMethod | null | undefined;
   /** Port number to connect to for the health check. Defaults to 80. */
-  port?: number | null;
+  port?: number | null | undefined;
 }
 export interface EditHealthCheckResult {
   /** Identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The hostname or IP address of the origin server to run health checks on. */
-  address?: string | null;
+  address?: string | null | undefined;
   /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
-  checkRegions?: EditHealthCheckResultCheckRegionsList | null;
+  checkRegions?: EditHealthCheckResultCheckRegionsList | null | undefined;
   /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
-  consecutiveFails?: number | null;
+  consecutiveFails?: number | null | undefined;
   /** The number of consecutive successes required from a health check before changing the health to healthy. */
-  consecutiveSuccesses?: number | null;
-  createdOn?: string | null;
+  consecutiveSuccesses?: number | null | undefined;
+  createdOn?: string | null | undefined;
   /** A human-readable description of the health check. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The current failure reason if status is unhealthy. */
-  failureReason?: string | null;
+  failureReason?: string | null | undefined;
   /** Parameters specific to an HTTP or HTTPS health check. */
-  httpConfig?: EditHealthCheckResultHttpConfig | null;
+  httpConfig?: EditHealthCheckResultHttpConfig | null | undefined;
   /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
-  interval?: number | null;
-  modifiedOn?: string | null;
+  interval?: number | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
-  retries?: number | null;
+  retries?: number | null | undefined;
   /** The current status of the origin server according to the health check. */
-  status?: EditHealthCheckResultStatus | null;
+  status?: EditHealthCheckResultStatus | null | undefined;
   /** If suspended, no health checks are sent to the origin. */
-  suspended?: boolean | null;
+  suspended?: boolean | null | undefined;
   /** Parameters specific to TCP health check. */
-  tcpConfig?: EditHealthCheckResultTcpConfig | null;
+  tcpConfig?: EditHealthCheckResultTcpConfig | null | undefined;
   /** The timeout (in seconds) before marking the health check as failed. */
-  timeout?: number | null;
+  timeout?: number | null | undefined;
   /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type EditHealthCheckResponse = EditHealthCheckResult;
 export interface GetRequest {
@@ -414,48 +414,48 @@ export interface GetRequest {
 export type GetResultCacheReserveValue = "on" | "off";
 export interface GetResultCacheReserve {
   /** The id of the Cache Reserve setting. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether the setting is editable. */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** Specifies the enablement value of Cache Reserve. */
-  value?: GetResultCacheReserveValue | null;
+  value?: GetResultCacheReserveValue | null | undefined;
 }
 export type GetResultRegionalTieredCacheValue = "on" | "off";
 export interface GetResultRegionalTieredCache {
   /** The id of the Regional Tiered Cache setting. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether the setting is editable. */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** Specifies the enablement value of Cache Reserve. */
-  value?: GetResultRegionalTieredCacheValue | null;
+  value?: GetResultRegionalTieredCacheValue | null | undefined;
 }
 export type GetResultSmartRoutingValue = "on" | "off";
 export interface GetResultSmartRouting {
   /** The id of the Smart Routing setting. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether the setting is editable. */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** Specifies the enablement value of Argo Smart Routing. */
-  value?: GetResultSmartRoutingValue | null;
+  value?: GetResultSmartRoutingValue | null | undefined;
 }
 export type GetResultSmartTieredCacheValue = "on" | "off";
 export interface GetResultSmartTieredCache {
   /** The id of the Smart Tiered Cache setting. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether the setting is editable. */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** The last time the setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Specifies the enablement value of Tiered Cache. */
-  value?: GetResultSmartTieredCacheValue | null;
+  value?: GetResultSmartTieredCacheValue | null | undefined;
 }
 export interface GetResult {
-  cacheReserve?: GetResultCacheReserve | null;
+  cacheReserve?: GetResultCacheReserve | null | undefined;
   /** The total number of health checks associated with the zone. */
-  healthchecksCount?: number | null;
-  regionalTieredCache?: GetResultRegionalTieredCache | null;
-  smartRouting?: GetResultSmartRouting | null;
-  smartTieredCache?: GetResultSmartTieredCache | null;
+  healthchecksCount?: number | null | undefined;
+  regionalTieredCache?: GetResultRegionalTieredCache | null | undefined;
+  smartRouting?: GetResultSmartRouting | null | undefined;
+  smartTieredCache?: GetResultSmartTieredCache | null | undefined;
 }
 export type GetResponse = GetResult;
 export interface GetHealthCheckRequest {
@@ -488,157 +488,157 @@ export type GetHealthCheckResultHttpConfigHeaderMap = {
 export type GetHealthCheckResultHttpConfigMethod = "GET" | "HEAD";
 export interface GetHealthCheckResultHttpConfig {
   /** Do not validate the certificate when the health check uses HTTPS. */
-  allowInsecure?: boolean | null;
+  allowInsecure?: boolean | null | undefined;
   /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
-  expectedBody?: string | null;
+  expectedBody?: string | null | undefined;
   /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
-  expectedCodes?: GetHealthCheckResultHttpConfigExpectedCodesList | null;
+  expectedCodes?: GetHealthCheckResultHttpConfigExpectedCodesList | null | undefined;
   /** Follow redirects if the origin returns a 3xx status code. */
-  followRedirects?: boolean | null;
+  followRedirects?: boolean | null | undefined;
   /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
-  header?: GetHealthCheckResultHttpConfigHeaderMap | null;
+  header?: GetHealthCheckResultHttpConfigHeaderMap | null | undefined;
   /** The HTTP method to use for the health check. */
-  method?: GetHealthCheckResultHttpConfigMethod | null;
+  method?: GetHealthCheckResultHttpConfigMethod | null | undefined;
   /** The endpoint path to health check against. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
-  port?: number | null;
+  port?: number | null | undefined;
 }
 export type GetHealthCheckResultStatus = "unknown" | "healthy" | "unhealthy" | "suspended";
 export type GetHealthCheckResultTcpConfigMethod = "connection_established";
 export interface GetHealthCheckResultTcpConfig {
   /** The TCP connection method to use for the health check. */
-  method?: GetHealthCheckResultTcpConfigMethod | null;
+  method?: GetHealthCheckResultTcpConfigMethod | null | undefined;
   /** Port number to connect to for the health check. Defaults to 80. */
-  port?: number | null;
+  port?: number | null | undefined;
 }
 export interface GetHealthCheckResult {
   /** Identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The hostname or IP address of the origin server to run health checks on. */
-  address?: string | null;
+  address?: string | null | undefined;
   /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
-  checkRegions?: GetHealthCheckResultCheckRegionsList | null;
+  checkRegions?: GetHealthCheckResultCheckRegionsList | null | undefined;
   /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
-  consecutiveFails?: number | null;
+  consecutiveFails?: number | null | undefined;
   /** The number of consecutive successes required from a health check before changing the health to healthy. */
-  consecutiveSuccesses?: number | null;
-  createdOn?: string | null;
+  consecutiveSuccesses?: number | null | undefined;
+  createdOn?: string | null | undefined;
   /** A human-readable description of the health check. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The current failure reason if status is unhealthy. */
-  failureReason?: string | null;
+  failureReason?: string | null | undefined;
   /** Parameters specific to an HTTP or HTTPS health check. */
-  httpConfig?: GetHealthCheckResultHttpConfig | null;
+  httpConfig?: GetHealthCheckResultHttpConfig | null | undefined;
   /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
-  interval?: number | null;
-  modifiedOn?: string | null;
+  interval?: number | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
-  retries?: number | null;
+  retries?: number | null | undefined;
   /** The current status of the origin server according to the health check. */
-  status?: GetHealthCheckResultStatus | null;
+  status?: GetHealthCheckResultStatus | null | undefined;
   /** If suspended, no health checks are sent to the origin. */
-  suspended?: boolean | null;
+  suspended?: boolean | null | undefined;
   /** Parameters specific to TCP health check. */
-  tcpConfig?: GetHealthCheckResultTcpConfig | null;
+  tcpConfig?: GetHealthCheckResultTcpConfig | null | undefined;
   /** The timeout (in seconds) before marking the health check as failed. */
-  timeout?: number | null;
+  timeout?: number | null | undefined;
   /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type GetHealthCheckResponse = GetHealthCheckResult;
 export interface ListHealthChecksRequest {
   /** Identifier. */
   zoneId: string;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. Must be a multiple of 5. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ListHealthChecksResponse = unknown;
 export type UpdateRequestCacheReserveValue = "on" | "off";
 export interface UpdateRequestCacheReserve {
   /** Specifies the enablement value of Cache Reserve. */
-  value?: UpdateRequestCacheReserveValue | (string & {});
+  value?: UpdateRequestCacheReserveValue | (string & {}) | undefined;
 }
 export type UpdateRequestRegionalTieredCacheValue = "on" | "off";
 export interface UpdateRequestRegionalTieredCache {
   /** Specifies the enablement value of Regional Tiered Cache. */
-  value?: UpdateRequestRegionalTieredCacheValue | (string & {});
+  value?: UpdateRequestRegionalTieredCacheValue | (string & {}) | undefined;
 }
 export type UpdateRequestSmartRoutingValue = "on" | "off";
 export interface UpdateRequestSmartRouting {
   /** Specifies the enablement value of Smart Routing. */
-  value?: UpdateRequestSmartRoutingValue | (string & {});
+  value?: UpdateRequestSmartRoutingValue | (string & {}) | undefined;
 }
 export type UpdateRequestSmartTieredCacheValue = "on" | "off";
 export interface UpdateRequestSmartTieredCache {
   /** Specifies the enablement value of Smart Tiered Cache. */
-  value?: UpdateRequestSmartTieredCacheValue | (string & {});
+  value?: UpdateRequestSmartTieredCacheValue | (string & {}) | undefined;
 }
 export interface UpdateRequest {
   /** Identifier. */
   zoneId: string;
-  cacheReserve?: UpdateRequestCacheReserve;
-  regionalTieredCache?: UpdateRequestRegionalTieredCache;
-  smartRouting?: UpdateRequestSmartRouting;
-  smartTieredCache?: UpdateRequestSmartTieredCache;
+  cacheReserve?: UpdateRequestCacheReserve | undefined;
+  regionalTieredCache?: UpdateRequestRegionalTieredCache | undefined;
+  smartRouting?: UpdateRequestSmartRouting | undefined;
+  smartTieredCache?: UpdateRequestSmartTieredCache | undefined;
 }
 export type UpdateResultCacheReserveValue = "on" | "off";
 export interface UpdateResultCacheReserve {
   /** The id of the Cache Reserve setting. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether the setting is editable. */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** Specifies the enablement value of Cache Reserve. */
-  value?: UpdateResultCacheReserveValue | null;
+  value?: UpdateResultCacheReserveValue | null | undefined;
 }
 export type UpdateResultRegionalTieredCacheValue = "on" | "off";
 export interface UpdateResultRegionalTieredCache {
   /** The id of the Regional Tiered Cache setting. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether the setting is editable. */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** Specifies the enablement value of Regional Tiered Cache. */
-  value?: UpdateResultRegionalTieredCacheValue | null;
+  value?: UpdateResultRegionalTieredCacheValue | null | undefined;
 }
 export type UpdateResultSmartRoutingValue = "on" | "off";
 export interface UpdateResultSmartRouting {
   /** The id of the Smart Routing setting. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether the setting is editable. */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** Specifies the enablement value of Argo Smart Routing. */
-  value?: UpdateResultSmartRoutingValue | null;
+  value?: UpdateResultSmartRoutingValue | null | undefined;
 }
 export type UpdateResultSmartTieredCacheValue = "on" | "off";
 export interface UpdateResultSmartTieredCache {
   /** The id of the Smart Tiered Cache setting. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether the setting is editable. */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** The last time the setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Specifies the enablement value of Tiered Cache. */
-  value?: UpdateResultSmartTieredCacheValue | null;
+  value?: UpdateResultSmartTieredCacheValue | null | undefined;
 }
 export interface UpdateResult {
-  cacheReserve?: UpdateResultCacheReserve | null;
-  regionalTieredCache?: UpdateResultRegionalTieredCache | null;
-  smartRouting?: UpdateResultSmartRouting | null;
-  smartTieredCache?: UpdateResultSmartTieredCache | null;
+  cacheReserve?: UpdateResultCacheReserve | null | undefined;
+  regionalTieredCache?: UpdateResultRegionalTieredCache | null | undefined;
+  smartRouting?: UpdateResultSmartRouting | null | undefined;
+  smartTieredCache?: UpdateResultSmartTieredCache | null | undefined;
 }
 export type UpdateResponse = UpdateResult;
 export interface UpdateHealthCheckRequestErrorsItemSource {
-  pointer?: string;
+  pointer?: string | undefined;
 }
 export interface UpdateHealthCheckRequestErrorsItem {
   code: number;
   message: string;
-  documentationUrl?: string;
-  source?: UpdateHealthCheckRequestErrorsItemSource;
+  documentationUrl?: string | undefined;
+  source?: UpdateHealthCheckRequestErrorsItemSource | undefined;
 }
 export type UpdateHealthCheckRequestErrorsList = Array<UpdateHealthCheckRequestErrorsItem>;
 export type UpdateHealthCheckRequestMessagesItemSource = UpdateHealthCheckRequestErrorsItemSource;
@@ -670,21 +670,21 @@ export type UpdateHealthCheckRequestResultHttpConfigHeaderMap = {
 export type UpdateHealthCheckRequestResultHttpConfigMethod = "GET" | "HEAD";
 export interface UpdateHealthCheckRequestResultHttpConfig {
   /** Do not validate the certificate when the health check uses HTTPS. */
-  allowInsecure?: boolean;
+  allowInsecure?: boolean | undefined;
   /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
-  expectedBody?: string;
+  expectedBody?: string | undefined;
   /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
-  expectedCodes?: UpdateHealthCheckRequestResultHttpConfigExpectedCodesList;
+  expectedCodes?: UpdateHealthCheckRequestResultHttpConfigExpectedCodesList | undefined;
   /** Follow redirects if the origin returns a 3xx status code. */
-  followRedirects?: boolean;
+  followRedirects?: boolean | undefined;
   /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
-  header?: UpdateHealthCheckRequestResultHttpConfigHeaderMap;
+  header?: UpdateHealthCheckRequestResultHttpConfigHeaderMap | undefined;
   /** The HTTP method to use for the health check. */
-  method?: UpdateHealthCheckRequestResultHttpConfigMethod | (string & {});
+  method?: UpdateHealthCheckRequestResultHttpConfigMethod | (string & {}) | undefined;
   /** The endpoint path to health check against. */
-  path?: string;
+  path?: string | undefined;
   /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
-  port?: number;
+  port?: number | undefined;
 }
 export type UpdateHealthCheckRequestResultStatus =
   | "unknown"
@@ -694,45 +694,45 @@ export type UpdateHealthCheckRequestResultStatus =
 export type UpdateHealthCheckRequestResultTcpConfigMethod = "connection_established";
 export interface UpdateHealthCheckRequestResultTcpConfig {
   /** The TCP connection method to use for the health check. */
-  method?: UpdateHealthCheckRequestResultTcpConfigMethod | (string & {});
+  method?: UpdateHealthCheckRequestResultTcpConfigMethod | (string & {}) | undefined;
   /** Port number to connect to for the health check. Defaults to 80. */
-  port?: number;
+  port?: number | undefined;
 }
 export interface UpdateHealthCheckRequestResult {
   /** Identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The hostname or IP address of the origin server to run health checks on. */
-  address?: string;
+  address?: string | undefined;
   /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
-  checkRegions?: UpdateHealthCheckRequestResultCheckRegionsList;
+  checkRegions?: UpdateHealthCheckRequestResultCheckRegionsList | undefined;
   /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
-  consecutiveFails?: number;
+  consecutiveFails?: number | undefined;
   /** The number of consecutive successes required from a health check before changing the health to healthy. */
-  consecutiveSuccesses?: number;
-  createdOn?: string;
+  consecutiveSuccesses?: number | undefined;
+  createdOn?: string | undefined;
   /** A human-readable description of the health check. */
-  description?: string;
+  description?: string | undefined;
   /** The current failure reason if status is unhealthy. */
-  failureReason?: string;
+  failureReason?: string | undefined;
   /** Parameters specific to an HTTP or HTTPS health check. */
-  httpConfig?: UpdateHealthCheckRequestResultHttpConfig;
+  httpConfig?: UpdateHealthCheckRequestResultHttpConfig | undefined;
   /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
-  interval?: number;
-  modifiedOn?: string;
+  interval?: number | undefined;
+  modifiedOn?: string | undefined;
   /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
-  name?: string;
+  name?: string | undefined;
   /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
-  retries?: number;
+  retries?: number | undefined;
   /** The current status of the origin server according to the health check. */
-  status?: UpdateHealthCheckRequestResultStatus | (string & {});
+  status?: UpdateHealthCheckRequestResultStatus | (string & {}) | undefined;
   /** If suspended, no health checks are sent to the origin. */
-  suspended?: boolean;
+  suspended?: boolean | undefined;
   /** Parameters specific to TCP health check. */
-  tcpConfig?: UpdateHealthCheckRequestResultTcpConfig;
+  tcpConfig?: UpdateHealthCheckRequestResultTcpConfig | undefined;
   /** The timeout (in seconds) before marking the health check as failed. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface UpdateHealthCheckRequest {
   /** Identifier. */
@@ -770,65 +770,65 @@ export type UpdateHealthCheckResultHttpConfigHeaderMap = {
 export type UpdateHealthCheckResultHttpConfigMethod = "GET" | "HEAD";
 export interface UpdateHealthCheckResultHttpConfig {
   /** Do not validate the certificate when the health check uses HTTPS. */
-  allowInsecure?: boolean | null;
+  allowInsecure?: boolean | null | undefined;
   /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
-  expectedBody?: string | null;
+  expectedBody?: string | null | undefined;
   /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
-  expectedCodes?: UpdateHealthCheckResultHttpConfigExpectedCodesList | null;
+  expectedCodes?: UpdateHealthCheckResultHttpConfigExpectedCodesList | null | undefined;
   /** Follow redirects if the origin returns a 3xx status code. */
-  followRedirects?: boolean | null;
+  followRedirects?: boolean | null | undefined;
   /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
-  header?: UpdateHealthCheckResultHttpConfigHeaderMap | null;
+  header?: UpdateHealthCheckResultHttpConfigHeaderMap | null | undefined;
   /** The HTTP method to use for the health check. */
-  method?: UpdateHealthCheckResultHttpConfigMethod | null;
+  method?: UpdateHealthCheckResultHttpConfigMethod | null | undefined;
   /** The endpoint path to health check against. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
-  port?: number | null;
+  port?: number | null | undefined;
 }
 export type UpdateHealthCheckResultStatus = "unknown" | "healthy" | "unhealthy" | "suspended";
 export type UpdateHealthCheckResultTcpConfigMethod = "connection_established";
 export interface UpdateHealthCheckResultTcpConfig {
   /** The TCP connection method to use for the health check. */
-  method?: UpdateHealthCheckResultTcpConfigMethod | null;
+  method?: UpdateHealthCheckResultTcpConfigMethod | null | undefined;
   /** Port number to connect to for the health check. Defaults to 80. */
-  port?: number | null;
+  port?: number | null | undefined;
 }
 export interface UpdateHealthCheckResult {
   /** Identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The hostname or IP address of the origin server to run health checks on. */
-  address?: string | null;
+  address?: string | null | undefined;
   /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
-  checkRegions?: UpdateHealthCheckResultCheckRegionsList | null;
+  checkRegions?: UpdateHealthCheckResultCheckRegionsList | null | undefined;
   /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
-  consecutiveFails?: number | null;
+  consecutiveFails?: number | null | undefined;
   /** The number of consecutive successes required from a health check before changing the health to healthy. */
-  consecutiveSuccesses?: number | null;
-  createdOn?: string | null;
+  consecutiveSuccesses?: number | null | undefined;
+  createdOn?: string | null | undefined;
   /** A human-readable description of the health check. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The current failure reason if status is unhealthy. */
-  failureReason?: string | null;
+  failureReason?: string | null | undefined;
   /** Parameters specific to an HTTP or HTTPS health check. */
-  httpConfig?: UpdateHealthCheckResultHttpConfig | null;
+  httpConfig?: UpdateHealthCheckResultHttpConfig | null | undefined;
   /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
-  interval?: number | null;
-  modifiedOn?: string | null;
+  interval?: number | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
-  retries?: number | null;
+  retries?: number | null | undefined;
   /** The current status of the origin server according to the health check. */
-  status?: UpdateHealthCheckResultStatus | null;
+  status?: UpdateHealthCheckResultStatus | null | undefined;
   /** If suspended, no health checks are sent to the origin. */
-  suspended?: boolean | null;
+  suspended?: boolean | null | undefined;
   /** Parameters specific to TCP health check. */
-  tcpConfig?: UpdateHealthCheckResultTcpConfig | null;
+  tcpConfig?: UpdateHealthCheckResultTcpConfig | null | undefined;
   /** The timeout (in seconds) before marking the health check as failed. */
-  timeout?: number | null;
+  timeout?: number | null | undefined;
   /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type UpdateHealthCheckResponse = UpdateHealthCheckResult;
 export type CacheReserveClearStatusError = CloudflareOpError;

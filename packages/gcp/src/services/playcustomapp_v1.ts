@@ -85,28 +85,28 @@ export class NotFound
 
 /** Represents an organization that can access a custom app. */
 export interface Organization {
-  /** Required. ID of the organization. */
-  organizationId?: string;
   /** Optional. A human-readable name of the organization, to help recognize the organization. */
-  organizationName?: string;
+  organizationName?: string | undefined;
+  /** Required. ID of the organization. */
+  organizationId?: string | undefined;
 }
 export type OrganizationList = Array<Organization>;
 /** This resource represents a custom app. */
 export interface CustomApp {
   /** Title for the Android app. */
-  title?: string;
-  /** Default listing language in BCP 47 format. */
-  languageCode?: string;
-  /** Output only. Package name of the created Android app. Only present in the API response. */
-  packageName?: string;
+  title?: string | undefined;
   /** Organizations to which the custom app should be made available. If the request contains any organizations, then the app will be restricted to only these organizations. To support the organization linked to the developer account, the organization ID should be provided explicitly together with other organizations. If no organizations are provided, then the app is only available to the organization linked to the developer account. */
-  organizations?: OrganizationList;
+  organizations?: OrganizationList | undefined;
+  /** Output only. Package name of the created Android app. Only present in the API response. */
+  packageName?: string | undefined;
+  /** Default listing language in BCP 47 format. */
+  languageCode?: string | undefined;
 }
 export interface CreateAccountsCustomAppsRequest {
   /** Developer account ID. */
   account: string;
   /** Request body */
-  body?: CustomApp;
+  body?: CustomApp | undefined;
 }
 export type CreateAccountsCustomAppsError =
   | NotFound
@@ -136,8 +136,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          organizationId: S.optional(S.String),
           organizationName: S.optional(S.String),
+          organizationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Organization" });
     case 1:
@@ -146,9 +146,9 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.String),
-          languageCode: S.optional(S.String),
-          packageName: S.optional(S.String),
           organizations: S.optional(__S(1, __c0, 1)),
+          packageName: S.optional(S.String),
+          languageCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomApp" });
     case 3:

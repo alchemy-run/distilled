@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -120,12 +121,12 @@ export type SubscriptionProviderSource = string;
 export type SecretArn = string;
 export type SubscriptionProviderStatus = string;
 export interface GetRegisteredSubscriptionProviderResponse {
-  SubscriptionProviderArn?: string;
-  SubscriptionProviderSource?: string;
-  SecretArn?: string;
-  SubscriptionProviderStatus?: string;
-  SubscriptionProviderStatusMessage?: string;
-  LastSuccessfulDataRetrievalTime?: string;
+  SubscriptionProviderArn?: string | undefined;
+  SubscriptionProviderSource?: string | undefined;
+  SecretArn?: string | undefined;
+  SubscriptionProviderStatus?: string | undefined;
+  SubscriptionProviderStatusMessage?: string | undefined;
+  LastSuccessfulDataRetrievalTime?: string | undefined;
 }
 export interface GetServiceSettingsRequest {}
 export type LinuxSubscriptionsDiscovery = string;
@@ -138,99 +139,99 @@ export interface LinuxSubscriptionsDiscoverySettings {
 export type Status = string;
 export type StringMap = { [key: string]: string | undefined };
 export interface GetServiceSettingsResponse {
-  LinuxSubscriptionsDiscovery?: string;
-  LinuxSubscriptionsDiscoverySettings?: LinuxSubscriptionsDiscoverySettings;
-  Status?: string;
-  StatusMessage?: { [key: string]: string | undefined };
-  HomeRegions?: string[];
+  LinuxSubscriptionsDiscovery?: string | undefined;
+  LinuxSubscriptionsDiscoverySettings?: LinuxSubscriptionsDiscoverySettings | undefined;
+  Status?: string | undefined;
+  StatusMessage?: { [key: string]: string | undefined } | undefined;
+  HomeRegions?: string[] | undefined;
 }
 export type Operator = string;
 export interface Filter {
-  Name?: string;
-  Values?: string[];
-  Operator?: string;
+  Name?: string | undefined;
+  Values?: string[] | undefined;
+  Operator?: string | undefined;
 }
 export type FilterList = Filter[];
 export type BoxInteger = number;
 export interface ListLinuxSubscriptionInstancesRequest {
-  Filters?: Filter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ProductCodeList = string[];
 export interface Instance {
-  AmiId?: string;
-  InstanceID?: string;
-  InstanceType?: string;
-  AccountID?: string;
-  Status?: string;
-  Region?: string;
-  UsageOperation?: string;
-  ProductCode?: string[];
-  LastUpdatedTime?: string;
-  SubscriptionName?: string;
-  OsVersion?: string;
-  SubscriptionProviderCreateTime?: string;
-  SubscriptionProviderUpdateTime?: string;
-  DualSubscription?: string;
-  RegisteredWithSubscriptionProvider?: string;
+  AmiId?: string | undefined;
+  InstanceID?: string | undefined;
+  InstanceType?: string | undefined;
+  AccountID?: string | undefined;
+  Status?: string | undefined;
+  Region?: string | undefined;
+  UsageOperation?: string | undefined;
+  ProductCode?: string[] | undefined;
+  LastUpdatedTime?: string | undefined;
+  SubscriptionName?: string | undefined;
+  OsVersion?: string | undefined;
+  SubscriptionProviderCreateTime?: string | undefined;
+  SubscriptionProviderUpdateTime?: string | undefined;
+  DualSubscription?: string | undefined;
+  RegisteredWithSubscriptionProvider?: string | undefined;
 }
 export type InstanceList = Instance[];
 export interface ListLinuxSubscriptionInstancesResponse {
-  Instances?: Instance[];
-  NextToken?: string;
+  Instances?: Instance[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLinuxSubscriptionsRequest {
-  Filters?: Filter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type BoxLong = number;
 export interface Subscription {
-  Name?: string;
-  Type?: string;
-  InstanceCount?: number;
+  Name?: string | undefined;
+  Type?: string | undefined;
+  InstanceCount?: number | undefined;
 }
 export type SubscriptionList = Subscription[];
 export interface ListLinuxSubscriptionsResponse {
-  Subscriptions?: Subscription[];
-  NextToken?: string;
+  Subscriptions?: Subscription[] | undefined;
+  NextToken?: string | undefined;
 }
 export type SubscriptionProviderSourceList = string[];
 export interface ListRegisteredSubscriptionProvidersRequest {
-  SubscriptionProviderSources?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  SubscriptionProviderSources?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RegisteredSubscriptionProvider {
-  SubscriptionProviderArn?: string;
-  SubscriptionProviderSource?: string;
-  SecretArn?: string;
-  SubscriptionProviderStatus?: string;
-  SubscriptionProviderStatusMessage?: string;
-  LastSuccessfulDataRetrievalTime?: string;
+  SubscriptionProviderArn?: string | undefined;
+  SubscriptionProviderSource?: string | undefined;
+  SecretArn?: string | undefined;
+  SubscriptionProviderStatus?: string | undefined;
+  SubscriptionProviderStatusMessage?: string | undefined;
+  LastSuccessfulDataRetrievalTime?: string | undefined;
 }
 export type RegisteredSubscriptionProviderList = RegisteredSubscriptionProvider[];
 export interface ListRegisteredSubscriptionProvidersResponse {
-  RegisteredSubscriptionProviders?: RegisteredSubscriptionProvider[];
-  NextToken?: string;
+  RegisteredSubscriptionProviders?: RegisteredSubscriptionProvider[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export type Tags = { [key: string]: string | undefined };
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegisterSubscriptionProviderRequest {
   SubscriptionProviderSource: string;
   SecretArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegisterSubscriptionProviderResponse {
-  SubscriptionProviderSource?: string;
-  SubscriptionProviderArn?: string;
-  SubscriptionProviderStatus?: string;
+  SubscriptionProviderSource?: string | undefined;
+  SubscriptionProviderArn?: string | undefined;
+  SubscriptionProviderStatus?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -246,14 +247,14 @@ export interface UntagResourceResponse {}
 export interface UpdateServiceSettingsRequest {
   LinuxSubscriptionsDiscovery: string;
   LinuxSubscriptionsDiscoverySettings: LinuxSubscriptionsDiscoverySettings;
-  AllowUpdate?: boolean;
+  AllowUpdate?: boolean | undefined;
 }
 export interface UpdateServiceSettingsResponse {
-  LinuxSubscriptionsDiscovery?: string;
-  LinuxSubscriptionsDiscoverySettings?: LinuxSubscriptionsDiscoverySettings;
-  Status?: string;
-  StatusMessage?: { [key: string]: string | undefined };
-  HomeRegions?: string[];
+  LinuxSubscriptionsDiscovery?: string | undefined;
+  LinuxSubscriptionsDiscoverySettings?: LinuxSubscriptionsDiscoverySettings | undefined;
+  Status?: string | undefined;
+  StatusMessage?: { [key: string]: string | undefined } | undefined;
+  HomeRegions?: string[] | undefined;
 }
 export type DeregisterSubscriptionProviderError =
   | InternalServerException
@@ -266,7 +267,7 @@ export type DeregisterSubscriptionProviderError =
  * registered to your account.
  */
 export const deregisterSubscriptionProvider: API.OperationMethod<
-  DeregisterSubscriptionProviderRequest,
+  DeregisterSubscriptionProviderRequest & RegionInput,
   DeregisterSubscriptionProviderResponse,
   DeregisterSubscriptionProviderError,
   Credentials | HttpClient.HttpClient
@@ -296,7 +297,7 @@ export type GetRegisteredSubscriptionProviderError =
  * Get details for a Bring Your Own License (BYOL) subscription that's registered to your account.
  */
 export const getRegisteredSubscriptionProvider: API.OperationMethod<
-  GetRegisteredSubscriptionProviderRequest,
+  GetRegisteredSubscriptionProviderRequest & RegionInput,
   GetRegisteredSubscriptionProviderResponse,
   GetRegisteredSubscriptionProviderError,
   Credentials | HttpClient.HttpClient
@@ -325,7 +326,7 @@ export type GetServiceSettingsError =
  * Lists the Linux subscriptions service settings for your account.
  */
 export const getServiceSettings: API.OperationMethod<
-  GetServiceSettingsRequest,
+  GetServiceSettingsRequest & RegionInput,
   GetServiceSettingsResponse,
   GetServiceSettingsError,
   Credentials | HttpClient.HttpClient
@@ -350,7 +351,7 @@ export type ListLinuxSubscriptionInstancesError =
  * subscriptions.
  */
 export const listLinuxSubscriptionInstances: API.PaginatedOperationMethod<
-  ListLinuxSubscriptionInstancesRequest,
+  ListLinuxSubscriptionInstancesRequest & RegionInput,
   ListLinuxSubscriptionInstancesResponse,
   ListLinuxSubscriptionInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -383,7 +384,7 @@ export type ListLinuxSubscriptionsError =
  * Organizations.
  */
 export const listLinuxSubscriptions: API.PaginatedOperationMethod<
-  ListLinuxSubscriptionsRequest,
+  ListLinuxSubscriptionsRequest & RegionInput,
   ListLinuxSubscriptionsResponse,
   ListLinuxSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -414,7 +415,7 @@ export type ListRegisteredSubscriptionProvidersError =
  * List Bring Your Own License (BYOL) subscription registration resources for your account.
  */
 export const listRegisteredSubscriptionProviders: API.PaginatedOperationMethod<
-  ListRegisteredSubscriptionProvidersRequest,
+  ListRegisteredSubscriptionProvidersRequest & RegionInput,
   ListRegisteredSubscriptionProvidersResponse,
   ListRegisteredSubscriptionProvidersError,
   Credentials | HttpClient.HttpClient,
@@ -446,7 +447,7 @@ export type ListTagsForResourceError =
  * specified Amazon Web Services resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -470,7 +471,7 @@ export type RegisterSubscriptionProviderError =
  * Register the supported third-party subscription provider for your Bring Your Own License (BYOL) subscription.
  */
 export const registerSubscriptionProvider: API.OperationMethod<
-  RegisterSubscriptionProviderRequest,
+  RegisterSubscriptionProviderRequest & RegionInput,
   RegisterSubscriptionProviderResponse,
   RegisterSubscriptionProviderError,
   Credentials | HttpClient.HttpClient
@@ -494,7 +495,7 @@ export type TagResourceError =
  * Add metadata tags to the specified Amazon Web Services resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -514,7 +515,7 @@ export type UntagResourceError = InternalServerException | ResourceNotFoundExcep
  * Remove one or more metadata tag from the specified Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -538,7 +539,7 @@ export type UpdateServiceSettingsError =
  * Updates the service settings for Linux subscriptions.
  */
 export const updateServiceSettings: API.OperationMethod<
-  UpdateServiceSettingsRequest,
+  UpdateServiceSettingsRequest & RegionInput,
   UpdateServiceSettingsResponse,
   UpdateServiceSettingsError,
   Credentials | HttpClient.HttpClient

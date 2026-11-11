@@ -65,9 +65,9 @@ export interface GetCertRequest {
   /** The cert id */
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetCertResponseCnsList = Array<string>;
 export interface GetCertResponse {
@@ -79,9 +79,9 @@ export interface GetCertResponse {
 }
 export interface GetCertsRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetCertsResponseCertsItemCnsList = Array<string>;
 export interface GetCertsResponseCertsItem {
@@ -109,11 +109,11 @@ export interface GetCertsResponse {
 export type IssueCertRequestCnsList = Array<string>;
 export interface IssueCertRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The common names the cert should be issued for */
-  cns?: IssueCertRequestCnsList;
+  cns?: IssueCertRequestCnsList | undefined;
 }
 export type IssueCertResponseCnsList = Array<string>;
 export interface IssueCertResponse {
@@ -127,16 +127,16 @@ export interface RemoveCertRequest {
   /** The cert id to remove */
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type RemoveCertResponse = unknown;
 export interface UploadCertRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The certificate authority */
   ca: string;
   /** The certificate key */
@@ -144,7 +144,7 @@ export interface UploadCertRequest {
   /** The certificate */
   cert: string;
   /** Skip validation of the certificate */
-  skipValidation?: boolean;
+  skipValidation?: boolean | undefined;
 }
 export type UploadCertResponseCnsList = Array<string>;
 export interface UploadCertResponse {

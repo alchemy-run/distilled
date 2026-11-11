@@ -29,15 +29,15 @@ export interface AcceptSharedInviteRequest {
   /** Name of the channel. If the channel does not exist already in your workspace, this name is the one that the channel will take. */
   channel_name: string;
   /** Whether the channel should be private. */
-  is_private?: boolean;
+  is_private?: boolean | undefined;
   /** Whether you'd like to use your workspace's free trial to begin using Slack Connect. */
-  free_trial_accepted?: boolean;
+  free_trial_accepted?: boolean | undefined;
   /** ID of the invite that you'd like to accept. Must provide either `invite_id` or `channel_id`. See the [`shared_channel_invite_received`](/reference/events/shared_channel_invite_received) event payload for more details on how to retrieve the ID of the invitation. */
-  invite_id?: string;
+  invite_id?: string | undefined;
   /** ID of the channel that you'd like to accept. Must provide either `invite_id` or `channel_id`. */
-  channel_id?: string;
+  channel_id?: string | undefined;
   /** The ID of the workspace to accept the channel in. If an org-level token is used to call this method, the `team_id` argument is required. */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export interface AcceptSharedInviteResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -60,24 +60,24 @@ export interface ApproveRequestSharedInviteRequest {
   /** ID of the requested shared channel invite to approve. */
   invite_id: string;
   /** Optional boolean on whether the invited team will have post-only permissions in the channel. Will override the value on the requested invite. */
-  is_external_limited?: boolean;
+  is_external_limited?: boolean | undefined;
   /** Optional channel_id to which external user will be invited to. Will override the value on the requested invite. */
-  channel_id?: string;
+  channel_id?: string | undefined;
   /** Object describing the text to send along with the invite. If this object is specified, both `text` and `is_override` are required properties. If `is_override` is set to `true`, `text` will override the original invitation message. Otherwise, `text` will be appended to the original invitation message. The total length of the message cannot exceed 560 characters. If `is_override` is set to `false`, the length of `text` and the user specified message on the invite request in total must be less than 560 characters. */
-  message?: ApproveRequestSharedInviteRequestMessage;
+  message?: ApproveRequestSharedInviteRequestMessage | undefined;
 }
 export interface ApproveRequestSharedInviteResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   invite_id: string;
-  confirmation_code?: string;
-  url?: string;
+  confirmation_code?: string | undefined;
+  url?: string | undefined;
 }
 export interface ApproveSharedInviteRequest {
   /** ID of the shared channel invite to approve */
   invite_id: string;
   /** The team or enterprise ID of the receiving party involved in the invitation you are approving */
-  target_team?: string;
+  target_team?: string | undefined;
 }
 export interface ApproveSharedInviteResponse {
   ok: boolean;
@@ -97,30 +97,30 @@ export interface ConversationsCloseRequest {
 export interface ConversationsCloseResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  already_closed?: boolean;
-  no_op?: boolean;
+  already_closed?: boolean | undefined;
+  no_op?: boolean | undefined;
 }
 export interface ConversationsHistoryRequest {
   /** Conversation ID to fetch history for. */
   channel: string;
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/apis/web-api/pagination) for more detail. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Return all metadata associated with this message. */
-  include_all_metadata?: boolean;
+  include_all_metadata?: boolean | undefined;
   /** Include messages with `oldest` or `latest` timestamps in results. Ignored unless either timestamp is specified. */
-  inclusive?: boolean;
+  inclusive?: boolean | undefined;
   /** Only messages before this Unix timestamp will be included in results. Default is the current time. */
-  latest?: string;
+  latest?: string | undefined;
   /** The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the conversation history hasn't been reached. Maximum of 999. */
-  limit?: number;
+  limit?: number | undefined;
   /** Only messages after this Unix timestamp will be included in results. */
-  oldest?: string;
+  oldest?: string | undefined;
 }
 export type ConversationsHistoryResponseMessagesList = Array<unknown>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface ConversationsHistoryResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export type ConversationsHistoryResponseUsersMap = { [key: string]: unknown | undefined };
 export type ConversationsHistoryResponseDeletedList = Array<string>;
@@ -137,50 +137,52 @@ export interface ConversationsHistoryResponse {
   ok: boolean;
   messages: ConversationsHistoryResponseMessagesList;
   has_more: boolean;
-  pin_count?: number;
+  pin_count?: number | undefined;
   channel_actions_ts: unknown;
   channel_actions_count: number;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: ConversationsHistoryResponseResponseMetadata;
-  oldest?: string;
-  is_limited?: boolean;
-  latest?: string;
-  unread_count_display?: number;
-  users?: ConversationsHistoryResponseUsersMap;
-  deleted?: ConversationsHistoryResponseDeletedList;
-  mutation_timestamps?: ConversationsHistoryResponseMutationTimestamps;
-  deleted_overflow?: boolean;
-  warnings?: ConversationsHistoryResponseWarningsList;
-  next_ts?: number;
-  latest_updates?: ConversationsHistoryResponseLatestUpdatesMap;
-  unchanged_messages?: ConversationsHistoryResponseUnchangedMessagesList;
+  response_metadata?: ConversationsHistoryResponseResponseMetadata | undefined;
+  oldest?: string | undefined;
+  is_limited?: boolean | undefined;
+  latest?: string | undefined;
+  unread_count_display?: number | undefined;
+  users?: ConversationsHistoryResponseUsersMap | undefined;
+  deleted?: ConversationsHistoryResponseDeletedList | undefined;
+  mutation_timestamps?: ConversationsHistoryResponseMutationTimestamps | undefined;
+  deleted_overflow?: boolean | undefined;
+  warnings?: ConversationsHistoryResponseWarningsList | undefined;
+  next_ts?: number | undefined;
+  latest_updates?: ConversationsHistoryResponseLatestUpdatesMap | undefined;
+  unchanged_messages?: ConversationsHistoryResponseUnchangedMessagesList | undefined;
   /** Unix timestamp of when the user joined the channel */
-  date_joined?: number;
+  date_joined?: number | undefined;
 }
 export interface ConversationsInfoRequest {
   /** Conversation ID to learn more about */
   channel: string;
   /** Set this to `true` to receive the locale for this conversation. Defaults to `false` */
-  include_locale?: boolean;
+  include_locale?: boolean | undefined;
   /** Set to `true` to include the member count for the specified conversation. Defaults to `false` */
-  include_num_members?: boolean;
+  include_num_members?: boolean | undefined;
 }
 export interface ConversationsInfoResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  app_home?: unknown;
+  app_home?: unknown | undefined;
   channel: unknown;
-  home_view?: unknown | null;
+  home_view?: unknown | null | undefined;
 }
 export interface ConversationsKickRequest {
   /** ID of conversation to remove user from. */
   channel: string;
   /** User ID to be removed. */
-  user?: string;
+  user?: string | undefined;
 }
+export type ConversationsKickResponseErrorsMap = { [key: string]: unknown | undefined };
 export interface ConversationsKickResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
+  errors?: ConversationsKickResponseErrorsMap | undefined;
 }
 export interface ConversationsMarkRequest {
   /** Channel or conversation to set the read cursor for. */
@@ -196,9 +198,9 @@ export interface ConversationsMembersRequest {
   /** ID of the conversation to retrieve members for */
   channel: string;
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/apis/web-api/pagination) for more detail. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ConversationsMembersResponseMembersList = Array<string>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -209,42 +211,42 @@ export interface ConversationsMembersResponse {
   ok: boolean;
   members: ConversationsMembersResponseMembersList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: ConversationsHistoryResponseResponseMetadata;
+  response_metadata?: ConversationsHistoryResponseResponseMetadata | undefined;
 }
 export interface ConversationsOpenRequest {
   /** Resume a conversation by supplying an `im` or `mpim`'s ID. Or provide the `users` field instead. */
-  channel?: string | null;
+  channel?: string | null | undefined;
   /** Boolean, indicates you want the full IM channel definition in the response. */
-  return_im?: boolean;
+  return_im?: boolean | undefined;
   /** Comma separated lists of users. If only one user is included, this creates a 1:1 DM. The ordering of the users is preserved whenever a multi-person direct message is returned. Supply a `channel` when not supplying `users`. */
-  users?: string;
+  users?: string | undefined;
   /** Do not create a direct message or multi-person direct message. This is used to see if there is an existing dm or mpdm. */
-  prevent_creation?: boolean;
+  prevent_creation?: boolean | undefined;
 }
 export interface ConversationsOpenResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  already_open?: boolean;
-  no_op?: boolean;
-  channel?: unknown;
-  app_home?: unknown;
-  home_view?: unknown | null;
+  already_open?: boolean | undefined;
+  no_op?: boolean | undefined;
+  channel?: unknown | undefined;
+  app_home?: unknown | undefined;
+  home_view?: unknown | null | undefined;
 }
 export interface ConversationsRepliesRequest {
   /** Conversation ID to fetch thread from. */
   channel: string;
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/apis/web-api/pagination) for more detail. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Return all metadata associated with this message. */
-  include_all_metadata?: boolean;
+  include_all_metadata?: boolean | undefined;
   /** Include messages with `oldest` or `latest` timestamps in results. Ignored unless either timestamp is specified. */
-  inclusive?: boolean;
+  inclusive?: boolean | undefined;
   /** Only messages before this Unix timestamp will be included in results. */
-  latest?: string;
+  latest?: string | undefined;
   /** The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached. */
-  limit?: number;
+  limit?: number | undefined;
   /** Only messages after this Unix timestamp will be included in results. */
-  oldest?: string;
+  oldest?: string | undefined;
   /** Unique identifier of either a thread's parent message or a message in the thread. `ts` must be the timestamp of an existing message with 0 or more replies. If there are no replies then just the single message referenced by `ts` will return - it is just an ordinary, unthreaded message. */
   ts: string;
 }
@@ -257,20 +259,20 @@ export type ConversationsRepliesResponseResponseMetadata =
 export interface ConversationsRepliesResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   messages: ConversationsRepliesResponseMessagesList;
-  latest_updates?: ConversationsRepliesResponseLatestUpdatesMap;
-  unchanged_messages?: ConversationsRepliesResponseUnchangedMessagesList;
+  latest_updates?: ConversationsRepliesResponseLatestUpdatesMap | undefined;
+  unchanged_messages?: ConversationsRepliesResponseUnchangedMessagesList | undefined;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: ConversationsHistoryResponseResponseMetadata;
+  response_metadata?: ConversationsHistoryResponseResponseMetadata | undefined;
 }
 export interface CreateCanvaseRequest {
   /** Channel ID of the channel the canvas will be tabbed in. */
   channel_id: string;
   /** Structure describing the type and value of the content to create. The markdown content is limited to 1 MiB (1,048,576 characters). */
-  document_content?: unknown;
+  document_content?: unknown | undefined;
   /** Title of the newly created canvas */
-  title?: string;
+  title?: string | undefined;
 }
 export interface CreateCanvaseResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -280,11 +282,11 @@ export interface CreateCanvaseResponse {
 }
 export interface CreateConversationRequest {
   /** Create a private channel instead of a public one */
-  is_private?: boolean;
+  is_private?: boolean | undefined;
   /** Name of the public or private channel to create */
   name: string;
   /** encoded team id to create the channel in, required if org token is used */
-  team_id?: string | null;
+  team_id?: string | null | undefined;
 }
 export interface CreateConversationResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -295,7 +297,7 @@ export interface InviteConversationRequest {
   /** The ID of the public or private channel to invite user(s) to. */
   channel: string;
   /** When set to `true` and multiple user IDs are provided, continue inviting the valid ones while disregarding invalid IDs. Defaults to `false`. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** A comma separated list of user IDs. Up to 1000 users may be listed. */
   users: string;
 }
@@ -303,15 +305,15 @@ export type InviteConversationResponseErrorsList = Array<unknown>;
 export interface InviteConversationResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  channel?: unknown;
-  group?: unknown;
-  errors?: InviteConversationResponseErrorsList;
+  channel?: unknown | undefined;
+  group?: unknown | undefined;
+  errors?: InviteConversationResponseErrorsList | undefined;
 }
 export interface InviteDeclineSharedRequest {
   /** ID of the Slack Connect invite to decline. Subscribe to the [`shared_channel_invite_accepted`](/reference/events/shared_channel_invite_accepted) event to receive IDs of Slack Connect channel invites that have been accepted and are awaiting approval. */
   invite_id: string;
   /** The team or enterprise id of the other party involved in the invitation you are declining */
-  target_team?: string;
+  target_team?: string | undefined;
 }
 export interface InviteDeclineSharedResponse {
   ok: boolean;
@@ -324,19 +326,21 @@ export interface InviteSharedRequest {
   /** ID of the channel on your team that you'd like to share */
   channel: string;
   /** Optional email to receive this invite. Either `emails` or `user_ids` must be provided. Only one email or one user ID may be invited at a time. */
-  emails?: InviteSharedRequestEmailsList;
+  emails?: InviteSharedRequestEmailsList | undefined;
   /** Optional user_id to receive this invite. Either `emails` or `user_ids` must be provided. Only one email or one user ID may be invited at a time. */
-  user_ids?: InviteSharedRequestUserIdsList;
+  user_ids?: InviteSharedRequestUserIdsList | undefined;
   /** Optional boolean on whether invite is to an external limited member. Defaults to `true`. */
-  external_limited?: boolean;
+  external_limited?: boolean | undefined;
 }
 export interface InviteSharedResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  url?: string;
-  invite_id?: string;
-  conf_code?: string;
-  is_legacy_shared_channel?: boolean;
+  /** Signed accept link for the invite. Omitted for invites addressed to `emails` or `user_ids` (the link is delivered to the recipient directly) and for `external_limited` invites. */
+  url?: string | undefined;
+  invite_id?: string | undefined;
+  /** Confirmation code for the invite. Omitted for invites addressed to `emails` or `user_ids` (it is delivered to the recipient directly) and for `external_limited` invites. */
+  conf_code?: string | undefined;
+  is_legacy_shared_channel?: boolean | undefined;
 }
 export interface JoinConversationRequest {
   /** ID of conversation to join */
@@ -344,13 +348,13 @@ export interface JoinConversationRequest {
 }
 export type JoinConversationResponseResponseMetadataWarningsList = Array<string>;
 export interface JoinConversationResponseResponseMetadata {
-  warnings?: JoinConversationResponseResponseMetadataWarningsList;
+  warnings?: JoinConversationResponseResponseMetadataWarningsList | undefined;
 }
 export interface JoinConversationResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   channel: unknown;
-  response_metadata?: JoinConversationResponseResponseMetadata;
+  response_metadata?: JoinConversationResponseResponseMetadata | undefined;
 }
 export interface LeaveConversationRequest {
   /** Conversation to leave */
@@ -359,15 +363,15 @@ export interface LeaveConversationRequest {
 export interface LeaveConversationResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  not_in_channel?: boolean;
+  not_in_channel?: boolean | undefined;
 }
 export interface ListConnectInvitesRequest {
   /** Encoded team id for the workspace to retrieve invites for, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Maximum number of invites to return */
-  count?: number;
+  count?: number | undefined;
   /** Set to `next_cursor` returned by previous call to list items in subsequent page */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListConnectInvitesResponseInvitesList = Array<unknown>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -378,19 +382,19 @@ export interface ListConnectInvitesResponse {
   ok: boolean;
   invites: ListConnectInvitesResponseInvitesList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: ConversationsHistoryResponseResponseMetadata;
+  response_metadata?: ConversationsHistoryResponseResponseMetadata | undefined;
 }
 export interface ListConversationsRequest {
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/apis/web-api/pagination) for more detail. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Set to `true` to exclude archived channels from the list. */
-  exclude_archived?: boolean;
+  exclude_archived?: boolean | undefined;
   /** The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached. Must be an integer under 1000. */
-  limit?: number;
+  limit?: number | undefined;
   /** encoded team id to list channels in, required if token belongs to org-wide app */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Mix and match channel types by providing a comma-separated list of any combination of `public_channel`, `private_channel`, `mpim`, `im` */
-  types?: string;
+  types?: string | undefined;
 }
 export type ListConversationsResponseChannelsList = Array<unknown>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -401,25 +405,25 @@ export interface ListConversationsResponse {
   ok: boolean;
   channels: ListConversationsResponseChannelsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: ConversationsHistoryResponseResponseMetadata;
+  response_metadata?: ConversationsHistoryResponseResponseMetadata | undefined;
 }
 /** An optional list of invitation ids to look up */
 export type ListRequestSharedInviteRequestInviteIdsList = Array<string>;
 export interface ListRequestSharedInviteRequest {
   /** Optional filter to return invitation requests for the inviting user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** When true expired invitation requests will be returned, otherwise they will be excluded */
-  include_expired?: boolean;
+  include_expired?: boolean | undefined;
   /** When true approved invitation requests will be returned, otherwise they will be excluded */
-  include_approved?: boolean;
+  include_approved?: boolean | undefined;
   /** When true denied invitation requests will be returned, otherwise they will be excluded */
-  include_denied?: boolean;
+  include_denied?: boolean | undefined;
   /** An optional list of invitation ids to look up */
-  invite_ids?: ListRequestSharedInviteRequestInviteIdsList;
+  invite_ids?: ListRequestSharedInviteRequestInviteIdsList | undefined;
   /** The number of items to return. Must be between 1 - 1000 (inclusive). */
-  limit?: number;
+  limit?: number | undefined;
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. See [pagination](/apis/web-api/pagination) for more detail. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListRequestSharedInviteResponseInviteRequestsList = Array<unknown>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -430,7 +434,7 @@ export interface ListRequestSharedInviteResponse {
   ok: boolean;
   invite_requests: ListRequestSharedInviteResponseInviteRequestsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: ConversationsHistoryResponseResponseMetadata;
+  response_metadata?: ConversationsHistoryResponseResponseMetadata | undefined;
 }
 export interface RenameConversationRequest {
   /** ID of conversation to rename */
@@ -447,7 +451,7 @@ export interface RequestSharedInviteDenyRequest {
   /** ID of the requested shared channel invite to deny. */
   invite_id: string;
   /** Optional message explaining why the request to invite was denied. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface RequestSharedInviteDenyResponse {
   ok: boolean;
@@ -634,7 +638,7 @@ export const conversationsKick: API.OperationMethod<
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(124, __c31, 0) as any as S.Schema<ConversationsKickRequest>,
-  output: __S(56, __c14, 0) as any as S.Schema<ConversationsKickResponse>,
+  output: __S(125, __c31, 1) as any as S.Schema<ConversationsKickResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -733,7 +737,7 @@ export const conversationsReplies: API.PaginatedOperationMethod<
 ) as any;
 
 export type CreateCanvaseError = SlackOpError;
-/** Create a channel canvas for a channel Required scopes -- bot: `canvases:write`; user: `canvases:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `canvas_disabled_user_team` -- Canvas is disabled on user's team - `restricted_action` -- User does not have permission to perform this action. - `channel_canvas_creation_failed` -- Channel canvas was unable to be created. - `channel_canvas_already_exists` -- Channel canvas for the specified channel already exists. - `team_tier_cannot_create_channel_canvases` -- Team tier cannot create channel canvases - `canvas_creation_failed` -- Canvas was unable to be created. - `canvas_tab_creation_failed` -- Canvas tab was unable to be created. - `free_team_canvas_tab_already_exists` -- Canvas tab for specified channel and team tier already exists. - `posting_to_channel_denied` -- Permission to post to a channel denied See https://docs.slack.dev/reference/methods/conversations.canvases.create */
+/** Create a channel canvas for a channel Required scopes -- bot: `canvases:write`; user: `canvases:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `canvas_disabled_user_team` -- Canvas is disabled on user's team - `restricted_action` -- User does not have permission to perform this action. - `channel_canvas_creation_failed` -- Channel canvas was unable to be created. - `channel_canvas_already_exists` -- Channel canvas for the specified channel already exists. - `team_tier_cannot_create_channel_canvases` -- Team tier cannot create channel canvases - `canvas_creation_failed` -- Canvas was unable to be created. - `canvas_tab_creation_failed` -- Canvas tab was unable to be created. - `free_team_canvas_tab_already_exists` -- Canvas tab for specified channel and team tier already exists. - `posting_to_channel_denied` -- Permission to post to a channel denied - `channel_not_found` -- Value passed for `channel_id` was invalid. See https://docs.slack.dev/reference/methods/conversations.canvases.create */
 export const createCanvase: API.OperationMethod<
   CreateCanvaseRequest,
   CreateCanvaseResponse,
@@ -801,7 +805,7 @@ export const inviteDeclineShared: API.OperationMethod<
 }));
 
 export type InviteSharedError = SlackOpError;
-/** Sends an invitation to a Slack Connect channel Required scopes -- bot: `conversations.connect:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `already_in_channel` -- User is already in the channel. - `cannot_share_cross_workspace_channel` -- You cannot share a cross-workspace or org-wide channel. - `cannot_share_mandatory_channel` -- You cannot share #general or mandatory channels. - `channel_archived` -- You cannot share an archived channel. - `channel_not_found` -- The channel provided was not found. - `connection_limit_exceeded` -- This channel has hit the limit of external connections. - `connection_limit_exceeded_pending` -- This channel already has a pending invite. - `invalid_channel_type` -- You cannot share MPDMs or DMs. - `invalid_email` -- At least one email address provided is invalid. - `invite_lookup_error` -- An error occurred while attempting to look for existing invites. - `invite_not_found` -- An error occurred while inviting users. - `legacy_connection_limit_exceeded` -- You cannot share a legacy ESC channel with a third team - `member_limit_exceeded` -- This channel that has hit the limit of members - `message_too_long` -- The provided message was longer than 560 characters. - `not_allowed_for_grid_workspace` -- This workspace does not have Slack Connect enabled. - `not_in_channel` -- The app is not a member of the channel to invite. - `not_owner` -- Only the host organization for a channel can request to share it. - `not_paid` -- This feature is only available to paid teams. - `not_supported` -- This channel cannot be shared. - `ratelimit` -- The rate-limit for this method has been reached. The ratelimit is applied on a per-user basis when you pass the `emails` parameter. - `recipients_not_specified` -- Bots are required to specify which users to invite. - `restricted_action` -- A team preference does not allow this authorization to send invites. - `too_many_emails` -- Too many email recipients were passed in the `emails` parameter. - `url_in_message` -- The message contained a URL. - `user_not_found` -- User lookup failed. - `no_external_invite_permission` -- User does not have permission to invite an external user. See https://docs.slack.dev/reference/methods/conversations.inviteShared */
+/** Sends an invitation to a Slack Connect channel Required scopes -- bot: `conversations.connect:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `already_in_channel` -- User is already in the channel. - `cannot_share_cross_workspace_channel` -- You cannot share a cross-workspace or org-wide channel. - `cannot_share_mandatory_channel` -- You cannot share #general or mandatory channels. - `channel_archived` -- You cannot share an archived channel. - `channel_not_found` -- The channel provided was not found. - `connection_limit_exceeded` -- This channel has hit the limit of external connections. - `connection_limit_exceeded_pending` -- This channel already has a pending invite. - `invalid_channel_type` -- You cannot share MPDMs or DMs. - `invalid_email` -- At least one email address provided is invalid. - `invite_lookup_error` -- An error occurred while attempting to look for existing invites. - `invite_not_found` -- An error occurred while inviting users. - `legacy_connection_limit_exceeded` -- You cannot share a legacy ESC channel with a third team - `member_limit_exceeded` -- This channel that has hit the limit of members - `message_too_long` -- The provided message was longer than 560 characters. - `not_allowed_for_grid_workspace` -- This workspace does not have Slack Connect enabled. - `not_in_channel` -- The app is not a member of the channel to invite. - `not_owner` -- Only the host organization for a channel can request to share it. - `not_paid` -- This feature is only available to paid teams. - `not_supported` -- This channel cannot be shared. - `ratelimit` -- The rate-limit for this method has been reached. The ratelimit is applied on a per-user basis when you pass the `emails` parameter. - `recipients_not_specified` -- Bots are required to specify which users to invite. - `restricted_action` -- A team preference does not allow this authorization to send invites. - `too_many_emails` -- Too many email recipients were passed in the `emails` parameter. - `url_in_message` -- The message contained a URL. - `user_not_found` -- User lookup failed. - `no_external_invite_permission` -- User does not have permission to invite an external user. - `inviter_email_not_verified` -- The inviting user has not verified the email address on their own account. They must verify it before they can send Slack Connect invites, since the invite presents that address as theirs. See https://docs.slack.dev/reference/methods/conversations.inviteShared */
 export const inviteShared: API.OperationMethod<
   InviteSharedRequest,
   InviteSharedResponse,
@@ -969,7 +973,7 @@ export const requestSharedInviteDeny: API.OperationMethod<
 }));
 
 export type SetExternalInvitePermissionsError = SlackOpError;
-/** Upgrade or downgrade Slack Connect channel permissions between 'can post only' and 'can post and invite'. Required scopes -- bot: `conversations.connect:manage` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- Cannot find channel - `not_supported` -- Attempting to upgrade a channel that cannot be upgraded - `restricted_action` -- A team preference prevents the user from taking this action. - `invalid_target_team` -- The target team provided is not valid for the channel. - `invalid_action` -- The user did not provid a valid action. Valid actions are 'upgrade' or 'downgrade'. See https://docs.slack.dev/reference/methods/conversations.externalInvitePermissions.set */
+/** Upgrade or downgrade Slack Connect channel permissions between 'can post only' and 'can post and invite'. Required scopes -- bot: `conversations.connect:manage` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- Cannot find channel - `not_supported` -- Attempting to upgrade a channel that cannot be upgraded - `restricted_action` -- A team preference prevents the user from taking this action. - `invalid_target_team` -- The target team provided is not valid for the channel. - `invalid_action` -- The user did not provide a valid action. Valid actions are 'upgrade' or 'downgrade'. See https://docs.slack.dev/reference/methods/conversations.externalInvitePermissions.set */
 export const setExternalInvitePermissions: API.OperationMethod<
   SetExternalInvitePermissionsRequest,
   SetExternalInvitePermissionsResponse,
@@ -1137,8 +1141,8 @@ function __c3(j: number): any {
         S.Struct({
           ok: S.Boolean,
           has_more: S.optional(S.Boolean),
-          messages: __S(108, __c27, 0),
-          latest_updates: S.optional(__S(104, __c26, 0)),
+          messages: __S(104, __c26, 0),
+          latest_updates: S.optional(__S(108, __c27, 0)),
           unchanged_messages: S.optional(__S(112, __c28, 0)),
           response_metadata: S.optional(__S(116, __c29, 0)),
         }),
@@ -1203,7 +1207,7 @@ function __c7(j: number): any {
           ok: S.Boolean,
           channel: S.optional(S.Unknown),
           group: S.optional(S.Unknown),
-          errors: S.optional(__S(108, __c27, 0)),
+          errors: S.optional(__S(104, __c26, 0)),
         }),
       ).annotate({ identifier: "InviteConversationResponse" });
   }
@@ -1297,7 +1301,7 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          invites: __S(108, __c27, 0),
+          invites: __S(104, __c26, 0),
           response_metadata: S.optional(__S(116, __c29, 0)),
         }),
       ).annotate({ identifier: "ListConnectInvitesResponse" });
@@ -1340,7 +1344,7 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          channels: __S(108, __c27, 0),
+          channels: __S(104, __c26, 0),
           response_metadata: S.optional(__S(116, __c29, 0)),
         }),
       ).annotate({ identifier: "ListConversationsResponse" });
@@ -1366,7 +1370,7 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          invite_requests: __S(108, __c27, 0),
+          invite_requests: __S(104, __c26, 0),
           response_metadata: S.optional(__S(116, __c29, 0)),
         }),
       ).annotate({ identifier: "ListRequestSharedInviteResponse" });
@@ -1501,7 +1505,7 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          messages: __S(108, __c27, 0),
+          messages: __S(104, __c26, 0),
           has_more: S.Boolean,
           pin_count: S.optional(S.Number),
           channel_actions_ts: S.Unknown,
@@ -1511,13 +1515,13 @@ function __c25(j: number): any {
           is_limited: S.optional(S.Boolean),
           latest: S.optional(S.String),
           unread_count_display: S.optional(S.Number),
-          users: S.optional(__S(104, __c26, 0)),
+          users: S.optional(__S(108, __c27, 0)),
           deleted: S.optional(__S(112, __c28, 0)),
           mutation_timestamps: S.optional(__S(101, __c25, 1)),
           deleted_overflow: S.optional(S.Boolean),
           warnings: S.optional(__S(112, __c28, 0)),
           next_ts: S.optional(S.Number),
-          latest_updates: S.optional(__S(104, __c26, 0)),
+          latest_updates: S.optional(__S(108, __c27, 0)),
           unchanged_messages: S.optional(__S(112, __c28, 0)),
           date_joined: S.optional(S.Number),
         }),
@@ -1527,13 +1531,13 @@ function __c25(j: number): any {
 function __c26(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(S.Unknown);
   }
 }
 function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Unknown);
+      return S.Record(S.String, S.Unknown);
   }
 }
 function __c28(j: number): any {
@@ -1582,6 +1586,13 @@ function __c31(j: number): any {
           user: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/conversations.kick", code: 200 })),
       ).annotate({ identifier: "ConversationsKickRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          errors: S.optional(__S(108, __c27, 0)),
+        }),
+      ).annotate({ identifier: "ConversationsKickResponse" });
   }
 }
 function __c32(j: number): any {

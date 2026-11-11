@@ -64,9 +64,9 @@ export interface User {
   /** Whether the user email address has been verified */
   emailVerified: boolean;
   /** HMAC of the user email for Pylon support-widget identity verification */
-  pylonEmailHash?: string;
+  pylonEmailHash?: string | undefined;
   /** Whether the user has accepted the current privacy policies. Populated on the /users/me endpoint. */
-  privacyPoliciesAccepted?: boolean;
+  privacyPoliciesAccepted?: boolean | undefined;
   /** User public keys */
   publicKeys: UserPublicKeysList;
   /** Creation timestamp */

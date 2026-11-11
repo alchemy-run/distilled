@@ -8,6 +8,11 @@ Effect-native AWS SDK generated from [Smithy](https://smithy.io) models with ful
 npm install @distilled.cloud/aws effect
 ```
 
+Only need S3, or an S3-compatible store such as Cloudflare R2? Install
+[`@distilled.cloud/s3`](../s3) instead: the S3 client and the runtime it
+needs, without the other services or the credential providers. This package
+builds on it, and `@distilled.cloud/aws/s3` re-exports it.
+
 ## Quick Start
 
 ```typescript
@@ -54,6 +59,12 @@ program.pipe(Effect.provide(AwsLive), Effect.runPromise);
 
 ```bash
 AWS_REGION=us-east-1
+```
+
+`Region.of("eu-west-1")` sets the region for every call in a scope. One call can set its own with `region`, which wins over the layer:
+
+```typescript
+S3.getObject({ Bucket: "my-bucket", Key: "a.txt", region: "eu-west-1" });
 ```
 
 ### Credentials

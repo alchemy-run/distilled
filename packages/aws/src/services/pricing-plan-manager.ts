@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -97,14 +98,14 @@ export type IdempotencyToken = string;
 export interface ApprovePaidSubscriptionInput {
   arn: string;
   ifMatch: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type ScheduledChangeType = "DOWNGRADE" | "CANCELLATION" | (string & {});
 export interface ScheduledChange {
   changeType: ScheduledChangeType;
-  effectiveDate?: Date;
-  planTier?: string;
-  usageLevel?: string;
+  effectiveDate?: Date | undefined;
+  planTier?: string | undefined;
+  usageLevel?: string | undefined;
 }
 export type Status = "PENDING_APPROVAL" | "ACTIVE" | "SYNC_IN_PROGRESS" | "FAILED" | (string & {});
 export type ResourceArns = string[];
@@ -112,10 +113,10 @@ export interface Subscription {
   arn: string;
   planFamily: string;
   planTier: string;
-  usageLevel?: string;
-  scheduledChange?: ScheduledChange;
+  usageLevel?: string | undefined;
+  scheduledChange?: ScheduledChange | undefined;
   status: Status;
-  statusReason?: string;
+  statusReason?: string | undefined;
   resourceArns: string[];
   createdAt: Date;
   updatedAt: Date;
@@ -128,7 +129,7 @@ export interface AssociateResourcesToSubscriptionInput {
   arn: string;
   resourceArns: string[];
   ifMatch: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface AssociateResourcesToSubscriptionOutput {
   subscription: Subscription;
@@ -137,7 +138,7 @@ export interface AssociateResourcesToSubscriptionOutput {
 export interface CancelSubscriptionInput {
   arn: string;
   ifMatch: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CancelSubscriptionOutput {
   subscription: Subscription;
@@ -146,7 +147,7 @@ export interface CancelSubscriptionOutput {
 export interface CancelSubscriptionChangeInput {
   arn: string;
   ifMatch: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CancelSubscriptionChangeOutput {
   subscription: Subscription;
@@ -156,10 +157,10 @@ export type ApprovalMode = "MANUAL" | "IMMEDIATE" | (string & {});
 export interface CreateSubscriptionInput {
   planFamily: string;
   planTier: string;
-  usageLevel?: string;
+  usageLevel?: string | undefined;
   resourceArns: string[];
-  approvalMode?: ApprovalMode;
-  clientToken?: string;
+  approvalMode?: ApprovalMode | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateSubscriptionOutput {
   subscription: Subscription;
@@ -169,7 +170,7 @@ export interface DisassociateResourcesFromSubscriptionInput {
   arn: string;
   resourceArns: string[];
   ifMatch: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DisassociateResourcesFromSubscriptionOutput {
   subscription: Subscription;
@@ -183,16 +184,16 @@ export interface GetSubscriptionOutput {
   eTag: string;
 }
 export interface ListSubscriptionsInput {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface SubscriptionSummary {
   arn: string;
   planFamily: string;
   planTier: string;
-  usageLevel?: string;
-  scheduledChange?: ScheduledChange;
+  usageLevel?: string | undefined;
+  scheduledChange?: ScheduledChange | undefined;
   status: Status;
-  statusReason?: string;
+  statusReason?: string | undefined;
   resourceArns: string[];
   createdAt: Date;
   updatedAt: Date;
@@ -201,14 +202,14 @@ export interface SubscriptionSummary {
 export type SubscriptionSummaryList = SubscriptionSummary[];
 export interface ListSubscriptionsOutput {
   subscriptionSummaries: SubscriptionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface UpdateSubscriptionInput {
   arn: string;
   planTier: string;
-  usageLevel?: string;
+  usageLevel?: string | undefined;
   ifMatch: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateSubscriptionOutput {
   subscription: Subscription;
@@ -228,7 +229,7 @@ export type ApprovePaidSubscriptionError =
  * This operation requires the current `ETag` value for concurrency control. Retrieve it from a previous `GetSubscription` or `ListSubscriptions` response.
  */
 export const approvePaidSubscription: API.OperationMethod<
-  ApprovePaidSubscriptionInput,
+  ApprovePaidSubscriptionInput & RegionInput,
   ApprovePaidSubscriptionOutput,
   ApprovePaidSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -264,7 +265,7 @@ export type AssociateResourcesToSubscriptionError =
  * For subscriptions in the CloudFront plan family, the associated resources must include exactly one Amazon CloudFront distribution and one WAF web ACL. You can also include other supported resources, such as Amazon Route 53 hosted zones, and CloudFront KeyValueStores.
  */
 export const associateResourcesToSubscription: API.OperationMethod<
-  AssociateResourcesToSubscriptionInput,
+  AssociateResourcesToSubscriptionInput & RegionInput,
   AssociateResourcesToSubscriptionOutput,
   AssociateResourcesToSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -302,7 +303,7 @@ export type CancelSubscriptionError =
  * For subscriptions in `PENDING_APPROVAL` status, the subscription is deleted immediately without scheduling.
  */
 export const cancelSubscription: API.OperationMethod<
-  CancelSubscriptionInput,
+  CancelSubscriptionInput & RegionInput,
   CancelSubscriptionOutput,
   CancelSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -338,7 +339,7 @@ export type CancelSubscriptionChangeError =
  * You cannot cancel a scheduled change close to its effective date. If the change is within the processing window, this operation returns an error.
  */
 export const cancelSubscriptionChange: API.OperationMethod<
-  CancelSubscriptionChangeInput,
+  CancelSubscriptionChangeInput & RegionInput,
   CancelSubscriptionChangeOutput,
   CancelSubscriptionChangeError,
   Credentials | HttpClient.HttpClient
@@ -377,7 +378,7 @@ export type CreateSubscriptionError =
  * When `approvalMode` is set to `IMMEDIATE` or is not specified, the subscription is activated immediately.
  */
 export const createSubscription: API.OperationMethod<
-  CreateSubscriptionInput,
+  CreateSubscriptionInput & RegionInput,
   CreateSubscriptionOutput,
   CreateSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -414,7 +415,7 @@ export type DisassociateResourcesFromSubscriptionError =
  * For subscriptions in the CloudFront plan family, the associated resources must always include exactly one Amazon CloudFront distribution and exactly one WAF web ACL. You cannot remove these required resources.
  */
 export const disassociateResourcesFromSubscription: API.OperationMethod<
-  DisassociateResourcesFromSubscriptionInput,
+  DisassociateResourcesFromSubscriptionInput & RegionInput,
   DisassociateResourcesFromSubscriptionOutput,
   DisassociateResourcesFromSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -447,7 +448,7 @@ export type GetSubscriptionError =
  * Returns the details of a flat-rate pricing subscription, including its current status, associated resources, and any pending scheduled changes.
  */
 export const getSubscription: API.OperationMethod<
-  GetSubscriptionInput,
+  GetSubscriptionInput & RegionInput,
   GetSubscriptionOutput,
   GetSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -479,7 +480,7 @@ export type ListSubscriptionsError =
  * Returns a summary of all flat-rate pricing subscriptions in the calling account.
  */
 export const listSubscriptions: API.PaginatedOperationMethod<
-  ListSubscriptionsInput,
+  ListSubscriptionsInput & RegionInput,
   ListSubscriptionsOutput,
   ListSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -523,7 +524,7 @@ export type UpdateSubscriptionError =
  * This operation replaces the plan tier value. If you omit the optional `usageLevel` field, it is reset to the default.
  */
 export const updateSubscription: API.OperationMethod<
-  UpdateSubscriptionInput,
+  UpdateSubscriptionInput & RegionInput,
   UpdateSubscriptionOutput,
   UpdateSubscriptionError,
   Credentials | HttpClient.HttpClient

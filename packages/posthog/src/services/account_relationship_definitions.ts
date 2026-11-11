@@ -35,9 +35,9 @@ export interface CreateAccountRelationshipDefinitionRequest {
   /** Human-readable name of the relationship. Unique within the team. */
   name: string;
   /** What this relationship means, e.g. 'The customer success manager responsible for this account'. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether only one user can hold this relationship per account at a time, e.g. a single CSM per account. */
-  is_single_holder?: boolean;
+  is_single_holder?: boolean | undefined;
 }
 /** A team-defined account relationship type (CSM, Onboarding manager, ...). */
 export interface AccountRelationshipDefinition {
@@ -46,9 +46,9 @@ export interface AccountRelationshipDefinition {
   /** Human-readable name of the relationship. Unique within the team. */
   name: string;
   /** What this relationship means, e.g. 'The customer success manager responsible for this account'. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether only one user can hold this relationship per account at a time, e.g. a single CSM per account. */
-  is_single_holder?: boolean;
+  is_single_holder?: boolean | undefined;
   /** Whether customer analytics can take control of this relationship per account. Rows under a controlled relationship can't be deleted. On an account where control has started, only a person can change the relationship and an empty relationship is a deliberate decision. Set by project operators, not through this API. */
   is_controlled: boolean;
 }
@@ -57,20 +57,23 @@ export interface GetAccountRelationshipDefinitionRequest {
   project_id: string;
   id: string;
 }
+export type ListAccountRelationshipDefinitionsRequestPagination = "none";
 export interface ListAccountRelationshipDefinitionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
+  /** Return all definitions in one response when set to none. */
+  pagination?: ListAccountRelationshipDefinitionsRequestPagination | (string & {}) | undefined;
 }
 export type PaginatedAccountRelationshipDefinitionListResultsList =
   Array<AccountRelationshipDefinition>;
 export interface PaginatedAccountRelationshipDefinitionList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAccountRelationshipDefinitionListResultsList;
 }
 export interface UpdateAccountRelationshipDefinitionRequest {
@@ -80,20 +83,20 @@ export interface UpdateAccountRelationshipDefinitionRequest {
   /** Human-readable name of the relationship. Unique within the team. */
   name: string;
   /** What this relationship means, e.g. 'The customer success manager responsible for this account'. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether only one user can hold this relationship per account at a time, e.g. a single CSM per account. */
-  is_single_holder?: boolean;
+  is_single_holder?: boolean | undefined;
 }
 export interface UpdateAccountRelationshipDefinitionsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** Human-readable name of the relationship. Unique within the team. */
-  name?: string;
+  name?: string | undefined;
   /** What this relationship means, e.g. 'The customer success manager responsible for this account'. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether only one user can hold this relationship per account at a time, e.g. a single CSM per account. */
-  is_single_holder?: boolean;
+  is_single_holder?: boolean | undefined;
 }
 export type AccountRelationshipDefinitionsDestroyError = PosthogOpError;
 export const accountRelationshipDefinitionsDestroy: API.OperationMethod<
@@ -271,6 +274,7 @@ function __c4(j: number): any {
           project_id: S.String.pipe(T.Label()),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
+          pagination: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

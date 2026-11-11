@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -174,15 +175,15 @@ export type ChatTokenAttributes = { [key: string]: string | undefined };
 export interface CreateChatTokenRequest {
   roomIdentifier: string;
   userId: string | redacted.Redacted<string>;
-  capabilities?: string[];
-  sessionDurationInMinutes?: number;
-  attributes?: { [key: string]: string | undefined };
+  capabilities?: string[] | undefined;
+  sessionDurationInMinutes?: number | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
 }
 export type ChatToken = string | redacted.Redacted<string>;
 export interface CreateChatTokenResponse {
-  token?: string | redacted.Redacted<string>;
-  tokenExpirationTime?: Date;
-  sessionExpirationTime?: Date;
+  token?: string | redacted.Redacted<string> | undefined;
+  tokenExpirationTime?: Date | undefined;
+  sessionExpirationTime?: Date | undefined;
 }
 export type LoggingConfigurationName = string;
 export type BucketName = string;
@@ -198,29 +199,29 @@ export interface FirehoseDestinationConfiguration {
   deliveryStreamName: string;
 }
 export type DestinationConfiguration =
-  | { s3: S3DestinationConfiguration; cloudWatchLogs?: never; firehose?: never }
-  | { s3?: never; cloudWatchLogs: CloudWatchLogsDestinationConfiguration; firehose?: never }
-  | { s3?: never; cloudWatchLogs?: never; firehose: FirehoseDestinationConfiguration };
+  | { s3: S3DestinationConfiguration; cloudWatchLogs?: undefined; firehose?: undefined }
+  | { s3?: undefined; cloudWatchLogs: CloudWatchLogsDestinationConfiguration; firehose?: undefined }
+  | { s3?: undefined; cloudWatchLogs?: undefined; firehose: FirehoseDestinationConfiguration };
 export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export interface CreateLoggingConfigurationRequest {
-  name?: string;
+  name?: string | undefined;
   destinationConfiguration: DestinationConfiguration;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type LoggingConfigurationArn = string;
 export type LoggingConfigurationID = string;
 export type CreateLoggingConfigurationState = string;
 export interface CreateLoggingConfigurationResponse {
-  arn?: string;
-  id?: string;
-  createTime?: Date;
-  updateTime?: Date;
-  name?: string;
-  destinationConfiguration?: DestinationConfiguration;
-  state?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  id?: string | undefined;
+  createTime?: Date | undefined;
+  updateTime?: Date | undefined;
+  name?: string | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  state?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RoomName = string;
 export type RoomMaxMessageRatePerSecond = number;
@@ -228,32 +229,32 @@ export type RoomMaxMessageLength = number;
 export type LambdaArn = string;
 export type FallbackResult = string;
 export interface MessageReviewHandler {
-  uri?: string;
-  fallbackResult?: string;
+  uri?: string | undefined;
+  fallbackResult?: string | undefined;
 }
 export type LoggingConfigurationIdentifier = string;
 export type LoggingConfigurationIdentifierList = string[];
 export interface CreateRoomRequest {
-  name?: string;
-  maximumMessageRatePerSecond?: number;
-  maximumMessageLength?: number;
-  messageReviewHandler?: MessageReviewHandler;
-  tags?: { [key: string]: string | undefined };
-  loggingConfigurationIdentifiers?: string[];
+  name?: string | undefined;
+  maximumMessageRatePerSecond?: number | undefined;
+  maximumMessageLength?: number | undefined;
+  messageReviewHandler?: MessageReviewHandler | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  loggingConfigurationIdentifiers?: string[] | undefined;
 }
 export type RoomArn = string;
 export type RoomID = string;
 export interface CreateRoomResponse {
-  arn?: string;
-  id?: string;
-  name?: string;
-  createTime?: Date;
-  updateTime?: Date;
-  maximumMessageRatePerSecond?: number;
-  maximumMessageLength?: number;
-  messageReviewHandler?: MessageReviewHandler;
-  tags?: { [key: string]: string | undefined };
-  loggingConfigurationIdentifiers?: string[];
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  createTime?: Date | undefined;
+  updateTime?: Date | undefined;
+  maximumMessageRatePerSecond?: number | undefined;
+  maximumMessageLength?: number | undefined;
+  messageReviewHandler?: MessageReviewHandler | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  loggingConfigurationIdentifiers?: string[] | undefined;
 }
 export interface DeleteLoggingConfigurationRequest {
   identifier: string;
@@ -264,11 +265,11 @@ export type Reason = string;
 export interface DeleteMessageRequest {
   roomIdentifier: string;
   id: string;
-  reason?: string;
+  reason?: string | undefined;
 }
 export type ID = string;
 export interface DeleteMessageResponse {
-  id?: string;
+  id?: string | undefined;
 }
 export interface DeleteRoomRequest {
   identifier: string;
@@ -277,7 +278,7 @@ export interface DeleteRoomResponse {}
 export interface DisconnectUserRequest {
   roomIdentifier: string;
   userId: string | redacted.Redacted<string>;
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface DisconnectUserResponse {}
 export interface GetLoggingConfigurationRequest {
@@ -285,73 +286,73 @@ export interface GetLoggingConfigurationRequest {
 }
 export type LoggingConfigurationState = string;
 export interface GetLoggingConfigurationResponse {
-  arn?: string;
-  id?: string;
-  createTime?: Date;
-  updateTime?: Date;
-  name?: string;
-  destinationConfiguration?: DestinationConfiguration;
-  state?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  id?: string | undefined;
+  createTime?: Date | undefined;
+  updateTime?: Date | undefined;
+  name?: string | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  state?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetRoomRequest {
   identifier: string;
 }
 export interface GetRoomResponse {
-  arn?: string;
-  id?: string;
-  name?: string;
-  createTime?: Date;
-  updateTime?: Date;
-  maximumMessageRatePerSecond?: number;
-  maximumMessageLength?: number;
-  messageReviewHandler?: MessageReviewHandler;
-  tags?: { [key: string]: string | undefined };
-  loggingConfigurationIdentifiers?: string[];
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  createTime?: Date | undefined;
+  updateTime?: Date | undefined;
+  maximumMessageRatePerSecond?: number | undefined;
+  maximumMessageLength?: number | undefined;
+  messageReviewHandler?: MessageReviewHandler | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  loggingConfigurationIdentifiers?: string[] | undefined;
 }
 export type PaginationToken = string;
 export type MaxLoggingConfigurationResults = number;
 export interface ListLoggingConfigurationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface LoggingConfigurationSummary {
-  arn?: string;
-  id?: string;
-  createTime?: Date;
-  updateTime?: Date;
-  name?: string;
-  destinationConfiguration?: DestinationConfiguration;
-  state?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  id?: string | undefined;
+  createTime?: Date | undefined;
+  updateTime?: Date | undefined;
+  name?: string | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  state?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type LoggingConfigurationList = LoggingConfigurationSummary[];
 export interface ListLoggingConfigurationsResponse {
   loggingConfigurations: LoggingConfigurationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxRoomResults = number;
 export interface ListRoomsRequest {
-  name?: string;
-  nextToken?: string;
-  maxResults?: number;
-  messageReviewHandlerUri?: string;
-  loggingConfigurationIdentifier?: string;
+  name?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  messageReviewHandlerUri?: string | undefined;
+  loggingConfigurationIdentifier?: string | undefined;
 }
 export interface RoomSummary {
-  arn?: string;
-  id?: string;
-  name?: string;
-  messageReviewHandler?: MessageReviewHandler;
-  createTime?: Date;
-  updateTime?: Date;
-  tags?: { [key: string]: string | undefined };
-  loggingConfigurationIdentifiers?: string[];
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  messageReviewHandler?: MessageReviewHandler | undefined;
+  createTime?: Date | undefined;
+  updateTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  loggingConfigurationIdentifiers?: string[] | undefined;
 }
 export type RoomList = RoomSummary[];
 export interface ListRoomsResponse {
   rooms: RoomSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
@@ -365,10 +366,10 @@ export type EventAttributes = { [key: string]: string | undefined };
 export interface SendEventRequest {
   roomIdentifier: string;
   eventName: string;
-  attributes?: { [key: string]: string | undefined };
+  attributes?: { [key: string]: string | undefined } | undefined;
 }
 export interface SendEventResponse {
-  id?: string;
+  id?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -383,39 +384,39 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateLoggingConfigurationRequest {
   identifier: string;
-  name?: string;
-  destinationConfiguration?: DestinationConfiguration;
+  name?: string | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
 }
 export type UpdateLoggingConfigurationState = string;
 export interface UpdateLoggingConfigurationResponse {
-  arn?: string;
-  id?: string;
-  createTime?: Date;
-  updateTime?: Date;
-  name?: string;
-  destinationConfiguration?: DestinationConfiguration;
-  state?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  id?: string | undefined;
+  createTime?: Date | undefined;
+  updateTime?: Date | undefined;
+  name?: string | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  state?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateRoomRequest {
   identifier: string;
-  name?: string;
-  maximumMessageRatePerSecond?: number;
-  maximumMessageLength?: number;
-  messageReviewHandler?: MessageReviewHandler;
-  loggingConfigurationIdentifiers?: string[];
+  name?: string | undefined;
+  maximumMessageRatePerSecond?: number | undefined;
+  maximumMessageLength?: number | undefined;
+  messageReviewHandler?: MessageReviewHandler | undefined;
+  loggingConfigurationIdentifiers?: string[] | undefined;
 }
 export interface UpdateRoomResponse {
-  arn?: string;
-  id?: string;
-  name?: string;
-  createTime?: Date;
-  updateTime?: Date;
-  maximumMessageRatePerSecond?: number;
-  maximumMessageLength?: number;
-  messageReviewHandler?: MessageReviewHandler;
-  tags?: { [key: string]: string | undefined };
-  loggingConfigurationIdentifiers?: string[];
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  createTime?: Date | undefined;
+  updateTime?: Date | undefined;
+  maximumMessageRatePerSecond?: number | undefined;
+  maximumMessageLength?: number | undefined;
+  messageReviewHandler?: MessageReviewHandler | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  loggingConfigurationIdentifiers?: string[] | undefined;
 }
 export type ErrorMessage = string;
 export type ResourceId = string;
@@ -452,7 +453,7 @@ export type CreateChatTokenError =
  * application.
  */
 export const createChatToken: API.OperationMethod<
-  CreateChatTokenRequest,
+  CreateChatTokenRequest & RegionInput,
   CreateChatTokenResponse,
   CreateChatTokenError,
   Credentials | HttpClient.HttpClient
@@ -486,7 +487,7 @@ export type CreateLoggingConfigurationError =
  * messages.
  */
 export const createLoggingConfiguration: API.OperationMethod<
-  CreateLoggingConfigurationRequest,
+  CreateLoggingConfigurationRequest & RegionInput,
   CreateLoggingConfigurationResponse,
   CreateLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -522,7 +523,7 @@ export type CreateRoomError =
  * Creates a room that allows clients to connect and pass messages.
  */
 export const createRoom: API.OperationMethod<
-  CreateRoomRequest,
+  CreateRoomRequest & RegionInput,
   CreateRoomResponse,
   CreateRoomError,
   Credentials | HttpClient.HttpClient
@@ -557,7 +558,7 @@ export type DeleteLoggingConfigurationError =
  * Deletes the specified logging configuration.
  */
 export const deleteLoggingConfiguration: API.OperationMethod<
-  DeleteLoggingConfigurationRequest,
+  DeleteLoggingConfigurationRequest & RegionInput,
   DeleteLoggingConfigurationResponse,
   DeleteLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -593,7 +594,7 @@ export type DeleteMessageError =
  * DeleteMessage WebSocket operation in the Amazon IVS Chat Messaging API.
  */
 export const deleteMessage: API.OperationMethod<
-  DeleteMessageRequest,
+  DeleteMessageRequest & RegionInput,
   DeleteMessageResponse,
   DeleteMessageError,
   Credentials | HttpClient.HttpClient
@@ -625,7 +626,7 @@ export type DeleteRoomError =
  * Deletes the specified room.
  */
 export const deleteRoom: API.OperationMethod<
-  DeleteRoomRequest,
+  DeleteRoomRequest & RegionInput,
   DeleteRoomResponse,
   DeleteRoomError,
   Credentials | HttpClient.HttpClient
@@ -659,7 +660,7 @@ export type DisconnectUserError =
  * DisconnectUser WebSocket operation in the Amazon IVS Chat Messaging API.
  */
 export const disconnectUser: API.OperationMethod<
-  DisconnectUserRequest,
+  DisconnectUserRequest & RegionInput,
   DisconnectUserResponse,
   DisconnectUserError,
   Credentials | HttpClient.HttpClient
@@ -690,7 +691,7 @@ export type GetLoggingConfigurationError =
  * Gets the specified logging configuration.
  */
 export const getLoggingConfiguration: API.OperationMethod<
-  GetLoggingConfigurationRequest,
+  GetLoggingConfigurationRequest & RegionInput,
   GetLoggingConfigurationResponse,
   GetLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -720,7 +721,7 @@ export type GetRoomError =
  * Gets the specified room.
  */
 export const getRoom: API.OperationMethod<
-  GetRoomRequest,
+  GetRoomRequest & RegionInput,
   GetRoomResponse,
   GetRoomError,
   Credentials | HttpClient.HttpClient
@@ -750,7 +751,7 @@ export type ListLoggingConfigurationsError =
  * the API request is processed.
  */
 export const listLoggingConfigurations: API.PaginatedOperationMethod<
-  ListLoggingConfigurationsRequest,
+  ListLoggingConfigurationsRequest & RegionInput,
   ListLoggingConfigurationsResponse,
   ListLoggingConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -782,7 +783,7 @@ export type ListRoomsError =
  * processed. Results are sorted in descending order of `updateTime`.
  */
 export const listRooms: API.PaginatedOperationMethod<
-  ListRoomsRequest,
+  ListRoomsRequest & RegionInput,
   ListRoomsResponse,
   ListRoomsError,
   Credentials | HttpClient.HttpClient,
@@ -818,7 +819,7 @@ export type ListTagsForResourceError =
  * Gets information about AWS tags for the specified ARN.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -851,7 +852,7 @@ export type SendEventError =
  * rendered.
  */
 export const sendEvent: API.OperationMethod<
-  SendEventRequest,
+  SendEventRequest & RegionInput,
   SendEventResponse,
   SendEventError,
   Credentials | HttpClient.HttpClient
@@ -882,7 +883,7 @@ export type TagResourceError =
  * Adds or updates tags for the AWS resource with the specified ARN.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -912,7 +913,7 @@ export type UntagResourceError =
  * Removes tags from the resource with the specified ARN.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -944,7 +945,7 @@ export type UpdateLoggingConfigurationError =
  * Updates a specified logging configuration.
  */
 export const updateLoggingConfiguration: API.OperationMethod<
-  UpdateLoggingConfigurationRequest,
+  UpdateLoggingConfigurationRequest & RegionInput,
   UpdateLoggingConfigurationResponse,
   UpdateLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -977,7 +978,7 @@ export type UpdateRoomError =
  * Updates a room's configuration.
  */
 export const updateRoom: API.OperationMethod<
-  UpdateRoomRequest,
+  UpdateRoomRequest & RegionInput,
   UpdateRoomResponse,
   UpdateRoomError,
   Credentials | HttpClient.HttpClient

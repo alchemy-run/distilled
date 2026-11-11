@@ -97,6 +97,15 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export interface PartnerCustomerAccount {
+  accountId?: string | undefined;
+  accountName?: string | undefined;
+  accountType?: string | undefined;
+}
+export type PartnerCustomerAccountList = Array<PartnerCustomerAccount>;
+export interface PartnerLinkMetadata {
+  implicitAccounts?: PartnerCustomerAccountList | undefined;
+}
 export type ProductAccountAccountTypeEnum =
   | "ACCOUNT_TYPE_UNSPECIFIED"
   | "GOOGLE_ADS"
@@ -114,152 +123,114 @@ export type ProductAccountProductEnum =
   | "DISPLAY_VIDEO_ADVERTISER"
   | "DATA_PARTNER";
 export interface ProductAccount {
-  accountType?: ProductAccountAccountTypeEnum | (string & {});
-  accountId?: string;
-  product?: ProductAccountProductEnum | (string & {});
+  accountType?: ProductAccountAccountTypeEnum | (string & {}) | undefined;
+  accountId?: string | undefined;
+  product?: ProductAccountProductEnum | (string & {}) | undefined;
 }
 export type PartnerLinkFeatureSetEnum =
   | "FEATURE_SET_UNSPECIFIED"
   | "FEATURE_SET_AUDIENCE_AND_EVENT_MANAGEMENT"
   | "FEATURE_SET_AD_EVENT_MANAGEMENT";
-export interface PartnerCustomerAccount {
-  accountId?: string;
-  accountName?: string;
-  accountType?: string;
-}
-export type PartnerCustomerAccountList = Array<PartnerCustomerAccount>;
-export interface PartnerLinkMetadata {
-  implicitAccounts?: PartnerCustomerAccountList;
-}
 export interface PartnerLink {
-  partnerAccount?: ProductAccount;
-  featureSet?: PartnerLinkFeatureSetEnum | (string & {});
-  partnerLinkId?: string;
-  owningAccount?: ProductAccount;
-  partnerCustomerAccount?: PartnerCustomerAccount;
-  name?: string;
-  partnerLinkMetadata?: PartnerLinkMetadata;
+  partnerLinkId?: string | undefined;
+  partnerLinkMetadata?: PartnerLinkMetadata | undefined;
+  partnerCustomerAccount?: PartnerCustomerAccount | undefined;
+  partnerAccount?: ProductAccount | undefined;
+  name?: string | undefined;
+  featureSet?: PartnerLinkFeatureSetEnum | (string & {}) | undefined;
+  owningAccount?: ProductAccount | undefined;
 }
 export interface CreateAccountTypesAccountsPartnerLinksRequest {
   parent: string;
   /** Request body */
-  body?: PartnerLink;
+  body?: PartnerLink | undefined;
 }
-export type UserListDirectLicenseStatusEnum =
-  | "USER_LIST_LICENSE_STATUS_UNSPECIFIED"
-  | "USER_LIST_LICENSE_STATUS_ENABLED"
-  | "USER_LIST_LICENSE_STATUS_DISABLED";
+export type UserListLicensePricingBuyerApprovalStateEnum =
+  | "USER_LIST_PRICING_BUYER_APPROVAL_STATE_UNSPECIFIED"
+  | "PENDING"
+  | "APPROVED"
+  | "REJECTED";
+export type UserListLicensePricingCostTypeEnum =
+  | "USER_LIST_PRICING_COST_TYPE_UNSPECIFIED"
+  | "CPC"
+  | "CPM"
+  | "MEDIA_SHARE";
+export interface UserListLicensePricing {
+  endTime?: string | undefined;
+  maxCostMicros?: string | undefined;
+  startTime?: string | undefined;
+  costMicros?: string | undefined;
+  currencyCode?: string | undefined;
+  buyerApprovalState?: UserListLicensePricingBuyerApprovalStateEnum | (string & {}) | undefined;
+  costType?: UserListLicensePricingCostTypeEnum | (string & {}) | undefined;
+  pricingId?: string | undefined;
+  pricingActive?: boolean | undefined;
+}
 export type UserListDirectLicenseClientAccountTypeEnum =
   | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_UNKNOWN"
   | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_GOOGLE_ADS"
   | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_DISPLAY_VIDEO_PARTNER"
   | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_DISPLAY_VIDEO_ADVERTISER"
   | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_GOOGLE_AD_MANAGER_AUDIENCE_LINK";
+export type UserListDirectLicenseStatusEnum =
+  | "USER_LIST_LICENSE_STATUS_UNSPECIFIED"
+  | "USER_LIST_LICENSE_STATUS_ENABLED"
+  | "USER_LIST_LICENSE_STATUS_DISABLED";
 export interface UserListLicenseMetrics {
-  impressionCount?: string;
-  endDate?: string;
-  clickCount?: string;
-  revenueUsdMicros?: string;
-  startDate?: string;
-}
-export type UserListLicensePricingCostTypeEnum =
-  | "USER_LIST_PRICING_COST_TYPE_UNSPECIFIED"
-  | "CPC"
-  | "CPM"
-  | "MEDIA_SHARE";
-export type UserListLicensePricingBuyerApprovalStateEnum =
-  | "USER_LIST_PRICING_BUYER_APPROVAL_STATE_UNSPECIFIED"
-  | "PENDING"
-  | "APPROVED"
-  | "REJECTED";
-export interface UserListLicensePricing {
-  maxCostMicros?: string;
-  pricingId?: string;
-  currencyCode?: string;
-  costType?: UserListLicensePricingCostTypeEnum | (string & {});
-  costMicros?: string;
-  pricingActive?: boolean;
-  startTime?: string;
-  buyerApprovalState?: UserListLicensePricingBuyerApprovalStateEnum | (string & {});
-  endTime?: string;
+  revenueUsdMicros?: string | undefined;
+  startDate?: string | undefined;
+  endDate?: string | undefined;
+  impressionCount?: string | undefined;
+  clickCount?: string | undefined;
 }
 export type UserListLicensePricingList = Array<UserListLicensePricing>;
 export interface UserListDirectLicense {
-  status?: UserListDirectLicenseStatusEnum | (string & {});
-  userListId?: string;
-  clientAccountId?: string;
-  clientAccountType?: UserListDirectLicenseClientAccountTypeEnum | (string & {});
-  metrics?: UserListLicenseMetrics;
-  clientAccountDisplayName?: string;
-  historicalPricings?: UserListLicensePricingList;
-  pricing?: UserListLicensePricing;
-  userListDisplayName?: string;
-  name?: string;
+  pricing?: UserListLicensePricing | undefined;
+  userListId?: string | undefined;
+  clientAccountId?: string | undefined;
+  clientAccountType?: UserListDirectLicenseClientAccountTypeEnum | (string & {}) | undefined;
+  status?: UserListDirectLicenseStatusEnum | (string & {}) | undefined;
+  metrics?: UserListLicenseMetrics | undefined;
+  clientAccountDisplayName?: string | undefined;
+  userListDisplayName?: string | undefined;
+  name?: string | undefined;
+  historicalPricings?: UserListLicensePricingList | undefined;
 }
 export interface CreateAccountTypesAccountsUserListDirectLicensesRequest {
   parent: string;
   /** Request body */
-  body?: UserListDirectLicense;
+  body?: UserListDirectLicense | undefined;
 }
-export type UserListGlobalLicenseStatusEnum =
-  | "USER_LIST_LICENSE_STATUS_UNSPECIFIED"
-  | "USER_LIST_LICENSE_STATUS_ENABLED"
-  | "USER_LIST_LICENSE_STATUS_DISABLED";
 export type UserListGlobalLicenseLicenseTypeEnum =
   | "USER_LIST_GLOBAL_LICENSE_TYPE_UNSPECIFIED"
   | "USER_LIST_GLOBAL_LICENSE_TYPE_RESELLER"
   | "USER_LIST_GLOBAL_LICENSE_TYPE_DATA_MART_SELL_SIDE"
   | "USER_LIST_GLOBAL_LICENSE_TYPE_DATA_MART_BUY_SIDE";
+export type UserListGlobalLicenseStatusEnum =
+  | "USER_LIST_LICENSE_STATUS_UNSPECIFIED"
+  | "USER_LIST_LICENSE_STATUS_ENABLED"
+  | "USER_LIST_LICENSE_STATUS_DISABLED";
 export interface UserListGlobalLicense {
-  userListDisplayName?: string;
-  pricing?: UserListLicensePricing;
-  name?: string;
-  historicalPricings?: UserListLicensePricingList;
-  userListId?: string;
-  status?: UserListGlobalLicenseStatusEnum | (string & {});
-  metrics?: UserListLicenseMetrics;
-  licenseType?: UserListGlobalLicenseLicenseTypeEnum | (string & {});
+  userListId?: string | undefined;
+  pricing?: UserListLicensePricing | undefined;
+  name?: string | undefined;
+  metrics?: UserListLicenseMetrics | undefined;
+  userListDisplayName?: string | undefined;
+  historicalPricings?: UserListLicensePricingList | undefined;
+  licenseType?: UserListGlobalLicenseLicenseTypeEnum | (string & {}) | undefined;
+  status?: UserListGlobalLicenseStatusEnum | (string & {}) | undefined;
 }
 export interface CreateAccountTypesAccountsUserListGlobalLicensesRequest {
   parent: string;
   /** Request body */
-  body?: UserListGlobalLicense;
+  body?: UserListGlobalLicense | undefined;
 }
-export type UserListAccessReasonEnum =
-  | "ACCESS_REASON_UNSPECIFIED"
-  | "OWNED"
-  | "SHARED"
-  | "LICENSED"
-  | "SUBSCRIBED"
-  | "AFFILIATED";
 export type UserListClosingReasonEnum = "CLOSING_REASON_UNSPECIFIED" | "UNUSED";
 export interface SizeInfo {
-  gmailMembersCount?: string;
-  youtubeMembersCount?: string;
-  displayNetworkMembersCount?: string;
-  searchNetworkMembersCount?: string;
-}
-export type UserListMembershipStatusEnum = "MEMBERSHIP_STATUS_UNSPECIFIED" | "OPEN" | "CLOSED";
-export type UserListAccountAccessStatusEnum = "ACCESS_STATUS_UNSPECIFIED" | "ENABLED" | "DISABLED";
-export interface TargetNetworkInfo {
-  eligibleForDisplay?: boolean;
-  eligibleForSearch?: boolean;
-}
-export type PartnerAudienceInfoPartnerAudienceSourceEnum =
-  | "PARTNER_AUDIENCE_SOURCE_UNSPECIFIED"
-  | "COMMERCE_AUDIENCE"
-  | "LINEAR_TV_AUDIENCE"
-  | "AGENCY_PROVIDER_AUDIENCE";
-export interface PartnerAudienceInfo {
-  partnerAudienceSource?: PartnerAudienceInfoPartnerAudienceSourceEnum | (string & {});
-  commercePartner?: string;
-}
-export interface PairIdInfo {
-  matchRatePercentage?: number;
-  cleanRoomIdentifier?: string;
-  publisherId?: string;
-  advertiserIdentifierCount?: string;
-  publisherName?: string;
+  youtubeMembersCount?: string | undefined;
+  displayNetworkMembersCount?: string | undefined;
+  searchNetworkMembersCount?: string | undefined;
+  gmailMembersCount?: string | undefined;
 }
 export type MobileIdInfoKeySpaceEnum = "KEY_SPACE_UNSPECIFIED" | "IOS" | "ANDROID";
 export type MobileIdInfoDataSourceTypeEnum =
@@ -269,28 +240,9 @@ export type MobileIdInfoDataSourceTypeEnum =
   | "DATA_SOURCE_TYPE_THIRD_PARTY_VOTER_FILE"
   | "DATA_SOURCE_TYPE_THIRD_PARTY_PARTNER_DATA";
 export interface MobileIdInfo {
-  keySpace?: MobileIdInfoKeySpaceEnum | (string & {});
-  dataSourceType?: MobileIdInfoDataSourceTypeEnum | (string & {});
-  appId?: string;
-}
-export type ContactIdInfoDataSourceTypeEnum =
-  | "DATA_SOURCE_TYPE_UNSPECIFIED"
-  | "DATA_SOURCE_TYPE_FIRST_PARTY"
-  | "DATA_SOURCE_TYPE_THIRD_PARTY_CREDIT_BUREAU"
-  | "DATA_SOURCE_TYPE_THIRD_PARTY_VOTER_FILE"
-  | "DATA_SOURCE_TYPE_THIRD_PARTY_PARTNER_DATA";
-export interface ContactIdInfo {
-  dataSourceType?: ContactIdInfoDataSourceTypeEnum | (string & {});
-  matchRatePercentage?: number;
-}
-export type PseudonymousIdInfoSyncStatusEnum =
-  | "SYNC_STATUS_UNSPECIFIED"
-  | "CREATED"
-  | "READY_FOR_USE"
-  | "FAILED";
-export interface PseudonymousIdInfo {
-  syncStatus?: PseudonymousIdInfoSyncStatusEnum | (string & {});
-  billableRecordCount?: string;
+  keySpace?: MobileIdInfoKeySpaceEnum | (string & {}) | undefined;
+  dataSourceType?: MobileIdInfoDataSourceTypeEnum | (string & {}) | undefined;
+  appId?: string | undefined;
 }
 export type UserIdInfoDataSourceTypeEnum =
   | "DATA_SOURCE_TYPE_UNSPECIFIED"
@@ -299,7 +251,42 @@ export type UserIdInfoDataSourceTypeEnum =
   | "DATA_SOURCE_TYPE_THIRD_PARTY_VOTER_FILE"
   | "DATA_SOURCE_TYPE_THIRD_PARTY_PARTNER_DATA";
 export interface UserIdInfo {
-  dataSourceType?: UserIdInfoDataSourceTypeEnum | (string & {});
+  dataSourceType?: UserIdInfoDataSourceTypeEnum | (string & {}) | undefined;
+}
+export type PartnerAudienceInfoPartnerAudienceSourceEnum =
+  | "PARTNER_AUDIENCE_SOURCE_UNSPECIFIED"
+  | "COMMERCE_AUDIENCE"
+  | "LINEAR_TV_AUDIENCE"
+  | "AGENCY_PROVIDER_AUDIENCE";
+export interface PartnerAudienceInfo {
+  partnerAudienceSource?: PartnerAudienceInfoPartnerAudienceSourceEnum | (string & {}) | undefined;
+  commercePartner?: string | undefined;
+}
+export type PseudonymousIdInfoSyncStatusEnum =
+  | "SYNC_STATUS_UNSPECIFIED"
+  | "CREATED"
+  | "READY_FOR_USE"
+  | "FAILED";
+export interface PseudonymousIdInfo {
+  syncStatus?: PseudonymousIdInfoSyncStatusEnum | (string & {}) | undefined;
+  billableRecordCount?: string | undefined;
+}
+export interface PairIdInfo {
+  advertiserIdentifierCount?: string | undefined;
+  matchRatePercentage?: number | undefined;
+  cleanRoomIdentifier?: string | undefined;
+  publisherName?: string | undefined;
+  publisherId?: string | undefined;
+}
+export type ContactIdInfoDataSourceTypeEnum =
+  | "DATA_SOURCE_TYPE_UNSPECIFIED"
+  | "DATA_SOURCE_TYPE_FIRST_PARTY"
+  | "DATA_SOURCE_TYPE_THIRD_PARTY_CREDIT_BUREAU"
+  | "DATA_SOURCE_TYPE_THIRD_PARTY_VOTER_FILE"
+  | "DATA_SOURCE_TYPE_THIRD_PARTY_PARTNER_DATA";
+export interface ContactIdInfo {
+  dataSourceType?: ContactIdInfoDataSourceTypeEnum | (string & {}) | undefined;
+  matchRatePercentage?: number | undefined;
 }
 export type IngestedUserListInfoUploadKeyTypesItemEnum =
   | "UPLOAD_KEY_TYPE_UNSPECIFIED"
@@ -312,61 +299,79 @@ export type IngestedUserListInfoUploadKeyTypesItemEnumList = Array<
   IngestedUserListInfoUploadKeyTypesItemEnum | (string & {})
 >;
 export interface IngestedUserListInfo {
-  partnerAudienceInfo?: PartnerAudienceInfo;
-  pairIdInfo?: PairIdInfo;
-  mobileIdInfo?: MobileIdInfo;
-  contactIdInfo?: ContactIdInfo;
-  pseudonymousIdInfo?: PseudonymousIdInfo;
-  userIdInfo?: UserIdInfo;
-  uploadKeyTypes?: IngestedUserListInfoUploadKeyTypesItemEnumList;
+  mobileIdInfo?: MobileIdInfo | undefined;
+  userIdInfo?: UserIdInfo | undefined;
+  partnerAudienceInfo?: PartnerAudienceInfo | undefined;
+  pseudonymousIdInfo?: PseudonymousIdInfo | undefined;
+  pairIdInfo?: PairIdInfo | undefined;
+  contactIdInfo?: ContactIdInfo | undefined;
+  uploadKeyTypes?: IngestedUserListInfoUploadKeyTypesItemEnumList | undefined;
+}
+export type UserListAccountAccessStatusEnum = "ACCESS_STATUS_UNSPECIFIED" | "ENABLED" | "DISABLED";
+export type UserListMembershipStatusEnum = "MEMBERSHIP_STATUS_UNSPECIFIED" | "OPEN" | "CLOSED";
+export type UserListAccessReasonEnum =
+  | "ACCESS_REASON_UNSPECIFIED"
+  | "OWNED"
+  | "SHARED"
+  | "LICENSED"
+  | "SUBSCRIBED"
+  | "AFFILIATED";
+export interface TargetNetworkInfo {
+  eligibleForDisplay?: boolean | undefined;
+  eligibleForSearch?: boolean | undefined;
 }
 export interface UserList {
-  accessReason?: UserListAccessReasonEnum | (string & {});
-  displayName?: string;
-  integrationCode?: string;
-  closingReason?: UserListClosingReasonEnum | (string & {});
-  membershipDuration?: string;
-  sizeInfo?: SizeInfo;
-  membershipStatus?: UserListMembershipStatusEnum | (string & {});
-  accountAccessStatus?: UserListAccountAccessStatusEnum | (string & {});
-  description?: string;
-  name?: string;
-  targetNetworkInfo?: TargetNetworkInfo;
-  id?: string;
-  ingestedUserListInfo?: IngestedUserListInfo;
-  readOnly?: boolean;
+  closingReason?: UserListClosingReasonEnum | (string & {}) | undefined;
+  readOnly?: boolean | undefined;
+  name?: string | undefined;
+  sizeInfo?: SizeInfo | undefined;
+  integrationCode?: string | undefined;
+  ingestedUserListInfo?: IngestedUserListInfo | undefined;
+  description?: string | undefined;
+  accountAccessStatus?: UserListAccountAccessStatusEnum | (string & {}) | undefined;
+  membershipStatus?: UserListMembershipStatusEnum | (string & {}) | undefined;
+  displayName?: string | undefined;
+  membershipDuration?: string | undefined;
+  accessReason?: UserListAccessReasonEnum | (string & {}) | undefined;
+  id?: string | undefined;
+  targetNetworkInfo?: TargetNetworkInfo | undefined;
 }
 export interface CreateAccountTypesAccountsUserListsRequest {
-  validateOnly?: boolean;
   parent: string;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: UserList;
+  body?: UserList | undefined;
 }
 export interface DeleteAccountTypesAccountsPartnerLinksRequest {
   name: string;
 }
 export interface Empty {}
 export interface DeleteAccountTypesAccountsUserListsRequest {
-  validateOnly?: boolean;
   name: string;
+  validateOnly?: boolean | undefined;
 }
 export type StringList = Array<string>;
 export interface Location {
-  regionCodes?: StringList;
+  regionCodes?: StringList | undefined;
 }
 export interface Baseline {
-  baselineLocation?: Location;
-  locationAutoDetectionEnabled?: boolean;
+  baselineLocation?: Location | undefined;
+  locationAutoDetectionEnabled?: boolean | undefined;
 }
 export interface RetrieveInsightsRequest {
-  userListId?: string;
-  baseline?: Baseline;
+  userListId?: string | undefined;
+  baseline?: Baseline | undefined;
 }
 export interface GetAccountTypesAccountsInsightsRequest {
   parent: string;
   /** Request body */
-  body?: RetrieveInsightsRequest;
+  body?: RetrieveInsightsRequest | undefined;
 }
+export type MarketingDataInsightsAttributeGenderEnum =
+  | "GENDER_UNSPECIFIED"
+  | "GENDER_UNKNOWN"
+  | "GENDER_MALE"
+  | "GENDER_FEMALE";
 export type MarketingDataInsightsAttributeAgeRangeEnum =
   | "AGE_RANGE_UNSPECIFIED"
   | "AGE_RANGE_UNKNOWN"
@@ -376,16 +381,11 @@ export type MarketingDataInsightsAttributeAgeRangeEnum =
   | "AGE_RANGE_45_54"
   | "AGE_RANGE_55_64"
   | "AGE_RANGE_65_UP";
-export type MarketingDataInsightsAttributeGenderEnum =
-  | "GENDER_UNSPECIFIED"
-  | "GENDER_UNKNOWN"
-  | "GENDER_MALE"
-  | "GENDER_FEMALE";
 export interface MarketingDataInsightsAttribute {
-  ageRange?: MarketingDataInsightsAttributeAgeRangeEnum;
-  gender?: MarketingDataInsightsAttributeGenderEnum;
-  userInterestId?: string;
-  lift?: number;
+  gender?: MarketingDataInsightsAttributeGenderEnum | undefined;
+  userInterestId?: string | undefined;
+  ageRange?: MarketingDataInsightsAttributeAgeRangeEnum | undefined;
+  lift?: number | undefined;
 }
 export type MarketingDataInsightsAttributeList = Array<MarketingDataInsightsAttribute>;
 export type MarketingDataInsightDimensionEnum =
@@ -396,12 +396,12 @@ export type MarketingDataInsightDimensionEnum =
   | "AGE_RANGE"
   | "GENDER";
 export interface MarketingDataInsight {
-  attributes?: MarketingDataInsightsAttributeList;
-  dimension?: MarketingDataInsightDimensionEnum;
+  attributes?: MarketingDataInsightsAttributeList | undefined;
+  dimension?: MarketingDataInsightDimensionEnum | undefined;
 }
 export type MarketingDataInsightList = Array<MarketingDataInsight>;
 export interface RetrieveInsightsResponse {
-  marketingDataInsights?: MarketingDataInsightList;
+  marketingDataInsights?: MarketingDataInsightList | undefined;
 }
 export interface GetAccountTypesAccountsUserListDirectLicensesRequest {
   name: string;
@@ -412,15 +412,60 @@ export interface GetAccountTypesAccountsUserListGlobalLicensesRequest {
 export interface GetAccountTypesAccountsUserListsRequest {
   name: string;
 }
-export interface GetRequestStatusRequest {
-  requestId?: string;
+export interface GetPartnerMatchReportAccountTypesAccountsReportsRequest {
+  filter?: string | undefined;
+  endDate?: string | undefined;
+  startDate?: string | undefined;
+  parent: string;
+  pageToken?: string | undefined;
+  currencyCode?: string | undefined;
+  pageSize?: number | undefined;
 }
-export type RequestStatusPerDestinationRequestStatusEnum =
-  | "REQUEST_STATUS_UNKNOWN"
-  | "SUCCESS"
-  | "PROCESSING"
-  | "FAILED"
-  | "PARTIAL_SUCCESS";
+export interface PartnerMatchAdvertiserAccount {
+  accountType?: string | undefined;
+  accountId?: string | undefined;
+  displayName?: string | undefined;
+}
+export interface PartnerMatchAdGroup {
+  displayName?: string | undefined;
+  adGroupId?: string | undefined;
+}
+export interface Money {
+  nanos?: number | undefined;
+  units?: string | undefined;
+  currencyCode?: string | undefined;
+}
+export interface PartnerMatchCampaign {
+  campaignId?: string | undefined;
+  displayName?: string | undefined;
+}
+export interface PartnerMatchUserList {
+  userListId?: string | undefined;
+  displayName?: string | undefined;
+}
+export interface PartnerMatchLineItem {
+  displayName?: string | undefined;
+  lineItemId?: string | undefined;
+}
+export interface PartnerMatchReportEntry {
+  impressionCount?: string | undefined;
+  advertiserAccount?: PartnerMatchAdvertiserAccount | undefined;
+  adGroup?: PartnerMatchAdGroup | undefined;
+  dataFees?: Money | undefined;
+  campaign?: PartnerMatchCampaign | undefined;
+  userList?: PartnerMatchUserList | undefined;
+  lineItem?: PartnerMatchLineItem | undefined;
+  mediaCost?: Money | undefined;
+}
+export type PartnerMatchReportEntryList = Array<PartnerMatchReportEntry>;
+export interface RetrievePartnerMatchReportResponse {
+  partnerMatchReportEntries?: PartnerMatchReportEntryList | undefined;
+  nextPageToken?: string | undefined;
+}
+export interface GetRequestStatusRequest {
+  requestId?: string | undefined;
+}
+export type IntegerList = Array<number>;
 export type WarningCountReasonEnum =
   | "PROCESSING_WARNING_REASON_UNSPECIFIED"
   | "PROCESSING_WARNING_REASON_KEK_PERMISSION_DENIED"
@@ -431,138 +476,31 @@ export type WarningCountReasonEnum =
   | "PROCESSING_WARNING_REASON_INVALID_KEK"
   | "PROCESSING_WARNING_REASON_USER_IDENTIFIER_DECRYPTION_ERROR"
   | "PROCESSING_WARNING_REASON_INTERNAL_ERROR"
-  | "PROCESSING_WARNING_REASON_AWS_AUTH_FAILED";
+  | "PROCESSING_WARNING_REASON_AWS_AUTH_FAILED"
+  | "PROCESSING_WARNING_REASON_CUSTOM_VARIABLE_NOT_ENABLED"
+  | "PROCESSING_WARNING_REASON_CUSTOM_VARIABLE_NOT_PREDEFINED";
 export interface WarningCount {
-  recordCount?: string;
-  reason?: WarningCountReasonEnum;
+  recordIndices?: IntegerList | undefined;
+  recordCount?: string | undefined;
+  reason?: WarningCountReasonEnum | undefined;
 }
 export type WarningCountList = Array<WarningCount>;
 export interface WarningInfo {
-  warningCounts?: WarningCountList;
-}
-export interface RemoveUserIdDataStatus {
-  recordCount?: string;
-  userIdCount?: string;
-}
-export interface RemoveUserDataStatus {
-  recordCount?: string;
-  userIdentifierCount?: string;
-}
-export interface RemovePairDataStatus {
-  recordCount?: string;
-  pairIdCount?: string;
-}
-export interface RemovePpidDataStatus {
-  ppidCount?: string;
-  recordCount?: string;
-}
-export type DataTypeCountTypeEnum =
-  | "DATA_TYPE_UNSPECIFIED"
-  | "EMAIL"
-  | "PHONE_NUMBER"
-  | "ADDRESS"
-  | "IP_ADDRESS";
-export interface DataTypeCount {
-  type?: DataTypeCountTypeEnum;
-  count?: string;
-}
-export type DataTypeCountList = Array<DataTypeCount>;
-export interface RemoveCompositeDataStatus {
-  dataTypeCounts?: DataTypeCountList;
-  recordCount?: string;
-}
-export interface RemoveGoogleUserIdDataStatus {
-  googleUserIdCount?: string;
-  recordCount?: string;
-}
-export interface RemoveMobileDataStatus {
-  recordCount?: string;
-  mobileIdCount?: string;
-}
-export interface RemovePartnerProvidedIdDataStatus {
-  recordCount?: string;
-  partnerProvidedIdCount?: string;
-}
-export interface RemoveAudienceMembersStatus {
-  userIdDataRemovalStatus?: RemoveUserIdDataStatus;
-  userDataRemovalStatus?: RemoveUserDataStatus;
-  pairDataRemovalStatus?: RemovePairDataStatus;
-  ppidDataRemovalStatus?: RemovePpidDataStatus;
-  compositeDataRemovalStatus?: RemoveCompositeDataStatus;
-  googleUserIdDataRemovalStatus?: RemoveGoogleUserIdDataStatus;
-  mobileDataRemovalStatus?: RemoveMobileDataStatus;
-  partnerProvidedIdDataRemovalStatus?: RemovePartnerProvidedIdDataStatus;
-}
-export interface RemoveAllAudienceMembersStatus {}
-export interface IngestMobileDataStatus {
-  mobileIdCount?: string;
-  recordCount?: string;
-}
-export type IngestUserIdDataStatus = RemoveUserIdDataStatus;
-export interface IngestPartnerProvidedIdDataStatus {
-  partnerProvidedIdCount?: string;
-  recordCount?: string;
-}
-export type IngestUserDataStatusUploadMatchRateRangeEnum =
-  | "MATCH_RATE_RANGE_UNKNOWN"
-  | "MATCH_RATE_RANGE_NOT_ELIGIBLE"
-  | "MATCH_RATE_RANGE_LESS_THAN_20"
-  | "MATCH_RATE_RANGE_20_TO_30"
-  | "MATCH_RATE_RANGE_31_TO_40"
-  | "MATCH_RATE_RANGE_41_TO_50"
-  | "MATCH_RATE_RANGE_51_TO_60"
-  | "MATCH_RATE_RANGE_61_TO_70"
-  | "MATCH_RATE_RANGE_71_TO_80"
-  | "MATCH_RATE_RANGE_81_TO_90"
-  | "MATCH_RATE_RANGE_91_TO_100";
-export interface IngestUserDataStatus {
-  uploadMatchRateRange?: IngestUserDataStatusUploadMatchRateRangeEnum;
-  userIdentifierCount?: string;
-  recordCount?: string;
-}
-export interface IngestPairDataStatus {
-  pairIdCount?: string;
-  recordCount?: string;
-}
-export type IngestPpidDataStatus = RemovePpidDataStatus;
-export type IngestCompositeDataStatusUploadMatchRateRangeEnum =
-  | "MATCH_RATE_RANGE_UNKNOWN"
-  | "MATCH_RATE_RANGE_NOT_ELIGIBLE"
-  | "MATCH_RATE_RANGE_LESS_THAN_20"
-  | "MATCH_RATE_RANGE_20_TO_30"
-  | "MATCH_RATE_RANGE_31_TO_40"
-  | "MATCH_RATE_RANGE_41_TO_50"
-  | "MATCH_RATE_RANGE_51_TO_60"
-  | "MATCH_RATE_RANGE_61_TO_70"
-  | "MATCH_RATE_RANGE_71_TO_80"
-  | "MATCH_RATE_RANGE_81_TO_90"
-  | "MATCH_RATE_RANGE_91_TO_100";
-export interface IngestCompositeDataStatus {
-  uploadMatchRateRange?: IngestCompositeDataStatusUploadMatchRateRangeEnum;
-  recordCount?: string;
-  dataTypeCounts?: DataTypeCountList;
-}
-export type IngestGoogleUserIdDataStatus = RemoveGoogleUserIdDataStatus;
-export interface IngestAudienceMembersStatus {
-  mobileDataIngestionStatus?: IngestMobileDataStatus;
-  userIdDataIngestionStatus?: RemoveUserIdDataStatus;
-  partnerProvidedIdDataIngestionStatus?: IngestPartnerProvidedIdDataStatus;
-  userDataIngestionStatus?: IngestUserDataStatus;
-  pairDataIngestionStatus?: IngestPairDataStatus;
-  ppidDataIngestionStatus?: RemovePpidDataStatus;
-  compositeDataIngestionStatus?: IngestCompositeDataStatus;
-  googleUserIdDataIngestionStatus?: RemoveGoogleUserIdDataStatus;
+  warningCounts?: WarningCountList | undefined;
 }
 export interface Destination {
-  reference?: string;
-  productDestinationId?: string;
-  loginAccount?: ProductAccount;
-  operatingAccount?: ProductAccount;
-  linkedAccount?: ProductAccount;
+  operatingAccount?: ProductAccount | undefined;
+  linkedAccount?: ProductAccount | undefined;
+  reference?: string | undefined;
+  productDestinationId?: string | undefined;
+  loginAccount?: ProductAccount | undefined;
 }
-export interface IngestEventsStatus {
-  recordCount?: string;
-}
+export type RequestStatusPerDestinationRequestStatusEnum =
+  | "REQUEST_STATUS_UNKNOWN"
+  | "SUCCESS"
+  | "PROCESSING"
+  | "FAILED"
+  | "PARTIAL_SUCCESS";
 export type ErrorCountReasonEnum =
   | "PROCESSING_ERROR_REASON_UNSPECIFIED"
   | "PROCESSING_ERROR_REASON_INVALID_CUSTOM_VARIABLE"
@@ -610,76 +548,145 @@ export type ErrorCountReasonEnum =
   | "PROCESSING_ERROR_REASON_CLICK_NOT_FOUND"
   | "PROCESSING_ERROR_REASON_EXTERNAL_ATTRIBUTION_DATA_MISSING"
   | "PROCESSING_ERROR_REASON_DESTINATION_TOO_RECENTLY_CREATED"
-  | "PROCESSING_ERROR_REASON_EXPIRED_CLICK";
+  | "PROCESSING_ERROR_REASON_EXPIRED_CLICK"
+  | "PROCESSING_ERROR_REASON_TOO_RECENT_CALL"
+  | "PROCESSING_ERROR_REASON_EXPIRED_CALL"
+  | "PROCESSING_ERROR_REASON_INVALID_CALL";
 export interface ErrorCount {
-  recordCount?: string;
-  reason?: ErrorCountReasonEnum;
+  recordIndices?: IntegerList | undefined;
+  recordCount?: string | undefined;
+  reason?: ErrorCountReasonEnum | undefined;
 }
 export type ErrorCountList = Array<ErrorCount>;
 export interface ErrorInfo {
-  errorCounts?: ErrorCountList;
+  errorCounts?: ErrorCountList | undefined;
+}
+export interface RemoveAllAudienceMembersStatus {}
+export interface RemovePairDataStatus {
+  recordCount?: string | undefined;
+  pairIdCount?: string | undefined;
+}
+export interface RemovePpidDataStatus {
+  recordCount?: string | undefined;
+  ppidCount?: string | undefined;
+}
+export interface RemoveUserIdDataStatus {
+  recordCount?: string | undefined;
+  userIdCount?: string | undefined;
+}
+export interface RemovePartnerProvidedIdDataStatus {
+  recordCount?: string | undefined;
+  partnerProvidedIdCount?: string | undefined;
+}
+export type DataTypeCountTypeEnum =
+  | "DATA_TYPE_UNSPECIFIED"
+  | "EMAIL"
+  | "PHONE_NUMBER"
+  | "ADDRESS"
+  | "IP_ADDRESS";
+export interface DataTypeCount {
+  type?: DataTypeCountTypeEnum | undefined;
+  count?: string | undefined;
+}
+export type DataTypeCountList = Array<DataTypeCount>;
+export interface RemoveCompositeDataStatus {
+  recordCount?: string | undefined;
+  dataTypeCounts?: DataTypeCountList | undefined;
+}
+export interface RemoveGoogleUserIdDataStatus {
+  googleUserIdCount?: string | undefined;
+  recordCount?: string | undefined;
+}
+export interface RemoveUserDataStatus {
+  recordCount?: string | undefined;
+  userIdentifierCount?: string | undefined;
+}
+export interface RemoveMobileDataStatus {
+  mobileIdCount?: string | undefined;
+  recordCount?: string | undefined;
+}
+export interface RemoveAudienceMembersStatus {
+  pairDataRemovalStatus?: RemovePairDataStatus | undefined;
+  ppidDataRemovalStatus?: RemovePpidDataStatus | undefined;
+  userIdDataRemovalStatus?: RemoveUserIdDataStatus | undefined;
+  partnerProvidedIdDataRemovalStatus?: RemovePartnerProvidedIdDataStatus | undefined;
+  compositeDataRemovalStatus?: RemoveCompositeDataStatus | undefined;
+  googleUserIdDataRemovalStatus?: RemoveGoogleUserIdDataStatus | undefined;
+  userDataRemovalStatus?: RemoveUserDataStatus | undefined;
+  mobileDataRemovalStatus?: RemoveMobileDataStatus | undefined;
+}
+export interface IngestEventsStatus {
+  recordCount?: string | undefined;
+}
+export type IngestPpidDataStatus = RemovePpidDataStatus;
+export type IngestGoogleUserIdDataStatus = RemoveGoogleUserIdDataStatus;
+export interface IngestUserIdDataStatus {
+  userIdCount?: string | undefined;
+  recordCount?: string | undefined;
+}
+export interface IngestPartnerProvidedIdDataStatus {
+  partnerProvidedIdCount?: string | undefined;
+  recordCount?: string | undefined;
+}
+export type IngestUserDataStatusUploadMatchRateRangeEnum =
+  | "MATCH_RATE_RANGE_UNKNOWN"
+  | "MATCH_RATE_RANGE_NOT_ELIGIBLE"
+  | "MATCH_RATE_RANGE_LESS_THAN_20"
+  | "MATCH_RATE_RANGE_20_TO_30"
+  | "MATCH_RATE_RANGE_31_TO_40"
+  | "MATCH_RATE_RANGE_41_TO_50"
+  | "MATCH_RATE_RANGE_51_TO_60"
+  | "MATCH_RATE_RANGE_61_TO_70"
+  | "MATCH_RATE_RANGE_71_TO_80"
+  | "MATCH_RATE_RANGE_81_TO_90"
+  | "MATCH_RATE_RANGE_91_TO_100";
+export interface IngestUserDataStatus {
+  recordCount?: string | undefined;
+  uploadMatchRateRange?: IngestUserDataStatusUploadMatchRateRangeEnum | undefined;
+  userIdentifierCount?: string | undefined;
+}
+export type IngestMobileDataStatus = RemoveMobileDataStatus;
+export type IngestPairDataStatus = RemovePairDataStatus;
+export type IngestCompositeDataStatusUploadMatchRateRangeEnum =
+  | "MATCH_RATE_RANGE_UNKNOWN"
+  | "MATCH_RATE_RANGE_NOT_ELIGIBLE"
+  | "MATCH_RATE_RANGE_LESS_THAN_20"
+  | "MATCH_RATE_RANGE_20_TO_30"
+  | "MATCH_RATE_RANGE_31_TO_40"
+  | "MATCH_RATE_RANGE_41_TO_50"
+  | "MATCH_RATE_RANGE_51_TO_60"
+  | "MATCH_RATE_RANGE_61_TO_70"
+  | "MATCH_RATE_RANGE_71_TO_80"
+  | "MATCH_RATE_RANGE_81_TO_90"
+  | "MATCH_RATE_RANGE_91_TO_100";
+export interface IngestCompositeDataStatus {
+  recordCount?: string | undefined;
+  uploadMatchRateRange?: IngestCompositeDataStatusUploadMatchRateRangeEnum | undefined;
+  dataTypeCounts?: DataTypeCountList | undefined;
+}
+export interface IngestAudienceMembersStatus {
+  ppidDataIngestionStatus?: RemovePpidDataStatus | undefined;
+  googleUserIdDataIngestionStatus?: RemoveGoogleUserIdDataStatus | undefined;
+  userIdDataIngestionStatus?: IngestUserIdDataStatus | undefined;
+  partnerProvidedIdDataIngestionStatus?: IngestPartnerProvidedIdDataStatus | undefined;
+  userDataIngestionStatus?: IngestUserDataStatus | undefined;
+  mobileDataIngestionStatus?: RemoveMobileDataStatus | undefined;
+  pairDataIngestionStatus?: RemovePairDataStatus | undefined;
+  compositeDataIngestionStatus?: IngestCompositeDataStatus | undefined;
 }
 export interface RequestStatusPerDestination {
-  requestStatus?: RequestStatusPerDestinationRequestStatusEnum;
-  warningInfo?: WarningInfo;
-  audienceMembersRemovalStatus?: RemoveAudienceMembersStatus;
-  removeAllAudienceMembersStatus?: RemoveAllAudienceMembersStatus;
-  audienceMembersIngestionStatus?: IngestAudienceMembersStatus;
-  destination?: Destination;
-  eventsIngestionStatus?: IngestEventsStatus;
-  errorInfo?: ErrorInfo;
+  warningInfo?: WarningInfo | undefined;
+  destination?: Destination | undefined;
+  requestStatus?: RequestStatusPerDestinationRequestStatusEnum | undefined;
+  errorInfo?: ErrorInfo | undefined;
+  removeAllAudienceMembersStatus?: RemoveAllAudienceMembersStatus | undefined;
+  audienceMembersRemovalStatus?: RemoveAudienceMembersStatus | undefined;
+  eventsIngestionStatus?: IngestEventsStatus | undefined;
+  audienceMembersIngestionStatus?: IngestAudienceMembersStatus | undefined;
 }
 export type RequestStatusPerDestinationList = Array<RequestStatusPerDestination>;
 export interface GetRequestStatusResponse {
-  requestStatusPerDestination?: RequestStatusPerDestinationList;
-}
-export type AdEventEventTypeEnum =
-  | "EVENT_TYPE_UNSPECIFIED"
-  | "EVENT_TYPE_VIEW"
-  | "EVENT_TYPE_CLICK";
-export type AdEventAttributionHintEnum =
-  | "ATTRIBUTION_HINT_UNSPECIFIED"
-  | "ATTRIBUTION_HINT_CONVERTED"
-  | "ATTRIBUTION_HINT_NOT_CONVERTED";
-export type AdEventAdTypeEnum =
-  | "AD_TYPE_UNSPECIFIED"
-  | "AD_TYPE_DISPLAY"
-  | "AD_TYPE_TEXT"
-  | "AD_TYPE_IMAGE"
-  | "AD_TYPE_RICH_MEDIA"
-  | "AD_TYPE_HTML"
-  | "AD_TYPE_AUDIO"
-  | "AD_TYPE_VIDEO";
-export type AdEventEventSubtypeEnum =
-  | "EVENT_SUBTYPE_UNSPECIFIED"
-  | "EVENT_SUBTYPE_IMPRESSION"
-  | "EVENT_SUBTYPE_ENGAGED_VIEW"
-  | "EVENT_SUBTYPE_ONSITE_CLICK"
-  | "EVENT_SUBTYPE_OUTBOUND_CLICK";
-export type AdEventPlatformTypeEnum =
-  | "PLATFORM_TYPE_UNSPECIFIED"
-  | "PLATFORM_TYPE_MOBILE"
-  | "PLATFORM_TYPE_DESKTOP"
-  | "PLATFORM_TYPE_CTV"
-  | "PLATFORM_TYPE_PHONE"
-  | "PLATFORM_TYPE_TABLET";
-export interface AddressInfo {
-  addressLine?: string;
-  city?: string;
-  administrativeArea?: string;
-  familyName?: string;
-  postalCode?: string;
-  givenName?: string;
-  regionCode?: string;
-}
-export interface UserIdentifier {
-  emailAddress?: string;
-  phoneNumber?: string;
-  address?: AddressInfo;
-}
-export type UserIdentifierList = Array<UserIdentifier>;
-export interface UserData {
-  userIdentifiers?: UserIdentifierList;
+  requestStatusPerDestination?: RequestStatusPerDestinationList | undefined;
 }
 export type AdEventTargetingTypeEnum =
   | "TARGETING_TYPE_UNSPECIFIED"
@@ -691,6 +698,15 @@ export type AdEventTargetingTypeEnum =
   | "TARGETING_TYPE_INTEREST"
   | "TARGETING_TYPE_PURCHASE_INTENT"
   | "TARGETING_TYPE_REMARKETING";
+export type AdEventAdTypeEnum =
+  | "AD_TYPE_UNSPECIFIED"
+  | "AD_TYPE_DISPLAY"
+  | "AD_TYPE_TEXT"
+  | "AD_TYPE_IMAGE"
+  | "AD_TYPE_RICH_MEDIA"
+  | "AD_TYPE_HTML"
+  | "AD_TYPE_AUDIO"
+  | "AD_TYPE_VIDEO";
 export type ViewabilityInfoMediaQuartileEnum =
   | "MEDIA_QUARTILE_UNSPECIFIED"
   | "MEDIA_QUARTILE_START"
@@ -703,15 +719,33 @@ export type ViewabilityInfoViewTypeEnum =
   | "VIEW_TYPE_MRC_VIEWED"
   | "VIEW_TYPE_MRC_RENDERED";
 export interface ViewabilityInfo {
-  mediaQuartile?: ViewabilityInfoMediaQuartileEnum | (string & {});
-  mediaVolumePercent?: number;
-  viewableDuration?: string;
-  viewablePercent?: number;
-  viewType?: ViewabilityInfoViewTypeEnum | (string & {});
-  mediaDuration?: string;
-  mediaSkippable?: boolean;
-  playbackDuration?: string;
+  mediaQuartile?: ViewabilityInfoMediaQuartileEnum | (string & {}) | undefined;
+  viewableDuration?: string | undefined;
+  viewType?: ViewabilityInfoViewTypeEnum | (string & {}) | undefined;
+  viewablePercent?: number | undefined;
+  mediaSkippable?: boolean | undefined;
+  playbackDuration?: string | undefined;
+  mediaDuration?: string | undefined;
+  mediaVolumePercent?: number | undefined;
 }
+export interface DeviceInfo {
+  brand?: string | undefined;
+  screenWidth?: number | undefined;
+  operatingSystem?: string | undefined;
+  operatingSystemVersion?: string | undefined;
+  category?: string | undefined;
+  browser?: string | undefined;
+  browserVersion?: string | undefined;
+  languageCode?: string | undefined;
+  screenHeight?: number | undefined;
+  ipAddress?: string | undefined;
+  userAgent?: string | undefined;
+  model?: string | undefined;
+}
+export type AdEventAttributionHintEnum =
+  | "ATTRIBUTION_HINT_UNSPECIFIED"
+  | "ATTRIBUTION_HINT_CONVERTED"
+  | "ATTRIBUTION_HINT_NOT_CONVERTED";
 export type AdEventAdPlacementEnum =
   | "AD_PLACEMENT_UNSPECIFIED"
   | "AD_PLACEMENT_DISCOVER"
@@ -743,109 +777,116 @@ export type AdEventAdFormatEnum =
   | "AD_FORMAT_STORY"
   | "AD_FORMAT_SPONSORED"
   | "AD_FORMAT_VIDEO";
+export type AdEventPlatformTypeEnum =
+  | "PLATFORM_TYPE_UNSPECIFIED"
+  | "PLATFORM_TYPE_MOBILE"
+  | "PLATFORM_TYPE_DESKTOP"
+  | "PLATFORM_TYPE_CTV"
+  | "PLATFORM_TYPE_PHONE"
+  | "PLATFORM_TYPE_TABLET";
+export interface AddressInfo {
+  familyName?: string | undefined;
+  city?: string | undefined;
+  regionCode?: string | undefined;
+  givenName?: string | undefined;
+  postalCode?: string | undefined;
+  administrativeArea?: string | undefined;
+  addressLine?: string | undefined;
+}
+export interface UserIdentifier {
+  emailAddress?: string | undefined;
+  phoneNumber?: string | undefined;
+  address?: AddressInfo | undefined;
+}
+export type UserIdentifierList = Array<UserIdentifier>;
+export interface UserData {
+  userIdentifiers?: UserIdentifierList | undefined;
+}
+export type AdEventEventTypeEnum =
+  | "EVENT_TYPE_UNSPECIFIED"
+  | "EVENT_TYPE_VIEW"
+  | "EVENT_TYPE_CLICK";
 export type AdEventPlatformEnum =
   | "PLATFORM_UNSPECIFIED"
   | "PLATFORM_IOS"
   | "PLATFORM_ANDROID"
   | "PLATFORM_WEB";
-export interface DeviceInfo {
-  browser?: string;
-  screenWidth?: number;
-  userAgent?: string;
-  operatingSystemVersion?: string;
-  screenHeight?: number;
-  ipAddress?: string;
-  browserVersion?: string;
-  operatingSystem?: string;
-  brand?: string;
-  category?: string;
-  model?: string;
-  languageCode?: string;
-}
+export type AdEventEventSubtypeEnum =
+  | "EVENT_SUBTYPE_UNSPECIFIED"
+  | "EVENT_SUBTYPE_IMPRESSION"
+  | "EVENT_SUBTYPE_ENGAGED_VIEW"
+  | "EVENT_SUBTYPE_ONSITE_CLICK"
+  | "EVENT_SUBTYPE_OUTBOUND_CLICK";
 export interface AdEvent {
-  regionCode?: string;
-  measurementAllowed?: boolean;
-  adHeight?: number;
-  campaignName?: string;
-  adTypeString?: string;
-  eventType?: AdEventEventTypeEnum | (string & {});
-  attributionHint?: AdEventAttributionHintEnum | (string & {});
-  adType?: AdEventAdTypeEnum | (string & {});
-  ipAddress?: string;
-  platformString?: string;
-  eventSubtype?: AdEventEventSubtypeEnum | (string & {});
-  platformType?: AdEventPlatformTypeEnum | (string & {});
-  advertiserId?: string;
-  userData?: UserData;
-  eventSubtypeString?: string;
-  targetingType?: AdEventTargetingTypeEnum | (string & {});
-  adGroupId?: string;
-  viewabilityInfo?: ViewabilityInfo;
-  adFormatString?: string;
-  adPlacement?: AdEventAdPlacementEnum | (string & {});
-  adFormat?: AdEventAdFormatEnum | (string & {});
-  platformTypeString?: string;
-  timestamp?: string;
-  targetingTypeString?: string;
-  source?: string;
-  platform?: AdEventPlatformEnum | (string & {});
-  adPlacementString?: string;
-  deviceInfo?: DeviceInfo;
-  campaignId?: string;
-  mobileDeviceId?: string;
-  adId?: string;
-  medium?: string;
-  eventId?: string;
-  adWidth?: number;
+  platformString?: string | undefined;
+  targetingType?: AdEventTargetingTypeEnum | (string & {}) | undefined;
+  measurementAllowed?: boolean | undefined;
+  timestamp?: string | undefined;
+  adType?: AdEventAdTypeEnum | (string & {}) | undefined;
+  viewabilityInfo?: ViewabilityInfo | undefined;
+  adPlacementString?: string | undefined;
+  adWidth?: number | undefined;
+  targetingTypeString?: string | undefined;
+  deviceInfo?: DeviceInfo | undefined;
+  eventSubtypeString?: string | undefined;
+  source?: string | undefined;
+  medium?: string | undefined;
+  adGroupId?: string | undefined;
+  mobileDeviceId?: string | undefined;
+  adTypeString?: string | undefined;
+  attributionHint?: AdEventAttributionHintEnum | (string & {}) | undefined;
+  advertiserId?: string | undefined;
+  adId?: string | undefined;
+  adPlacement?: AdEventAdPlacementEnum | (string & {}) | undefined;
+  adFormat?: AdEventAdFormatEnum | (string & {}) | undefined;
+  platformType?: AdEventPlatformTypeEnum | (string & {}) | undefined;
+  adHeight?: number | undefined;
+  userData?: UserData | undefined;
+  adFormatString?: string | undefined;
+  campaignName?: string | undefined;
+  eventType?: AdEventEventTypeEnum | (string & {}) | undefined;
+  platformTypeString?: string | undefined;
+  regionCode?: string | undefined;
+  platform?: AdEventPlatformEnum | (string & {}) | undefined;
+  campaignId?: string | undefined;
+  ipAddress?: string | undefined;
+  eventId?: string | undefined;
+  eventSubtype?: AdEventEventSubtypeEnum | (string & {}) | undefined;
 }
 export type AdEventList = Array<AdEvent>;
-export type AwsWrappedKeyInfoKeyTypeEnum = "KEY_TYPE_UNSPECIFIED" | "XCHACHA20_POLY1305";
-export interface AwsWrappedKeyInfo {
-  roleArn?: string;
-  kekUri?: string;
-  keyType?: AwsWrappedKeyInfoKeyTypeEnum | (string & {});
-  encryptedDek?: string;
-}
 export type GcpWrappedKeyInfoKeyTypeEnum = "KEY_TYPE_UNSPECIFIED" | "XCHACHA20_POLY1305";
 export interface GcpWrappedKeyInfo {
-  encryptedDek?: string;
-  wipProvider?: string;
-  keyType?: GcpWrappedKeyInfoKeyTypeEnum | (string & {});
-  kekUri?: string;
+  wipProvider?: string | undefined;
+  kekUri?: string | undefined;
+  encryptedDek?: string | undefined;
+  keyType?: GcpWrappedKeyInfoKeyTypeEnum | (string & {}) | undefined;
+}
+export type AwsWrappedKeyInfoKeyTypeEnum = "KEY_TYPE_UNSPECIFIED" | "XCHACHA20_POLY1305";
+export interface AwsWrappedKeyInfo {
+  keyType?: AwsWrappedKeyInfoKeyTypeEnum | (string & {}) | undefined;
+  roleArn?: string | undefined;
+  encryptedDek?: string | undefined;
+  kekUri?: string | undefined;
 }
 export interface CoordinatorKeyInfo {
-  keyId?: string;
+  keyId?: string | undefined;
 }
 export interface EncryptionInfo {
-  awsWrappedKeyInfo?: AwsWrappedKeyInfo;
-  gcpWrappedKeyInfo?: GcpWrappedKeyInfo;
-  coordinatorKeyInfo?: CoordinatorKeyInfo;
+  gcpWrappedKeyInfo?: GcpWrappedKeyInfo | undefined;
+  awsWrappedKeyInfo?: AwsWrappedKeyInfo | undefined;
+  coordinatorKeyInfo?: CoordinatorKeyInfo | undefined;
 }
 export interface IngestAdEventsRequest {
-  adEvents?: AdEventList;
-  validateOnly?: boolean;
-  encryptionInfo?: EncryptionInfo;
+  adEvents?: AdEventList | undefined;
+  validateOnly?: boolean | undefined;
+  encryptionInfo?: EncryptionInfo | undefined;
 }
 export interface IngestAdEventsRequest_ {
   /** Request body */
-  body?: IngestAdEventsRequest;
+  body?: IngestAdEventsRequest | undefined;
 }
 export interface IngestAdEventsResponse {}
-export interface PartnerProvidedIdData {
-  partnerProvidedIds?: StringList;
-}
-export interface GoogleUserIdData {
-  googleUserIds?: StringList;
-}
-export interface PairData {
-  pairIds?: StringList;
-}
-export interface MobileData {
-  mobileIds?: StringList;
-}
-export interface PpidData {
-  ppids?: StringList;
-}
+export type IngestAudienceMembersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
 export type ConsentAdUserDataEnum =
   | "CONSENT_STATUS_UNSPECIFIED"
   | "CONSENT_GRANTED"
@@ -855,37 +896,51 @@ export type ConsentAdPersonalizationEnum =
   | "CONSENT_GRANTED"
   | "CONSENT_DENIED";
 export interface Consent {
-  adUserData?: ConsentAdUserDataEnum | (string & {});
-  adPersonalization?: ConsentAdPersonalizationEnum | (string & {});
+  adUserData?: ConsentAdUserDataEnum | (string & {}) | undefined;
+  adPersonalization?: ConsentAdPersonalizationEnum | (string & {}) | undefined;
+}
+export type DestinationList = Array<Destination>;
+export interface MobileData {
+  mobileIds?: StringList | undefined;
+}
+export interface PpidData {
+  ppids?: StringList | undefined;
+}
+export interface GoogleUserIdData {
+  googleUserIds?: StringList | undefined;
+}
+export interface PartnerProvidedIdData {
+  partnerProvidedIds?: StringList | undefined;
 }
 export interface IpData {
-  ipAddress?: string;
-  observeStartTime?: string;
-  observeEndTime?: string;
+  observeStartTime?: string | undefined;
+  observeEndTime?: string | undefined;
+  ipAddress?: string | undefined;
 }
 export type IpDataList = Array<IpData>;
 export interface CompositeData {
-  ipData?: IpDataList;
-  userData?: UserData;
+  userData?: UserData | undefined;
+  ipData?: IpDataList | undefined;
+}
+export interface PairData {
+  pairIds?: StringList | undefined;
 }
 export interface UserIdData {
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface AudienceMember {
-  destinationReferences?: StringList;
-  partnerProvidedIdData?: PartnerProvidedIdData;
-  googleUserIdData?: GoogleUserIdData;
-  userData?: UserData;
-  pairData?: PairData;
-  mobileData?: MobileData;
-  ppidData?: PpidData;
-  consent?: Consent;
-  compositeData?: CompositeData;
-  userIdData?: UserIdData;
+  destinationReferences?: StringList | undefined;
+  mobileData?: MobileData | undefined;
+  ppidData?: PpidData | undefined;
+  userData?: UserData | undefined;
+  googleUserIdData?: GoogleUserIdData | undefined;
+  partnerProvidedIdData?: PartnerProvidedIdData | undefined;
+  compositeData?: CompositeData | undefined;
+  consent?: Consent | undefined;
+  pairData?: PairData | undefined;
+  userIdData?: UserIdData | undefined;
 }
 export type AudienceMemberList = Array<AudienceMember>;
-export type IngestAudienceMembersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
-export type DestinationList = Array<Destination>;
 export type TermsOfServiceCustomerMatchTermsOfServiceStatusEnum =
   | "TERMS_OF_SERVICE_STATUS_UNSPECIFIED"
   | "ACCEPTED"
@@ -893,20 +948,21 @@ export type TermsOfServiceCustomerMatchTermsOfServiceStatusEnum =
 export interface TermsOfService {
   customerMatchTermsOfServiceStatus?:
     | TermsOfServiceCustomerMatchTermsOfServiceStatusEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface IngestAudienceMembersRequest {
-  audienceMembers?: AudienceMemberList;
-  encoding?: IngestAudienceMembersRequestEncodingEnum | (string & {});
-  destinations?: DestinationList;
-  consent?: Consent;
-  termsOfService?: TermsOfService;
-  validateOnly?: boolean;
-  encryptionInfo?: EncryptionInfo;
+  encoding?: IngestAudienceMembersRequestEncodingEnum | (string & {}) | undefined;
+  consent?: Consent | undefined;
+  destinations?: DestinationList | undefined;
+  validateOnly?: boolean | undefined;
+  audienceMembers?: AudienceMemberList | undefined;
+  termsOfService?: TermsOfService | undefined;
+  encryptionInfo?: EncryptionInfo | undefined;
 }
 export interface IngestAudienceMembersRequest_ {
   /** Request body */
-  body?: IngestAudienceMembersRequest;
+  body?: IngestAudienceMembersRequest | undefined;
 }
 export type FieldWarningReasonEnum =
   | "WARNING_REASON_UNSPECIFIED"
@@ -923,93 +979,70 @@ export type FieldWarningReasonEnum =
   | "WARNING_REASON_INVALID_CONTINENT_CODE"
   | "WARNING_REASON_INVALID_DEVICE_CATEGORY"
   | "WARNING_REASON_INVALID_DEVICE_SCREEN_RESOLUTION"
-  | "WARNING_REASON_INVALID_MERCHANT_ID";
+  | "WARNING_REASON_INVALID_MERCHANT_ID"
+  | "WARNING_REASON_INVALID_NUMBER_FORMAT"
+  | "WARNING_REASON_INVALID_SHA256_FORMAT"
+  | "WARNING_REASON_INVALID_MERCHANT_FEED_LANGUAGE_CODE"
+  | "WARNING_REASON_FIELD_VALUE_TOO_LONG"
+  | "WARNING_REASON_FIELD_VALUE_TOO_SHORT"
+  | "WARNING_REASON_VALUE_TOO_HIGH"
+  | "WARNING_REASON_VALUE_TOO_LOW"
+  | "WARNING_REASON_TOO_MANY_ELEMENTS"
+  | "WARNING_REASON_DUPLICATE_ELEMENTS"
+  | "WARNING_REASON_CUSTOM_VARIABLES_NOT_SUPPORTED_WITH_GBRAID_OR_WBRAID"
+  | "WARNING_REASON_ADIDENTIFIER_NOT_USED";
 export interface FieldWarning {
-  reason?: FieldWarningReasonEnum;
-  field?: string;
-  description?: string;
+  description?: string | undefined;
+  field?: string | undefined;
+  reason?: FieldWarningReasonEnum | undefined;
 }
 export type FieldWarningList = Array<FieldWarning>;
 export interface IngestAudienceMembersResponse {
-  fieldWarnings?: FieldWarningList;
-  requestId?: string;
-}
-export type EventEventSourceEnum =
-  | "EVENT_SOURCE_UNSPECIFIED"
-  | "WEB"
-  | "APP"
-  | "IN_STORE"
-  | "PHONE"
-  | "MESSAGE"
-  | "OTHER";
-export type UserPropertiesCustomerValueBucketEnum =
-  | "CUSTOMER_VALUE_BUCKET_UNSPECIFIED"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH";
-export type UserPropertiesCustomerTypeEnum =
-  | "CUSTOMER_TYPE_UNSPECIFIED"
-  | "NEW"
-  | "RETURNING"
-  | "REENGAGED";
-export interface UserProperty {
-  propertyName?: string;
-  value?: string;
-}
-export type UserPropertyList = Array<UserProperty>;
-export interface UserProperties {
-  customerValueBucket?: UserPropertiesCustomerValueBucketEnum | (string & {});
-  customerType?: UserPropertiesCustomerTypeEnum | (string & {});
-  additionalUserProperties?: UserPropertyList;
-}
-export interface CustomVariable {
-  variable?: string;
-  value?: string;
-  destinationReferences?: StringList;
-}
-export type CustomVariableList = Array<CustomVariable>;
-export interface ItemParameter {
-  parameterName?: string;
-  value?: string;
-}
-export type ItemParameterList = Array<ItemParameter>;
-export interface ItemCustomVariable {
-  destinationReferences?: StringList;
-  value?: string;
-  variable?: string;
-}
-export type ItemCustomVariableList = Array<ItemCustomVariable>;
-export interface Item {
-  conversionValue?: number;
-  additionalItemParameters?: ItemParameterList;
-  merchantFeedLabel?: string;
-  quantity?: string;
-  merchantProductId?: string;
-  unitPrice?: number;
-  itemId?: string;
-  customVariables?: ItemCustomVariableList;
-  merchantFeedLanguageCode?: string;
-  merchantId?: string;
-}
-export type ItemList = Array<Item>;
-export interface CartData {
-  couponCodes?: StringList;
-  merchantFeedLanguageCode?: string;
-  merchantId?: string;
-  transactionDiscount?: number;
-  items?: ItemList;
-  merchantFeedLabel?: string;
+  fieldWarnings?: FieldWarningList | undefined;
+  requestId?: string | undefined;
 }
 export interface ExperimentalField {
-  field?: string;
-  value?: string;
+  field?: string | undefined;
+  value?: string | undefined;
 }
 export type ExperimentalFieldList = Array<ExperimentalField>;
 export interface EventParameter {
-  value?: string;
-  parameterName?: string;
+  value?: string | undefined;
+  parameterName?: string | undefined;
 }
 export type EventParameterList = Array<EventParameter>;
+export type ItemParameter = EventParameter;
+export type ItemParameterList = Array<EventParameter>;
+export interface ItemCustomVariable {
+  destinationReferences?: StringList | undefined;
+  value?: string | undefined;
+  variable?: string | undefined;
+}
+export type ItemCustomVariableList = Array<ItemCustomVariable>;
+export interface Item {
+  itemId?: string | undefined;
+  quantity?: string | undefined;
+  additionalItemParameters?: ItemParameterList | undefined;
+  unitPrice?: number | undefined;
+  merchantFeedLanguageCode?: string | undefined;
+  merchantFeedLabel?: string | undefined;
+  merchantId?: string | undefined;
+  merchantProductId?: string | undefined;
+  conversionValue?: number | undefined;
+  customVariables?: ItemCustomVariableList | undefined;
+}
+export type ItemList = Array<Item>;
+export interface CartData {
+  merchantFeedLanguageCode?: string | undefined;
+  transactionDiscount?: number | undefined;
+  items?: ItemList | undefined;
+  merchantFeedLabel?: string | undefined;
+  merchantId?: string | undefined;
+  couponCodes?: StringList | undefined;
+}
+export interface CallInfo {
+  startTimestamp?: string | undefined;
+}
 export type EncryptedUserIdEntityTypeEnum =
   | "ENCRYPTION_ENTITY_TYPE_UNSPECIFIED"
   | "CAMPAIGN_MANAGER_ACCOUNT"
@@ -1023,124 +1056,160 @@ export type EncryptedUserIdSourceEnum =
   | "AD_SERVING"
   | "DATA_TRANSFER";
 export interface EncryptedUserId {
-  entityType?: EncryptedUserIdEntityTypeEnum | (string & {});
-  source?: EncryptedUserIdSourceEnum | (string & {});
-  entityId?: string;
-  encryptedId?: string;
+  entityId?: string | undefined;
+  entityType?: EncryptedUserIdEntityTypeEnum | (string & {}) | undefined;
+  source?: EncryptedUserIdSourceEnum | (string & {}) | undefined;
+  encryptedId?: string | undefined;
 }
 export type EncryptedUserIdList = Array<EncryptedUserId>;
 export interface AdIdentifiers {
-  sessionAttributes?: string;
-  visitorPpid?: string;
-  encryptedUserIds?: EncryptedUserIdList;
-  gclid?: string;
-  dclid?: string;
-  wbraid?: string;
-  impressionId?: string;
-  mobileDeviceId?: string;
-  gbraid?: string;
-  landingPageDeviceInfo?: DeviceInfo;
-  matchId?: string;
-  ppid?: string;
+  sessionAttributes?: string | undefined;
+  matchId?: string | undefined;
+  landingPageDeviceInfo?: DeviceInfo | undefined;
+  ppid?: string | undefined;
+  gbraid?: string | undefined;
+  wbraid?: string | undefined;
+  encryptedUserIds?: EncryptedUserIdList | undefined;
+  dclid?: string | undefined;
+  mobileDeviceId?: string | undefined;
+  gclid?: string | undefined;
+  leadId?: string | undefined;
+  impressionId?: string | undefined;
+  visitorPpid?: string | undefined;
+}
+export type UserPropertiesCustomerTypeEnum =
+  | "CUSTOMER_TYPE_UNSPECIFIED"
+  | "NEW"
+  | "RETURNING"
+  | "REENGAGED";
+export interface UserProperty {
+  value?: string | undefined;
+  propertyName?: string | undefined;
+}
+export type UserPropertyList = Array<UserProperty>;
+export type UserPropertiesCustomerValueBucketEnum =
+  | "CUSTOMER_VALUE_BUCKET_UNSPECIFIED"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH";
+export interface UserProperties {
+  customerType?: UserPropertiesCustomerTypeEnum | (string & {}) | undefined;
+  additionalUserProperties?: UserPropertyList | undefined;
+  customerValueBucket?: UserPropertiesCustomerValueBucketEnum | (string & {}) | undefined;
 }
 export interface EventLocation {
-  city?: string;
-  subcontinentCode?: string;
-  storeId?: string;
-  subdivisionCode?: string;
-  regionCode?: string;
-  continentCode?: string;
+  subcontinentCode?: string | undefined;
+  regionCode?: string | undefined;
+  storeId?: string | undefined;
+  subdivisionCode?: string | undefined;
+  continentCode?: string | undefined;
+  city?: string | undefined;
 }
+export interface CustomVariable {
+  value?: string | undefined;
+  destinationReferences?: StringList | undefined;
+  variable?: string | undefined;
+}
+export type CustomVariableList = Array<CustomVariable>;
+export type EventEventSourceEnum =
+  | "EVENT_SOURCE_UNSPECIFIED"
+  | "WEB"
+  | "APP"
+  | "IN_STORE"
+  | "PHONE"
+  | "MESSAGE"
+  | "OTHER";
 export interface Event {
-  eventName?: string;
-  userId?: string;
-  conversionCount?: number;
-  eventSource?: EventEventSourceEnum | (string & {});
-  userProperties?: UserProperties;
-  thirdPartyUserData?: UserData;
-  currency?: string;
-  clientId?: string;
-  customVariables?: CustomVariableList;
-  appInstanceId?: string;
-  eventTimestamp?: string;
-  cartData?: CartData;
-  conversionValue?: number;
-  lastUpdatedTimestamp?: string;
-  experimentalFields?: ExperimentalFieldList;
-  userData?: UserData;
-  additionalEventParameters?: EventParameterList;
-  adIdentifiers?: AdIdentifiers;
-  consent?: Consent;
-  eventLocation?: EventLocation;
-  destinationReferences?: StringList;
-  eventDeviceInfo?: DeviceInfo;
-  transactionId?: string;
+  eventName?: string | undefined;
+  experimentalFields?: ExperimentalFieldList | undefined;
+  eventTimestamp?: string | undefined;
+  userData?: UserData | undefined;
+  additionalEventParameters?: EventParameterList | undefined;
+  cartData?: CartData | undefined;
+  callInfo?: CallInfo | undefined;
+  currency?: string | undefined;
+  userId?: string | undefined;
+  thirdPartyUserData?: UserData | undefined;
+  conversionCount?: number | undefined;
+  consent?: Consent | undefined;
+  destinationReferences?: StringList | undefined;
+  clientId?: string | undefined;
+  transactionId?: string | undefined;
+  appInstanceId?: string | undefined;
+  adIdentifiers?: AdIdentifiers | undefined;
+  eventDeviceInfo?: DeviceInfo | undefined;
+  userProperties?: UserProperties | undefined;
+  eventLocation?: EventLocation | undefined;
+  lastUpdatedTimestamp?: string | undefined;
+  conversionValue?: number | undefined;
+  customVariables?: CustomVariableList | undefined;
+  eventSource?: EventEventSourceEnum | (string & {}) | undefined;
 }
 export type EventList = Array<Event>;
 export type IngestEventsRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
 export interface IngestEventsRequest {
-  events?: EventList;
-  destinations?: DestinationList;
-  consent?: Consent;
-  encoding?: IngestEventsRequestEncodingEnum | (string & {});
-  validateOnly?: boolean;
-  encryptionInfo?: EncryptionInfo;
+  consent?: Consent | undefined;
+  encryptionInfo?: EncryptionInfo | undefined;
+  events?: EventList | undefined;
+  validateOnly?: boolean | undefined;
+  encoding?: IngestEventsRequestEncodingEnum | (string & {}) | undefined;
+  destinations?: DestinationList | undefined;
 }
 export interface IngestEventsRequest_ {
   /** Request body */
-  body?: IngestEventsRequest;
+  body?: IngestEventsRequest | undefined;
 }
 export interface IngestEventsResponse {
-  fieldWarnings?: FieldWarningList;
-  requestId?: string;
+  requestId?: string | undefined;
+  fieldWarnings?: FieldWarningList | undefined;
 }
 export interface User {
-  mobileData?: MobileData;
-  userData?: UserData;
+  mobileData?: MobileData | undefined;
+  userData?: UserData | undefined;
 }
 export type UserList_ = Array<User>;
 export type IngestUsersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
 export interface IngestUsersRequest {
-  encryptionInfo?: EncryptionInfo;
-  users?: UserList_;
-  destinations?: DestinationList;
-  encoding?: IngestUsersRequestEncodingEnum | (string & {});
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
+  users?: UserList_ | undefined;
+  encryptionInfo?: EncryptionInfo | undefined;
+  encoding?: IngestUsersRequestEncodingEnum | (string & {}) | undefined;
+  destinations?: DestinationList | undefined;
 }
 export interface IngestUsersRequest_ {
   /** Request body */
-  body?: IngestUsersRequest;
+  body?: IngestUsersRequest | undefined;
 }
 export interface IngestUsersResponse {
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface ListAccountTypesAccountsUserListDirectLicensesRequest {
-  pageSize?: number;
-  filter?: string;
+  filter?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type UserListDirectLicenseList = Array<UserListDirectLicense>;
 export interface ListUserListDirectLicensesResponse {
-  userListDirectLicenses?: UserListDirectLicenseList;
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  userListDirectLicenses?: UserListDirectLicenseList | undefined;
 }
 export interface ListAccountTypesAccountsUserListGlobalLicensesRequest {
   parent: string;
-  pageToken?: string;
-  pageSize?: number;
-  filter?: string;
+  filter?: string | undefined;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
 }
 export type UserListGlobalLicenseList = Array<UserListGlobalLicense>;
 export interface ListUserListGlobalLicensesResponse {
-  userListGlobalLicenses?: UserListGlobalLicenseList;
-  nextPageToken?: string;
+  userListGlobalLicenses?: UserListGlobalLicenseList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosRequest {
+  filter?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
-  pageSize?: number;
-  pageToken?: string;
-  filter?: string;
+  pageToken?: string | undefined;
 }
 export type UserListGlobalLicenseCustomerInfoStatusEnum =
   | "USER_LIST_LICENSE_STATUS_UNSPECIFIED"
@@ -1158,106 +1227,106 @@ export type UserListGlobalLicenseCustomerInfoLicenseTypeEnum =
   | "USER_LIST_GLOBAL_LICENSE_TYPE_DATA_MART_SELL_SIDE"
   | "USER_LIST_GLOBAL_LICENSE_TYPE_DATA_MART_BUY_SIDE";
 export interface UserListGlobalLicenseCustomerInfo {
-  userListId?: string;
-  status?: UserListGlobalLicenseCustomerInfoStatusEnum;
-  clientAccountId?: string;
-  clientAccountDisplayName?: string;
-  historicalPricings?: UserListLicensePricingList;
-  userListDisplayName?: string;
-  pricing?: UserListLicensePricing;
-  name?: string;
-  metrics?: UserListLicenseMetrics;
-  clientAccountType?: UserListGlobalLicenseCustomerInfoClientAccountTypeEnum;
-  licenseType?: UserListGlobalLicenseCustomerInfoLicenseTypeEnum;
+  historicalPricings?: UserListLicensePricingList | undefined;
+  status?: UserListGlobalLicenseCustomerInfoStatusEnum | undefined;
+  pricing?: UserListLicensePricing | undefined;
+  userListId?: string | undefined;
+  metrics?: UserListLicenseMetrics | undefined;
+  clientAccountType?: UserListGlobalLicenseCustomerInfoClientAccountTypeEnum | undefined;
+  licenseType?: UserListGlobalLicenseCustomerInfoLicenseTypeEnum | undefined;
+  clientAccountId?: string | undefined;
+  clientAccountDisplayName?: string | undefined;
+  userListDisplayName?: string | undefined;
+  name?: string | undefined;
 }
 export type UserListGlobalLicenseCustomerInfoList = Array<UserListGlobalLicenseCustomerInfo>;
 export interface ListUserListGlobalLicenseCustomerInfosResponse {
-  userListGlobalLicenseCustomerInfos?: UserListGlobalLicenseCustomerInfoList;
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  userListGlobalLicenseCustomerInfos?: UserListGlobalLicenseCustomerInfoList | undefined;
 }
 export interface ListAccountTypesAccountsUserListsRequest {
-  pageToken?: string;
-  filter?: string;
+  pageSize?: number | undefined;
   parent: string;
-  pageSize?: number;
+  filter?: string | undefined;
+  pageToken?: string | undefined;
 }
 export type UserListList = Array<UserList>;
 export interface ListUserListsResponse {
-  userLists?: UserListList;
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  userLists?: UserListList | undefined;
 }
 export interface PatchAccountTypesAccountsUserListDirectLicensesRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: UserListDirectLicense;
+  body?: UserListDirectLicense | undefined;
 }
 export interface PatchAccountTypesAccountsUserListGlobalLicensesRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: UserListGlobalLicense;
+  body?: UserListGlobalLicense | undefined;
 }
 export interface PatchAccountTypesAccountsUserListsRequest {
-  validateOnly?: boolean;
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: UserList;
+  body?: UserList | undefined;
 }
 export interface RemoveAllAudienceMembersRequest {
-  destinations?: DestinationList;
-  validateOnly?: boolean;
-  removeAsOfTime?: string;
+  destinations?: DestinationList | undefined;
+  removeAsOfTime?: string | undefined;
+  validateOnly?: boolean | undefined;
 }
 export interface RemoveAllAudienceMembersRequest_ {
   /** Request body */
-  body?: RemoveAllAudienceMembersRequest;
+  body?: RemoveAllAudienceMembersRequest | undefined;
 }
 export interface RemoveAllAudienceMembersResponse {
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export type RemoveAudienceMembersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
 export interface RemoveAudienceMembersRequest {
-  destinations?: DestinationList;
-  encryptionInfo?: EncryptionInfo;
-  audienceMembers?: AudienceMemberList;
-  validateOnly?: boolean;
-  encoding?: RemoveAudienceMembersRequestEncodingEnum | (string & {});
+  validateOnly?: boolean | undefined;
+  audienceMembers?: AudienceMemberList | undefined;
+  encryptionInfo?: EncryptionInfo | undefined;
+  encoding?: RemoveAudienceMembersRequestEncodingEnum | (string & {}) | undefined;
+  destinations?: DestinationList | undefined;
 }
 export interface RemoveAudienceMembersRequest_ {
   /** Request body */
-  body?: RemoveAudienceMembersRequest;
+  body?: RemoveAudienceMembersRequest | undefined;
 }
 export interface RemoveAudienceMembersResponse {
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export type RemoveUsersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
 export type UserDataList = Array<UserData>;
 export interface RemoveUsersRequest {
-  destinations?: DestinationList;
-  encoding?: RemoveUsersRequestEncodingEnum | (string & {});
-  encryptionInfo?: EncryptionInfo;
-  validateOnly?: boolean;
-  userData?: UserDataList;
+  validateOnly?: boolean | undefined;
+  encoding?: RemoveUsersRequestEncodingEnum | (string & {}) | undefined;
+  userData?: UserDataList | undefined;
+  destinations?: DestinationList | undefined;
+  encryptionInfo?: EncryptionInfo | undefined;
 }
 export interface RemoveUsersRequest_ {
   /** Request body */
-  body?: RemoveUsersRequest;
+  body?: RemoveUsersRequest | undefined;
 }
 export interface RemoveUsersResponse {
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface SearchAccountTypesAccountsPartnerLinksRequest {
-  filter?: string;
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
   parent: string;
+  pageSize?: number | undefined;
+  filter?: string | undefined;
 }
 export type PartnerLinkList = Array<PartnerLink>;
 export interface SearchPartnerLinksResponse {
-  nextPageToken?: string;
-  partnerLinks?: PartnerLinkList;
+  nextPageToken?: string | undefined;
+  partnerLinks?: PartnerLinkList | undefined;
 }
 export type CreateAccountTypesAccountsPartnerLinksError =
   | NotFound
@@ -1271,8 +1340,8 @@ export const createAccountTypesAccountsPartnerLinks: API.OperationMethod<
   CreateAccountTypesAccountsPartnerLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<CreateAccountTypesAccountsPartnerLinksRequest>,
-  output: __S(1059, __c33, 3) as any as S.Schema<PartnerLink>,
+  input: __S(1024, __c32, 0) as any as S.Schema<CreateAccountTypesAccountsPartnerLinksRequest>,
+  output: __S(1091, __c34, 3) as any as S.Schema<PartnerLink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1293,11 +1362,11 @@ export const createAccountTypesAccountsUserListDirectLicenses: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1088,
-    __c34,
+    1120,
+    __c35,
     0,
   ) as any as S.Schema<CreateAccountTypesAccountsUserListDirectLicensesRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<UserListDirectLicense>,
+  output: __S(1152, __c36, 0) as any as S.Schema<UserListDirectLicense>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1318,11 +1387,11 @@ export const createAccountTypesAccountsUserListGlobalLicenses: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1184,
-    __c37,
+    1216,
+    __c38,
     0,
   ) as any as S.Schema<CreateAccountTypesAccountsUserListGlobalLicensesRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<UserListGlobalLicense>,
+  output: __S(1248, __c39, 0) as any as S.Schema<UserListGlobalLicense>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1343,8 +1412,8 @@ export const createAccountTypesAccountsUserLists: API.OperationMethod<
   CreateAccountTypesAccountsUserListsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<CreateAccountTypesAccountsUserListsRequest>,
-  output: __S(1290, __c40, 10) as any as S.Schema<UserList>,
+  input: __S(1280, __c40, 0) as any as S.Schema<CreateAccountTypesAccountsUserListsRequest>,
+  output: __S(1322, __c41, 10) as any as S.Schema<UserList>,
   errors: [
     NotFound,
     Forbidden,
@@ -1371,8 +1440,8 @@ export const deleteAccountTypesAccountsPartnerLinks: API.OperationMethod<
   DeleteAccountTypesAccountsPartnerLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<DeleteAccountTypesAccountsPartnerLinksRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<Empty>,
+  input: __S(1344, __c42, 0) as any as S.Schema<DeleteAccountTypesAccountsPartnerLinksRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1394,7 +1463,7 @@ export const deleteAccountTypesAccountsUserLists: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteAccountTypesAccountsUserListsRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<Empty>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Empty>,
   errors: [
     NotFound,
     Forbidden,
@@ -1438,7 +1507,7 @@ export const getAccountTypesAccountsUserListDirectLicenses: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<GetAccountTypesAccountsUserListDirectLicensesRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<UserListDirectLicense>,
+  output: __S(1152, __c36, 0) as any as S.Schema<UserListDirectLicense>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1454,7 +1523,7 @@ export const getAccountTypesAccountsUserListGlobalLicenses: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<GetAccountTypesAccountsUserListGlobalLicensesRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<UserListGlobalLicense>,
+  output: __S(1248, __c39, 0) as any as S.Schema<UserListGlobalLicense>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1474,13 +1543,38 @@ export const getAccountTypesAccountsUserLists: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<GetAccountTypesAccountsUserListsRequest>,
-  output: __S(1290, __c40, 10) as any as S.Schema<UserList>,
+  output: __S(1322, __c41, 10) as any as S.Schema<UserList>,
   errors: [NotFound, Forbidden, DataManagerScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAccountTypesAccountsUserLists",
 }));
+
+export type GetPartnerMatchReportAccountTypesAccountsReportsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+export const getPartnerMatchReportAccountTypesAccountsReports: API.PaginatedOperationMethod<
+  GetPartnerMatchReportAccountTypesAccountsReportsRequest,
+  RetrievePartnerMatchReportResponse,
+  GetPartnerMatchReportAccountTypesAccountsReportsError,
+  GcpOpContext,
+  RetrievePartnerMatchReportResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(
+    192,
+    __c6,
+    0,
+  ) as any as S.Schema<GetPartnerMatchReportAccountTypesAccountsReportsRequest>,
+  output: __S(201, __c6, 9) as any as S.Schema<RetrievePartnerMatchReportResponse>,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPartnerMatchReportAccountTypesAccountsReports",
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
+})) as any;
 
 export type GetRequestStatusError = NotFound | Forbidden | GcpOpError;
 export const getRequestStatus: API.OperationMethod<
@@ -1489,8 +1583,8 @@ export const getRequestStatus: API.OperationMethod<
   GetRequestStatusError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<GetRequestStatusRequest>,
-  output: __S(217, __c6, 25) as any as S.Schema<GetRequestStatusResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<GetRequestStatusRequest>,
+  output: __S(249, __c7, 25) as any as S.Schema<GetRequestStatusResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1505,8 +1599,8 @@ export const ingestAdEvents: API.OperationMethod<
   IngestAdEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(260, __c8, 4) as any as S.Schema<IngestAdEventsRequest_>,
-  output: __S(1344, __c42, 0) as any as S.Schema<IngestAdEventsResponse>,
+  input: __S(292, __c9, 4) as any as S.Schema<IngestAdEventsRequest_>,
+  output: __S(1376, __c43, 0) as any as S.Schema<IngestAdEventsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1521,8 +1615,8 @@ export const ingestAudienceMembers: API.OperationMethod<
   IngestAudienceMembersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(354, __c11, 2) as any as S.Schema<IngestAudienceMembersRequest_>,
-  output: __S(386, __c12, 2) as any as S.Schema<IngestAudienceMembersResponse>,
+  input: __S(386, __c12, 2) as any as S.Schema<IngestAudienceMembersRequest_>,
+  output: __S(387, __c12, 3) as any as S.Schema<IngestAudienceMembersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1537,8 +1631,8 @@ export const ingestEvents: API.OperationMethod<
   IngestEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(567, __c17, 23) as any as S.Schema<IngestEventsRequest_>,
-  output: __S(386, __c12, 2) as any as S.Schema<IngestEventsResponse>,
+  input: __S(598, __c18, 22) as any as S.Schema<IngestEventsRequest_>,
+  output: __S(599, __c18, 23) as any as S.Schema<IngestEventsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1553,8 +1647,8 @@ export const ingestUsers: API.OperationMethod<
   IngestUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(579, __c18, 3) as any as S.Schema<IngestUsersRequest_>,
-  output: __S(608, __c19, 0) as any as S.Schema<IngestUsersResponse>,
+  input: __S(611, __c19, 3) as any as S.Schema<IngestUsersRequest_>,
+  output: __S(640, __c20, 0) as any as S.Schema<IngestUsersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1571,11 +1665,11 @@ export const listAccountTypesAccountsUserListDirectLicenses: API.PaginatedOperat
   ListUserListDirectLicensesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    640,
-    __c20,
+    672,
+    __c21,
     0,
   ) as any as S.Schema<ListAccountTypesAccountsUserListDirectLicensesRequest>,
-  output: __S(642, __c20, 2) as any as S.Schema<ListUserListDirectLicensesResponse>,
+  output: __S(674, __c21, 2) as any as S.Schema<ListUserListDirectLicensesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1593,11 +1687,11 @@ export const listAccountTypesAccountsUserListGlobalLicenses: API.PaginatedOperat
   ListUserListGlobalLicensesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    672,
-    __c21,
+    704,
+    __c22,
     0,
   ) as any as S.Schema<ListAccountTypesAccountsUserListGlobalLicensesRequest>,
-  output: __S(674, __c21, 2) as any as S.Schema<ListUserListGlobalLicensesResponse>,
+  output: __S(706, __c22, 2) as any as S.Schema<ListUserListGlobalLicensesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1618,11 +1712,11 @@ export const listAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicense
   ListUserListGlobalLicenseCustomerInfosResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    704,
-    __c22,
+    736,
+    __c23,
     0,
   ) as any as S.Schema<ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosRequest>,
-  output: __S(707, __c22, 3) as any as S.Schema<ListUserListGlobalLicenseCustomerInfosResponse>,
+  output: __S(739, __c23, 3) as any as S.Schema<ListUserListGlobalLicenseCustomerInfosResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1643,8 +1737,8 @@ export const listAccountTypesAccountsUserLists: API.PaginatedOperationMethod<
   GcpOpContext,
   ListUserListsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<ListAccountTypesAccountsUserListsRequest>,
-  output: __S(738, __c23, 2) as any as S.Schema<ListUserListsResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<ListAccountTypesAccountsUserListsRequest>,
+  output: __S(770, __c24, 2) as any as S.Schema<ListUserListsResponse>,
   errors: [NotFound, Forbidden, DataManagerScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1666,11 +1760,11 @@ export const patchAccountTypesAccountsUserListDirectLicenses: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    768,
-    __c24,
+    800,
+    __c25,
     0,
   ) as any as S.Schema<PatchAccountTypesAccountsUserListDirectLicensesRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<UserListDirectLicense>,
+  output: __S(1152, __c36, 0) as any as S.Schema<UserListDirectLicense>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1691,11 +1785,11 @@ export const patchAccountTypesAccountsUserListGlobalLicenses: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    800,
-    __c25,
+    832,
+    __c26,
     0,
   ) as any as S.Schema<PatchAccountTypesAccountsUserListGlobalLicensesRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<UserListGlobalLicense>,
+  output: __S(1248, __c39, 0) as any as S.Schema<UserListGlobalLicense>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1716,8 +1810,8 @@ export const patchAccountTypesAccountsUserLists: API.OperationMethod<
   PatchAccountTypesAccountsUserListsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<PatchAccountTypesAccountsUserListsRequest>,
-  output: __S(1290, __c40, 10) as any as S.Schema<UserList>,
+  input: __S(864, __c27, 0) as any as S.Schema<PatchAccountTypesAccountsUserListsRequest>,
+  output: __S(1322, __c41, 10) as any as S.Schema<UserList>,
   errors: [
     NotFound,
     Forbidden,
@@ -1744,8 +1838,8 @@ export const removeAllAudienceMembers: API.OperationMethod<
   RemoveAllAudienceMembersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(865, __c27, 1) as any as S.Schema<RemoveAllAudienceMembersRequest_>,
-  output: __S(608, __c19, 0) as any as S.Schema<RemoveAllAudienceMembersResponse>,
+  input: __S(897, __c28, 1) as any as S.Schema<RemoveAllAudienceMembersRequest_>,
+  output: __S(640, __c20, 0) as any as S.Schema<RemoveAllAudienceMembersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1760,8 +1854,8 @@ export const removeAudienceMembers: API.OperationMethod<
   RemoveAudienceMembersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(897, __c28, 1) as any as S.Schema<RemoveAudienceMembersRequest_>,
-  output: __S(608, __c19, 0) as any as S.Schema<RemoveAudienceMembersResponse>,
+  input: __S(929, __c29, 1) as any as S.Schema<RemoveAudienceMembersRequest_>,
+  output: __S(640, __c20, 0) as any as S.Schema<RemoveAudienceMembersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1776,8 +1870,8 @@ export const removeUsers: API.OperationMethod<
   RemoveUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(930, __c29, 2) as any as S.Schema<RemoveUsersRequest_>,
-  output: __S(608, __c19, 0) as any as S.Schema<RemoveUsersResponse>,
+  input: __S(962, __c30, 2) as any as S.Schema<RemoveUsersRequest_>,
+  output: __S(640, __c20, 0) as any as S.Schema<RemoveUsersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1793,8 +1887,8 @@ export const searchAccountTypesAccountsPartnerLinks: API.PaginatedOperationMetho
   GcpOpContext,
   SearchPartnerLinksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<SearchAccountTypesAccountsPartnerLinksRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<SearchPartnerLinksResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<SearchAccountTypesAccountsPartnerLinksRequest>,
+  output: __S(994, __c31, 2) as any as S.Schema<SearchPartnerLinksResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1809,8 +1903,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -1859,9 +1953,9 @@ function __c1(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          ageRange: S.optional(S.String),
           gender: S.optional(S.String),
           userInterestId: S.optional(S.String),
+          ageRange: S.optional(S.String),
           lift: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MarketingDataInsightsAttribute" });
@@ -1943,6 +2037,94 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          filter: S.optional(S.String.pipe(T.Query())),
+          endDate: S.optional(S.String.pipe(T.Query())),
+          startDate: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          currencyCode: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+parent}/reports:retrievePartnerMatchReport",
+            baseUrl: "https://datamanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetPartnerMatchReportAccountTypesAccountsReportsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountType: S.optional(S.String),
+          accountId: S.optional(S.String),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PartnerMatchAdvertiserAccount" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          adGroupId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PartnerMatchAdGroup" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          nanos: S.optional(S.Number),
+          units: S.optional(S.String),
+          currencyCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Money" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          campaignId: S.optional(S.String),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PartnerMatchCampaign" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          userListId: S.optional(S.String),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PartnerMatchUserList" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          lineItemId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PartnerMatchLineItem" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          impressionCount: S.optional(S.String),
+          advertiserAccount: S.optional(__S(193, __c6, 1)),
+          adGroup: S.optional(__S(194, __c6, 2)),
+          dataFees: S.optional(__S(195, __c6, 3)),
+          campaign: S.optional(__S(196, __c6, 4)),
+          userList: S.optional(__S(197, __c6, 5)),
+          lineItem: S.optional(__S(198, __c6, 6)),
+          mediaCost: S.optional(__S(195, __c6, 3)),
+        }),
+      ).annotate({ identifier: "PartnerMatchReportEntry" });
+    case 8:
+      return S.Array(__S(199, __c6, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          partnerMatchReportEntries: S.optional(__S(200, __c6, 8)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RetrievePartnerMatchReportResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1953,34 +2135,29 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "GetRequestStatusRequest" });
     case 1:
+      return S.Array(S.Number);
+    case 2:
       return S.suspend(() =>
         S.Struct({
+          recordIndices: S.optional(__S(225, __c7, 1)),
           recordCount: S.optional(S.String),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "WarningCount" });
-    case 2:
-      return S.Array(__S(193, __c6, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          warningCounts: S.optional(__S(194, __c6, 2)),
-        }),
-      ).annotate({ identifier: "WarningInfo" });
+      return S.Array(__S(226, __c7, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          recordCount: S.optional(S.String),
-          userIdCount: S.optional(S.String),
+          warningCounts: S.optional(__S(227, __c7, 3)),
         }),
-      ).annotate({ identifier: "RemoveUserIdDataStatus" });
+      ).annotate({ identifier: "WarningInfo" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          recordCount: S.optional(S.String),
-          userIdentifierCount: S.optional(S.String),
+          errorCounts: S.optional(__S(227, __c7, 3)),
         }),
-      ).annotate({ identifier: "RemoveUserDataStatus" });
+      ).annotate({ identifier: "ErrorInfo" });
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -1991,157 +2168,144 @@ function __c6(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          ppidCount: S.optional(S.String),
           recordCount: S.optional(S.String),
+          ppidCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "RemovePpidDataStatus" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          count: S.optional(S.String),
+          recordCount: S.optional(S.String),
+          userIdCount: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DataTypeCount" });
+      ).annotate({ identifier: "RemoveUserIdDataStatus" });
     case 9:
-      return S.Array(__S(200, __c6, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          dataTypeCounts: S.optional(__S(201, __c6, 9)),
-          recordCount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RemoveCompositeDataStatus" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          googleUserIdCount: S.optional(S.String),
-          recordCount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RemoveGoogleUserIdDataStatus" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          recordCount: S.optional(S.String),
-          mobileIdCount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RemoveMobileDataStatus" });
-    case 13:
       return S.suspend(() =>
         S.Struct({
           recordCount: S.optional(S.String),
           partnerProvidedIdCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "RemovePartnerProvidedIdDataStatus" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          count: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataTypeCount" });
+    case 11:
+      return S.Array(__S(234, __c7, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          recordCount: S.optional(S.String),
+          dataTypeCounts: S.optional(__S(235, __c7, 11)),
+        }),
+      ).annotate({ identifier: "RemoveCompositeDataStatus" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          googleUserIdCount: S.optional(S.String),
+          recordCount: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RemoveGoogleUserIdDataStatus" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          userIdDataRemovalStatus: S.optional(__S(196, __c6, 4)),
-          userDataRemovalStatus: S.optional(__S(197, __c6, 5)),
-          pairDataRemovalStatus: S.optional(__S(198, __c6, 6)),
-          ppidDataRemovalStatus: S.optional(__S(199, __c6, 7)),
-          compositeDataRemovalStatus: S.optional(__S(202, __c6, 10)),
-          googleUserIdDataRemovalStatus: S.optional(__S(203, __c6, 11)),
-          mobileDataRemovalStatus: S.optional(__S(204, __c6, 12)),
-          partnerProvidedIdDataRemovalStatus: S.optional(__S(205, __c6, 13)),
+          recordCount: S.optional(S.String),
+          userIdentifierCount: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RemoveAudienceMembersStatus" });
+      ).annotate({ identifier: "RemoveUserDataStatus" });
     case 15:
       return S.suspend(() =>
         S.Struct({
           mobileIdCount: S.optional(S.String),
           recordCount: S.optional(S.String),
         }),
-      ).annotate({ identifier: "IngestMobileDataStatus" });
+      ).annotate({ identifier: "RemoveMobileDataStatus" });
     case 16:
+      return S.suspend(() =>
+        S.Struct({
+          pairDataRemovalStatus: S.optional(__S(230, __c7, 6)),
+          ppidDataRemovalStatus: S.optional(__S(231, __c7, 7)),
+          userIdDataRemovalStatus: S.optional(__S(232, __c7, 8)),
+          partnerProvidedIdDataRemovalStatus: S.optional(__S(233, __c7, 9)),
+          compositeDataRemovalStatus: S.optional(__S(236, __c7, 12)),
+          googleUserIdDataRemovalStatus: S.optional(__S(237, __c7, 13)),
+          userDataRemovalStatus: S.optional(__S(238, __c7, 14)),
+          mobileDataRemovalStatus: S.optional(__S(239, __c7, 15)),
+        }),
+      ).annotate({ identifier: "RemoveAudienceMembersStatus" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          recordCount: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IngestEventsStatus" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          userIdCount: S.optional(S.String),
+          recordCount: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IngestUserIdDataStatus" });
+    case 19:
       return S.suspend(() =>
         S.Struct({
           partnerProvidedIdCount: S.optional(S.String),
           recordCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestPartnerProvidedIdDataStatus" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          uploadMatchRateRange: S.optional(S.String),
-          userIdentifierCount: S.optional(S.String),
-          recordCount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IngestUserDataStatus" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          pairIdCount: S.optional(S.String),
-          recordCount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IngestPairDataStatus" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          uploadMatchRateRange: S.optional(S.String),
-          recordCount: S.optional(S.String),
-          dataTypeCounts: S.optional(__S(201, __c6, 9)),
-        }),
-      ).annotate({ identifier: "IngestCompositeDataStatus" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          mobileDataIngestionStatus: S.optional(__S(207, __c6, 15)),
-          userIdDataIngestionStatus: S.optional(__S(196, __c6, 4)),
-          partnerProvidedIdDataIngestionStatus: S.optional(__S(208, __c6, 16)),
-          userDataIngestionStatus: S.optional(__S(209, __c6, 17)),
-          pairDataIngestionStatus: S.optional(__S(210, __c6, 18)),
-          ppidDataIngestionStatus: S.optional(__S(199, __c6, 7)),
-          compositeDataIngestionStatus: S.optional(__S(211, __c6, 19)),
-          googleUserIdDataIngestionStatus: S.optional(__S(203, __c6, 11)),
+          recordCount: S.optional(S.String),
+          uploadMatchRateRange: S.optional(S.String),
+          userIdentifierCount: S.optional(S.String),
         }),
-      ).annotate({ identifier: "IngestAudienceMembersStatus" });
+      ).annotate({ identifier: "IngestUserDataStatus" });
     case 21:
       return S.suspend(() =>
         S.Struct({
           recordCount: S.optional(S.String),
+          uploadMatchRateRange: S.optional(S.String),
+          dataTypeCounts: S.optional(__S(235, __c7, 11)),
         }),
-      ).annotate({ identifier: "IngestEventsStatus" });
+      ).annotate({ identifier: "IngestCompositeDataStatus" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          errorCounts: S.optional(__S(194, __c6, 2)),
+          ppidDataIngestionStatus: S.optional(__S(231, __c7, 7)),
+          googleUserIdDataIngestionStatus: S.optional(__S(237, __c7, 13)),
+          userIdDataIngestionStatus: S.optional(__S(242, __c7, 18)),
+          partnerProvidedIdDataIngestionStatus: S.optional(__S(243, __c7, 19)),
+          userDataIngestionStatus: S.optional(__S(244, __c7, 20)),
+          mobileDataIngestionStatus: S.optional(__S(239, __c7, 15)),
+          pairDataIngestionStatus: S.optional(__S(230, __c7, 6)),
+          compositeDataIngestionStatus: S.optional(__S(245, __c7, 21)),
         }),
-      ).annotate({ identifier: "ErrorInfo" });
+      ).annotate({ identifier: "IngestAudienceMembersStatus" });
     case 23:
       return S.suspend(() =>
         S.Struct({
+          warningInfo: S.optional(__S(228, __c7, 4)),
+          destination: S.optional(__S(256, __c8, 0)),
           requestStatus: S.optional(S.String),
-          warningInfo: S.optional(__S(195, __c6, 3)),
-          audienceMembersRemovalStatus: S.optional(__S(206, __c6, 14)),
-          removeAllAudienceMembersStatus: S.optional(__S(1344, __c42, 0)),
-          audienceMembersIngestionStatus: S.optional(__S(212, __c6, 20)),
-          destination: S.optional(__S(224, __c7, 0)),
-          eventsIngestionStatus: S.optional(__S(213, __c6, 21)),
-          errorInfo: S.optional(__S(214, __c6, 22)),
+          errorInfo: S.optional(__S(229, __c7, 5)),
+          removeAllAudienceMembersStatus: S.optional(__S(1376, __c43, 0)),
+          audienceMembersRemovalStatus: S.optional(__S(240, __c7, 16)),
+          eventsIngestionStatus: S.optional(__S(241, __c7, 17)),
+          audienceMembersIngestionStatus: S.optional(__S(246, __c7, 22)),
         }),
       ).annotate({ identifier: "RequestStatusPerDestination" });
     case 24:
-      return S.Array(__S(215, __c6, 23));
+      return S.Array(__S(247, __c7, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          requestStatusPerDestination: S.optional(__S(216, __c6, 24)),
+          requestStatusPerDestination: S.optional(__S(248, __c7, 24)),
         }),
       ).annotate({ identifier: "GetRequestStatusResponse" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          reference: S.optional(S.String),
-          productDestinationId: S.optional(S.String),
-          loginAccount: S.optional(__S(1024, __c32, 0)),
-          operatingAccount: S.optional(__S(1024, __c32, 0)),
-          linkedAccount: S.optional(__S(1024, __c32, 0)),
-        }),
-      ).annotate({ identifier: "Destination" });
   }
 }
 function __c8(j: number): any {
@@ -2149,69 +2313,83 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          operatingAccount: S.optional(__S(1056, __c33, 0)),
+          linkedAccount: S.optional(__S(1056, __c33, 0)),
+          reference: S.optional(S.String),
+          productDestinationId: S.optional(S.String),
+          loginAccount: S.optional(__S(1056, __c33, 0)),
+        }),
+      ).annotate({ identifier: "Destination" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           mediaQuartile: S.optional(S.String),
-          mediaVolumePercent: S.optional(S.Number),
           viewableDuration: S.optional(S.String),
-          viewablePercent: S.optional(S.Number),
           viewType: S.optional(S.String),
-          mediaDuration: S.optional(S.String),
+          viewablePercent: S.optional(S.Number),
           mediaSkippable: S.optional(S.Boolean),
           playbackDuration: S.optional(S.String),
+          mediaDuration: S.optional(S.String),
+          mediaVolumePercent: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ViewabilityInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          regionCode: S.optional(S.String),
-          measurementAllowed: S.optional(S.Boolean),
-          adHeight: S.optional(S.Number),
-          campaignName: S.optional(S.String),
-          adTypeString: S.optional(S.String),
-          eventType: S.optional(S.String),
-          attributionHint: S.optional(S.String),
-          adType: S.optional(S.String),
-          ipAddress: S.optional(S.String),
           platformString: S.optional(S.String),
-          eventSubtype: S.optional(S.String),
-          platformType: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          userData: S.optional(__S(291, __c9, 3)),
-          eventSubtypeString: S.optional(S.String),
           targetingType: S.optional(S.String),
+          measurementAllowed: S.optional(S.Boolean),
+          timestamp: S.optional(S.String),
+          adType: S.optional(S.String),
+          viewabilityInfo: S.optional(__S(288, __c9, 0)),
+          adPlacementString: S.optional(S.String),
+          adWidth: S.optional(S.Number),
+          targetingTypeString: S.optional(S.String),
+          deviceInfo: S.optional(__S(352, __c11, 0)),
+          eventSubtypeString: S.optional(S.String),
+          source: S.optional(S.String),
+          medium: S.optional(S.String),
           adGroupId: S.optional(S.String),
-          viewabilityInfo: S.optional(__S(256, __c8, 0)),
-          adFormatString: S.optional(S.String),
+          mobileDeviceId: S.optional(S.String),
+          adTypeString: S.optional(S.String),
+          attributionHint: S.optional(S.String),
+          advertiserId: S.optional(S.String),
+          adId: S.optional(S.String),
           adPlacement: S.optional(S.String),
           adFormat: S.optional(S.String),
+          platformType: S.optional(S.String),
+          adHeight: S.optional(S.Number),
+          userData: S.optional(__S(323, __c10, 3)),
+          adFormatString: S.optional(S.String),
+          campaignName: S.optional(S.String),
+          eventType: S.optional(S.String),
           platformTypeString: S.optional(S.String),
-          timestamp: S.optional(S.String),
-          targetingTypeString: S.optional(S.String),
-          source: S.optional(S.String),
+          regionCode: S.optional(S.String),
           platform: S.optional(S.String),
-          adPlacementString: S.optional(S.String),
-          deviceInfo: S.optional(__S(320, __c10, 0)),
           campaignId: S.optional(S.String),
-          mobileDeviceId: S.optional(S.String),
-          adId: S.optional(S.String),
-          medium: S.optional(S.String),
+          ipAddress: S.optional(S.String),
           eventId: S.optional(S.String),
-          adWidth: S.optional(S.Number),
+          eventSubtype: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdEvent" });
     case 2:
-      return S.Array(__S(257, __c8, 1));
+      return S.Array(__S(289, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          adEvents: S.optional(__S(258, __c8, 2)),
+          adEvents: S.optional(__S(290, __c9, 2)),
           validateOnly: S.optional(S.Boolean),
-          encryptionInfo: S.optional(__S(295, __c9, 7)),
+          encryptionInfo: S.optional(__S(327, __c10, 7)),
         }),
       ).annotate({ identifier: "IngestAdEventsRequest" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(259, __c8, 3).pipe(T.HttpBody())),
+          body: S.optional(__S(291, __c9, 3).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2222,18 +2400,18 @@ function __c8(j: number): any {
       ).annotate({ identifier: "IngestAdEventsRequest_" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          addressLine: S.optional(S.String),
-          city: S.optional(S.String),
-          administrativeArea: S.optional(S.String),
           familyName: S.optional(S.String),
-          postalCode: S.optional(S.String),
-          givenName: S.optional(S.String),
+          city: S.optional(S.String),
           regionCode: S.optional(S.String),
+          givenName: S.optional(S.String),
+          postalCode: S.optional(S.String),
+          administrativeArea: S.optional(S.String),
+          addressLine: S.optional(S.String),
         }),
       ).annotate({ identifier: "AddressInfo" });
     case 1:
@@ -2241,35 +2419,35 @@ function __c9(j: number): any {
         S.Struct({
           emailAddress: S.optional(S.String),
           phoneNumber: S.optional(S.String),
-          address: S.optional(__S(288, __c9, 0)),
+          address: S.optional(__S(320, __c10, 0)),
         }),
       ).annotate({ identifier: "UserIdentifier" });
     case 2:
-      return S.Array(__S(289, __c9, 1));
+      return S.Array(__S(321, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          userIdentifiers: S.optional(__S(290, __c9, 2)),
+          userIdentifiers: S.optional(__S(322, __c10, 2)),
         }),
       ).annotate({ identifier: "UserData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          roleArn: S.optional(S.String),
+          wipProvider: S.optional(S.String),
           kekUri: S.optional(S.String),
-          keyType: S.optional(S.String),
           encryptedDek: S.optional(S.String),
+          keyType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AwsWrappedKeyInfo" });
+      ).annotate({ identifier: "GcpWrappedKeyInfo" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          encryptedDek: S.optional(S.String),
-          wipProvider: S.optional(S.String),
           keyType: S.optional(S.String),
+          roleArn: S.optional(S.String),
+          encryptedDek: S.optional(S.String),
           kekUri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GcpWrappedKeyInfo" });
+      ).annotate({ identifier: "AwsWrappedKeyInfo" });
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -2279,35 +2457,35 @@ function __c9(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          awsWrappedKeyInfo: S.optional(__S(292, __c9, 4)),
-          gcpWrappedKeyInfo: S.optional(__S(293, __c9, 5)),
-          coordinatorKeyInfo: S.optional(__S(294, __c9, 6)),
+          gcpWrappedKeyInfo: S.optional(__S(324, __c10, 4)),
+          awsWrappedKeyInfo: S.optional(__S(325, __c10, 5)),
+          coordinatorKeyInfo: S.optional(__S(326, __c10, 6)),
         }),
       ).annotate({ identifier: "EncryptionInfo" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          browser: S.optional(S.String),
+          brand: S.optional(S.String),
           screenWidth: S.optional(S.Number),
-          userAgent: S.optional(S.String),
+          operatingSystem: S.optional(S.String),
           operatingSystemVersion: S.optional(S.String),
+          category: S.optional(S.String),
+          browser: S.optional(S.String),
+          browserVersion: S.optional(S.String),
+          languageCode: S.optional(S.String),
           screenHeight: S.optional(S.Number),
           ipAddress: S.optional(S.String),
-          browserVersion: S.optional(S.String),
-          operatingSystem: S.optional(S.String),
-          brand: S.optional(S.String),
-          category: S.optional(S.String),
+          userAgent: S.optional(S.String),
           model: S.optional(S.String),
-          languageCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeviceInfo" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2318,19 +2496,19 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          audienceMembers: S.optional(__S(521, __c16, 9)),
           encoding: S.optional(S.String),
-          destinations: S.optional(__S(416, __c13, 0)),
-          consent: S.optional(__S(448, __c14, 0)),
-          termsOfService: S.optional(__S(352, __c11, 0)),
+          consent: S.optional(__S(480, __c15, 0)),
+          destinations: S.optional(__S(448, __c14, 0)),
           validateOnly: S.optional(S.Boolean),
-          encryptionInfo: S.optional(__S(295, __c9, 7)),
+          audienceMembers: S.optional(__S(553, __c17, 9)),
+          termsOfService: S.optional(__S(384, __c12, 0)),
+          encryptionInfo: S.optional(__S(327, __c10, 7)),
         }),
       ).annotate({ identifier: "IngestAudienceMembersRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(353, __c11, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(385, __c12, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2339,24 +2517,10 @@ function __c11(j: number): any {
           }),
         ),
       ).annotate({ identifier: "IngestAudienceMembersRequest_" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          reason: S.optional(S.String),
-          field: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FieldWarning" });
-    case 1:
-      return S.Array(__S(384, __c12, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          fieldWarnings: S.optional(__S(385, __c12, 1)),
+          fieldWarnings: S.optional(__S(417, __c13, 1)),
           requestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestAudienceMembersResponse" });
@@ -2365,10 +2529,24 @@ function __c12(j: number): any {
 function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(224, __c7, 0));
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          field: S.optional(S.String),
+          reason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FieldWarning" });
+    case 1:
+      return S.Array(__S(416, __c13, 0));
   }
 }
 function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(256, __c8, 0));
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2379,7 +2557,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "Consent" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2389,14 +2567,14 @@ function __c15(j: number): any {
       ).annotate({ identifier: "MobileData" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          partnerProvidedIds: S.optional(__S(64, __c2, 0)),
+          ppids: S.optional(__S(64, __c2, 0)),
         }),
-      ).annotate({ identifier: "PartnerProvidedIdData" });
+      ).annotate({ identifier: "PpidData" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -2406,32 +2584,32 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pairIds: S.optional(__S(64, __c2, 0)),
+          partnerProvidedIds: S.optional(__S(64, __c2, 0)),
         }),
-      ).annotate({ identifier: "PairData" });
+      ).annotate({ identifier: "PartnerProvidedIdData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ppids: S.optional(__S(64, __c2, 0)),
-        }),
-      ).annotate({ identifier: "PpidData" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          ipAddress: S.optional(S.String),
           observeStartTime: S.optional(S.String),
           observeEndTime: S.optional(S.String),
+          ipAddress: S.optional(S.String),
         }),
       ).annotate({ identifier: "IpData" });
+    case 4:
+      return S.Array(__S(547, __c17, 3));
     case 5:
-      return S.Array(__S(516, __c16, 4));
+      return S.suspend(() =>
+        S.Struct({
+          userData: S.optional(__S(323, __c10, 3)),
+          ipData: S.optional(__S(548, __c17, 4)),
+        }),
+      ).annotate({ identifier: "CompositeData" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          ipData: S.optional(__S(517, __c16, 5)),
-          userData: S.optional(__S(291, __c9, 3)),
+          pairIds: S.optional(__S(64, __c2, 0)),
         }),
-      ).annotate({ identifier: "CompositeData" });
+      ).annotate({ identifier: "PairData" });
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -2442,60 +2620,42 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           destinationReferences: S.optional(__S(64, __c2, 0)),
-          partnerProvidedIdData: S.optional(__S(512, __c16, 0)),
-          googleUserIdData: S.optional(__S(513, __c16, 1)),
-          userData: S.optional(__S(291, __c9, 3)),
-          pairData: S.optional(__S(514, __c16, 2)),
-          mobileData: S.optional(__S(480, __c15, 0)),
-          ppidData: S.optional(__S(515, __c16, 3)),
-          consent: S.optional(__S(448, __c14, 0)),
-          compositeData: S.optional(__S(518, __c16, 6)),
-          userIdData: S.optional(__S(519, __c16, 7)),
+          mobileData: S.optional(__S(512, __c16, 0)),
+          ppidData: S.optional(__S(544, __c17, 0)),
+          userData: S.optional(__S(323, __c10, 3)),
+          googleUserIdData: S.optional(__S(545, __c17, 1)),
+          partnerProvidedIdData: S.optional(__S(546, __c17, 2)),
+          compositeData: S.optional(__S(549, __c17, 5)),
+          consent: S.optional(__S(480, __c15, 0)),
+          pairData: S.optional(__S(550, __c17, 6)),
+          userIdData: S.optional(__S(551, __c17, 7)),
         }),
       ).annotate({ identifier: "AudienceMember" });
     case 9:
-      return S.Array(__S(520, __c16, 8));
+      return S.Array(__S(552, __c17, 8));
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          propertyName: S.optional(S.String),
+          field: S.optional(S.String),
           value: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UserProperty" });
+      ).annotate({ identifier: "ExperimentalField" });
     case 1:
-      return S.Array(__S(544, __c17, 0));
+      return S.Array(__S(576, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          customerValueBucket: S.optional(S.String),
-          customerType: S.optional(S.String),
-          additionalUserProperties: S.optional(__S(545, __c17, 1)),
-        }),
-      ).annotate({ identifier: "UserProperties" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          variable: S.optional(S.String),
           value: S.optional(S.String),
-          destinationReferences: S.optional(__S(64, __c2, 0)),
-        }),
-      ).annotate({ identifier: "CustomVariable" });
-    case 4:
-      return S.Array(__S(547, __c17, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
           parameterName: S.optional(S.String),
-          value: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ItemParameter" });
-    case 6:
-      return S.Array(__S(549, __c17, 5));
-    case 7:
+      ).annotate({ identifier: "EventParameter" });
+    case 3:
+      return S.Array(__S(578, __c18, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           destinationReferences: S.optional(__S(64, __c2, 0)),
@@ -2503,138 +2663,155 @@ function __c17(j: number): any {
           variable: S.optional(S.String),
         }),
       ).annotate({ identifier: "ItemCustomVariable" });
+    case 5:
+      return S.Array(__S(580, __c18, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          itemId: S.optional(S.String),
+          quantity: S.optional(S.String),
+          additionalItemParameters: S.optional(__S(579, __c18, 3)),
+          unitPrice: S.optional(S.Number),
+          merchantFeedLanguageCode: S.optional(S.String),
+          merchantFeedLabel: S.optional(S.String),
+          merchantId: S.optional(S.String),
+          merchantProductId: S.optional(S.String),
+          conversionValue: S.optional(S.Number),
+          customVariables: S.optional(__S(581, __c18, 5)),
+        }),
+      ).annotate({ identifier: "Item" });
+    case 7:
+      return S.Array(__S(582, __c18, 6));
     case 8:
-      return S.Array(__S(551, __c17, 7));
+      return S.suspend(() =>
+        S.Struct({
+          merchantFeedLanguageCode: S.optional(S.String),
+          transactionDiscount: S.optional(S.Number),
+          items: S.optional(__S(583, __c18, 7)),
+          merchantFeedLabel: S.optional(S.String),
+          merchantId: S.optional(S.String),
+          couponCodes: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "CartData" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          conversionValue: S.optional(S.Number),
-          additionalItemParameters: S.optional(__S(550, __c17, 6)),
-          merchantFeedLabel: S.optional(S.String),
-          quantity: S.optional(S.String),
-          merchantProductId: S.optional(S.String),
-          unitPrice: S.optional(S.Number),
-          itemId: S.optional(S.String),
-          customVariables: S.optional(__S(552, __c17, 8)),
-          merchantFeedLanguageCode: S.optional(S.String),
-          merchantId: S.optional(S.String),
+          startTimestamp: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Item" });
+      ).annotate({ identifier: "CallInfo" });
     case 10:
-      return S.Array(__S(553, __c17, 9));
-    case 11:
       return S.suspend(() =>
         S.Struct({
-          couponCodes: S.optional(__S(64, __c2, 0)),
-          merchantFeedLanguageCode: S.optional(S.String),
-          merchantId: S.optional(S.String),
-          transactionDiscount: S.optional(S.Number),
-          items: S.optional(__S(554, __c17, 10)),
-          merchantFeedLabel: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CartData" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExperimentalField" });
-    case 13:
-      return S.Array(__S(556, __c17, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.String),
-          parameterName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EventParameter" });
-    case 15:
-      return S.Array(__S(558, __c17, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
+          entityId: S.optional(S.String),
           entityType: S.optional(S.String),
           source: S.optional(S.String),
-          entityId: S.optional(S.String),
           encryptedId: S.optional(S.String),
         }),
       ).annotate({ identifier: "EncryptedUserId" });
-    case 17:
-      return S.Array(__S(560, __c17, 16));
-    case 18:
+    case 11:
+      return S.Array(__S(586, __c18, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           sessionAttributes: S.optional(S.String),
-          visitorPpid: S.optional(S.String),
-          encryptedUserIds: S.optional(__S(561, __c17, 17)),
-          gclid: S.optional(S.String),
-          dclid: S.optional(S.String),
-          wbraid: S.optional(S.String),
-          impressionId: S.optional(S.String),
-          mobileDeviceId: S.optional(S.String),
-          gbraid: S.optional(S.String),
-          landingPageDeviceInfo: S.optional(__S(320, __c10, 0)),
           matchId: S.optional(S.String),
+          landingPageDeviceInfo: S.optional(__S(352, __c11, 0)),
           ppid: S.optional(S.String),
+          gbraid: S.optional(S.String),
+          wbraid: S.optional(S.String),
+          encryptedUserIds: S.optional(__S(587, __c18, 11)),
+          dclid: S.optional(S.String),
+          mobileDeviceId: S.optional(S.String),
+          gclid: S.optional(S.String),
+          leadId: S.optional(S.String),
+          impressionId: S.optional(S.String),
+          visitorPpid: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdIdentifiers" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          propertyName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserProperty" });
+    case 14:
+      return S.Array(__S(589, __c18, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          customerType: S.optional(S.String),
+          additionalUserProperties: S.optional(__S(590, __c18, 14)),
+          customerValueBucket: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserProperties" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          subcontinentCode: S.optional(S.String),
+          regionCode: S.optional(S.String),
+          storeId: S.optional(S.String),
+          subdivisionCode: S.optional(S.String),
+          continentCode: S.optional(S.String),
+          city: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EventLocation" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          destinationReferences: S.optional(__S(64, __c2, 0)),
+          variable: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomVariable" });
+    case 18:
+      return S.Array(__S(593, __c18, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          city: S.optional(S.String),
-          subcontinentCode: S.optional(S.String),
-          storeId: S.optional(S.String),
-          subdivisionCode: S.optional(S.String),
-          regionCode: S.optional(S.String),
-          continentCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EventLocation" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
           eventName: S.optional(S.String),
-          userId: S.optional(S.String),
-          conversionCount: S.optional(S.Number),
-          eventSource: S.optional(S.String),
-          userProperties: S.optional(__S(546, __c17, 2)),
-          thirdPartyUserData: S.optional(__S(291, __c9, 3)),
-          currency: S.optional(S.String),
-          clientId: S.optional(S.String),
-          customVariables: S.optional(__S(548, __c17, 4)),
-          appInstanceId: S.optional(S.String),
+          experimentalFields: S.optional(__S(577, __c18, 1)),
           eventTimestamp: S.optional(S.String),
-          cartData: S.optional(__S(555, __c17, 11)),
-          conversionValue: S.optional(S.Number),
-          lastUpdatedTimestamp: S.optional(S.String),
-          experimentalFields: S.optional(__S(557, __c17, 13)),
-          userData: S.optional(__S(291, __c9, 3)),
-          additionalEventParameters: S.optional(__S(559, __c17, 15)),
-          adIdentifiers: S.optional(__S(562, __c17, 18)),
-          consent: S.optional(__S(448, __c14, 0)),
-          eventLocation: S.optional(__S(563, __c17, 19)),
+          userData: S.optional(__S(323, __c10, 3)),
+          additionalEventParameters: S.optional(__S(579, __c18, 3)),
+          cartData: S.optional(__S(584, __c18, 8)),
+          callInfo: S.optional(__S(585, __c18, 9)),
+          currency: S.optional(S.String),
+          userId: S.optional(S.String),
+          thirdPartyUserData: S.optional(__S(323, __c10, 3)),
+          conversionCount: S.optional(S.Number),
+          consent: S.optional(__S(480, __c15, 0)),
           destinationReferences: S.optional(__S(64, __c2, 0)),
-          eventDeviceInfo: S.optional(__S(320, __c10, 0)),
+          clientId: S.optional(S.String),
           transactionId: S.optional(S.String),
+          appInstanceId: S.optional(S.String),
+          adIdentifiers: S.optional(__S(588, __c18, 12)),
+          eventDeviceInfo: S.optional(__S(352, __c11, 0)),
+          userProperties: S.optional(__S(591, __c18, 15)),
+          eventLocation: S.optional(__S(592, __c18, 16)),
+          lastUpdatedTimestamp: S.optional(S.String),
+          conversionValue: S.optional(S.Number),
+          customVariables: S.optional(__S(594, __c18, 18)),
+          eventSource: S.optional(S.String),
         }),
       ).annotate({ identifier: "Event" });
+    case 20:
+      return S.Array(__S(595, __c18, 19));
     case 21:
-      return S.Array(__S(564, __c17, 20));
+      return S.suspend(() =>
+        S.Struct({
+          consent: S.optional(__S(480, __c15, 0)),
+          encryptionInfo: S.optional(__S(327, __c10, 7)),
+          events: S.optional(__S(596, __c18, 20)),
+          validateOnly: S.optional(S.Boolean),
+          encoding: S.optional(S.String),
+          destinations: S.optional(__S(448, __c14, 0)),
+        }),
+      ).annotate({ identifier: "IngestEventsRequest" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          events: S.optional(__S(565, __c17, 21)),
-          destinations: S.optional(__S(416, __c13, 0)),
-          consent: S.optional(__S(448, __c14, 0)),
-          encoding: S.optional(S.String),
-          validateOnly: S.optional(S.Boolean),
-          encryptionInfo: S.optional(__S(295, __c9, 7)),
-        }),
-      ).annotate({ identifier: "IngestEventsRequest" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(566, __c17, 22).pipe(T.HttpBody())),
+          body: S.optional(__S(597, __c18, 21).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2643,33 +2820,40 @@ function __c17(j: number): any {
           }),
         ),
       ).annotate({ identifier: "IngestEventsRequest_" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          requestId: S.optional(S.String),
+          fieldWarnings: S.optional(__S(417, __c13, 1)),
+        }),
+      ).annotate({ identifier: "IngestEventsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          mobileData: S.optional(__S(480, __c15, 0)),
-          userData: S.optional(__S(291, __c9, 3)),
+          mobileData: S.optional(__S(512, __c16, 0)),
+          userData: S.optional(__S(323, __c10, 3)),
         }),
       ).annotate({ identifier: "User" });
     case 1:
-      return S.Array(__S(576, __c18, 0));
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          encryptionInfo: S.optional(__S(295, __c9, 7)),
-          users: S.optional(__S(577, __c18, 1)),
-          destinations: S.optional(__S(416, __c13, 0)),
-          encoding: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
+          users: S.optional(__S(609, __c19, 1)),
+          encryptionInfo: S.optional(__S(327, __c10, 7)),
+          encoding: S.optional(S.String),
+          destinations: S.optional(__S(448, __c14, 0)),
         }),
       ).annotate({ identifier: "IngestUsersRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(578, __c18, 2).pipe(T.HttpBody())),
+          body: S.optional(__S(610, __c19, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2680,7 +2864,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "IngestUsersRequest_" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2690,13 +2874,13 @@ function __c19(j: number): any {
       ).annotate({ identifier: "IngestUsersResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -2708,25 +2892,25 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListAccountTypesAccountsUserListDirectLicensesRequest" });
     case 1:
-      return S.Array(__S(1120, __c35, 0));
+      return S.Array(__S(1152, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          userListDirectLicenses: S.optional(__S(641, __c20, 1)),
           nextPageToken: S.optional(S.String),
+          userListDirectLicenses: S.optional(__S(673, __c21, 1)),
         }),
       ).annotate({ identifier: "ListUserListDirectLicensesResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2736,25 +2920,25 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListAccountTypesAccountsUserListGlobalLicensesRequest" });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(1248, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          userListGlobalLicenses: S.optional(__S(673, __c21, 1)),
+          userListGlobalLicenses: S.optional(__S(705, __c22, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListUserListGlobalLicensesResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2769,39 +2953,39 @@ function __c22(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          userListId: S.optional(S.String),
+          historicalPricings: S.optional(__S(1186, __c37, 2)),
           status: S.optional(S.String),
-          clientAccountId: S.optional(S.String),
-          clientAccountDisplayName: S.optional(S.String),
-          historicalPricings: S.optional(__S(1154, __c36, 2)),
-          userListDisplayName: S.optional(S.String),
-          pricing: S.optional(__S(1153, __c36, 1)),
-          name: S.optional(S.String),
-          metrics: S.optional(__S(1152, __c36, 0)),
+          pricing: S.optional(__S(1184, __c37, 0)),
+          userListId: S.optional(S.String),
+          metrics: S.optional(__S(1185, __c37, 1)),
           clientAccountType: S.optional(S.String),
           licenseType: S.optional(S.String),
+          clientAccountId: S.optional(S.String),
+          clientAccountDisplayName: S.optional(S.String),
+          userListDisplayName: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserListGlobalLicenseCustomerInfo" });
     case 2:
-      return S.Array(__S(705, __c22, 1));
+      return S.Array(__S(737, __c23, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          userListGlobalLicenseCustomerInfos: S.optional(__S(706, __c22, 2)),
           nextPageToken: S.optional(S.String),
+          userListGlobalLicenseCustomerInfos: S.optional(__S(738, __c23, 2)),
         }),
       ).annotate({ identifier: "ListUserListGlobalLicenseCustomerInfosResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2811,24 +2995,24 @@ function __c23(j: number): any {
         ),
       ).annotate({ identifier: "ListAccountTypesAccountsUserListsRequest" });
     case 1:
-      return S.Array(__S(1290, __c40, 10));
+      return S.Array(__S(1322, __c41, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          userLists: S.optional(__S(737, __c23, 1)),
           nextPageToken: S.optional(S.String),
+          userLists: S.optional(__S(769, __c24, 1)),
         }),
       ).annotate({ identifier: "ListUserListsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c35, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2839,14 +3023,14 @@ function __c24(j: number): any {
       ).annotate({ identifier: "PatchAccountTypesAccountsUserListDirectLicensesRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1248, __c39, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2857,15 +3041,15 @@ function __c25(j: number): any {
       ).annotate({ identifier: "PatchAccountTypesAccountsUserListGlobalLicensesRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1290, __c40, 10).pipe(T.HttpBody())),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          body: S.optional(__S(1322, __c41, 10).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2876,20 +3060,20 @@ function __c26(j: number): any {
       ).annotate({ identifier: "PatchAccountTypesAccountsUserListsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          destinations: S.optional(__S(416, __c13, 0)),
-          validateOnly: S.optional(S.Boolean),
+          destinations: S.optional(__S(448, __c14, 0)),
           removeAsOfTime: S.optional(S.String),
+          validateOnly: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "RemoveAllAudienceMembersRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2900,22 +3084,22 @@ function __c27(j: number): any {
       ).annotate({ identifier: "RemoveAllAudienceMembersRequest_" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          destinations: S.optional(__S(416, __c13, 0)),
-          encryptionInfo: S.optional(__S(295, __c9, 7)),
-          audienceMembers: S.optional(__S(521, __c16, 9)),
           validateOnly: S.optional(S.Boolean),
+          audienceMembers: S.optional(__S(553, __c17, 9)),
+          encryptionInfo: S.optional(__S(327, __c10, 7)),
           encoding: S.optional(S.String),
+          destinations: S.optional(__S(448, __c14, 0)),
         }),
       ).annotate({ identifier: "RemoveAudienceMembersRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2926,24 +3110,24 @@ function __c28(j: number): any {
       ).annotate({ identifier: "RemoveAudienceMembersRequest_" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(291, __c9, 3));
+      return S.Array(__S(323, __c10, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          destinations: S.optional(__S(416, __c13, 0)),
-          encoding: S.optional(S.String),
-          encryptionInfo: S.optional(__S(295, __c9, 7)),
           validateOnly: S.optional(S.Boolean),
-          userData: S.optional(__S(928, __c29, 0)),
+          encoding: S.optional(S.String),
+          userData: S.optional(__S(960, __c30, 0)),
+          destinations: S.optional(__S(448, __c14, 0)),
+          encryptionInfo: S.optional(__S(327, __c10, 7)),
         }),
       ).annotate({ identifier: "RemoveUsersRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(929, __c29, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2954,15 +3138,15 @@ function __c29(j: number): any {
       ).annotate({ identifier: "RemoveUsersRequest_" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2972,23 +3156,23 @@ function __c30(j: number): any {
         ),
       ).annotate({ identifier: "SearchAccountTypesAccountsPartnerLinksRequest" });
     case 1:
-      return S.Array(__S(1059, __c33, 3));
+      return S.Array(__S(1091, __c34, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          partnerLinks: S.optional(__S(961, __c30, 1)),
+          partnerLinks: S.optional(__S(993, __c31, 1)),
         }),
       ).annotate({ identifier: "SearchPartnerLinksResponse" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1059, __c33, 3).pipe(T.HttpBody())),
+          body: S.optional(__S(1091, __c34, 3).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2999,7 +3183,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CreateAccountTypesAccountsPartnerLinksRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3011,7 +3195,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ProductAccount" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3022,34 +3206,34 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "PartnerCustomerAccount" });
     case 1:
-      return S.Array(__S(1056, __c33, 0));
+      return S.Array(__S(1088, __c34, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          implicitAccounts: S.optional(__S(1057, __c33, 1)),
+          implicitAccounts: S.optional(__S(1089, __c34, 1)),
         }),
       ).annotate({ identifier: "PartnerLinkMetadata" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          partnerAccount: S.optional(__S(1024, __c32, 0)),
-          featureSet: S.optional(S.String),
           partnerLinkId: S.optional(S.String),
-          owningAccount: S.optional(__S(1024, __c32, 0)),
-          partnerCustomerAccount: S.optional(__S(1056, __c33, 0)),
+          partnerLinkMetadata: S.optional(__S(1090, __c34, 2)),
+          partnerCustomerAccount: S.optional(__S(1088, __c34, 0)),
+          partnerAccount: S.optional(__S(1056, __c33, 0)),
           name: S.optional(S.String),
-          partnerLinkMetadata: S.optional(__S(1058, __c33, 2)),
+          featureSet: S.optional(S.String),
+          owningAccount: S.optional(__S(1056, __c33, 0)),
         }),
       ).annotate({ identifier: "PartnerLink" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c35, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3060,53 +3244,23 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateAccountTypesAccountsUserListDirectLicensesRequest" });
   }
 }
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          userListId: S.optional(S.String),
-          clientAccountId: S.optional(S.String),
-          clientAccountType: S.optional(S.String),
-          metrics: S.optional(__S(1152, __c36, 0)),
-          clientAccountDisplayName: S.optional(S.String),
-          historicalPricings: S.optional(__S(1154, __c36, 2)),
-          pricing: S.optional(__S(1153, __c36, 1)),
-          userListDisplayName: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UserListDirectLicense" });
-  }
-}
 function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          impressionCount: S.optional(S.String),
-          endDate: S.optional(S.String),
-          clickCount: S.optional(S.String),
-          revenueUsdMicros: S.optional(S.String),
-          startDate: S.optional(S.String),
+          pricing: S.optional(__S(1184, __c37, 0)),
+          userListId: S.optional(S.String),
+          clientAccountId: S.optional(S.String),
+          clientAccountType: S.optional(S.String),
+          status: S.optional(S.String),
+          metrics: S.optional(__S(1185, __c37, 1)),
+          clientAccountDisplayName: S.optional(S.String),
+          userListDisplayName: S.optional(S.String),
+          name: S.optional(S.String),
+          historicalPricings: S.optional(__S(1186, __c37, 2)),
         }),
-      ).annotate({ identifier: "UserListLicenseMetrics" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          maxCostMicros: S.optional(S.String),
-          pricingId: S.optional(S.String),
-          currencyCode: S.optional(S.String),
-          costType: S.optional(S.String),
-          costMicros: S.optional(S.String),
-          pricingActive: S.optional(S.Boolean),
-          startTime: S.optional(S.String),
-          buyerApprovalState: S.optional(S.String),
-          endTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UserListLicensePricing" });
-    case 2:
-      return S.Array(__S(1153, __c36, 1));
+      ).annotate({ identifier: "UserListDirectLicense" });
   }
 }
 function __c37(j: number): any {
@@ -3114,8 +3268,38 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          endTime: S.optional(S.String),
+          maxCostMicros: S.optional(S.String),
+          startTime: S.optional(S.String),
+          costMicros: S.optional(S.String),
+          currencyCode: S.optional(S.String),
+          buyerApprovalState: S.optional(S.String),
+          costType: S.optional(S.String),
+          pricingId: S.optional(S.String),
+          pricingActive: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "UserListLicensePricing" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          revenueUsdMicros: S.optional(S.String),
+          startDate: S.optional(S.String),
+          endDate: S.optional(S.String),
+          impressionCount: S.optional(S.String),
+          clickCount: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserListLicenseMetrics" });
+    case 2:
+      return S.Array(__S(1184, __c37, 0));
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1248, __c39, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3126,31 +3310,31 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateAccountTypesAccountsUserListGlobalLicensesRequest" });
   }
 }
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userListDisplayName: S.optional(S.String),
-          pricing: S.optional(__S(1153, __c36, 1)),
-          name: S.optional(S.String),
-          historicalPricings: S.optional(__S(1154, __c36, 2)),
-          userListId: S.optional(S.String),
-          status: S.optional(S.String),
-          metrics: S.optional(__S(1152, __c36, 0)),
-          licenseType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UserListGlobalLicense" });
-  }
-}
 function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          userListId: S.optional(S.String),
+          pricing: S.optional(__S(1184, __c37, 0)),
+          name: S.optional(S.String),
+          metrics: S.optional(__S(1185, __c37, 1)),
+          userListDisplayName: S.optional(S.String),
+          historicalPricings: S.optional(__S(1186, __c37, 2)),
+          licenseType: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserListGlobalLicense" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1290, __c40, 10).pipe(T.HttpBody())),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          body: S.optional(__S(1322, __c41, 10).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3161,42 +3345,18 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateAccountTypesAccountsUserListsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          gmailMembersCount: S.optional(S.String),
           youtubeMembersCount: S.optional(S.String),
           displayNetworkMembersCount: S.optional(S.String),
           searchNetworkMembersCount: S.optional(S.String),
+          gmailMembersCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "SizeInfo" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          eligibleForDisplay: S.optional(S.Boolean),
-          eligibleForSearch: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TargetNetworkInfo" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          partnerAudienceSource: S.optional(S.String),
-          commercePartner: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PartnerAudienceInfo" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          matchRatePercentage: S.optional(S.Number),
-          cleanRoomIdentifier: S.optional(S.String),
-          publisherId: S.optional(S.String),
-          advertiserIdentifierCount: S.optional(S.String),
-          publisherName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PairIdInfo" });
-    case 4:
       return S.suspend(() =>
         S.Struct({
           keySpace: S.optional(S.String),
@@ -3204,62 +3364,86 @@ function __c40(j: number): any {
           appId: S.optional(S.String),
         }),
       ).annotate({ identifier: "MobileIdInfo" });
-    case 5:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           dataSourceType: S.optional(S.String),
-          matchRatePercentage: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "ContactIdInfo" });
-    case 6:
+      ).annotate({ identifier: "UserIdInfo" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          partnerAudienceSource: S.optional(S.String),
+          commercePartner: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PartnerAudienceInfo" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           syncStatus: S.optional(S.String),
           billableRecordCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "PseudonymousIdInfo" });
-    case 7:
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          advertiserIdentifierCount: S.optional(S.String),
+          matchRatePercentage: S.optional(S.Number),
+          cleanRoomIdentifier: S.optional(S.String),
+          publisherName: S.optional(S.String),
+          publisherId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PairIdInfo" });
+    case 6:
       return S.suspend(() =>
         S.Struct({
           dataSourceType: S.optional(S.String),
+          matchRatePercentage: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "UserIdInfo" });
-    case 8:
+      ).annotate({ identifier: "ContactIdInfo" });
+    case 7:
       return S.Array(S.String);
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          mobileIdInfo: S.optional(__S(1313, __c41, 1)),
+          userIdInfo: S.optional(__S(1314, __c41, 2)),
+          partnerAudienceInfo: S.optional(__S(1315, __c41, 3)),
+          pseudonymousIdInfo: S.optional(__S(1316, __c41, 4)),
+          pairIdInfo: S.optional(__S(1317, __c41, 5)),
+          contactIdInfo: S.optional(__S(1318, __c41, 6)),
+          uploadKeyTypes: S.optional(__S(1319, __c41, 7)),
+        }),
+      ).annotate({ identifier: "IngestedUserListInfo" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          partnerAudienceInfo: S.optional(__S(1282, __c40, 2)),
-          pairIdInfo: S.optional(__S(1283, __c40, 3)),
-          mobileIdInfo: S.optional(__S(1284, __c40, 4)),
-          contactIdInfo: S.optional(__S(1285, __c40, 5)),
-          pseudonymousIdInfo: S.optional(__S(1286, __c40, 6)),
-          userIdInfo: S.optional(__S(1287, __c40, 7)),
-          uploadKeyTypes: S.optional(__S(1288, __c40, 8)),
+          eligibleForDisplay: S.optional(S.Boolean),
+          eligibleForSearch: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "IngestedUserListInfo" });
+      ).annotate({ identifier: "TargetNetworkInfo" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          accessReason: S.optional(S.String),
-          displayName: S.optional(S.String),
-          integrationCode: S.optional(S.String),
           closingReason: S.optional(S.String),
-          membershipDuration: S.optional(S.String),
-          sizeInfo: S.optional(__S(1280, __c40, 0)),
-          membershipStatus: S.optional(S.String),
-          accountAccessStatus: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          targetNetworkInfo: S.optional(__S(1281, __c40, 1)),
-          id: S.optional(S.String),
-          ingestedUserListInfo: S.optional(__S(1289, __c40, 9)),
           readOnly: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          sizeInfo: S.optional(__S(1312, __c41, 0)),
+          integrationCode: S.optional(S.String),
+          ingestedUserListInfo: S.optional(__S(1320, __c41, 8)),
+          description: S.optional(S.String),
+          accountAccessStatus: S.optional(S.String),
+          membershipStatus: S.optional(S.String),
+          displayName: S.optional(S.String),
+          membershipDuration: S.optional(S.String),
+          accessReason: S.optional(S.String),
+          id: S.optional(S.String),
+          targetNetworkInfo: S.optional(__S(1321, __c41, 9)),
         }),
       ).annotate({ identifier: "UserList" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3275,7 +3459,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteAccountTypesAccountsPartnerLinksRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });

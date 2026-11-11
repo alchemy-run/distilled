@@ -59,16 +59,16 @@ export interface CreateUpdateRequest {
   region: string;
   /** server id */
   serverId: string;
-  backupBeforeUpdate?: boolean;
+  backupBeforeUpdate?: boolean | undefined;
   /** Updates start within the defined hourly window. Depending on the updates, the process may exceed this timeframe and require an automatic restart. */
   maintenanceWindow: number;
 }
 export interface Update {
-  endDate?: string;
-  failReason?: string;
-  failedUpdates?: number;
+  endDate?: string | undefined;
+  failReason?: string | undefined;
+  failedUpdates?: number | undefined;
   id: number;
-  installedUpdates?: number;
+  installedUpdates?: number | undefined;
   startDate: string;
   status: string;
 }
@@ -122,7 +122,7 @@ export interface EnableServiceResourceRequest {
   region: string;
   /** server id */
   serverId: string;
-  updatePolicyId?: string;
+  updatePolicyId?: string | undefined;
 }
 export interface EnableServiceResourceResponse {}
 export interface GetServiceResourceRequest {
@@ -134,7 +134,7 @@ export interface GetServiceResourceRequest {
   serverId: string;
 }
 export interface GetUpdateServiceResponse {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface GetUpdateRequest {
   /** project id */
@@ -170,19 +170,19 @@ export interface ListUpdatePoliciesRequest {
   projectId: string;
 }
 export interface UpdatePolicy {
-  default?: boolean;
-  description?: string;
-  enabled?: boolean;
-  id?: string;
+  default?: boolean | undefined;
+  description?: string | undefined;
+  enabled?: boolean | undefined;
+  id?: string | undefined;
   /** Updates start within the defined hourly window. Depending on the updates, the process may exceed this timeframe and require an automatic restart. */
-  maintenanceWindow?: number;
-  name?: string;
+  maintenanceWindow?: number | undefined;
+  name?: string | undefined;
   /** An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates */
-  rrule?: string;
+  rrule?: string | undefined;
 }
 export type GetUpdatePoliciesResponseItemsList = Array<UpdatePolicy>;
 export interface GetUpdatePoliciesResponse {
-  items?: GetUpdatePoliciesResponseItemsList;
+  items?: GetUpdatePoliciesResponseItemsList | undefined;
 }
 export interface ListUpdatesRequest {
   /** project id */
@@ -194,7 +194,7 @@ export interface ListUpdatesRequest {
 }
 export type GetUpdatesListResponseItemsList = Array<Update>;
 export interface GetUpdatesListResponse {
-  items?: GetUpdatesListResponseItemsList;
+  items?: GetUpdatesListResponseItemsList | undefined;
 }
 export interface ListUpdateSchedulesRequest {
   /** project id */
@@ -215,7 +215,7 @@ export interface UpdateSchedule {
 }
 export type GetUpdateSchedulesResponseItemsList = Array<UpdateSchedule>;
 export interface GetUpdateSchedulesResponse {
-  items?: GetUpdateSchedulesResponseItemsList;
+  items?: GetUpdateSchedulesResponseItemsList | undefined;
 }
 export interface UpdateUpdateScheduleRequest {
   /** project id */

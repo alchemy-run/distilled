@@ -15,6 +15,18 @@ import { oneLine } from "./naming.ts";
  */
 export const ADDITIONAL_PROPERTIES_TRAIT = "com.distilled.openapi#additionalProperties";
 
+/**
+ * Smithy 2.0 `@default`: the value a member has when the wire leaves it out.
+ * A response always carries such a member (proto3 fields without presence).
+ */
+export const DEFAULT_TRAIT = "smithy.api#default";
+
+/**
+ * A server-streaming gRPC operation, whose output collects the stream as
+ * `{ items }`; generated as `API.makeStreaming` (see the proto converter).
+ */
+export const SERVER_STREAMING_TRAIT = "com.distilled.grpc#serverStreaming";
+
 export interface MemberBase {
   /** Original smithy member name. */
   readonly name: string;
