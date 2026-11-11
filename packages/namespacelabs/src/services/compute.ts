@@ -367,7 +367,6 @@ export interface ApplicationRequest {
   experimental?: ApplicationRequestExperimentalFeatures | undefined;
 }
 export type ApplicationRequestList = Array<ApplicationRequest>;
-/** persistent_volumes */
 export interface CreateInstanceRequestExperimentalFeaturesDisk {
   name?: string | undefined;
   imageRef?: string | undefined;
