@@ -1,0 +1,33 @@
+{
+  "description": "DELETE /v2/vpcs/{vpc_id} answers 409 `Can not delete VPC with members` while a droplet, cluster or database is still in the VPC, including for a while after a member was destroyed (live response, alchemy DigitalOcean Vpc suite). The spec lists only 401/404/429/500. Type it as VpcHasMembers so a delete can wait for the members to leave.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcHasMembers",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The VPC still has members (409 `Can not delete VPC with members`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "message": {
+                "includes": "VPC with members"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcsDelete/errors/-",
+      "value": {
+        "target": "com.digitalocean.api#VpcHasMembers"
+      }
+    }
+  ]
+}
