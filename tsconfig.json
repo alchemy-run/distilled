@@ -60,6 +60,9 @@
     {
       "path": "./packages/coinbase/tsconfig.scripts.json"
     },
+    { "path": "./packages/coinflow/tsconfig.json" },
+    { "path": "./packages/coinflow/tsconfig.test.json" },
+    { "path": "./packages/coinflow/tsconfig.scripts.json" },
     {
       "path": "./packages/discord/tsconfig.json"
     },
@@ -168,6 +171,12 @@
     { "path": "./packages/prisma/tsconfig.test.json" },
     {
       "path": "./packages/prisma/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/questrade/tsconfig.json"
+    },
+    {
+      "path": "./packages/questrade/tsconfig.scripts.json"
     },
     {
       "path": "./packages/railway/tsconfig.json"

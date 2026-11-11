@@ -1,0 +1,10 @@
+{
+  "description": "getSessionKey answers with the end user's session key, a bearer credential for the session-key-authenticated operations (x-coinflow-auth-session-key). Deliver it as Redacted.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.coinflow.authentication#GetSessionKeyResponse/members/key/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}
