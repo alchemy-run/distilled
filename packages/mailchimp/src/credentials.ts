@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Mailchimp credentials — hand-written.
+ * Mailchimp credentials -- hand-written.
  *
  * One secret, the account's API key, sent as HTTP basic auth with any
  * username. The key also names the account's data centre: `abc123-us21`
@@ -29,7 +29,7 @@ export class Credentials
     "MailchimpCredentials",
   ) {}
 
-/** The data-centre suffix of an API key (`abc123-us21` → `us21`). */
+/** The data-centre suffix of an API key (`abc123-us21` -> `us21`). */
 export const serverPrefixFromApiKey = (apiKey: string): string | undefined => {
   const dash = apiKey.lastIndexOf("-");
   if (dash < 0) return undefined;
@@ -56,7 +56,7 @@ const resolve = (config: {
     return Effect.fail(
       new ConfigError({
         message:
-          "Mailchimp API key has no data-centre suffix (expected `<key>-<dc>`, e.g. `…-us21`); pass serverPrefix",
+          "Mailchimp API key has no data-centre suffix (expected `<key>-<dc>`, e.g. `...-us21`); pass serverPrefix",
       }),
     );
   }
@@ -76,7 +76,7 @@ export const fromApiKey = (config: {
 /**
  * Reads `MAILCHIMP_API_KEY` (required) and the optional
  * `MAILCHIMP_SERVER_PREFIX` through Effect `Config`, so it follows whatever
- * `ConfigProvider` is installed — in a Worker, one built from `env`.
+ * `ConfigProvider` is installed -- in a Worker, one built from `env`.
  */
 export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
@@ -95,7 +95,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
   ),
 );
 
-// ───────────── Transactional ─────────────
+// ------------- Transactional -------------
 
 /**
  * The document's `basePath` is `/api/1.3`; Mailchimp's own clients and docs

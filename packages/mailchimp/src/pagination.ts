@@ -4,7 +4,7 @@ import {
   type PaginationStrategy,
 } from "@distilled.cloud/core/pagination";
 /**
- * Mailchimp pagination — hand-written.
+ * Mailchimp pagination -- hand-written.
  *
  * Collections take `count` (default 10, max 1000) and `offset` and answer
  * `{ <collection>: [...], total_items }`, the collection named after the

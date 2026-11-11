@@ -8,7 +8,7 @@ import type {
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * MailchimpProtocol — hand-written.
+ * MailchimpProtocol -- hand-written.
  *
  * Plain JSON REST with no response envelope. Failures are RFC 7807 problem
  * documents:
@@ -111,11 +111,11 @@ export const MailchimpProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRe
   parseError: ({ body, cause }) => new MailchimpParseError({ body, cause }),
 });
 
-// ───────────── Transactional ─────────────
+// ------------- Transactional -------------
 
 /**
  * Only the always-possible failures. Each operation adds the classes its
- * declared statuses map to (`NotFound`, `PaymentRequired`, …).
+ * declared statuses map to (`NotFound`, `PaymentRequired`, ...).
  */
 export type MailchimpTransactionalOpError =
   | DefaultErrors
