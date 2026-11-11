@@ -1,5 +1,5 @@
 {
-  "description": "Database cluster and replica responses always carry their envelope, id, status and creation time (and a cluster its connection, tags and version); the spec marks every readOnly property optional. Every connection shape that marks `password` sensitive also returns a `uri` with the same password embedded (`postgresql://doadmin:<password>@host:25060/defaultdb`), so the URIs are marked sensitive too. Evidence: the response examples in DigitalOcean's API reference, and the live responses the alchemy DigitalOcean suite decodes.",
+  "description": "Database cluster and replica responses always carry their envelope, id, status and creation time (and a cluster its connection, tags and version); the spec marks every readOnly property optional. Every connection shape that marks `password` sensitive also returns a `uri` with the same password embedded (`postgresql://doadmin:<password>@host:25060/defaultdb`), so the URIs are marked sensitive too. Evidence: the response examples in DigitalOcean's API reference, and the live responses the alchemy DigitalOcean suite decodes. A Kafka user's `access_key` is its client private key, so it is marked sensitive too.",
   "patches": [
     {
       "op": "add",
@@ -137,6 +137,11 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#ConnectionPoolStandbyPrivateConnection/members/uri/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DatabaseUser/members/access_key/traits/smithy.api#sensitive",
       "value": {}
     }
   ]

@@ -278,7 +278,7 @@ export interface DatabaseUser {
   /** Access certificate for TLS client authentication. (Kafka only) */
   access_cert?: string | undefined;
   /** Access key for TLS client authentication. (Kafka only) */
-  access_key?: string | undefined;
+  access_key?: string | Redacted.Redacted<string> | undefined;
   mysql_settings?: MysqlSettings | undefined;
   settings?: UserSettings | undefined;
 }
@@ -459,13 +459,13 @@ export interface KubernetesNodePool {
   /** The slug identifier for the type of Droplet used as workers in the node pool. */
   size: string;
   /** A unique ID that can be used to identify and reference a specific node pool. */
-  id?: string | undefined;
+  id: string;
   /** A human-readable name for the node pool. */
   name: string;
   /** The number of Droplet instances in the node pool. */
   count: number;
   /** An array containing the tags applied to the node pool. All node pools are automatically tagged `k8s`, `k8s-worker`, and `k8s:$K8S_CLUSTER_ID`. <br><br>Requires `tag:read` scope. */
-  tags?: KubernetesNodePoolTagsList | undefined;
+  tags: KubernetesNodePoolTagsList;
   /** An object of key/value mappings specifying labels to apply to all nodes in a pool. Labels will automatically be applied to all existing nodes and any subsequent nodes added to the pool. Note that when a label is removed, it is not deleted from the nodes in the pool. */
   labels?: unknown | null | undefined;
   /** An array of taints to apply to all nodes in a pool. Taints will automatically be applied to all existing nodes and any subsequent nodes added to the pool. When a taint is removed, it is deleted from all nodes in the pool. */
@@ -477,12 +477,12 @@ export interface KubernetesNodePool {
   /** The maximum number of nodes that this node pool can be auto-scaled to. The value will be `0` if `auto_scale` is set to `false`. */
   max_nodes?: number | undefined;
   /** An object specifying the details of a specific worker node in a node pool. */
-  nodes?: KubernetesNodePoolNodesList | undefined;
+  nodes: KubernetesNodePoolNodesList;
   /** The AMD GPU partition mode for this node pool. Only applicable to AMD GPU sizes that support partitioning. Immutable after the node pool is created. When omitted, the GPUs in the pool are left unpartitioned. */
   gpu_partition_mode?: KubernetesNodePoolGpuPartitionMode | undefined;
 }
 export interface AddKubernetesNodePoolResponse {
-  node_pool?: KubernetesNodePool | undefined;
+  node_pool: KubernetesNodePool;
 }
 /** An array containing the UUIDs of Kubernetes clusters. */
 export type AddKubernetesRegistriesRequestClusterUuidsList = Array<string>;
@@ -8055,7 +8055,7 @@ export interface ClusterOutputStatus {
 }
 export interface ClusterOutput {
   /** A unique ID that can be used to identify and reference a Kubernetes cluster. */
-  id?: string | undefined;
+  id: string;
   /** A human-readable name for a Kubernetes cluster. */
   name: string;
   /** The slug identifier for the region where the Kubernetes cluster is located. */
@@ -8063,19 +8063,19 @@ export interface ClusterOutput {
   /** The slug identifier for the version of Kubernetes used for the cluster. If set to a minor version (e.g. "1.14"), the latest version within it will be used (e.g. "1.14.6-do.1"); if set to "latest", the latest published version will be used. See the `/v2/kubernetes/options` endpoint to find all currently available versions. */
   version: string;
   /** The range of IP addresses for the overlay network of the Kubernetes cluster in CIDR notation. */
-  cluster_subnet?: string | undefined;
+  cluster_subnet: string;
   /** The range of assignable IP addresses for services running in the Kubernetes cluster in CIDR notation. */
-  service_subnet?: string | undefined;
+  service_subnet: string;
   /** A string specifying the UUID of the VPC to which the Kubernetes cluster is assigned.<br><br>Requires `vpc:read` scope. */
-  vpc_uuid?: string | undefined;
+  vpc_uuid: string;
   /** The UUID of the VPC subnet to attach worker nodes to. When omitted on create, the default subnet for the VPC is used. This value cannot be changed after the cluster is created. `vpc_uuid` must also be set. <br><br>Requires `vpc:read` scope. */
   worker_subnet_uuid?: string | undefined;
   /** The public IPv4 address of the Kubernetes master node. This will not be set if high availability is configured on the cluster (v1.21+) */
-  ipv4?: string | undefined;
+  ipv4: string;
   /** The base URL of the API server on the Kubernetes master node. */
-  endpoint?: string | undefined;
+  endpoint: string;
   /** An array of tags to apply to the Kubernetes cluster. All clusters are automatically tagged `k8s` and `k8s:$K8S_CLUSTER_ID`. <br><br>Requires `tag:read` and `tag:create` scope, as well as `tag:delete` if existing tags are getting removed. */
-  tags?: ClusterOutputTagsList | undefined;
+  tags: ClusterOutputTagsList;
   /** An object specifying the details of the worker nodes available to the Kubernetes cluster. */
   node_pools: ClusterOutputNodePoolsList;
   maintenance_policy?: MaintenancePolicy | null | undefined;
@@ -8086,9 +8086,9 @@ export interface ClusterOutput {
   /** A boolean value indicating whether GPU nodes in the cluster are launched with images that do not include pre-installed GPU drivers, allowing GPU drivers to be managed by a GPU operator instead. Mutually exclusive with other GPU-related cluster options, such as `nvidia_gpu_dra_driver` and `amd_gpu_dra_driver`. When omitted on create, the default value is false. */
   gpu_operator_ready?: boolean | undefined;
   /** An object containing a `state` attribute whose value is set to a string indicating the current status of the cluster. */
-  status?: ClusterOutputStatus | undefined;
+  status: ClusterOutputStatus;
   /** A time value given in ISO8601 combined date and time format that represents when the Kubernetes cluster was created. */
-  created_at?: string | undefined;
+  created_at: string;
   /** A time value given in ISO8601 combined date and time format that represents when the Kubernetes cluster was last updated. */
   updated_at?: string | undefined;
   /** A boolean value indicating whether surge upgrade is enabled/disabled for the cluster. Surge upgrade makes cluster upgrades fast and reliable by bringing up new nodes before destroying the outdated nodes. */
@@ -8112,7 +8112,7 @@ export interface ClusterOutput {
   coredns_autoscaler?: CorednsAutoscaler | null | undefined;
 }
 export interface CreateKubernetesClusterResponse {
-  kubernetes_cluster?: ClusterOutput | undefined;
+  kubernetes_cluster: ClusterOutput;
 }
 /** An array containing the IDs of the Droplets assigned to the load balancer. */
 export type LoadBalancerCreateInputCase0DropletIdsList = Array<number>;
@@ -15167,7 +15167,7 @@ export interface ClusterReadStatus {
 export type ClusterReadRegistriesList = Array<string>;
 export interface ClusterRead {
   /** A unique ID that can be used to identify and reference a Kubernetes cluster. */
-  id?: string | undefined;
+  id: string;
   /** A human-readable name for a Kubernetes cluster. */
   name: string;
   /** The slug identifier for the region where the Kubernetes cluster is located. */
@@ -15175,19 +15175,19 @@ export interface ClusterRead {
   /** The slug identifier for the version of Kubernetes used for the cluster. If set to a minor version (e.g. "1.14"), the latest version within it will be used (e.g. "1.14.6-do.1"); if set to "latest", the latest published version will be used. See the `/v2/kubernetes/options` endpoint to find all currently available versions. */
   version: string;
   /** The range of IP addresses for the overlay network of the Kubernetes cluster in CIDR notation. */
-  cluster_subnet?: string | undefined;
+  cluster_subnet: string;
   /** The range of assignable IP addresses for services running in the Kubernetes cluster in CIDR notation. */
-  service_subnet?: string | undefined;
+  service_subnet: string;
   /** A string specifying the UUID of the VPC to which the Kubernetes cluster is assigned.<br><br>Requires `vpc:read` scope. */
-  vpc_uuid?: string | undefined;
+  vpc_uuid: string;
   /** The UUID of the VPC subnet worker nodes are attached to. When unset, the default subnet for the VPC is used.<br><br>Requires `vpc:read` scope. */
   worker_subnet_uuid?: string | undefined;
   /** The public IPv4 address of the Kubernetes master node. This will not be set if high availability is configured on the cluster (v1.21+) */
-  ipv4?: string | undefined;
+  ipv4: string;
   /** The base URL of the API server on the Kubernetes master node. */
-  endpoint?: string | undefined;
+  endpoint: string;
   /** An array of tags applied to the Kubernetes cluster. All clusters are automatically tagged `k8s` and `k8s:$K8S_CLUSTER_ID`. <br><br>Requires `tag:read` scope. */
-  tags?: ClusterReadTagsList | undefined;
+  tags: ClusterReadTagsList;
   /** An object specifying the details of the worker nodes available to the Kubernetes cluster. */
   node_pools: ClusterReadNodePoolsList;
   maintenance_policy?: MaintenancePolicy | null | undefined;
@@ -15198,9 +15198,9 @@ export interface ClusterRead {
   /** A boolean value indicating whether GPU nodes in the cluster are launched with images that do not include pre-installed GPU drivers, allowing GPU drivers to be managed by a GPU operator instead. Mutually exclusive with other GPU-related cluster options, such as `nvidia_gpu_dra_driver` and `amd_gpu_dra_driver`. When omitted on create, the default value is false. */
   gpu_operator_ready?: boolean | undefined;
   /** An object containing a `state` attribute whose value is set to a string indicating the current status of the cluster. */
-  status?: ClusterReadStatus | undefined;
+  status: ClusterReadStatus;
   /** A time value given in ISO8601 combined date and time format that represents when the Kubernetes cluster was created. */
-  created_at?: string | undefined;
+  created_at: string;
   /** A time value given in ISO8601 combined date and time format that represents when the Kubernetes cluster was last updated. */
   updated_at?: string | undefined;
   /** A boolean value indicating whether surge upgrade is enabled/disabled for the cluster. Surge upgrade makes cluster upgrades fast and reliable by bringing up new nodes before destroying the outdated nodes. */
@@ -15226,7 +15226,7 @@ export interface ClusterRead {
   nfs_csi_plugin?: NfsCsiPlugin | null | undefined;
 }
 export interface GetKubernetesClusterResponse {
-  kubernetes_cluster?: ClusterRead | undefined;
+  kubernetes_cluster: ClusterRead;
 }
 export interface GetKubernetesClusterLintResultsRequest {
   /** A unique ID that can be used to reference a Kubernetes cluster. */
@@ -15294,9 +15294,9 @@ export interface Credentials {
   /** A base64 encoding of bytes representing the x509 client certificate data for access the cluster. This is only returned for clusters without support for token-based authentication. Newly created Kubernetes clusters do not return credentials using certificate-based authentication. For additional information, [see here](https://docs.digitalocean.com/products/kubernetes/how-to/connect-to-cluster/#authenticate). */
   client_certificate_data?: string | null | undefined;
   /** A base64 encoding of bytes representing the x509 client key data for access the cluster. This is only returned for clusters without support for token-based authentication. Newly created Kubernetes clusters do not return credentials using certificate-based authentication. For additional information, [see here](https://docs.digitalocean.com/products/kubernetes/how-to/connect-to-cluster/#authenticate). */
-  client_key_data?: string | null | undefined;
+  client_key_data?: string | Redacted.Redacted<string> | null | undefined;
   /** An access token used to authenticate with the cluster. This is only returned for clusters with support for token-based authentication. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** A time value given in ISO8601 combined date and time format that represents when the access token expires. */
   expires_at?: string | undefined;
 }
@@ -15317,7 +15317,7 @@ export interface GetKubernetesNodePoolRequest {
   node_pool_id: string;
 }
 export interface GetKubernetesNodePoolResponse {
-  node_pool?: KubernetesNodePool | undefined;
+  node_pool: KubernetesNodePool;
 }
 export interface GetKubernetesStatusMessagesRequest {
   /** A unique ID that can be used to reference a Kubernetes cluster. */
@@ -24637,7 +24637,7 @@ export interface UpdateKubernetesClusterRequest {
   coredns_autoscaler?: CorednsAutoscaler | null | undefined;
 }
 export interface UpdateKubernetesClusterResponse {
-  kubernetes_cluster?: ClusterOutput | undefined;
+  kubernetes_cluster: ClusterOutput;
 }
 /** An array containing the tags applied to the node pool. All node pools are automatically tagged `k8s`, `k8s-worker`, and `k8s:$K8S_CLUSTER_ID`. <br><br>Requires `tag:read` scope. */
 export type UpdateKubernetesNodePoolRequestTagsList = Array<string>;
@@ -24666,7 +24666,7 @@ export interface UpdateKubernetesNodePoolRequest {
   max_nodes?: number | undefined;
 }
 export interface UpdateKubernetesNodePoolResponse {
-  node_pool?: KubernetesNodePool | undefined;
+  node_pool: KubernetesNodePool;
 }
 /** An array containing the IDs of the Droplets assigned to the load balancer. */
 export type LoadBalancerUpdateInputCase0DropletIdsList = Array<number>;
@@ -42832,24 +42832,24 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
+          id: S.String,
           name: S.String,
           region: S.String,
           version: S.String,
-          cluster_subnet: S.optional(S.String),
-          service_subnet: S.optional(S.String),
-          vpc_uuid: S.optional(S.String),
+          cluster_subnet: S.String,
+          service_subnet: S.String,
+          vpc_uuid: S.String,
           worker_subnet_uuid: S.optional(S.String),
-          ipv4: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          tags: S.optional(__S(1792, __c56, 0)),
+          ipv4: S.String,
+          endpoint: S.String,
+          tags: __S(1792, __c56, 0),
           node_pools: __S(960, __c30, 0),
           maintenance_policy: S.optional(S.NullOr(__S(995, __c31, 3))),
           auto_upgrade: S.optional(S.Boolean),
           isolated_workers: S.optional(S.Boolean),
           gpu_operator_ready: S.optional(S.Boolean),
-          status: S.optional(__S(996, __c31, 4)),
-          created_at: S.optional(S.String),
+          status: __S(996, __c31, 4),
+          created_at: S.String,
           updated_at: S.optional(S.String),
           surge_upgrade: S.optional(S.Boolean),
           ha: S.optional(S.Boolean),
@@ -42872,7 +42872,7 @@ function __c32(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          kubernetes_cluster: S.optional(__S(1025, __c32, 1)),
+          kubernetes_cluster: __S(1025, __c32, 1),
         }),
       ).annotate({ identifier: "CreateKubernetesClusterResponse" });
   }
@@ -43411,7 +43411,7 @@ function __c58(j: number): any {
           role: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_cert: S.optional(S.String),
-          access_key: S.optional(S.String),
+          access_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           mysql_settings: S.optional(__S(1856, __c58, 0)),
           settings: S.optional(__S(1862, __c58, 6)),
         }),
@@ -44771,16 +44771,16 @@ function __c138(j: number): any {
       return S.suspend(() =>
         S.Struct({
           size: S.String,
-          id: S.optional(S.String),
+          id: S.String,
           name: S.String,
           count: S.Number,
-          tags: S.optional(__S(1792, __c56, 0)),
+          tags: __S(1792, __c56, 0),
           labels: S.optional(S.NullOr(S.Unknown)),
           taints: S.optional(__S(4417, __c138, 1)),
           auto_scale: S.optional(S.Boolean),
           min_nodes: S.optional(S.Number),
           max_nodes: S.optional(S.Number),
-          nodes: S.optional(__S(4420, __c138, 4)),
+          nodes: __S(4420, __c138, 4),
           gpu_partition_mode: S.optional(S.String),
         }),
       ).annotate({ identifier: "KubernetesNodePool" });
@@ -44791,7 +44791,7 @@ function __c139(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          node_pool: S.optional(__S(4421, __c138, 5)),
+          node_pool: __S(4421, __c138, 5),
         }),
       ).annotate({ identifier: "AddKubernetesNodePoolResponse" });
   }
@@ -52538,7 +52538,7 @@ function __c526(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          kubernetes_cluster: S.optional(__S(16864, __c527, 0)),
+          kubernetes_cluster: __S(16864, __c527, 0),
         }),
       ).annotate({ identifier: "GetKubernetesClusterResponse" });
   }
@@ -52548,24 +52548,24 @@ function __c527(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
+          id: S.String,
           name: S.String,
           region: S.String,
           version: S.String,
-          cluster_subnet: S.optional(S.String),
-          service_subnet: S.optional(S.String),
-          vpc_uuid: S.optional(S.String),
+          cluster_subnet: S.String,
+          service_subnet: S.String,
+          vpc_uuid: S.String,
           worker_subnet_uuid: S.optional(S.String),
-          ipv4: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          tags: S.optional(__S(1792, __c56, 0)),
+          ipv4: S.String,
+          endpoint: S.String,
+          tags: __S(1792, __c56, 0),
           node_pools: __S(960, __c30, 0),
           maintenance_policy: S.optional(S.NullOr(__S(995, __c31, 3))),
           auto_upgrade: S.optional(S.Boolean),
           isolated_workers: S.optional(S.Boolean),
           gpu_operator_ready: S.optional(S.Boolean),
-          status: S.optional(__S(996, __c31, 4)),
-          created_at: S.optional(S.String),
+          status: __S(996, __c31, 4),
+          created_at: S.String,
           updated_at: S.optional(S.String),
           surge_upgrade: S.optional(S.Boolean),
           ha: S.optional(S.Boolean),
@@ -52679,8 +52679,8 @@ function __c530(j: number): any {
           server: S.optional(S.String),
           certificate_authority_data: S.optional(S.String),
           client_certificate_data: S.optional(S.NullOr(S.String)),
-          client_key_data: S.optional(S.NullOr(S.String)),
-          token: S.optional(S.String),
+          client_key_data: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expires_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "Credentials" });
