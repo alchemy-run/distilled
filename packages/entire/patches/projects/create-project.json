@@ -1,0 +1,65 @@
+{
+  "description": "Type createProject's 409s: a taken name (`project/name-in-use`) and an invalid name (`project/name-invalid`, 400). Callers recover a retried create from the first and must not from anything else.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.entire.core.projects#ProjectNameInUse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The owner already has a project with this name (HTTP 409, `project/name-in-use`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "message": {
+                "includes": "project name already in use"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.entire.core.projects#ProjectNameInvalid",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The name is not a valid project name: at most 32 lowercase letters, digits, `.` and `-` (HTTP 400, `project/name-invalid`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "invalid project name"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.entire.core.projects#CreateProject/errors",
+      "value": [
+        {
+          "target": "com.entire.core.projects#ProjectNameInUse"
+        },
+        {
+          "target": "com.entire.core.projects#ProjectNameInvalid"
+        }
+      ]
+    }
+  ]
+}
