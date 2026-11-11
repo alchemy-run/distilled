@@ -1,5 +1,5 @@
 {
-  "description": "Mark the upload finalize token sensitive: it is a `bytes` capability token that authorises FinalizeUploadResult, base64 on the Connect-JSON wire.",
+  "description": "PrepareUploadResultResponse.finalize_token and FinalizeUploadResultRequest.finalize_token are the opaque `bytes` token that authorises FinalizeUploadResult (base64 on the Connect-JSON wire) but carry no sensitive mark. proto/namespace/experimental/remote/results.proto. Source: buf.build/namespace/cloud, fetched 2026-11-11.",
   "patches": [
     {
       "op": "add",

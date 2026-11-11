@@ -1,12 +1,10 @@
 {
-  "description": "Mark the tenant token issued from a user session sensitive.",
+  "description": "IssueTenantTokenFromSessionResponse.tenant_token is the tenant bearer token exchanged for a user session but carries no sensitive mark. proto/namespace/private/sessions/users.proto. Source: buf.build/namespace/cloud, fetched 2026-11-11.",
   "patches": [
     {
       "op": "add",
-      "path": "/shapes/so.namespace.private.user.sessions#IssueTenantTokenFromSessionResponse/members/tenantToken/traits",
-      "value": {
-        "smithy.api#sensitive": {}
-      }
+      "path": "/shapes/so.namespace.private.user.sessions#IssueTenantTokenFromSessionResponse/members/tenantToken/traits/smithy.api#sensitive",
+      "value": {}
     }
   ]
 }

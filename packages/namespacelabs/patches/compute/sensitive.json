@@ -1,5 +1,5 @@
 {
-  "description": "Mark the instance SSH private keys, the Kubernetes client key and the kubeconfig sensitive: `bytes` fields are base64 strings on the Connect-JSON wire, so the converter's name patterns do not see them.",
+  "description": "The instance SSH private keys (GetSSHConfigResponse and InstanceExtendedMetadata.SshMetadata ssh_private_key), the Kubernetes client key (KubernetesInstanceMetadata.client_key_data) and GetKubernetesConfigResponse.kubeconfig carry no sensitive mark. The keys are `bytes`, base64 strings on the Connect-JSON wire, so the converter's name patterns do not see them. proto/namespace/cloud/compute/v1beta/compute.proto. Source: buf.build/namespace/cloud, fetched 2026-11-11.",
   "patches": [
     {
       "op": "add",
@@ -18,10 +18,8 @@
     },
     {
       "op": "add",
-      "path": "/shapes/so.namespace.compute#GetKubernetesConfigResponse/members/kubeconfig/traits",
-      "value": {
-        "smithy.api#sensitive": {}
-      }
+      "path": "/shapes/so.namespace.compute#GetKubernetesConfigResponse/members/kubeconfig/traits/smithy.api#sensitive",
+      "value": {}
     }
   ]
 }

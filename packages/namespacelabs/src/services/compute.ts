@@ -166,7 +166,7 @@ export interface AllocatedIngress {
   name: string;
   fqdn: string;
   description: string;
-  ingressId?: string | undefined;
+  ingressId: string;
 }
 export type AllocatedIngressList = Array<AllocatedIngress>;
 export interface CreateIngressResponse {
@@ -956,7 +956,7 @@ export interface GetKubernetesConfigRequest {
   instanceId?: string | undefined;
 }
 export interface GetKubernetesConfigResponse {
-  kubeconfig?: string | Redacted.Redacted<string> | undefined;
+  kubeconfig: string | Redacted.Redacted<string>;
 }
 export interface GetNetworkConfigurationRequest {}
 export type GetNetworkConfigurationResponseCIDRKind =
@@ -1894,7 +1894,7 @@ function __c3(j: number): any {
           name: S.String,
           fqdn: S.String,
           description: S.String,
-          ingressId: S.optional(S.String),
+          ingressId: S.String,
         }),
       ).annotate({ identifier: "AllocatedIngress" });
     case 1:
@@ -2696,7 +2696,7 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          kubeconfig: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          kubeconfig: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "GetKubernetesConfigResponse" });
   }

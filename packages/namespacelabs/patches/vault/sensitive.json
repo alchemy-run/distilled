@@ -1,5 +1,5 @@
 {
-  "description": "Mark vault secret values sensitive: the value stored by create and update, and the decrypted value a revealable object returns.",
+  "description": "Vault secret values carry no sensitive mark: the value CreateObject stores, the new_value UpdateObject stores, and the decrypted value DescribeObject returns for a revealable object. proto/namespace/cloud/vault/v1beta/vault.proto. Source: buf.build/namespace/cloud, fetched 2026-11-11.",
   "patches": [
     {
       "op": "add",

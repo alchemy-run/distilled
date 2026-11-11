@@ -1,5 +1,5 @@
 {
-  "description": "Mark the tenant bearer token IssueTenantToken returns and the private key IssueTenantClientCertificate generates sensitive.",
+  "description": "IssueTenantTokenResponse.bearer_token (\"The tenant Bearer token\") and the private_key_pem IssueTenantClientCertificate generates carry no sensitive mark. proto/namespace/cloud/iam/v1beta/tenants.proto. Source: buf.build/namespace/cloud, fetched 2026-11-11.",
   "patches": [
     {
       "op": "add",

@@ -484,7 +484,7 @@ export interface ActivateResponseInstanceMetadataSummary {
 export interface ActivateResponse {
   instanceId: string;
   devbox?: DevBox | undefined;
-  privateSshKey?: string | Redacted.Redacted<string> | undefined;
+  privateSshKey: string | Redacted.Redacted<string>;
   instanceMetadataSummary?: ActivateResponseInstanceMetadataSummary | undefined;
 }
 export interface ConnectBeginDevinOutpostRequest {
@@ -786,7 +786,7 @@ export interface FetchRequest {
 }
 export interface FetchResponse {
   devbox?: DevBox | undefined;
-  privateSshKey?: string | Redacted.Redacted<string> | undefined;
+  privateSshKey: string | Redacted.Redacted<string>;
   /** Set if `return_activated_instance` is true, and the devbox is currently running. */
   instanceId: string;
 }
@@ -3379,7 +3379,7 @@ function __c12(j: number): any {
         S.Struct({
           instanceId: S.String,
           devbox: S.optional(__S(148, __c9, 4)),
-          privateSshKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          privateSshKey: S.String.pipe(T.SensitiveValue({})),
           instanceMetadataSummary: S.optional(__S(193, __c12, 1)),
         }),
       ).annotate({ identifier: "ActivateResponse" });
@@ -3938,7 +3938,7 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           devbox: S.optional(__S(148, __c9, 4)),
-          privateSshKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          privateSshKey: S.String.pipe(T.SensitiveValue({})),
           instanceId: S.String,
         }),
       ).annotate({ identifier: "FetchResponse" });

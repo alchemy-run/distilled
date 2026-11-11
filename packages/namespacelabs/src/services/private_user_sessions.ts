@@ -141,7 +141,7 @@ export interface IssueTenantTokenFromSessionRequest {
   tokenDuration?: string | undefined;
 }
 export interface IssueTenantTokenFromSessionResponse {
-  tenantToken?: string | Redacted.Redacted<string> | undefined;
+  tenantToken: string | Redacted.Redacted<string>;
 }
 export interface ListSessionsRequest {}
 export type RequestMetadataUaDeviceKind =
@@ -405,7 +405,7 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tenantToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          tenantToken: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "IssueTenantTokenFromSessionResponse" });
   }
