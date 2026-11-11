@@ -491,6 +491,12 @@
       "path": "./packages/squarespace/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/tailscale/tsconfig.json"
+    },
+    {
+      "path": "./packages/tailscale/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/temporal/tsconfig.json"
     },
     {

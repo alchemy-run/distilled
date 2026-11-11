@@ -138,6 +138,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "stripe" },
   { package: "supabase" },
   { package: "surrealdb" },
+  { package: "tailscale" },
   { package: "temporal" },
   { package: "tencentcloud" },
   { package: "trigger-dev" },
