@@ -26,24 +26,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-/** Archil lists and revokes API keys only from a console session; an API key cannot. */
-export class ApiTokenAccessForbidden
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<ApiTokenAccessForbidden>()("ApiTokenAccessForbidden", {
-      message: S.String,
-    }).pipe(C.withAuthError),
-    [{ status: 401 }],
-  ) {}
-
-/** Archil only creates API keys from a console session; an API key cannot mint another. */
-export class ApiTokenCreationForbidden
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<ApiTokenCreationForbidden>()("ApiTokenCreationForbidden", {
-      message: S.String,
-    }).pipe(C.withAuthError),
-    [{ status: 401 }],
-  ) {}
-
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -222,6 +204,15 @@ export class SandboxTerminated
       message: S.String,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "sandbox_terminated" } }],
+  ) {}
+
+/** Archil rejected the credential: the API key is invalid, or Archil refuses API keys on this operation. */
+export class Unauthorized
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<Unauthorized>()("Unauthorized", {
+      message: S.String,
+    }).pipe(C.withAuthError),
+    [{ status: 401 }],
   ) {}
 
 export type TokenUserType = "token";
@@ -1545,7 +1536,7 @@ export const addDiskUser: API.OperationMethod<
   span: "AddDiskUser",
 }));
 
-export type CreateApiTokenError = BadRequest | ApiTokenCreationForbidden | ArchilOpError;
+export type CreateApiTokenError = BadRequest | Unauthorized | ArchilOpError;
 /** Create API token Creates a new API token for programmatic access. The full token value is only returned once at creation time. */
 export const createApiToken: API.OperationMethod<
   CreateApiTokenRequest,
@@ -1555,7 +1546,7 @@ export const createApiToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<CreateApiTokenRequest>,
   output: __S(34, __c2, 2) as any as S.Schema<ApiResponseTokenCreated>,
-  errors: [BadRequest, ApiTokenCreationForbidden, UnknownArchilError],
+  errors: [BadRequest, Unauthorized, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1754,7 +1745,7 @@ export const deleteSandboxPortToken: API.OperationMethod<
   span: "DeleteSandboxPortToken",
 }));
 
-export type DeleteTokenError = NotFound | ApiTokenAccessForbidden | ArchilOpError;
+export type DeleteTokenError = NotFound | Unauthorized | ArchilOpError;
 /** Delete API token Revokes and deletes an API token. */
 export const deleteToken: API.OperationMethod<
   DeleteTokenRequest,
@@ -1764,7 +1755,7 @@ export const deleteToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<DeleteTokenRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<ApiResponseMessage>,
-  errors: [NotFound, ApiTokenAccessForbidden, UnknownArchilError],
+  errors: [NotFound, Unauthorized, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2054,7 +2045,7 @@ export const grepDisk: API.OperationMethod<
   span: "GrepDisk",
 }));
 
-export type ListApiTokensError = ApiTokenAccessForbidden | ArchilOpError;
+export type ListApiTokensError = Unauthorized | ArchilOpError;
 /** List API tokens Returns all API tokens for the authenticated account. */
 export const listApiTokens: API.OperationMethod<
   ListApiTokensRequest,
@@ -2064,7 +2055,7 @@ export const listApiTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<ListApiTokensRequest>,
   output: __S(804, __c50, 4) as any as S.Schema<ApiResponseTokenList>,
-  errors: [ApiTokenAccessForbidden, UnknownArchilError],
+  errors: [Unauthorized, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
