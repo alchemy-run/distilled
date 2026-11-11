@@ -132,6 +132,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "spacetimedb" },
   { package: "stackit" },
   { package: "squarespace" },
+  { package: "steel" },
   { package: "stripe" },
   { package: "supabase" },
   { package: "surrealdb" },
