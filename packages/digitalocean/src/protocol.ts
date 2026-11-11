@@ -67,8 +67,11 @@ export const DigitalOceanProtocol: Layer.Layer<API.Protocol> =
     // request, on the calling fiber) picks up context-provided credentials.
     credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
     baseUrl: (creds) => creds.apiBaseUrl,
+    // DigitalOcean expects JSON on every request; DELETE /v2/projects/{id}
+    // answers 415 without the header even though it carries no body.
     headers: (creds) => ({
       Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+      "Content-Type": "application/json",
     }),
     errorEnvelope,
     unknownError: ({ code, message, body }) =>
