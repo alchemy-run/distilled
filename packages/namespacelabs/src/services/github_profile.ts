@@ -28,15 +28,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export class Aborted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Aborted>()("Aborted", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withConflictError),
-    [{ status: 409, body: { "/code": "aborted" } }],
-  ) {}
-
 export class AlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
@@ -44,15 +35,6 @@ export class AlreadyExists
       body: S.Unknown,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
-  ) {}
-
-export class Canceled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Canceled>()("Canceled", {
-      message: S.String,
-      body: S.Unknown,
-    }),
-    [{ status: 499 }],
   ) {}
 
 export class FailedPrecondition
@@ -82,15 +64,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class OutOfRange
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<OutOfRange>()("OutOfRange", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withBadRequestError),
-    [{ status: 400, body: { "/code": "out_of_range" } }],
-  ) {}
-
 export class PermissionDenied
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
@@ -116,15 +89,6 @@ export class Unauthenticated
       body: S.Unknown,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-export class Unimplemented
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Unimplemented>()("Unimplemented", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withServerError),
-    [{ status: 501 }],
   ) {}
 
 /** Labels are key/value pairs attached to entities such as tenants. */
@@ -339,15 +303,11 @@ export interface UpdateProfileResponse {
 export type CreateProfileError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Creates a new runner profile with the specified configuration. The profile's tag must be unique within the workspace. */
 export const createProfile: API.OperationMethod<
@@ -356,20 +316,16 @@ export const createProfile: API.OperationMethod<
   CreateProfileError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateProfileRequest>,
+  input: __S(32, __c2, 0) as any as S.Schema<CreateProfileRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<CreateProfileResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -381,15 +337,11 @@ export const createProfile: API.OperationMethod<
 export type DeleteProfileError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Deletes a runner profile. Active runners using this profile will continue to run, but no new runners will be created with it. */
 export const deleteProfile: API.OperationMethod<
@@ -398,20 +350,16 @@ export const deleteProfile: API.OperationMethod<
   DeleteProfileError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<DeleteProfileRequest>,
-  output: __S(65, __c4, 1) as any as S.Schema<DeleteProfileResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<DeleteProfileRequest>,
+  output: __S(97, __c6, 1) as any as S.Schema<DeleteProfileResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -423,15 +371,11 @@ export const deleteProfile: API.OperationMethod<
 export type ListProfilesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Lists all runner profiles in the workspace. */
 export const listProfiles: API.OperationMethod<
@@ -440,20 +384,16 @@ export const listProfiles: API.OperationMethod<
   ListProfilesError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<ListProfilesRequest>,
-  output: __S(82, __c5, 2) as any as S.Schema<ListProfilesResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<ListProfilesRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<ListProfilesResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -465,15 +405,11 @@ export const listProfiles: API.OperationMethod<
 export type RebuildProfileImageError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Triggers the rebuild of the custom base image of a runner profile. */
 export const rebuildProfileImage: API.OperationMethod<
@@ -482,20 +418,16 @@ export const rebuildProfileImage: API.OperationMethod<
   RebuildProfileImageError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<RebuildProfileImageRequest>,
-  output: __S(97, __c6, 1) as any as S.Schema<RebuildProfileImageResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<RebuildProfileImageRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<RebuildProfileImageResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -507,15 +439,11 @@ export const rebuildProfileImage: API.OperationMethod<
 export type UpdateProfileError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Updates an existing runner profile. The update can be conditional based on the current version to prevent concurrent modifications. */
 export const updateProfile: API.OperationMethod<
@@ -524,20 +452,16 @@ export const updateProfile: API.OperationMethod<
   UpdateProfileError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<UpdateProfileRequest>,
+  input: __S(16, __c1, 0) as any as S.Schema<UpdateProfileRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<UpdateProfileResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -552,7 +476,47 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          spec: S.optional(__S(40, __c2, 8)),
+          profileId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.github.v1beta.ProfileService/RebuildProfileImage",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RebuildProfileImageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(__S(71, __c4, 7)),
+        }),
+      ).annotate({ identifier: "RebuildProfileImageResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          profileId: S.optional(S.String),
+          spec: S.optional(__S(88, __c5, 8)),
+          updateVersion: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.github.v1beta.ProfileService/UpdateProfile",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateProfileRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          spec: S.optional(__S(88, __c5, 8)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -563,14 +527,24 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateProfileRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          profile: S.optional(__S(89, __c5, 9)),
+        }),
+      ).annotate({ identifier: "CreateProfileResponse" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          aptPackage: S.optional(__S(16, __c1, 0)),
+          aptPackage: S.optional(__S(64, __c4, 0)),
         }),
       ).annotate({ identifier: "UbuntuBaseImageSpec" });
     case 2:
@@ -582,8 +556,8 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ubuntuSpec: S.optional(__S(17, __c1, 1)),
-          dockerSpec: S.optional(__S(18, __c1, 2)),
+          ubuntuSpec: S.optional(__S(65, __c4, 1)),
+          dockerSpec: S.optional(__S(66, __c4, 2)),
         }),
       ).annotate({ identifier: "CustomRunnerImageSpec" });
     case 4:
@@ -601,21 +575,21 @@ function __c1(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          imageSpec: S.optional(__S(19, __c1, 3)),
-          imageStatus: S.optional(__S(20, __c1, 4)),
+          imageSpec: S.optional(__S(67, __c4, 3)),
+          imageStatus: S.optional(__S(68, __c4, 4)),
         }),
       ).annotate({ identifier: "CustomRunnerImage" });
     case 6:
-      return S.Array(__S(21, __c1, 5));
+      return S.Array(__S(69, __c4, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          customRunnerImage: __S(22, __c1, 6),
+          customRunnerImage: __S(70, __c4, 6),
         }),
       ).annotate({ identifier: "RunnerProfileStatus" });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -625,7 +599,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "Label" });
     case 1:
-      return S.Array(__S(32, __c2, 0));
+      return S.Array(__S(80, __c5, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -633,7 +607,7 @@ function __c2(j: number): any {
           memoryMegabytes: S.optional(S.Number),
           machineArch: S.optional(S.String),
           os: S.optional(S.String),
-          selectors: S.optional(__S(33, __c2, 1)),
+          selectors: S.optional(__S(81, __c5, 1)),
         }),
       ).annotate({ identifier: "InstanceShape" });
     case 3:
@@ -646,16 +620,16 @@ function __c2(j: number): any {
           bundledGitMirror: S.optional(S.Boolean),
           bundledRunnerToolsCache: S.optional(S.Boolean),
           bundledRunnerActionsCache: S.optional(S.Boolean),
-          allowCommitFromBranch: S.optional(__S(16, __c1, 0)),
+          allowCommitFromBranch: S.optional(__S(64, __c4, 0)),
         }),
       ).annotate({ identifier: "CacheVolumeSettings" });
     case 4:
-      return S.Array(__S(35, __c2, 3));
+      return S.Array(__S(83, __c5, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           egress: S.optional(S.String),
-          egressDomainAllowList: S.optional(__S(16, __c1, 0)),
+          egressDomainAllowList: S.optional(__S(64, __c4, 0)),
           advisory: S.optional(S.Boolean),
           egressPolicyTag: S.optional(S.String),
         }),
@@ -665,53 +639,43 @@ function __c2(j: number): any {
         S.Struct({
           resourceType: S.optional(S.String),
           resourceId: S.optional(S.String),
-          actions: S.optional(__S(16, __c1, 0)),
+          actions: S.optional(__S(64, __c4, 0)),
         }),
       ).annotate({ identifier: "Permission" });
     case 7:
-      return S.Array(__S(38, __c2, 6));
+      return S.Array(__S(86, __c5, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           tag: S.optional(S.String),
           description: S.optional(S.String),
           os: S.optional(S.String),
-          instanceShape: S.optional(__S(34, __c2, 2)),
-          cacheVolumeSettings: S.optional(__S(36, __c2, 4)),
+          instanceShape: S.optional(__S(82, __c5, 2)),
+          cacheVolumeSettings: S.optional(__S(84, __c5, 4)),
           builderMode: S.optional(S.String),
-          experimentalFeatures: S.optional(__S(16, __c1, 0)),
+          experimentalFeatures: S.optional(__S(64, __c4, 0)),
           emoji: S.optional(S.String),
-          customRunnerImageSpec: S.optional(__S(19, __c1, 3)),
-          networkPolicy: S.optional(__S(37, __c2, 5)),
+          customRunnerImageSpec: S.optional(__S(67, __c4, 3)),
+          networkPolicy: S.optional(__S(85, __c5, 5)),
           accessLevel: S.optional(S.String),
           swapSizeMb: S.optional(S.Number),
-          customPermissions: S.optional(__S(39, __c2, 7)),
+          customPermissions: S.optional(__S(87, __c5, 7)),
         }),
       ).annotate({ identifier: "RunnerProfileSpec" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           profileId: S.String,
-          spec: S.optional(__S(40, __c2, 8)),
+          spec: S.optional(__S(88, __c5, 8)),
           version: S.String,
           createdAt: S.optional(S.String),
           updatedAt: S.optional(S.String),
-          status: S.optional(__S(23, __c1, 7)),
+          status: S.optional(__S(71, __c4, 7)),
         }),
       ).annotate({ identifier: "RunnerProfileWithStatus" });
   }
 }
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          profile: S.optional(__S(41, __c2, 9)),
-        }),
-      ).annotate({ identifier: "CreateProfileResponse" });
-  }
-}
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -729,7 +693,7 @@ function __c4(j: number): any {
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteProfileResponse" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -742,53 +706,13 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListProfilesRequest" });
     case 1:
-      return S.Array(__S(41, __c2, 9));
+      return S.Array(__S(89, __c5, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          profiles: __S(81, __c5, 1),
+          profiles: __S(113, __c7, 1),
         }),
       ).annotate({ identifier: "ListProfilesResponse" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          profileId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.github.v1beta.ProfileService/RebuildProfileImage",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RebuildProfileImageRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(__S(23, __c1, 7)),
-        }),
-      ).annotate({ identifier: "RebuildProfileImageResponse" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          profileId: S.optional(S.String),
-          spec: S.optional(__S(40, __c2, 8)),
-          updateVersion: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.github.v1beta.ProfileService/UpdateProfile",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateProfileRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

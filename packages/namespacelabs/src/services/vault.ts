@@ -29,15 +29,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export class Aborted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Aborted>()("Aborted", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withConflictError),
-    [{ status: 409, body: { "/code": "aborted" } }],
-  ) {}
-
 export class AlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
@@ -45,15 +36,6 @@ export class AlreadyExists
       body: S.Unknown,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
-  ) {}
-
-export class Canceled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Canceled>()("Canceled", {
-      message: S.String,
-      body: S.Unknown,
-    }),
-    [{ status: 499 }],
   ) {}
 
 export class FailedPrecondition
@@ -83,15 +65,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class OutOfRange
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<OutOfRange>()("OutOfRange", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withBadRequestError),
-    [{ status: 400, body: { "/code": "out_of_range" } }],
-  ) {}
-
 export class PermissionDenied
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
@@ -117,15 +90,6 @@ export class Unauthenticated
       body: S.Unknown,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-export class Unimplemented
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Unimplemented>()("Unimplemented", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withServerError),
-    [{ status: 501 }],
   ) {}
 
 /** Labels are key/value pairs attached to entities such as tenants. */
@@ -234,15 +198,11 @@ export interface UpdateObjectResponse {
 export type CreateObjectError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Creates a new secret object in the workspace vault. ### Errors - If one of the properties that are passed in is invalid, an `InvalidArgument` status is returned. */
 export const createObject: API.OperationMethod<
@@ -251,20 +211,16 @@ export const createObject: API.OperationMethod<
   CreateObjectError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateObjectRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<CreateObjectResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<CreateObjectRequest>,
+  output: __S(14, __c3, 2) as any as S.Schema<CreateObjectResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -276,15 +232,11 @@ export const createObject: API.OperationMethod<
 export type DeleteObjectError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Permanently deletes a secret object. ### Errors - If the object does not exist, a `NotFound` status is returned. - If `if_version_matches` is set and the current version does not match, a `FailedPrecondition` status is returned. */
 export const deleteObject: API.OperationMethod<
@@ -293,20 +245,16 @@ export const deleteObject: API.OperationMethod<
   DeleteObjectError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<DeleteObjectRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<DeleteObjectResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<DeleteObjectRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<DeleteObjectResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -318,15 +266,11 @@ export const deleteObject: API.OperationMethod<
 export type DescribeObjectError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Retrieves the metadata (and optionally the value) of a secret object. The value is only returned if the object was created with `revealable` set to true. ### Errors - If the object does not exist, a `NotFound` status is returned. */
 export const describeObject: API.OperationMethod<
@@ -335,20 +279,16 @@ export const describeObject: API.OperationMethod<
   DescribeObjectError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<DescribeObjectRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<DescribeObjectResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<DescribeObjectRequest>,
+  output: __S(21, __c5, 1) as any as S.Schema<DescribeObjectResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -360,15 +300,11 @@ export const describeObject: API.OperationMethod<
 export type ListObjectsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns the most recent version of each non-deleted secret object in the workspace vault. */
 export const listObjects: API.OperationMethod<
@@ -377,20 +313,16 @@ export const listObjects: API.OperationMethod<
   ListObjectsError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22, __c5, 2) as any as S.Schema<ListObjectsRequest>,
-  output: __S(23, __c5, 3) as any as S.Schema<ListObjectsResponse>,
+  input: __S(2, __c0, 2) as any as S.Schema<ListObjectsRequest>,
+  output: __S(3, __c0, 3) as any as S.Schema<ListObjectsResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -402,15 +334,11 @@ export const listObjects: API.OperationMethod<
 export type UpdateObjectError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Adds a new version to an existing secret object. ### Errors - If the object does not exist, a `NotFound` status is returned. - If `if_version_matches` is set and the current version does not match, a `FailedPrecondition` status is returned. */
 export const updateObject: API.OperationMethod<
@@ -419,20 +347,16 @@ export const updateObject: API.OperationMethod<
   UpdateObjectError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<UpdateObjectRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<UpdateObjectResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<UpdateObjectRequest>,
+  output: __S(14, __c3, 2) as any as S.Schema<UpdateObjectResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -447,10 +371,60 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(S.String),
+          op: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LabelFilterEntry" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          labelFilter: S.optional(__S(1, __c0, 1)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.vault.v1beta.VaultService/ListObjects",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListObjectsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          objects: __S(24, __c6, 0),
+        }),
+      ).annotate({ identifier: "ListObjectsResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          objectId: S.optional(S.String),
+          newValue: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          ifVersionMatches: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.vault.v1beta.VaultService/UpdateObject",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateObjectRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           description: S.optional(S.String),
           value: S.optional(S.String.pipe(T.SensitiveValue({}))),
           revealable: S.optional(S.Boolean),
-          labels: S.optional(__S(5, __c1, 1)),
+          labels: S.optional(__S(13, __c3, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -461,7 +435,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateObjectRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -471,7 +445,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "Label" });
     case 1:
-      return S.Array(__S(4, __c1, 0));
+      return S.Array(__S(12, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -480,12 +454,12 @@ function __c1(j: number): any {
           version: S.String,
           createdAt: S.optional(S.String),
           deletedAt: S.optional(S.String),
-          labels: __S(5, __c1, 1),
+          labels: __S(13, __c3, 1),
         }),
       ).annotate({ identifier: "CreateObjectResponse" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -504,7 +478,7 @@ function __c2(j: number): any {
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteObjectResponse" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -521,67 +495,17 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(6, __c1, 2)),
+          metadata: S.optional(__S(14, __c3, 2)),
           value: S.String.pipe(T.SensitiveValue({})),
-          previous: __S(16, __c4, 0),
+          previous: __S(24, __c6, 0),
         }),
       ).annotate({ identifier: "DescribeObjectResponse" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(6, __c1, 2));
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          value: S.optional(S.String),
-          op: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LabelFilterEntry" });
-    case 1:
-      return S.Array(__S(20, __c5, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          labelFilter: S.optional(__S(21, __c5, 1)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.vault.v1beta.VaultService/ListObjects",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListObjectsRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          objects: __S(16, __c4, 0),
-        }),
-      ).annotate({ identifier: "ListObjectsResponse" });
   }
 }
 function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          objectId: S.optional(S.String),
-          newValue: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          ifVersionMatches: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.vault.v1beta.VaultService/UpdateObject",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateObjectRequest" });
+      return S.Array(__S(14, __c3, 2));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

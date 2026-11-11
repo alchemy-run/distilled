@@ -43,15 +43,11 @@ const UNSERVED_SERVICES = new Set([
 const CONNECT_ERRORS: ReadonlyArray<ProtoErrorSpec> = [
   { name: "InvalidArgument", status: 400, code: "invalid_argument" },
   { name: "FailedPrecondition", status: 400, code: "failed_precondition" },
-  { name: "OutOfRange", status: 400, code: "out_of_range" },
   { name: "Unauthenticated", status: 401 },
   { name: "PermissionDenied", status: 403 },
   { name: "NotFound", status: 404 },
   { name: "AlreadyExists", status: 409, code: "already_exists" },
-  { name: "Aborted", status: 409, code: "aborted" },
   { name: "ResourceExhausted", status: 429 },
-  { name: "Canceled", status: 499 },
-  { name: "Unimplemented", status: 501 },
 ];
 
 const snake = (name: string): string =>

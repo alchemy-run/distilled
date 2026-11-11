@@ -100,10 +100,10 @@ override a host. `credentials({ token, region })`, `fromToken(token)` and
 
 Every operation declares the Connect error codes as typed errors, matched on
 the HTTP status and, where one status covers several codes, on the body's
-`code`: `InvalidArgument`, `FailedPrecondition`, `OutOfRange`,
-`Unauthenticated`, `PermissionDenied`, `NotFound`, `AlreadyExists`, `Aborted`,
-`ResourceExhausted`, `Canceled` and `Unimplemented`. Each carries `message`
-and the Connect `body` (`code`, `message`, `details` with the request id).
+`code`: `InvalidArgument`, `FailedPrecondition`, `Unauthenticated`,
+`PermissionDenied`, `NotFound`, `AlreadyExists` and `ResourceExhausted`. Each
+carries `message` and the Connect `body` (`code`, `message`, `details` with the
+request id).
 Anything else is `UnknownNamespaceLabsError` with `code` and `details`.
 
 ```ts

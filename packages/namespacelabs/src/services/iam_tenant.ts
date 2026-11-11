@@ -30,15 +30,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export class Aborted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Aborted>()("Aborted", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withConflictError),
-    [{ status: 409, body: { "/code": "aborted" } }],
-  ) {}
-
 export class AlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
@@ -46,15 +37,6 @@ export class AlreadyExists
       body: S.Unknown,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
-  ) {}
-
-export class Canceled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Canceled>()("Canceled", {
-      message: S.String,
-      body: S.Unknown,
-    }),
-    [{ status: 499 }],
   ) {}
 
 export class FailedPrecondition
@@ -84,15 +66,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class OutOfRange
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<OutOfRange>()("OutOfRange", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withBadRequestError),
-    [{ status: 400, body: { "/code": "out_of_range" } }],
-  ) {}
-
 export class PermissionDenied
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
@@ -118,15 +91,6 @@ export class Unauthenticated
       body: S.Unknown,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-export class Unimplemented
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Unimplemented>()("Unimplemented", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withServerError),
-    [{ status: 501 }],
   ) {}
 
 /** Configures when a tenant should expire. An expired tenant can no longer be used and will be scheduled for deletion. */
@@ -374,15 +338,11 @@ export interface UpdateTenantResponse {
 export type CreateTenantError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Creates a new Tenant. After a tenant creation call returns, the Tenant can be used immediately. Tenants can be cordoned temporarily (via `SuspendTenant`) or removed permanently (via `RemoveTenant`). ### Errors - If one of the properties that are passed in is invalid, an `InvalidArgument` error is returned. - If a tenant with the specified `external_account_id` already exists `FailedPrecondition` error is returned. */
 export const createTenant: API.OperationMethod<
@@ -391,20 +351,16 @@ export const createTenant: API.OperationMethod<
   CreateTenantError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateTenantRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<CreateTenantResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<CreateTenantRequest>,
+  output: __S(76, __c19, 0) as any as S.Schema<CreateTenantResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -416,15 +372,11 @@ export const createTenant: API.OperationMethod<
 export type DeleteTenantGroupError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Deletes a Tenant Group owned by the Namespace Partner Account. ### Errors - If the tenant group referenced does not exist, a `NotFound` status is returned. - If any active tenants are enrolled in the tenant group, a `FailedPrecondition` status is returned. */
 export const deleteTenantGroup: API.OperationMethod<
@@ -433,20 +385,16 @@ export const deleteTenantGroup: API.OperationMethod<
   DeleteTenantGroupError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<DeleteTenantGroupRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<DeleteTenantGroupResponse>,
+  input: __S(84, __c21, 0) as any as S.Schema<DeleteTenantGroupRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<DeleteTenantGroupResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -458,15 +406,11 @@ export const deleteTenantGroup: API.OperationMethod<
 export type DescribePoliciesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Retrieves the policies that apply to the tenant. Requires either a partner token, or an admin-scoped tenant token. ### Errors - If the tenant referenced does not exist, a `NotFound` status is returned. */
 export const describePolicies: API.OperationMethod<
@@ -475,20 +419,16 @@ export const describePolicies: API.OperationMethod<
   DescribePoliciesError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<DescribePoliciesRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<DescribePoliciesResponse>,
+  input: __S(92, __c23, 0) as any as S.Schema<DescribePoliciesRequest>,
+  output: __S(93, __c23, 1) as any as S.Schema<DescribePoliciesResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -500,15 +440,11 @@ export const describePolicies: API.OperationMethod<
 export type DescribeTenantGroupError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Lists all Tenant Groups owned by the Namespace Partner Account. */
 export const describeTenantGroup: API.OperationMethod<
@@ -517,20 +453,16 @@ export const describeTenantGroup: API.OperationMethod<
   DescribeTenantGroupError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<DescribeTenantGroupRequest>,
-  output: __S(29, __c7, 1) as any as S.Schema<DescribeTenantGroupResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<DescribeTenantGroupRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<DescribeTenantGroupResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -542,15 +474,11 @@ export const describeTenantGroup: API.OperationMethod<
 export type EnsureTenantForExternalAccountError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Creates or updates a tenant associated with an external account. Namespace allows to associate a unique tenant to an opaque external account ID. If a tenant with the given external ID already exists its properties are updated and the existing tenant is returned. Otherwise a new tenant is created with the associated external ID. Tenants created by CreateTenant never have an associated external ID. External account ID cannot be modified after creation. ### Errors - If one of the properties that are passed in is invalid, an `InvalidArgument` error is returned. */
 export const ensureTenantForExternalAccount: API.OperationMethod<
@@ -559,20 +487,16 @@ export const ensureTenantForExternalAccount: API.OperationMethod<
   EnsureTenantForExternalAccountError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<EnsureTenantForExternalAccountRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<EnsureTenantForExternalAccountResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<EnsureTenantForExternalAccountRequest>,
+  output: __S(76, __c19, 0) as any as S.Schema<EnsureTenantForExternalAccountResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -584,15 +508,11 @@ export const ensureTenantForExternalAccount: API.OperationMethod<
 export type EnsureTenantGroupError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Creates or updates a Tenant Group. Tenant Groups are identified by name and scoped by the Namespace Partner Account. ### Errors - If one of the properties that are passed in is invalid, an `InvalidArgument` error is returned. */
 export const ensureTenantGroup: API.OperationMethod<
@@ -601,20 +521,16 @@ export const ensureTenantGroup: API.OperationMethod<
   EnsureTenantGroupError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<EnsureTenantGroupRequest>,
-  output: __S(45, __c11, 1) as any as S.Schema<EnsureTenantGroupResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<EnsureTenantGroupRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<EnsureTenantGroupResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -626,15 +542,11 @@ export const ensureTenantGroup: API.OperationMethod<
 export type ExchangeTenantTokenForClientCertError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Exchanges tenant Bearer credentials for an X.509 client certificate with the same tenant identity and no broader permissions. */
 export const exchangeTenantTokenForClientCert: API.OperationMethod<
@@ -643,20 +555,16 @@ export const exchangeTenantTokenForClientCert: API.OperationMethod<
   ExchangeTenantTokenForClientCertError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<ExchangeTenantTokenForClientCertRequest>,
-  output: __S(49, __c12, 1) as any as S.Schema<ExchangeTenantTokenForClientCertResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<ExchangeTenantTokenForClientCertRequest>,
+  output: __S(21, __c5, 1) as any as S.Schema<ExchangeTenantTokenForClientCertResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -668,15 +576,11 @@ export const exchangeTenantTokenForClientCert: API.OperationMethod<
 export type IssueTenantClientCertificateError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Produces credentials in the form of a X.509 client certificate that grant access to the specified Tenant. The credentials provided to the `IssueTenantClientCertificate` call are validated to verify they are capable of requesting credentials. */
 export const issueTenantClientCertificate: API.OperationMethod<
@@ -685,20 +589,16 @@ export const issueTenantClientCertificate: API.OperationMethod<
   IssueTenantClientCertificateError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<IssueTenantClientCertificateRequest>,
-  output: __S(57, __c14, 1) as any as S.Schema<IssueTenantClientCertificateResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<IssueTenantClientCertificateRequest>,
+  output: __S(29, __c7, 1) as any as S.Schema<IssueTenantClientCertificateResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -710,15 +610,11 @@ export const issueTenantClientCertificate: API.OperationMethod<
 export type IssueTenantTokenError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Produces credentials in the form of a Bearer token that grant access to the specified Tenant. The credentials provided to the `IssueTenantToken` call are validated to verify they are capable of requesting credentials. */
 export const issueTenantToken: API.OperationMethod<
@@ -727,20 +623,16 @@ export const issueTenantToken: API.OperationMethod<
   IssueTenantTokenError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<IssueTenantTokenRequest>,
-  output: __S(65, __c16, 1) as any as S.Schema<IssueTenantTokenResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<IssueTenantTokenRequest>,
+  output: __S(37, __c9, 1) as any as S.Schema<IssueTenantTokenResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -752,15 +644,11 @@ export const issueTenantToken: API.OperationMethod<
 export type ListTenantGroupsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Lists all Tenant Groups owned by the Namespace Partner Account. */
 export const listTenantGroups: API.OperationMethod<
@@ -769,20 +657,16 @@ export const listTenantGroups: API.OperationMethod<
   ListTenantGroupsError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<ListTenantGroupsRequest>,
-  output: __S(71, __c17, 3) as any as S.Schema<ListTenantGroupsResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<ListTenantGroupsRequest>,
+  output: __S(43, __c10, 3) as any as S.Schema<ListTenantGroupsResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -794,15 +678,11 @@ export const listTenantGroups: API.OperationMethod<
 export type ListTenantsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Lists all tenants that match the criteria specified. */
 export const listTenants: API.PaginatedOperationMethod<
@@ -813,20 +693,16 @@ export const listTenants: API.PaginatedOperationMethod<
   Tenant
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(72, __c18, 0) as any as S.Schema<ListTenantsRequest>,
-    output: __S(74, __c18, 2) as any as S.Schema<ListTenantsResponse>,
+    input: __S(44, __c11, 0) as any as S.Schema<ListTenantsRequest>,
+    output: __S(46, __c11, 2) as any as S.Schema<ListTenantsResponse>,
     errors: [
       InvalidArgument,
       FailedPrecondition,
-      OutOfRange,
       Unauthenticated,
       PermissionDenied,
       NotFound,
       AlreadyExists,
-      Aborted,
       ResourceExhausted,
-      Canceled,
-      Unimplemented,
       UnknownNamespaceLabsError,
     ],
     protocol: NamespaceLabsProtocol,
@@ -847,15 +723,11 @@ export const listTenants: API.PaginatedOperationMethod<
 export type RemoveTenantError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Instructs the platform to remove a Tenant. Removing a Tenant is unreversible. It both prevents new tenant credentials to be generated, but will also propagate to Compute and other infrastructure to remove or cordon resources owned by the Tenant. It is not guaranteed that resources owned by a Tenant are removed immediately; they may be subject to garbage collection policies deployed within the platform. To request the immediate removal of Tenant resources, contact `support@namespace.so`. ### Errors - If the tenant referenced does not exist, a `NotFound` status is returned. */
 export const removeTenant: API.OperationMethod<
@@ -864,20 +736,16 @@ export const removeTenant: API.OperationMethod<
   RemoveTenantError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<RemoveTenantRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<RemoveTenantResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<RemoveTenantRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<RemoveTenantResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -889,15 +757,11 @@ export const removeTenant: API.OperationMethod<
 export type ResumeTenantError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Un-suspends a previously suspended Tenant. If the Tenant was not suspended, it is a no-op. ### Errors - If the tenant referenced does not exist, a `NotFound` status is returned. */
 export const resumeTenant: API.OperationMethod<
@@ -906,20 +770,16 @@ export const resumeTenant: API.OperationMethod<
   ResumeTenantError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<ResumeTenantRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<ResumeTenantResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<ResumeTenantRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ResumeTenantResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -931,15 +791,11 @@ export const resumeTenant: API.OperationMethod<
 export type SuspendTenantError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Suspending a Tenant prevents it from creating new resources, but does not immediately terminate resources it owns that may be running. Suspending a tenant is a useful operational utility that can be used to cordon a particular user, without requiring removing resources that that user owns. ### Errors - If the tenant referenced does not exist, a `NotFound` status is returned. */
 export const suspendTenant: API.OperationMethod<
@@ -948,20 +804,16 @@ export const suspendTenant: API.OperationMethod<
   SuspendTenantError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<SuspendTenantRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<SuspendTenantResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<SuspendTenantRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<SuspendTenantResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -973,15 +825,11 @@ export const suspendTenant: API.OperationMethod<
 export type UpdatePoliciesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Updates policies attached to a Tenant. Requires either a partner token, or an admin-scoped tenant token. ### Errors - If one of the properties that are passed in is invalid, an `InvalidArgument` error is returned. */
 export const updatePolicies: API.OperationMethod<
@@ -990,20 +838,16 @@ export const updatePolicies: API.OperationMethod<
   UpdatePoliciesError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<UpdatePoliciesRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<UpdatePoliciesResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<UpdatePoliciesRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<UpdatePoliciesResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1015,15 +859,11 @@ export const updatePolicies: API.OperationMethod<
 export type UpdateTenantError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Updates policies attached to a Tenant. ### Errors - If one of the properties that are passed in is invalid, an `InvalidArgument` error is returned. */
 export const updateTenant: API.OperationMethod<
@@ -1032,20 +872,16 @@ export const updateTenant: API.OperationMethod<
   UpdateTenantError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<UpdateTenantRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<UpdateTenantResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<UpdateTenantRequest>,
+  output: __S(76, __c19, 0) as any as S.Schema<UpdateTenantResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1056,124 +892,6 @@ export const updateTenant: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          creatorId: S.optional(S.String),
-          visibleName: S.optional(S.String),
-          policies: S.optional(__S(6, __c1, 2)),
-          externalAccountId: S.optional(S.String),
-          labels: S.optional(__S(9, __c2, 1)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.iam.v1beta.TenantService/CreateTenant",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateTenantRequest" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          expiresAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TenantPolicyExpirationPolicy" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          policy: S.optional(S.String),
-          value: S.optional(S.String),
-          expirationPolicy: S.optional(__S(4, __c1, 0)),
-        }),
-      ).annotate({ identifier: "TenantPolicy" });
-    case 2:
-      return S.Array(__S(5, __c1, 1));
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Label" });
-    case 1:
-      return S.Array(__S(8, __c2, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          creatorId: S.String,
-          externalAccountId: S.String,
-          createdAt: S.optional(S.String),
-          visibleName: S.String,
-          labels: __S(9, __c2, 1),
-        }),
-      ).annotate({ identifier: "Tenant" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tenant: S.optional(__S(10, __c2, 2)),
-        }),
-      ).annotate({ identifier: "CreateTenantResponse" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.iam.v1beta.TenantService/DeleteTenantGroup",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteTenantGroupRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteTenantGroupResponse" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.iam.v1beta.TenantService/DescribePolicies",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DescribePoliciesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          policies: __S(6, __c1, 2),
-          revision: S.String,
-        }),
-      ).annotate({ identifier: "DescribePoliciesResponse" });
-  }
-}
-function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1191,20 +909,20 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          policies: __S(37, __c9, 1),
-          enrolledTenantIds: __S(32, __c8, 0),
-          versions: __S(37, __c9, 1),
+          policies: __S(9, __c2, 1),
+          enrolledTenantIds: __S(4, __c1, 0),
+          versions: __S(9, __c2, 1),
         }),
       ).annotate({ identifier: "DescribeTenantGroupResponse" });
   }
 }
-function __c8(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c9(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1214,19 +932,19 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "TenantGroupPolicy" });
     case 1:
-      return S.Array(__S(36, __c9, 0));
+      return S.Array(__S(8, __c2, 0));
   }
 }
-function __c10(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           visibleName: S.optional(S.String),
-          policies: S.optional(__S(6, __c1, 2)),
+          policies: S.optional(__S(82, __c20, 2)),
           externalAccountId: S.optional(S.String),
-          labels: S.optional(__S(9, __c2, 1)),
-          enrolledGroups: S.optional(__S(32, __c8, 0)),
+          labels: S.optional(__S(73, __c18, 1)),
+          enrolledGroups: S.optional(__S(4, __c1, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1237,13 +955,13 @@ function __c10(j: number): any {
       ).annotate({ identifier: "EnsureTenantForExternalAccountRequest" });
   }
 }
-function __c11(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          policies: S.optional(__S(37, __c9, 1)),
+          policies: S.optional(__S(9, __c2, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1260,13 +978,13 @@ function __c11(j: number): any {
       ).annotate({ identifier: "EnsureTenantGroupResponse" });
   }
 }
-function __c12(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           publicKeyPem: S.optional(S.String),
-          permissions: S.optional(__S(53, __c13, 1)),
+          permissions: S.optional(__S(25, __c6, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1283,21 +1001,21 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ExchangeTenantTokenForClientCertResponse" });
   }
 }
-function __c13(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceType: S.optional(S.String),
           resourceId: S.optional(S.String),
-          actions: S.optional(__S(32, __c8, 0)),
+          actions: S.optional(__S(4, __c1, 0)),
         }),
       ).annotate({ identifier: "Permission" });
     case 1:
-      return S.Array(__S(52, __c13, 0));
+      return S.Array(__S(24, __c6, 0));
   }
 }
-function __c14(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1305,8 +1023,8 @@ function __c14(j: number): any {
           tenantId: S.optional(S.String),
           actorId: S.optional(S.String),
           durationSecs: S.optional(S.String),
-          policies: S.optional(__S(61, __c15, 1)),
-          access: S.optional(__S(62, __c15, 2)),
+          policies: S.optional(__S(33, __c8, 1)),
+          access: S.optional(__S(34, __c8, 2)),
           publicKeyPem: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -1325,7 +1043,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "IssueTenantClientCertificateResponse" });
   }
 }
-function __c15(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1335,16 +1053,16 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "TenantTokenPolicy" });
     case 1:
-      return S.Array(__S(60, __c15, 0));
+      return S.Array(__S(32, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          grants: S.optional(__S(53, __c13, 1)),
+          grants: S.optional(__S(25, __c6, 1)),
         }),
       ).annotate({ identifier: "AccessPolicy" });
   }
 }
-function __c16(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1352,8 +1070,8 @@ function __c16(j: number): any {
           tenantId: S.optional(S.String),
           actorId: S.optional(S.String),
           durationSecs: S.optional(S.String),
-          policies: S.optional(__S(61, __c15, 1)),
-          access: S.optional(__S(62, __c15, 2)),
+          policies: S.optional(__S(33, __c8, 1)),
+          access: S.optional(__S(34, __c8, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1370,7 +1088,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "IssueTenantTokenResponse" });
   }
 }
-function __c17(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1386,21 +1104,21 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          policies: __S(37, __c9, 1),
-          versions: __S(37, __c9, 1),
+          policies: __S(9, __c2, 1),
+          versions: __S(9, __c2, 1),
         }),
       ).annotate({ identifier: "ListTenantGroupsResponseTenantGroup" });
     case 2:
-      return S.Array(__S(69, __c17, 1));
+      return S.Array(__S(41, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tenantGroups: __S(70, __c17, 2),
+          tenantGroups: __S(42, __c10, 2),
         }),
       ).annotate({ identifier: "ListTenantGroupsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1418,17 +1136,17 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListTenantsRequest" });
     case 1:
-      return S.Array(__S(10, __c2, 2));
+      return S.Array(__S(74, __c18, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tenants: __S(73, __c18, 1),
+          tenants: __S(45, __c11, 1),
           cursor: S.String,
         }),
       ).annotate({ identifier: "ListTenantsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1444,7 +1162,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "RemoveTenantRequest" });
   }
 }
-function __c20(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1460,7 +1178,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ResumeTenantRequest" });
   }
 }
-function __c21(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1476,13 +1194,13 @@ function __c21(j: number): any {
       ).annotate({ identifier: "SuspendTenantRequest" });
   }
 }
-function __c22(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           tenantId: S.optional(S.String),
-          policies: S.optional(__S(6, __c1, 2)),
+          policies: S.optional(__S(82, __c20, 2)),
           revision: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -1494,15 +1212,15 @@ function __c22(j: number): any {
       ).annotate({ identifier: "UpdatePoliciesRequest" });
   }
 }
-function __c23(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           tenantId: S.optional(S.String),
           visibleName: S.optional(S.String),
-          policies: S.optional(__S(6, __c1, 2)),
-          labels: S.optional(__S(9, __c2, 1)),
+          policies: S.optional(__S(82, __c20, 2)),
+          labels: S.optional(__S(73, __c18, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1511,6 +1229,124 @@ function __c23(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateTenantRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          creatorId: S.optional(S.String),
+          visibleName: S.optional(S.String),
+          policies: S.optional(__S(82, __c20, 2)),
+          externalAccountId: S.optional(S.String),
+          labels: S.optional(__S(73, __c18, 1)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.iam.v1beta.TenantService/CreateTenant",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateTenantRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Label" });
+    case 1:
+      return S.Array(__S(72, __c18, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          creatorId: S.String,
+          externalAccountId: S.String,
+          createdAt: S.optional(S.String),
+          visibleName: S.String,
+          labels: __S(73, __c18, 1),
+        }),
+      ).annotate({ identifier: "Tenant" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tenant: S.optional(__S(74, __c18, 2)),
+        }),
+      ).annotate({ identifier: "CreateTenantResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          expiresAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TenantPolicyExpirationPolicy" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          policy: S.optional(S.String),
+          value: S.optional(S.String),
+          expirationPolicy: S.optional(__S(80, __c20, 0)),
+        }),
+      ).annotate({ identifier: "TenantPolicy" });
+    case 2:
+      return S.Array(__S(81, __c20, 1));
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.iam.v1beta.TenantService/DeleteTenantGroup",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteTenantGroupRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteTenantGroupResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.iam.v1beta.TenantService/DescribePolicies",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DescribePoliciesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          policies: __S(82, __c20, 2),
+          revision: S.String,
+        }),
+      ).annotate({ identifier: "DescribePoliciesResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

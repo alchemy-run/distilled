@@ -29,15 +29,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export class Aborted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Aborted>()("Aborted", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withConflictError),
-    [{ status: 409, body: { "/code": "aborted" } }],
-  ) {}
-
 export class AlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
@@ -45,15 +36,6 @@ export class AlreadyExists
       body: S.Unknown,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
-  ) {}
-
-export class Canceled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Canceled>()("Canceled", {
-      message: S.String,
-      body: S.Unknown,
-    }),
-    [{ status: 499 }],
   ) {}
 
 export class FailedPrecondition
@@ -83,15 +65,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class OutOfRange
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<OutOfRange>()("OutOfRange", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withBadRequestError),
-    [{ status: 400, body: { "/code": "out_of_range" } }],
-  ) {}
-
 export class PermissionDenied
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
@@ -117,15 +90,6 @@ export class Unauthenticated
       body: S.Unknown,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-export class Unimplemented
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Unimplemented>()("Unimplemented", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withServerError),
-    [{ status: 501 }],
   ) {}
 
 export interface DescribePersistentVolumeRequest {
@@ -397,15 +361,11 @@ export interface ListVolumeTagSummariesResponse {
 export type DescribePersistentVolumeError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns details of a Persistent Volume. ### Errors - If the volume does not exist, a `NotFound` status is returned. */
 export const describePersistentVolume: API.OperationMethod<
@@ -414,20 +374,16 @@ export const describePersistentVolume: API.OperationMethod<
   DescribePersistentVolumeError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DescribePersistentVolumeRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<DescribePersistentVolumeResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<DescribePersistentVolumeRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<DescribePersistentVolumeResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -439,15 +395,11 @@ export const describePersistentVolume: API.OperationMethod<
 export type DescribePersistentVolumeSnapshotError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns details and computed disk-page usage of a specific completed snapshot. Returns NotFound if the snapshot does not belong to this tenant and tag, or FailedPrecondition if the snapshot has not completed. */
 export const describePersistentVolumeSnapshot: API.OperationMethod<
@@ -456,20 +408,16 @@ export const describePersistentVolumeSnapshot: API.OperationMethod<
   DescribePersistentVolumeSnapshotError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<DescribePersistentVolumeSnapshotRequest>,
-  output: __S(18, __c2, 2) as any as S.Schema<DescribePersistentVolumeSnapshotResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<DescribePersistentVolumeSnapshotRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<DescribePersistentVolumeSnapshotResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -481,15 +429,11 @@ export const describePersistentVolumeSnapshot: API.OperationMethod<
 export type DestroyCacheVolumeError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Release all Cache Volumes belonging to a selected `tag`. This operation cannot be undone. ### Errors - If no volume tag is provided, a `InvalidArgument` status is returned. - If the provided volume tag does not match any known volume tag, a `NotFound` status is returned. */
 export const destroyCacheVolume: API.OperationMethod<
@@ -498,20 +442,16 @@ export const destroyCacheVolume: API.OperationMethod<
   DestroyCacheVolumeError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DestroyCacheVolumeRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<DestroyCacheVolumeResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<DestroyCacheVolumeRequest>,
+  output: __S(137, __c17, 1) as any as S.Schema<DestroyCacheVolumeResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -523,15 +463,11 @@ export const destroyCacheVolume: API.OperationMethod<
 export type DestroyPersistentVolumesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Destroys Persistent Volumes matching the given criteria. Returns the metadata of destroyed volumes. At least one matcher (id or tag) must be specified. For safety, the IS_NOT operator is denied. ### Errors - If no matcher is provided, a `InvalidArgument` status is returned. - If IS_NOT operator is used, a `InvalidArgument` status is returned. - If no volumes are found matching criteria, a `NotFound` status is returned. */
 export const destroyPersistentVolumes: API.OperationMethod<
@@ -540,20 +476,16 @@ export const destroyPersistentVolumes: API.OperationMethod<
   DestroyPersistentVolumesError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<DestroyPersistentVolumesRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<DestroyPersistentVolumesResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<DestroyPersistentVolumesRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<DestroyPersistentVolumesResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -565,15 +497,11 @@ export const destroyPersistentVolumes: API.OperationMethod<
 export type DestroyPersistentVolumeSnapshotError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Marks a persistent volume snapshot as abandoned. Abandoned snapshots are excluded when selecting a base snapshot for new volumes. This is useful for marking corrupted or unwanted snapshots without destroying the volume itself. ### Errors - If the snapshot does not exist, a `NotFound` status is returned. - If the snapshot is still attached to an instance, a `FailedPrecondition` status is returned. */
 export const destroyPersistentVolumeSnapshot: API.OperationMethod<
@@ -582,20 +510,16 @@ export const destroyPersistentVolumeSnapshot: API.OperationMethod<
   DestroyPersistentVolumeSnapshotError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<DestroyPersistentVolumeSnapshotRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<DestroyPersistentVolumeSnapshotResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<DestroyPersistentVolumeSnapshotRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<DestroyPersistentVolumeSnapshotResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -607,15 +531,11 @@ export const destroyPersistentVolumeSnapshot: API.OperationMethod<
 export type GetCacheVolumeError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns a Cache Volume. */
 export const getCacheVolume: API.OperationMethod<
@@ -624,20 +544,16 @@ export const getCacheVolume: API.OperationMethod<
   GetCacheVolumeError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetCacheVolumeRequest>,
-  output: __S(73, __c9, 1) as any as S.Schema<GetCacheVolumeResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetCacheVolumeRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<GetCacheVolumeResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -649,15 +565,11 @@ export const getCacheVolume: API.OperationMethod<
 export type GetVolumeTagSummaryError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Produces a summary for a Cache Volume tag used by this tenant. */
 export const getVolumeTagSummary: API.OperationMethod<
@@ -666,20 +578,16 @@ export const getVolumeTagSummary: API.OperationMethod<
   GetVolumeTagSummaryError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetVolumeTagSummaryRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<GetVolumeTagSummaryResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetVolumeTagSummaryRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<GetVolumeTagSummaryResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -691,15 +599,11 @@ export const getVolumeTagSummary: API.OperationMethod<
 export type ListCacheVolumesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns a list of all Cache Volumes used by this tenant. */
 export const listCacheVolumes: API.OperationMethod<
@@ -708,20 +612,16 @@ export const listCacheVolumes: API.OperationMethod<
   ListCacheVolumesError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<ListCacheVolumesRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<ListCacheVolumesResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<ListCacheVolumesRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<ListCacheVolumesResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -733,15 +633,11 @@ export const listCacheVolumes: API.OperationMethod<
 export type ListPersistentVolumesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns a list of all Persistent Volumes for a given tag. */
 export const listPersistentVolumes: API.PaginatedOperationMethod<
@@ -752,20 +648,16 @@ export const listPersistentVolumes: API.PaginatedOperationMethod<
   PersistentVolume
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(120, __c15, 0) as any as S.Schema<ListPersistentVolumesRequest>,
-    output: __S(121, __c15, 1) as any as S.Schema<ListPersistentVolumesResponse>,
+    input: __S(80, __c10, 0) as any as S.Schema<ListPersistentVolumesRequest>,
+    output: __S(81, __c10, 1) as any as S.Schema<ListPersistentVolumesResponse>,
     errors: [
       InvalidArgument,
       FailedPrecondition,
-      OutOfRange,
       Unauthenticated,
       PermissionDenied,
       NotFound,
       AlreadyExists,
-      Aborted,
       ResourceExhausted,
-      Canceled,
-      Unimplemented,
       UnknownNamespaceLabsError,
     ],
     protocol: NamespaceLabsProtocol,
@@ -785,15 +677,11 @@ export const listPersistentVolumes: API.PaginatedOperationMethod<
 export type ListPersistentVolumeSnapshotsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns all snapshots of a Persistent Volume. */
 export const listPersistentVolumeSnapshots: API.OperationMethod<
@@ -802,20 +690,16 @@ export const listPersistentVolumeSnapshots: API.OperationMethod<
   ListPersistentVolumeSnapshotsError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<ListPersistentVolumeSnapshotsRequest>,
-  output: __S(130, __c16, 2) as any as S.Schema<ListPersistentVolumeSnapshotsResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<ListPersistentVolumeSnapshotsRequest>,
+  output: __S(90, __c11, 2) as any as S.Schema<ListPersistentVolumeSnapshotsResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -827,15 +711,11 @@ export const listPersistentVolumeSnapshots: API.OperationMethod<
 export type ListVolumeTagSummariesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Produces a summary for each Cache Volume tag used by this tenant. */
 export const listVolumeTagSummaries: API.OperationMethod<
@@ -844,20 +724,16 @@ export const listVolumeTagSummaries: API.OperationMethod<
   ListVolumeTagSummariesError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<ListVolumeTagSummariesRequest>,
-  output: __S(138, __c17, 2) as any as S.Schema<ListVolumeTagSummariesResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<ListVolumeTagSummariesRequest>,
+  output: __S(98, __c12, 2) as any as S.Schema<ListVolumeTagSummariesResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -868,6 +744,300 @@ export const listVolumeTagSummaries: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(__S(16, __c2, 0)),
+          tag: S.optional(__S(16, __c2, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.StorageService/DestroyPersistentVolumes",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DestroyPersistentVolumesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          destroyedVolumes: __S(17, __c2, 1),
+        }),
+      ).annotate({ identifier: "DestroyPersistentVolumesResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(8, __c1, 0)),
+          op: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StringMatcher" });
+    case 1:
+      return S.Array(__S(112, __c14, 0));
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          tag: S.optional(S.String),
+          site: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.StorageService/DestroyPersistentVolumeSnapshot",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DestroyPersistentVolumeSnapshotRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          snapshot: S.optional(__S(128, __c16, 0)),
+        }),
+      ).annotate({ identifier: "DestroyPersistentVolumeSnapshotResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.StorageService/GetCacheVolume",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetCacheVolumeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          cacheVolume: S.optional(__S(47, __c5, 7)),
+        }),
+      ).annotate({ identifier: "GetCacheVolumeResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.optional(S.String),
+          destroyedAt: S.optional(S.String),
+          sizeMb: S.Number,
+          state: S.String,
+          generationReason: S.String,
+        }),
+      ).annotate({ identifier: "VolumeMetadata" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          imageRef: S.String,
+          namespace: S.String,
+          createdAt: S.optional(S.String),
+          updatedAt: S.optional(S.String),
+          sizeBytes: S.String,
+        }),
+      ).annotate({ identifier: "CachedImage" });
+    case 2:
+      return S.Array(__S(41, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          cachedImages: __S(42, __c5, 2),
+          garbageCollectedImages: __S(42, __c5, 2),
+        }),
+      ).annotate({ identifier: "ContainerImageCache" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          cacheFramework: S.String,
+          mountTarget: __S(8, __c1, 0),
+          source: S.String,
+          utilizationMb: S.String,
+          createdAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PathUtilization" });
+    case 5:
+      return S.Record(S.String, __S(44, __c5, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          attachedTo: S.String,
+          lastAttachedAt: S.optional(S.String),
+          lastDetachedAt: S.optional(S.String),
+          attachedAt: S.optional(S.String),
+          usedMbWhenAttached: S.Number,
+          detachedAt: S.optional(S.String),
+          usedMbWhenDetached: S.Number,
+          containerImageCache: S.optional(__S(43, __c5, 3)),
+          pathUtilization: __S(45, __c5, 5),
+        }),
+      ).annotate({ identifier: "VolumeAttachment" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          tag: S.String,
+          metadata: S.optional(__S(40, __c5, 0)),
+          attachment: S.optional(__S(46, __c5, 6)),
+        }),
+      ).annotate({ identifier: "CacheVolume" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tag: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.StorageService/GetVolumeTagSummary",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetVolumeTagSummaryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          summary: S.optional(__S(64, __c8, 0)),
+        }),
+      ).annotate({ identifier: "GetVolumeTagSummaryResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(47, __c5, 7));
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tag: S.String,
+          sizeMb: S.Number,
+          atRest: __S(56, __c7, 0),
+          inUse: __S(56, __c7, 0),
+          generations: __S(56, __c7, 0),
+          createdAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TagSummary" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.StorageService/ListCacheVolumes",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListCacheVolumesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          cacheVolume: __S(56, __c7, 0),
+        }),
+      ).annotate({ identifier: "ListCacheVolumesResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tag: S.optional(S.String),
+          paginationCursor: S.optional(S.String),
+          maxEntries: S.optional(S.String),
+          site: S.optional(__S(16, __c2, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.StorageService/ListPersistentVolumes",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListPersistentVolumesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          volumes: __S(17, __c2, 1),
+          paginationCursor: S.String,
+        }),
+      ).annotate({ identifier: "ListPersistentVolumesResponse" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          tag: S.optional(S.String),
+          site: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.StorageService/ListPersistentVolumeSnapshots",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListPersistentVolumeSnapshotsRequest" });
+    case 1:
+      return S.Array(__S(128, __c16, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          snapshots: __S(89, __c11, 1),
+        }),
+      ).annotate({ identifier: "ListPersistentVolumeSnapshotsResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.StorageService/ListVolumeTagSummaries",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListVolumeTagSummariesRequest" });
+    case 1:
+      return S.Array(__S(64, __c8, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          summaries: __S(97, __c12, 1),
+        }),
+      ).annotate({ identifier: "ListVolumeTagSummariesResponse" });
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -886,12 +1056,12 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          volume: S.optional(__S(8, __c1, 0)),
+          volume: S.optional(__S(112, __c14, 0)),
         }),
       ).annotate({ identifier: "DescribePersistentVolumeResponse" });
   }
 }
-function __c1(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -909,7 +1079,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "PersistentVolume" });
   }
 }
-function __c2(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -939,13 +1109,13 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          snapshot: S.optional(__S(24, __c3, 0)),
-          usage: S.optional(__S(17, __c2, 1)),
+          snapshot: S.optional(__S(128, __c16, 0)),
+          usage: S.optional(__S(121, __c15, 1)),
         }),
       ).annotate({ identifier: "DescribePersistentVolumeSnapshotResponse" });
   }
 }
-function __c3(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -965,7 +1135,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "PersistentVolumeSnapshot" });
   }
 }
-function __c4(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -981,300 +1151,6 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DestroyCacheVolumeRequest" });
     case 1:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DestroyCacheVolumeResponse" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(__S(56, __c7, 0)),
-          tag: S.optional(__S(56, __c7, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.StorageService/DestroyPersistentVolumes",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DestroyPersistentVolumesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          destroyedVolumes: __S(57, __c7, 1),
-        }),
-      ).annotate({ identifier: "DestroyPersistentVolumesResponse" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          values: S.optional(__S(48, __c6, 0)),
-          op: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StringMatcher" });
-    case 1:
-      return S.Array(__S(8, __c1, 0));
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          tag: S.optional(S.String),
-          site: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.StorageService/DestroyPersistentVolumeSnapshot",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DestroyPersistentVolumeSnapshotRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          snapshot: S.optional(__S(24, __c3, 0)),
-        }),
-      ).annotate({ identifier: "DestroyPersistentVolumeSnapshotResponse" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.StorageService/GetCacheVolume",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetCacheVolumeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          cacheVolume: S.optional(__S(87, __c10, 7)),
-        }),
-      ).annotate({ identifier: "GetCacheVolumeResponse" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createdAt: S.optional(S.String),
-          destroyedAt: S.optional(S.String),
-          sizeMb: S.Number,
-          state: S.String,
-          generationReason: S.String,
-        }),
-      ).annotate({ identifier: "VolumeMetadata" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          imageRef: S.String,
-          namespace: S.String,
-          createdAt: S.optional(S.String),
-          updatedAt: S.optional(S.String),
-          sizeBytes: S.String,
-        }),
-      ).annotate({ identifier: "CachedImage" });
-    case 2:
-      return S.Array(__S(81, __c10, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.Boolean,
-          cachedImages: __S(82, __c10, 2),
-          garbageCollectedImages: __S(82, __c10, 2),
-        }),
-      ).annotate({ identifier: "ContainerImageCache" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          cacheFramework: S.String,
-          mountTarget: __S(48, __c6, 0),
-          source: S.String,
-          utilizationMb: S.String,
-          createdAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PathUtilization" });
-    case 5:
-      return S.Record(S.String, __S(84, __c10, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          attachedTo: S.String,
-          lastAttachedAt: S.optional(S.String),
-          lastDetachedAt: S.optional(S.String),
-          attachedAt: S.optional(S.String),
-          usedMbWhenAttached: S.Number,
-          detachedAt: S.optional(S.String),
-          usedMbWhenDetached: S.Number,
-          containerImageCache: S.optional(__S(83, __c10, 3)),
-          pathUtilization: __S(85, __c10, 5),
-        }),
-      ).annotate({ identifier: "VolumeAttachment" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          tag: S.String,
-          metadata: S.optional(__S(80, __c10, 0)),
-          attachment: S.optional(__S(86, __c10, 6)),
-        }),
-      ).annotate({ identifier: "CacheVolume" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tag: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.StorageService/GetVolumeTagSummary",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetVolumeTagSummaryRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          summary: S.optional(__S(104, __c13, 0)),
-        }),
-      ).annotate({ identifier: "GetVolumeTagSummaryResponse" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(87, __c10, 7));
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tag: S.String,
-          sizeMb: S.Number,
-          atRest: __S(96, __c12, 0),
-          inUse: __S(96, __c12, 0),
-          generations: __S(96, __c12, 0),
-          createdAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TagSummary" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.StorageService/ListCacheVolumes",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListCacheVolumesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          cacheVolume: __S(96, __c12, 0),
-        }),
-      ).annotate({ identifier: "ListCacheVolumesResponse" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tag: S.optional(S.String),
-          paginationCursor: S.optional(S.String),
-          maxEntries: S.optional(S.String),
-          site: S.optional(__S(56, __c7, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.StorageService/ListPersistentVolumes",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListPersistentVolumesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          volumes: __S(57, __c7, 1),
-          paginationCursor: S.String,
-        }),
-      ).annotate({ identifier: "ListPersistentVolumesResponse" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          tag: S.optional(S.String),
-          site: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.StorageService/ListPersistentVolumeSnapshots",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListPersistentVolumeSnapshotsRequest" });
-    case 1:
-      return S.Array(__S(24, __c3, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          snapshots: __S(129, __c16, 1),
-        }),
-      ).annotate({ identifier: "ListPersistentVolumeSnapshotsResponse" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.StorageService/ListVolumeTagSummaries",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListVolumeTagSummariesRequest" });
-    case 1:
-      return S.Array(__S(104, __c13, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          summaries: __S(137, __c17, 1),
-        }),
-      ).annotate({ identifier: "ListVolumeTagSummariesResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

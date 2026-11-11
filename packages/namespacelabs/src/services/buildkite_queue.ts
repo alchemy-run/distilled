@@ -28,15 +28,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export class Aborted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Aborted>()("Aborted", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withConflictError),
-    [{ status: 409, body: { "/code": "aborted" } }],
-  ) {}
-
 export class AlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
@@ -44,15 +35,6 @@ export class AlreadyExists
       body: S.Unknown,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
-  ) {}
-
-export class Canceled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Canceled>()("Canceled", {
-      message: S.String,
-      body: S.Unknown,
-    }),
-    [{ status: 499 }],
   ) {}
 
 export class FailedPrecondition
@@ -82,15 +64,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class OutOfRange
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<OutOfRange>()("OutOfRange", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withBadRequestError),
-    [{ status: 400, body: { "/code": "out_of_range" } }],
-  ) {}
-
 export class PermissionDenied
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
@@ -116,15 +89,6 @@ export class Unauthenticated
       body: S.Unknown,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-export class Unimplemented
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Unimplemented>()("Unimplemented", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withServerError),
-    [{ status: 501 }],
   ) {}
 
 export interface GetQueueRequest {
@@ -227,15 +191,11 @@ export interface UpdateQueueResponse {
 export type GetQueueError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Get queue settings. Authentication: tenant token. */
 export const getQueue: API.OperationMethod<
@@ -249,15 +209,11 @@ export const getQueue: API.OperationMethod<
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -269,15 +225,11 @@ export const getQueue: API.OperationMethod<
 export type ListQueuesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** List queues registered for this tenant in Namespace. Authentication: tenant token. */
 export const listQueues: API.OperationMethod<
@@ -291,15 +243,11 @@ export const listQueues: API.OperationMethod<
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -311,15 +259,11 @@ export const listQueues: API.OperationMethod<
 export type UpdateQueueError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Update queue-wide settings. Authentication: tenant token. */
 export const updateQueue: API.OperationMethod<
@@ -333,15 +277,11 @@ export const updateQueue: API.OperationMethod<
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,

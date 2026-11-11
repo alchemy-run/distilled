@@ -29,15 +29,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export class Aborted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Aborted>()("Aborted", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withConflictError),
-    [{ status: 409, body: { "/code": "aborted" } }],
-  ) {}
-
 export class AlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
@@ -45,15 +36,6 @@ export class AlreadyExists
       body: S.Unknown,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
-  ) {}
-
-export class Canceled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Canceled>()("Canceled", {
-      message: S.String,
-      body: S.Unknown,
-    }),
-    [{ status: 499 }],
   ) {}
 
 export class FailedPrecondition
@@ -83,15 +65,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class OutOfRange
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<OutOfRange>()("OutOfRange", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withBadRequestError),
-    [{ status: 400, body: { "/code": "out_of_range" } }],
-  ) {}
-
 export class PermissionDenied
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
@@ -117,15 +90,6 @@ export class Unauthenticated
       body: S.Unknown,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-export class Unimplemented
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Unimplemented>()("Unimplemented", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withServerError),
-    [{ status: 501 }],
   ) {}
 
 /** Labels are key/value pairs attached to entities such as tenants. */
@@ -293,15 +257,11 @@ export interface ResolveArtifactResponse {
 export type CreateArtifactError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Creates a new artifact and returns a signed upload URL. Artifact creation follows a two-phase commit model: 1. Call CreateArtifact to obtain a `signed_upload_url` and `upload_id`. 2. Upload the artifact data to the signed URL using an HTTP PUT request. 3. Call FinalizeArtifact with the `upload_id` to commit the artifact. The artifact is not accessible for download until finalized. */
 export const createArtifact: API.OperationMethod<
@@ -310,20 +270,16 @@ export const createArtifact: API.OperationMethod<
   CreateArtifactError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<CreateArtifactRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<CreateArtifactResponse>,
+  input: __S(41, __c5, 1) as any as S.Schema<CreateArtifactRequest>,
+  output: __S(42, __c5, 2) as any as S.Schema<CreateArtifactResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -335,15 +291,11 @@ export const createArtifact: API.OperationMethod<
 export type ExpireArtifactError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Mark an artifact as eligible for garbage-collection. */
 export const expireArtifact: API.OperationMethod<
@@ -352,20 +304,16 @@ export const expireArtifact: API.OperationMethod<
   ExpireArtifactError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<ExpireArtifactRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<ExpireArtifactResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<ExpireArtifactRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<ExpireArtifactResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -377,15 +325,11 @@ export const expireArtifact: API.OperationMethod<
 export type ExtendArtifactError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Extend the expiration of a finalized artifact. This enables dynamic, access-based retention: create artifacts with a short expiration and push it out whenever they are accessed. ### Errors - If the artifact does not exist or has already expired, a `NotFound` status is returned. */
 export const extendArtifact: API.OperationMethod<
@@ -394,20 +338,16 @@ export const extendArtifact: API.OperationMethod<
   ExtendArtifactError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ExtendArtifactRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<ExtendArtifactResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<ExtendArtifactRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<ExtendArtifactResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -419,15 +359,11 @@ export const extendArtifact: API.OperationMethod<
 export type FinalizeArtifactError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Finalize a fully uploaded artifact (making it available for download). */
 export const finalizeArtifact: API.OperationMethod<
@@ -436,20 +372,16 @@ export const finalizeArtifact: API.OperationMethod<
   FinalizeArtifactError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<FinalizeArtifactRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<FinalizeArtifactResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<FinalizeArtifactRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<FinalizeArtifactResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -461,15 +393,11 @@ export const finalizeArtifact: API.OperationMethod<
 export type ListArtifactsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** List finalized artifacts. */
 export const listArtifacts: API.PaginatedOperationMethod<
@@ -480,20 +408,16 @@ export const listArtifacts: API.PaginatedOperationMethod<
   Artifact
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(53, __c6, 5) as any as S.Schema<ListArtifactsRequest>,
-    output: __S(55, __c6, 7) as any as S.Schema<ListArtifactsResponse>,
+    input: __S(21, __c2, 5) as any as S.Schema<ListArtifactsRequest>,
+    output: __S(23, __c2, 7) as any as S.Schema<ListArtifactsResponse>,
     errors: [
       InvalidArgument,
       FailedPrecondition,
-      OutOfRange,
       Unauthenticated,
       PermissionDenied,
       NotFound,
       AlreadyExists,
-      Aborted,
       ResourceExhausted,
-      Canceled,
-      Unimplemented,
       UnknownNamespaceLabsError,
     ],
     protocol: NamespaceLabsProtocol,
@@ -514,15 +438,11 @@ export const listArtifacts: API.PaginatedOperationMethod<
 export type ListNamespacesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** List namespaces with finalized artifacts. */
 export const listNamespaces: API.OperationMethod<
@@ -531,20 +451,16 @@ export const listNamespaces: API.OperationMethod<
   ListNamespacesError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ListNamespacesRequest>,
-  output: __S(59, __c7, 3) as any as S.Schema<ListNamespacesResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<ListNamespacesRequest>,
+  output: __S(27, __c3, 3) as any as S.Schema<ListNamespacesResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -556,15 +472,11 @@ export const listNamespaces: API.OperationMethod<
 export type ResolveArtifactError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Resolves a finalized artifact and generates a download URL. */
 export const resolveArtifact: API.OperationMethod<
@@ -573,20 +485,16 @@ export const resolveArtifact: API.OperationMethod<
   ResolveArtifactError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ResolveArtifactRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<ResolveArtifactResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<ResolveArtifactRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<ResolveArtifactResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -601,6 +509,163 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          uploadId: S.optional(S.String),
+          addLabels: S.optional(__S(49, __c6, 1)),
+          path: S.optional(S.String),
+          namespace: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.storage.v1beta.ArtifactsService/FinalizeArtifact",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "FinalizeArtifactRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(__S(8, __c1, 0)),
+        }),
+      ).annotate({ identifier: "FinalizeArtifactResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          path: S.String,
+          namespace: S.String,
+          createdAt: S.optional(S.String),
+          expiresAt: S.optional(S.String),
+          labels: __S(49, __c6, 1),
+          size: S.String,
+          webUrl: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "Artifact" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(S.String),
+          op: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LabelFilterEntry" });
+    case 2:
+      return S.Array(__S(17, __c2, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          low: S.optional(S.String),
+          high: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Int64Range" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(16, __c2, 0)),
+          op: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StringMatcher" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          namespaces: S.optional(__S(16, __c2, 0)),
+          labelFilter: S.optional(__S(18, __c2, 2)),
+          maxEntries: S.optional(S.Number),
+          skipExpired: S.optional(S.Boolean),
+          paginationCursor: S.optional(S.String),
+          orderBy: S.optional(S.String),
+          sizeRange: S.optional(__S(19, __c2, 3)),
+          matchPathRegex: S.optional(__S(20, __c2, 4)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.storage.v1beta.ArtifactsService/ListArtifacts",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListArtifactsRequest" });
+    case 6:
+      return S.Array(__S(8, __c1, 0));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          artifacts: __S(22, __c2, 6),
+          paginationCursor: S.String,
+        }),
+      ).annotate({ identifier: "ListArtifactsResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.storage.v1beta.ArtifactsService/ListNamespaces",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListNamespacesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          kind: S.String,
+        }),
+      ).annotate({ identifier: "Namespace" });
+    case 2:
+      return S.Array(__S(25, __c3, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          namespaces: __S(26, __c3, 2),
+        }),
+      ).annotate({ identifier: "ListNamespacesResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.optional(S.String),
+          namespace: S.optional(S.String),
+          metadataOnly: S.optional(S.Boolean),
+          includeExpired: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.storage.v1beta.ArtifactsService/ResolveArtifact",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ResolveArtifactRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(__S(8, __c1, 0)),
+          signedDownloadUrl: S.String,
+          expiresAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResolveArtifactResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           createNewVersion: S.optional(S.Boolean),
           keepMaxVersions: S.optional(S.Number),
         }),
@@ -611,10 +676,10 @@ function __c0(j: number): any {
           path: S.optional(S.String),
           namespace: S.optional(S.String),
           expiresAt: S.optional(S.String),
-          labels: S.optional(__S(9, __c1, 1)),
+          labels: S.optional(__S(49, __c6, 1)),
           overwrite: S.optional(S.Boolean),
           createNewVersionIfExists: S.optional(S.Boolean),
-          ifExists: S.optional(__S(0, __c0, 0)),
+          ifExists: S.optional(__S(40, __c5, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -633,7 +698,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateArtifactResponse" });
   }
 }
-function __c1(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -643,10 +708,10 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "Label" });
     case 1:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(48, __c6, 0));
   }
 }
-function __c2(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -665,7 +730,7 @@ function __c2(j: number): any {
       return S.suspend(() => S.Struct({})).annotate({ identifier: "ExpireArtifactResponse" });
   }
 }
-function __c3(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -688,163 +753,6 @@ function __c3(j: number): any {
           expiresAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExtendArtifactResponse" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uploadId: S.optional(S.String),
-          addLabels: S.optional(__S(9, __c1, 1)),
-          path: S.optional(S.String),
-          namespace: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.storage.v1beta.ArtifactsService/FinalizeArtifact",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "FinalizeArtifactRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(__S(40, __c5, 0)),
-        }),
-      ).annotate({ identifier: "FinalizeArtifactResponse" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          path: S.String,
-          namespace: S.String,
-          createdAt: S.optional(S.String),
-          expiresAt: S.optional(S.String),
-          labels: __S(9, __c1, 1),
-          size: S.String,
-          webUrl: S.String,
-          status: S.String,
-        }),
-      ).annotate({ identifier: "Artifact" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          value: S.optional(S.String),
-          op: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LabelFilterEntry" });
-    case 2:
-      return S.Array(__S(49, __c6, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          low: S.optional(S.String),
-          high: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Int64Range" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          values: S.optional(__S(48, __c6, 0)),
-          op: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StringMatcher" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          namespaces: S.optional(__S(48, __c6, 0)),
-          labelFilter: S.optional(__S(50, __c6, 2)),
-          maxEntries: S.optional(S.Number),
-          skipExpired: S.optional(S.Boolean),
-          paginationCursor: S.optional(S.String),
-          orderBy: S.optional(S.String),
-          sizeRange: S.optional(__S(51, __c6, 3)),
-          matchPathRegex: S.optional(__S(52, __c6, 4)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.storage.v1beta.ArtifactsService/ListArtifacts",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListArtifactsRequest" });
-    case 6:
-      return S.Array(__S(40, __c5, 0));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          artifacts: __S(54, __c6, 6),
-          paginationCursor: S.String,
-        }),
-      ).annotate({ identifier: "ListArtifactsResponse" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.storage.v1beta.ArtifactsService/ListNamespaces",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListNamespacesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          kind: S.String,
-        }),
-      ).annotate({ identifier: "Namespace" });
-    case 2:
-      return S.Array(__S(57, __c7, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          namespaces: __S(58, __c7, 2),
-        }),
-      ).annotate({ identifier: "ListNamespacesResponse" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.optional(S.String),
-          namespace: S.optional(S.String),
-          metadataOnly: S.optional(S.Boolean),
-          includeExpired: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.storage.v1beta.ArtifactsService/ResolveArtifact",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ResolveArtifactRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(__S(40, __c5, 0)),
-          signedDownloadUrl: S.String,
-          expiresAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResolveArtifactResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

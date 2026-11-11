@@ -30,15 +30,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export class Aborted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Aborted>()("Aborted", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withConflictError),
-    [{ status: 409, body: { "/code": "aborted" } }],
-  ) {}
-
 export class AlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
@@ -46,15 +37,6 @@ export class AlreadyExists
       body: S.Unknown,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
-  ) {}
-
-export class Canceled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Canceled>()("Canceled", {
-      message: S.String,
-      body: S.Unknown,
-    }),
-    [{ status: 499 }],
   ) {}
 
 export class FailedPrecondition
@@ -84,15 +66,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class OutOfRange
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<OutOfRange>()("OutOfRange", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withBadRequestError),
-    [{ status: 400, body: { "/code": "out_of_range" } }],
-  ) {}
-
 export class PermissionDenied
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
@@ -118,15 +91,6 @@ export class Unauthenticated
       body: S.Unknown,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-export class Unimplemented
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Unimplemented>()("Unimplemented", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withServerError),
-    [{ status: 501 }],
   ) {}
 
 export type StringList = Array<string>;
@@ -1103,15 +1067,11 @@ export interface WaitInstanceSyncResponse {
 export type CreateIngressError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Exposes a backend within the instance to the public internet. Typically used to serve public HTTPS-termination ingress that is backed by a container running inside the instance. See https://namespace.so/docs/architecture/networking/ingress for details. ### Errors - If the instance does not exist, a `NotFound` status is returned. */
 export const createIngress: API.OperationMethod<
@@ -1120,20 +1080,16 @@ export const createIngress: API.OperationMethod<
   CreateIngressError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3, __c0, 3) as any as S.Schema<CreateIngressRequest>,
-  output: __S(98, __c3, 2) as any as S.Schema<CreateIngressResponse>,
+  input: __S(483, __c15, 3) as any as S.Schema<CreateIngressRequest>,
+  output: __S(514, __c16, 2) as any as S.Schema<CreateIngressResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1145,15 +1101,11 @@ export const createIngress: API.OperationMethod<
 export type CreateInstanceError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Creates a new instance. Instances are micro-vm backed environments which are optimized to run containers. Each instance is deployed with `containerd`, and with optionally `dockerd` and Kubernetes. Instances can run one or more containers. Containers can be started using one of two mechanisms: - Namespace managed containers: containers are specified at creation time via the `containers` field, or at runtime via the `StartContainers` method. Managed containers have logs and metrics automatically collected, and Namespace's infrastructure optimizes future startup time of repeated use of the same containers. These containers are handled as "critical" and their lifetime is tied to the VMs -- if they fail, either due to early exit, OOM, etc, the instance also fails. Namespace managed containers are always run on containerd directly, in the `default` namespace. - User-managed containers: after an instance is created, you can use the containerd or Docker APIs to create and manage containers yourself. These containers are not marked required, so it's up to a user to take action to terminate a VM on container failure. Instances that are running can be accessed via the region ingress. Endpoints per exposed service are returned as part of the instance creation. For example, proxies are exposed that allow direct access to `containerd`, `docker`, etc services which are usually only exposed over Unix sockets. The creation of an instance produces a set of metadata: InstanceMetadata is also available in ListInstances requests, but the remainder of metadata (e.g. extended metadata) is only available at creation time, or if DescribeInstance is called. Instance creation is non-blocking. After an instance is created call WaitInstance to observe the states instance creation goes through. ### Errors - If the workspace is out of resources, a `ResourceExhausted` status is returned. - If the request refers to an invalid argument, e.g. a non-existing region, an `InvalidArgument` status is returned. */
 export const createInstance: API.OperationMethod<
@@ -1162,20 +1114,16 @@ export const createInstance: API.OperationMethod<
   CreateInstanceError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c5, 8) as any as S.Schema<CreateInstanceRequest>,
-  output: __S(238, __c7, 14) as any as S.Schema<CreateInstanceResponse>,
+  input: __S(648, __c20, 8) as any as S.Schema<CreateInstanceRequest>,
+  output: __S(686, __c21, 14) as any as S.Schema<CreateInstanceResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1187,15 +1135,11 @@ export const createInstance: API.OperationMethod<
 export type DeleteIngressError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Removes a previously created ingress from the instance. ### Errors - If the instance or ingress does not exist, a `NotFound` status is returned. - If the instance is already terminated, or the ingress is managed declaratively, a `FailedPrecondition` status is returned. */
 export const deleteIngress: API.OperationMethod<
@@ -1204,20 +1148,16 @@ export const deleteIngress: API.OperationMethod<
   DeleteIngressError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<DeleteIngressRequest>,
-  output: __S(192, __c6, 0) as any as S.Schema<DeleteIngressResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<DeleteIngressRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<DeleteIngressResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1229,15 +1169,11 @@ export const deleteIngress: API.OperationMethod<
 export type DescribeInstanceError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Obtains the metadata (including extra metadata) of a previously created instance. ### Errors - If the instance does not exist, a `NotFound` status is returned. */
 export const describeInstance: API.OperationMethod<
@@ -1246,20 +1182,16 @@ export const describeInstance: API.OperationMethod<
   DescribeInstanceError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<DescribeInstanceRequest>,
-  output: __S(238, __c7, 14) as any as S.Schema<DescribeInstanceResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<DescribeInstanceRequest>,
+  output: __S(686, __c21, 14) as any as S.Schema<DescribeInstanceResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1271,15 +1203,11 @@ export const describeInstance: API.OperationMethod<
 export type DestroyInstanceError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Destroys a previously created instance. ### Errors - If the instance does not exist, a `NotFound` status is returned. */
 export const destroyInstance: API.OperationMethod<
@@ -1288,20 +1216,16 @@ export const destroyInstance: API.OperationMethod<
   DestroyInstanceError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<DestroyInstanceRequest>,
-  output: __S(192, __c6, 0) as any as S.Schema<DestroyInstanceResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<DestroyInstanceRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<DestroyInstanceResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1313,15 +1237,11 @@ export const destroyInstance: API.OperationMethod<
 export type ExtendInstanceError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Extend the lifetime of an instance by the provided duration. ### Errors - If the instance does not exist, a `NotFound` status is returned. */
 export const extendInstance: API.OperationMethod<
@@ -1330,20 +1250,16 @@ export const extendInstance: API.OperationMethod<
   ExtendInstanceError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ExtendInstanceRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<ExtendInstanceResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<ExtendInstanceRequest>,
+  output: __S(65, __c2, 1) as any as S.Schema<ExtendInstanceResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1355,15 +1271,11 @@ export const extendInstance: API.OperationMethod<
 export type GetInstanceMetricsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns metrics that represent resource usage by the specified instance. Metrics can also be queried from instances that are still running. See https://namespace.so/docs/architecture/compute/observability for details. ### Errors - If the instance does not exist, a `NotFound` status is returned. */
 export const getInstanceMetrics: API.OperationMethod<
@@ -1372,20 +1284,16 @@ export const getInstanceMetrics: API.OperationMethod<
   GetInstanceMetricsError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetInstanceMetricsRequest>,
-  output: __S(552, __c17, 8) as any as S.Schema<GetInstanceMetricsResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<GetInstanceMetricsRequest>,
+  output: __S(104, __c3, 8) as any as S.Schema<GetInstanceMetricsResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1397,15 +1305,11 @@ export const getInstanceMetrics: API.OperationMethod<
 export type GetKubernetesConfigError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns a configuration that can be used by `kubectl` to access Kubernetes inside the specified instance. ### Errors - If the instance does not exist, a `NotFound` status is returned. - If the instance is not running Kubernetes, an `FailedPrecondition` status is returned. */
 export const getKubernetesConfig: API.OperationMethod<
@@ -1414,20 +1318,16 @@ export const getKubernetesConfig: API.OperationMethod<
   GetKubernetesConfigError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetKubernetesConfigRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<GetKubernetesConfigResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<GetKubernetesConfigRequest>,
+  output: __S(129, __c4, 1) as any as S.Schema<GetKubernetesConfigResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1439,15 +1339,11 @@ export const getKubernetesConfig: API.OperationMethod<
 export type GetNetworkConfigurationError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns the network configuration used within the target workspace. See https://namespace.so/docs/architecture/networking for details. */
 export const getNetworkConfiguration: API.OperationMethod<
@@ -1456,20 +1352,16 @@ export const getNetworkConfiguration: API.OperationMethod<
   GetNetworkConfigurationError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetNetworkConfigurationRequest>,
-  output: __S(612, __c19, 4) as any as S.Schema<GetNetworkConfigurationResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<GetNetworkConfigurationRequest>,
+  output: __S(164, __c5, 4) as any as S.Schema<GetNetworkConfigurationResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1481,15 +1373,11 @@ export const getNetworkConfiguration: API.OperationMethod<
 export type GetSSHConfigError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns a configuration that can be used to access the instance with SSH. See https://namespace.so/docs/architecture/compute/ssh-remote-display for details. ### Errors - If the instance does not exist, a `NotFound` status is returned. */
 export const getSSHConfig: API.OperationMethod<
@@ -1498,20 +1386,16 @@ export const getSSHConfig: API.OperationMethod<
   GetSSHConfigError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<GetSSHConfigRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<GetSSHConfigResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<GetSSHConfigRequest>,
+  output: __S(193, __c6, 1) as any as S.Schema<GetSSHConfigResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1523,15 +1407,11 @@ export const getSSHConfig: API.OperationMethod<
 export type GetVNCConfigError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns a configuration that can be used to access the instance's remote display using VNC. The caller's authentication token must also grant access to the instance ingress when connecting to the returned endpoint. ### Errors - If the instance does not exist, a `NotFound` status is returned. - If the instance does not expose a VNC service, a `FailedPrecondition` status is returned. */
 export const getVNCConfig: API.OperationMethod<
@@ -1540,20 +1420,16 @@ export const getVNCConfig: API.OperationMethod<
   GetVNCConfigError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GetVNCConfigRequest>,
-  output: __S(673, __c21, 1) as any as S.Schema<GetVNCConfigResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<GetVNCConfigRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<GetVNCConfigResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1565,15 +1441,11 @@ export const getVNCConfig: API.OperationMethod<
 export type ListIngressesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns the list of backends exposed from the instance to the public internet. This includes ingresses created using `CreateIngress` above or ingresses declaratively exposed using FEATURE_KUBERNETES_INGRESS_MANAGER feature. ### Errors - If the instance does not exist, a `NotFound` status is returned. - If the instance is already terminated, a `FailedPrecondition` status is returned. */
 export const listIngresses: API.OperationMethod<
@@ -1582,20 +1454,16 @@ export const listIngresses: API.OperationMethod<
   ListIngressesError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<ListIngressesRequest>,
-  output: __S(98, __c3, 2) as any as S.Schema<ListIngressesResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<ListIngressesRequest>,
+  output: __S(514, __c16, 2) as any as S.Schema<ListIngressesResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1607,15 +1475,11 @@ export const listIngresses: API.OperationMethod<
 export type ListInstanceNotificationsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns a list of instance notification events. Each instance has at most one event in the response, representing its most recent state change. Events can be filtered by instance ID. */
 export const listInstanceNotifications: API.OperationMethod<
@@ -1624,20 +1488,16 @@ export const listInstanceNotifications: API.OperationMethod<
   ListInstanceNotificationsError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<ListInstanceNotificationsRequest>,
-  output: __S(739, __c23, 3) as any as S.Schema<ListInstanceNotificationsResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<ListInstanceNotificationsRequest>,
+  output: __S(291, __c9, 3) as any as S.Schema<ListInstanceNotificationsResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1649,15 +1509,11 @@ export const listInstanceNotifications: API.OperationMethod<
 export type ListInstancesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns a list of all instances that match the specified filter. */
 export const listInstances: API.PaginatedOperationMethod<
@@ -1668,20 +1524,16 @@ export const listInstances: API.PaginatedOperationMethod<
   InstanceMetadata
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(802, __c25, 2) as any as S.Schema<ListInstancesRequest>,
-    output: __S(804, __c25, 4) as any as S.Schema<ListInstancesResponse>,
+    input: __S(354, __c11, 2) as any as S.Schema<ListInstancesRequest>,
+    output: __S(356, __c11, 4) as any as S.Schema<ListInstancesResponse>,
     errors: [
       InvalidArgument,
       FailedPrecondition,
-      OutOfRange,
       Unauthenticated,
       PermissionDenied,
       NotFound,
       AlreadyExists,
-      Aborted,
       ResourceExhausted,
-      Canceled,
-      Unimplemented,
       UnknownNamespaceLabsError,
     ],
     protocol: NamespaceLabsProtocol,
@@ -1701,15 +1553,11 @@ export const listInstances: API.PaginatedOperationMethod<
 export type ReleaseUniqueTagError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Release the currently associated instance ID from a unique tag. Tags are only unique per region. Make sure to select the correct ComputeService endpoint. When calling this service from within an instance, `NSC_ENDPOINT` will point to the ComputeService endpoint for the current region. Our [SDK](https://github.com/namespacelabs/integrations?tab=readme-ov-file#namespace-integrations) handles this automatically. ### Errors - If the unique tag does not exist, a `NotFound` status is returned. */
 export const releaseUniqueTag: API.OperationMethod<
@@ -1718,20 +1566,16 @@ export const releaseUniqueTag: API.OperationMethod<
   ReleaseUniqueTagError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<ReleaseUniqueTagRequest>,
-  output: __S(833, __c26, 1) as any as S.Schema<ReleaseUniqueTagResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<ReleaseUniqueTagRequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<ReleaseUniqueTagResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1743,15 +1587,11 @@ export const releaseUniqueTag: API.OperationMethod<
 export type StartContainersError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Adds the specified set of containers to a running instance. ### Errors - If the instance does not exist, a `NotFound` status is returned. */
 export const startContainers: API.OperationMethod<
@@ -1760,20 +1600,16 @@ export const startContainers: API.OperationMethod<
   StartContainersError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<StartContainersRequest>,
-  output: __S(865, __c27, 1) as any as S.Schema<StartContainersResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<StartContainersRequest>,
+  output: __S(417, __c13, 1) as any as S.Schema<StartContainersResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1785,15 +1621,11 @@ export const startContainers: API.OperationMethod<
 export type WaitInstanceSyncError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Waits until an instance reaches the RUNNING state and returns the instance metadata. To receive intermediate state updates during instance creation process use the streaming version of this method -- `WaitInstance`. ### Errors - If the instance does not exist, a `NotFound` status is returned. */
 export const waitInstanceSync: API.OperationMethod<
@@ -1802,20 +1634,16 @@ export const waitInstanceSync: API.OperationMethod<
   WaitInstanceSyncError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<WaitInstanceSyncRequest>,
-  output: __S(897, __c28, 1) as any as S.Schema<WaitInstanceSyncResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<WaitInstanceSyncRequest>,
+  output: __S(449, __c14, 1) as any as S.Schema<WaitInstanceSyncResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1830,6 +1658,400 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          instanceId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.ComputeService/DescribeInstance",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DescribeInstanceRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceId: S.optional(S.String),
+          reason: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.ComputeService/DestroyInstance",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DestroyInstanceRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceId: S.optional(S.String),
+          extendBy: S.optional(S.String),
+          ensureMinimum: S.optional(S.String),
+          newDeadline: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.ComputeService/ExtendInstance",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ExtendInstanceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          newDeadline: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExtendInstanceResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceId: S.optional(S.String),
+          startTimestamp: S.optional(S.String),
+          endTimestamp: S.optional(S.String),
+          metricResource: S.optional(__S(800, __c25, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.ComputeService/GetInstanceMetrics",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetInstanceMetricsRequest" });
+    case 1:
+      return S.Array(S.Number);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          values: __S(97, __c3, 1),
+        }),
+      ).annotate({ identifier: "TimeSeriesDoubles" });
+    case 3:
+      return S.Record(S.String, __S(98, __c3, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          values: __S(544, __c17, 0),
+        }),
+      ).annotate({ identifier: "TimeSeriesIntegers" });
+    case 5:
+      return S.Record(S.String, __S(100, __c3, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          timestamps: __S(544, __c17, 0),
+          doubles: __S(99, __c3, 3),
+          integers: __S(101, __c3, 5),
+          strings: __S(101, __c3, 5),
+        }),
+      ).annotate({ identifier: "TimeSeries" });
+    case 7:
+      return S.Array(__S(102, __c3, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          timeSeries: __S(103, __c3, 7),
+        }),
+      ).annotate({ identifier: "GetInstanceMetricsResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.ComputeService/GetKubernetesConfig",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetKubernetesConfigRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kubeconfig: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "GetKubernetesConfigResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.ComputeService/GetNetworkConfiguration",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetNetworkConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          cidr: S.String,
+          segment: S.String,
+        }),
+      ).annotate({ identifier: "GetNetworkConfigurationResponseCIDR" });
+    case 2:
+      return S.Array(__S(161, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          egressCidrs: __S(162, __c5, 2),
+        }),
+      ).annotate({ identifier: "GetNetworkConfigurationResponseEgress" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          egress: S.optional(__S(163, __c5, 3)),
+        }),
+      ).annotate({ identifier: "GetNetworkConfigurationResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceId: S.optional(S.String),
+          targetContainer: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.ComputeService/GetSSHConfig",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetSSHConfigRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sshPrivateKey: S.String.pipe(T.SensitiveValue({})),
+          username: S.String,
+          endpoint: S.String,
+          sshHostKeys: __S(544, __c17, 0),
+        }),
+      ).annotate({ identifier: "GetSSHConfigResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.ComputeService/GetVNCConfig",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetVNCConfigRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          endpoint: S.String,
+          username: S.String,
+          password: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "GetVNCConfigResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.ComputeService/ListIngresses",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListIngressesRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceIds: S.optional(__S(320, __c10, 0)),
+          limit: S.optional(S.String),
+          onlyPendingEvents: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.ComputeService/ListInstanceNotifications",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListInstanceNotificationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          emittedAt: S.optional(S.String),
+          tenantId: S.String,
+          instanceId: S.String,
+          status: S.String,
+          labels: __S(705, __c22, 1),
+        }),
+      ).annotate({ identifier: "InstanceEventMetadata" });
+    case 2:
+      return S.Array(__S(289, __c9, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          events: __S(290, __c9, 2),
+        }),
+      ).annotate({ identifier: "ListInstanceNotificationsResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(544, __c17, 0)),
+          op: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StringMatcher" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(S.String),
+          op: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LabelFilterEntry" });
+    case 1:
+      return S.Array(__S(352, __c11, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          paginationCursor: S.optional(S.String),
+          maxEntries: S.optional(S.String),
+          includeCompleteRuns: S.optional(S.Boolean),
+          notOlderThan: S.optional(S.String),
+          labelFilter: S.optional(__S(353, __c11, 1)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.ComputeService/ListInstances",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListInstancesRequest" });
+    case 3:
+      return S.Array(__S(740, __c23, 4));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          instances: __S(355, __c11, 3),
+          paginationCursor: S.String,
+        }),
+      ).annotate({ identifier: "ListInstancesResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uniqueTag: S.optional(S.String),
+          ifInstanceId: S.optional(__S(320, __c10, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.ComputeService/ReleaseUniqueTag",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReleaseUniqueTagRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceId: S.String,
+        }),
+      ).annotate({ identifier: "ReleaseUniqueTagResponse" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceId: S.optional(S.String),
+          containers: S.optional(__S(848, __c26, 16)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.ComputeService/StartContainers",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "StartContainersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          containers: __S(771, __c24, 3),
+        }),
+      ).annotate({ identifier: "StartContainersResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceId: S.optional(S.String),
+          destroyedOk: S.optional(S.Boolean),
+          containerId: S.optional(S.String),
+          containerName: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.ComputeService/WaitInstanceSync",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "WaitInstanceSyncRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          metadata: S.optional(__S(740, __c23, 4)),
+          containerStatus: S.String,
+        }),
+      ).annotate({ identifier: "WaitInstanceSyncResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           port: S.optional(S.Number),
           ipAddress: S.optional(S.String),
         }),
@@ -1838,18 +2060,18 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          httpMatchRule: S.optional(__S(66, __c2, 2)),
-          exportedPortBackend: S.optional(__S(0, __c0, 0)),
+          httpMatchRule: S.optional(__S(578, __c18, 2)),
+          exportedPortBackend: S.optional(__S(480, __c15, 0)),
           wildcard: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IngressRequest" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(481, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           instanceId: S.optional(S.String),
-          ingresses: S.optional(__S(2, __c0, 2)),
+          ingresses: S.optional(__S(482, __c15, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1860,33 +2082,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateIngressRequest" });
   }
 }
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          method: S.optional(__S(32, __c1, 0)),
-          path: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HttpMatchRuleHttpMatch" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          match: S.optional(__S(64, __c2, 0)),
-          doesNotRequireAuth: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "HttpMatchRule" });
-    case 2:
-      return S.Array(__S(65, __c2, 1));
-  }
-}
-function __c3(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1898,16 +2094,42 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "AllocatedIngress" });
     case 1:
-      return S.Array(__S(96, __c3, 0));
+      return S.Array(__S(512, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          allocatedIngresses: __S(97, __c3, 1),
+          allocatedIngresses: __S(513, __c16, 1),
         }),
       ).annotate({ identifier: "CreateIngressResponse" });
   }
 }
-function __c4(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          method: S.optional(__S(544, __c17, 0)),
+          path: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HttpMatchRuleHttpMatch" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          match: S.optional(__S(576, __c18, 0)),
+          doesNotRequireAuth: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "HttpMatchRule" });
+    case 2:
+      return S.Array(__S(577, __c18, 1));
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1923,17 +2145,17 @@ function __c4(j: number): any {
           name: S.optional(S.String),
           mode: S.optional(S.String),
           port: S.optional(S.Number),
-          httpMatchRule: S.optional(__S(66, __c2, 2)),
+          httpMatchRule: S.optional(__S(578, __c18, 2)),
           wildcard: S.optional(S.Boolean),
           clientAuthentication: S.optional(S.String),
         }),
       ).annotate({ identifier: "Ingress" });
     case 2:
-      return S.Array(__S(129, __c4, 1));
+      return S.Array(__S(609, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          includeLogs: S.optional(__S(32, __c1, 0)),
+          includeLogs: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "ApplicationRequestExperimentalFeatures" });
     case 4:
@@ -1942,15 +2164,15 @@ function __c4(j: number): any {
           name: S.optional(S.String),
           imageRef: S.optional(S.String),
           command: S.optional(S.String),
-          args: S.optional(__S(32, __c1, 0)),
-          environment: S.optional(__S(384, __c12, 0)),
-          envVars: S.optional(__S(386, __c12, 2)),
+          args: S.optional(__S(544, __c17, 0)),
+          environment: S.optional(__S(832, __c26, 0)),
+          envVars: S.optional(__S(834, __c26, 2)),
           workloadType: S.optional(S.String),
-          experimental: S.optional(__S(131, __c4, 3)),
+          experimental: S.optional(__S(611, __c19, 3)),
         }),
       ).annotate({ identifier: "ApplicationRequest" });
     case 5:
-      return S.Array(__S(132, __c4, 4));
+      return S.Array(__S(612, __c19, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -1959,19 +2181,19 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "CreateInstanceRequestExperimentalFeaturesDisk" });
     case 7:
-      return S.Array(__S(134, __c4, 6));
+      return S.Array(__S(614, __c19, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           runtimeType: S.optional(S.String),
-          addToPath: S.optional(__S(32, __c1, 0)),
+          addToPath: S.optional(__S(544, __c17, 0)),
           binaryName: S.optional(S.String),
           root: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateInstanceRequestExperimentalFeaturesContainerdShim" });
     case 9:
-      return S.Array(__S(136, __c4, 8));
+      return S.Array(__S(616, __c19, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -1982,7 +2204,7 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "CreateInstanceRequestExperimentalFeaturesTlsBackedPort" });
     case 11:
-      return S.Array(__S(138, __c4, 10));
+      return S.Array(__S(618, __c19, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -1991,7 +2213,7 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "CreateInstanceRequestExperimentalFeaturesPrewarmContainerImage" });
     case 13:
-      return S.Array(__S(140, __c4, 12));
+      return S.Array(__S(620, __c19, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -2000,23 +2222,23 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "CreateInstanceRequestExperimentalFeaturesDirectoryRequest" });
     case 15:
-      return S.Array(__S(142, __c4, 14));
+      return S.Array(__S(622, __c19, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           command: S.optional(S.String),
-          args: S.optional(__S(32, __c1, 0)),
-          environment: S.optional(__S(384, __c12, 0)),
+          args: S.optional(__S(544, __c17, 0)),
+          environment: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "CreateInstanceRequestExperimentalFeaturesHookCommand" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          command: S.optional(__S(144, __c4, 16)),
+          command: S.optional(__S(624, __c19, 16)),
         }),
       ).annotate({ identifier: "CreateInstanceRequestExperimentalFeaturesHook" });
     case 18:
-      return S.Array(__S(145, __c4, 17));
+      return S.Array(__S(625, __c19, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
@@ -2029,24 +2251,24 @@ function __c4(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          privateFeature: S.optional(__S(32, __c1, 0)),
-          disks: S.optional(__S(135, __c4, 7)),
-          containerdShims: S.optional(__S(137, __c4, 9)),
-          tlsBackedPorts: S.optional(__S(139, __c4, 11)),
-          prewarmContainerImages: S.optional(__S(141, __c4, 13)),
+          privateFeature: S.optional(__S(544, __c17, 0)),
+          disks: S.optional(__S(615, __c19, 7)),
+          containerdShims: S.optional(__S(617, __c19, 9)),
+          tlsBackedPorts: S.optional(__S(619, __c19, 11)),
+          prewarmContainerImages: S.optional(__S(621, __c19, 13)),
           enableWildcardDomain: S.optional(S.Boolean),
-          volumes: S.optional(__S(398, __c12, 14)),
-          ensureDirectory: S.optional(__S(143, __c4, 15)),
+          volumes: S.optional(__S(846, __c26, 14)),
+          ensureDirectory: S.optional(__S(623, __c19, 15)),
           uniqueTag: S.optional(S.String),
-          exportedUnixSockets: S.optional(__S(384, __c12, 0)),
-          containerCache: S.optional(__S(224, __c7, 0)),
-          preStartHook: S.optional(__S(146, __c4, 18)),
-          preShutdownHook: S.optional(__S(146, __c4, 18)),
-          authorizedSshKeys: S.optional(__S(32, __c1, 0)),
+          exportedUnixSockets: S.optional(__S(832, __c26, 0)),
+          containerCache: S.optional(__S(672, __c21, 0)),
+          preStartHook: S.optional(__S(626, __c19, 18)),
+          preShutdownHook: S.optional(__S(626, __c19, 18)),
+          authorizedSshKeys: S.optional(__S(544, __c17, 0)),
           macosBaseImageId: S.optional(S.String),
-          internal: S.optional(__S(384, __c12, 0)),
+          internal: S.optional(__S(832, __c26, 0)),
           nestedVirtualization: S.optional(S.Boolean),
-          prometheusMetricsSink: S.optional(__S(147, __c4, 19)),
+          prometheusMetricsSink: S.optional(__S(627, __c19, 19)),
           withConfiguration: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateInstanceRequestExperimentalFeatures" });
@@ -2062,16 +2284,16 @@ function __c4(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           value: S.optional(S.String),
-          valueFrom: S.optional(__S(149, __c4, 21)),
+          valueFrom: S.optional(__S(629, __c19, 21)),
         }),
       ).annotate({ identifier: "HttpHeader" });
     case 23:
-      return S.Array(__S(150, __c4, 22));
+      return S.Array(__S(630, __c19, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
           postUrl: S.optional(S.String),
-          headers: S.optional(__S(151, __c4, 23)),
+          headers: S.optional(__S(631, __c19, 23)),
           signWithSecretId: S.optional(S.String),
         }),
       ).annotate({ identifier: "HttpCallbackEndpoint" });
@@ -2106,28 +2328,28 @@ function __c4(j: number): any {
     case 29:
       return S.suspend(() =>
         S.Struct({
-          basic: S.optional(__S(153, __c4, 25)),
-          openid: S.optional(__S(154, __c4, 26)),
-          ecrTokenFromAwsFederation: S.optional(__S(155, __c4, 27)),
-          gcpWorkloadIdentityFederation: S.optional(__S(156, __c4, 28)),
+          basic: S.optional(__S(633, __c19, 25)),
+          openid: S.optional(__S(634, __c19, 26)),
+          ecrTokenFromAwsFederation: S.optional(__S(635, __c19, 27)),
+          gcpWorkloadIdentityFederation: S.optional(__S(636, __c19, 28)),
         }),
       ).annotate({ identifier: "AdditionalRegistryAuthenticator" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          authentication: S.optional(__S(157, __c4, 29)),
+          authentication: S.optional(__S(637, __c19, 29)),
         }),
       ).annotate({ identifier: "AdditionalRegistry" });
     case 31:
-      return S.Record(S.String, __S(158, __c4, 30));
+      return S.Record(S.String, __S(638, __c19, 30));
   }
 }
-function __c5(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          matchDomains: S.optional(__S(32, __c1, 0)),
+          matchDomains: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "EgressPolicySpecMatcher" });
     case 1:
@@ -2140,7 +2362,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
-          headers: S.optional(__S(151, __c4, 23)),
+          headers: S.optional(__S(631, __c19, 23)),
         }),
       ).annotate({ identifier: "EgressPolicySpecInjectOptsFromEndpoint" });
     case 3:
@@ -2149,7 +2371,7 @@ function __c5(j: number): any {
           headerName: S.optional(S.String),
           fromSecretId: S.optional(S.String),
           value: S.optional(S.String),
-          fromEndpoint: S.optional(__S(162, __c5, 2)),
+          fromEndpoint: S.optional(__S(642, __c20, 2)),
           resolutionPolicy: S.optional(S.String),
         }),
       ).annotate({ identifier: "EgressPolicySpecInjectOpts" });
@@ -2157,54 +2379,54 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           op: S.optional(S.String),
-          matcher: S.optional(__S(160, __c5, 0)),
-          allow: S.optional(__S(192, __c6, 0)),
-          proxy: S.optional(__S(161, __c5, 1)),
-          inject: S.optional(__S(163, __c5, 3)),
+          matcher: S.optional(__S(640, __c20, 0)),
+          allow: S.optional(__S(864, __c27, 0)),
+          proxy: S.optional(__S(641, __c20, 1)),
+          inject: S.optional(__S(643, __c20, 3)),
         }),
       ).annotate({ identifier: "EgressPolicySpecRule" });
     case 5:
-      return S.Array(__S(164, __c5, 4));
+      return S.Array(__S(644, __c20, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           mode: S.optional(S.String),
           deepPacketInspection: S.optional(S.Boolean),
-          rules: S.optional(__S(165, __c5, 5)),
-          additionalRulesets: S.optional(__S(32, __c1, 0)),
-          allowedEgressDomains: S.optional(__S(32, __c1, 0)),
+          rules: S.optional(__S(645, __c20, 5)),
+          additionalRulesets: S.optional(__S(544, __c17, 0)),
+          allowedEgressDomains: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "EgressPolicySpec" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          egress: S.optional(__S(166, __c5, 6)),
+          egress: S.optional(__S(646, __c20, 6)),
           egressPolicyTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateInstanceRequestNetworkPolicy" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          shape: S.optional(__S(288, __c9, 0)),
-          features: S.optional(__S(352, __c11, 0)),
-          featureConfiguration: S.optional(__S(128, __c4, 0)),
+          shape: S.optional(__S(736, __c23, 0)),
+          features: S.optional(__S(800, __c25, 0)),
+          featureConfiguration: S.optional(__S(608, __c19, 0)),
           documentedPurpose: S.optional(S.String),
-          labels: S.optional(__S(257, __c8, 1)),
+          labels: S.optional(__S(705, __c22, 1)),
           deadline: S.optional(S.String),
           interactive: S.optional(S.Boolean),
           region: S.optional(S.String),
-          placement: S.optional(__S(32, __c1, 0)),
-          containers: S.optional(__S(400, __c12, 16)),
-          ingresses: S.optional(__S(130, __c4, 2)),
+          placement: S.optional(__S(544, __c17, 0)),
+          containers: S.optional(__S(848, __c26, 16)),
+          ingresses: S.optional(__S(610, __c19, 2)),
           ingressBaseDomain: S.optional(S.String),
-          applications: S.optional(__S(133, __c4, 5)),
-          experimental: S.optional(__S(148, __c4, 20)),
-          volumes: S.optional(__S(398, __c12, 14)),
-          containerCache: S.optional(__S(224, __c7, 0)),
-          httpEventCallback: S.optional(__S(152, __c4, 24)),
-          additionalRegistries: S.optional(__S(159, __c4, 31)),
-          workloadPermissions: S.optional(__S(226, __c7, 2)),
-          networkPolicy: S.optional(__S(167, __c5, 7)),
+          applications: S.optional(__S(613, __c19, 5)),
+          experimental: S.optional(__S(628, __c19, 20)),
+          volumes: S.optional(__S(846, __c26, 14)),
+          containerCache: S.optional(__S(672, __c21, 0)),
+          httpEventCallback: S.optional(__S(632, __c19, 24)),
+          additionalRegistries: S.optional(__S(639, __c19, 31)),
+          workloadPermissions: S.optional(__S(674, __c21, 2)),
+          networkPolicy: S.optional(__S(647, __c20, 7)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2215,13 +2437,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateInstanceRequest" });
   }
 }
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "EgressPolicySpecAllowOpts" });
-  }
-}
-function __c7(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2236,11 +2452,11 @@ function __c7(j: number): any {
         S.Struct({
           resourceType: S.optional(S.String),
           resourceId: S.optional(S.String),
-          actions: S.optional(__S(32, __c1, 0)),
+          actions: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "Permission" });
     case 2:
-      return S.Array(__S(225, __c7, 1));
+      return S.Array(__S(673, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2269,13 +2485,13 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "InstanceExtendedMetadataAllocatedTlsBackedPort" });
     case 6:
-      return S.Array(__S(229, __c7, 5));
+      return S.Array(__S(677, __c21, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          sshMetadata: S.optional(__S(227, __c7, 3)),
-          kubernetesMetadata: S.optional(__S(228, __c7, 4)),
-          tlsBackedPort: __S(230, __c7, 6),
+          sshMetadata: S.optional(__S(675, __c21, 3)),
+          kubernetesMetadata: S.optional(__S(676, __c21, 4)),
+          tlsBackedPort: __S(678, __c21, 6),
           commandServiceEndpoint: S.String,
         }),
       ).annotate({ identifier: "InstanceExtendedMetadata" });
@@ -2300,7 +2516,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "Attachment" });
     case 11:
-      return S.Array(__S(234, __c7, 10));
+      return S.Array(__S(682, __c21, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -2312,25 +2528,25 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "DescribeInstanceResponseShutdownReason" });
     case 13:
-      return S.Array(__S(236, __c7, 12));
+      return S.Array(__S(684, __c21, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           instanceUrl: S.String,
-          metadata: S.optional(__S(292, __c9, 4)),
-          extendedMetadata: S.optional(__S(231, __c7, 7)),
-          registry: S.optional(__S(232, __c7, 8)),
-          containers: __S(323, __c10, 3),
-          experimental: S.optional(__S(233, __c7, 9)),
-          attachments: __S(235, __c7, 11),
-          containerCache: S.optional(__S(224, __c7, 0)),
-          shutdownReasons: __S(237, __c7, 13),
-          workloadPermissions: __S(226, __c7, 2),
+          metadata: S.optional(__S(740, __c23, 4)),
+          extendedMetadata: S.optional(__S(679, __c21, 7)),
+          registry: S.optional(__S(680, __c21, 8)),
+          containers: __S(771, __c24, 3),
+          experimental: S.optional(__S(681, __c21, 9)),
+          attachments: __S(683, __c21, 11),
+          containerCache: S.optional(__S(672, __c21, 0)),
+          shutdownReasons: __S(685, __c21, 13),
+          workloadPermissions: __S(674, __c21, 2),
         }),
       ).annotate({ identifier: "CreateInstanceResponse" });
   }
 }
-function __c8(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2340,10 +2556,10 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "Label" });
     case 1:
-      return S.Array(__S(256, __c8, 0));
+      return S.Array(__S(704, __c22, 0));
   }
 }
-function __c9(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2352,7 +2568,7 @@ function __c9(j: number): any {
           memoryMegabytes: S.optional(S.Number),
           machineArch: S.optional(S.String),
           os: S.optional(S.String),
-          selectors: S.optional(__S(257, __c8, 1)),
+          selectors: S.optional(__S(705, __c22, 1)),
         }),
       ).annotate({ identifier: "InstanceShape" });
     case 1:
@@ -2365,7 +2581,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "InstanceMetadataService" });
     case 2:
-      return S.Array(__S(289, __c9, 1));
+      return S.Array(__S(737, __c23, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2382,25 +2598,25 @@ function __c9(j: number): any {
           destroyedAt: S.optional(S.String),
           deadline: S.optional(S.String),
           documentedPurpose: S.String,
-          shape: S.optional(__S(288, __c9, 0)),
+          shape: S.optional(__S(736, __c23, 0)),
           status: S.String,
           ingressDomain: S.String,
-          labels: __S(257, __c8, 1),
+          labels: __S(705, __c22, 1),
           creatorId: S.String,
-          services: __S(290, __c9, 2),
-          hwDeployment: S.optional(__S(291, __c9, 3)),
+          services: __S(738, __c23, 2),
+          hwDeployment: S.optional(__S(739, __c23, 3)),
         }),
       ).annotate({ identifier: "InstanceMetadata" });
   }
 }
-function __c10(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           proto: S.String,
           containerPort: S.Number,
-          httpMatchRule: __S(66, __c2, 2),
+          httpMatchRule: __S(578, __c18, 2),
           exportedPort: S.Number,
           fqdn: S.String,
           endpoint: S.String,
@@ -2408,26 +2624,26 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "AllocatedContainerExportedContainerPort" });
     case 1:
-      return S.Array(__S(320, __c10, 0));
+      return S.Array(__S(768, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.String,
-          exportedPort: __S(321, __c10, 1),
+          exportedPort: __S(769, __c24, 1),
         }),
       ).annotate({ identifier: "AllocatedContainer" });
     case 3:
-      return S.Array(__S(322, __c10, 2));
+      return S.Array(__S(770, __c24, 2));
   }
 }
-function __c11(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c12(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -2440,19 +2656,19 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "EnvironmentVariable" });
     case 2:
-      return S.Array(__S(385, __c12, 1));
+      return S.Array(__S(833, __c26, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           proto: S.optional(S.String),
           containerPort: S.optional(S.Number),
           name: S.optional(S.String),
-          httpMatchRule: S.optional(__S(66, __c2, 2)),
+          httpMatchRule: S.optional(__S(578, __c18, 2)),
           clientAuthentication: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContainerPort" });
     case 4:
-      return S.Array(__S(387, __c12, 3));
+      return S.Array(__S(835, __c26, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -2462,7 +2678,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "ContainerRequestExperimentalFeaturesHostMount" });
     case 6:
-      return S.Array(__S(389, __c12, 5));
+      return S.Array(__S(837, __c26, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -2472,7 +2688,7 @@ function __c12(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          awsEcr: S.optional(__S(391, __c12, 7)),
+          awsEcr: S.optional(__S(839, __c26, 7)),
         }),
       ).annotate({ identifier: "ContainerRequestExperimentalFeaturesImagePullCredentials" });
     case 9:
@@ -2490,20 +2706,20 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "ContainerRequestExperimentalFeaturesSidecarVolume" });
     case 11:
-      return S.Array(__S(394, __c12, 10));
+      return S.Array(__S(842, __c26, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          includeLogs: S.optional(__S(32, __c1, 0)),
-          hostMount: S.optional(__S(390, __c12, 6)),
+          includeLogs: S.optional(__S(544, __c17, 0)),
+          hostMount: S.optional(__S(838, __c26, 6)),
           privileged: S.optional(S.Boolean),
-          exportedUnixSockets: S.optional(__S(384, __c12, 0)),
-          imagePullCredentials: S.optional(__S(392, __c12, 8)),
-          pushEphemeralDiskAsImage: S.optional(__S(393, __c12, 9)),
-          capAdd: S.optional(__S(32, __c1, 0)),
-          capDrop: S.optional(__S(32, __c1, 0)),
-          devices: S.optional(__S(32, __c1, 0)),
-          sidecarVolumes: S.optional(__S(395, __c12, 11)),
+          exportedUnixSockets: S.optional(__S(832, __c26, 0)),
+          imagePullCredentials: S.optional(__S(840, __c26, 8)),
+          pushEphemeralDiskAsImage: S.optional(__S(841, __c26, 9)),
+          capAdd: S.optional(__S(544, __c17, 0)),
+          capDrop: S.optional(__S(544, __c17, 0)),
+          devices: S.optional(__S(544, __c17, 0)),
+          sidecarVolumes: S.optional(__S(843, __c26, 11)),
           incrementalLoading: S.optional(S.Boolean),
           sandboxLike: S.optional(S.Boolean),
           useInit: S.optional(S.Boolean),
@@ -2521,7 +2737,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "VolumeRequest" });
     case 14:
-      return S.Array(__S(397, __c12, 13));
+      return S.Array(__S(845, __c26, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
@@ -2529,28 +2745,34 @@ function __c12(j: number): any {
           imageRef: S.optional(S.String),
           knownImageId: S.optional(S.String),
           rootFilesystem: S.optional(S.String),
-          args: S.optional(__S(32, __c1, 0)),
-          entrypoint: S.optional(__S(32, __c1, 0)),
-          environment: S.optional(__S(384, __c12, 0)),
-          envVars: S.optional(__S(386, __c12, 2)),
+          args: S.optional(__S(544, __c17, 0)),
+          entrypoint: S.optional(__S(544, __c17, 0)),
+          environment: S.optional(__S(832, __c26, 0)),
+          envVars: S.optional(__S(834, __c26, 2)),
           dockerSockPath: S.optional(S.String),
           nscStatePath: S.optional(S.String),
           nscBinsPath: S.optional(S.String),
           secretsPath: S.optional(S.String),
-          exportPorts: S.optional(__S(388, __c12, 4)),
+          exportPorts: S.optional(__S(836, __c26, 4)),
           network: S.optional(S.String),
-          experimental: S.optional(__S(396, __c12, 12)),
+          experimental: S.optional(__S(844, __c26, 12)),
           privileged: S.optional(S.Boolean),
-          volumes: S.optional(__S(398, __c12, 14)),
+          volumes: S.optional(__S(846, __c26, 14)),
           workloadType: S.optional(S.String),
-          sidecarVolumes: S.optional(__S(395, __c12, 11)),
+          sidecarVolumes: S.optional(__S(843, __c26, 11)),
         }),
       ).annotate({ identifier: "ContainerRequest" });
     case 16:
-      return S.Array(__S(399, __c12, 15));
+      return S.Array(__S(847, __c26, 15));
   }
 }
-function __c13(j: number): any {
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "EgressPolicySpecAllowOpts" });
+  }
+}
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2565,400 +2787,6 @@ function __c13(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteIngressRequest" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          instanceId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.ComputeService/DescribeInstance",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DescribeInstanceRequest" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          instanceId: S.optional(S.String),
-          reason: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.ComputeService/DestroyInstance",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DestroyInstanceRequest" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          instanceId: S.optional(S.String),
-          extendBy: S.optional(S.String),
-          ensureMinimum: S.optional(S.String),
-          newDeadline: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.ComputeService/ExtendInstance",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ExtendInstanceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          newDeadline: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExtendInstanceResponse" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          instanceId: S.optional(S.String),
-          startTimestamp: S.optional(S.String),
-          endTimestamp: S.optional(S.String),
-          metricResource: S.optional(__S(352, __c11, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.ComputeService/GetInstanceMetrics",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetInstanceMetricsRequest" });
-    case 1:
-      return S.Array(S.Number);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          values: __S(545, __c17, 1),
-        }),
-      ).annotate({ identifier: "TimeSeriesDoubles" });
-    case 3:
-      return S.Record(S.String, __S(546, __c17, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          values: __S(32, __c1, 0),
-        }),
-      ).annotate({ identifier: "TimeSeriesIntegers" });
-    case 5:
-      return S.Record(S.String, __S(548, __c17, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          timestamps: __S(32, __c1, 0),
-          doubles: __S(547, __c17, 3),
-          integers: __S(549, __c17, 5),
-          strings: __S(549, __c17, 5),
-        }),
-      ).annotate({ identifier: "TimeSeries" });
-    case 7:
-      return S.Array(__S(550, __c17, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          timeSeries: __S(551, __c17, 7),
-        }),
-      ).annotate({ identifier: "GetInstanceMetricsResponse" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          instanceId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.ComputeService/GetKubernetesConfig",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetKubernetesConfigRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          kubeconfig: S.String.pipe(T.SensitiveValue({})),
-        }),
-      ).annotate({ identifier: "GetKubernetesConfigResponse" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.ComputeService/GetNetworkConfiguration",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetNetworkConfigurationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.String,
-          cidr: S.String,
-          segment: S.String,
-        }),
-      ).annotate({ identifier: "GetNetworkConfigurationResponseCIDR" });
-    case 2:
-      return S.Array(__S(609, __c19, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          egressCidrs: __S(610, __c19, 2),
-        }),
-      ).annotate({ identifier: "GetNetworkConfigurationResponseEgress" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          egress: S.optional(__S(611, __c19, 3)),
-        }),
-      ).annotate({ identifier: "GetNetworkConfigurationResponse" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          instanceId: S.optional(S.String),
-          targetContainer: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.ComputeService/GetSSHConfig",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetSSHConfigRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          sshPrivateKey: S.String.pipe(T.SensitiveValue({})),
-          username: S.String,
-          endpoint: S.String,
-          sshHostKeys: __S(32, __c1, 0),
-        }),
-      ).annotate({ identifier: "GetSSHConfigResponse" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          instanceId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.ComputeService/GetVNCConfig",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetVNCConfigRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String,
-          username: S.String,
-          password: S.String.pipe(T.SensitiveValue({})),
-        }),
-      ).annotate({ identifier: "GetVNCConfigResponse" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          instanceId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.ComputeService/ListIngresses",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListIngressesRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          instanceIds: S.optional(__S(768, __c24, 0)),
-          limit: S.optional(S.String),
-          onlyPendingEvents: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.ComputeService/ListInstanceNotifications",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListInstanceNotificationsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          emittedAt: S.optional(S.String),
-          tenantId: S.String,
-          instanceId: S.String,
-          status: S.String,
-          labels: __S(257, __c8, 1),
-        }),
-      ).annotate({ identifier: "InstanceEventMetadata" });
-    case 2:
-      return S.Array(__S(737, __c23, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          events: __S(738, __c23, 2),
-        }),
-      ).annotate({ identifier: "ListInstanceNotificationsResponse" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          values: S.optional(__S(32, __c1, 0)),
-          op: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StringMatcher" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          value: S.optional(S.String),
-          op: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LabelFilterEntry" });
-    case 1:
-      return S.Array(__S(800, __c25, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          paginationCursor: S.optional(S.String),
-          maxEntries: S.optional(S.String),
-          includeCompleteRuns: S.optional(S.Boolean),
-          notOlderThan: S.optional(S.String),
-          labelFilter: S.optional(__S(801, __c25, 1)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.ComputeService/ListInstances",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListInstancesRequest" });
-    case 3:
-      return S.Array(__S(292, __c9, 4));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          instances: __S(803, __c25, 3),
-          paginationCursor: S.String,
-        }),
-      ).annotate({ identifier: "ListInstancesResponse" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uniqueTag: S.optional(S.String),
-          ifInstanceId: S.optional(__S(768, __c24, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.ComputeService/ReleaseUniqueTag",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReleaseUniqueTagRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          instanceId: S.String,
-        }),
-      ).annotate({ identifier: "ReleaseUniqueTagResponse" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          instanceId: S.optional(S.String),
-          containers: S.optional(__S(400, __c12, 16)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.ComputeService/StartContainers",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "StartContainersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          containers: __S(323, __c10, 3),
-        }),
-      ).annotate({ identifier: "StartContainersResponse" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          instanceId: S.optional(S.String),
-          destroyedOk: S.optional(S.Boolean),
-          containerId: S.optional(S.String),
-          containerName: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.ComputeService/WaitInstanceSync",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "WaitInstanceSyncRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          metadata: S.optional(__S(292, __c9, 4)),
-          containerStatus: S.String,
-        }),
-      ).annotate({ identifier: "WaitInstanceSyncResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

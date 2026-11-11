@@ -28,15 +28,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export class Aborted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Aborted>()("Aborted", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withConflictError),
-    [{ status: 409, body: { "/code": "aborted" } }],
-  ) {}
-
 export class AlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
@@ -44,15 +35,6 @@ export class AlreadyExists
       body: S.Unknown,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
-  ) {}
-
-export class Canceled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Canceled>()("Canceled", {
-      message: S.String,
-      body: S.Unknown,
-    }),
-    [{ status: 499 }],
   ) {}
 
 export class FailedPrecondition
@@ -82,15 +64,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class OutOfRange
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<OutOfRange>()("OutOfRange", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withBadRequestError),
-    [{ status: 400, body: { "/code": "out_of_range" } }],
-  ) {}
-
 export class PermissionDenied
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
@@ -116,15 +89,6 @@ export class Unauthenticated
       body: S.Unknown,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-export class Unimplemented
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Unimplemented>()("Unimplemented", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withServerError),
-    [{ status: 501 }],
   ) {}
 
 export interface GetUsageRequestDate {
@@ -315,15 +279,11 @@ export interface GetVolumeUsageResponse {
 export type GetArtifactUsageError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns object storage usage per product (at-rest storage and reads) of a tenant starting from the provided start date. If no start date is provided, then it returns usage starting from the first day of the current month. */
 export const getArtifactUsage: API.OperationMethod<
@@ -332,20 +292,16 @@ export const getArtifactUsage: API.OperationMethod<
   GetArtifactUsageError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<GetArtifactUsageRequest>,
-  output: __S(4, __c0, 4) as any as S.Schema<GetArtifactUsageResponse>,
+  input: __S(33, __c2, 1) as any as S.Schema<GetArtifactUsageRequest>,
+  output: __S(36, __c2, 4) as any as S.Schema<GetArtifactUsageResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -357,15 +313,11 @@ export const getArtifactUsage: API.OperationMethod<
 export type GetConcurrencyError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns a point-in-time view of active compute resources and limits, grouped by concurrency pool. Pools can overlap, so clients should not sum their usage. */
 export const getConcurrency: API.OperationMethod<
@@ -374,20 +326,16 @@ export const getConcurrency: API.OperationMethod<
   GetConcurrencyError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetConcurrencyRequest>,
-  output: __S(37, __c2, 5) as any as S.Schema<GetConcurrencyResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetConcurrencyRequest>,
+  output: __S(69, __c4, 5) as any as S.Schema<GetConcurrencyResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -399,15 +347,11 @@ export const getConcurrency: API.OperationMethod<
 export type GetUsageError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns the compute usage of a tenant starting from the provided start date. If no start date is provided, then it returns the compute usage starting from first day of the current month. */
 export const getUsage: API.OperationMethod<
@@ -416,20 +360,16 @@ export const getUsage: API.OperationMethod<
   GetUsageError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetUsageRequest>,
-  output: __S(70, __c4, 6) as any as S.Schema<GetUsageResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetUsageRequest>,
+  output: __S(102, __c6, 6) as any as S.Schema<GetUsageResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -441,15 +381,11 @@ export const getUsage: API.OperationMethod<
 export type GetUsageTimeSeriesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns compute usage as a time series for the specified time range. Supports filtering and breaking down results by various dimensions. */
 export const getUsageTimeSeries: API.OperationMethod<
@@ -458,20 +394,16 @@ export const getUsageTimeSeries: API.OperationMethod<
   GetUsageTimeSeriesError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c6, 1) as any as S.Schema<GetUsageTimeSeriesRequest>,
-  output: __S(104, __c6, 8) as any as S.Schema<GetUsageTimeSeriesResponse>,
+  input: __S(1, __c0, 1) as any as S.Schema<GetUsageTimeSeriesRequest>,
+  output: __S(8, __c0, 8) as any as S.Schema<GetUsageTimeSeriesResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -483,15 +415,11 @@ export const getUsageTimeSeries: API.OperationMethod<
 export type GetVolumeUsageError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns volume usage of a tenant starting from the provided start date. This covers both cache volumes (active snapshot and at-rest storage) and persistent (block) volumes (at-rest storage). If no start date is provided, then it returns usage starting from the first day of the current month. */
 export const getVolumeUsage: API.OperationMethod<
@@ -500,20 +428,16 @@ export const getVolumeUsage: API.OperationMethod<
   GetVolumeUsageError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetVolumeUsageRequest>,
-  output: __S(114, __c7, 2) as any as S.Schema<GetVolumeUsageResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<GetVolumeUsageRequest>,
+  output: __S(18, __c1, 2) as any as S.Schema<GetVolumeUsageResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -526,13 +450,117 @@ export const getVolumeUsage: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          platform: S.optional(__S(112, __c7, 0)),
+          shape: S.optional(__S(112, __c7, 0)),
+          purpose: S.optional(__S(112, __c7, 0)),
+          githubRepository: S.optional(__S(112, __c7, 0)),
+          githubBranch: S.optional(__S(112, __c7, 0)),
+          githubWorkflowName: S.optional(__S(112, __c7, 0)),
+          githubJobName: S.optional(__S(112, __c7, 0)),
+          githubProfile: S.optional(__S(112, __c7, 0)),
+          githubJobConclusion: S.optional(__S(112, __c7, 0)),
+          buildkiteOrgId: S.optional(__S(112, __c7, 0)),
+          buildkitePipelineId: S.optional(__S(112, __c7, 0)),
+          buildkitePipelineSlug: S.optional(__S(112, __c7, 0)),
+          buildkiteRepository: S.optional(__S(112, __c7, 0)),
+          buildkiteBranch: S.optional(__S(112, __c7, 0)),
+          buildkiteJobName: S.optional(__S(112, __c7, 0)),
+          buildkiteJobState: S.optional(__S(112, __c7, 0)),
+        }),
+      ).annotate({ identifier: "GetUsageTimeSeriesRequestUsageFilter" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          filter: S.optional(__S(0, __c0, 0)),
+          breakdownBy: S.optional(__S(80, __c5, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.UsageService/GetUsageTimeSeries",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetUsageTimeSeriesRequest" });
+    case 2:
+      return S.Array(S.Number);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          values: __S(2, __c0, 2),
+        }),
+      ).annotate({ identifier: "TimeSeriesDoubles" });
+    case 4:
+      return S.Record(S.String, __S(3, __c0, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          values: __S(80, __c5, 0),
+        }),
+      ).annotate({ identifier: "TimeSeriesIntegers" });
+    case 6:
+      return S.Record(S.String, __S(5, __c0, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          timestamps: __S(80, __c5, 0),
+          doubles: __S(4, __c0, 4),
+          integers: __S(6, __c0, 6),
+          strings: __S(6, __c0, 6),
+        }),
+      ).annotate({ identifier: "TimeSeries" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          timeSeries: S.optional(__S(7, __c0, 7)),
+        }),
+      ).annotate({ identifier: "GetUsageTimeSeriesResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          periodStart: S.optional(__S(48, __c3, 0)),
+          periodEnd: S.optional(__S(48, __c3, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.compute.v1beta.UsageService/GetVolumeUsage",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetVolumeUsageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          cacheSnapshotGbMinutes: S.String,
+          cacheStorageMbMinutes: S.String,
+          persistentVolumeStorageGbMinutes: S.String,
+        }),
+      ).annotate({ identifier: "GetVolumeUsageResponseVolumeUsage" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          total: S.optional(__S(17, __c1, 1)),
+        }),
+      ).annotate({ identifier: "GetVolumeUsageResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          periodStart: S.optional(__S(16, __c1, 0)),
-          periodEnd: S.optional(__S(16, __c1, 0)),
-          products: S.optional(__S(0, __c0, 0)),
+          periodStart: S.optional(__S(48, __c3, 0)),
+          periodEnd: S.optional(__S(48, __c3, 0)),
+          products: S.optional(__S(32, __c2, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -550,16 +578,16 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "GetArtifactUsageResponseProductUsage" });
     case 3:
-      return S.Array(__S(2, __c0, 2));
+      return S.Array(__S(34, __c2, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          products: __S(3, __c0, 3),
+          products: __S(35, __c2, 3),
         }),
       ).annotate({ identifier: "GetArtifactUsageResponse" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -571,7 +599,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetUsageRequestDate" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -603,38 +631,38 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          platforms: __S(48, __c3, 0),
-          limits: S.optional(__S(33, __c2, 1)),
-          activeConcurrency: S.optional(__S(34, __c2, 2)),
+          platforms: __S(80, __c5, 0),
+          limits: S.optional(__S(65, __c4, 1)),
+          activeConcurrency: S.optional(__S(66, __c4, 2)),
         }),
       ).annotate({ identifier: "PlatformConcurrency" });
     case 4:
-      return S.Array(__S(35, __c2, 3));
+      return S.Array(__S(67, __c4, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          concurrency: __S(36, __c2, 4),
+          concurrency: __S(68, __c4, 4),
         }),
       ).annotate({ identifier: "GetConcurrencyResponse" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          periodStart: S.optional(__S(16, __c1, 0)),
-          periodEnd: S.optional(__S(16, __c1, 0)),
-          matchPlatform: S.optional(__S(80, __c5, 0)),
-          matchShape: S.optional(__S(80, __c5, 0)),
-          matchGithubProfile: S.optional(__S(80, __c5, 0)),
-          matchGithubRepository: S.optional(__S(80, __c5, 0)),
+          periodStart: S.optional(__S(48, __c3, 0)),
+          periodEnd: S.optional(__S(48, __c3, 0)),
+          matchPlatform: S.optional(__S(112, __c7, 0)),
+          matchShape: S.optional(__S(112, __c7, 0)),
+          matchGithubProfile: S.optional(__S(112, __c7, 0)),
+          matchGithubRepository: S.optional(__S(112, __c7, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -661,8 +689,8 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          instanceMinutes: S.optional(__S(65, __c4, 1)),
-          builds: S.optional(__S(66, __c4, 2)),
+          instanceMinutes: S.optional(__S(97, __c6, 1)),
+          builds: S.optional(__S(98, __c6, 2)),
         }),
       ).annotate({ identifier: "UsageRecordUsage" });
     case 4:
@@ -671,102 +699,18 @@ function __c4(j: number): any {
           year: S.Number,
           month: S.Number,
           day: S.Number,
-          total: S.optional(__S(67, __c4, 3)),
+          total: S.optional(__S(99, __c6, 3)),
         }),
       ).annotate({ identifier: "UsageRecord" });
     case 5:
-      return S.Array(__S(68, __c4, 4));
+      return S.Array(__S(100, __c6, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          total: S.optional(__S(67, __c4, 3)),
-          perDay: __S(69, __c4, 5),
+          total: S.optional(__S(99, __c6, 3)),
+          perDay: __S(101, __c6, 5),
         }),
       ).annotate({ identifier: "GetUsageResponse" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          values: S.optional(__S(48, __c3, 0)),
-          op: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StringMatcher" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          platform: S.optional(__S(80, __c5, 0)),
-          shape: S.optional(__S(80, __c5, 0)),
-          purpose: S.optional(__S(80, __c5, 0)),
-          githubRepository: S.optional(__S(80, __c5, 0)),
-          githubBranch: S.optional(__S(80, __c5, 0)),
-          githubWorkflowName: S.optional(__S(80, __c5, 0)),
-          githubJobName: S.optional(__S(80, __c5, 0)),
-          githubProfile: S.optional(__S(80, __c5, 0)),
-          githubJobConclusion: S.optional(__S(80, __c5, 0)),
-          buildkiteOrgId: S.optional(__S(80, __c5, 0)),
-          buildkitePipelineId: S.optional(__S(80, __c5, 0)),
-          buildkitePipelineSlug: S.optional(__S(80, __c5, 0)),
-          buildkiteRepository: S.optional(__S(80, __c5, 0)),
-          buildkiteBranch: S.optional(__S(80, __c5, 0)),
-          buildkiteJobName: S.optional(__S(80, __c5, 0)),
-          buildkiteJobState: S.optional(__S(80, __c5, 0)),
-        }),
-      ).annotate({ identifier: "GetUsageTimeSeriesRequestUsageFilter" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(S.String),
-          endTime: S.optional(S.String),
-          filter: S.optional(__S(96, __c6, 0)),
-          breakdownBy: S.optional(__S(48, __c3, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.UsageService/GetUsageTimeSeries",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetUsageTimeSeriesRequest" });
-    case 2:
-      return S.Array(S.Number);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          values: __S(98, __c6, 2),
-        }),
-      ).annotate({ identifier: "TimeSeriesDoubles" });
-    case 4:
-      return S.Record(S.String, __S(99, __c6, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          values: __S(48, __c3, 0),
-        }),
-      ).annotate({ identifier: "TimeSeriesIntegers" });
-    case 6:
-      return S.Record(S.String, __S(101, __c6, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          timestamps: __S(48, __c3, 0),
-          doubles: __S(100, __c6, 4),
-          integers: __S(102, __c6, 6),
-          strings: __S(102, __c6, 6),
-        }),
-      ).annotate({ identifier: "TimeSeries" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          timeSeries: S.optional(__S(103, __c6, 7)),
-        }),
-      ).annotate({ identifier: "GetUsageTimeSeriesResponse" });
   }
 }
 function __c7(j: number): any {
@@ -774,30 +718,10 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          periodStart: S.optional(__S(16, __c1, 0)),
-          periodEnd: S.optional(__S(16, __c1, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.compute.v1beta.UsageService/GetVolumeUsage",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetVolumeUsageRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          cacheSnapshotGbMinutes: S.String,
-          cacheStorageMbMinutes: S.String,
-          persistentVolumeStorageGbMinutes: S.String,
+          values: S.optional(__S(80, __c5, 0)),
+          op: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GetVolumeUsageResponseVolumeUsage" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          total: S.optional(__S(113, __c7, 1)),
-        }),
-      ).annotate({ identifier: "GetVolumeUsageResponse" });
+      ).annotate({ identifier: "StringMatcher" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

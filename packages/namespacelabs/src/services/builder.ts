@@ -29,15 +29,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export class Aborted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Aborted>()("Aborted", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withConflictError),
-    [{ status: 409, body: { "/code": "aborted" } }],
-  ) {}
-
 export class AlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
@@ -45,15 +36,6 @@ export class AlreadyExists
       body: S.Unknown,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
-  ) {}
-
-export class Canceled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Canceled>()("Canceled", {
-      message: S.String,
-      body: S.Unknown,
-    }),
-    [{ status: 499 }],
   ) {}
 
 export class FailedPrecondition
@@ -83,15 +65,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class OutOfRange
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<OutOfRange>()("OutOfRange", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withBadRequestError),
-    [{ status: 400, body: { "/code": "out_of_range" } }],
-  ) {}
-
 export class PermissionDenied
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
@@ -117,15 +90,6 @@ export class Unauthenticated
       body: S.Unknown,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-export class Unimplemented
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Unimplemented>()("Unimplemented", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withServerError),
-    [{ status: 501 }],
   ) {}
 
 /** Labels are key/value pairs attached to entities such as tenants. */
@@ -277,15 +241,11 @@ export interface GetBuildRecordResponse {
 export type EnsureBuildInstanceError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Creates a builder for the specified platform for the specified tenant, or returns an existing one if one is already running. */
 export const ensureBuildInstance: API.OperationMethod<
@@ -294,20 +254,16 @@ export const ensureBuildInstance: API.OperationMethod<
   EnsureBuildInstanceError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<EnsureBuildInstanceRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<EnsureBuildInstanceResponse>,
+  input: __S(9, __c1, 1) as any as S.Schema<EnsureBuildInstanceRequest>,
+  output: __S(10, __c1, 2) as any as S.Schema<EnsureBuildInstanceResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -319,15 +275,11 @@ export const ensureBuildInstance: API.OperationMethod<
 export type GetBuilderConfigurationError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns the configuration of a builder. */
 export const getBuilderConfiguration: API.OperationMethod<
@@ -336,20 +288,16 @@ export const getBuilderConfiguration: API.OperationMethod<
   GetBuilderConfigurationError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetBuilderConfigurationRequest>,
-  output: __S(18, __c2, 2) as any as S.Schema<GetBuilderConfigurationResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetBuilderConfigurationRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<GetBuilderConfigurationResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -361,15 +309,11 @@ export const getBuilderConfiguration: API.OperationMethod<
 export type GetBuilderUsageError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns build usage for a specified period. */
 export const getBuilderUsage: API.OperationMethod<
@@ -378,20 +322,16 @@ export const getBuilderUsage: API.OperationMethod<
   GetBuilderUsageError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25, __c3, 1) as any as S.Schema<GetBuilderUsageRequest>,
-  output: __S(29, __c3, 5) as any as S.Schema<GetBuilderUsageResponse>,
+  input: __S(33, __c4, 1) as any as S.Schema<GetBuilderUsageRequest>,
+  output: __S(37, __c4, 5) as any as S.Schema<GetBuilderUsageResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -403,15 +343,11 @@ export const getBuilderUsage: API.OperationMethod<
 export type GetBuildRecordError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Get the build record for a single build reference. */
 export const getBuildRecord: API.OperationMethod<
@@ -420,20 +356,16 @@ export const getBuildRecord: API.OperationMethod<
   GetBuildRecordError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetBuildRecordRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<GetBuildRecordResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<GetBuildRecordRequest>,
+  output: __S(2, __c0, 2) as any as S.Schema<GetBuildRecordResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -448,7 +380,41 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          shape: S.optional(__S(10, __c1, 2)),
+          buildRef: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.builder.v1beta.BuilderService/GetBuildRecord",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetBuildRecordRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceId: S.String,
+          shape: S.optional(__S(18, __c2, 2)),
+          local: S.Boolean,
+        }),
+      ).annotate({ identifier: "BuildMachine" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          buildRef: S.String,
+          startedAt: S.optional(S.String),
+          completedAt: S.optional(S.String),
+          status: S.String,
+          buildMachine: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "GetBuildRecordResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          shape: S.optional(__S(18, __c2, 2)),
           cacheSizeMb: S.optional(S.String),
           builderName: S.optional(S.String),
           sku: S.optional(S.String),
@@ -460,7 +426,7 @@ function __c0(j: number): any {
         S.Struct({
           platform: S.optional(S.String),
           experimentalConsistencyKey: S.optional(S.String),
-          experimental: S.optional(__S(0, __c0, 0)),
+          experimental: S.optional(__S(8, __c1, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -481,7 +447,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "EnsureBuildInstanceResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -491,7 +457,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "Label" });
     case 1:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(16, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -499,12 +465,12 @@ function __c1(j: number): any {
           memoryMegabytes: S.optional(S.Number),
           machineArch: S.optional(S.String),
           os: S.optional(S.String),
-          selectors: S.optional(__S(9, __c1, 1)),
+          selectors: S.optional(__S(17, __c2, 1)),
         }),
       ).annotate({ identifier: "InstanceShape" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -513,7 +479,7 @@ function __c2(j: number): any {
           skipBuilderPreSpawn: S.optional(S.Boolean),
           returnNewCredentials: S.optional(S.Boolean),
           builderName: S.optional(S.String),
-          builderShape: S.optional(__S(10, __c1, 2)),
+          builderShape: S.optional(__S(18, __c2, 2)),
           cacheSizeMb: S.optional(S.String),
           experimental: S.optional(S.String),
         }).pipe(
@@ -535,17 +501,17 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          shape: S.optional(__S(10, __c1, 2)),
+          shape: S.optional(__S(18, __c2, 2)),
           cacheSizeMb: S.String,
           buildkitEndpoint: S.String,
           fullBuildkitEndpoint: S.String,
           serverCaPem: S.String,
-          credentials: S.optional(__S(17, __c2, 1)),
+          credentials: S.optional(__S(25, __c3, 1)),
         }),
       ).annotate({ identifier: "GetBuilderConfigurationResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -558,8 +524,8 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          periodStart: S.optional(__S(24, __c3, 0)),
-          periodEnd: S.optional(__S(24, __c3, 0)),
+          periodStart: S.optional(__S(32, __c4, 0)),
+          periodEnd: S.optional(__S(32, __c4, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -579,55 +545,21 @@ function __c3(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          date: S.optional(__S(24, __c3, 0)),
-          usage: S.optional(__S(26, __c3, 2)),
-          pendingUsage: S.optional(__S(26, __c3, 2)),
+          date: S.optional(__S(32, __c4, 0)),
+          usage: S.optional(__S(34, __c4, 2)),
+          pendingUsage: S.optional(__S(34, __c4, 2)),
         }),
       ).annotate({ identifier: "GetBuilderUsageResponsePerDay" });
     case 4:
-      return S.Array(__S(27, __c3, 3));
+      return S.Array(__S(35, __c4, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          perDay: __S(28, __c3, 4),
-          total: S.optional(__S(26, __c3, 2)),
-          pendingTotal: S.optional(__S(26, __c3, 2)),
+          perDay: __S(36, __c4, 4),
+          total: S.optional(__S(34, __c4, 2)),
+          pendingTotal: S.optional(__S(34, __c4, 2)),
         }),
       ).annotate({ identifier: "GetBuilderUsageResponse" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          buildRef: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.builder.v1beta.BuilderService/GetBuildRecord",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetBuildRecordRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          instanceId: S.String,
-          shape: S.optional(__S(10, __c1, 2)),
-          local: S.Boolean,
-        }),
-      ).annotate({ identifier: "BuildMachine" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          buildRef: S.String,
-          startedAt: S.optional(S.String),
-          completedAt: S.optional(S.String),
-          status: S.String,
-          buildMachine: S.optional(__S(33, __c4, 1)),
-        }),
-      ).annotate({ identifier: "GetBuildRecordResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -30,15 +30,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export class Aborted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Aborted>()("Aborted", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withConflictError),
-    [{ status: 409, body: { "/code": "aborted" } }],
-  ) {}
-
 export class AlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
@@ -46,15 +37,6 @@ export class AlreadyExists
       body: S.Unknown,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
-  ) {}
-
-export class Canceled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Canceled>()("Canceled", {
-      message: S.String,
-      body: S.Unknown,
-    }),
-    [{ status: 499 }],
   ) {}
 
 export class FailedPrecondition
@@ -84,15 +66,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class OutOfRange
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<OutOfRange>()("OutOfRange", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withBadRequestError),
-    [{ status: 400, body: { "/code": "out_of_range" } }],
-  ) {}
-
 export class PermissionDenied
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
@@ -118,15 +91,6 @@ export class Unauthenticated
       body: S.Unknown,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-export class Unimplemented
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Unimplemented>()("Unimplemented", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withServerError),
-    [{ status: 501 }],
   ) {}
 
 /** Labels are key/value pairs attached to entities such as tenants. */
@@ -1130,15 +1094,11 @@ export interface WireImageResponse {
 export type AcquireLeaseError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const acquireLease: API.OperationMethod<
   AcquireLeaseRequest,
@@ -1146,20 +1106,16 @@ export const acquireLease: API.OperationMethod<
   AcquireLeaseError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<AcquireLeaseRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<AcquireLeaseResponse>,
+  input: __S(833, __c52, 1) as any as S.Schema<AcquireLeaseRequest>,
+  output: __S(834, __c52, 2) as any as S.Schema<AcquireLeaseResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1171,15 +1127,11 @@ export const acquireLease: API.OperationMethod<
 export type ActivateError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const activate: API.OperationMethod<
   ActivateRequest,
@@ -1187,20 +1139,16 @@ export const activate: API.OperationMethod<
   ActivateError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<ActivateRequest>,
-  output: __S(194, __c12, 2) as any as S.Schema<ActivateResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<ActivateRequest>,
+  output: __S(1026, __c64, 2) as any as S.Schema<ActivateResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1212,15 +1160,11 @@ export const activate: API.OperationMethod<
 export type ConnectBeginDevinOutpostError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const connectBeginDevinOutpost: API.OperationMethod<
   ConnectBeginDevinOutpostRequest,
@@ -1228,20 +1172,16 @@ export const connectBeginDevinOutpost: API.OperationMethod<
   ConnectBeginDevinOutpostError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ConnectBeginDevinOutpostRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<ConnectBeginDevinOutpostResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<ConnectBeginDevinOutpostRequest>,
+  output: __S(1041, __c65, 1) as any as S.Schema<ConnectBeginDevinOutpostResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1253,15 +1193,11 @@ export const connectBeginDevinOutpost: API.OperationMethod<
 export type CreateError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const create: API.OperationMethod<
   CreateRequest,
@@ -1269,20 +1205,16 @@ export const create: API.OperationMethod<
   CreateError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<CreateRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<CreateResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<CreateResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1294,15 +1226,11 @@ export const create: API.OperationMethod<
 export type CreateBlueprintError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const createBlueprint: API.OperationMethod<
   CreateBlueprintRequest,
@@ -1310,20 +1238,16 @@ export const createBlueprint: API.OperationMethod<
   CreateBlueprintError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<CreateBlueprintRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<CreateBlueprintResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<CreateBlueprintRequest>,
+  output: __S(80, __c5, 0) as any as S.Schema<CreateBlueprintResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1335,15 +1259,11 @@ export const createBlueprint: API.OperationMethod<
 export type CreateFromBlueprintError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const createFromBlueprint: API.OperationMethod<
   CreateFromBlueprintRequest,
@@ -1351,20 +1271,16 @@ export const createFromBlueprint: API.OperationMethod<
   CreateFromBlueprintError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<CreateFromBlueprintRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<CreateFromBlueprintResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<CreateFromBlueprintRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<CreateFromBlueprintResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1376,15 +1292,11 @@ export const createFromBlueprint: API.OperationMethod<
 export type CreateFromDevboxError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const createFromDevbox: API.OperationMethod<
   CreateFromDevboxRequest,
@@ -1392,20 +1304,16 @@ export const createFromDevbox: API.OperationMethod<
   CreateFromDevboxError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<CreateFromDevboxRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<CreateFromDevboxResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<CreateFromDevboxRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<CreateFromDevboxResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1417,15 +1325,11 @@ export const createFromDevbox: API.OperationMethod<
 export type CreateFromTemplateError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Retained for backwards compatibility; use CreateFromBlueprint instead. */
 export const createFromTemplate: API.OperationMethod<
@@ -1434,20 +1338,16 @@ export const createFromTemplate: API.OperationMethod<
   CreateFromTemplateError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<CreateFromTemplateRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<CreateFromTemplateResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<CreateFromTemplateRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<CreateFromTemplateResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1459,15 +1359,11 @@ export const createFromTemplate: API.OperationMethod<
 export type CreateIntegrationError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const createIntegration: API.OperationMethod<
   CreateIntegrationRequest,
@@ -1475,20 +1371,16 @@ export const createIntegration: API.OperationMethod<
   CreateIntegrationError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<CreateIntegrationRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<CreateIntegrationResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<CreateIntegrationRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<CreateIntegrationResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1500,15 +1392,11 @@ export const createIntegration: API.OperationMethod<
 export type CreateRepositoryError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const createRepository: API.OperationMethod<
   CreateRepositoryRequest,
@@ -1516,20 +1404,16 @@ export const createRepository: API.OperationMethod<
   CreateRepositoryError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<CreateRepositoryRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<CreateRepositoryResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<CreateRepositoryRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<CreateRepositoryResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1541,15 +1425,11 @@ export const createRepository: API.OperationMethod<
 export type CreateTemplateError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Retained for backwards compatibility; use CreateBlueprint instead. */
 export const createTemplate: API.OperationMethod<
@@ -1558,20 +1438,16 @@ export const createTemplate: API.OperationMethod<
   CreateTemplateError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<CreateTemplateRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<CreateTemplateResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<CreateTemplateRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<CreateTemplateResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1583,15 +1459,11 @@ export const createTemplate: API.OperationMethod<
 export type DeleteIntegrationError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const deleteIntegration: API.OperationMethod<
   DeleteIntegrationRequest,
@@ -1599,20 +1471,16 @@ export const deleteIntegration: API.OperationMethod<
   DeleteIntegrationError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<DeleteIntegrationRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<DeleteIntegrationResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<DeleteIntegrationRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteIntegrationResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1624,15 +1492,11 @@ export const deleteIntegration: API.OperationMethod<
 export type DescribeImageError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const describeImage: API.OperationMethod<
   DescribeImageRequest,
@@ -1640,20 +1504,16 @@ export const describeImage: API.OperationMethod<
   DescribeImageError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<DescribeImageRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<DescribeImageResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<DescribeImageRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<DescribeImageResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1665,15 +1525,11 @@ export const describeImage: API.OperationMethod<
 export type EnsureBlueprintError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Fetch by spec.name, or create with the supplied parameters if missing. Existing blueprints are returned unchanged. */
 export const ensureBlueprint: API.OperationMethod<
@@ -1682,20 +1538,16 @@ export const ensureBlueprint: API.OperationMethod<
   EnsureBlueprintError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<EnsureBlueprintRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<EnsureBlueprintResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<EnsureBlueprintRequest>,
+  output: __S(80, __c5, 0) as any as S.Schema<EnsureBlueprintResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1707,15 +1559,11 @@ export const ensureBlueprint: API.OperationMethod<
 export type ExpireError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const expire: API.OperationMethod<
   ExpireRequest,
@@ -1723,20 +1571,16 @@ export const expire: API.OperationMethod<
   ExpireError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<ExpireRequest>,
-  output: __S(545, __c34, 1) as any as S.Schema<ExpireResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<ExpireRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<ExpireResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1748,15 +1592,11 @@ export const expire: API.OperationMethod<
 export type ExpireBlueprintError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const expireBlueprint: API.OperationMethod<
   ExpireBlueprintRequest,
@@ -1764,20 +1604,16 @@ export const expireBlueprint: API.OperationMethod<
   ExpireBlueprintError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<ExpireBlueprintRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<ExpireBlueprintResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<ExpireBlueprintRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<ExpireBlueprintResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1789,15 +1625,11 @@ export const expireBlueprint: API.OperationMethod<
 export type ExpireImageError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const expireImage: API.OperationMethod<
   ExpireImageRequest,
@@ -1805,20 +1637,16 @@ export const expireImage: API.OperationMethod<
   ExpireImageError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<ExpireImageRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<ExpireImageResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<ExpireImageRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<ExpireImageResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1830,15 +1658,11 @@ export const expireImage: API.OperationMethod<
 export type ExpireTemplateError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Retained for backwards compatibility; use ExpireBlueprint instead. */
 export const expireTemplate: API.OperationMethod<
@@ -1847,20 +1671,16 @@ export const expireTemplate: API.OperationMethod<
   ExpireTemplateError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<ExpireTemplateRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<ExpireTemplateResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<ExpireTemplateRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<ExpireTemplateResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1872,15 +1692,11 @@ export const expireTemplate: API.OperationMethod<
 export type FetchError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const fetch: API.OperationMethod<
   FetchRequest,
@@ -1888,20 +1704,16 @@ export const fetch: API.OperationMethod<
   FetchError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<FetchRequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<FetchResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<FetchRequest>,
+  output: __S(401, __c25, 1) as any as S.Schema<FetchResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1913,15 +1725,11 @@ export const fetch: API.OperationMethod<
 export type FetchBlueprintError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const fetchBlueprint: API.OperationMethod<
   FetchBlueprintRequest,
@@ -1929,20 +1737,16 @@ export const fetchBlueprint: API.OperationMethod<
   FetchBlueprintError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<FetchBlueprintRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<FetchBlueprintResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<FetchBlueprintRequest>,
+  output: __S(80, __c5, 0) as any as S.Schema<FetchBlueprintResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1954,15 +1758,11 @@ export const fetchBlueprint: API.OperationMethod<
 export type FetchDefaultsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const fetchDefaults: API.OperationMethod<
   FetchDefaultsRequest,
@@ -1970,20 +1770,16 @@ export const fetchDefaults: API.OperationMethod<
   FetchDefaultsError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<FetchDefaultsRequest>,
-  output: __S(657, __c41, 1) as any as S.Schema<FetchDefaultsResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<FetchDefaultsRequest>,
+  output: __S(433, __c27, 1) as any as S.Schema<FetchDefaultsResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -1995,15 +1791,11 @@ export const fetchDefaults: API.OperationMethod<
 export type FetchTemplateError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Retained for backwards compatibility; use FetchBlueprint instead. */
 export const fetchTemplate: API.OperationMethod<
@@ -2012,20 +1804,16 @@ export const fetchTemplate: API.OperationMethod<
   FetchTemplateError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<FetchTemplateRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<FetchTemplateResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<FetchTemplateRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<FetchTemplateResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -2037,15 +1825,11 @@ export const fetchTemplate: API.OperationMethod<
 export type GetUsageError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const getUsage: API.OperationMethod<
   GetUsageRequest,
@@ -2053,20 +1837,16 @@ export const getUsage: API.OperationMethod<
   GetUsageError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(705, __c44, 1) as any as S.Schema<GetUsageRequest>,
-  output: __S(708, __c44, 4) as any as S.Schema<GetUsageResponse>,
+  input: __S(481, __c30, 1) as any as S.Schema<GetUsageRequest>,
+  output: __S(484, __c30, 4) as any as S.Schema<GetUsageResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -2078,15 +1858,11 @@ export const getUsage: API.OperationMethod<
 export type InspectImageError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const inspectImage: API.OperationMethod<
   InspectImageRequest,
@@ -2094,20 +1870,16 @@ export const inspectImage: API.OperationMethod<
   InspectImageError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<InspectImageRequest>,
-  output: __S(722, __c45, 2) as any as S.Schema<InspectImageResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<InspectImageRequest>,
+  output: __S(498, __c31, 2) as any as S.Schema<InspectImageResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -2119,15 +1891,11 @@ export const inspectImage: API.OperationMethod<
 export type ListError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const list: API.PaginatedOperationMethod<
   ListRequest,
@@ -2137,20 +1905,16 @@ export const list: API.PaginatedOperationMethod<
   DevBox
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(741, __c46, 5) as any as S.Schema<ListRequest>,
-    output: __S(742, __c46, 6) as any as S.Schema<ListResponse>,
+    input: __S(517, __c32, 5) as any as S.Schema<ListRequest>,
+    output: __S(518, __c32, 6) as any as S.Schema<ListResponse>,
     errors: [
       InvalidArgument,
       FailedPrecondition,
-      OutOfRange,
       Unauthenticated,
       PermissionDenied,
       NotFound,
       AlreadyExists,
-      Aborted,
       ResourceExhausted,
-      Canceled,
-      Unimplemented,
       UnknownNamespaceLabsError,
     ],
     protocol: NamespaceLabsProtocol,
@@ -2170,15 +1934,11 @@ export const list: API.PaginatedOperationMethod<
 export type ListBlueprintsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const listBlueprints: API.PaginatedOperationMethod<
   ListBlueprintsRequest,
@@ -2188,20 +1948,16 @@ export const listBlueprints: API.PaginatedOperationMethod<
   DevboxBlueprint
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(752, __c47, 0) as any as S.Schema<ListBlueprintsRequest>,
-    output: __S(753, __c47, 1) as any as S.Schema<ListBlueprintsResponse>,
+    input: __S(528, __c33, 0) as any as S.Schema<ListBlueprintsRequest>,
+    output: __S(529, __c33, 1) as any as S.Schema<ListBlueprintsResponse>,
     errors: [
       InvalidArgument,
       FailedPrecondition,
-      OutOfRange,
       Unauthenticated,
       PermissionDenied,
       NotFound,
       AlreadyExists,
-      Aborted,
       ResourceExhausted,
-      Canceled,
-      Unimplemented,
       UnknownNamespaceLabsError,
     ],
     protocol: NamespaceLabsProtocol,
@@ -2221,15 +1977,11 @@ export const listBlueprints: API.PaginatedOperationMethod<
 export type ListComposableFeaturesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const listComposableFeatures: API.OperationMethod<
   ListComposableFeaturesRequest,
@@ -2237,20 +1989,16 @@ export const listComposableFeatures: API.OperationMethod<
   ListComposableFeaturesError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<ListComposableFeaturesRequest>,
-  output: __S(786, __c49, 2) as any as S.Schema<ListComposableFeaturesResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<ListComposableFeaturesRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<ListComposableFeaturesResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -2262,15 +2010,11 @@ export const listComposableFeatures: API.OperationMethod<
 export type ListImagesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const listImages: API.PaginatedOperationMethod<
   ListImagesRequest,
@@ -2280,20 +2024,16 @@ export const listImages: API.PaginatedOperationMethod<
   Image
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(816, __c51, 0) as any as S.Schema<ListImagesRequest>,
-    output: __S(818, __c51, 2) as any as S.Schema<ListImagesResponse>,
+    input: __S(592, __c37, 0) as any as S.Schema<ListImagesRequest>,
+    output: __S(594, __c37, 2) as any as S.Schema<ListImagesResponse>,
     errors: [
       InvalidArgument,
       FailedPrecondition,
-      OutOfRange,
       Unauthenticated,
       PermissionDenied,
       NotFound,
       AlreadyExists,
-      Aborted,
       ResourceExhausted,
-      Canceled,
-      Unimplemented,
       UnknownNamespaceLabsError,
     ],
     protocol: NamespaceLabsProtocol,
@@ -2313,15 +2053,11 @@ export const listImages: API.PaginatedOperationMethod<
 export type ListIntegrationsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const listIntegrations: API.OperationMethod<
   ListIntegrationsRequest,
@@ -2329,20 +2065,16 @@ export const listIntegrations: API.OperationMethod<
   ListIntegrationsError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<ListIntegrationsRequest>,
-  output: __S(835, __c52, 3) as any as S.Schema<ListIntegrationsResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<ListIntegrationsRequest>,
+  output: __S(611, __c38, 3) as any as S.Schema<ListIntegrationsResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -2354,15 +2086,11 @@ export const listIntegrations: API.OperationMethod<
 export type ListSnapshotsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const listSnapshots: API.OperationMethod<
   ListSnapshotsRequest,
@@ -2370,20 +2098,16 @@ export const listSnapshots: API.OperationMethod<
   ListSnapshotsError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<ListSnapshotsRequest>,
-  output: __S(851, __c53, 3) as any as S.Schema<ListSnapshotsResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<ListSnapshotsRequest>,
+  output: __S(627, __c39, 3) as any as S.Schema<ListSnapshotsResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -2395,15 +2119,11 @@ export const listSnapshots: API.OperationMethod<
 export type ListTemplatesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Retained for backwards compatibility; use ListBlueprints instead. */
 export const listTemplates: API.PaginatedOperationMethod<
@@ -2414,20 +2134,16 @@ export const listTemplates: API.PaginatedOperationMethod<
   DevboxBlueprint
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(864, __c54, 0) as any as S.Schema<ListTemplatesRequest>,
-    output: __S(865, __c54, 1) as any as S.Schema<ListTemplatesResponse>,
+    input: __S(640, __c40, 0) as any as S.Schema<ListTemplatesRequest>,
+    output: __S(641, __c40, 1) as any as S.Schema<ListTemplatesResponse>,
     errors: [
       InvalidArgument,
       FailedPrecondition,
-      OutOfRange,
       Unauthenticated,
       PermissionDenied,
       NotFound,
       AlreadyExists,
-      Aborted,
       ResourceExhausted,
-      Canceled,
-      Unimplemented,
       UnknownNamespaceLabsError,
     ],
     protocol: NamespaceLabsProtocol,
@@ -2447,15 +2163,11 @@ export const listTemplates: API.PaginatedOperationMethod<
 export type MetadataError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const metadata: API.OperationMethod<
   MetadataRequest,
@@ -2463,20 +2175,16 @@ export const metadata: API.OperationMethod<
   MetadataError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<MetadataRequest>,
-  output: __S(883, __c55, 3) as any as S.Schema<MetadataResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<MetadataRequest>,
+  output: __S(659, __c41, 3) as any as S.Schema<MetadataResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -2488,15 +2196,11 @@ export const metadata: API.OperationMethod<
 export type PingError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const ping: API.OperationMethod<
   PingRequest,
@@ -2504,20 +2208,16 @@ export const ping: API.OperationMethod<
   PingError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<PingRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<PingResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<PingRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<PingResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -2529,15 +2229,11 @@ export const ping: API.OperationMethod<
 export type RegisterComposableFeatureError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const registerComposableFeature: API.OperationMethod<
   RegisterComposableFeatureRequest,
@@ -2545,20 +2241,16 @@ export const registerComposableFeature: API.OperationMethod<
   RegisterComposableFeatureError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(917, __c57, 5) as any as S.Schema<RegisterComposableFeatureRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<RegisterComposableFeatureResponse>,
+  input: __S(693, __c43, 5) as any as S.Schema<RegisterComposableFeatureRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<RegisterComposableFeatureResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -2570,15 +2262,11 @@ export const registerComposableFeature: API.OperationMethod<
 export type ReleaseLeaseError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const releaseLease: API.OperationMethod<
   ReleaseLeaseRequest,
@@ -2586,20 +2274,16 @@ export const releaseLease: API.OperationMethod<
   ReleaseLeaseError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<ReleaseLeaseRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<ReleaseLeaseResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<ReleaseLeaseRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<ReleaseLeaseResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -2611,15 +2295,11 @@ export const releaseLease: API.OperationMethod<
 export type RemoveComposableFeatureError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const removeComposableFeature: API.OperationMethod<
   RemoveComposableFeatureRequest,
@@ -2627,20 +2307,16 @@ export const removeComposableFeature: API.OperationMethod<
   RemoveComposableFeatureError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<RemoveComposableFeatureRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<RemoveComposableFeatureResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<RemoveComposableFeatureRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<RemoveComposableFeatureResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -2652,15 +2328,11 @@ export const removeComposableFeature: API.OperationMethod<
 export type StopError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const stop: API.OperationMethod<
   StopRequest,
@@ -2668,20 +2340,16 @@ export const stop: API.OperationMethod<
   StopError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<StopRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<StopResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<StopRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<StopResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -2693,15 +2361,11 @@ export const stop: API.OperationMethod<
 export type UpdateError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const update: API.OperationMethod<
   UpdateRequest,
@@ -2709,20 +2373,16 @@ export const update: API.OperationMethod<
   UpdateError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<UpdateRequest>,
-  output: __S(977, __c61, 1) as any as S.Schema<UpdateResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<UpdateRequest>,
+  output: __S(753, __c47, 1) as any as S.Schema<UpdateResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -2734,15 +2394,11 @@ export const update: API.OperationMethod<
 export type UpdateBlueprintError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const updateBlueprint: API.OperationMethod<
   UpdateBlueprintRequest,
@@ -2750,20 +2406,16 @@ export const updateBlueprint: API.OperationMethod<
   UpdateBlueprintError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<UpdateBlueprintRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<UpdateBlueprintResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<UpdateBlueprintRequest>,
+  output: __S(80, __c5, 0) as any as S.Schema<UpdateBlueprintResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -2775,15 +2427,11 @@ export const updateBlueprint: API.OperationMethod<
 export type UpdateDefaultsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const updateDefaults: API.OperationMethod<
   UpdateDefaultsRequest,
@@ -2791,20 +2439,16 @@ export const updateDefaults: API.OperationMethod<
   UpdateDefaultsError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<UpdateDefaultsRequest>,
-  output: __S(1009, __c63, 1) as any as S.Schema<UpdateDefaultsResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<UpdateDefaultsRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<UpdateDefaultsResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -2816,15 +2460,11 @@ export const updateDefaults: API.OperationMethod<
 export type UpdateTemplateError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Retained for backwards compatibility; use UpdateBlueprint instead. */
 export const updateTemplate: API.OperationMethod<
@@ -2833,20 +2473,16 @@ export const updateTemplate: API.OperationMethod<
   UpdateTemplateError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<UpdateTemplateRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<UpdateTemplateResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<UpdateTemplateRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<UpdateTemplateResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -2858,15 +2494,11 @@ export const updateTemplate: API.OperationMethod<
 export type WireImageError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const wireImage: API.OperationMethod<
   WireImageRequest,
@@ -2874,20 +2506,16 @@ export const wireImage: API.OperationMethod<
   WireImageError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<WireImageRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<WireImageResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<WireImageRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<WireImageResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -2904,546 +2532,34 @@ function __c0(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           imageRef: S.optional(S.String),
-          instanceShape: S.optional(__S(66, __c4, 2)),
+          instanceShape: S.optional(__S(930, __c58, 2)),
           site: S.optional(S.String),
           volumeName: S.optional(S.String),
           volumeSizeGb: S.optional(S.String),
           cacheVolumeSizeGb: S.optional(S.String),
           repository: S.optional(S.String),
-          privateFeatures: S.optional(__S(16, __c1, 0)),
-          enabledFeatures: S.optional(__S(16, __c1, 0)),
-          features: S.optional(__S(176, __c11, 0)),
+          privateFeatures: S.optional(__S(880, __c55, 0)),
+          enabledFeatures: S.optional(__S(880, __c55, 0)),
+          features: S.optional(__S(864, __c54, 0)),
           imageName: S.optional(S.String),
-          versionControl: S.optional(__S(69, __c4, 5)),
+          versionControl: S.optional(__S(933, __c58, 5)),
           busyEnsureMinimumDuration: S.optional(S.String),
           accessMode: S.optional(S.String),
-          sessions: S.optional(__S(33, __c2, 1)),
-          integrations: S.optional(__S(72, __c4, 8)),
+          sessions: S.optional(__S(897, __c56, 1)),
+          integrations: S.optional(__S(936, __c58, 8)),
           documentedPurpose: S.optional(S.String),
-          ephemeral: S.optional(__S(80, __c5, 0)),
+          ephemeral: S.optional(__S(944, __c59, 0)),
           privileged: S.optional(S.Boolean),
-          environment: S.optional(__S(49, __c3, 1)),
-          networkPolicy: S.optional(__S(75, __c4, 11)),
-          ports: S.optional(__S(178, __c11, 2)),
-          labels: S.optional(__S(65, __c4, 1)),
+          environment: S.optional(__S(913, __c57, 1)),
+          networkPolicy: S.optional(__S(939, __c58, 11)),
+          ports: S.optional(__S(866, __c54, 2)),
+          labels: S.optional(__S(929, __c58, 1)),
           initScript: S.optional(S.String),
-          instanceEventCallback: S.optional(__S(163, __c10, 3)),
+          instanceEventCallback: S.optional(__S(851, __c53, 3)),
           persistenceMode: S.optional(S.String),
-          services: S.optional(__S(182, __c11, 6)),
+          services: S.optional(__S(870, __c54, 6)),
           activate: S.optional(S.Boolean),
-          activateExperimental: S.optional(__S(98, __c6, 2)),
-        }),
-      ).annotate({ identifier: "CreateRequest2" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          tag: S.optional(S.String),
-          create: S.optional(__S(0, __c0, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.private.devbox.v1beta.DevBoxService/AcquireLease",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AcquireLeaseRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          devbox: S.optional(__S(148, __c9, 4)),
-          instanceId: S.String,
-          leaseId: S.String,
-          outcome: S.String,
-        }),
-      ).annotate({ identifier: "AcquireLeaseResponse" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          emoji: S.optional(S.String),
-          command: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BlueprintSpecSessionSpec" });
-    case 1:
-      return S.Array(__S(32, __c2, 0));
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          value: S.optional(S.String),
-          fromSecretId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BlueprintSpecEnvVar" });
-    case 1:
-      return S.Array(__S(48, __c3, 0));
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Label" });
-    case 1:
-      return S.Array(__S(64, __c4, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          virtualCpu: S.optional(S.Number),
-          memoryMegabytes: S.optional(S.Number),
-          machineArch: S.optional(S.String),
-          os: S.optional(S.String),
-          selectors: S.optional(__S(65, __c4, 1)),
-        }),
-      ).annotate({ identifier: "InstanceShape" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          repository: S.optional(S.String),
-          ref: S.optional(S.String),
-          checkoutMethod: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VersionControlSpecGitRepositorySpec" });
-    case 4:
-      return S.Array(__S(67, __c4, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          gitRepository: S.optional(S.String),
-          ref: S.optional(S.String),
-          checkoutMethod: S.optional(S.String),
-          repositories: S.optional(__S(68, __c4, 4)),
-        }),
-      ).annotate({ identifier: "VersionControlSpec" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          fromSpec: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IntegrationsTailscaleIntegration" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          integrationId: S.optional(S.String),
-          claudeSessionId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IntegrationsClaudeIntegration" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          tailscale: S.optional(__S(70, __c4, 6)),
-          claude: S.optional(__S(71, __c4, 7)),
-        }),
-      ).annotate({ identifier: "Integrations" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          allowed: S.optional(__S(16, __c1, 0)),
-          advisory: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "NetworkPolicySpecEgressDomains" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          tag: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NetworkPolicySpecEgressPolicy" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          egressDomains: S.optional(__S(73, __c4, 9)),
-          egressPolicy: S.optional(__S(74, __c4, 10)),
-        }),
-      ).annotate({ identifier: "NetworkPolicySpec" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          stoppedRetentionDuration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EphemeralSpec" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connectToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          sessionId: S.optional(S.String),
-          host: S.optional(S.String),
-          remoteBinarySha: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ActivateRequestExperimentalDevinOutposts" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          accessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          workerId: S.optional(S.String),
-          poolName: S.optional(S.String),
-          requestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ActivateRequestExperimentalCursorWorker" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          agentImageref: S.optional(S.String),
-          bakeImageref: S.optional(S.String),
-          opaqueFeatures: S.optional(__S(16, __c1, 0)),
-          enableDbus: S.optional(S.Boolean),
-          devinOutposts: S.optional(__S(96, __c6, 0)),
-          cursorWorker: S.optional(__S(97, __c6, 1)),
-          claudeAgent: S.optional(__S(112, __c7, 0)),
-        }),
-      ).annotate({ identifier: "ActivateRequestExperimental" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "ActivateRequestExperimentalClaudeAgent",
-      });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          port: S.optional(S.Number),
-          label: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BlueprintSpecPortForward" });
-    case 1:
-      return S.Array(__S(128, __c8, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          command: S.optional(S.String),
-          args: S.optional(__S(16, __c1, 0)),
-        }),
-      ).annotate({ identifier: "BlueprintSpecOpRunCommand" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          script: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BlueprintSpecOpRunScript" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          runCommand: S.optional(__S(130, __c8, 2)),
-          runScript: S.optional(__S(131, __c8, 3)),
-        }),
-      ).annotate({ identifier: "BlueprintSpecOp" });
-    case 5:
-      return S.Array(__S(132, __c8, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          mountPath: S.optional(S.String),
-          volumeName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BlueprintSpecVolume" });
-    case 7:
-      return S.Array(__S(134, __c8, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          uid: S.optional(S.Number),
-          user: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BlueprintSpecUserOrUid" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          remoteUser: S.optional(S.String),
-          shell: S.optional(S.String),
-          portForwards: S.optional(__S(129, __c8, 1)),
-          privileged: S.optional(S.Boolean),
-          capAdd: S.optional(__S(16, __c1, 0)),
-          securityOpt: S.optional(__S(16, __c1, 0)),
-          environment: S.optional(__S(49, __c3, 1)),
-          onCreate: S.optional(__S(133, __c8, 5)),
-          onStartup: S.optional(__S(133, __c8, 5)),
-          includeInPath: S.optional(__S(16, __c1, 0)),
-          volumes: S.optional(__S(135, __c8, 7)),
-          wholeSystemPersistency: S.optional(S.Boolean),
-          cacheVolumeTag: S.optional(S.String),
-          cacheVolumeSizeGb: S.optional(S.String),
-          dockerSockUser: S.optional(__S(136, __c8, 8)),
-          setupDockerClient: S.optional(S.Boolean),
-          workspaceDir: S.optional(S.String),
-          sessions: S.optional(__S(33, __c2, 1)),
-        }),
-      ).annotate({ identifier: "BlueprintSpec" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          blueprintName: S.String,
-          blueprintId: S.String,
-        }),
-      ).annotate({ identifier: "BlueprintRef" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          version: S.String,
-        }),
-      ).annotate({ identifier: "DevBoxResolvedImage" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.optional(__S(112, __c7, 0)),
-          tenant: S.optional(__S(112, __c7, 0)),
-          public: S.optional(__S(112, __c7, 0)),
-        }),
-      ).annotate({ identifier: "HttpAccessMode" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          tag: S.String,
-          leaseId: S.String,
-          acquiredAt: S.optional(S.String),
-          releasedAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PoolLease" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          createdAt: S.optional(S.String),
-          lastUsedAt: S.optional(S.String),
-          destroyedAt: S.optional(S.String),
-          imageRef: S.String,
-          instanceShape: S.optional(__S(66, __c4, 2)),
-          site: S.String,
-          creator: S.String,
-          volumeName: S.String,
-          volumeSizeGb: S.String,
-          cacheVolumeSizeGb: S.String,
-          repository: S.String,
-          blueprintRef: S.optional(__S(144, __c9, 0)),
-          workspaceDir: S.String,
-          defaultDir: S.String,
-          spec: S.optional(__S(137, __c8, 9)),
-          mainUser: S.String,
-          portForwards: __S(129, __c8, 1),
-          privateFeatures: __S(16, __c1, 0),
-          enabledFeatures: __S(16, __c1, 0),
-          resolvedImage: S.optional(__S(145, __c9, 1)),
-          busyEnsureMinimumDuration: S.optional(S.String),
-          accessMode: S.String,
-          httpAccessMode: S.optional(__S(146, __c9, 2)),
-          permanentSessions: __S(33, __c2, 1),
-          integrations: S.optional(__S(72, __c4, 8)),
-          documentedPurpose: S.String,
-          ephemeral: S.optional(__S(80, __c5, 0)),
-          poolLease: S.optional(__S(147, __c9, 3)),
-          networkPolicy: S.optional(__S(75, __c4, 11)),
-          labels: __S(65, __c4, 1),
-          versionControl: S.optional(__S(69, __c4, 5)),
-        }),
-      ).annotate({ identifier: "DevBox" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          static: S.optional(S.String),
-          fromSecretId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResolvableValue" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          value: S.optional(S.String),
-          valueFrom: S.optional(__S(160, __c10, 0)),
-        }),
-      ).annotate({ identifier: "HttpHeader" });
-    case 2:
-      return S.Array(__S(161, __c10, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          postUrl: S.optional(S.String),
-          headers: S.optional(__S(162, __c10, 2)),
-          signWithSecretId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HttpCallbackEndpoint" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.optional(__S(16, __c1, 0)),
-        }),
-      ).annotate({ identifier: "Features" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          number: S.optional(S.Number),
-          kind: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PortSpec" });
-    case 2:
-      return S.Array(__S(177, __c11, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          absolute: S.optional(S.String),
-          workspaceRelative: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ServiceSpecCwd" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          executable: S.optional(S.String),
-          args: S.optional(__S(16, __c1, 0)),
-          cwd: S.optional(__S(179, __c11, 3)),
-        }),
-      ).annotate({ identifier: "ServiceSpecCommand" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          command: S.optional(__S(180, __c11, 4)),
-          ports: S.optional(__S(178, __c11, 2)),
-        }),
-      ).annotate({ identifier: "ServiceSpec" });
-    case 6:
-      return S.Array(__S(181, __c11, 5));
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          experimental: S.optional(__S(98, __c6, 2)),
-          includeSshCredentials: S.optional(S.Boolean),
-          waitForReadiness: S.optional(S.Boolean),
-          fromSnapshotId: S.optional(S.String),
-          id: S.optional(S.String),
-          idOrName: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.private.devbox.v1beta.DevBoxService/Activate",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ActivateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ingressDomain: S.String,
-        }),
-      ).annotate({ identifier: "ActivateResponseInstanceMetadataSummary" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          instanceId: S.String,
-          devbox: S.optional(__S(148, __c9, 4)),
-          privateSshKey: S.String.pipe(T.SensitiveValue({})),
-          instanceMetadataSummary: S.optional(__S(193, __c12, 1)),
-        }),
-      ).annotate({ identifier: "ActivateResponse" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          outpostName: S.optional(S.String),
-          platform: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.private.devbox.v1beta.DevBoxService/BeginDevinOutpostConnect",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectBeginDevinOutpostRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          connectUrl: S.String,
-          state: S.String,
-        }),
-      ).annotate({ identifier: "ConnectBeginDevinOutpostResponse" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          imageRef: S.optional(S.String),
-          instanceShape: S.optional(__S(66, __c4, 2)),
-          site: S.optional(S.String),
-          volumeName: S.optional(S.String),
-          volumeSizeGb: S.optional(S.String),
-          cacheVolumeSizeGb: S.optional(S.String),
-          repository: S.optional(S.String),
-          privateFeatures: S.optional(__S(16, __c1, 0)),
-          enabledFeatures: S.optional(__S(16, __c1, 0)),
-          features: S.optional(__S(176, __c11, 0)),
-          imageName: S.optional(S.String),
-          versionControl: S.optional(__S(69, __c4, 5)),
-          busyEnsureMinimumDuration: S.optional(S.String),
-          accessMode: S.optional(S.String),
-          sessions: S.optional(__S(33, __c2, 1)),
-          integrations: S.optional(__S(72, __c4, 8)),
-          documentedPurpose: S.optional(S.String),
-          ephemeral: S.optional(__S(80, __c5, 0)),
-          privileged: S.optional(S.Boolean),
-          environment: S.optional(__S(49, __c3, 1)),
-          networkPolicy: S.optional(__S(75, __c4, 11)),
-          ports: S.optional(__S(178, __c11, 2)),
-          labels: S.optional(__S(65, __c4, 1)),
-          initScript: S.optional(S.String),
-          instanceEventCallback: S.optional(__S(163, __c10, 3)),
-          persistenceMode: S.optional(S.String),
-          services: S.optional(__S(182, __c11, 6)),
-          activate: S.optional(S.Boolean),
-          activateExperimental: S.optional(__S(98, __c6, 2)),
+          activateExperimental: S.optional(__S(962, __c60, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3454,24 +2570,24 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateRequest" });
   }
 }
-function __c15(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          devbox: S.optional(__S(148, __c9, 4)),
+          devbox: S.optional(__S(1012, __c63, 4)),
           instanceId: S.String,
         }),
       ).annotate({ identifier: "CreateResponse" });
   }
 }
-function __c16(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          spec: S.optional(__S(278, __c17, 6)),
-          experimental: S.optional(__S(288, __c18, 0)),
+          spec: S.optional(__S(54, __c3, 6)),
+          experimental: S.optional(__S(64, __c4, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3482,7 +2598,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreateBlueprintRequest" });
   }
 }
-function __c17(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3494,8 +2610,8 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          shape: S.optional(__S(66, __c4, 2)),
-          linux: S.optional(__S(272, __c17, 0)),
+          shape: S.optional(__S(930, __c58, 2)),
+          linux: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "DevboxTemplateSpecInstanceSpec" });
     case 2:
@@ -3521,34 +2637,34 @@ function __c17(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          devinOutpost: S.optional(__S(274, __c17, 2)),
-          cursorWorker: S.optional(__S(275, __c17, 3)),
-          claudeEnvironment: S.optional(__S(276, __c17, 4)),
+          devinOutpost: S.optional(__S(50, __c3, 2)),
+          cursorWorker: S.optional(__S(51, __c3, 3)),
+          claudeEnvironment: S.optional(__S(52, __c3, 4)),
         }),
       ).annotate({ identifier: "DevboxTemplateSpecExperimental" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          instance: S.optional(__S(273, __c17, 1)),
+          instance: S.optional(__S(49, __c3, 1)),
           site: S.optional(S.String),
-          ephemeral: S.optional(__S(80, __c5, 0)),
-          versionControl: S.optional(__S(69, __c4, 5)),
-          environment: S.optional(__S(49, __c3, 1)),
+          ephemeral: S.optional(__S(944, __c59, 0)),
+          versionControl: S.optional(__S(933, __c58, 5)),
+          environment: S.optional(__S(913, __c57, 1)),
           busyEnsureMinimumDuration: S.optional(S.String),
-          integrations: S.optional(__S(72, __c4, 8)),
-          networkPolicy: S.optional(__S(75, __c4, 11)),
+          integrations: S.optional(__S(936, __c58, 8)),
+          networkPolicy: S.optional(__S(939, __c58, 11)),
           volumeSizeGb: S.optional(S.String),
-          experimental: S.optional(__S(277, __c17, 5)),
+          experimental: S.optional(__S(53, __c3, 5)),
           description: S.optional(S.String),
           accessMode: S.optional(S.String),
-          features: S.optional(__S(176, __c11, 0)),
-          ports: S.optional(__S(178, __c11, 2)),
+          features: S.optional(__S(864, __c54, 0)),
+          ports: S.optional(__S(866, __c54, 2)),
           type: S.optional(S.String),
-          sessions: S.optional(__S(33, __c2, 1)),
+          sessions: S.optional(__S(897, __c56, 1)),
           initScript: S.optional(S.String),
           persistenceMode: S.optional(S.String),
-          services: S.optional(__S(182, __c11, 6)),
+          services: S.optional(__S(870, __c54, 6)),
           privileged: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DevboxTemplateSpec" });
@@ -3559,12 +2675,12 @@ function __c17(j: number): any {
           version: S.String,
           createdAt: S.optional(S.String),
           updatedAt: S.optional(S.String),
-          spec: S.optional(__S(278, __c17, 6)),
+          spec: S.optional(__S(54, __c3, 6)),
         }),
       ).annotate({ identifier: "DevboxBlueprint" });
   }
 }
-function __c18(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3579,17 +2695,17 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateBlueprintRequestExperimental" });
   }
 }
-function __c19(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          blueprint: S.optional(__S(279, __c17, 7)),
+          blueprint: S.optional(__S(55, __c3, 7)),
         }),
       ).annotate({ identifier: "CreateBlueprintResponse" });
   }
 }
-function __c20(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3597,10 +2713,10 @@ function __c20(j: number): any {
           name: S.optional(S.String),
           blueprintId: S.optional(S.String),
           activate: S.optional(S.Boolean),
-          activateExperimental: S.optional(__S(98, __c6, 2)),
+          activateExperimental: S.optional(__S(962, __c60, 2)),
           documentedPurpose: S.optional(S.String),
-          overrides: S.optional(__S(336, __c21, 0)),
-          labels: S.optional(__S(65, __c4, 1)),
+          overrides: S.optional(__S(112, __c7, 0)),
+          labels: S.optional(__S(929, __c58, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3611,7 +2727,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CreateFromBlueprintRequest" });
   }
 }
-function __c21(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3622,18 +2738,18 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreateFromBlueprintRequestOverrides" });
   }
 }
-function __c22(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           fromDevbox: S.optional(S.String),
-          instanceShape: S.optional(__S(66, __c4, 2)),
+          instanceShape: S.optional(__S(930, __c58, 2)),
           snapshotId: S.optional(S.String),
           documentedPurpose: S.optional(S.String),
-          labels: S.optional(__S(65, __c4, 1)),
-          activateExperimental: S.optional(__S(98, __c6, 2)),
+          labels: S.optional(__S(929, __c58, 1)),
+          activateExperimental: S.optional(__S(962, __c60, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3644,7 +2760,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "CreateFromDevboxRequest" });
   }
 }
-function __c23(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3652,10 +2768,10 @@ function __c23(j: number): any {
           name: S.optional(S.String),
           templateId: S.optional(S.String),
           activate: S.optional(S.Boolean),
-          activateExperimental: S.optional(__S(98, __c6, 2)),
+          activateExperimental: S.optional(__S(962, __c60, 2)),
           documentedPurpose: S.optional(S.String),
-          overrides: S.optional(__S(336, __c21, 0)),
-          labels: S.optional(__S(65, __c4, 1)),
+          overrides: S.optional(__S(112, __c7, 0)),
+          labels: S.optional(__S(929, __c58, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3666,12 +2782,12 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateFromTemplateRequest" });
   }
 }
-function __c24(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          claude: S.optional(__S(400, __c25, 0)),
+          claude: S.optional(__S(176, __c11, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3688,7 +2804,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "CreateIntegrationResponse" });
   }
 }
-function __c25(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3702,7 +2818,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "ClaudeIntegrationSpec" });
   }
 }
-function __c26(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3718,13 +2834,13 @@ function __c26(j: number): any {
       ).annotate({ identifier: "CreateRepositoryRequest" });
   }
 }
-function __c27(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          spec: S.optional(__S(278, __c17, 6)),
-          experimental: S.optional(__S(288, __c18, 0)),
+          spec: S.optional(__S(54, __c3, 6)),
+          experimental: S.optional(__S(64, __c4, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3735,17 +2851,17 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CreateTemplateRequest" });
   }
 }
-function __c28(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          template: S.optional(__S(279, __c17, 7)),
+          template: S.optional(__S(55, __c3, 7)),
         }),
       ).annotate({ identifier: "CreateTemplateResponse" });
   }
 }
-function __c29(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3761,7 +2877,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationRequest" });
   }
 }
-function __c30(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3780,7 +2896,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DescribeImageRequest" });
   }
 }
-function __c31(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -3799,10 +2915,10 @@ function __c31(j: number): any {
           originalDigest: S.String,
           createdAt: S.optional(S.String),
           description: S.String,
-          metadata: S.optional(__S(137, __c8, 9)),
-          flag: __S(496, __c31, 0),
+          metadata: S.optional(__S(1001, __c62, 9)),
+          flag: __S(272, __c17, 0),
           version: S.String,
-          source: S.optional(__S(497, __c31, 1)),
+          source: S.optional(__S(273, __c17, 1)),
           name: S.String,
           id: S.String,
           expiresAt: S.optional(S.String),
@@ -3810,23 +2926,23 @@ function __c31(j: number): any {
       ).annotate({ identifier: "Image" });
   }
 }
-function __c32(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          image: S.optional(__S(498, __c31, 2)),
+          image: S.optional(__S(274, __c17, 2)),
         }),
       ).annotate({ identifier: "DescribeImageResponse" });
   }
 }
-function __c33(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          spec: S.optional(__S(278, __c17, 6)),
-          experimental: S.optional(__S(288, __c18, 0)),
+          spec: S.optional(__S(54, __c3, 6)),
+          experimental: S.optional(__S(64, __c4, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3837,7 +2953,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "EnsureBlueprintRequest" });
   }
 }
-function __c34(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3854,18 +2970,18 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          devboxes: __S(560, __c35, 0),
+          devboxes: __S(336, __c21, 0),
         }),
       ).annotate({ identifier: "ExpireResponse" });
   }
 }
-function __c35(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(148, __c9, 4));
+      return S.Array(__S(1012, __c63, 4));
   }
 }
-function __c36(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3881,7 +2997,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "ExpireBlueprintRequest" });
   }
 }
-function __c37(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3900,7 +3016,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "ExpireImageRequest" });
   }
 }
-function __c38(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3916,7 +3032,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "ExpireTemplateRequest" });
   }
 }
-function __c39(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3937,14 +3053,14 @@ function __c39(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          devbox: S.optional(__S(148, __c9, 4)),
+          devbox: S.optional(__S(1012, __c63, 4)),
           privateSshKey: S.String.pipe(T.SensitiveValue({})),
           instanceId: S.String,
         }),
       ).annotate({ identifier: "FetchResponse" });
   }
 }
-function __c40(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3960,7 +3076,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "FetchBlueprintRequest" });
   }
 }
-function __c41(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3975,32 +3091,32 @@ function __c41(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          defaults: S.optional(__S(672, __c42, 0)),
+          defaults: S.optional(__S(448, __c28, 0)),
           metadataVersion: S.String,
-          byPolicy: S.optional(__S(672, __c42, 0)),
+          byPolicy: S.optional(__S(448, __c28, 0)),
         }),
       ).annotate({ identifier: "FetchDefaultsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          instanceShape: S.optional(__S(66, __c4, 2)),
+          instanceShape: S.optional(__S(930, __c58, 2)),
           imageName: S.optional(S.String),
-          versionControl: S.optional(__S(69, __c4, 5)),
+          versionControl: S.optional(__S(933, __c58, 5)),
           busyEnsureMinimumDuration: S.optional(S.String),
           accessMode: S.optional(S.String),
-          integrations: S.optional(__S(72, __c4, 8)),
-          enabledFeatures: S.optional(__S(16, __c1, 0)),
+          integrations: S.optional(__S(936, __c58, 8)),
+          enabledFeatures: S.optional(__S(880, __c55, 0)),
           volumeSizeGb: S.optional(S.String),
-          networkPolicy: S.optional(__S(75, __c4, 11)),
+          networkPolicy: S.optional(__S(939, __c58, 11)),
         }),
       ).annotate({ identifier: "DevboxDefaults" });
   }
 }
-function __c43(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4016,7 +3132,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "FetchTemplateRequest" });
   }
 }
-function __c44(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4029,8 +3145,8 @@ function __c44(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          periodStart: S.optional(__S(704, __c44, 0)),
-          periodEnd: S.optional(__S(704, __c44, 0)),
+          periodStart: S.optional(__S(480, __c30, 0)),
+          periodEnd: S.optional(__S(480, __c30, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4050,18 +3166,18 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "GetUsageResponseDataPoint" });
     case 3:
-      return S.Array(__S(706, __c44, 2));
+      return S.Array(__S(482, __c30, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          perDay: __S(707, __c44, 3),
+          perDay: __S(483, __c30, 3),
           maximumCount: S.Number,
           maximumCountPerUser: S.Number,
         }),
       ).annotate({ identifier: "GetUsageResponse" });
   }
 }
-function __c45(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4080,23 +3196,23 @@ function __c45(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          optimizedKinds: __S(16, __c1, 0),
+          optimizedKinds: __S(880, __c55, 0),
           user: S.String,
-          env: __S(721, __c45, 1),
+          env: __S(497, __c31, 1),
           version: S.String,
-          spec: S.optional(__S(137, __c8, 9)),
+          spec: S.optional(__S(1001, __c62, 9)),
           versionCreatedAt: S.optional(S.String),
-          optimizedSites: __S(16, __c1, 0),
+          optimizedSites: __S(880, __c55, 0),
         }),
       ).annotate({ identifier: "InspectImageResponse" });
   }
 }
-function __c46(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(16, __c1, 0)),
+          values: S.optional(__S(880, __c55, 0)),
           op: S.optional(S.String),
         }),
       ).annotate({ identifier: "StringMatcher" });
@@ -4109,26 +3225,26 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "LabelFilterEntry" });
     case 2:
-      return S.Array(__S(737, __c46, 1));
+      return S.Array(__S(513, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          anyOf: S.optional(__S(738, __c46, 2)),
+          anyOf: S.optional(__S(514, __c32, 2)),
         }),
       ).annotate({ identifier: "ListRequestLabelFilter" });
     case 4:
-      return S.Array(__S(739, __c46, 3));
+      return S.Array(__S(515, __c32, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           paginationCursor: S.optional(S.String),
-          matchCreator: S.optional(__S(736, __c46, 0)),
-          matchImageName: S.optional(__S(736, __c46, 0)),
-          matchImageRef: S.optional(__S(736, __c46, 0)),
+          matchCreator: S.optional(__S(512, __c32, 0)),
+          matchImageName: S.optional(__S(512, __c32, 0)),
+          matchImageRef: S.optional(__S(512, __c32, 0)),
           orderBy: S.optional(S.String),
           matchEphemeral: S.optional(S.String),
           maxEntries: S.optional(S.String),
-          matchLabels: S.optional(__S(740, __c46, 4)),
+          matchLabels: S.optional(__S(516, __c32, 4)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4141,12 +3257,12 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paginationCursor: S.String,
-          devboxes: __S(560, __c35, 0),
+          devboxes: __S(336, __c21, 0),
         }),
       ).annotate({ identifier: "ListResponse" });
   }
 }
-function __c47(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4165,19 +3281,19 @@ function __c47(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          blueprints: __S(768, __c48, 0),
+          blueprints: __S(544, __c34, 0),
           paginationCursor: S.String,
         }),
       ).annotate({ identifier: "ListBlueprintsResponse" });
   }
 }
-function __c48(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(279, __c17, 7));
+      return S.Array(__S(55, __c3, 7));
   }
 }
-function __c49(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4190,16 +3306,16 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "ListComposableFeaturesRequest" });
     case 1:
-      return S.Array(__S(800, __c50, 0));
+      return S.Array(__S(576, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          features: __S(785, __c49, 1),
+          features: __S(561, __c35, 1),
         }),
       ).annotate({ identifier: "ListComposableFeaturesResponse" });
   }
 }
-function __c50(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4212,7 +3328,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ComposableFeature" });
   }
 }
-function __c51(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4228,17 +3344,17 @@ function __c51(j: number): any {
         ),
       ).annotate({ identifier: "ListImagesRequest" });
     case 1:
-      return S.Array(__S(498, __c31, 2));
+      return S.Array(__S(274, __c17, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           paginationCursor: S.String,
-          image: __S(817, __c51, 1),
+          image: __S(593, __c37, 1),
         }),
       ).annotate({ identifier: "ListImagesResponse" });
   }
 }
-function __c52(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4256,20 +3372,20 @@ function __c52(j: number): any {
           id: S.String,
           createdAt: S.optional(S.String),
           updatedAt: S.optional(S.String),
-          claude: S.optional(__S(400, __c25, 0)),
+          claude: S.optional(__S(176, __c11, 0)),
         }),
       ).annotate({ identifier: "Integration" });
     case 2:
-      return S.Array(__S(833, __c52, 1));
+      return S.Array(__S(609, __c38, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          integrations: __S(834, __c52, 2),
+          integrations: __S(610, __c38, 2),
         }),
       ).annotate({ identifier: "ListIntegrationsResponse" });
   }
 }
-function __c53(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4301,16 +3417,16 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "PersistentVolumeSnapshot" });
     case 2:
-      return S.Array(__S(849, __c53, 1));
+      return S.Array(__S(625, __c39, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          snapshots: __S(850, __c53, 2),
+          snapshots: __S(626, __c39, 2),
         }),
       ).annotate({ identifier: "ListSnapshotsResponse" });
   }
 }
-function __c54(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4329,13 +3445,13 @@ function __c54(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          templates: __S(768, __c48, 0),
+          templates: __S(544, __c34, 0),
           paginationCursor: S.String,
         }),
       ).annotate({ identifier: "ListTemplatesResponse" });
   }
 }
-function __c55(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4352,20 +3468,20 @@ function __c55(j: number): any {
         S.Struct({
           site: S.String,
           label: S.String,
-          platforms: __S(16, __c1, 0),
+          platforms: __S(880, __c55, 0),
         }),
       ).annotate({ identifier: "MetadataResponseSite" });
     case 2:
-      return S.Array(__S(881, __c55, 1));
+      return S.Array(__S(657, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sites: __S(882, __c55, 2),
+          sites: __S(658, __c41, 2),
         }),
       ).annotate({ identifier: "MetadataResponse" });
   }
 }
-function __c56(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4379,7 +3495,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "PingRequest" });
   }
 }
-function __c57(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4391,7 +3507,7 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "FeatureSpecRunScript" });
     case 1:
-      return S.Array(__S(912, __c57, 0));
+      return S.Array(__S(688, __c43, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4400,22 +3516,22 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "FeatureSpecExportedPort" });
     case 3:
-      return S.Array(__S(914, __c57, 2));
+      return S.Array(__S(690, __c43, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          onCreate: S.optional(__S(913, __c57, 1)),
-          sessions: S.optional(__S(33, __c2, 1)),
-          includeInPath: S.optional(__S(16, __c1, 0)),
-          exportedPorts: S.optional(__S(915, __c57, 3)),
-          onStartup: S.optional(__S(913, __c57, 1)),
+          onCreate: S.optional(__S(689, __c43, 1)),
+          sessions: S.optional(__S(897, __c56, 1)),
+          includeInPath: S.optional(__S(880, __c55, 0)),
+          exportedPorts: S.optional(__S(691, __c43, 3)),
+          onStartup: S.optional(__S(689, __c43, 1)),
         }),
       ).annotate({ identifier: "FeatureSpec" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          feature: S.optional(__S(800, __c50, 0)),
-          spec: S.optional(__S(916, __c57, 4)),
+          feature: S.optional(__S(576, __c36, 0)),
+          spec: S.optional(__S(692, __c43, 4)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4426,7 +3542,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "RegisterComposableFeatureRequest" });
   }
 }
-function __c58(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4443,7 +3559,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "ReleaseLeaseRequest" });
   }
 }
-function __c59(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4459,7 +3575,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "RemoveComposableFeatureRequest" });
   }
 }
-function __c60(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4475,19 +3591,19 @@ function __c60(j: number): any {
       ).annotate({ identifier: "StopRequest" });
   }
 }
-function __c61(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          instanceShape: S.optional(__S(66, __c4, 2)),
+          instanceShape: S.optional(__S(930, __c58, 2)),
           busyEnsureMinimumDuration: S.optional(S.String),
-          integrations: S.optional(__S(72, __c4, 8)),
+          integrations: S.optional(__S(936, __c58, 8)),
           volumeSizeGb: S.optional(S.String),
           privileged: S.optional(S.Boolean),
-          networkPolicy: S.optional(__S(75, __c4, 11)),
-          httpAccessMode: S.optional(__S(146, __c9, 2)),
+          networkPolicy: S.optional(__S(939, __c58, 11)),
+          httpAccessMode: S.optional(__S(1010, __c63, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4499,19 +3615,19 @@ function __c61(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          devbox: S.optional(__S(148, __c9, 4)),
+          devbox: S.optional(__S(1012, __c63, 4)),
         }),
       ).annotate({ identifier: "UpdateResponse" });
   }
 }
-function __c62(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          spec: S.optional(__S(278, __c17, 6)),
-          experimental: S.optional(__S(288, __c18, 0)),
+          spec: S.optional(__S(54, __c3, 6)),
+          experimental: S.optional(__S(64, __c4, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4522,12 +3638,12 @@ function __c62(j: number): any {
       ).annotate({ identifier: "UpdateBlueprintRequest" });
   }
 }
-function __c63(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          defaults: S.optional(__S(672, __c42, 0)),
+          defaults: S.optional(__S(448, __c28, 0)),
           matchMetadataVersion: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -4540,19 +3656,19 @@ function __c63(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          defaults: S.optional(__S(672, __c42, 0)),
+          defaults: S.optional(__S(448, __c28, 0)),
         }),
       ).annotate({ identifier: "UpdateDefaultsResponse" });
   }
 }
-function __c64(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          spec: S.optional(__S(278, __c17, 6)),
-          experimental: S.optional(__S(288, __c18, 0)),
+          spec: S.optional(__S(54, __c3, 6)),
+          experimental: S.optional(__S(64, __c4, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4563,16 +3679,16 @@ function __c64(j: number): any {
       ).annotate({ identifier: "UpdateTemplateRequest" });
   }
 }
-function __c65(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           imageRef: S.optional(S.String),
           description: S.optional(S.String),
-          metadata: S.optional(__S(137, __c8, 9)),
+          metadata: S.optional(__S(1001, __c62, 9)),
           name: S.optional(S.String),
-          source: S.optional(__S(497, __c31, 1)),
+          source: S.optional(__S(273, __c17, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4581,6 +3697,518 @@ function __c65(j: number): any {
           }),
         ),
       ).annotate({ identifier: "WireImageRequest" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          imageRef: S.optional(S.String),
+          instanceShape: S.optional(__S(930, __c58, 2)),
+          site: S.optional(S.String),
+          volumeName: S.optional(S.String),
+          volumeSizeGb: S.optional(S.String),
+          cacheVolumeSizeGb: S.optional(S.String),
+          repository: S.optional(S.String),
+          privateFeatures: S.optional(__S(880, __c55, 0)),
+          enabledFeatures: S.optional(__S(880, __c55, 0)),
+          features: S.optional(__S(864, __c54, 0)),
+          imageName: S.optional(S.String),
+          versionControl: S.optional(__S(933, __c58, 5)),
+          busyEnsureMinimumDuration: S.optional(S.String),
+          accessMode: S.optional(S.String),
+          sessions: S.optional(__S(897, __c56, 1)),
+          integrations: S.optional(__S(936, __c58, 8)),
+          documentedPurpose: S.optional(S.String),
+          ephemeral: S.optional(__S(944, __c59, 0)),
+          privileged: S.optional(S.Boolean),
+          environment: S.optional(__S(913, __c57, 1)),
+          networkPolicy: S.optional(__S(939, __c58, 11)),
+          ports: S.optional(__S(866, __c54, 2)),
+          labels: S.optional(__S(929, __c58, 1)),
+          initScript: S.optional(S.String),
+          instanceEventCallback: S.optional(__S(851, __c53, 3)),
+          persistenceMode: S.optional(S.String),
+          services: S.optional(__S(870, __c54, 6)),
+          activate: S.optional(S.Boolean),
+          activateExperimental: S.optional(__S(962, __c60, 2)),
+        }),
+      ).annotate({ identifier: "CreateRequest2" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          tag: S.optional(S.String),
+          create: S.optional(__S(832, __c52, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.private.devbox.v1beta.DevBoxService/AcquireLease",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AcquireLeaseRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          devbox: S.optional(__S(1012, __c63, 4)),
+          instanceId: S.String,
+          leaseId: S.String,
+          outcome: S.String,
+        }),
+      ).annotate({ identifier: "AcquireLeaseResponse" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          static: S.optional(S.String),
+          fromSecretId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResolvableValue" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(S.String),
+          valueFrom: S.optional(__S(848, __c53, 0)),
+        }),
+      ).annotate({ identifier: "HttpHeader" });
+    case 2:
+      return S.Array(__S(849, __c53, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          postUrl: S.optional(S.String),
+          headers: S.optional(__S(850, __c53, 2)),
+          signWithSecretId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HttpCallbackEndpoint" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(__S(880, __c55, 0)),
+        }),
+      ).annotate({ identifier: "Features" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          number: S.optional(S.Number),
+          kind: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PortSpec" });
+    case 2:
+      return S.Array(__S(865, __c54, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          absolute: S.optional(S.String),
+          workspaceRelative: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServiceSpecCwd" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          executable: S.optional(S.String),
+          args: S.optional(__S(880, __c55, 0)),
+          cwd: S.optional(__S(867, __c54, 3)),
+        }),
+      ).annotate({ identifier: "ServiceSpecCommand" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          command: S.optional(__S(868, __c54, 4)),
+          ports: S.optional(__S(866, __c54, 2)),
+        }),
+      ).annotate({ identifier: "ServiceSpec" });
+    case 6:
+      return S.Array(__S(869, __c54, 5));
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          emoji: S.optional(S.String),
+          command: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BlueprintSpecSessionSpec" });
+    case 1:
+      return S.Array(__S(896, __c56, 0));
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(S.String),
+          fromSecretId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BlueprintSpecEnvVar" });
+    case 1:
+      return S.Array(__S(912, __c57, 0));
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Label" });
+    case 1:
+      return S.Array(__S(928, __c58, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          virtualCpu: S.optional(S.Number),
+          memoryMegabytes: S.optional(S.Number),
+          machineArch: S.optional(S.String),
+          os: S.optional(S.String),
+          selectors: S.optional(__S(929, __c58, 1)),
+        }),
+      ).annotate({ identifier: "InstanceShape" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          repository: S.optional(S.String),
+          ref: S.optional(S.String),
+          checkoutMethod: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VersionControlSpecGitRepositorySpec" });
+    case 4:
+      return S.Array(__S(931, __c58, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          gitRepository: S.optional(S.String),
+          ref: S.optional(S.String),
+          checkoutMethod: S.optional(S.String),
+          repositories: S.optional(__S(932, __c58, 4)),
+        }),
+      ).annotate({ identifier: "VersionControlSpec" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          fromSpec: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IntegrationsTailscaleIntegration" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          integrationId: S.optional(S.String),
+          claudeSessionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IntegrationsClaudeIntegration" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          tailscale: S.optional(__S(934, __c58, 6)),
+          claude: S.optional(__S(935, __c58, 7)),
+        }),
+      ).annotate({ identifier: "Integrations" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          allowed: S.optional(__S(880, __c55, 0)),
+          advisory: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "NetworkPolicySpecEgressDomains" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          tag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkPolicySpecEgressPolicy" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          egressDomains: S.optional(__S(937, __c58, 9)),
+          egressPolicy: S.optional(__S(938, __c58, 10)),
+        }),
+      ).annotate({ identifier: "NetworkPolicySpec" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          stoppedRetentionDuration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EphemeralSpec" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connectToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          sessionId: S.optional(S.String),
+          host: S.optional(S.String),
+          remoteBinarySha: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ActivateRequestExperimentalDevinOutposts" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          workerId: S.optional(S.String),
+          poolName: S.optional(S.String),
+          requestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ActivateRequestExperimentalCursorWorker" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          agentImageref: S.optional(S.String),
+          bakeImageref: S.optional(S.String),
+          opaqueFeatures: S.optional(__S(880, __c55, 0)),
+          enableDbus: S.optional(S.Boolean),
+          devinOutposts: S.optional(__S(960, __c60, 0)),
+          cursorWorker: S.optional(__S(961, __c60, 1)),
+          claudeAgent: S.optional(__S(976, __c61, 0)),
+        }),
+      ).annotate({ identifier: "ActivateRequestExperimental" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "ActivateRequestExperimentalClaudeAgent",
+      });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          port: S.optional(S.Number),
+          label: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BlueprintSpecPortForward" });
+    case 1:
+      return S.Array(__S(992, __c62, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          command: S.optional(S.String),
+          args: S.optional(__S(880, __c55, 0)),
+        }),
+      ).annotate({ identifier: "BlueprintSpecOpRunCommand" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          script: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BlueprintSpecOpRunScript" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          runCommand: S.optional(__S(994, __c62, 2)),
+          runScript: S.optional(__S(995, __c62, 3)),
+        }),
+      ).annotate({ identifier: "BlueprintSpecOp" });
+    case 5:
+      return S.Array(__S(996, __c62, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          mountPath: S.optional(S.String),
+          volumeName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BlueprintSpecVolume" });
+    case 7:
+      return S.Array(__S(998, __c62, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          uid: S.optional(S.Number),
+          user: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BlueprintSpecUserOrUid" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          remoteUser: S.optional(S.String),
+          shell: S.optional(S.String),
+          portForwards: S.optional(__S(993, __c62, 1)),
+          privileged: S.optional(S.Boolean),
+          capAdd: S.optional(__S(880, __c55, 0)),
+          securityOpt: S.optional(__S(880, __c55, 0)),
+          environment: S.optional(__S(913, __c57, 1)),
+          onCreate: S.optional(__S(997, __c62, 5)),
+          onStartup: S.optional(__S(997, __c62, 5)),
+          includeInPath: S.optional(__S(880, __c55, 0)),
+          volumes: S.optional(__S(999, __c62, 7)),
+          wholeSystemPersistency: S.optional(S.Boolean),
+          cacheVolumeTag: S.optional(S.String),
+          cacheVolumeSizeGb: S.optional(S.String),
+          dockerSockUser: S.optional(__S(1000, __c62, 8)),
+          setupDockerClient: S.optional(S.Boolean),
+          workspaceDir: S.optional(S.String),
+          sessions: S.optional(__S(897, __c56, 1)),
+        }),
+      ).annotate({ identifier: "BlueprintSpec" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          blueprintName: S.String,
+          blueprintId: S.String,
+        }),
+      ).annotate({ identifier: "BlueprintRef" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          version: S.String,
+        }),
+      ).annotate({ identifier: "DevBoxResolvedImage" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.optional(__S(976, __c61, 0)),
+          tenant: S.optional(__S(976, __c61, 0)),
+          public: S.optional(__S(976, __c61, 0)),
+        }),
+      ).annotate({ identifier: "HttpAccessMode" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          tag: S.String,
+          leaseId: S.String,
+          acquiredAt: S.optional(S.String),
+          releasedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PoolLease" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          createdAt: S.optional(S.String),
+          lastUsedAt: S.optional(S.String),
+          destroyedAt: S.optional(S.String),
+          imageRef: S.String,
+          instanceShape: S.optional(__S(930, __c58, 2)),
+          site: S.String,
+          creator: S.String,
+          volumeName: S.String,
+          volumeSizeGb: S.String,
+          cacheVolumeSizeGb: S.String,
+          repository: S.String,
+          blueprintRef: S.optional(__S(1008, __c63, 0)),
+          workspaceDir: S.String,
+          defaultDir: S.String,
+          spec: S.optional(__S(1001, __c62, 9)),
+          mainUser: S.String,
+          portForwards: __S(993, __c62, 1),
+          privateFeatures: __S(880, __c55, 0),
+          enabledFeatures: __S(880, __c55, 0),
+          resolvedImage: S.optional(__S(1009, __c63, 1)),
+          busyEnsureMinimumDuration: S.optional(S.String),
+          accessMode: S.String,
+          httpAccessMode: S.optional(__S(1010, __c63, 2)),
+          permanentSessions: __S(897, __c56, 1),
+          integrations: S.optional(__S(936, __c58, 8)),
+          documentedPurpose: S.String,
+          ephemeral: S.optional(__S(944, __c59, 0)),
+          poolLease: S.optional(__S(1011, __c63, 3)),
+          networkPolicy: S.optional(__S(939, __c58, 11)),
+          labels: __S(929, __c58, 1),
+          versionControl: S.optional(__S(933, __c58, 5)),
+        }),
+      ).annotate({ identifier: "DevBox" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          experimental: S.optional(__S(962, __c60, 2)),
+          includeSshCredentials: S.optional(S.Boolean),
+          waitForReadiness: S.optional(S.Boolean),
+          fromSnapshotId: S.optional(S.String),
+          id: S.optional(S.String),
+          idOrName: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.private.devbox.v1beta.DevBoxService/Activate",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ActivateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ingressDomain: S.String,
+        }),
+      ).annotate({ identifier: "ActivateResponseInstanceMetadataSummary" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceId: S.String,
+          devbox: S.optional(__S(1012, __c63, 4)),
+          privateSshKey: S.String.pipe(T.SensitiveValue({})),
+          instanceMetadataSummary: S.optional(__S(1025, __c64, 1)),
+        }),
+      ).annotate({ identifier: "ActivateResponse" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          outpostName: S.optional(S.String),
+          platform: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.private.devbox.v1beta.DevBoxService/BeginDevinOutpostConnect",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectBeginDevinOutpostRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          connectUrl: S.String,
+          state: S.String,
+        }),
+      ).annotate({ identifier: "ConnectBeginDevinOutpostResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -29,15 +29,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export class Aborted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Aborted>()("Aborted", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withConflictError),
-    [{ status: 409, body: { "/code": "aborted" } }],
-  ) {}
-
 export class AlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
@@ -45,15 +36,6 @@ export class AlreadyExists
       body: S.Unknown,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
-  ) {}
-
-export class Canceled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Canceled>()("Canceled", {
-      message: S.String,
-      body: S.Unknown,
-    }),
-    [{ status: 499 }],
   ) {}
 
 export class FailedPrecondition
@@ -83,15 +65,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class OutOfRange
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<OutOfRange>()("OutOfRange", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withBadRequestError),
-    [{ status: 400, body: { "/code": "out_of_range" } }],
-  ) {}
-
 export class PermissionDenied
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
@@ -117,15 +90,6 @@ export class Unauthenticated
       body: S.Unknown,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-export class Unimplemented
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Unimplemented>()("Unimplemented", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withServerError),
-    [{ status: 501 }],
   ) {}
 
 export interface CancelReservationRequest {
@@ -725,15 +689,11 @@ export interface UpdateReservationDeadlineResponse {
 export type CancelReservationError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Cancel a pending reservation. Has no effect if the reservation has expired; throws an error if it has already been fulfilled (i.e. if it has a corresponding running instance). Equivalent to UpdateReservationDeadline(now). */
 export const cancelReservation: API.OperationMethod<
@@ -742,20 +702,16 @@ export const cancelReservation: API.OperationMethod<
   CancelReservationError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CancelReservationRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<CancelReservationResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<CancelReservationRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<CancelReservationResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -767,15 +723,11 @@ export const cancelReservation: API.OperationMethod<
 export type DescribeReservationError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns the metadata about a previously created reservation. Includes the instance ID of the instance that fulfilled the reservation, if such an instance exists. */
 export const describeReservation: API.OperationMethod<
@@ -784,20 +736,16 @@ export const describeReservation: API.OperationMethod<
   DescribeReservationError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<DescribeReservationRequest>,
-  output: __S(97, __c3, 1) as any as S.Schema<DescribeReservationResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<DescribeReservationRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<DescribeReservationResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -809,15 +757,11 @@ export const describeReservation: API.OperationMethod<
 export type ListReservationsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** List reservations that were active within a specified time range. */
 export const listReservations: API.OperationMethod<
@@ -826,20 +770,16 @@ export const listReservations: API.OperationMethod<
   ListReservationsError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<ListReservationsRequest>,
-  output: __S(162, __c5, 2) as any as S.Schema<ListReservationsResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<ListReservationsRequest>,
+  output: __S(290, __c9, 2) as any as S.Schema<ListReservationsResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -851,15 +791,11 @@ export const listReservations: API.OperationMethod<
 export type ReserveInstanceError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Create a reservation for an instance. The server will immediately return a reservation ID and attempt to create the desired instance. In the event that the instance cannot be created instantaneously, the server will periodically retry until the provided reservation deadline. */
 export const reserveInstance: API.OperationMethod<
@@ -868,20 +804,16 @@ export const reserveInstance: API.OperationMethod<
   ReserveInstanceError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(262, __c8, 6) as any as S.Schema<ReserveInstanceRequest>,
-  output: __S(263, __c8, 7) as any as S.Schema<ReserveInstanceResponse>,
+  input: __S(70, __c2, 6) as any as S.Schema<ReserveInstanceRequest>,
+  output: __S(71, __c2, 7) as any as S.Schema<ReserveInstanceResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -893,15 +825,11 @@ export const reserveInstance: API.OperationMethod<
 export type UpdateReservationDeadlineError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Update the deadline of a reservation. Fails if the new deadline is in the past or if the reservation has already been fulfilled. UpdateReservationDeadline(now) is equivalent to CancelReservation. */
 export const updateReservationDeadline: API.OperationMethod<
@@ -910,20 +838,16 @@ export const updateReservationDeadline: API.OperationMethod<
   UpdateReservationDeadlineError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<UpdateReservationDeadlineRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<UpdateReservationDeadlineResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<UpdateReservationDeadlineRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<UpdateReservationDeadlineResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -938,116 +862,12 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          reservationId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.experimental.compute.ReservationService/CancelReservation",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CancelReservationRequest" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          reservationDeadline: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CancelReservationResponse" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          reservationId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.experimental.compute.ReservationService/DescribeReservation",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DescribeReservationRequest" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          timestamp: S.optional(S.String),
-          instanceId: S.String,
-          error: S.String,
-        }),
-      ).annotate({ identifier: "CreationAttempt" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          reservationId: S.String,
-          reservationMetadata: S.optional(__S(128, __c4, 0)),
-          instanceId: S.String,
-          fulfillmentTime: S.optional(S.String),
-          lastAttempt: S.optional(__S(96, __c3, 0)),
-          status: S.String,
-          priority: S.String,
-        }),
-      ).annotate({ identifier: "DescribeReservationResponse" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          reservationTime: S.optional(S.String),
-          reservationDeadline: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReserveInstanceResponseReservationMetadata" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          periodStart: S.optional(S.String),
-          periodEnd: S.optional(S.String),
-          maxEntries: S.optional(S.String),
-          excludeFulfilled: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.experimental.compute.ReservationService/ListReservations",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListReservationsRequest" });
-    case 1:
-      return S.Array(__S(97, __c3, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          reservations: __S(161, __c5, 1),
-        }),
-      ).annotate({ identifier: "ListReservationsResponse" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.optional(S.String),
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "Label" });
     case 1:
-      return S.Array(__S(192, __c6, 0));
+      return S.Array(__S(0, __c0, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1055,7 +875,7 @@ function __c6(j: number): any {
           memoryMegabytes: S.optional(S.Number),
           machineArch: S.optional(S.String),
           os: S.optional(S.String),
-          selectors: S.optional(__S(193, __c6, 1)),
+          selectors: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "InstanceShape" });
     case 3:
@@ -1081,35 +901,35 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "EnvironmentVariable" });
     case 8:
-      return S.Array(__S(199, __c6, 7));
+      return S.Array(__S(7, __c0, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          method: S.optional(__S(197, __c6, 5)),
+          method: S.optional(__S(5, __c0, 5)),
           path: S.optional(S.String),
         }),
       ).annotate({ identifier: "HttpMatchRuleHttpMatch" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          match: S.optional(__S(201, __c6, 9)),
+          match: S.optional(__S(9, __c0, 9)),
           doesNotRequireAuth: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "HttpMatchRule" });
     case 11:
-      return S.Array(__S(202, __c6, 10));
+      return S.Array(__S(10, __c0, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           proto: S.optional(S.String),
           containerPort: S.optional(S.Number),
           name: S.optional(S.String),
-          httpMatchRule: S.optional(__S(203, __c6, 11)),
+          httpMatchRule: S.optional(__S(11, __c0, 11)),
           clientAuthentication: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContainerPort" });
     case 13:
-      return S.Array(__S(204, __c6, 12));
+      return S.Array(__S(12, __c0, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -1119,7 +939,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "ContainerRequestExperimentalFeaturesHostMount" });
     case 15:
-      return S.Array(__S(206, __c6, 14));
+      return S.Array(__S(14, __c0, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -1129,7 +949,7 @@ function __c6(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          awsEcr: S.optional(__S(208, __c6, 16)),
+          awsEcr: S.optional(__S(16, __c0, 16)),
         }),
       ).annotate({ identifier: "ContainerRequestExperimentalFeaturesImagePullCredentials" });
     case 18:
@@ -1147,20 +967,20 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "ContainerRequestExperimentalFeaturesSidecarVolume" });
     case 20:
-      return S.Array(__S(211, __c6, 19));
+      return S.Array(__S(19, __c0, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          includeLogs: S.optional(__S(197, __c6, 5)),
-          hostMount: S.optional(__S(207, __c6, 15)),
+          includeLogs: S.optional(__S(5, __c0, 5)),
+          hostMount: S.optional(__S(15, __c0, 15)),
           privileged: S.optional(S.Boolean),
-          exportedUnixSockets: S.optional(__S(198, __c6, 6)),
-          imagePullCredentials: S.optional(__S(209, __c6, 17)),
-          pushEphemeralDiskAsImage: S.optional(__S(210, __c6, 18)),
-          capAdd: S.optional(__S(197, __c6, 5)),
-          capDrop: S.optional(__S(197, __c6, 5)),
-          devices: S.optional(__S(197, __c6, 5)),
-          sidecarVolumes: S.optional(__S(212, __c6, 20)),
+          exportedUnixSockets: S.optional(__S(6, __c0, 6)),
+          imagePullCredentials: S.optional(__S(17, __c0, 17)),
+          pushEphemeralDiskAsImage: S.optional(__S(18, __c0, 18)),
+          capAdd: S.optional(__S(5, __c0, 5)),
+          capDrop: S.optional(__S(5, __c0, 5)),
+          devices: S.optional(__S(5, __c0, 5)),
+          sidecarVolumes: S.optional(__S(20, __c0, 20)),
           incrementalLoading: S.optional(S.Boolean),
           sandboxLike: S.optional(S.Boolean),
           useInit: S.optional(S.Boolean),
@@ -1178,7 +998,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "VolumeRequest" });
     case 23:
-      return S.Array(__S(214, __c6, 22));
+      return S.Array(__S(22, __c0, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -1186,42 +1006,42 @@ function __c6(j: number): any {
           imageRef: S.optional(S.String),
           knownImageId: S.optional(S.String),
           rootFilesystem: S.optional(S.String),
-          args: S.optional(__S(197, __c6, 5)),
-          entrypoint: S.optional(__S(197, __c6, 5)),
-          environment: S.optional(__S(198, __c6, 6)),
-          envVars: S.optional(__S(200, __c6, 8)),
+          args: S.optional(__S(5, __c0, 5)),
+          entrypoint: S.optional(__S(5, __c0, 5)),
+          environment: S.optional(__S(6, __c0, 6)),
+          envVars: S.optional(__S(8, __c0, 8)),
           dockerSockPath: S.optional(S.String),
           nscStatePath: S.optional(S.String),
           nscBinsPath: S.optional(S.String),
           secretsPath: S.optional(S.String),
-          exportPorts: S.optional(__S(205, __c6, 13)),
+          exportPorts: S.optional(__S(13, __c0, 13)),
           network: S.optional(S.String),
-          experimental: S.optional(__S(213, __c6, 21)),
+          experimental: S.optional(__S(21, __c0, 21)),
           privileged: S.optional(S.Boolean),
-          volumes: S.optional(__S(215, __c6, 23)),
+          volumes: S.optional(__S(23, __c0, 23)),
           workloadType: S.optional(S.String),
-          sidecarVolumes: S.optional(__S(212, __c6, 20)),
+          sidecarVolumes: S.optional(__S(20, __c0, 20)),
         }),
       ).annotate({ identifier: "ContainerRequest" });
     case 25:
-      return S.Array(__S(216, __c6, 24));
+      return S.Array(__S(24, __c0, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           mode: S.optional(S.String),
           port: S.optional(S.Number),
-          httpMatchRule: S.optional(__S(203, __c6, 11)),
+          httpMatchRule: S.optional(__S(11, __c0, 11)),
           wildcard: S.optional(S.Boolean),
           clientAuthentication: S.optional(S.String),
         }),
       ).annotate({ identifier: "Ingress" });
     case 27:
-      return S.Array(__S(218, __c6, 26));
+      return S.Array(__S(26, __c0, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
-          includeLogs: S.optional(__S(197, __c6, 5)),
+          includeLogs: S.optional(__S(5, __c0, 5)),
         }),
       ).annotate({ identifier: "ApplicationRequestExperimentalFeatures" });
     case 29:
@@ -1230,15 +1050,15 @@ function __c6(j: number): any {
           name: S.optional(S.String),
           imageRef: S.optional(S.String),
           command: S.optional(S.String),
-          args: S.optional(__S(197, __c6, 5)),
-          environment: S.optional(__S(198, __c6, 6)),
-          envVars: S.optional(__S(200, __c6, 8)),
+          args: S.optional(__S(5, __c0, 5)),
+          environment: S.optional(__S(6, __c0, 6)),
+          envVars: S.optional(__S(8, __c0, 8)),
           workloadType: S.optional(S.String),
-          experimental: S.optional(__S(220, __c6, 28)),
+          experimental: S.optional(__S(28, __c0, 28)),
         }),
       ).annotate({ identifier: "ApplicationRequest" });
     case 30:
-      return S.Array(__S(221, __c6, 29));
+      return S.Array(__S(29, __c0, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
@@ -1248,22 +1068,22 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateInstanceRequestExperimentalFeaturesDisk" });
   }
 }
-function __c7(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(223, __c6, 31));
+      return S.Array(__S(31, __c0, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           runtimeType: S.optional(S.String),
-          addToPath: S.optional(__S(197, __c6, 5)),
+          addToPath: S.optional(__S(5, __c0, 5)),
           binaryName: S.optional(S.String),
           root: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateInstanceRequestExperimentalFeaturesContainerdShim" });
     case 2:
-      return S.Array(__S(225, __c7, 1));
+      return S.Array(__S(33, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1274,7 +1094,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "CreateInstanceRequestExperimentalFeaturesTlsBackedPort" });
     case 4:
-      return S.Array(__S(227, __c7, 3));
+      return S.Array(__S(35, __c1, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1283,7 +1103,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "CreateInstanceRequestExperimentalFeaturesPrewarmContainerImage" });
     case 6:
-      return S.Array(__S(229, __c7, 5));
+      return S.Array(__S(37, __c1, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -1292,7 +1112,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "CreateInstanceRequestExperimentalFeaturesDirectoryRequest" });
     case 8:
-      return S.Array(__S(231, __c7, 7));
+      return S.Array(__S(39, __c1, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -1305,18 +1125,18 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           command: S.optional(S.String),
-          args: S.optional(__S(197, __c6, 5)),
-          environment: S.optional(__S(198, __c6, 6)),
+          args: S.optional(__S(5, __c0, 5)),
+          environment: S.optional(__S(6, __c0, 6)),
         }),
       ).annotate({ identifier: "CreateInstanceRequestExperimentalFeaturesHookCommand" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          command: S.optional(__S(234, __c7, 10)),
+          command: S.optional(__S(42, __c1, 10)),
         }),
       ).annotate({ identifier: "CreateInstanceRequestExperimentalFeaturesHook" });
     case 12:
-      return S.Array(__S(235, __c7, 11));
+      return S.Array(__S(43, __c1, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -1329,24 +1149,24 @@ function __c7(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          privateFeature: S.optional(__S(197, __c6, 5)),
-          disks: S.optional(__S(224, __c7, 0)),
-          containerdShims: S.optional(__S(226, __c7, 2)),
-          tlsBackedPorts: S.optional(__S(228, __c7, 4)),
-          prewarmContainerImages: S.optional(__S(230, __c7, 6)),
+          privateFeature: S.optional(__S(5, __c0, 5)),
+          disks: S.optional(__S(32, __c1, 0)),
+          containerdShims: S.optional(__S(34, __c1, 2)),
+          tlsBackedPorts: S.optional(__S(36, __c1, 4)),
+          prewarmContainerImages: S.optional(__S(38, __c1, 6)),
           enableWildcardDomain: S.optional(S.Boolean),
-          volumes: S.optional(__S(215, __c6, 23)),
-          ensureDirectory: S.optional(__S(232, __c7, 8)),
+          volumes: S.optional(__S(23, __c0, 23)),
+          ensureDirectory: S.optional(__S(40, __c1, 8)),
           uniqueTag: S.optional(S.String),
-          exportedUnixSockets: S.optional(__S(198, __c6, 6)),
-          containerCache: S.optional(__S(233, __c7, 9)),
-          preStartHook: S.optional(__S(236, __c7, 12)),
-          preShutdownHook: S.optional(__S(236, __c7, 12)),
-          authorizedSshKeys: S.optional(__S(197, __c6, 5)),
+          exportedUnixSockets: S.optional(__S(6, __c0, 6)),
+          containerCache: S.optional(__S(41, __c1, 9)),
+          preStartHook: S.optional(__S(44, __c1, 12)),
+          preShutdownHook: S.optional(__S(44, __c1, 12)),
+          authorizedSshKeys: S.optional(__S(5, __c0, 5)),
           macosBaseImageId: S.optional(S.String),
-          internal: S.optional(__S(198, __c6, 6)),
+          internal: S.optional(__S(6, __c0, 6)),
           nestedVirtualization: S.optional(S.Boolean),
-          prometheusMetricsSink: S.optional(__S(237, __c7, 13)),
+          prometheusMetricsSink: S.optional(__S(45, __c1, 13)),
           withConfiguration: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateInstanceRequestExperimentalFeatures" });
@@ -1362,16 +1182,16 @@ function __c7(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           value: S.optional(S.String),
-          valueFrom: S.optional(__S(239, __c7, 15)),
+          valueFrom: S.optional(__S(47, __c1, 15)),
         }),
       ).annotate({ identifier: "HttpHeader" });
     case 17:
-      return S.Array(__S(240, __c7, 16));
+      return S.Array(__S(48, __c1, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
           postUrl: S.optional(S.String),
-          headers: S.optional(__S(241, __c7, 17)),
+          headers: S.optional(__S(49, __c1, 17)),
           signWithSecretId: S.optional(S.String),
         }),
       ).annotate({ identifier: "HttpCallbackEndpoint" });
@@ -1406,34 +1226,34 @@ function __c7(j: number): any {
     case 23:
       return S.suspend(() =>
         S.Struct({
-          basic: S.optional(__S(243, __c7, 19)),
-          openid: S.optional(__S(244, __c7, 20)),
-          ecrTokenFromAwsFederation: S.optional(__S(245, __c7, 21)),
-          gcpWorkloadIdentityFederation: S.optional(__S(246, __c7, 22)),
+          basic: S.optional(__S(51, __c1, 19)),
+          openid: S.optional(__S(52, __c1, 20)),
+          ecrTokenFromAwsFederation: S.optional(__S(53, __c1, 21)),
+          gcpWorkloadIdentityFederation: S.optional(__S(54, __c1, 22)),
         }),
       ).annotate({ identifier: "AdditionalRegistryAuthenticator" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          authentication: S.optional(__S(247, __c7, 23)),
+          authentication: S.optional(__S(55, __c1, 23)),
         }),
       ).annotate({ identifier: "AdditionalRegistry" });
     case 25:
-      return S.Record(S.String, __S(248, __c7, 24));
+      return S.Record(S.String, __S(56, __c1, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
           resourceType: S.optional(S.String),
           resourceId: S.optional(S.String),
-          actions: S.optional(__S(197, __c6, 5)),
+          actions: S.optional(__S(5, __c0, 5)),
         }),
       ).annotate({ identifier: "Permission" });
     case 27:
-      return S.Array(__S(250, __c7, 26));
+      return S.Array(__S(58, __c1, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
-          matchDomains: S.optional(__S(197, __c6, 5)),
+          matchDomains: S.optional(__S(5, __c0, 5)),
         }),
       ).annotate({ identifier: "EgressPolicySpecMatcher" });
     case 29:
@@ -1448,12 +1268,12 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
-          headers: S.optional(__S(241, __c7, 17)),
+          headers: S.optional(__S(49, __c1, 17)),
         }),
       ).annotate({ identifier: "EgressPolicySpecInjectOptsFromEndpoint" });
   }
 }
-function __c8(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1461,7 +1281,7 @@ function __c8(j: number): any {
           headerName: S.optional(S.String),
           fromSecretId: S.optional(S.String),
           value: S.optional(S.String),
-          fromEndpoint: S.optional(__S(255, __c7, 31)),
+          fromEndpoint: S.optional(__S(63, __c1, 31)),
           resolutionPolicy: S.optional(S.String),
         }),
       ).annotate({ identifier: "EgressPolicySpecInjectOpts" });
@@ -1469,60 +1289,60 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           op: S.optional(S.String),
-          matcher: S.optional(__S(252, __c7, 28)),
-          allow: S.optional(__S(253, __c7, 29)),
-          proxy: S.optional(__S(254, __c7, 30)),
-          inject: S.optional(__S(256, __c8, 0)),
+          matcher: S.optional(__S(60, __c1, 28)),
+          allow: S.optional(__S(61, __c1, 29)),
+          proxy: S.optional(__S(62, __c1, 30)),
+          inject: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "EgressPolicySpecRule" });
     case 2:
-      return S.Array(__S(257, __c8, 1));
+      return S.Array(__S(65, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           mode: S.optional(S.String),
           deepPacketInspection: S.optional(S.Boolean),
-          rules: S.optional(__S(258, __c8, 2)),
-          additionalRulesets: S.optional(__S(197, __c6, 5)),
-          allowedEgressDomains: S.optional(__S(197, __c6, 5)),
+          rules: S.optional(__S(66, __c2, 2)),
+          additionalRulesets: S.optional(__S(5, __c0, 5)),
+          allowedEgressDomains: S.optional(__S(5, __c0, 5)),
         }),
       ).annotate({ identifier: "EgressPolicySpec" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          egress: S.optional(__S(259, __c8, 3)),
+          egress: S.optional(__S(67, __c2, 3)),
           egressPolicyTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateInstanceRequestNetworkPolicy" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          shape: S.optional(__S(194, __c6, 2)),
-          features: S.optional(__S(195, __c6, 3)),
-          featureConfiguration: S.optional(__S(196, __c6, 4)),
+          shape: S.optional(__S(2, __c0, 2)),
+          features: S.optional(__S(3, __c0, 3)),
+          featureConfiguration: S.optional(__S(4, __c0, 4)),
           documentedPurpose: S.optional(S.String),
-          labels: S.optional(__S(193, __c6, 1)),
+          labels: S.optional(__S(1, __c0, 1)),
           deadline: S.optional(S.String),
           interactive: S.optional(S.Boolean),
           region: S.optional(S.String),
-          placement: S.optional(__S(197, __c6, 5)),
-          containers: S.optional(__S(217, __c6, 25)),
-          ingresses: S.optional(__S(219, __c6, 27)),
+          placement: S.optional(__S(5, __c0, 5)),
+          containers: S.optional(__S(25, __c0, 25)),
+          ingresses: S.optional(__S(27, __c0, 27)),
           ingressBaseDomain: S.optional(S.String),
-          applications: S.optional(__S(222, __c6, 30)),
-          experimental: S.optional(__S(238, __c7, 14)),
-          volumes: S.optional(__S(215, __c6, 23)),
-          containerCache: S.optional(__S(233, __c7, 9)),
-          httpEventCallback: S.optional(__S(242, __c7, 18)),
-          additionalRegistries: S.optional(__S(249, __c7, 25)),
-          workloadPermissions: S.optional(__S(251, __c7, 27)),
-          networkPolicy: S.optional(__S(260, __c8, 4)),
+          applications: S.optional(__S(30, __c0, 30)),
+          experimental: S.optional(__S(46, __c1, 14)),
+          volumes: S.optional(__S(23, __c0, 23)),
+          containerCache: S.optional(__S(41, __c1, 9)),
+          httpEventCallback: S.optional(__S(50, __c1, 18)),
+          additionalRegistries: S.optional(__S(57, __c1, 25)),
+          workloadPermissions: S.optional(__S(59, __c1, 27)),
+          networkPolicy: S.optional(__S(68, __c2, 4)),
         }),
       ).annotate({ identifier: "CreateInstanceRequest" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          createInstanceReq: S.optional(__S(261, __c8, 5)),
+          createInstanceReq: S.optional(__S(69, __c2, 5)),
           reservationDeadline: S.optional(S.String),
           priority: S.optional(S.String),
         }).pipe(
@@ -1537,12 +1357,12 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           reservationId: S.String,
-          metadata: S.optional(__S(128, __c4, 0)),
+          metadata: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "ReserveInstanceResponse" });
   }
 }
-function __c9(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1557,6 +1377,110 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateReservationDeadlineRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reservationId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.experimental.compute.ReservationService/CancelReservation",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CancelReservationRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reservationDeadline: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CancelReservationResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reservationId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.experimental.compute.ReservationService/DescribeReservation",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DescribeReservationRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          timestamp: S.optional(S.String),
+          instanceId: S.String,
+          error: S.String,
+        }),
+      ).annotate({ identifier: "CreationAttempt" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          reservationId: S.String,
+          reservationMetadata: S.optional(__S(256, __c8, 0)),
+          instanceId: S.String,
+          fulfillmentTime: S.optional(S.String),
+          lastAttempt: S.optional(__S(224, __c7, 0)),
+          status: S.String,
+          priority: S.String,
+        }),
+      ).annotate({ identifier: "DescribeReservationResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reservationTime: S.optional(S.String),
+          reservationDeadline: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReserveInstanceResponseReservationMetadata" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          periodStart: S.optional(S.String),
+          periodEnd: S.optional(S.String),
+          maxEntries: S.optional(S.String),
+          excludeFulfilled: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.experimental.compute.ReservationService/ListReservations",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListReservationsRequest" });
+    case 1:
+      return S.Array(__S(225, __c7, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          reservations: __S(289, __c9, 1),
+        }),
+      ).annotate({ identifier: "ListReservationsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

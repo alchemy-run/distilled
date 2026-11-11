@@ -30,15 +30,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export class Aborted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Aborted>()("Aborted", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withConflictError),
-    [{ status: 409, body: { "/code": "aborted" } }],
-  ) {}
-
 export class AlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
@@ -46,15 +37,6 @@ export class AlreadyExists
       body: S.Unknown,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
-  ) {}
-
-export class Canceled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Canceled>()("Canceled", {
-      message: S.String,
-      body: S.Unknown,
-    }),
-    [{ status: 499 }],
   ) {}
 
 export class FailedPrecondition
@@ -84,15 +66,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class OutOfRange
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<OutOfRange>()("OutOfRange", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withBadRequestError),
-    [{ status: 400, body: { "/code": "out_of_range" } }],
-  ) {}
-
 export class PermissionDenied
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
@@ -118,15 +91,6 @@ export class Unauthenticated
       body: S.Unknown,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-export class Unimplemented
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Unimplemented>()("Unimplemented", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withServerError),
-    [{ status: 501 }],
   ) {}
 
 export type RevokableTokenScope = "SCOPE_UNKNOWN" | "TENANT_SCOPE" | "TENANT_MEMBERSHIP_SCOPE";
@@ -280,15 +244,11 @@ export interface RevokeRevokableTokenResponse {}
 export type BatchRevokeRevokableTokenError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Batch revokes multiple revokable tokens based on filter criteria. At least one filter must be provided. ### Authentication Requires a tenant token with the {"token/revokable", "revoke"} action permission. ### Errors - If no filters are provided, an `InvalidArgument` status is returned. */
 export const batchRevokeRevokableToken: API.OperationMethod<
@@ -297,20 +257,16 @@ export const batchRevokeRevokableToken: API.OperationMethod<
   BatchRevokeRevokableTokenError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<BatchRevokeRevokableTokenRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<BatchRevokeRevokableTokenResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<BatchRevokeRevokableTokenRequest>,
+  output: __S(25, __c6, 1) as any as S.Schema<BatchRevokeRevokableTokenResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -322,15 +278,11 @@ export const batchRevokeRevokableToken: API.OperationMethod<
 export type CreateRevokableTokenError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Creates a revokable token that returns a bearer token (prefixed with "nsrt_") and metadata (with token_id prefixed with "tok_"). Revokable tokens can be explicitly revoked and have a maximum expiration of 1 year when an expiration is set. Membership-scoped tokens may have no expiration and remain valid until revoked or the user loses tenant membership. ### Authentication Requires a tenant token with the {"token/revokable", "create"} action permission. ### Errors - If expiry is not provided for a tenant-scoped token or exceeds 1 year, an `InvalidArgument` status is returned. - If no policies are defined, an `InvalidArgument` status is returned. */
 export const createRevokableToken: API.OperationMethod<
@@ -339,20 +291,16 @@ export const createRevokableToken: API.OperationMethod<
   CreateRevokableTokenError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<CreateRevokableTokenRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<CreateRevokableTokenResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<CreateRevokableTokenRequest>,
+  output: __S(33, __c8, 1) as any as S.Schema<CreateRevokableTokenResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -364,15 +312,11 @@ export const createRevokableToken: API.OperationMethod<
 export type IssueIdTokenError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Exchange a Namespace tenant token for an OIDC token for identity federation. The generated token identifies Namespace tenants with the provided target audience. ### Authentication Requires a tenant token with the {"federation", "issue_federation"} action permission. ### Errors - If no audience is provided, a `InvalidArgument` status is returned. */
 export const issueIdToken: API.OperationMethod<
@@ -381,20 +325,16 @@ export const issueIdToken: API.OperationMethod<
   IssueIdTokenError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<IssueIdTokenRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<IssueIdTokenResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<IssueIdTokenRequest>,
+  output: __S(49, __c12, 1) as any as S.Schema<IssueIdTokenResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -406,15 +346,11 @@ export const issueIdToken: API.OperationMethod<
 export type IssueTenantTokenError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Produces credentials in the form of a Bearer token that grant access to the specified Tenant. The credentials provided to the `IssueTenantToken` call are validated to verify they are capable of requesting credentials. ### Authentication Requires a "partner token". */
 export const issueTenantToken: API.OperationMethod<
@@ -423,20 +359,16 @@ export const issueTenantToken: API.OperationMethod<
   IssueTenantTokenError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<IssueTenantTokenRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<IssueTenantTokenResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<IssueTenantTokenRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<IssueTenantTokenResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -448,15 +380,11 @@ export const issueTenantToken: API.OperationMethod<
 export type IssueTenantTokenWithOIDCError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Produces credentials in the form of a Bearer token that grant access to the specified Tenant using an OIDC token from a trusted issuer. ### Authentication This call authenticates using the `oidc_token` provided in the request. */
 export const issueTenantTokenWithOIDC: API.OperationMethod<
@@ -465,20 +393,16 @@ export const issueTenantTokenWithOIDC: API.OperationMethod<
   IssueTenantTokenWithOIDCError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<IssueTenantTokenWithOIDCRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<IssueTenantTokenWithOIDCResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<IssueTenantTokenWithOIDCRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<IssueTenantTokenWithOIDCResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -490,15 +414,11 @@ export const issueTenantTokenWithOIDC: API.OperationMethod<
 export type ListRevokableTokensError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Lists all revokable tokens for the authenticated tenant. ### Authentication Requires a tenant token with the {"token/revokable", "list"} action permission. */
 export const listRevokableTokens: API.PaginatedOperationMethod<
@@ -509,20 +429,16 @@ export const listRevokableTokens: API.PaginatedOperationMethod<
   RevokableToken
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(40, __c10, 0) as any as S.Schema<ListRevokableTokensRequest>,
-    output: __S(42, __c10, 2) as any as S.Schema<ListRevokableTokensResponse>,
+    input: __S(12, __c3, 0) as any as S.Schema<ListRevokableTokensRequest>,
+    output: __S(14, __c3, 2) as any as S.Schema<ListRevokableTokensResponse>,
     errors: [
       InvalidArgument,
       FailedPrecondition,
-      OutOfRange,
       Unauthenticated,
       PermissionDenied,
       NotFound,
       AlreadyExists,
-      Aborted,
       ResourceExhausted,
-      Canceled,
-      Unimplemented,
       UnknownNamespaceLabsError,
     ],
     protocol: NamespaceLabsProtocol,
@@ -542,15 +458,11 @@ export const listRevokableTokens: API.PaginatedOperationMethod<
 export type RefreshRevokableTokenError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Ensures a revokable token has at least the requested remaining lifetime. Refreshing does not return a new bearer token; it updates the existing token's expiry in place. ### Authentication Requires a tenant token with the {"token/revokable", "refresh"} action permission. ### Errors - If `minimum_duration` is missing, non-positive, or exceeds 1 year, an `InvalidArgument` status is returned. - If the token_id is not found or already revoked, a `NotFound` status is returned. - If the token has already expired, a `FailedPrecondition` status is returned. */
 export const refreshRevokableToken: API.OperationMethod<
@@ -559,20 +471,16 @@ export const refreshRevokableToken: API.OperationMethod<
   RefreshRevokableTokenError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<RefreshRevokableTokenRequest>,
-  output: __S(45, __c11, 1) as any as S.Schema<RefreshRevokableTokenResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<RefreshRevokableTokenRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<RefreshRevokableTokenResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -584,15 +492,11 @@ export const refreshRevokableToken: API.OperationMethod<
 export type RevokeRevokableTokenError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Revokes a revokable token by its token_id (prefixed with "tok_"), preventing the associated bearer token from being used for authentication. Records who revoked the token and when. ### Authentication Requires a tenant token with the {"token/revokable", "revoke"} action permission. ### Errors - If the token_id is not found or already revoked, a `NotFound` status is returned. */
 export const revokeRevokableToken: API.OperationMethod<
@@ -601,20 +505,16 @@ export const revokeRevokableToken: API.OperationMethod<
   RevokeRevokableTokenError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<RevokeRevokableTokenRequest>,
-  output: __S(49, __c12, 1) as any as S.Schema<RevokeRevokableTokenResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<RevokeRevokableTokenRequest>,
+  output: __S(21, __c5, 1) as any as S.Schema<RevokeRevokableTokenResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -625,6 +525,122 @@ export const revokeRevokableToken: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tenantId: S.optional(S.String),
+          actorId: S.optional(S.String),
+          durationSecs: S.optional(S.String),
+          policies: S.optional(__S(37, __c9, 1)),
+          access: S.optional(__S(38, __c9, 2)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.iam.v1beta.TokenService/IssueTenantToken",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "IssueTenantTokenRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          bearerToken: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "IssueTenantTokenResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tenantId: S.optional(S.String),
+          oidcToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          duration: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.iam.v1beta.TokenService/IssueTenantTokenWithOIDC",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "IssueTenantTokenWithOIDCRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paginationCursor: S.optional(S.String),
+          maxEntries: S.optional(S.String),
+          includeRevoked: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.iam.v1beta.TokenService/ListRevokableTokens",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListRevokableTokensRequest" });
+    case 1:
+      return S.Array(__S(44, __c11, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          tokens: __S(13, __c3, 1),
+          paginationCursor: S.String,
+        }),
+      ).annotate({ identifier: "ListRevokableTokensResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tokenId: S.optional(S.String),
+          minimumDuration: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.iam.v1beta.TokenService/RefreshRevokableToken",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RefreshRevokableTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          token: S.optional(__S(44, __c11, 0)),
+        }),
+      ).annotate({ identifier: "RefreshRevokableTokenResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tokenId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.iam.v1beta.TokenService/RevokeRevokableToken",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RevokeRevokableTokenRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "RevokeRevokableTokenResponse" });
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -643,18 +659,18 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          revokedTokenIds: __S(4, __c1, 0),
+          revokedTokenIds: __S(28, __c7, 0),
         }),
       ).annotate({ identifier: "BatchRevokeRevokableTokenResponse" });
   }
 }
-function __c1(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c2(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -662,8 +678,8 @@ function __c2(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           expiresAt: S.optional(S.String),
-          policies: S.optional(__S(13, __c3, 1)),
-          access: S.optional(__S(14, __c3, 2)),
+          policies: S.optional(__S(37, __c9, 1)),
+          access: S.optional(__S(38, __c9, 2)),
           scope: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -677,12 +693,12 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bearerToken: S.String.pipe(T.SensitiveValue({})),
-          token: S.optional(__S(20, __c5, 0)),
+          token: S.optional(__S(44, __c11, 0)),
         }),
       ).annotate({ identifier: "CreateRevokableTokenResponse" });
   }
 }
-function __c3(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -692,30 +708,30 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "TenantTokenPolicy" });
     case 1:
-      return S.Array(__S(12, __c3, 0));
+      return S.Array(__S(36, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          grants: S.optional(__S(17, __c4, 1)),
+          grants: S.optional(__S(41, __c10, 1)),
         }),
       ).annotate({ identifier: "AccessPolicy" });
   }
 }
-function __c4(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceType: S.optional(S.String),
           resourceId: S.optional(S.String),
-          actions: S.optional(__S(4, __c1, 0)),
+          actions: S.optional(__S(28, __c7, 0)),
         }),
       ).annotate({ identifier: "Permission" });
     case 1:
-      return S.Array(__S(16, __c4, 0));
+      return S.Array(__S(40, __c10, 0));
   }
 }
-function __c5(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -730,13 +746,13 @@ function __c5(j: number): any {
           revokedByActorId: S.String,
           creatorActorId: S.String,
           scope: S.String,
-          permissions: __S(17, __c4, 1),
+          permissions: __S(41, __c10, 1),
           state: S.String,
         }),
       ).annotate({ identifier: "RevokableToken" });
   }
 }
-function __c6(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -756,122 +772,6 @@ function __c6(j: number): any {
           idToken: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "IssueIdTokenResponse" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tenantId: S.optional(S.String),
-          actorId: S.optional(S.String),
-          durationSecs: S.optional(S.String),
-          policies: S.optional(__S(13, __c3, 1)),
-          access: S.optional(__S(14, __c3, 2)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.iam.v1beta.TokenService/IssueTenantToken",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "IssueTenantTokenRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          bearerToken: S.String.pipe(T.SensitiveValue({})),
-        }),
-      ).annotate({ identifier: "IssueTenantTokenResponse" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tenantId: S.optional(S.String),
-          oidcToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          duration: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.iam.v1beta.TokenService/IssueTenantTokenWithOIDC",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "IssueTenantTokenWithOIDCRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          paginationCursor: S.optional(S.String),
-          maxEntries: S.optional(S.String),
-          includeRevoked: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.iam.v1beta.TokenService/ListRevokableTokens",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListRevokableTokensRequest" });
-    case 1:
-      return S.Array(__S(20, __c5, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          tokens: __S(41, __c10, 1),
-          paginationCursor: S.String,
-        }),
-      ).annotate({ identifier: "ListRevokableTokensResponse" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tokenId: S.optional(S.String),
-          minimumDuration: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.iam.v1beta.TokenService/RefreshRevokableToken",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RefreshRevokableTokenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          token: S.optional(__S(20, __c5, 0)),
-        }),
-      ).annotate({ identifier: "RefreshRevokableTokenResponse" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tokenId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.iam.v1beta.TokenService/RevokeRevokableToken",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RevokeRevokableTokenRequest" });
-    case 1:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "RevokeRevokableTokenResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

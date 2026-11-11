@@ -30,15 +30,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export class Aborted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Aborted>()("Aborted", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withConflictError),
-    [{ status: 409, body: { "/code": "aborted" } }],
-  ) {}
-
 export class AlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
@@ -46,15 +37,6 @@ export class AlreadyExists
       body: S.Unknown,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
-  ) {}
-
-export class Canceled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Canceled>()("Canceled", {
-      message: S.String,
-      body: S.Unknown,
-    }),
-    [{ status: 499 }],
   ) {}
 
 export class FailedPrecondition
@@ -84,15 +66,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class OutOfRange
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<OutOfRange>()("OutOfRange", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withBadRequestError),
-    [{ status: 400, body: { "/code": "out_of_range" } }],
-  ) {}
-
 export class PermissionDenied
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
@@ -118,15 +91,6 @@ export class Unauthenticated
       body: S.Unknown,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-export class Unimplemented
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Unimplemented>()("Unimplemented", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withServerError),
-    [{ status: 501 }],
   ) {}
 
 export interface DownloadPrepareRequest {
@@ -529,15 +493,11 @@ export interface PrepareUploadResultResponse {
 export type DownloadPrepareError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Prepares an output for download by generating an accessible URL. The returned URL is time-limited and should be used promptly. ### Errors - If the output_id is invalid or expired, a `NotFound` status is returned. */
 export const downloadPrepare: API.OperationMethod<
@@ -546,20 +506,16 @@ export const downloadPrepare: API.OperationMethod<
   DownloadPrepareError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DownloadPrepareRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<DownloadPrepareResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<DownloadPrepareRequest>,
+  output: __S(99, __c3, 3) as any as S.Schema<DownloadPrepareResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -571,15 +527,11 @@ export const downloadPrepare: API.OperationMethod<
 export type ExpireResultError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Expires a result, marking it for garbage collection. ### Errors - If the result does not exist, a `NotFound` status is returned. */
 export const expireResult: API.OperationMethod<
@@ -588,20 +540,16 @@ export const expireResult: API.OperationMethod<
   ExpireResultError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<ExpireResultRequest>,
-  output: __S(33, __c1, 1) as any as S.Schema<ExpireResultResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<ExpireResultRequest>,
+  output: __S(129, __c4, 1) as any as S.Schema<ExpireResultResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -613,15 +561,11 @@ export const expireResult: API.OperationMethod<
 export type FetchResultError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Fetches the result for a given set of inputs, if one exists. Returns outputs which can be used with PrepareDownload to obtain actual download URLs. Always returns a result_reference that can be used to upload a new result for the same inputs. If the result does not exist, not_found is set to true. */
 export const fetchResult: API.OperationMethod<
@@ -630,20 +574,16 @@ export const fetchResult: API.OperationMethod<
   FetchResultError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<FetchResultRequest>,
-  output: __S(65, __c2, 1) as any as S.Schema<FetchResultResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<FetchResultRequest>,
+  output: __S(161, __c5, 1) as any as S.Schema<FetchResultResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -655,15 +595,11 @@ export const fetchResult: API.OperationMethod<
 export type FinalizeUploadResultError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Finalizes a result upload after all output files have been uploaded. ### Errors - If the finalize_token is invalid or expired, a `NotFound` status is returned. */
 export const finalizeUploadResult: API.OperationMethod<
@@ -672,20 +608,16 @@ export const finalizeUploadResult: API.OperationMethod<
   FinalizeUploadResultError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<FinalizeUploadResultRequest>,
-  output: __S(193, __c6, 1) as any as S.Schema<FinalizeUploadResultResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<FinalizeUploadResultRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<FinalizeUploadResultResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -697,15 +629,11 @@ export const finalizeUploadResult: API.OperationMethod<
 export type ListResultsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns a list of all results that match the specified filter. */
 export const listResults: API.PaginatedOperationMethod<
@@ -716,20 +644,16 @@ export const listResults: API.PaginatedOperationMethod<
   ResultMetadata
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(224, __c7, 0) as any as S.Schema<ListResultsRequest>,
-    output: __S(227, __c7, 3) as any as S.Schema<ListResultsResponse>,
+    input: __S(32, __c1, 0) as any as S.Schema<ListResultsRequest>,
+    output: __S(35, __c1, 3) as any as S.Schema<ListResultsResponse>,
     errors: [
       InvalidArgument,
       FailedPrecondition,
-      OutOfRange,
       Unauthenticated,
       PermissionDenied,
       NotFound,
       AlreadyExists,
-      Aborted,
       ResourceExhausted,
-      Canceled,
-      Unimplemented,
       UnknownNamespaceLabsError,
     ],
     protocol: NamespaceLabsProtocol,
@@ -749,15 +673,11 @@ export const listResults: API.PaginatedOperationMethod<
 export type PrepareUploadResultError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Prepares to upload a new result. Returns upload URLs for each output file. After uploading all files, call FinalizeUploadResult to commit the result. ### Errors - If the result_reference is invalid, an `InvalidArgument` status is returned. */
 export const prepareUploadResult: API.OperationMethod<
@@ -766,20 +686,16 @@ export const prepareUploadResult: API.OperationMethod<
   PrepareUploadResultError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(263, __c8, 7) as any as S.Schema<PrepareUploadResultRequest>,
-  output: __S(273, __c8, 17) as any as S.Schema<PrepareUploadResultResponse>,
+  input: __S(71, __c2, 7) as any as S.Schema<PrepareUploadResultRequest>,
+  output: __S(81, __c2, 17) as any as S.Schema<PrepareUploadResultResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -790,264 +706,6 @@ export const prepareUploadResult: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          outputId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.experimental.remote.ResultsService/PrepareDownload",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DownloadPrepareRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          url: S.String,
-          expiresAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RemoteURL" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.String,
-        }),
-      ).annotate({ identifier: "LocalFile" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          remoteUrl: S.optional(__S(1, __c0, 1)),
-          localFile: S.optional(__S(2, __c0, 2)),
-        }),
-      ).annotate({ identifier: "DownloadPrepareResponse" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resultId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.experimental.remote.ResultsService/ExpireResult",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ExpireResultRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          expiresAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExpireResultResponse" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          inputs: S.optional(__S(109, __c3, 13)),
-          resultId: S.optional(S.String),
-          includeInputs: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.experimental.remote.ResultsService/FetchResult",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "FetchResultRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          notFound: S.Boolean,
-          resultReference: S.String,
-          resultId: S.String,
-          inputs: __S(109, __c3, 13),
-          computedAt: S.optional(S.String),
-          expiresAt: S.optional(S.String),
-          commandOutput: S.optional(__S(110, __c3, 14)),
-          snapshots: __S(116, __c3, 20),
-          annotations: S.optional(__S(160, __c5, 0)),
-          origin: S.optional(__S(117, __c3, 21)),
-        }),
-      ).annotate({ identifier: "FetchResultResponse" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          url: S.optional(S.String),
-          digest: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GitRepository" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          repository: S.optional(S.String),
-          digest: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ContainerImage" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.optional(S.String),
-          contentType: S.optional(S.String),
-          contentDigest: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ContentReference" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          inline: S.optional(S.String),
-          digest: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StringOrDigest" });
-    case 4:
-      return S.Array(__S(99, __c3, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.optional(S.String),
-          value: S.optional(__S(99, __c3, 3)),
-        }),
-      ).annotate({ identifier: "EnvVar" });
-    case 6:
-      return S.Array(__S(101, __c3, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          mountPoint: S.optional(S.String),
-          inputKey: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CommandMount" });
-    case 8:
-      return S.Array(__S(103, __c3, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          command: S.optional(S.String),
-          args: S.optional(__S(100, __c3, 4)),
-          env: S.optional(__S(102, __c3, 6)),
-          platform: S.optional(S.String),
-          mounts: S.optional(__S(104, __c3, 8)),
-        }),
-      ).annotate({ identifier: "CommandInvocation" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          version: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Canonical" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          resultId: S.optional(S.String),
-          snapshotKey: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SnapshotInput" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.optional(S.String),
-          gitRepository: S.optional(__S(96, __c3, 0)),
-          containerImage: S.optional(__S(97, __c3, 1)),
-          contentReference: S.optional(__S(98, __c3, 2)),
-          commandInvocation: S.optional(__S(105, __c3, 9)),
-          canonical: S.optional(__S(106, __c3, 10)),
-          snapshotInput: S.optional(__S(107, __c3, 11)),
-        }),
-      ).annotate({ identifier: "Input" });
-    case 13:
-      return S.Array(__S(108, __c3, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          outputId: S.String,
-          size: S.String,
-        }),
-      ).annotate({ identifier: "CommandOutput" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.String,
-          outputId: S.String,
-          size: S.String,
-          digest: S.optional(__S(128, __c4, 0)),
-        }),
-      ).annotate({ identifier: "BaseContents" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.String,
-          outputId: S.String,
-          size: S.String,
-          mode: S.Number,
-          ctime: S.optional(S.String),
-          digest: S.optional(__S(128, __c4, 0)),
-          mtime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LargeFile" });
-    case 17:
-      return S.Array(__S(112, __c3, 16));
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          totalSize: S.String,
-          digest: S.optional(__S(128, __c4, 0)),
-          outputId: S.String,
-        }),
-      ).annotate({ identifier: "PackedSnapshot" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.String,
-          digest: S.optional(__S(128, __c4, 0)),
-          baseContents: S.optional(__S(111, __c3, 15)),
-          largeFiles: __S(113, __c3, 17),
-          packed: S.optional(__S(114, __c3, 18)),
-        }),
-      ).annotate({ identifier: "Snapshot" });
-    case 20:
-      return S.Array(__S(115, __c3, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          instanceId: S.String,
-        }),
-      ).annotate({ identifier: "Origin" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          algorithm: S.optional(S.String),
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Digest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          commandDuration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CommandAnnotations" });
-  }
-}
-function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1069,7 +727,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "FinalizeUploadResultResponse" });
   }
 }
-function __c7(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1089,26 +747,26 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resultId: S.String,
-          inputs: __S(109, __c3, 13),
+          inputs: __S(205, __c6, 13),
           computedAt: S.optional(S.String),
           expiresAt: S.optional(S.String),
-          commandOutput: S.optional(__S(110, __c3, 14)),
-          snapshots: __S(116, __c3, 20),
-          origin: S.optional(__S(117, __c3, 21)),
+          commandOutput: S.optional(__S(206, __c6, 14)),
+          snapshots: __S(212, __c6, 20),
+          origin: S.optional(__S(213, __c6, 21)),
         }),
       ).annotate({ identifier: "ResultMetadata" });
     case 2:
-      return S.Array(__S(225, __c7, 1));
+      return S.Array(__S(33, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(226, __c7, 2),
+          results: __S(34, __c1, 2),
           paginationCursor: S.String,
         }),
       ).annotate({ identifier: "ListResultsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1121,7 +779,7 @@ function __c8(j: number): any {
         S.Struct({
           kind: S.optional(S.String),
           size: S.optional(S.String),
-          digest: S.optional(__S(128, __c4, 0)),
+          digest: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "BaseContentsToUpload" });
     case 2:
@@ -1131,37 +789,37 @@ function __c8(j: number): any {
           size: S.optional(S.String),
           mode: S.optional(S.Number),
           ctime: S.optional(S.String),
-          digest: S.optional(__S(128, __c4, 0)),
+          digest: S.optional(__S(224, __c7, 0)),
           mtime: S.optional(S.String),
         }),
       ).annotate({ identifier: "LargeFileToUpload" });
     case 3:
-      return S.Array(__S(258, __c8, 2));
+      return S.Array(__S(66, __c2, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           totalSize: S.optional(S.String),
-          digest: S.optional(__S(128, __c4, 0)),
+          digest: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "PackedSnapshotToUpload" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
-          baseContents: S.optional(__S(257, __c8, 1)),
-          largeFiles: S.optional(__S(259, __c8, 3)),
-          packed: S.optional(__S(260, __c8, 4)),
+          baseContents: S.optional(__S(65, __c2, 1)),
+          largeFiles: S.optional(__S(67, __c2, 3)),
+          packed: S.optional(__S(68, __c2, 4)),
         }),
       ).annotate({ identifier: "SnapshotToUpload" });
     case 6:
-      return S.Array(__S(261, __c8, 5));
+      return S.Array(__S(69, __c2, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           resultReference: S.optional(S.String),
-          commandOutput: S.optional(__S(256, __c8, 0)),
-          snapshots: S.optional(__S(262, __c8, 6)),
-          annotations: S.optional(__S(160, __c5, 0)),
+          commandOutput: S.optional(__S(64, __c2, 0)),
+          snapshots: S.optional(__S(70, __c2, 6)),
+          annotations: S.optional(__S(256, __c8, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1195,7 +853,7 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "LargeFileUpload" });
     case 11:
-      return S.Array(__S(266, __c8, 10));
+      return S.Array(__S(74, __c2, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -1205,11 +863,11 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "PackedSnapshotUploadSlot" });
     case 13:
-      return S.Array(__S(268, __c8, 12));
+      return S.Array(__S(76, __c2, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          slots: __S(269, __c8, 13),
+          slots: __S(77, __c2, 13),
           expiresAt: S.optional(S.String),
           uploadedAt: S.optional(S.String),
         }),
@@ -1218,21 +876,279 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          baseContents: S.optional(__S(265, __c8, 9)),
-          largeFiles: __S(267, __c8, 11),
-          packed: S.optional(__S(270, __c8, 14)),
+          baseContents: S.optional(__S(73, __c2, 9)),
+          largeFiles: __S(75, __c2, 11),
+          packed: S.optional(__S(78, __c2, 14)),
         }),
       ).annotate({ identifier: "SnapshotUpload" });
     case 16:
-      return S.Array(__S(271, __c8, 15));
+      return S.Array(__S(79, __c2, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           finalizeToken: S.String.pipe(T.SensitiveValue({})),
-          commandOutput: S.optional(__S(264, __c8, 8)),
-          snapshots: __S(272, __c8, 16),
+          commandOutput: S.optional(__S(72, __c2, 8)),
+          snapshots: __S(80, __c2, 16),
         }),
       ).annotate({ identifier: "PrepareUploadResultResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          outputId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.experimental.remote.ResultsService/PrepareDownload",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DownloadPrepareRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String,
+          expiresAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RemoteURL" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.String,
+        }),
+      ).annotate({ identifier: "LocalFile" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          remoteUrl: S.optional(__S(97, __c3, 1)),
+          localFile: S.optional(__S(98, __c3, 2)),
+        }),
+      ).annotate({ identifier: "DownloadPrepareResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resultId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.experimental.remote.ResultsService/ExpireResult",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ExpireResultRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          expiresAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExpireResultResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          inputs: S.optional(__S(205, __c6, 13)),
+          resultId: S.optional(S.String),
+          includeInputs: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.experimental.remote.ResultsService/FetchResult",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "FetchResultRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          notFound: S.Boolean,
+          resultReference: S.String,
+          resultId: S.String,
+          inputs: __S(205, __c6, 13),
+          computedAt: S.optional(S.String),
+          expiresAt: S.optional(S.String),
+          commandOutput: S.optional(__S(206, __c6, 14)),
+          snapshots: __S(212, __c6, 20),
+          annotations: S.optional(__S(256, __c8, 0)),
+          origin: S.optional(__S(213, __c6, 21)),
+        }),
+      ).annotate({ identifier: "FetchResultResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.optional(S.String),
+          digest: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GitRepository" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          repository: S.optional(S.String),
+          digest: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContainerImage" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.optional(S.String),
+          contentType: S.optional(S.String),
+          contentDigest: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContentReference" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          inline: S.optional(S.String),
+          digest: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StringOrDigest" });
+    case 4:
+      return S.Array(__S(195, __c6, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+          value: S.optional(__S(195, __c6, 3)),
+        }),
+      ).annotate({ identifier: "EnvVar" });
+    case 6:
+      return S.Array(__S(197, __c6, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          mountPoint: S.optional(S.String),
+          inputKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CommandMount" });
+    case 8:
+      return S.Array(__S(199, __c6, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          command: S.optional(S.String),
+          args: S.optional(__S(196, __c6, 4)),
+          env: S.optional(__S(198, __c6, 6)),
+          platform: S.optional(S.String),
+          mounts: S.optional(__S(200, __c6, 8)),
+        }),
+      ).annotate({ identifier: "CommandInvocation" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Canonical" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          resultId: S.optional(S.String),
+          snapshotKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SnapshotInput" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+          gitRepository: S.optional(__S(192, __c6, 0)),
+          containerImage: S.optional(__S(193, __c6, 1)),
+          contentReference: S.optional(__S(194, __c6, 2)),
+          commandInvocation: S.optional(__S(201, __c6, 9)),
+          canonical: S.optional(__S(202, __c6, 10)),
+          snapshotInput: S.optional(__S(203, __c6, 11)),
+        }),
+      ).annotate({ identifier: "Input" });
+    case 13:
+      return S.Array(__S(204, __c6, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          outputId: S.String,
+          size: S.String,
+        }),
+      ).annotate({ identifier: "CommandOutput" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          outputId: S.String,
+          size: S.String,
+          digest: S.optional(__S(224, __c7, 0)),
+        }),
+      ).annotate({ identifier: "BaseContents" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.String,
+          outputId: S.String,
+          size: S.String,
+          mode: S.Number,
+          ctime: S.optional(S.String),
+          digest: S.optional(__S(224, __c7, 0)),
+          mtime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LargeFile" });
+    case 17:
+      return S.Array(__S(208, __c6, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          totalSize: S.String,
+          digest: S.optional(__S(224, __c7, 0)),
+          outputId: S.String,
+        }),
+      ).annotate({ identifier: "PackedSnapshot" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          digest: S.optional(__S(224, __c7, 0)),
+          baseContents: S.optional(__S(207, __c6, 15)),
+          largeFiles: __S(209, __c6, 17),
+          packed: S.optional(__S(210, __c6, 18)),
+        }),
+      ).annotate({ identifier: "Snapshot" });
+    case 20:
+      return S.Array(__S(211, __c6, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          instanceId: S.String,
+        }),
+      ).annotate({ identifier: "Origin" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          algorithm: S.optional(S.String),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Digest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          commandDuration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CommandAnnotations" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

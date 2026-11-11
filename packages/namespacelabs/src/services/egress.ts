@@ -28,15 +28,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export class Aborted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Aborted>()("Aborted", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withConflictError),
-    [{ status: 409, body: { "/code": "aborted" } }],
-  ) {}
-
 export class AlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
@@ -44,15 +35,6 @@ export class AlreadyExists
       body: S.Unknown,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
-  ) {}
-
-export class Canceled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Canceled>()("Canceled", {
-      message: S.String,
-      body: S.Unknown,
-    }),
-    [{ status: 499 }],
   ) {}
 
 export class FailedPrecondition
@@ -82,15 +64,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class OutOfRange
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<OutOfRange>()("OutOfRange", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withBadRequestError),
-    [{ status: 400, body: { "/code": "out_of_range" } }],
-  ) {}
-
 export class PermissionDenied
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
@@ -116,15 +89,6 @@ export class Unauthenticated
       body: S.Unknown,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-export class Unimplemented
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Unimplemented>()("Unimplemented", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withServerError),
-    [{ status: 501 }],
   ) {}
 
 export type EgressPolicySpecMode = "MODE_UNKNOWN" | "DISABLED" | "ALLOW_ALL" | "ADVISORY" | "BLOCK";
@@ -228,15 +192,11 @@ export interface UpdateEgressPolicyResponse {
 export type CreateEgressPolicyError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Creates a new egress policy. The policy tag must be unique within the workspace. */
 export const createEgressPolicy: API.OperationMethod<
@@ -245,20 +205,16 @@ export const createEgressPolicy: API.OperationMethod<
   CreateEgressPolicyError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateEgressPolicyRequest>,
+  input: __S(16, __c1, 0) as any as S.Schema<CreateEgressPolicyRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<CreateEgressPolicyResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -270,15 +226,11 @@ export const createEgressPolicy: API.OperationMethod<
 export type GetEgressPolicyError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns an egress policy by tag. */
 export const getEgressPolicy: API.OperationMethod<
@@ -287,20 +239,16 @@ export const getEgressPolicy: API.OperationMethod<
   GetEgressPolicyError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<GetEgressPolicyRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<GetEgressPolicyResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetEgressPolicyRequest>,
+  output: __S(80, __c5, 0) as any as S.Schema<GetEgressPolicyResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -312,15 +260,11 @@ export const getEgressPolicy: API.OperationMethod<
 export type ListEgressPoliciesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Lists all egress policies in the workspace. */
 export const listEgressPolicies: API.OperationMethod<
@@ -329,20 +273,16 @@ export const listEgressPolicies: API.OperationMethod<
   ListEgressPoliciesError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<ListEgressPoliciesRequest>,
-  output: __S(82, __c5, 2) as any as S.Schema<ListEgressPoliciesResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<ListEgressPoliciesRequest>,
+  output: __S(98, __c6, 2) as any as S.Schema<ListEgressPoliciesResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -354,15 +294,11 @@ export const listEgressPolicies: API.OperationMethod<
 export type UpdateEgressPolicyError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Replaces an existing egress policy. */
 export const updateEgressPolicy: API.OperationMethod<
@@ -371,20 +307,16 @@ export const updateEgressPolicy: API.OperationMethod<
   UpdateEgressPolicyError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<UpdateEgressPolicyRequest>,
+  input: __S(0, __c0, 0) as any as S.Schema<UpdateEgressPolicyRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<UpdateEgressPolicyResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -399,7 +331,24 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(28, __c1, 12)),
+          policy: S.optional(__S(60, __c3, 12)),
+          matchRevision: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.network.v1beta.EgressPolicyService/UpdateEgressPolicy",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateEgressPolicyRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          policy: S.optional(__S(60, __c3, 12)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -410,14 +359,24 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateEgressPolicyRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          revision: S.String,
+        }),
+      ).annotate({ identifier: "CreateEgressPolicyResponse" });
+  }
+}
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          matchDomains: S.optional(__S(16, __c1, 0)),
+          matchDomains: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "EgressPolicySpecMatcher" });
     case 2:
@@ -440,16 +399,16 @@ function __c1(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           value: S.optional(S.String),
-          valueFrom: S.optional(__S(20, __c1, 4)),
+          valueFrom: S.optional(__S(52, __c3, 4)),
         }),
       ).annotate({ identifier: "HttpHeader" });
     case 6:
-      return S.Array(__S(21, __c1, 5));
+      return S.Array(__S(53, __c3, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
-          headers: S.optional(__S(22, __c1, 6)),
+          headers: S.optional(__S(54, __c3, 6)),
         }),
       ).annotate({ identifier: "EgressPolicySpecInjectOptsFromEndpoint" });
     case 8:
@@ -458,7 +417,7 @@ function __c1(j: number): any {
           headerName: S.optional(S.String),
           fromSecretId: S.optional(S.String),
           value: S.optional(S.String),
-          fromEndpoint: S.optional(__S(23, __c1, 7)),
+          fromEndpoint: S.optional(__S(55, __c3, 7)),
           resolutionPolicy: S.optional(S.String),
         }),
       ).annotate({ identifier: "EgressPolicySpecInjectOpts" });
@@ -466,22 +425,22 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           op: S.optional(S.String),
-          matcher: S.optional(__S(17, __c1, 1)),
-          allow: S.optional(__S(18, __c1, 2)),
-          proxy: S.optional(__S(19, __c1, 3)),
-          inject: S.optional(__S(24, __c1, 8)),
+          matcher: S.optional(__S(49, __c3, 1)),
+          allow: S.optional(__S(50, __c3, 2)),
+          proxy: S.optional(__S(51, __c3, 3)),
+          inject: S.optional(__S(56, __c3, 8)),
         }),
       ).annotate({ identifier: "EgressPolicySpecRule" });
     case 10:
-      return S.Array(__S(25, __c1, 9));
+      return S.Array(__S(57, __c3, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           mode: S.optional(S.String),
           deepPacketInspection: S.optional(S.Boolean),
-          rules: S.optional(__S(26, __c1, 10)),
-          additionalRulesets: S.optional(__S(16, __c1, 0)),
-          allowedEgressDomains: S.optional(__S(16, __c1, 0)),
+          rules: S.optional(__S(58, __c3, 10)),
+          additionalRulesets: S.optional(__S(48, __c3, 0)),
+          allowedEgressDomains: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "EgressPolicySpec" });
     case 12:
@@ -489,22 +448,12 @@ function __c1(j: number): any {
         S.Struct({
           tag: S.optional(S.String),
           description: S.optional(S.String),
-          spec: S.optional(__S(27, __c1, 11)),
+          spec: S.optional(__S(59, __c3, 11)),
         }),
       ).annotate({ identifier: "EgressPolicy" });
   }
 }
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          revision: S.String,
-        }),
-      ).annotate({ identifier: "CreateEgressPolicyResponse" });
-  }
-}
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -520,18 +469,18 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetEgressPolicyRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(28, __c1, 12)),
+          policy: S.optional(__S(60, __c3, 12)),
           revision: S.String,
         }),
       ).annotate({ identifier: "GetEgressPolicyResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -544,30 +493,13 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListEgressPoliciesRequest" });
     case 1:
-      return S.Array(__S(64, __c4, 0));
+      return S.Array(__S(80, __c5, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          policies: __S(81, __c5, 1),
+          policies: __S(97, __c6, 1),
         }),
       ).annotate({ identifier: "ListEgressPoliciesResponse" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policy: S.optional(__S(28, __c1, 12)),
-          matchRevision: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.network.v1beta.EgressPolicyService/UpdateEgressPolicy",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateEgressPolicyRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -29,15 +29,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export class Aborted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Aborted>()("Aborted", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withConflictError),
-    [{ status: 409, body: { "/code": "aborted" } }],
-  ) {}
-
 export class AlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
@@ -45,15 +36,6 @@ export class AlreadyExists
       body: S.Unknown,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
-  ) {}
-
-export class Canceled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Canceled>()("Canceled", {
-      message: S.String,
-      body: S.Unknown,
-    }),
-    [{ status: 499 }],
   ) {}
 
 export class FailedPrecondition
@@ -83,15 +65,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class OutOfRange
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<OutOfRange>()("OutOfRange", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withBadRequestError),
-    [{ status: 400, body: { "/code": "out_of_range" } }],
-  ) {}
-
 export class PermissionDenied
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
@@ -117,15 +90,6 @@ export class Unauthenticated
       body: S.Unknown,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-export class Unimplemented
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Unimplemented>()("Unimplemented", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withServerError),
-    [{ status: 501 }],
   ) {}
 
 export interface BuildRequest {
@@ -259,15 +223,11 @@ export interface RemoveBlueprintResponse {}
 export type BuildError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Triggers a new build for the specified blueprint. The build is executed asynchronously; use FetchBlueprint to poll for the build status. ### Errors - If the blueprint does not exist, a `NotFound` status is returned. */
 export const build: API.OperationMethod<
@@ -276,20 +236,16 @@ export const build: API.OperationMethod<
   BuildError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<BuildRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<BuildResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<BuildRequest>,
+  output: __S(33, __c2, 1) as any as S.Schema<BuildResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -301,15 +257,11 @@ export const build: API.OperationMethod<
 export type CreateBlueprintError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Creates a new image blueprint with the specified name and specification. Blueprint names must be unique within the workspace. ### Errors - If a blueprint with the same name already exists, an `AlreadyExists` status is returned. - If the specification is invalid, an `InvalidArgument` status is returned. */
 export const createBlueprint: API.OperationMethod<
@@ -318,20 +270,16 @@ export const createBlueprint: API.OperationMethod<
   CreateBlueprintError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<CreateBlueprintRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<CreateBlueprintResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<CreateBlueprintRequest>,
+  output: __S(80, __c5, 0) as any as S.Schema<CreateBlueprintResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -343,15 +291,11 @@ export const createBlueprint: API.OperationMethod<
 export type FetchBlueprintError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Retrieves a specific blueprint by name or ID, including its current build status. ### Errors - If the blueprint does not exist, a `NotFound` status is returned. */
 export const fetchBlueprint: API.OperationMethod<
@@ -360,20 +304,16 @@ export const fetchBlueprint: API.OperationMethod<
   FetchBlueprintError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<FetchBlueprintRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<FetchBlueprintResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<FetchBlueprintRequest>,
+  output: __S(80, __c5, 0) as any as S.Schema<FetchBlueprintResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -385,15 +325,11 @@ export const fetchBlueprint: API.OperationMethod<
 export type ListBlueprintsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns all active blueprints in the workspace. */
 export const listBlueprints: API.PaginatedOperationMethod<
@@ -404,20 +340,16 @@ export const listBlueprints: API.PaginatedOperationMethod<
   ImageBlueprint
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(80, __c5, 0) as any as S.Schema<ListBlueprintsRequest>,
-    output: __S(82, __c5, 2) as any as S.Schema<ListBlueprintsResponse>,
+    input: __S(0, __c0, 0) as any as S.Schema<ListBlueprintsRequest>,
+    output: __S(2, __c0, 2) as any as S.Schema<ListBlueprintsResponse>,
     errors: [
       InvalidArgument,
       FailedPrecondition,
-      OutOfRange,
       Unauthenticated,
       PermissionDenied,
       NotFound,
       AlreadyExists,
-      Aborted,
       ResourceExhausted,
-      Canceled,
-      Unimplemented,
       UnknownNamespaceLabsError,
     ],
     protocol: NamespaceLabsProtocol,
@@ -437,15 +369,11 @@ export const listBlueprints: API.PaginatedOperationMethod<
 export type RemoveBlueprintError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Removes a blueprint. Existing images built from this blueprint are not affected. ### Errors - If the blueprint does not exist, a `NotFound` status is returned. */
 export const removeBlueprint: API.OperationMethod<
@@ -454,20 +382,16 @@ export const removeBlueprint: API.OperationMethod<
   RemoveBlueprintError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<RemoveBlueprintRequest>,
-  output: __S(97, __c6, 1) as any as S.Schema<RemoveBlueprintResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<RemoveBlueprintRequest>,
+  output: __S(17, __c1, 1) as any as S.Schema<RemoveBlueprintResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -478,6 +402,49 @@ export const removeBlueprint: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paginationCursor: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.image.v1beta.ImageService/ListBlueprints",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListBlueprintsRequest" });
+    case 1:
+      return S.Array(__S(57, __c3, 9));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          paginationCursor: S.String,
+          blueprints: __S(1, __c0, 1),
+        }),
+      ).annotate({ identifier: "ListBlueprintsResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          blueprintName: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.image.v1beta.ImageService/RemoveBlueprint",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RemoveBlueprintRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "RemoveBlueprintResponse" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -496,13 +463,13 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          blueprint: S.optional(__S(25, __c1, 9)),
+          blueprint: S.optional(__S(57, __c3, 9)),
           imageRef: S.String,
         }),
       ).annotate({ identifier: "BuildResponse" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -521,7 +488,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           imageRef: S.optional(S.String),
-          blueprintRef: S.optional(__S(17, __c1, 1)),
+          blueprintRef: S.optional(__S(49, __c3, 1)),
         }),
       ).annotate({ identifier: "BlueprintSpecBaseImageSource" });
     case 3:
@@ -529,15 +496,15 @@ function __c1(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          baseImage: S.optional(__S(18, __c1, 2)),
-          aptPackages: S.optional(__S(19, __c1, 3)),
+          baseImage: S.optional(__S(50, __c3, 2)),
+          aptPackages: S.optional(__S(51, __c3, 3)),
         }),
       ).annotate({ identifier: "BlueprintSpecAptBasedImage" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          dockerfile: S.optional(__S(16, __c1, 0)),
-          aptBasedImage: S.optional(__S(20, __c1, 4)),
+          dockerfile: S.optional(__S(48, __c3, 0)),
+          aptBasedImage: S.optional(__S(52, __c3, 4)),
         }),
       ).annotate({ identifier: "BlueprintSpec" });
     case 6:
@@ -549,7 +516,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "ImageBlueprintStatePerSite" });
     case 7:
-      return S.Record(S.String, __S(22, __c1, 6));
+      return S.Record(S.String, __S(54, __c3, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -567,23 +534,23 @@ function __c1(j: number): any {
           name: S.String,
           createdAt: S.optional(S.String),
           replacedAt: S.optional(S.String),
-          spec: S.optional(__S(21, __c1, 5)),
+          spec: S.optional(__S(53, __c3, 5)),
           creatorId: S.String,
-          state: __S(23, __c1, 7),
+          state: __S(55, __c3, 7),
           metadataVersion: S.String,
-          status: S.optional(__S(24, __c1, 8)),
+          status: S.optional(__S(56, __c3, 8)),
           statusUpdatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageBlueprint" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           blueprintName: S.optional(S.String),
-          spec: S.optional(__S(21, __c1, 5)),
+          spec: S.optional(__S(53, __c3, 5)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -594,17 +561,17 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateBlueprintRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          blueprint: S.optional(__S(25, __c1, 9)),
+          blueprint: S.optional(__S(57, __c3, 9)),
         }),
       ).annotate({ identifier: "CreateBlueprintResponse" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -619,49 +586,6 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "FetchBlueprintRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          paginationCursor: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.image.v1beta.ImageService/ListBlueprints",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListBlueprintsRequest" });
-    case 1:
-      return S.Array(__S(25, __c1, 9));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          paginationCursor: S.String,
-          blueprints: __S(81, __c5, 1),
-        }),
-      ).annotate({ identifier: "ListBlueprintsResponse" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          blueprintName: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.image.v1beta.ImageService/RemoveBlueprint",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RemoveBlueprintRequest" });
-    case 1:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "RemoveBlueprintResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

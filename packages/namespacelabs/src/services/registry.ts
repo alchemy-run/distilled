@@ -29,15 +29,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export class Aborted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Aborted>()("Aborted", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withConflictError),
-    [{ status: 409, body: { "/code": "aborted" } }],
-  ) {}
-
 export class AlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
@@ -45,15 +36,6 @@ export class AlreadyExists
       body: S.Unknown,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
-  ) {}
-
-export class Canceled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Canceled>()("Canceled", {
-      message: S.String,
-      body: S.Unknown,
-    }),
-    [{ status: 499 }],
   ) {}
 
 export class FailedPrecondition
@@ -83,15 +65,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class OutOfRange
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<OutOfRange>()("OutOfRange", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withBadRequestError),
-    [{ status: 400, body: { "/code": "out_of_range" } }],
-  ) {}
-
 export class PermissionDenied
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
@@ -117,15 +90,6 @@ export class Unauthenticated
       body: S.Unknown,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-export class Unimplemented
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Unimplemented>()("Unimplemented", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withServerError),
-    [{ status: 501 }],
   ) {}
 
 export interface GetDefaultPolicyRequest {}
@@ -382,15 +346,11 @@ export interface UpdateRepositoryPolicyResponse {}
 export type GetDefaultPolicyError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns the current default image expiration policy. */
 export const getDefaultPolicy: API.OperationMethod<
@@ -399,20 +359,16 @@ export const getDefaultPolicy: API.OperationMethod<
   GetDefaultPolicyError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetDefaultPolicyRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<GetDefaultPolicyResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetDefaultPolicyRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<GetDefaultPolicyResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -424,15 +380,11 @@ export const getDefaultPolicy: API.OperationMethod<
 export type GetImageError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Retrieves a specific image by repository and reference (tag or digest). ### Errors - If the image does not exist, a `NotFound` status is returned. */
 export const getImage: API.OperationMethod<
@@ -441,20 +393,16 @@ export const getImage: API.OperationMethod<
   GetImageError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<GetImageRequest>,
-  output: __S(9, __c1, 1) as any as S.Schema<GetImageResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetImageRequest>,
+  output: __S(121, __c15, 1) as any as S.Schema<GetImageResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -466,15 +414,11 @@ export const getImage: API.OperationMethod<
 export type GetRepositoryPolicyError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Returns the current image expiration policy for a specific repository. */
 export const getRepositoryPolicy: API.OperationMethod<
@@ -483,20 +427,16 @@ export const getRepositoryPolicy: API.OperationMethod<
   GetRepositoryPolicyError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetRepositoryPolicyRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<GetRepositoryPolicyResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetRepositoryPolicyRequest>,
+  output: __S(145, __c18, 1) as any as S.Schema<GetRepositoryPolicyResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -508,15 +448,11 @@ export const getRepositoryPolicy: API.OperationMethod<
 export type ListImagesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Lists images in the registry that match the specified criteria. */
 export const listImages: API.PaginatedOperationMethod<
@@ -527,20 +463,16 @@ export const listImages: API.PaginatedOperationMethod<
   Image
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(41, __c5, 1) as any as S.Schema<ListImagesRequest>,
-    output: __S(43, __c5, 3) as any as S.Schema<ListImagesResponse>,
+    input: __S(1, __c0, 1) as any as S.Schema<ListImagesRequest>,
+    output: __S(3, __c0, 3) as any as S.Schema<ListImagesResponse>,
     errors: [
       InvalidArgument,
       FailedPrecondition,
-      OutOfRange,
       Unauthenticated,
       PermissionDenied,
       NotFound,
       AlreadyExists,
-      Aborted,
       ResourceExhausted,
-      Canceled,
-      Unimplemented,
       UnknownNamespaceLabsError,
     ],
     protocol: NamespaceLabsProtocol,
@@ -560,15 +492,11 @@ export const listImages: API.PaginatedOperationMethod<
 export type ListRepositoriesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Lists all repositories in the registry. */
 export const listRepositories: API.PaginatedOperationMethod<
@@ -579,20 +507,16 @@ export const listRepositories: API.PaginatedOperationMethod<
   Repository
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(56, __c7, 0) as any as S.Schema<ListRepositoriesRequest>,
-    output: __S(59, __c7, 3) as any as S.Schema<ListRepositoriesResponse>,
+    input: __S(16, __c2, 0) as any as S.Schema<ListRepositoriesRequest>,
+    output: __S(19, __c2, 3) as any as S.Schema<ListRepositoriesResponse>,
     errors: [
       InvalidArgument,
       FailedPrecondition,
-      OutOfRange,
       Unauthenticated,
       PermissionDenied,
       NotFound,
       AlreadyExists,
-      Aborted,
       ResourceExhausted,
-      Canceled,
-      Unimplemented,
       UnknownNamespaceLabsError,
     ],
     protocol: NamespaceLabsProtocol,
@@ -612,15 +536,11 @@ export const listRepositories: API.PaginatedOperationMethod<
 export type ListSharedImagesError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Lists shared images, optionally filtered by repository and visibility. */
 export const listSharedImages: API.OperationMethod<
@@ -629,20 +549,16 @@ export const listSharedImages: API.OperationMethod<
   ListSharedImagesError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ListSharedImagesRequest>,
-  output: __S(66, __c8, 2) as any as S.Schema<ListSharedImagesResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<ListSharedImagesRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<ListSharedImagesResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -654,15 +570,11 @@ export const listSharedImages: API.OperationMethod<
 export type ListTagsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Lists all tags for a specific repository. */
 export const listTags: API.PaginatedOperationMethod<
@@ -673,20 +585,16 @@ export const listTags: API.PaginatedOperationMethod<
   Tag
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(80, __c10, 0) as any as S.Schema<ListTagsRequest>,
-    output: __S(81, __c10, 1) as any as S.Schema<ListTagsResponse>,
+    input: __S(40, __c5, 0) as any as S.Schema<ListTagsRequest>,
+    output: __S(41, __c5, 1) as any as S.Schema<ListTagsResponse>,
     errors: [
       InvalidArgument,
       FailedPrecondition,
-      OutOfRange,
       Unauthenticated,
       PermissionDenied,
       NotFound,
       AlreadyExists,
-      Aborted,
       ResourceExhausted,
-      Canceled,
-      Unimplemented,
       UnknownNamespaceLabsError,
     ],
     protocol: NamespaceLabsProtocol,
@@ -706,15 +614,11 @@ export const listTags: API.PaginatedOperationMethod<
 export type ListTagVersionsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Lists all versions of a specific tag in a repository, ordered from newest to oldest. A tag can point to different images over time as it is overwritten by new pushes. */
 export const listTagVersions: API.PaginatedOperationMethod<
@@ -725,20 +629,16 @@ export const listTagVersions: API.PaginatedOperationMethod<
   Tag
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(96, __c12, 0) as any as S.Schema<ListTagVersionsRequest>,
-    output: __S(97, __c12, 1) as any as S.Schema<ListTagVersionsResponse>,
+    input: __S(56, __c7, 0) as any as S.Schema<ListTagVersionsRequest>,
+    output: __S(57, __c7, 1) as any as S.Schema<ListTagVersionsResponse>,
     errors: [
       InvalidArgument,
       FailedPrecondition,
-      OutOfRange,
       Unauthenticated,
       PermissionDenied,
       NotFound,
       AlreadyExists,
-      Aborted,
       ResourceExhausted,
-      Canceled,
-      Unimplemented,
       UnknownNamespaceLabsError,
     ],
     protocol: NamespaceLabsProtocol,
@@ -758,15 +658,11 @@ export const listTagVersions: API.PaginatedOperationMethod<
 export type ShareImageError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Shares an image either publicly or with tenants of partner accounts. Returns the shared image metadata, including the public image reference that can be used to pull the image. ### Errors - If the image does not exist, a `NotFound` status is returned. */
 export const shareImage: API.OperationMethod<
@@ -775,20 +671,16 @@ export const shareImage: API.OperationMethod<
   ShareImageError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<ShareImageRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<ShareImageResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<ShareImageRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<ShareImageResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -800,15 +692,11 @@ export const shareImage: API.OperationMethod<
 export type UnshareImageError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Removes an existing share, making the shared image reference inaccessible. ### Errors - If the share does not exist, a `NotFound` status is returned. */
 export const unshareImage: API.OperationMethod<
@@ -817,20 +705,16 @@ export const unshareImage: API.OperationMethod<
   UnshareImageError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<UnshareImageRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<UnshareImageResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<UnshareImageRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<UnshareImageResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -842,15 +726,11 @@ export const unshareImage: API.OperationMethod<
 export type UpdateDefaultPolicyError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Updates the default image expiration policy for the workspace. The policy applies to newly created images only. */
 export const updateDefaultPolicy: API.OperationMethod<
@@ -859,20 +739,16 @@ export const updateDefaultPolicy: API.OperationMethod<
   UpdateDefaultPolicyError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<UpdateDefaultPolicyRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<UpdateDefaultPolicyResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<UpdateDefaultPolicyRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<UpdateDefaultPolicyResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -884,15 +760,11 @@ export const updateDefaultPolicy: API.OperationMethod<
 export type UpdateImageLifetimeError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Extends or updates the expiration of a single image. ### Errors - If the image does not exist, a `NotFound` status is returned. */
 export const updateImageLifetime: API.OperationMethod<
@@ -901,20 +773,16 @@ export const updateImageLifetime: API.OperationMethod<
   UpdateImageLifetimeError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<UpdateImageLifetimeRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<UpdateImageLifetimeResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<UpdateImageLifetimeRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<UpdateImageLifetimeResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -926,15 +794,11 @@ export const updateImageLifetime: API.OperationMethod<
 export type UpdateRepositoryPolicyError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 /** Updates the image expiration policy for a specific repository. Repository-level policies override the default policy. */
 export const updateRepositoryPolicy: API.OperationMethod<
@@ -943,20 +807,16 @@ export const updateRepositoryPolicy: API.OperationMethod<
   UpdateRepositoryPolicyError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<UpdateRepositoryPolicyRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<UpdateRepositoryPolicyResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<UpdateRepositoryPolicyRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<UpdateRepositoryPolicyResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -970,116 +830,6 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.registry.v1beta.ContainerRegistryService/GetDefaultPolicy",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetDefaultPolicyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          revision: S.String,
-          defaultExpiration: S.optional(S.String),
-          expirationEnforcement: S.String,
-        }),
-      ).annotate({ identifier: "GetDefaultPolicyResponse" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repository: S.optional(S.String),
-          reference: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.registry.v1beta.ContainerRegistryService/GetImage",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetImageRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          image: S.optional(__S(28, __c3, 4)),
-        }),
-      ).annotate({ identifier: "GetImageResponse" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          total: S.String,
-          perPlatform: __S(24, __c3, 0),
-        }),
-      ).annotate({ identifier: "ImageSizes" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          value: S.String,
-        }),
-      ).annotate({ identifier: "Label" });
-    case 3:
-      return S.Array(__S(26, __c3, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          repository: S.String,
-          digest: S.String,
-          createdAt: S.optional(S.String),
-          expiresAt: S.optional(S.String),
-          sizes: S.optional(__S(25, __c3, 1)),
-          deletedAt: S.optional(S.String),
-          labels: __S(27, __c3, 3),
-          tags: __S(16, __c2, 0),
-        }),
-      ).annotate({ identifier: "Image" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repository: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.registry.v1beta.ContainerRegistryService/GetRepositoryPolicy",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetRepositoryPolicyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          revision: S.String,
-          expiration: S.optional(S.String),
-          expirationEnforcement: S.String,
-        }),
-      ).annotate({ identifier: "GetRepositoryPolicyResponse" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
         S.Struct({
           after: S.optional(S.String),
           before: S.optional(S.String),
@@ -1090,9 +840,9 @@ function __c5(j: number): any {
         S.Struct({
           paginationCursor: S.optional(S.String),
           maxEntries: S.optional(S.String),
-          matchRepository: S.optional(__S(48, __c6, 0)),
-          createdAt: S.optional(__S(40, __c5, 0)),
-          expiresAt: S.optional(__S(40, __c5, 0)),
+          matchRepository: S.optional(__S(8, __c1, 0)),
+          createdAt: S.optional(__S(0, __c0, 0)),
+          expiresAt: S.optional(__S(0, __c0, 0)),
           deletionFilter: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -1103,28 +853,28 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListImagesRequest" });
     case 2:
-      return S.Array(__S(28, __c3, 4));
+      return S.Array(__S(140, __c17, 4));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          images: __S(42, __c5, 2),
+          images: __S(2, __c0, 2),
           paginationCursor: S.String,
         }),
       ).annotate({ identifier: "ListImagesResponse" });
   }
 }
-function __c6(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(16, __c2, 0)),
+          values: S.optional(__S(128, __c16, 0)),
           op: S.optional(S.String),
         }),
       ).annotate({ identifier: "StringMatcher" });
   }
 }
-function __c7(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1147,22 +897,22 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "Repository" });
     case 2:
-      return S.Array(__S(57, __c7, 1));
+      return S.Array(__S(17, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          repositories: __S(58, __c7, 2),
+          repositories: __S(18, __c2, 2),
           paginationCursor: S.String,
         }),
       ).annotate({ identifier: "ListRepositoriesResponse" });
   }
 }
-function __c8(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          matchRepositories: S.optional(__S(48, __c6, 0)),
+          matchRepositories: S.optional(__S(8, __c1, 0)),
           matchVisibility: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -1173,16 +923,16 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListSharedImagesRequest" });
     case 1:
-      return S.Array(__S(72, __c9, 0));
+      return S.Array(__S(32, __c4, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sharedImages: __S(65, __c8, 1),
+          sharedImages: __S(25, __c3, 1),
         }),
       ).annotate({ identifier: "ListSharedImagesResponse" });
   }
 }
-function __c9(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1198,7 +948,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "SharedImage" });
   }
 }
-function __c10(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1217,27 +967,27 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tags: __S(89, __c11, 1),
+          tags: __S(49, __c6, 1),
           paginationCursor: S.String,
         }),
       ).annotate({ identifier: "ListTagsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           tag: S.String,
-          image: S.optional(__S(28, __c3, 4)),
+          image: S.optional(__S(140, __c17, 4)),
           createdAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "Tag" });
     case 1:
-      return S.Array(__S(88, __c11, 0));
+      return S.Array(__S(48, __c6, 0));
   }
 }
-function __c12(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1257,13 +1007,13 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          versions: __S(89, __c11, 1),
+          versions: __S(49, __c6, 1),
           paginationCursor: S.String,
         }),
       ).annotate({ identifier: "ListTagVersionsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1283,7 +1033,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ShareImageRequest" });
   }
 }
-function __c14(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1299,13 +1049,13 @@ function __c14(j: number): any {
       ).annotate({ identifier: "UnshareImageRequest" });
   }
 }
-function __c15(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "UnshareImageResponse" });
   }
 }
-function __c16(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1323,7 +1073,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "UpdateDefaultPolicyRequest" });
   }
 }
-function __c17(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1349,7 +1099,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "UpdateImageLifetimeResponse" });
   }
 }
-function __c18(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1366,6 +1116,116 @@ function __c18(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateRepositoryPolicyRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.registry.v1beta.ContainerRegistryService/GetDefaultPolicy",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetDefaultPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          revision: S.String,
+          defaultExpiration: S.optional(S.String),
+          expirationEnforcement: S.String,
+        }),
+      ).annotate({ identifier: "GetDefaultPolicyResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repository: S.optional(S.String),
+          reference: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.registry.v1beta.ContainerRegistryService/GetImage",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetImageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          image: S.optional(__S(140, __c17, 4)),
+        }),
+      ).annotate({ identifier: "GetImageResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          total: S.String,
+          perPlatform: __S(136, __c17, 0),
+        }),
+      ).annotate({ identifier: "ImageSizes" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          value: S.String,
+        }),
+      ).annotate({ identifier: "Label" });
+    case 3:
+      return S.Array(__S(138, __c17, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          repository: S.String,
+          digest: S.String,
+          createdAt: S.optional(S.String),
+          expiresAt: S.optional(S.String),
+          sizes: S.optional(__S(137, __c17, 1)),
+          deletedAt: S.optional(S.String),
+          labels: __S(139, __c17, 3),
+          tags: __S(128, __c16, 0),
+        }),
+      ).annotate({ identifier: "Image" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repository: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.registry.v1beta.ContainerRegistryService/GetRepositoryPolicy",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetRepositoryPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          revision: S.String,
+          expiration: S.optional(S.String),
+          expirationEnforcement: S.String,
+        }),
+      ).annotate({ identifier: "GetRepositoryPolicyResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

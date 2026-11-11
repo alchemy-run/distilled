@@ -29,15 +29,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export class Aborted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Aborted>()("Aborted", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withConflictError),
-    [{ status: 409, body: { "/code": "aborted" } }],
-  ) {}
-
 export class AlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
@@ -45,15 +36,6 @@ export class AlreadyExists
       body: S.Unknown,
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
-  ) {}
-
-export class Canceled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Canceled>()("Canceled", {
-      message: S.String,
-      body: S.Unknown,
-    }),
-    [{ status: 499 }],
   ) {}
 
 export class FailedPrecondition
@@ -83,15 +65,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class OutOfRange
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<OutOfRange>()("OutOfRange", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withBadRequestError),
-    [{ status: 400, body: { "/code": "out_of_range" } }],
-  ) {}
-
 export class PermissionDenied
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
@@ -117,15 +90,6 @@ export class Unauthenticated
       body: S.Unknown,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-export class Unimplemented
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<Unimplemented>()("Unimplemented", {
-      message: S.String,
-      body: S.Unknown,
-    }).pipe(C.withServerError),
-    [{ status: 501 }],
   ) {}
 
 export interface InvalidateAllSessionsRequest {}
@@ -186,15 +150,11 @@ export interface ListSessionsResponse {
 export type InvalidateAllSessionsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const invalidateAllSessions: API.OperationMethod<
   InvalidateAllSessionsRequest,
@@ -202,20 +162,16 @@ export const invalidateAllSessions: API.OperationMethod<
   InvalidateAllSessionsError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<InvalidateAllSessionsRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<InvalidateAllSessionsResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<InvalidateAllSessionsRequest>,
+  output: __S(10, __c1, 2) as any as S.Schema<InvalidateAllSessionsResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -227,15 +183,11 @@ export const invalidateAllSessions: API.OperationMethod<
 export type InvalidateSessionError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const invalidateSession: API.OperationMethod<
   InvalidateSessionRequest,
@@ -243,20 +195,16 @@ export const invalidateSession: API.OperationMethod<
   InvalidateSessionError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<InvalidateSessionRequest>,
-  output: __S(9, __c1, 1) as any as S.Schema<InvalidateSessionResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<InvalidateSessionRequest>,
+  output: __S(17, __c2, 1) as any as S.Schema<InvalidateSessionResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -268,15 +216,11 @@ export const invalidateSession: API.OperationMethod<
 export type IssueTenantTokenFromSessionError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const issueTenantTokenFromSession: API.OperationMethod<
   IssueTenantTokenFromSessionRequest,
@@ -284,20 +228,16 @@ export const issueTenantTokenFromSession: API.OperationMethod<
   IssueTenantTokenFromSessionError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<IssueTenantTokenFromSessionRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<IssueTenantTokenFromSessionResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<IssueTenantTokenFromSessionRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<IssueTenantTokenFromSessionResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -309,15 +249,11 @@ export const issueTenantTokenFromSession: API.OperationMethod<
 export type ListSessionsError =
   | InvalidArgument
   | FailedPrecondition
-  | OutOfRange
   | Unauthenticated
   | PermissionDenied
   | NotFound
   | AlreadyExists
-  | Aborted
   | ResourceExhausted
-  | Canceled
-  | Unimplemented
   | NamespaceLabsOpError;
 export const listSessions: API.OperationMethod<
   ListSessionsRequest,
@@ -325,20 +261,16 @@ export const listSessions: API.OperationMethod<
   ListSessionsError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ListSessionsRequest>,
-  output: __S(28, __c3, 4) as any as S.Schema<ListSessionsResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<ListSessionsRequest>,
+  output: __S(4, __c0, 4) as any as S.Schema<ListSessionsResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
-    OutOfRange,
     Unauthenticated,
     PermissionDenied,
     NotFound,
     AlreadyExists,
-    Aborted,
     ResourceExhausted,
-    Canceled,
-    Unimplemented,
     UnknownNamespaceLabsError,
   ],
   protocol: NamespaceLabsProtocol,
@@ -349,68 +281,6 @@ export const listSessions: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.private.sessions.v1beta.UserSessionsService/InvalidateAllSessions",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "InvalidateAllSessionsRequest" });
-    case 1:
-      return S.Array(S.String);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          sessionId: __S(1, __c0, 1),
-        }),
-      ).annotate({ identifier: "InvalidateAllSessionsResponse" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.private.sessions.v1beta.UserSessionsService/InvalidateSession",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "InvalidateSessionRequest" });
-    case 1:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "InvalidateSessionResponse" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tokenDuration: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.private.sessions.v1beta.UserSessionsService/IssueTenantTokenFromSession",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "IssueTenantTokenFromSessionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          tenantToken: S.String.pipe(T.SensitiveValue({})),
-        }),
-      ).annotate({ identifier: "IssueTenantTokenFromSessionResponse" });
-  }
-}
-function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -450,18 +320,80 @@ function __c3(j: number): any {
           expiresAt: S.optional(S.String),
           invalidatedAt: S.optional(S.String),
           lastUsedAt: S.optional(S.String),
-          creationMetadata: S.optional(__S(25, __c3, 1)),
-          invalidationMetadata: S.optional(__S(25, __c3, 1)),
+          creationMetadata: S.optional(__S(1, __c0, 1)),
+          invalidationMetadata: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "Session" });
     case 3:
-      return S.Array(__S(26, __c3, 2));
+      return S.Array(__S(2, __c0, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          session: __S(27, __c3, 3),
+          session: __S(3, __c0, 3),
         }),
       ).annotate({ identifier: "ListSessionsResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.private.sessions.v1beta.UserSessionsService/InvalidateAllSessions",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "InvalidateAllSessionsRequest" });
+    case 1:
+      return S.Array(S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          sessionId: __S(9, __c1, 1),
+        }),
+      ).annotate({ identifier: "InvalidateAllSessionsResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.private.sessions.v1beta.UserSessionsService/InvalidateSession",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "InvalidateSessionRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "InvalidateSessionResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tokenDuration: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.private.sessions.v1beta.UserSessionsService/IssueTenantTokenFromSession",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "IssueTenantTokenFromSessionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          tenantToken: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "IssueTenantTokenFromSessionResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
