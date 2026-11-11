@@ -26,6 +26,15 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** Archil lists and revokes API keys only from a console session; an API key cannot. */
+export class ApiTokenAccessForbidden
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ApiTokenAccessForbidden>()("ApiTokenAccessForbidden", {
+      message: S.String,
+    }).pipe(C.withAuthError),
+    [{ status: 401 }],
+  ) {}
+
 /** Archil only creates API keys from a console session; an API key cannot mint another. */
 export class ApiTokenCreationForbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -1745,7 +1754,7 @@ export const deleteSandboxPortToken: API.OperationMethod<
   span: "DeleteSandboxPortToken",
 }));
 
-export type DeleteTokenError = NotFound | ArchilOpError;
+export type DeleteTokenError = NotFound | ApiTokenAccessForbidden | ArchilOpError;
 /** Delete API token Revokes and deletes an API token. */
 export const deleteToken: API.OperationMethod<
   DeleteTokenRequest,
@@ -1755,7 +1764,7 @@ export const deleteToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<DeleteTokenRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<ApiResponseMessage>,
-  errors: [NotFound, UnknownArchilError],
+  errors: [NotFound, ApiTokenAccessForbidden, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2045,7 +2054,7 @@ export const grepDisk: API.OperationMethod<
   span: "GrepDisk",
 }));
 
-export type ListApiTokensError = ArchilOpError;
+export type ListApiTokensError = ApiTokenAccessForbidden | ArchilOpError;
 /** List API tokens Returns all API tokens for the authenticated account. */
 export const listApiTokens: API.OperationMethod<
   ListApiTokensRequest,
@@ -2055,7 +2064,7 @@ export const listApiTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<ListApiTokensRequest>,
   output: __S(804, __c50, 4) as any as S.Schema<ApiResponseTokenList>,
-  errors: [UnknownArchilError],
+  errors: [ApiTokenAccessForbidden, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
