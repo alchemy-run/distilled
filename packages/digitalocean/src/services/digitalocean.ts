@@ -4632,7 +4632,7 @@ export interface DropletSingleCreateInputBackupPolicy {
   /** The day of the week on which the backup will occur. */
   weekday?: DropletSingleCreateInputBackupPolicyWeekday | (string & {}) | undefined;
   /** The hour of the day that the backup window will start. */
-  hour?: DropletSingleCreateInputBackupPolicyHour | (number & {}) | undefined;
+  hour: DropletSingleCreateInputBackupPolicyHour | (number & {});
 }
 /** A flat array of tag names as strings to apply to the Droplet after it is created. Tag names can either be existing or new tags.<br>Requires `tag:create` scope. */
 export type DropletSingleCreateInputTagsList = Array<string>;
@@ -4699,7 +4699,7 @@ export interface DropletMultiCreateInputBackupPolicy {
   /** The day of the week on which the backup will occur. */
   weekday?: DropletMultiCreateInputBackupPolicyWeekday | (string & {}) | undefined;
   /** The hour of the day that the backup window will start. */
-  hour?: DropletMultiCreateInputBackupPolicyHour | (number & {}) | undefined;
+  hour: DropletMultiCreateInputBackupPolicyHour | (number & {});
 }
 /** A flat array of tag names as strings to apply to the Droplet after it is created. Tag names can either be existing or new tags.<br>Requires `tag:create` scope. */
 export type DropletMultiCreateInputTagsList = Array<string>;
@@ -22914,7 +22914,7 @@ export interface DropletActionEnableBackupsInputBackupPolicy {
   /** The day of the week on which the backup will occur. */
   weekday?: DropletActionEnableBackupsInputBackupPolicyWeekday | (string & {}) | undefined;
   /** The hour of the day that the backup window will start. */
-  hour?: DropletActionEnableBackupsInputBackupPolicyHour | (number & {}) | undefined;
+  hour: DropletActionEnableBackupsInputBackupPolicyHour | (number & {});
 }
 export interface DropletActionEnableBackupsInput {
   /** The type of action to initiate for the Droplet. */
@@ -22957,7 +22957,7 @@ export interface DropletActionChangeBackupPolicyInputBackupPolicy {
   /** The day of the week on which the backup will occur. */
   weekday?: DropletActionChangeBackupPolicyInputBackupPolicyWeekday | (string & {}) | undefined;
   /** The hour of the day that the backup window will start. */
-  hour?: DropletActionChangeBackupPolicyInputBackupPolicyHour | (number & {}) | undefined;
+  hour: DropletActionChangeBackupPolicyInputBackupPolicyHour | (number & {});
 }
 export interface DropletActionChangeBackupPolicyInput {
   /** The type of action to initiate for the Droplet. */
