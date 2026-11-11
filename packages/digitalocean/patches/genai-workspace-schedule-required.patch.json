@@ -1,0 +1,48 @@
+{
+  "description": "GenAI workspaces and scheduled indexing: create and get always return the workspace (with its uuid and name) and the schedule (with its uuid) they create or read.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ApiWorkspace/members/uuid/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ApiWorkspace/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ApiCreateWorkspaceOutput/members/workspace/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ApiGetWorkspaceOutput/members/workspace/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ApiScheduledIndexingInfo/members/uuid/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ApiCreateScheduledIndexingOutput/members/indexing_info/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ApiGetScheduledIndexingOutput/members/indexing_info/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    }
+  ]
+}
