@@ -44,13 +44,13 @@ export interface PluginDeliveryAttemptView {
   /** URL the attempt posted to */
   endpoint: string;
   /** Transport or policy error; empty on a response */
-  error?: string;
+  error?: string | undefined;
   /** Response body, cut at the stored limit */
   response_body: string;
   /** Response headers; absent with no response */
-  response_headers?: PluginDeliveryAttemptViewResponseHeadersMap;
+  response_headers?: PluginDeliveryAttemptViewResponseHeadersMap | undefined;
   /** HTTP status; absent when no response arrived */
-  response_status?: number;
+  response_status?: number | undefined;
   /** When the POST started, UTC */
   started_at: string;
   [key: string]: unknown;
@@ -71,13 +71,13 @@ export interface PluginDeliveryRequestView {
 }
 export interface PluginDeliveryDetailView {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Attempts claimed so far, including one in flight */
   attempt_count: number;
   /** Recorded attempts, oldest first */
   attempts: PluginDeliveryDetailViewAttemptsList | null;
   /** When the delivery reached delivered or failed, UTC */
-  completed_at?: string;
+  completed_at?: string | undefined;
   /** When the event was enqueued, UTC */
   created_at: string;
   /** Event type, e.g. ref.updated */
@@ -87,9 +87,9 @@ export interface PluginDeliveryDetailView {
   /** Installation the event was delivered for */
   installation_id: string;
   /** HTTP status of the latest recorded attempt; absent when it got no response or none ran */
-  last_response_status?: number;
+  last_response_status?: number | undefined;
   /** Why the delivery reached its state; empty while it has none */
-  outcome?: string;
+  outcome?: string | undefined;
   request: PluginDeliveryRequestView;
   /** pending, in_flight, delivered or failed */
   state: string;
@@ -99,17 +99,17 @@ export interface ListPluginDeliveriesRequest {
   /** Plugin slug */
   plugin: string;
   /** Optional: restrict to this installation */
-  installation_id?: string;
+  installation_id?: string | undefined;
   /** Deliveries per page */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Opaque cursor from a previous page's next_cursor */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface PluginDeliveryView {
   /** Attempts claimed so far, including one in flight */
   attempt_count: number;
   /** When the delivery reached delivered or failed, UTC */
-  completed_at?: string;
+  completed_at?: string | undefined;
   /** When the event was enqueued, UTC */
   created_at: string;
   /** Event type, e.g. ref.updated */
@@ -119,9 +119,9 @@ export interface PluginDeliveryView {
   /** Installation the event was delivered for */
   installation_id: string;
   /** HTTP status of the latest recorded attempt; absent when it got no response or none ran */
-  last_response_status?: number;
+  last_response_status?: number | undefined;
   /** Why the delivery reached its state; empty while it has none */
-  outcome?: string;
+  outcome?: string | undefined;
   /** pending, in_flight, delivered or failed */
   state: string;
   [key: string]: unknown;
@@ -129,10 +129,10 @@ export interface PluginDeliveryView {
 export type ListPluginDeliveriesOutputBodyDeliveriesList = Array<PluginDeliveryView>;
 export interface ListPluginDeliveriesOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   deliveries: ListPluginDeliveriesOutputBodyDeliveriesList | null;
   /** Pass as cursor for the next page; absent on the last page */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
   [key: string]: unknown;
 }
 export type GetPluginDeliveryError = EntireOpError;

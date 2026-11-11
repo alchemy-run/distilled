@@ -24,13 +24,13 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export interface CreateTrailGateRequest {
+export interface CreateChangeGateRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
-  blocking?: boolean;
-  config?: unknown;
-  enabled?: boolean;
-  gateKey?: string;
+  blocking?: boolean | undefined;
+  config?: unknown | undefined;
+  enabled?: boolean | undefined;
+  gateKey?: string | undefined;
   gateType: string;
 }
 export interface GateDefinition {
@@ -50,28 +50,63 @@ export interface GateDefinition {
 }
 export interface GateDefinitionCreateOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   gate: GateDefinition;
 }
+export interface CreateTrailGateRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  blocking?: boolean | undefined;
+  config?: unknown | undefined;
+  enabled?: boolean | undefined;
+  gateKey?: string | undefined;
+  gateType: string;
+}
+export interface DeleteChangeGateRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  /** Gate definition id (ULID) */
+  gateId: string;
+  /** Optimistic concurrency: a weak ETag (W/"...") from a prior read/write of this gate. A mismatch is a 412; omit to delete unconditionally. */
+  ifMatch?: string | undefined;
+}
+export interface DeleteChangeGateResponse {}
 export interface DeleteTrailGateRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
   /** Gate definition id (ULID) */
   gateId: string;
   /** Optimistic concurrency: a weak ETag (W/"...") from a prior read/write of this gate. A mismatch is a 412; omit to delete unconditionally. */
-  ifMatch?: string;
+  ifMatch?: string | undefined;
 }
 export interface DeleteTrailGateResponse {}
-export interface GetTrailGateConfigRequest {
+export interface GetChangeGateConfigRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
 }
 export type TrailGateConfigResponseGatesList = Array<GateDefinition>;
 export interface TrailGateConfigResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   gates: TrailGateConfigResponseGatesList | null;
   gatesEnabled: boolean;
+}
+export interface GetChangeGateSettingsRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+}
+export interface GateSettingsResponse {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  autoMergePolicy: string;
+  bypassPolicy: string;
+  /** Whether merging a native Trail deletes its working branch by default. Applies to native (entiredb-hosted) Trails only: GitHub-backed Trails merge through GitHub, whose own auto-delete setting applies. */
+  deleteBranchOnMerge: boolean;
+  forgeCheckRunEnabled: boolean;
+}
+export interface GetTrailGateConfigRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
 }
 export interface GetTrailGateConfigBySlugRequest {
   /** Forge host slug (gh or et) */
@@ -85,16 +120,7 @@ export interface GetTrailGateSettingsRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
 }
-export interface GateSettingsResponse {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  autoMergePolicy: string;
-  bypassPolicy: string;
-  /** Whether merging a native Trail deletes its working branch by default. Applies to native (entiredb-hosted) Trails only: GitHub-backed Trails merge through GitHub, whose own auto-delete setting applies. */
-  deleteBranchOnMerge: boolean;
-  forgeCheckRunEnabled: boolean;
-}
-export interface ListTrailGatesRequest {
+export interface ListChangeGatesRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
   /** Trail number */
@@ -109,7 +135,7 @@ export type ApprovalReviewerState =
   | "changes_requested"
   | "excluded";
 export interface ApprovalReviewer {
-  actor_account_id?: string;
+  actor_account_id?: string | undefined;
   login: string;
   reason: string | null;
   reviewed_head_sha: string | null;
@@ -130,14 +156,14 @@ export interface GateResult {
   head_sha: string | null;
   id: string;
   /** Machine-readable reason for a not_applicable gate. no_changes means the branch has no changes from its base; it is not an evaluated skipped verdict. Absent for other results, including disabled gates. */
-  not_applicable_reason?: GateResultNotApplicableReason;
+  not_applicable_reason?: GateResultNotApplicableReason | undefined;
   outcome: string | null;
   rationale: string | null;
   reviewers: GateResultReviewersList;
   /** Sorted unique runner IDs contributing to this gate, drawn from the Trail detail runners array. Empty when none are associated or configuration is unavailable. */
   runner_ids: GateResultRunnerIdsList;
   stale_reason: string | null;
-  state?: string;
+  state?: string | undefined;
   status: string;
   value: unknown;
 }
@@ -145,10 +171,36 @@ export type TrailGatesResponseBlockingFailuresList = Array<GateResult>;
 export type TrailGatesResponseGatesList = Array<GateResult>;
 export interface TrailGatesResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   blocking_failures: TrailGatesResponseBlockingFailuresList | null;
   evaluated_at: string | null;
   gates: TrailGatesResponseGatesList | null;
+  gates_enabled: boolean;
+  head_sha: string | null;
+  /** Whether the evaluated gates allow merging. Does not include merge conflicts or guarantee fresh CI evidence. Use /mergeability for current merge readiness. */
+  mergeable: boolean;
+}
+export interface ListTrailGatesRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  /** Trail number */
+  number: string;
+}
+export interface RecomputeChangeGatesRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  /** Trail number */
+  number: string;
+}
+export type TrailsGateRecomputeResponseBodyBlockingFailuresList = Array<GateResult>;
+export type TrailsGateRecomputeResponseBodyGatesList = Array<GateResult>;
+export interface TrailsGateRecomputeResponseBody {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  blocking_failures: TrailsGateRecomputeResponseBodyBlockingFailuresList | null;
+  changed: boolean;
+  evaluated_at: string | null;
+  gates: TrailsGateRecomputeResponseBodyGatesList | null;
   gates_enabled: boolean;
   head_sha: string | null;
   /** Whether the evaluated gates allow merging. Does not include merge conflicts or guarantee fresh CI evidence. Use /mergeability for current merge readiness. */
@@ -160,19 +212,30 @@ export interface RecomputeTrailGatesRequest {
   /** Trail number */
   number: string;
 }
-export type TrailsGateRecomputeResponseBodyBlockingFailuresList = Array<GateResult>;
-export type TrailsGateRecomputeResponseBodyGatesList = Array<GateResult>;
-export interface TrailsGateRecomputeResponseBody {
+export interface UpdateChangeGateRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  /** Gate definition id (ULID) */
+  gateId: string;
+  /** Optimistic concurrency: a weak ETag (W/"...") from a prior read/write of this gate. A mismatch is a 412; omit to apply unconditionally. */
+  ifMatch?: string | undefined;
+  blocking?: boolean | undefined;
+  config?: unknown | undefined;
+  enabled?: boolean | undefined;
+}
+export interface GateDefinitionOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  blocking_failures: TrailsGateRecomputeResponseBodyBlockingFailuresList | null;
-  changed: boolean;
-  evaluated_at: string | null;
-  gates: TrailsGateRecomputeResponseBodyGatesList | null;
-  gates_enabled: boolean;
-  head_sha: string | null;
-  /** Whether the evaluated gates allow merging. Does not include merge conflicts or guarantee fresh CI evidence. Use /mergeability for current merge readiness. */
-  mergeable: boolean;
+  _schema?: string | undefined;
+  gate: GateDefinition;
+}
+export interface UpdateChangeGateSettingsRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  autoMergePolicy?: string | undefined;
+  bypassPolicy?: string | undefined;
+  /** Applies to native (entiredb-hosted) Trails only: GitHub-backed Trails merge through GitHub, whose own auto-delete setting applies. */
+  deleteBranchOnMerge?: boolean | undefined;
+  forgeCheckRunEnabled?: boolean | undefined;
 }
 export interface UpdateTrailGateRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
@@ -180,25 +243,37 @@ export interface UpdateTrailGateRequest {
   /** Gate definition id (ULID) */
   gateId: string;
   /** Optimistic concurrency: a weak ETag (W/"...") from a prior read/write of this gate. A mismatch is a 412; omit to apply unconditionally. */
-  ifMatch?: string;
-  blocking?: boolean;
-  config?: unknown;
-  enabled?: boolean;
-}
-export interface GateDefinitionOutputBody {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  gate: GateDefinition;
+  ifMatch?: string | undefined;
+  blocking?: boolean | undefined;
+  config?: unknown | undefined;
+  enabled?: boolean | undefined;
 }
 export interface UpdateTrailGateSettingsRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
-  autoMergePolicy?: string;
-  bypassPolicy?: string;
+  autoMergePolicy?: string | undefined;
+  bypassPolicy?: string | undefined;
   /** Applies to native (entiredb-hosted) Trails only: GitHub-backed Trails merge through GitHub, whose own auto-delete setting applies. */
-  deleteBranchOnMerge?: boolean;
-  forgeCheckRunEnabled?: boolean;
+  deleteBranchOnMerge?: boolean | undefined;
+  forgeCheckRunEnabled?: boolean | undefined;
 }
+export type CreateChangeGateError = EntireOpError;
+/** Change: Create a repository gate definition (repo_id addressing) Creates a gate definition via the opaque repo id path. Same near-universal 409 as the wire-parity route -- see its description. */
+export const createChangeGate: API.OperationMethod<
+  CreateChangeGateRequest,
+  GateDefinitionCreateOutputBody,
+  CreateChangeGateError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<CreateChangeGateRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<GateDefinitionCreateOutputBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChangeGate",
+}));
+
 export type CreateTrailGateError = EntireOpError;
 /** Create a repository gate definition (repo_id addressing) Creates a gate definition via the opaque repo id path. Same near-universal 409 as the wire-parity route -- see its description. */
 export const createTrailGate: API.OperationMethod<
@@ -207,13 +282,30 @@ export const createTrailGate: API.OperationMethod<
   CreateTrailGateError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateTrailGateRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<GateDefinitionCreateOutputBody>,
+  input: __S(24, __c3, 0) as any as S.Schema<CreateTrailGateRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<GateDefinitionCreateOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTrailGate",
+}));
+
+export type DeleteChangeGateError = EntireOpError;
+/** Change: Delete a repository gate definition (repo_id addressing) Deletes a gate definition via the opaque repo id path. Same built-in delete-protection as the wire-parity route. */
+export const deleteChangeGate: API.OperationMethod<
+  DeleteChangeGateRequest,
+  DeleteChangeGateResponse,
+  DeleteChangeGateError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c12, 0) as any as S.Schema<DeleteChangeGateRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<DeleteChangeGateResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChangeGate",
 }));
 
 export type DeleteTrailGateError = EntireOpError;
@@ -224,13 +316,47 @@ export const deleteTrailGate: API.OperationMethod<
   DeleteTrailGateError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<DeleteTrailGateRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<DeleteTrailGateResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<DeleteTrailGateRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<DeleteTrailGateResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTrailGate",
+}));
+
+export type GetChangeGateConfigError = EntireOpError;
+/** Change: Get repository gate configuration (repo_id addressing) Returns the repository's gate configuration via the opaque repo id path, including disabled gates, editable configuration, and gatesEnabled. Same built-in initialization and availability while gate enforcement is disabled as the host-addressed route. */
+export const getChangeGateConfig: API.OperationMethod<
+  GetChangeGateConfigRequest,
+  TrailGateConfigResponse,
+  GetChangeGateConfigError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(120, __c15, 0) as any as S.Schema<GetChangeGateConfigRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<TrailGateConfigResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChangeGateConfig",
+}));
+
+export type GetChangeGateSettingsError = EntireOpError;
+/** Change: Get the repo's gate settings (repo_id addressing) */
+export const getChangeGateSettings: API.OperationMethod<
+  GetChangeGateSettingsRequest,
+  GateSettingsResponse,
+  GetChangeGateSettingsError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(136, __c17, 0) as any as S.Schema<GetChangeGateSettingsRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GateSettingsResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChangeGateSettings",
 }));
 
 export type GetTrailGateConfigError = EntireOpError;
@@ -241,8 +367,8 @@ export const getTrailGateConfig: API.OperationMethod<
   GetTrailGateConfigError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetTrailGateConfigRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<TrailGateConfigResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetTrailGateConfigRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<TrailGateConfigResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -258,8 +384,8 @@ export const getTrailGateConfigBySlug: API.OperationMethod<
   GetTrailGateConfigBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetTrailGateConfigBySlugRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<TrailGateConfigResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetTrailGateConfigBySlugRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<TrailGateConfigResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -275,8 +401,8 @@ export const getTrailGateSettings: API.OperationMethod<
   GetTrailGateSettingsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetTrailGateSettingsRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<GateSettingsResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetTrailGateSettingsRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GateSettingsResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -284,21 +410,55 @@ export const getTrailGateSettings: API.OperationMethod<
   span: "GetTrailGateSettings",
 }));
 
+export type ListChangeGatesError = EntireOpError;
+/** Get the configurable gate evaluation for a change (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Evaluates configured gates using persisted checks results. mergeable indicates whether these gates allow merging; it does not include merge conflicts or guarantee fresh CI evidence. Use /mergeability for current merge readiness. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. */
+export const listChangeGates: API.OperationMethod<
+  ListChangeGatesRequest,
+  TrailGatesResponse,
+  ListChangeGatesError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(176, __c22, 0) as any as S.Schema<ListChangeGatesRequest>,
+  output: __S(184, __c23, 0) as any as S.Schema<TrailGatesResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChangeGates",
+}));
+
 export type ListTrailGatesError = EntireOpError;
-/** Get the configurable gate evaluation for a trail (repo_id addressing) Evaluates configured gates using persisted checks results. mergeable indicates whether these gates allow merging; it does not include merge conflicts or guarantee fresh CI evidence. Use /mergeability for current merge readiness. */
+/** Get the configurable gate evaluation for a trail (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Evaluates configured gates using persisted checks results. mergeable indicates whether these gates allow merging; it does not include merge conflicts or guarantee fresh CI evidence. Use /mergeability for current merge readiness. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. */
 export const listTrailGates: API.OperationMethod<
   ListTrailGatesRequest,
   TrailGatesResponse,
   ListTrailGatesError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<ListTrailGatesRequest>,
-  output: __S(73, __c9, 1) as any as S.Schema<TrailGatesResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<ListTrailGatesRequest>,
+  output: __S(184, __c23, 0) as any as S.Schema<TrailGatesResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTrailGates",
+}));
+
+export type RecomputeChangeGatesError = EntireOpError;
+/** Force a single change's builtin gate results to be recomputed, by repo id Forces a single trail's builtin gate results (up_to_date and approvals) to be recomputed against entiredb's current mirror compare and locally-stored review data, right now, with no forge call at all. The trail must be open with a linked branch and a known head, or this returns 422. checks is deliberately excluded -- it stays covered by its own dedicated trigger, the check-run-completed webhook -- so this route never touches base, ahead-by/has_code_changes, review-comment staleness, findings, or the checks gate; its only effect is the up_to_date/approvals recompute itself, returned as the resulting gate state. */
+export const recomputeChangeGates: API.OperationMethod<
+  RecomputeChangeGatesRequest,
+  TrailsGateRecomputeResponseBody,
+  RecomputeChangeGatesError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(40, __c5, 0) as any as S.Schema<RecomputeChangeGatesRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<TrailsGateRecomputeResponseBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecomputeChangeGates",
 }));
 
 export type RecomputeTrailGatesError = EntireOpError;
@@ -309,13 +469,47 @@ export const recomputeTrailGates: API.OperationMethod<
   RecomputeTrailGatesError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<RecomputeTrailGatesRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<TrailsGateRecomputeResponseBody>,
+  input: __S(56, __c7, 0) as any as S.Schema<RecomputeTrailGatesRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<TrailsGateRecomputeResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RecomputeTrailGates",
+}));
+
+export type UpdateChangeGateError = EntireOpError;
+/** Change: Update a repository gate definition (repo_id addressing) Updates a gate definition via the opaque repo id path, with the same partial config-merge semantics as the wire-parity route. */
+export const updateChangeGate: API.OperationMethod<
+  UpdateChangeGateRequest,
+  GateDefinitionOutputBody,
+  UpdateChangeGateError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c8, 0) as any as S.Schema<UpdateChangeGateRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<GateDefinitionOutputBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChangeGate",
+}));
+
+export type UpdateChangeGateSettingsError = EntireOpError;
+/** Change: Update the repo's gate settings (repo_id addressing) */
+export const updateChangeGateSettings: API.OperationMethod<
+  UpdateChangeGateSettingsRequest,
+  GateSettingsResponse,
+  UpdateChangeGateSettingsError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(72, __c9, 0) as any as S.Schema<UpdateChangeGateSettingsRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GateSettingsResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChangeGateSettings",
 }));
 
 export type UpdateTrailGateError = EntireOpError;
@@ -326,8 +520,8 @@ export const updateTrailGate: API.OperationMethod<
   UpdateTrailGateError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<UpdateTrailGateRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<GateDefinitionOutputBody>,
+  input: __S(80, __c10, 0) as any as S.Schema<UpdateTrailGateRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<GateDefinitionOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -343,8 +537,8 @@ export const updateTrailGateSettings: API.OperationMethod<
   UpdateTrailGateSettingsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<UpdateTrailGateSettingsRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<GateSettingsResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<UpdateTrailGateSettingsRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GateSettingsResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -364,11 +558,24 @@ function __c0(j: number): any {
           enabled: S.optional(S.Boolean),
           gateKey: S.optional(S.String),
           gateType: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/repos/{repo_id}/trails/gates", code: 200 })),
-      ).annotate({ identifier: "CreateTrailGateRequest" });
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/v1/repos/{repo_id}/changes/gates", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateChangeGateRequest" });
   }
 }
 function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          gate: __S(16, __c2, 0),
+        }),
+      ).annotate({ identifier: "GateDefinitionCreateOutputBody" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -390,102 +597,22 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GateDefinition" });
   }
 }
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          gate: __S(8, __c1, 0),
-        }),
-      ).annotate({ identifier: "GateDefinitionCreateOutputBody" });
-  }
-}
 function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           repo_id: S.String.pipe(T.Label()),
-          gateId: S.String.pipe(T.Label()),
-          ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/v1/repos/{repo_id}/trails/gates/{gateId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteTrailGateRequest" });
-    case 1:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteTrailGateResponse" });
+          blocking: S.optional(S.Boolean),
+          config: S.optional(S.Unknown),
+          enabled: S.optional(S.Boolean),
+          gateKey: S.optional(S.String),
+          gateType: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/repos/{repo_id}/trails/gates", code: 200 })),
+      ).annotate({ identifier: "CreateTrailGateRequest" });
   }
 }
 function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/trails/gates", code: 200 })),
-      ).annotate({ identifier: "GetTrailGateConfigRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(8, __c1, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          gates: S.NullOr(__S(40, __c5, 0)),
-          gatesEnabled: S.Boolean,
-        }),
-      ).annotate({ identifier: "TrailGateConfigResponse" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String.pipe(T.Label()),
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/trails/{host}/{owner}/{repo}/gates", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetTrailGateConfigBySlugRequest" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/trails/gate-settings", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetTrailGateSettingsRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          autoMergePolicy: S.String,
-          bypassPolicy: S.String,
-          deleteBranchOnMerge: S.Boolean,
-          forgeCheckRunEnabled: S.Boolean,
-        }),
-      ).annotate({ identifier: "GateSettingsResponse" });
-  }
-}
-function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -500,65 +627,43 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListTrailGatesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          blocking_failures: S.NullOr(__S(84, __c10, 4)),
-          evaluated_at: S.NullOr(S.String),
-          gates: S.NullOr(__S(84, __c10, 4)),
-          gates_enabled: S.Boolean,
-          head_sha: S.NullOr(S.String),
-          mergeable: S.Boolean,
-        }),
-      ).annotate({ identifier: "TrailGatesResponse" });
   }
 }
-function __c10(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          actor_account_id: S.optional(S.String),
-          login: S.String,
-          reason: S.NullOr(S.String),
-          reviewed_head_sha: S.NullOr(S.String),
-          state: S.String,
-        }),
-      ).annotate({ identifier: "ApprovalReviewer" });
-    case 1:
-      return S.Array(__S(80, __c10, 0));
-    case 2:
-      return S.Array(S.String);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          blocking: S.Boolean,
-          completed_at: S.NullOr(S.String),
-          created_at: S.String,
-          evaluated_at_sha: S.NullOr(S.String),
-          finding_count: S.NullOr(S.Number),
-          gate_definition_id: S.String,
-          gate_key: S.String,
-          gate_type: S.String,
-          head_sha: S.NullOr(S.String),
-          id: S.String,
-          not_applicable_reason: S.optional(S.String),
-          outcome: S.NullOr(S.String),
-          rationale: S.NullOr(S.String),
-          reviewers: __S(81, __c10, 1),
-          runner_ids: __S(82, __c10, 2),
-          stale_reason: S.NullOr(S.String),
-          state: S.optional(S.String),
-          status: S.String,
-          value: S.Unknown,
-        }),
-      ).annotate({ identifier: "GateResult" });
-    case 4:
-      return S.Array(__S(83, __c10, 3));
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/gates/recompute",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RecomputeChangeGatesRequest" });
   }
 }
-function __c11(j: number): any {
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          blocking_failures: S.NullOr(__S(196, __c24, 4)),
+          changed: S.Boolean,
+          evaluated_at: S.NullOr(S.String),
+          gates: S.NullOr(__S(196, __c24, 4)),
+          gates_enabled: S.Boolean,
+          head_sha: S.NullOr(S.String),
+          mergeable: S.Boolean,
+        }),
+      ).annotate({ identifier: "TrailsGateRecomputeResponseBody" });
+  }
+}
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -573,22 +678,50 @@ function __c11(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RecomputeTrailGatesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          blocking_failures: S.NullOr(__S(84, __c10, 4)),
-          changed: S.Boolean,
-          evaluated_at: S.NullOr(S.String),
-          gates: S.NullOr(__S(84, __c10, 4)),
-          gates_enabled: S.Boolean,
-          head_sha: S.NullOr(S.String),
-          mergeable: S.Boolean,
-        }),
-      ).annotate({ identifier: "TrailsGateRecomputeResponseBody" });
   }
 }
-function __c12(j: number): any {
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          gateId: S.String.pipe(T.Label()),
+          ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
+          blocking: S.optional(S.Boolean),
+          config: S.optional(S.Unknown),
+          enabled: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v1/repos/{repo_id}/changes/gates/{gateId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateChangeGateRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          autoMergePolicy: S.optional(S.String),
+          bypassPolicy: S.optional(S.String),
+          deleteBranchOnMerge: S.optional(S.Boolean),
+          forgeCheckRunEnabled: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v1/repos/{repo_id}/changes/gate-settings",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateChangeGateSettingsRequest" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -609,7 +742,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "UpdateTrailGateRequest" });
   }
 }
-function __c13(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -627,6 +760,215 @@ function __c13(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateTrailGateSettingsRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          gateId: S.String.pipe(T.Label()),
+          ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v1/repos/{repo_id}/changes/gates/{gateId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteChangeGateRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteChangeGateResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          gateId: S.String.pipe(T.Label()),
+          ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v1/repos/{repo_id}/trails/gates/{gateId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteTrailGateRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/changes/gates", code: 200 })),
+      ).annotate({ identifier: "GetChangeGateConfigRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(16, __c2, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          gates: S.NullOr(__S(128, __c16, 0)),
+          gatesEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "TrailGateConfigResponse" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/changes/gate-settings",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetChangeGateSettingsRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          autoMergePolicy: S.String,
+          bypassPolicy: S.String,
+          deleteBranchOnMerge: S.Boolean,
+          forgeCheckRunEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "GateSettingsResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/trails/gates", code: 200 })),
+      ).annotate({ identifier: "GetTrailGateConfigRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String.pipe(T.Label()),
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/v1/trails/{host}/{owner}/{repo}/gates", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetTrailGateConfigBySlugRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/trails/gate-settings", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetTrailGateSettingsRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/gates",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListChangeGatesRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          blocking_failures: S.NullOr(__S(196, __c24, 4)),
+          evaluated_at: S.NullOr(S.String),
+          gates: S.NullOr(__S(196, __c24, 4)),
+          gates_enabled: S.Boolean,
+          head_sha: S.NullOr(S.String),
+          mergeable: S.Boolean,
+        }),
+      ).annotate({ identifier: "TrailGatesResponse" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          actor_account_id: S.optional(S.String),
+          login: S.String,
+          reason: S.NullOr(S.String),
+          reviewed_head_sha: S.NullOr(S.String),
+          state: S.String,
+        }),
+      ).annotate({ identifier: "ApprovalReviewer" });
+    case 1:
+      return S.Array(__S(192, __c24, 0));
+    case 2:
+      return S.Array(S.String);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          blocking: S.Boolean,
+          completed_at: S.NullOr(S.String),
+          created_at: S.String,
+          evaluated_at_sha: S.NullOr(S.String),
+          finding_count: S.NullOr(S.Number),
+          gate_definition_id: S.String,
+          gate_key: S.String,
+          gate_type: S.String,
+          head_sha: S.NullOr(S.String),
+          id: S.String,
+          not_applicable_reason: S.optional(S.String),
+          outcome: S.NullOr(S.String),
+          rationale: S.NullOr(S.String),
+          reviewers: __S(193, __c24, 1),
+          runner_ids: __S(194, __c24, 2),
+          stale_reason: S.NullOr(S.String),
+          state: S.optional(S.String),
+          status: S.String,
+          value: S.Unknown,
+        }),
+      ).annotate({ identifier: "GateResult" });
+    case 4:
+      return S.Array(__S(195, __c24, 3));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

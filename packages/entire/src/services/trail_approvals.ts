@@ -24,7 +24,7 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export interface GetTrailMergeabilityRequest {
+export interface GetChangeMergeabilityRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
   /** Trail number */
@@ -37,7 +37,7 @@ export type TrailMergeabilityResponseChecksAvailability =
   | "not_applicable";
 export interface CheckRunStep {
   conclusion: string | null;
-  exit_status?: number;
+  exit_status?: number | undefined;
   id: string;
   name: string;
   status: string;
@@ -50,10 +50,10 @@ export interface TrailCheckRunJSON {
   details_url: string | null;
   name: string;
   /** Slug of the CI plugin that reported this run. Absent for a run read from the forge. */
-  source?: string;
+  source?: string | undefined;
   started_at: string | null;
   status: string;
-  steps?: TrailCheckRunJSONStepsList | null;
+  steps?: TrailCheckRunJSONStepsList | null | undefined;
 }
 export type TrailMergeabilityResponseChecksRunsList = Array<TrailCheckRunJSON>;
 export interface TrailMergeabilityResponseChecks {
@@ -61,7 +61,7 @@ export interface TrailMergeabilityResponseChecks {
   availability: TrailMergeabilityResponseChecksAvailability;
   runs: TrailMergeabilityResponseChecksRunsList | null;
 }
-/** Provider conflict verdict for headSha; conflicting blocks mergeable independently of gates and CI evidence. */
+/** Provider conflict verdict for headSha; mergeable requires clean, independently of gates and CI evidence. The merge action is blocked only by conflicting: an unknown verdict leaves conflicts to the forge's merge. */
 export type TrailMergeabilityResponseConflictStatus = "clean" | "conflicting" | "unknown";
 export interface TrailMergeabilityResponseForgeMergeBlock {
   /** Open set: review_required means GitHub needs an approving review; changes_requested means a GitHub reviewer requested changes; checks_pending means a required check on headSha has not finished; blocked means GitHub reports the merge as blocked without naming a readable rule. Unknown future values must be tolerated. */
@@ -78,7 +78,7 @@ export type ApprovalReviewerState =
   | "changes_requested"
   | "excluded";
 export interface ApprovalReviewer {
-  actor_account_id?: string;
+  actor_account_id?: string | undefined;
   login: string;
   reason: string | null;
   reviewed_head_sha: string | null;
@@ -99,27 +99,27 @@ export interface GateResult {
   head_sha: string | null;
   id: string;
   /** Machine-readable reason for a not_applicable gate. no_changes means the branch has no changes from its base; it is not an evaluated skipped verdict. Absent for other results, including disabled gates. */
-  not_applicable_reason?: GateResultNotApplicableReason;
+  not_applicable_reason?: GateResultNotApplicableReason | undefined;
   outcome: string | null;
   rationale: string | null;
   reviewers: GateResultReviewersList;
   /** Sorted unique runner IDs contributing to this gate, drawn from the Trail detail runners array. Empty when none are associated or configuration is unavailable. */
   runner_ids: GateResultRunnerIdsList;
   stale_reason: string | null;
-  state?: string;
+  state?: string | undefined;
   status: string;
   value: unknown;
 }
 export type TrailMergeabilityResponseGatesList = Array<GateResult>;
 export interface TrailMergeabilityResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   behind_by: number;
   /** Effective bypass policy for this response. When readiness is unavailable, nobody is a fail-closed fallback, not the saved repository setting; merge actions remain unavailable. */
   bypass_policy: string;
   checks: TrailMergeabilityResponseChecks;
   comparison_status: string;
-  /** Provider conflict verdict for headSha; conflicting blocks mergeable independently of gates and CI evidence. */
+  /** Provider conflict verdict for headSha; mergeable requires clean, independently of gates and CI evidence. The merge action is blocked only by conflicting: an unknown verdict leaves conflicts to the forge's merge. */
   conflict_status: TrailMergeabilityResponseConflictStatus;
   /** Default for the merge request's deleteBranch option, i.e. the repository's delete-branch-on-merge setting; false means the setting is off. Null for a GitHub-backed repository, where entire-api never deletes the branch, and when readiness is unavailable. */
   delete_branch_on_merge: boolean | null;
@@ -128,7 +128,13 @@ export interface TrailMergeabilityResponse {
   head_sha: string | null;
   mergeable: boolean;
 }
-export interface ListTrailApprovalsRequest {
+export interface GetTrailMergeabilityRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  /** Trail number */
+  number: string;
+}
+export interface ListChangeApprovalsRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
   /** Trail number */
@@ -145,8 +151,14 @@ export interface TrailApprovalWire {
 export type TrailApprovalsResponseApprovalsList = Array<TrailApprovalWire>;
 export interface TrailApprovalsResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   approvals: TrailApprovalsResponseApprovalsList | null;
+}
+export interface ListTrailApprovalsRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  /** Trail number */
+  number: string;
 }
 export interface ListTrailApprovalsBySlugRequest {
   /** Forge host slug (gh or et) */
@@ -158,17 +170,17 @@ export interface ListTrailApprovalsBySlugRequest {
   /** Trail number */
   number: string;
 }
-export interface MergeTrailRequest {
+export interface MergeChangeRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
   /** Trail number */
   number: string;
-  bypass?: boolean;
+  bypass?: boolean | undefined;
   /** Delete the native Trail's working branch after the merge, first moving the open and draft Trails based on it to the merged Trail's base, as the merger. Omitted uses the repository's deleteBranchOnMerge setting. Ignored for GitHub-backed Trails. */
-  deleteBranch?: boolean;
-  expectedHeadSha?: string;
+  deleteBranch?: boolean | undefined;
+  expectedHeadSha?: string | undefined;
 }
-/** Why the native Trail's working branch was kept. Set only when branchDeleted is false; omitted for a GitHub-backed Trail. not_requested: the request sent deleteBranch false. disabled: deleteBranch was omitted and the repository's deleteBranchOnMerge setting is off. base: the branch is the Trail's base. stacked: an open or draft Trail based on the branch could not be moved to the merged Trail's base. claimed: another Trail took the branch name after the merge. moved: the branch moved past the merged head. protected: branch protection refused the delete. default_branch: the branch is the repository's default branch. failed: the delete, or moving the Trails based on the branch, could not run or did not succeed. */
+/** Why the native Trail's working branch was kept. Set only when branchDeleted is false; omitted for a GitHub-backed Trail. not_requested: the request sent deleteBranch false. disabled: deleteBranch was omitted and the repository's deleteBranchOnMerge setting is off. base: the branch is the base the Trail's merge recorded. stacked: an open or draft Trail based on the branch could not be moved to the merged Trail's base. claimed: another Trail took the branch name after the merge. moved: the branch moved past the merged head. protected: branch protection refused the delete. default_branch: the branch is the repository's default branch. failed: the delete, or moving the Trails based on the branch, could not run or did not succeed. */
 export type TrailMergeSubmitResponseBranchKeptReason =
   | "not_requested"
   | "disabled"
@@ -181,30 +193,42 @@ export type TrailMergeSubmitResponseBranchKeptReason =
   | "failed";
 export interface TrailMergeSubmitResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** The Trail's working branch no longer exists after the merge. Always false for a GitHub-backed Trail, whose branch GitHub manages. */
   branchDeleted: boolean;
-  /** Why the native Trail's working branch was kept. Set only when branchDeleted is false; omitted for a GitHub-backed Trail. not_requested: the request sent deleteBranch false. disabled: deleteBranch was omitted and the repository's deleteBranchOnMerge setting is off. base: the branch is the Trail's base. stacked: an open or draft Trail based on the branch could not be moved to the merged Trail's base. claimed: another Trail took the branch name after the merge. moved: the branch moved past the merged head. protected: branch protection refused the delete. default_branch: the branch is the repository's default branch. failed: the delete, or moving the Trails based on the branch, could not run or did not succeed. */
-  branchKeptReason?: TrailMergeSubmitResponseBranchKeptReason;
+  /** Why the native Trail's working branch was kept. Set only when branchDeleted is false; omitted for a GitHub-backed Trail. not_requested: the request sent deleteBranch false. disabled: deleteBranch was omitted and the repository's deleteBranchOnMerge setting is off. base: the branch is the base the Trail's merge recorded. stacked: an open or draft Trail based on the branch could not be moved to the merged Trail's base. claimed: another Trail took the branch name after the merge. moved: the branch moved past the merged head. protected: branch protection refused the delete. default_branch: the branch is the repository's default branch. failed: the delete, or moving the Trails based on the branch, could not run or did not succeed. */
+  branchKeptReason?: TrailMergeSubmitResponseBranchKeptReason | undefined;
   /** Merge commit SHA; empty when the merge fast-forwarded or was already up to date */
   mergeCommitSha: string;
+  /** Branch the merge landed on, without refs/heads/: for a stacked GitHub pull request, the stack's base rather than the Trail's own base, unless GitHub reported the merge first, in which case the base it reported. Omitted when the destination is unknown or the merge record could not be read. */
+  mergedBase?: string | undefined;
   ok: boolean;
 }
-export type SubmitTrailApprovalRequestEvent = "approve" | "request_changes";
-export interface SubmitTrailApprovalRequest {
+export interface MergeTrailRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  /** Trail number */
+  number: string;
+  bypass?: boolean | undefined;
+  /** Delete the native Trail's working branch after the merge, first moving the open and draft Trails based on it to the merged Trail's base, as the merger. Omitted uses the repository's deleteBranchOnMerge setting. Ignored for GitHub-backed Trails. */
+  deleteBranch?: boolean | undefined;
+  expectedHeadSha?: string | undefined;
+}
+export type SubmitChangeApprovalRequestEvent = "approve" | "request_changes";
+export interface SubmitChangeApprovalRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
   /** Trail number */
   number: string;
   /** Required and non-blank for request_changes. */
-  body?: string;
-  event: SubmitTrailApprovalRequestEvent | (string & {});
+  body?: string | undefined;
+  event: SubmitChangeApprovalRequestEvent | (string & {});
 }
 export type TrailGatesResponseBlockingFailuresList = Array<GateResult>;
 export type TrailGatesResponseGatesList = Array<GateResult>;
 export interface TrailGatesResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   blocking_failures: TrailGatesResponseBlockingFailuresList | null;
   evaluated_at: string | null;
   gates: TrailGatesResponseGatesList | null;
@@ -215,10 +239,20 @@ export interface TrailGatesResponse {
 }
 export interface TrailApprovalSubmitResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   approval: TrailApprovalWire;
   gates: TrailGatesResponse;
   ok: boolean;
+}
+export type SubmitTrailApprovalRequestEvent = "approve" | "request_changes";
+export interface SubmitTrailApprovalRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  /** Trail number */
+  number: string;
+  /** Required and non-blank for request_changes. */
+  body?: string | undefined;
+  event: SubmitTrailApprovalRequestEvent | (string & {});
 }
 export type SubmitTrailApprovalBySlugRequestEvent = "approve" | "request_changes";
 export interface SubmitTrailApprovalBySlugRequest {
@@ -231,19 +265,36 @@ export interface SubmitTrailApprovalBySlugRequest {
   /** Trail number */
   number: string;
   /** Required and non-blank for request_changes. */
-  body?: string;
+  body?: string | undefined;
   event: SubmitTrailApprovalBySlugRequestEvent | (string & {});
 }
+export type GetChangeMergeabilityError = EntireOpError;
+/** Get merge readiness for a change (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. */
+export const getChangeMergeability: API.OperationMethod<
+  GetChangeMergeabilityRequest,
+  TrailMergeabilityResponse,
+  GetChangeMergeabilityError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<GetChangeMergeabilityRequest>,
+  output: __S(14, __c1, 6) as any as S.Schema<TrailMergeabilityResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChangeMergeability",
+}));
+
 export type GetTrailMergeabilityError = EntireOpError;
-/** Get merge readiness for a trail (repo_id addressing) */
+/** Get merge readiness for a trail (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. */
 export const getTrailMergeability: API.OperationMethod<
   GetTrailMergeabilityRequest,
   TrailMergeabilityResponse,
   GetTrailMergeabilityError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetTrailMergeabilityRequest>,
-  output: __S(7, __c0, 7) as any as S.Schema<TrailMergeabilityResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetTrailMergeabilityRequest>,
+  output: __S(14, __c1, 6) as any as S.Schema<TrailMergeabilityResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -251,16 +302,33 @@ export const getTrailMergeability: API.OperationMethod<
   span: "GetTrailMergeability",
 }));
 
+export type ListChangeApprovalsError = EntireOpError;
+/** List a change's recorded approval decisions (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. */
+export const listChangeApprovals: API.OperationMethod<
+  ListChangeApprovalsRequest,
+  TrailApprovalsResponse,
+  ListChangeApprovalsError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(32, __c4, 0) as any as S.Schema<ListChangeApprovalsRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<TrailApprovalsResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChangeApprovals",
+}));
+
 export type ListTrailApprovalsError = EntireOpError;
-/** List a trail's recorded approval decisions (repo_id addressing) */
+/** List a trail's recorded approval decisions (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. */
 export const listTrailApprovals: API.OperationMethod<
   ListTrailApprovalsRequest,
   TrailApprovalsResponse,
   ListTrailApprovalsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<ListTrailApprovalsRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<TrailApprovalsResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<ListTrailApprovalsRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<TrailApprovalsResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -276,8 +344,8 @@ export const listTrailApprovalsBySlug: API.OperationMethod<
   ListTrailApprovalsBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListTrailApprovalsBySlugRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<TrailApprovalsResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<ListTrailApprovalsBySlugRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<TrailApprovalsResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -285,16 +353,33 @@ export const listTrailApprovalsBySlug: API.OperationMethod<
   span: "ListTrailApprovalsBySlug",
 }));
 
+export type MergeChangeError = EntireOpError;
+/** Merge a Change (repo_id addressing) **Accepted credentials:** User token. Use an own-account bearer token (including supported service accounts). Plugin installation tokens are not accepted for this action. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission and an account subject; automation principals are rejected. Trails must be enabled. Send requests to the repository's primary API region. Merge additionally enforces current merge policy, gates and any bypass authorization. */
+export const mergeChange: API.OperationMethod<
+  MergeChangeRequest,
+  TrailMergeSubmitResponse,
+  MergeChangeError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(72, __c9, 0) as any as S.Schema<MergeChangeRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<TrailMergeSubmitResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MergeChange",
+}));
+
 export type MergeTrailError = EntireOpError;
-/** Merge a Trail (repo_id addressing) */
+/** Merge a Trail (repo_id addressing) **Accepted credentials:** User token. Use an own-account bearer token (including supported service accounts). Plugin installation tokens are not accepted for this action. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission and an account subject; automation principals are rejected. Trails must be enabled. Send requests to the repository's primary API region. Merge additionally enforces current merge policy, gates and any bypass authorization. */
 export const mergeTrail: API.OperationMethod<
   MergeTrailRequest,
   TrailMergeSubmitResponse,
   MergeTrailError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<MergeTrailRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<TrailMergeSubmitResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<MergeTrailRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<TrailMergeSubmitResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -302,16 +387,33 @@ export const mergeTrail: API.OperationMethod<
   span: "MergeTrail",
 }));
 
+export type SubmitChangeApprovalError = EntireOpError;
+/** Submit an approval decision on a change (repo_id addressing) **Accepted credentials:** User token. Use an own-account bearer token (including supported service accounts). Plugin installation tokens are not accepted for this action. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission and an account subject; automation principals are rejected. Trails must be enabled. Send requests to the repository's primary API region. */
+export const submitChangeApproval: API.OperationMethod<
+  SubmitChangeApprovalRequest,
+  TrailApprovalSubmitResponse,
+  SubmitChangeApprovalError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c12, 0) as any as S.Schema<SubmitChangeApprovalRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<TrailApprovalSubmitResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitChangeApproval",
+}));
+
 export type SubmitTrailApprovalError = EntireOpError;
-/** Submit an approval decision on a trail (repo_id addressing) */
+/** Submit an approval decision on a trail (repo_id addressing) **Accepted credentials:** User token. Use an own-account bearer token (including supported service accounts). Plugin installation tokens are not accepted for this action. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission and an account subject; automation principals are rejected. Trails must be enabled. Send requests to the repository's primary API region. */
 export const submitTrailApproval: API.OperationMethod<
   SubmitTrailApprovalRequest,
   TrailApprovalSubmitResponse,
   SubmitTrailApprovalError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<SubmitTrailApprovalRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<TrailApprovalSubmitResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<SubmitTrailApprovalRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<TrailApprovalSubmitResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -327,8 +429,8 @@ export const submitTrailApprovalBySlug: API.OperationMethod<
   SubmitTrailApprovalBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<SubmitTrailApprovalBySlugRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<TrailApprovalSubmitResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<SubmitTrailApprovalBySlugRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<TrailApprovalSubmitResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -347,12 +449,16 @@ function __c0(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/mergeability",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/mergeability",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "GetTrailMergeabilityRequest" });
-    case 1:
+      ).annotate({ identifier: "GetChangeMergeabilityRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           conclusion: S.NullOr(S.String),
@@ -362,9 +468,9 @@ function __c0(j: number): any {
           status: S.String,
         }),
       ).annotate({ identifier: "CheckRunStep" });
+    case 1:
+      return S.Array(__S(8, __c1, 0));
     case 2:
-      return S.Array(__S(1, __c0, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           app_name: S.NullOr(S.String),
@@ -375,44 +481,44 @@ function __c0(j: number): any {
           source: S.optional(S.String),
           started_at: S.NullOr(S.String),
           status: S.String,
-          steps: S.optional(S.NullOr(__S(2, __c0, 2))),
+          steps: S.optional(S.NullOr(__S(9, __c1, 1))),
         }),
       ).annotate({ identifier: "TrailCheckRunJSON" });
+    case 3:
+      return S.Array(__S(10, __c1, 2));
     case 4:
-      return S.Array(__S(3, __c0, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
           availability: S.String,
-          runs: S.NullOr(__S(4, __c0, 4)),
+          runs: S.NullOr(__S(11, __c1, 3)),
         }),
       ).annotate({ identifier: "TrailMergeabilityResponseChecks" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           reason: S.String,
           required_approving_review_count: S.Number,
         }),
       ).annotate({ identifier: "TrailMergeabilityResponseForgeMergeBlock" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           behind_by: S.Number,
           bypass_policy: S.String,
-          checks: __S(5, __c0, 5),
+          checks: __S(12, __c1, 4),
           comparison_status: S.String,
           conflict_status: S.String,
           delete_branch_on_merge: S.NullOr(S.Boolean),
-          forge_merge_block: __S(6, __c0, 6),
-          gates: S.NullOr(__S(12, __c1, 4)),
+          forge_merge_block: __S(13, __c1, 5),
+          gates: S.NullOr(__S(20, __c2, 4)),
           head_sha: S.NullOr(S.String),
           mergeable: S.Boolean,
         }),
       ).annotate({ identifier: "TrailMergeabilityResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -425,7 +531,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "ApprovalReviewer" });
     case 1:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(16, __c2, 0));
     case 2:
       return S.Array(S.String);
     case 3:
@@ -444,8 +550,8 @@ function __c1(j: number): any {
           not_applicable_reason: S.optional(S.String),
           outcome: S.NullOr(S.String),
           rationale: S.NullOr(S.String),
-          reviewers: __S(9, __c1, 1),
-          runner_ids: __S(10, __c1, 2),
+          reviewers: __S(17, __c2, 1),
+          runner_ids: __S(18, __c2, 2),
           stale_reason: S.NullOr(S.String),
           state: S.optional(S.String),
           status: S.String,
@@ -453,10 +559,72 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "GateResult" });
     case 4:
-      return S.Array(__S(11, __c1, 3));
+      return S.Array(__S(19, __c2, 3));
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/trails/{number}/mergeability",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetTrailMergeabilityRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/approvals",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListChangeApprovalsRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(48, __c6, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          approvals: S.NullOr(__S(40, __c5, 0)),
+        }),
+      ).annotate({ identifier: "TrailApprovalsResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          author: S.String,
+          body: S.NullOr(S.String),
+          commit_sha: S.String,
+          created_at: S.String,
+          event: S.String,
+          id: S.String,
+        }),
+      ).annotate({ identifier: "TrailApprovalWire" });
+  }
+}
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -473,35 +641,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ListTrailApprovalsRequest" });
   }
 }
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(32, __c4, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          approvals: S.NullOr(__S(24, __c3, 0)),
-        }),
-      ).annotate({ identifier: "TrailApprovalsResponse" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          author: S.String,
-          body: S.NullOr(S.String),
-          commit_sha: S.String,
-          created_at: S.String,
-          event: S.String,
-          id: S.String,
-        }),
-      ).annotate({ identifier: "TrailApprovalWire" });
-  }
-}
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -520,7 +660,42 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ListTrailApprovalsBySlugRequest" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          bypass: S.optional(S.Boolean),
+          deleteBranch: S.optional(S.Boolean),
+          expectedHeadSha: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/merge",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "MergeChangeRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          branchDeleted: S.Boolean,
+          branchKeptReason: S.optional(S.String),
+          mergeCommitSha: S.String,
+          mergedBase: S.optional(S.String),
+          ok: S.Boolean,
+        }),
+      ).annotate({ identifier: "TrailMergeSubmitResponse" });
+  }
+}
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -538,19 +713,53 @@ function __c6(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MergeTrailRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          body: S.optional(S.String),
+          event: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/approvals",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SubmitChangeApprovalRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          blocking_failures: S.NullOr(__S(20, __c2, 4)),
+          evaluated_at: S.NullOr(S.String),
+          gates: S.NullOr(__S(20, __c2, 4)),
+          gates_enabled: S.Boolean,
+          head_sha: S.NullOr(S.String),
+          mergeable: S.Boolean,
+        }),
+      ).annotate({ identifier: "TrailGatesResponse" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          branchDeleted: S.Boolean,
-          branchKeptReason: S.optional(S.String),
-          mergeCommitSha: S.String,
+          approval: __S(48, __c6, 0),
+          gates: __S(104, __c13, 0),
           ok: S.Boolean,
         }),
-      ).annotate({ identifier: "TrailMergeSubmitResponse" });
+      ).annotate({ identifier: "TrailApprovalSubmitResponse" });
   }
 }
-function __c7(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -569,32 +778,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "SubmitTrailApprovalRequest" });
   }
 }
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          blocking_failures: S.NullOr(__S(12, __c1, 4)),
-          evaluated_at: S.NullOr(S.String),
-          gates: S.NullOr(__S(12, __c1, 4)),
-          gates_enabled: S.Boolean,
-          head_sha: S.NullOr(S.String),
-          mergeable: S.Boolean,
-        }),
-      ).annotate({ identifier: "TrailGatesResponse" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          approval: __S(32, __c4, 0),
-          gates: __S(64, __c8, 0),
-          ok: S.Boolean,
-        }),
-      ).annotate({ identifier: "TrailApprovalSubmitResponse" });
-  }
-}
-function __c9(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

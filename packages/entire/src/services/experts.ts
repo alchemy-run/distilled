@@ -29,15 +29,15 @@ export type FindRepoExpertsRequestScopesList = Array<string>;
 export interface FindRepoExpertsRequest {
   repo_id: string;
   /** Restrict to checkpoints linked on this branch. */
-  branch?: string;
+  branch?: string | undefined;
   /** Max evidence sessions per profile (1-5, default 3). */
-  evidence_limit?: number;
+  evidence_limit?: number | undefined;
   /** Max profiles (1-20, default 8). */
-  limit?: number;
+  limit?: number | undefined;
   /** Natural-language topic (requires code search). Provide scopes OR query. */
-  query?: string;
+  query?: string | undefined;
   /** Path scopes (a file or a directory prefix). Provide scopes OR query. */
-  scopes?: FindRepoExpertsRequestScopesList | null;
+  scopes?: FindRepoExpertsRequestScopesList | null | undefined;
 }
 export interface ExpertsFacet {
   count: number;
@@ -52,8 +52,8 @@ export type ExpertsEvidenceItemCheckpointIdsList = Array<string>;
 export type ExpertsEvidenceItemMatchedFilesList = Array<string>;
 export interface ExpertsEvidenceItem {
   agent: string;
-  attribution_agent_lines?: number;
-  attribution_total_committed?: number;
+  attribution_agent_lines?: number | undefined;
+  attribution_total_committed?: number | undefined;
   checkpoint_count: number;
   checkpoint_ids: ExpertsEvidenceItemCheckpointIdsList | null;
   display_name: string;
@@ -94,7 +94,7 @@ export type ExpertsOutputBodyProfilesList = Array<ExpertsProfileItem>;
 export type ExpertsOutputBodyScopesList = Array<string>;
 export interface ExpertsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   branch: string;
   profiles: ExpertsOutputBodyProfilesList | null;
   query: string | null;
@@ -103,7 +103,7 @@ export interface ExpertsOutputBody {
   source: string;
 }
 export type FindRepoExpertsError = EntireOpError;
-/** Rank the agents that worked on a repository's files or paths Ranks the coding agents that worked on specific parts of a repository, with supporting evidence. You describe the code either as explicit paths or as a natural-language topic, but not both; the natural-language form needs a code-search index and is unavailable where none is configured. */
+/** Rank the agents that worked on a repository's files or paths **Accepted credentials:** User token, Plugin installation token. Ranks the coding agents that worked on specific parts of a repository, with supporting evidence. You describe the code either as explicit paths or as a natural-language topic, but not both; the natural-language form needs a code-search index and is unavailable where none is configured. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. */
 export const findRepoExperts: API.OperationMethod<
   FindRepoExpertsRequest,
   ExpertsOutputBody,

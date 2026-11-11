@@ -33,39 +33,39 @@ export type MembershipRole = "owner" | "admin" | "member";
 export type MembershipStatus = "active" | "inactive" | "pending";
 export interface Membership {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   accountId: string;
   createdAt: string;
-  handle?: string;
+  handle?: string | undefined;
   id: string;
   orgId: string;
-  provider?: string;
+  provider?: string | undefined;
   role: MembershipRole;
   /** Membership lifecycle status. */
   status: MembershipStatus;
   /** The member's Entire username. Omitted until claimed. */
-  username?: string;
-  workosOrgMembershipId?: string;
+  username?: string | undefined;
+  workosOrgMembershipId?: string | undefined;
   [key: string]: unknown;
 }
 export type InvitationReferenceHost = "et" | "gh";
 export interface InvitationReference {
   host: InvitationReferenceHost;
   project: string;
-  repo?: string;
+  repo?: string | undefined;
   [key: string]: unknown;
 }
 export type AcceptMeInvitationResponseRole = "owner" | "admin" | "member" | "reader" | "writer";
 export type AcceptMeInvitationResponseScope = "org" | "project" | "repo";
 export interface AcceptMeInvitationResponse {
-  membership?: Membership;
+  membership?: Membership | undefined;
   orgId: string;
   orgName: string;
-  projectId?: string;
-  projectName?: string;
-  reference?: InvitationReference;
-  repoId?: string;
-  repoName?: string;
+  projectId?: string | undefined;
+  projectName?: string | undefined;
+  reference?: InvitationReference | undefined;
+  repoId?: string | undefined;
+  repoName?: string | undefined;
   role: AcceptMeInvitationResponseRole;
   scope: AcceptMeInvitationResponseScope;
 }
@@ -74,7 +74,7 @@ export interface CancelDeletionResponse {}
 export interface CompleteOnboardingRequest {}
 export interface CompleteOnboardingOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Always false after onboarding completion is recorded. */
   needsOnboarding: boolean;
   [key: string]: unknown;
@@ -99,10 +99,10 @@ export interface GetAccountByUsernameRequest {
 }
 export interface AccountByUsername {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   accountId: string;
-  avatarUrl?: string;
-  displayName?: string;
+  avatarUrl?: string | undefined;
+  displayName?: string | undefined;
   username: string;
   [key: string]: unknown;
 }
@@ -124,14 +124,14 @@ export interface AccountProfileOrganization {
 export type AccountProfileOrganizationsList = Array<AccountProfileOrganization>;
 export interface AccountProfile {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   accountId: string;
-  avatarUrl?: string;
-  displayName?: string;
+  avatarUrl?: string | undefined;
+  displayName?: string | undefined;
   handles: AccountProfileHandlesList;
   organizations: AccountProfileOrganizationsList;
   /** The account's Entire username. Omitted until claimed. */
-  username?: string;
+  username?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetDeletionPreviewRequest {}
@@ -154,7 +154,7 @@ export interface DeletionBlocker {
 export type GetDeletionPreviewOutputBodyBlockersList = Array<DeletionBlocker>;
 export interface DeletionRepo {
   /** Cluster slug the repo is placed on, if known. */
-  cluster?: string;
+  cluster?: string | undefined;
   /** Repo ULID. */
   id: string;
   /** Repo name. */
@@ -174,7 +174,7 @@ export interface WillDeleteStruct {
 export type DeletionGrantResourceType = "project" | "repo";
 export interface DeletionGrant {
   /** Region the repo lives in (us/eu/au); empty for project grants. */
-  jurisdiction?: string;
+  jurisdiction?: string | undefined;
   /** Granted resource ULID. */
   resourceId: string;
   /** Granted resource name. */
@@ -205,7 +205,7 @@ export interface WillUnlinkStruct {
 }
 export interface GetDeletionPreviewOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** True when Blockers is non-empty: DELETE /me will be refused with 409. */
   blocked: boolean;
   /** Resources that must be resolved before deletion (owned orgs). */
@@ -229,7 +229,7 @@ export interface MeDeletion {
 }
 export interface MeIdentityHandle {
   /** The provider's publicly-visible profile email (from the provider at login; may be empty). NOT the account's contact email. */
-  email?: string;
+  email?: string | undefined;
   handle: string;
   provider: string;
   providerUserId: string;
@@ -238,27 +238,27 @@ export interface MeIdentityHandle {
 export type MeGlobalHandlesList = Array<MeIdentityHandle>;
 export interface MeGlobal {
   accountId: string;
-  avatarUrl?: string;
+  avatarUrl?: string | undefined;
   /** When the account was created (accounts.created_at). */
   createdAt: string;
   /** The account-level Display Name: provider-asserted, not user-editable. Null until seeded. Distinct from regional.displayName, the free-editable provider-login mirror. */
-  displayName?: string;
-  handle?: string;
+  displayName?: string | undefined;
+  handle?: string | undefined;
   handles: MeGlobalHandlesList;
-  homeJurisdiction?: string;
+  homeJurisdiction?: string | undefined;
   /** The account's Entire username. Empty until claimed. */
-  username?: string;
+  username?: string | undefined;
   [key: string]: unknown;
 }
 export type GetMeOutputBodyMode = "global" | "regional";
 export type MeRegionalProviderEmailsMap = { [key: string]: string | undefined };
 export interface MeRegional {
-  bio?: string;
-  company?: string;
-  displayName?: string;
-  email?: string;
-  location?: string;
-  providerEmails?: MeRegionalProviderEmailsMap;
+  bio?: string | undefined;
+  company?: string | undefined;
+  displayName?: string | undefined;
+  email?: string | undefined;
+  location?: string | undefined;
+  providerEmails?: MeRegionalProviderEmailsMap | undefined;
   [key: string]: unknown;
 }
 /** Always 'foreign_jurisdiction'. Discriminator for client-side state machines. */
@@ -276,21 +276,21 @@ export interface MeRegionalUnavailable {
 }
 export interface GetMeOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   auth: MeAuth;
   /** Present only when a deletion is pending; carries the cooldown window. */
-  deletion?: MeDeletion;
+  deletion?: MeDeletion | undefined;
   global: MeGlobal;
-  jurisdiction?: string;
-  mode?: GetMeOutputBodyMode;
-  regional?: MeRegional;
-  regionalUnavailable?: MeRegionalUnavailable;
+  jurisdiction?: string | undefined;
+  mode?: GetMeOutputBodyMode | undefined;
+  regional?: MeRegional | undefined;
+  regionalUnavailable?: MeRegionalUnavailable | undefined;
   [key: string]: unknown;
 }
 export interface GetOnboardingStatusRequest {}
 export interface GetOnboardingStatusOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** True once the account has completed a CLI login (either grant type). */
   cliLoggedIn: boolean;
   /** True until the account completes web onboarding at least once. */
@@ -299,9 +299,9 @@ export interface GetOnboardingStatusOutputBody {
 }
 export interface ListAuditEventsRequest {
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type AuditEventMetadataMap = { [key: string]: unknown | undefined };
 export interface AuditEvent {
@@ -309,28 +309,28 @@ export interface AuditEvent {
   eventType: string;
   id: string;
   /** Source IP recorded when the event was logged. */
-  ipAddress?: string;
-  metadata?: AuditEventMetadataMap;
+  ipAddress?: string | undefined;
+  metadata?: AuditEventMetadataMap | undefined;
   occurredAt: string;
   [key: string]: unknown;
 }
 export type ListAuditEventsOutputBodyEventsList = Array<AuditEvent>;
 export interface ListAuditEventsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   events: ListAuditEventsOutputBodyEventsList;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   [key: string]: unknown;
 }
 export interface ListMeInvitationsRequest {}
 export type AccountIdentityHandlesList = Array<AccountProfileHandle>;
 export interface AccountIdentity {
-  avatarUrl?: string;
-  displayName?: string;
+  avatarUrl?: string | undefined;
+  displayName?: string | undefined;
   handles: AccountIdentityHandlesList;
   /** The account's Entire username. Omitted until claimed. */
-  username?: string;
+  username?: string | undefined;
   [key: string]: unknown;
 }
 export type MeInvitationRole = "owner" | "admin" | "member" | "reader" | "writer";
@@ -342,10 +342,10 @@ export interface MeInvitation {
   /** Account ID of the inviter. Empty when that account has been erased. */
   invitedBy: string;
   /** Resolved identity for InvitedBy. Absent when it cannot be resolved. */
-  invitedByIdentity?: AccountIdentity;
+  invitedByIdentity?: AccountIdentity | undefined;
   /** The owning organization, when the scope has one. */
-  orgId?: string;
-  orgName?: string;
+  orgId?: string | undefined;
+  orgName?: string | undefined;
   role: MeInvitationRole;
   scope: MeInvitationScope;
   /** Org, project, or repository ID. */
@@ -356,15 +356,15 @@ export interface MeInvitation {
 export type ListMeInvitationsOutputBodyInvitationsList = Array<MeInvitation>;
 export interface ListMeInvitationsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   invitations: ListMeInvitationsOutputBodyInvitationsList;
   [key: string]: unknown;
 }
 export interface ListMyPluginAuthorizationsRequest {
   /** Opaque cursor from a previous response's next_cursor. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Authorizations per page. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The plugin's account permissions that the account accepted. */
 export type PluginAuthorizationAccountPermissionsList = Array<string>;
@@ -372,43 +372,74 @@ export interface PluginAuthorization {
   /** The plugin's account permissions that the account accepted. */
   account_permissions: PluginAuthorizationAccountPermissionsList;
   created_at: string;
-  logo_url?: string;
+  logo_url?: string | undefined;
   /** Empty when the plugin no longer exists. */
-  name?: string;
+  name?: string | undefined;
   /** plugin_ followed by a ULID. It is also the plugin's OAuth client_id. */
   plugin_id: string;
   /** Empty when the plugin no longer exists. */
-  slug?: string;
+  slug?: string | undefined;
   [key: string]: unknown;
 }
 export type ListMyPluginAuthorizationsOutputBodyAuthorizationsList = Array<PluginAuthorization>;
 export interface ListMyPluginAuthorizationsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   authorizations: ListMyPluginAuthorizationsOutputBodyAuthorizationsList;
   /** Present only when more authorizations remain. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
   [key: string]: unknown;
 }
 export interface ListOIDCProvidersRequest {
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
+export interface OIDCProviderAttribute {
+  description?: string | undefined;
+  /** The value must not contain '*'. */
+  exact: boolean;
+  label: string;
+  /** The attributeFilter key. */
+  name: string;
+  /** RE2 expression the pinned value must match. */
+  pattern?: string | undefined;
+  /** Every filter must pin this attribute. */
+  required: boolean;
+  [key: string]: unknown;
+}
+/** Attributes a binding filter can pin. */
+export type OIDCProviderAttributesList = Array<OIDCProviderAttribute>;
+/** A filter must pin at least one of these. */
+export type OIDCProviderRequireOneOfList = Array<string>;
 export interface OIDCProvider {
-  description?: string;
-  displayName?: string;
+  /** Attributes a binding filter can pin. */
+  attributes?: OIDCProviderAttributesList | undefined;
+  description?: string | undefined;
+  /** Deprecated: use name for the slug and label for the human label. Removal after 2027-06-01. */
+  displayName?: string | undefined;
+  /** The provider's OIDC setup guide. */
+  docs_url?: string | undefined;
   id: string;
+  /** Issuer URL, or a template like https://host/{team}. */
   issuer: string;
+  /** Human label, such as GitHub Actions. */
+  label?: string | undefined;
+  /** Stable slug, such as github-actions. */
+  name?: string | undefined;
+  /** A filter must pin at least one of these. */
+  require_one_of?: OIDCProviderRequireOneOfList | undefined;
+  /** True when a project manager can bind this provider. */
+  self_serve?: boolean | undefined;
   [key: string]: unknown;
 }
 export type ListOIDCProvidersOutputBodyProvidersList = Array<OIDCProvider>;
 export interface ListOIDCProvidersOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   providers: ListOIDCProvidersOutputBodyProvidersList;
   [key: string]: unknown;
 }
@@ -420,13 +451,13 @@ export interface ResolveHandleRequest {
 }
 export interface ResolvedIdentity {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   accountId: string;
   handle: string;
   provider: string;
   providerUserId: string;
   /** The account's Entire username. Omitted until claimed. */
-  username?: string;
+  username?: string | undefined;
   [key: string]: unknown;
 }
 export interface RevokeMyPluginAuthorizationRequest {
@@ -440,7 +471,7 @@ export interface SetMyUsernameRequest {
 }
 export interface SetMyUsernameOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   username: string;
   [key: string]: unknown;
 }
@@ -486,8 +517,8 @@ export const completeOnboarding: API.OperationMethod<
   CompleteOnboardingError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<CompleteOnboardingRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<CompleteOnboardingOutputBody>,
+  input: __S(192, __c12, 0) as any as S.Schema<CompleteOnboardingRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<CompleteOnboardingOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -503,7 +534,7 @@ export const declineMeInvitation: API.OperationMethod<
   DeclineMeInvitationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<DeclineMeInvitationRequest>,
+  input: __S(208, __c13, 0) as any as S.Schema<DeclineMeInvitationRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<DeclineMeInvitationResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
@@ -520,7 +551,7 @@ export const deleteMe: API.OperationMethod<
   DeleteMeError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<DeleteMeRequest>,
+  input: __S(224, __c14, 0) as any as S.Schema<DeleteMeRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<DeleteMeResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
@@ -537,7 +568,7 @@ export const detachMyHandle: API.OperationMethod<
   DetachMyHandleError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<DetachMyHandleRequest>,
+  input: __S(240, __c15, 0) as any as S.Schema<DetachMyHandleRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<DetachMyHandleResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
@@ -554,8 +585,8 @@ export const getAccountByUsername: API.OperationMethod<
   GetAccountByUsernameError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetAccountByUsernameRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<AccountByUsername>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetAccountByUsernameRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<AccountByUsername>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -571,8 +602,8 @@ export const getAccountProfile: API.OperationMethod<
   GetAccountProfileError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetAccountProfileRequest>,
-  output: __S(259, __c16, 3) as any as S.Schema<AccountProfile>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetAccountProfileRequest>,
+  output: __S(275, __c17, 3) as any as S.Schema<AccountProfile>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -588,8 +619,8 @@ export const getDeletionPreview: API.OperationMethod<
   GetDeletionPreviewError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetDeletionPreviewRequest>,
-  output: __S(299, __c18, 11) as any as S.Schema<GetDeletionPreviewOutputBody>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetDeletionPreviewRequest>,
+  output: __S(315, __c19, 11) as any as S.Schema<GetDeletionPreviewOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -598,15 +629,15 @@ export const getDeletionPreview: API.OperationMethod<
 }));
 
 export type GetMeError = EntireOpError;
-/** Get the calling account's identity and profile */
+/** Get the calling account's identity and profile **Accepted credentials:** User token. */
 export const getMe: API.OperationMethod<
   GetMeRequest,
   GetMeOutputBody,
   GetMeError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetMeRequest>,
-  output: __S(313, __c19, 9) as any as S.Schema<GetMeOutputBody>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetMeRequest>,
+  output: __S(329, __c20, 9) as any as S.Schema<GetMeOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -686,7 +717,7 @@ export const listMyPluginAuthorizations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(96, __c6, 0) as any as S.Schema<ListMyPluginAuthorizationsRequest>,
-    output: __S(100, __c6, 4) as any as S.Schema<ListMyPluginAuthorizationsOutputBody>,
+    output: __S(99, __c6, 3) as any as S.Schema<ListMyPluginAuthorizationsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -703,7 +734,7 @@ export const listMyPluginAuthorizations: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListOIDCProvidersError = EntireOpError;
-/** List federated OIDC identity providers */
+/** List federated OIDC identity providers **Accepted credentials:** User token. Lists the OIDC identity providers that a service account binding can trust. Every caller sees every provider. A project manager can bind only the providers with self_serve set. */
 export const listOIDCProviders: API.PaginatedOperationMethod<
   ListOIDCProvidersRequest,
   ListOIDCProvidersOutputBody,
@@ -712,8 +743,8 @@ export const listOIDCProviders: API.PaginatedOperationMethod<
   OIDCProvider
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(112, __c7, 0) as any as S.Schema<ListOIDCProvidersRequest>,
-    output: __S(115, __c7, 3) as any as S.Schema<ListOIDCProvidersOutputBody>,
+    input: __S(128, __c8, 0) as any as S.Schema<ListOIDCProvidersRequest>,
+    output: __S(133, __c8, 5) as any as S.Schema<ListOIDCProvidersOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -737,8 +768,8 @@ export const resolveHandle: API.OperationMethod<
   ResolveHandleError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<ResolveHandleRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<ResolvedIdentity>,
+  input: __S(144, __c9, 0) as any as S.Schema<ResolveHandleRequest>,
+  output: __S(145, __c9, 1) as any as S.Schema<ResolvedIdentity>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -754,7 +785,7 @@ export const revokeMyPluginAuthorization: API.OperationMethod<
   RevokeMyPluginAuthorizationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<RevokeMyPluginAuthorizationRequest>,
+  input: __S(160, __c10, 0) as any as S.Schema<RevokeMyPluginAuthorizationRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<RevokeMyPluginAuthorizationResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
@@ -771,8 +802,8 @@ export const setMyUsername: API.OperationMethod<
   SetMyUsernameError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<SetMyUsernameRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<SetMyUsernameOutputBody>,
+  input: __S(176, __c11, 0) as any as S.Schema<SetMyUsernameRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<SetMyUsernameOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -921,7 +952,7 @@ function __c5(j: number): any {
           S.Struct({
             avatarUrl: S.optional(S.String),
             displayName: S.optional(S.String),
-            handles: __S(273, __c17, 1),
+            handles: __S(289, __c18, 1),
             username: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -970,12 +1001,10 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/me/plugin-authorizations", code: 200 })),
       ).annotate({ identifier: "ListMyPluginAuthorizationsRequest" });
     case 1:
-      return S.Array(S.String);
-    case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            account_permissions: __S(97, __c6, 1),
+            account_permissions: __S(112, __c7, 0),
             created_at: S.String,
             logo_url: S.optional(S.String),
             name: S.optional(S.String),
@@ -985,14 +1014,14 @@ function __c6(j: number): any {
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "PluginAuthorization" });
+    case 2:
+      return S.Array(__S(97, __c6, 1));
     case 3:
-      return S.Array(__S(98, __c6, 2));
-    case 4:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            authorizations: __S(99, __c6, 3),
+            authorizations: __S(98, __c6, 2),
             next_cursor: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -1001,6 +1030,12 @@ function __c6(j: number): any {
   }
 }
 function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1014,29 +1049,51 @@ function __c7(j: number): any {
         S.StructWithRest(
           S.Struct({
             description: S.optional(S.String),
+            exact: S.Boolean,
+            label: S.String,
+            name: S.String,
+            pattern: S.optional(S.String),
+            required: S.Boolean,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "OIDCProviderAttribute" });
+    case 2:
+      return S.Array(__S(129, __c8, 1));
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            attributes: S.optional(__S(130, __c8, 2)),
+            description: S.optional(S.String),
             displayName: S.optional(S.String),
+            docs_url: S.optional(S.String),
             id: S.String,
             issuer: S.String,
+            label: S.optional(S.String),
+            name: S.optional(S.String),
+            require_one_of: S.optional(__S(112, __c7, 0)),
+            self_serve: S.optional(S.Boolean),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "OIDCProvider" });
-    case 2:
-      return S.Array(__S(113, __c7, 1));
-    case 3:
+    case 4:
+      return S.Array(__S(131, __c8, 3));
+    case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             nextPageToken: S.optional(S.String),
-            providers: __S(114, __c7, 2),
+            providers: __S(132, __c8, 4),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ListOIDCProvidersOutputBody" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1063,7 +1120,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ResolvedIdentity" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1079,7 +1136,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "RevokeMyPluginAuthorizationRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1099,7 +1156,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "SetMyUsernameOutputBody" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1119,7 +1176,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CompleteOnboardingOutputBody" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1129,7 +1186,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeclineMeInvitationRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1137,7 +1194,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteMeRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1154,7 +1211,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DetachMyHandleRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1179,7 +1236,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "AccountByUsername" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1198,7 +1255,7 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "AccountProfileOrganization" });
     case 2:
-      return S.Array(__S(257, __c16, 1));
+      return S.Array(__S(273, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -1207,8 +1264,8 @@ function __c16(j: number): any {
             accountId: S.String,
             avatarUrl: S.optional(S.String),
             displayName: S.optional(S.String),
-            handles: __S(273, __c17, 1),
-            organizations: __S(258, __c16, 2),
+            handles: __S(289, __c18, 1),
+            organizations: __S(274, __c17, 2),
             username: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -1216,7 +1273,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "AccountProfile" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1230,10 +1287,10 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "AccountProfileHandle" });
     case 1:
-      return S.Array(__S(272, __c17, 0));
+      return S.Array(__S(288, __c18, 0));
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1253,7 +1310,7 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "DeletionBlocker" });
     case 2:
-      return S.Array(__S(289, __c18, 1));
+      return S.Array(__S(305, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -1266,13 +1323,13 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "DeletionRepo" });
     case 4:
-      return S.Array(__S(291, __c18, 3));
+      return S.Array(__S(307, __c19, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             profileDataNote: S.String,
-            repos: __S(292, __c18, 4),
+            repos: __S(308, __c19, 4),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -1291,7 +1348,7 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "DeletionGrant" });
     case 7:
-      return S.Array(__S(294, __c18, 6));
+      return S.Array(__S(310, __c19, 6));
     case 8:
       return S.suspend(() =>
         S.StructWithRest(
@@ -1303,13 +1360,13 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "DeletionMembership" });
     case 9:
-      return S.Array(__S(296, __c18, 8));
+      return S.Array(__S(312, __c19, 8));
     case 10:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            grants: __S(295, __c18, 7),
-            memberships: __S(297, __c18, 9),
+            grants: __S(311, __c19, 7),
+            memberships: __S(313, __c19, 9),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -1320,16 +1377,16 @@ function __c18(j: number): any {
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             blocked: S.Boolean,
-            blockers: __S(290, __c18, 2),
-            willDelete: __S(293, __c18, 5),
-            willUnlink: __S(298, __c18, 10),
+            blockers: __S(306, __c19, 2),
+            willDelete: __S(309, __c19, 5),
+            willUnlink: __S(314, __c19, 10),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "GetDeletionPreviewOutputBody" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1368,7 +1425,7 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "MeIdentityHandle" });
     case 4:
-      return S.Array(__S(307, __c19, 3));
+      return S.Array(__S(323, __c20, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
@@ -1378,7 +1435,7 @@ function __c19(j: number): any {
             createdAt: S.String,
             displayName: S.optional(S.String),
             handle: S.optional(S.String),
-            handles: __S(308, __c19, 4),
+            handles: __S(324, __c20, 4),
             homeJurisdiction: S.optional(S.String),
             username: S.optional(S.String),
           }),
@@ -1396,7 +1453,7 @@ function __c19(j: number): any {
             displayName: S.optional(S.String),
             email: S.optional(S.String),
             location: S.optional(S.String),
-            providerEmails: S.optional(__S(310, __c19, 6)),
+            providerEmails: S.optional(__S(326, __c20, 6)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -1418,13 +1475,13 @@ function __c19(j: number): any {
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            auth: __S(305, __c19, 1),
-            deletion: S.optional(__S(306, __c19, 2)),
-            global: __S(309, __c19, 5),
+            auth: __S(321, __c20, 1),
+            deletion: S.optional(__S(322, __c20, 2)),
+            global: __S(325, __c20, 5),
             jurisdiction: S.optional(S.String),
             mode: S.optional(S.String),
-            regional: S.optional(__S(311, __c19, 7)),
-            regionalUnavailable: S.optional(__S(312, __c19, 8)),
+            regional: S.optional(__S(327, __c20, 7)),
+            regionalUnavailable: S.optional(__S(328, __c20, 8)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),

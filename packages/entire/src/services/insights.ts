@@ -26,9 +26,9 @@ const TELEMETRY = {
 } as const;
 
 export interface GetRepoStatusRequest {
-  /** The project's ID (a ULID). The caller needs view access to it, or reader, writer or admin access to the repo in the path. */
+  /** The project's ID (a ULID). The caller needs pull access to the repo in the path, and either view access to the project or list access to the repo with the repo installed in the project. */
   project_id: string;
-  /** The repo's public ID, repo_<ULID>, as trail-metrics' repo_id. A caller with view access to the project gets 200 with state not_installed for an ID no installation covers; a caller admitted by repo access alone gets 403. */
+  /** The repo's public ID, repo_<ULID>, as trail-metrics' repo_id. A caller with view access to the project and pull access to the repo gets 200 with state not_installed for an ID no installation covers; a caller without view access gets 403. */
   repo_id: string;
 }
 export interface RepoStatus {
@@ -42,10 +42,14 @@ export interface RepoStatus {
   /** Merged trails found for the repo that have no metrics and never will; their processing failed permanently. */
   failed_trails: number;
   /** When the repo's newest trail metrics were written, RFC 3339 UTC. Rewritten by a reprocess, so it reads "last updated", not "last merged". Absent when the repo has none. */
-  last_processed_at?: string;
+  last_processed_at?: string | undefined;
+  /** Intake has found at least one merged trail for the repo. A none_available repo with merged trails has no session data on them; one without has nothing merged yet. */
+  has_merged_trails: boolean;
+  /** Whether the repo had at least one open trail when intake last read its trails. With has_merged_trails false, lets a client tell a none_available repo that its insights appear once those trails merge. Absent until intake has checked. */
+  has_open_trails?: boolean | undefined;
 }
 export interface GetSingleTrailMetricsRequest {
-  /** The project's ID (a ULID). The caller needs view access to it, or reader, writer or admin access to the repo in the path. */
+  /** The project's ID (a ULID). The caller needs pull access to the repo in the path, and either view access to the project or list access to the repo with the repo installed in the project. */
   project_id: string;
   /** The repo's public ID, repo_<ULID>, as trail-metrics' repo_id. */
   repo_id: string;
@@ -89,35 +93,18 @@ export interface PhaseUse {
 }
 /** Tokens per phase of the trail's agent work, by raw phase name, ordered by phase. Absent when a merged trail has no phase data; always present (possibly empty) for provisional (open or merged-not-yet-computed) Trails. Not split by model. */
 export type TrailMetricsPhasesList = Array<PhaseUse>;
-export interface RunnerTokens {
-  /** Input tokens not served from cache. */
-  fresh_input: number;
-  /** Output tokens. */
-  output: number;
-  /** Tokens written to the cache */
-  cache_write: number;
-  /** Input served from the prompt cache. */
-  cache_read: number;
-}
-export interface RunnerUse {
-  /** Runner name, or the agent's name for an agent run; empty when the run reported none. */
-  runner: string;
-  /** Distinct runs of this runner on this model. */
-  runs: number;
-  /** Empty when the run reported no usage or it is not attributable to a model. */
-  model: string;
-  tokens: RunnerTokens;
-}
-/** Review and monitor usage of the Trail's runner runs and agent runs, one entry per runner (an agent run's agent name) and model, ordered by runner then model; not included in models or phases. Distinct run IDs count once; duplicate model rows within a run are summed. Missing usage retains a zero-counter empty-model sentinel, not measured zero. Always present for provisional responses; consult runner_usage for availability. For stored merged metrics, empty means recorded with no runs and runners are absent while they have not been recorded yet; no new completeness guarantee is inferred. */
-export type TrailMetricsRunnersList = Array<RunnerUse>;
-/** Complete requires full enumeration of the Trail's runner runs and agent runs and every eligible run terminal (succeeded, failed, timeout, which includes an agent run's timed_out, or canceled) with nonempty explicit usage records. Partial also means entire-api could not list the Trail's agent runs by Change, so all of its agent runs are left out. Explicit all-zero records count as reported zero; no eligible runs is complete with empty runners. Partial means some eligible run is nonterminal or has absent, null or empty usageByModel, even if terminal. All reported counters remain included; partial with zero known tokens is not measured zero. */
+/** Complete requires full enumeration of the Trail's runner runs and agent runs and every eligible run terminal (succeeded, failed, timeout, which includes an agent run's timed_out, or canceled) with nonempty explicit usage records. Partial also means entire-api could not list the Trail's agent runs by Change, so all of its agent runs are left out. Explicit all-zero records count as reported zero; no eligible runs is complete with review tokens 0. Partial means some eligible run is nonterminal or has absent, null or empty usageByModel, even if terminal. All reported counters remain included; partial with zero known tokens is not measured zero. */
 export type RunnerUsageStatus = "complete" | "partial";
 /** Present only and always on provisional single-Trail metrics; absent on stored merged metrics. Describes recorded usage availability, not whether an open Trail can gain future runs. */
 export interface RunnerUsage {
-  /** Complete requires full enumeration of the Trail's runner runs and agent runs and every eligible run terminal (succeeded, failed, timeout, which includes an agent run's timed_out, or canceled) with nonempty explicit usage records. Partial also means entire-api could not list the Trail's agent runs by Change, so all of its agent runs are left out. Explicit all-zero records count as reported zero; no eligible runs is complete with empty runners. Partial means some eligible run is nonterminal or has absent, null or empty usageByModel, even if terminal. All reported counters remain included; partial with zero known tokens is not measured zero. */
+  /** Complete requires full enumeration of the Trail's runner runs and agent runs and every eligible run terminal (succeeded, failed, timeout, which includes an agent run's timed_out, or canceled) with nonempty explicit usage records. Partial also means entire-api could not list the Trail's agent runs by Change, so all of its agent runs are left out. Explicit all-zero records count as reported zero; no eligible runs is complete with review tokens 0. Partial means some eligible run is nonterminal or has absent, null or empty usageByModel, even if terminal. All reported counters remain included; partial with zero known tokens is not measured zero. */
   status: RunnerUsageStatus;
   /** UTC RFC 3339 inclusive run creation eligibility bound, not a usage-as-of snapshot. Usage counters reflect when each page was fetched. */
   run_created_at_lte: string;
+}
+export interface TrailMetricsReview {
+  /** Token count summed over the counters named by the field that holds this object. */
+  tokens: number;
 }
 /** Computation caveats for provisional (open or merged-not-yet-computed) Trail metrics, including malformed transcript lines skipped, counted once per session from its latest chosen checkpoint snapshot. Absent for stored merged metrics. */
 export type TrailMetricsNotesList = Array<string>;
@@ -128,48 +115,44 @@ export interface TrailMetrics {
   /** RFC 3339, UTC for stored merged metrics; null for provisional open Trail metrics; the merge time for provisional merged-not-yet-computed Trail metrics. */
   merged_at: string | null;
   provisional: boolean;
-  size?: ChangeSize;
+  size?: ChangeSize | undefined;
   /** Agent sessions in the trail. */
   sessions: number;
   /** Per agent and model, ordered by agent then model. Empty when the trail has no agent work. */
   models: TrailMetricsModelsList;
   /** Tokens per phase of the trail's agent work, by raw phase name, ordered by phase. Absent when a merged trail has no phase data; always present (possibly empty) for provisional (open or merged-not-yet-computed) Trails. Not split by model. */
-  phases?: TrailMetricsPhasesList;
-  /** Review and monitor usage of the Trail's runner runs and agent runs, one entry per runner (an agent run's agent name) and model, ordered by runner then model; not included in models or phases. Distinct run IDs count once; duplicate model rows within a run are summed. Missing usage retains a zero-counter empty-model sentinel, not measured zero. Always present for provisional responses; consult runner_usage for availability. For stored merged metrics, empty means recorded with no runs and runners are absent while they have not been recorded yet; no new completeness guarantee is inferred. */
-  runners?: TrailMetricsRunnersList;
-  runner_usage?: RunnerUsage;
+  phases?: TrailMetricsPhasesList | undefined;
+  runner_usage?: RunnerUsage | undefined;
+  review?: TrailMetricsReview | undefined;
   /** Computation caveats for provisional (open or merged-not-yet-computed) Trail metrics, including malformed transcript lines skipped, counted once per session from its latest chosen checkpoint snapshot. Absent for stored merged metrics. */
-  notes?: TrailMetricsNotesList;
+  notes?: TrailMetricsNotesList | undefined;
 }
 export interface GetTrailActivitySummaryRequest {
-  /** The project's ID (a ULID). The caller needs view access to it, or reader, writer or admin access to the repo given in repo_id. */
+  /** The project's ID (a ULID). Without repo_id, the caller needs view access to it and totals are limited to repos the caller can pull. With repo_id, the caller needs pull access to that repo, and either view access to the project or list access to the repo with the repo installed in the project. */
   project_id: string;
   /** Only this repo's trails, by its public ID (repo_<ULID>, as trail-metrics' repo_id). Same as repo_id[eq]; must not be empty. If both are given they must be equal. A caller admitted by repo access must send it. */
-  repo_id?: string;
+  repo_id?: string | undefined;
   /** Only this repo's trails, by its public ID (repo_<ULID>); must not be empty. */
-  repo_id_eq_?: string;
+  repo_id_eq_?: string | undefined;
   /** Only trails merged at or after this RFC 3339 timestamp. Percent-encode a + in an offset (%2B), or use Z. */
-  since?: string;
+  since?: string | undefined;
   /** Only trails merged before this RFC 3339 timestamp. Percent-encode a + in an offset (%2B), or use Z. */
-  until?: string;
+  until?: string | undefined;
 }
 /** Totals by raw phase name, sorted by name; always an array, empty when no phase rows match. */
 export type TrailActivitySummaryPhasesList = Array<PhaseUse>;
-export interface TrailActivitySummaryDevelopment {
-  /** Token count summed over the counters named by the field that holds this object. */
-  tokens: number;
-}
-export type TrailActivitySummaryReview = TrailActivitySummaryDevelopment;
+export type TrailActivitySummaryDevelopment = TrailMetricsReview;
+export type TrailActivitySummaryReview = TrailMetricsReview;
 export interface TrailActivitySummary {
   /** Distinct Trails with at least one phase row, not the number of phases or all merged Trails. */
   trails_with_phases: number;
   /** Totals by raw phase name, sorted by name; always an array, empty when no phase rows match. */
   phases: TrailActivitySummaryPhasesList;
-  development?: TrailActivitySummaryDevelopment;
-  review?: TrailActivitySummaryDevelopment;
+  development?: TrailMetricsReview | undefined;
+  review?: TrailMetricsReview | undefined;
 }
 export interface GetTrailBreakdownRequest {
-  /** The project's ID (a ULID). The caller needs view access to it, or reader, writer or admin access to the repo in the path. */
+  /** The project's ID (a ULID). The caller needs pull access to the repo in the path, and either view access to the project or list access to the repo with the repo installed in the project. */
   project_id: string;
   /** The repo's public ID, repo_<ULID>, as trail-metrics' repo_id. */
   repo_id: string;
@@ -218,34 +201,34 @@ export interface TrailBreakdown {
   nodes: TrailBreakdownNodesList;
 }
 export interface GetTrailMetricsRequest {
-  /** The project's ID (a ULID). The caller needs view access to it, or reader, writer or admin access to the repo given in repo_id. */
+  /** The project's ID (a ULID). Without repo_id, the caller needs view access to it and results are limited to repos the caller can pull. With repo_id, the caller needs pull access to that repo, and either view access to the project or list access to the repo with the repo installed in the project. */
   project_id: string;
   /** Only this repo's trails, by its public ID (repo_<ULID>, as each item's repo_id). Same as repo_id[eq]; must not be empty. If both are given they must be equal. A caller admitted by repo access sends it with every page. */
-  repo_id?: string;
+  repo_id?: string | undefined;
   /** Only this repo's trails, by its public ID (repo_<ULID>); must not be empty. */
-  repo_id_eq_?: string;
+  repo_id_eq_?: string | undefined;
   /** Only trails merged at or after this RFC 3339 timestamp. Percent-encode a + in an offset (%2B), or use Z. */
-  since?: string;
+  since?: string | undefined;
   /** Only trails merged before this RFC 3339 timestamp. Percent-encode a + in an offset (%2B), or use Z. */
-  until?: string;
+  until?: string | undefined;
   /** Only trails whose latest TCO version has at least one model record or phase record, including records with zero tokens. Omitted or false leaves results unchanged. Repeat has_agent_data=true with each page of a filtered list; omitting or changing it with a filtered cursor is invalid_cursor. Filtering applies before pagination. */
-  has_agent_data?: boolean;
-  /** Only trails with agent data (at least one model record or phase record on the latest TCO version, including records with zero tokens) or runner spend (at least one runner run, so runners[] is non-empty; a trail whose runners are recorded but none ran does not qualify). Omitted or false leaves results unchanged. Repeat has_activity=true with each page of a filtered list; omitting or changing it with a filtered cursor is invalid_cursor. Combined with has_agent_data=true both apply, so only trails with agent data are returned. Filtering applies before pagination. */
-  has_activity?: boolean;
+  has_agent_data?: boolean | undefined;
+  /** Only trails with agent data (at least one model record or phase record on the latest TCO version, including records with zero tokens) or runner spend (at least one runner run counted in review; a trail whose review spend is recorded but no runner ran does not qualify). Omitted or false leaves results unchanged. Repeat has_activity=true with each page of a filtered list; omitting or changing it with a filtered cursor is invalid_cursor. Combined with has_agent_data=true both apply, so only trails with agent data are returned. Filtering applies before pagination. */
+  has_activity?: boolean | undefined;
   /** A next_cursor from a previous page of the same project. It carries repo_id, since, until, has_agent_data and has_activity; repeating repo_id, since or until is allowed only with the same values. has_agent_data and has_activity must each match the cursor's value (repeat true on each filtered page; omitted means false). An empty value is invalid_cursor; omit it for the first page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Items per page. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type TrailMetricsPageTrailMetricsList = Array<TrailMetrics>;
 export interface TrailMetricsPage {
   trail_metrics: TrailMetricsPageTrailMetricsList;
   /** Pass as cursor to get the next page. Absent on the last page. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export type GetTrailStatsRequestPhaseList = Array<string>;
 export interface GetTrailStatsRequest {
-  /** The project's ID (a ULID). The caller needs view access to it, or reader, writer or admin access to the repo in the path. */
+  /** The project's ID (a ULID). The caller needs pull access to the repo in the path, and either view access to the project or list access to the repo with the repo installed in the project. */
   project_id: string;
   /** The repo's public ID, repo_<ULID>, as trail-metrics' repo_id. */
   repo_id: string;
@@ -254,9 +237,9 @@ export interface GetTrailStatsRequest {
   /** Only peers merged at or after this RFC 3339 timestamp. Percent-encode a + in an offset (%2B), or use Z. */
   since: string;
   /** A trail number in this repo to leave out of the peers and place among them (trail_percentile). */
-  trail?: number;
+  trail?: number | undefined;
   /** A raw phase name, as a trail-metrics phases[].phase (for example review_fix); repeat it for a set of phases, up to 32. Given, each cache variant also carries phase_share_median, phase_share_p90 and trail_phase_share for the set. Duplicates are ignored, and a phase no trail has (such as an unknown name) has a share of 0, not an error. Grouping phases into activities is the caller's. */
-  phase?: GetTrailStatsRequestPhaseList;
+  phase?: GetTrailStatsRequestPhaseList | undefined;
 }
 /** Token statistics are whole numbers, each null when it cannot be computed. The phase_share properties are present exactly when phase is given. */
 export interface TokenStats {
@@ -269,11 +252,11 @@ export interface TokenStats {
   /** Share of peers with strictly fewer tokens than the trail given in trail */
   trail_percentile: number | null;
   /** Median, over peers, of the phase set's tokens divided by all of the peer's phase tokens (a fraction, as entire.io's activity shares; in this variant both leave out cache reads). Peers with no phase tokens, such as ones computed before phases were stored, are left out. Null when none qualify. */
-  phase_share_median?: number | null;
+  phase_share_median?: number | null | undefined;
   /** 90th percentile of the same shares. Null when none qualify. */
-  phase_share_p90?: number | null;
+  phase_share_p90?: number | null | undefined;
   /** The same share for the trail given in trail. Null when trail is absent */
-  trail_phase_share?: number | null;
+  trail_phase_share?: number | null | undefined;
 }
 export interface TrailStats {
   /** The number of peers. */
@@ -282,7 +265,7 @@ export interface TrailStats {
   without_cache_reads: TokenStats;
 }
 export interface GetTrailTurnsRequest {
-  /** The project's ID (a ULID). The caller needs view access to it, or reader, writer or admin access to the repo in the path. */
+  /** The project's ID (a ULID). The caller needs pull access to the repo in the path, and either view access to the project or list access to the repo with the repo installed in the project. */
   project_id: string;
   /** The repo's public ID, repo_<ULID>, as trail-metrics' repo_id. */
   repo_id: string;
@@ -291,13 +274,13 @@ export interface GetTrailTurnsRequest {
   /** A raw phase name, as a trail's phases[].phase. Repeat the parameter for a set; duplicates are ignored. Must not be empty. */
   phase: string;
   /** How many turns to list, highest tokens first (default 10, maximum 200). The totals cover the whole set regardless. This is a ranked top-N, not a page of a collection, so there is no cursor and the parameter is limit rather than per_page; a client that wants more turns raises limit. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Computation caveats, as the notes of the same Trail's metrics. */
 export type TrailTurnsNotesList = Array<string>;
 export type TurnTokens = TokenCounts;
 export interface Turn {
-  /** The agent's session ID; a Claude Code call replayed by resumed or forked sessions belongs to the lowest session ID. */
+  /** The agent's session ID; a Claude Code call replayed by resumed or forked sessions belongs to the lowest session ID. A subagent's call has subagent:<agent_id>, the subagent's own transcript. */
   session_id: string;
   /** Human prompts before this call in its session; 0 before the first. */
   turn_index: number;
@@ -328,7 +311,7 @@ export interface TrailTurns {
   totals: TurnTotals;
 }
 export type GetRepoStatusError = EntireOpError;
-/** Processing status of one repo Whether an active Agent Insights installation of the project covers the repo, and how current its trail metrics are. For a caller with view access to the project, a repo no installation covers is a 200 with installed false and state not_installed, not a 404. unprocessed_trails and failed_trails count only merged trails intake has already found; a trail merged since intake last read the repo is in neither. A project_id that is not a ULID gets the same 403 as a project the caller cannot view. Methods other than GET answer 405 method_not_allowed. Other parameters this document does not list are ignored. */
+/** Processing status of one repo Whether an active Agent Insights installation of the project covers the repo, and how current its trail metrics are. For a caller with view access to the project and pull access to the repo, a repo no installation covers is a 200 with installed false and state not_installed, not a 404. A repo_id that is not repo_<ULID> gets 403. unprocessed_trails and failed_trails count only merged trails intake has already found; a trail merged since intake last read the repo is in neither. A project_id that is not a ULID gets the same 403 as a project the caller cannot view. Methods other than GET answer 405 method_not_allowed. Other parameters this document does not list are ignored. */
 export const getRepoStatus: API.OperationMethod<
   GetRepoStatusRequest,
   RepoStatus,
@@ -345,7 +328,7 @@ export const getRepoStatus: API.OperationMethod<
 }));
 
 export type GetSingleTrailMetricsError = EntireOpError;
-/** Metrics for one merged or open trail Returns one TrailMetrics object directly, not a page, using the same computed data as trail-metrics, including phase tokens when available. Only the path's project, repo and trail number are considered; query parameters are ignored; callers cannot supply a branch. Stored merged metrics return provisional false, unchanged. When no stored record exists, entire-api supplies the Trail state and branch. Open Trails return provisional true with merged_at null, computed from ingested checkpoints at one request-time UTC cutoff. Merged Trails not yet computed return provisional true with merged_at set to the Trail's merge time, computed at that merged_at cutoff, the same cutoff the stored metrics will use. Provisional Trails with no matching checkpoints return 200 with empty models and phases arrays. Provisional totals are not persisted and may change as work is ingested. Successful provisional responses always include runners and runner_usage. Runner reads use the active core installation and authoritative repo/Trail ID, enumerate all review/monitor waves, and include reported usage in every status. Runs created at or before runner_usage.run_created_at_lte are eligible: request-start UTC for open Trails, merged_at for provisional merged Trails. This inclusive creation bound is NOT a frozen usage snapshot; counters are observed as pages are fetched and may increase during enumeration. Reads are limited to 100 pages, 10,000 raw run records (including duplicates) and 10 seconds, respecting client cancellation. Failed usage reads, malformed run identity/time, repeated pagination tokens and exceeded budgets answer sanitized 503 service_unavailable, never partial-success zero. Closed-unmerged, unknown or unreadable Trails (including upstream 403), and merged Trails with no merged_at, answer 404 insights/not-found. A transient Trail lookup failure or unconfigured lookup answers sanitized 503 service_unavailable, without upstream details. This is distinct from the 404 insights/plugin-not-installed for a repo with no active installation. A project_id that is not a ULID gets the same 403 as a project the caller cannot view. Methods other than GET answer 405 method_not_allowed. */
+/** Metrics for one merged or open trail Returns one TrailMetrics object directly, not a page, using the same computed data as trail-metrics, including phase tokens when available. Only the path's project, repo and trail number are considered; query parameters are ignored; callers cannot supply a branch. Stored merged metrics return provisional false, unchanged. When no stored record exists, entire-api supplies the Trail state and branch. Open Trails return provisional true with merged_at null, computed from ingested checkpoints at one request-time UTC cutoff. Merged Trails not yet computed return provisional true with merged_at set to the Trail's merge time, computed at that merged_at cutoff, the same cutoff the stored metrics will use. Provisional Trails with no matching checkpoints return 200 with empty models and phases arrays. Provisional totals are not persisted and may change as work is ingested. Successful provisional responses always include review and runner_usage. Runner reads use the active core installation and authoritative repo/Trail ID, enumerate all review/monitor waves, and include reported usage in every status. Runs created at or before runner_usage.run_created_at_lte are eligible: request-start UTC for open Trails, merged_at for provisional merged Trails. This inclusive creation bound is NOT a frozen usage snapshot; counters are observed as pages are fetched and may increase during enumeration. Reads are limited to 100 pages, 10,000 raw run records (including duplicates) and 10 seconds, respecting client cancellation. Failed usage reads, malformed run identity/time, repeated pagination tokens and exceeded budgets answer sanitized 503 service_unavailable, never partial-success zero. Closed-unmerged, unknown or unreadable Trails (including upstream 403), and merged Trails with no merged_at, answer 404 insights/not-found. A transient Trail lookup failure or unconfigured lookup answers sanitized 503 service_unavailable, without upstream details. This is distinct from the 404 insights/plugin-not-installed for a repo with no active installation. A project_id that is not a ULID gets the same 403 as a project the caller cannot view. Methods other than GET answer 405 method_not_allowed. */
 export const getSingleTrailMetrics: API.OperationMethod<
   GetSingleTrailMetricsRequest,
   TrailMetrics,
@@ -353,7 +336,7 @@ export const getSingleTrailMetrics: API.OperationMethod<
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<GetSingleTrailMetricsRequest>,
-  output: __S(47, __c5, 7) as any as S.Schema<TrailMetrics>,
+  output: __S(44, __c5, 4) as any as S.Schema<TrailMetrics>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -362,7 +345,7 @@ export const getSingleTrailMetrics: API.OperationMethod<
 }));
 
 export type GetTrailActivitySummaryError = EntireOpError;
-/** Phase, development and review token totals for merged trails Sums all five token counters per raw phase across the project's latest stored TCO rows from active installations. trails_with_phases counts distinct Trails with at least one phase row, including zero-token rows. Phase names are sorted; grouping for display stays with the client. Uses the same merged_at window and repo scope as trail-metrics: since is inclusive and until is exclusive. Omitted bounds are unbounded. No pagination is needed. development.tokens is the sum of all five counters over every phase row in scope, review_fix included, equal to the sum of phases[] tokens; it never counts runner tokens. review.tokens is the sum of the four runner counters (fresh_input, output, cache_write, cache_read) over every runner run of Trails in scope, as trail-metrics shows in runners; all runners count and none is identified. A Trail with no runner runs adds 0, and no has_activity filter applies. A repo covered by two active installations is counted once per installation, as in trail-metrics and the phase totals. Installed scopes with no rows return trails_with_phases 0, phases [], and development and review tokens of 0. Responses permit future additive fields; clients should ignore unknown properties and accept new phase names. Responses from servers that predate these totals may omit development and review; read a missing one as not available, never as 0. A parameter given twice, or a bracketed name other than repo_id[eq], is invalid_request. Other undocumented parameters are ignored. A project_id that is not a ULID gets the same 403 as a project the caller cannot view. HEAD is also accepted by the GET route. Methods other than GET and HEAD answer 405 method_not_allowed. */
+/** Phase, development and review token totals for merged trails Sums all five token counters per raw phase across the project's latest stored TCO rows from active installations. trails_with_phases counts distinct Trails with at least one phase row, including zero-token rows. Phase names are sorted; grouping for display stays with the client. Uses the same merged_at window and repo scope as trail-metrics: since is inclusive and until is exclusive. Omitted bounds are unbounded. No pagination is needed. Project-wide totals include only repositories the caller can pull, for both phase and review tokens. No pullable repositories returns zero totals and an empty phases array. development.tokens is the sum of all five counters over every phase row in scope, review_fix included, equal to the sum of phases[] tokens; it never counts runner tokens. review.tokens is the sum of the four runner counters (fresh_input, output, cache_write, cache_read) over every runner run of Trails in scope, the sum of trail-metrics review.tokens; all runners count and none is identified. A Trail with no runner runs adds 0, and no has_activity filter applies. A repo covered by two active installations is counted once per installation, as in trail-metrics and the phase totals. Installed scopes with no rows return trails_with_phases 0, phases [], and development and review tokens of 0. Responses permit future additive fields; clients should ignore unknown properties and accept new phase names. Responses from servers that predate these totals may omit development and review; read a missing one as not available, never as 0. A parameter given twice, or a bracketed name other than repo_id[eq], is invalid_request. Other undocumented parameters are ignored. A project_id that is not a ULID gets the same 403 as a project the caller cannot view. HEAD is also accepted by the GET route. Methods other than GET and HEAD answer 405 method_not_allowed. */
 export const getTrailActivitySummary: API.OperationMethod<
   GetTrailActivitySummaryRequest,
   TrailActivitySummary,
@@ -370,7 +353,7 @@ export const getTrailActivitySummary: API.OperationMethod<
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<GetTrailActivitySummaryRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<TrailActivitySummary>,
+  output: __S(49, __c6, 1) as any as S.Schema<TrailActivitySummary>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -396,7 +379,7 @@ export const getTrailBreakdown: API.OperationMethod<
 }));
 
 export type GetTrailMetricsError = EntireOpError;
-/** Metrics per merged trail One item per merged trail of the project that has a TCO record, newest merge first: ordered by merged_at descending, then repo_id, trail number and installation. Pages hold per_page items (default 50, maximum 200); next_cursor is present only when another page exists. A parameter given twice, or a bracketed name other than repo_id[eq], is invalid_request. Other parameters this document does not list are ignored. The cursor does not carry per_page, so send it with each page. A project_id that is not a ULID gets the same 403 as a project the caller cannot view. Methods other than GET answer 405 method_not_allowed. */
+/** Metrics per merged trail One item per merged trail of the project that has a TCO record, newest merge first: ordered by merged_at descending, then repo_id, trail number and installation. Pages hold per_page items (default 50, maximum 200); next_cursor is present only when another page exists. Project-wide reads include only repositories the caller can pull; authorization filters rows before pagination. No pullable repositories returns an empty page. Repositories restored from a cursor's filter or sort key are reauthorized on every page; a denied repository gets 403, including when permission was revoked between pages. A parameter given twice, or a bracketed name other than repo_id[eq], is invalid_request. Other parameters this document does not list are ignored. The cursor does not carry per_page, so send it with each page. A project_id that is not a ULID gets the same 403 as a project the caller cannot view. Methods other than GET answer 405 method_not_allowed. */
 export const getTrailMetrics: API.PaginatedOperationMethod<
   GetTrailMetricsRequest,
   TrailMetricsPage,
@@ -481,6 +464,8 @@ function __c0(j: number): any {
           unprocessed_trails: S.Number,
           failed_trails: S.Number,
           last_processed_at: S.optional(S.String),
+          has_merged_trails: S.Boolean,
+          has_open_trails: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "RepoStatus" });
   }
@@ -528,6 +513,12 @@ function __c3(j: number): any {
       ).annotate({ identifier: "PhaseUse" });
     case 1:
       return S.Array(__S(24, __c3, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          tokens: S.Number,
+        }),
+      ).annotate({ identifier: "TrailMetricsReview" });
   }
 }
 function __c4(j: number): any {
@@ -562,31 +553,11 @@ function __c5(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          fresh_input: S.Number,
-          output: S.Number,
-          cache_write: S.Number,
-          cache_read: S.Number,
-        }),
-      ).annotate({ identifier: "RunnerTokens" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          runner: S.String,
-          runs: S.Number,
-          model: S.String,
-          tokens: __S(43, __c5, 3),
-        }),
-      ).annotate({ identifier: "RunnerUse" });
-    case 5:
-      return S.Array(__S(44, __c5, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
           status: S.String,
           run_created_at_lte: S.String,
         }),
       ).annotate({ identifier: "RunnerUsage" });
-    case 7:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           repo_id: S.String,
@@ -597,8 +568,8 @@ function __c5(j: number): any {
           sessions: S.Number,
           models: __S(42, __c5, 2),
           phases: S.optional(__S(25, __c3, 1)),
-          runners: S.optional(__S(45, __c5, 5)),
-          runner_usage: S.optional(__S(46, __c5, 6)),
+          runner_usage: S.optional(__S(43, __c5, 3)),
+          review: S.optional(__S(26, __c3, 2)),
           notes: S.optional(__S(32, __c4, 0)),
         }),
       ).annotate({ identifier: "TrailMetrics" });
@@ -625,16 +596,10 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tokens: S.Number,
-        }),
-      ).annotate({ identifier: "TrailActivitySummaryDevelopment" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           trails_with_phases: S.Number,
           phases: __S(25, __c3, 1),
-          development: S.optional(__S(49, __c6, 1)),
-          review: S.optional(__S(49, __c6, 1)),
+          development: S.optional(__S(26, __c3, 2)),
+          review: S.optional(__S(26, __c3, 2)),
         }),
       ).annotate({ identifier: "TrailActivitySummary" });
   }
@@ -720,7 +685,7 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "GetTrailMetricsRequest" });
     case 1:
-      return S.Array(__S(47, __c5, 7));
+      return S.Array(__S(44, __c5, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({

@@ -25,6 +25,15 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+export interface CancelAccountBillingPurchaseRequest {
+  purchase_id: string;
+}
+export interface CancelAccountBillingPurchaseResponse {}
+export interface CancelOrgBillingPurchaseRequest {
+  org_id: string;
+  purchase_id: string;
+}
+export interface CancelOrgBillingPurchaseResponse {}
 export interface CompleteAccountBillingSignupRequest {
   /** The Checkout session id from the return URL. */
   checkoutSessionId: string;
@@ -37,7 +46,7 @@ export interface BillingAutomaticTopUp {
   /** True when credit is bought automatically. */
   enabled: boolean;
   /** True when the latest automatic top-up charge failed. Omitted, and listed in unavailable, when the charges could not be read. A failed charge turns automatic top-up off, so enabled false with last_charge_failed true means it is off because the charge failed. */
-  last_charge_failed?: boolean;
+  last_charge_failed?: boolean | undefined;
   /** Balance in cents the top-up charges up to. Zero when never configured. */
   target_cents: number;
   /** Balance in cents at or below which a top-up is charged. Zero when never configured. */
@@ -49,7 +58,7 @@ export type BillingBalanceCurrency = "usd";
 export interface BillingCreditExpiry {
   /** Credit that expires at expires_at unless spent, in cents. */
   amount_cents: number;
-  /** All purchased, top-up and granted credit left, in cents. */
+  /** All credit left, trial credit included, in cents. */
   credit_remaining_cents: number;
   /** When that credit ends. */
   expires_at: string;
@@ -60,8 +69,8 @@ export interface BillingBalance {
   currency: BillingBalanceCurrency;
   /** Credit left that Entire granted outside the trial and any purchase, in cents. */
   granted_cents: number;
-  /** The purchased, top-up or granted credit with a balance that ends first. Omitted when there is none. */
-  next_expiry?: BillingCreditExpiry;
+  /** The credit with a balance that ends first, trial credit included. Omitted when there is none. */
+  next_expiry?: BillingCreditExpiry | undefined;
   /** Credit left from purchases and automatic top-ups, in cents. */
   purchased_cents: number;
   /** All credit left, in cents. */
@@ -92,17 +101,17 @@ export interface BillingOverage {
 }
 export interface BillingPaymentMethod {
   /** Name of the bank, for types that carry it. */
-  bank_name?: string;
+  bank_name?: string | undefined;
   /** Card brand, for example visa. Cards only. */
-  brand?: string;
+  brand?: string | undefined;
   /** Email of the Link account. Link only. */
-  email?: string;
+  email?: string | undefined;
   /** Expiry month, 1 to 12. Cards only. */
-  exp_month?: number;
+  exp_month?: number | undefined;
   /** Expiry year, four digits. Cards only. */
-  exp_year?: number;
+  exp_year?: number | undefined;
   /** Last four digits, for types that carry them. */
-  last4?: string;
+  last4?: string | undefined;
   /** Stripe's payment method type, passed through. It is not an enum: a type added later appears as is. */
   type: string;
   [key: string]: unknown;
@@ -113,27 +122,33 @@ export interface BillingRunsPaused {
   /** True while a billing restriction refuses the subject's runs. */
   paused: boolean;
   /** credit_exhausted: no credit left. over_limit: a spending limit was reached. blocked: billing is blocked. Present only when paused. */
-  reason?: BillingRunsPausedReason;
+  reason?: BillingRunsPausedReason | undefined;
   [key: string]: unknown;
 }
 /** not_started: nothing created. pending_card: waiting for the card. provisioning: card saved, setup unfinished and retried automatically. active: signed up. */
 export type BillingStatusState = "not_started" | "pending_card" | "provisioning" | "active";
 /** Currency of the amounts. */
 export type BillingTrialCurrency = "usd";
-/** not_started: the trial starts on the subject's first run. active: credit is left. used_up: no credit is left. expired: credit was left when the trial ended. withheld: the subject got no trial credit. */
-export type BillingTrialState = "not_started" | "active" | "used_up" | "expired" | "withheld";
+/** not_started: the trial starts on the subject's first run. awaiting_card: a saved card unlocks the trial credit. active: credit is left. used_up: no credit is left. expired: credit was left when the trial ended. withheld: the subject got no trial credit. */
+export type BillingTrialState =
+  | "not_started"
+  | "awaiting_card"
+  | "active"
+  | "used_up"
+  | "expired"
+  | "withheld";
 export interface BillingTrial {
   /** Trial credit that expired unspent, in cents. Present only when expired. */
-  credit_expired_cents?: number;
-  /** Unspent trial credit in cents. Omitted when not_started. */
-  credit_remaining_cents?: number;
-  /** Size of the trial credit in cents. Omitted when not_started. */
-  credit_total_cents?: number;
+  credit_expired_cents?: number | undefined;
+  /** Unspent trial credit in cents. Omitted when not_started or awaiting_card. */
+  credit_remaining_cents?: number | undefined;
+  /** Size of the trial credit in cents. When awaiting_card, the credit a card unlocks. Omitted when not_started. */
+  credit_total_cents?: number | undefined;
   /** Currency of the amounts. */
   currency: BillingTrialCurrency;
-  /** When the trial credit ends. Omitted when not_started or withheld. */
-  expires_at?: string;
-  /** not_started: the trial starts on the subject's first run. active: credit is left. used_up: no credit is left. expired: credit was left when the trial ended. withheld: the subject got no trial credit. */
+  /** When the trial credit ends. Omitted when not_started, awaiting_card or withheld. */
+  expires_at?: string | undefined;
+  /** not_started: the trial starts on the subject's first run. awaiting_card: a saved card unlocks the trial credit. active: credit is left. used_up: no credit is left. expired: credit was left when the trial ended. withheld: the subject got no trial credit. */
   state: BillingTrialState;
   [key: string]: unknown;
 }
@@ -149,27 +164,29 @@ export type BillingStatusUnavailableItem =
 export type BillingStatusUnavailableList = Array<BillingStatusUnavailableItem>;
 export interface BillingStatus {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
+  /** Unfinished manual purchase to resume through the shared purchase GET. */
+  active_purchase_id?: string | undefined;
   /** The subject's automatic top-up. Omitted before the contract exists. */
-  automatic_top_up?: BillingAutomaticTopUp;
+  automatic_top_up?: BillingAutomaticTopUp | undefined;
   /** Credit left on the subject's contract. Omitted before the contract exists. */
-  balance?: BillingBalance;
+  balance?: BillingBalance | undefined;
   /** The subject's default card. Omitted when there is none. */
-  card?: BillingCard;
+  card?: BillingCard | undefined;
   /** Billing currency. Empty until sign-up starts. */
-  currency?: string;
+  currency?: string | undefined;
   /** Usage past all credit in the current period. Omitted before the contract exists. */
-  overage?: BillingOverage;
+  overage?: BillingOverage | undefined;
   /** The subject's default payment method, of any type. Omitted when there is none. */
-  payment_method?: BillingPaymentMethod;
+  payment_method?: BillingPaymentMethod | undefined;
   /** Whether billing is refusing all of the subject's runs. Restrictions on a single project or repo group do not count, and nothing is paused unless billing enforcement is on. */
-  runs_paused?: BillingRunsPaused;
+  runs_paused?: BillingRunsPaused | undefined;
   /** not_started: nothing created. pending_card: waiting for the card. provisioning: card saved, setup unfinished and retried automatically. active: signed up. */
   state: BillingStatusState;
   /** The subject's trial credit. Stays after sign-up. */
-  trial?: BillingTrial;
+  trial?: BillingTrial | undefined;
   /** Sections that could not be read now. Read again later. card means the default payment method, in both the card and payment_method fields. */
-  unavailable?: BillingStatusUnavailableList;
+  unavailable?: BillingStatusUnavailableList | undefined;
   [key: string]: unknown;
 }
 export interface CompleteOrgBillingSignupRequest {
@@ -177,26 +194,92 @@ export interface CompleteOrgBillingSignupRequest {
   /** The Checkout session id from the return URL. */
   checkoutSessionId: string;
 }
-export interface CreateAccountBillingPurchaseRequest {
-  /** Makes a repeat of this request one purchase. */
-  idempotencyKey?: string;
-  /** Credit to buy, in US cents. From 1000 ($10) to 1000000 ($10,000). */
+export interface CreateAccountBillingCheckoutPurchaseRequest {
+  idempotencyKey: string;
+  /** Credit to buy in USD cents, from 1000 to 1000000. */
   amount_cents: number;
+  /** Trusted HTTPS cancellation URL. */
+  cancel_url: string;
+  /** Trusted HTTPS return URL containing {CHECKOUT_SESSION_ID}. */
+  success_url: string;
 }
+/** Safe reason for delayed recovery or terminal failure. */
+export type BillingPurchaseFailureCode =
+  | "provider_unavailable"
+  | "purchase_unsettled"
+  | "checkout_unresolved"
+  | "payment_mismatch"
+  | "invoice_unverified"
+  | "delivery_unresolved"
+  | "payment_failed";
+/** Credit delivery progress, separate from payment status. */
+export type BillingPurchaseProgress =
+  | "preparing"
+  | "checkout_ready"
+  | "confirming_invoice"
+  | "fulfilling"
+  | "completed"
+  | "failed"
+  | "expired";
+/** The purchase method that created this purchase. */
+export type BillingPurchasePurchaseMethod = "saved_card" | "manual_checkout";
 /** pending until charged; then paid, failed, or expired. */
 export type BillingPurchaseStatus = "pending" | "paid" | "failed" | "expired";
 export interface BillingPurchase {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  /** Credit being bought, in US cents. */
+  _schema?: string | undefined;
+  /** Credit being bought, in USD cents. */
   amount_cents: number;
   /** Matches the charges list id once settled. */
-  charge_id?: string;
+  charge_id?: string | undefined;
+  /** Payable Checkout URL. Present only while checkout_ready. */
+  checkout_url?: string | undefined;
+  /** Fixed expiry of purchased credit. */
+  expires_at?: string | undefined;
+  /** Safe reason for delayed recovery or terminal failure. */
+  failure_code?: BillingPurchaseFailureCode | undefined;
   /** The purchase id. Poll the purchase by it. */
   id: string;
+  /** Hosted page of the verified paid Stripe invoice. */
+  invoice_url?: string | undefined;
+  /** Verified payment time. */
+  paid_at?: string | undefined;
+  /** Credit delivery progress, separate from payment status. */
+  progress?: BillingPurchaseProgress | undefined;
+  /** The purchase method that created this purchase. */
+  purchase_method?: BillingPurchasePurchaseMethod | undefined;
+  /** Earliest scheduled recovery attempt. */
+  retry_at?: string | undefined;
   /** pending until charged; then paid, failed, or expired. */
   status: BillingPurchaseStatus;
+  /** Verified tax in USD cents. Omitted until known. */
+  tax_cents?: number | undefined;
+  /** Verified payment total in USD cents, including tax. */
+  total_cents?: number | undefined;
   [key: string]: unknown;
+}
+export interface CreateAccountBillingPromoRedemptionRequest {
+  /** Makes a repeat of this request one redemption. */
+  idempotencyKey?: string | undefined;
+  /** The promotion code text. Case does not matter. */
+  code: string;
+}
+export interface BillingPromoRedemption {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  /** Credit added, in US cents. */
+  credit_cents: number;
+  /** When the added credit expires. */
+  expires_at: string;
+  /** The promotion code id. */
+  id: string;
+  [key: string]: unknown;
+}
+export interface CreateAccountBillingPurchaseRequest {
+  /** Makes a repeat of this request one purchase. */
+  idempotencyKey?: string | undefined;
+  /** Credit to buy, in USD cents. From 1000 ($10) to 1000000 ($10,000). */
+  amount_cents: number;
 }
 export interface CreateAccountBillingSettingsSessionRequest {
   /** HTTPS destination on entire.com, entire.io or partial.to for the return link in billing settings. */
@@ -204,16 +287,33 @@ export interface CreateAccountBillingSettingsSessionRequest {
 }
 export interface BillingSettingsSession {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Temporary Stripe URL for this customer's billing settings. */
   billing_settings_url: string;
   [key: string]: unknown;
 }
+export interface CreateOrgBillingCheckoutPurchaseRequest {
+  org_id: string;
+  idempotencyKey: string;
+  /** Credit to buy in USD cents, from 1000 to 1000000. */
+  amount_cents: number;
+  /** Trusted HTTPS cancellation URL. */
+  cancel_url: string;
+  /** Trusted HTTPS return URL containing {CHECKOUT_SESSION_ID}. */
+  success_url: string;
+}
+export interface CreateOrgBillingPromoRedemptionRequest {
+  org_id: string;
+  /** Makes a repeat of this request one redemption. */
+  idempotencyKey?: string | undefined;
+  /** The promotion code text. Case does not matter. */
+  code: string;
+}
 export interface CreateOrgBillingPurchaseRequest {
   org_id: string;
   /** Makes a repeat of this request one purchase. */
-  idempotencyKey?: string;
-  /** Credit to buy, in US cents. From 1000 ($10) to 1000000 ($10,000). */
+  idempotencyKey?: string | undefined;
+  /** Credit to buy, in USD cents. From 1000 ($10) to 1000000 ($10,000). */
   amount_cents: number;
 }
 export interface CreateOrgBillingSettingsSessionRequest {
@@ -225,14 +325,25 @@ export interface CreateOrgBillingSettingsSessionRequest {
 export type GetAccountBillingRequestRefresh = "all" | "payment_method" | "card";
 export interface GetAccountBillingRequest {
   /** all: read every section from the billing providers instead of this pod's cache, and refresh the cache. payment_method and card are older names that do the same. */
-  refresh?: GetAccountBillingRequestRefresh | (string & {});
+  refresh?: GetAccountBillingRequestRefresh | (string & {}) | undefined;
+}
+export interface GetAccountBillingChargeInvoiceRequest {
+  /** The id of a charge from the list. */
+  charge_id: string;
+}
+export interface BillingChargeInvoiceBody {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  /** Hosted Stripe invoice page, with tax and PDF. Stripe signs it when it creates it, so read it fresh and do not store it. */
+  invoice_url: string;
+  [key: string]: unknown;
 }
 export interface GetAccountBillingPurchaseRequest {
   purchase_id: string;
 }
 export interface GetAccountBillingSpendRequest {
   /** The month as YYYY-MM. Defaults to the current month. */
-  period?: string;
+  period?: string | undefined;
 }
 export interface BillingSpendPeriods {
   /** First month of the subject's contract, as YYYY-MM. The current month when the subject has none. */
@@ -269,7 +380,7 @@ export interface BillingSpendRepo {
   /** Repo group id, the repo's identity across cells. Empty for usage that carried no repo. */
   id: string;
   /** Repo name. Omitted when the repo is deleted, has no name yet, or the usage carried no repo. */
-  name?: string;
+  name?: string | undefined;
   /** Spend by runner, largest total first. Runners with equal totals run by key. */
   runners: BillingSpendRepoRunnersList;
   /** Spend in cents. The sum of the runners' totals. */
@@ -284,7 +395,7 @@ export interface BillingSpendProject {
   /** Project id. Empty for usage that carried no project. */
   id: string;
   /** Project name. Omitted when the project is deleted or the usage carried no project. */
-  name?: string;
+  name?: string | undefined;
   /** Spend by repo, largest total first. Repos with equal totals run by id. */
   repos: BillingSpendProjectReposList;
   /** Spend in cents. The sum of the repos' totals. */
@@ -295,7 +406,7 @@ export interface BillingSpendProject {
 export type BillingSpendProjectsList = Array<BillingSpendProject>;
 export interface BillingSpend {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** The months that can be asked for. */
   available_periods: BillingSpendPeriods;
   /** Currency of the amounts. */
@@ -317,7 +428,12 @@ export type GetOrgBillingRequestRefresh = "all" | "payment_method" | "card";
 export interface GetOrgBillingRequest {
   org_id: string;
   /** all: read every section from the billing providers instead of this pod's cache, and refresh the cache. payment_method and card are older names that do the same. */
-  refresh?: GetOrgBillingRequestRefresh | (string & {});
+  refresh?: GetOrgBillingRequestRefresh | (string & {}) | undefined;
+}
+export interface GetOrgBillingChargeInvoiceRequest {
+  org_id: string;
+  /** The id of a charge from the list. */
+  charge_id: string;
 }
 export interface GetOrgBillingPurchaseRequest {
   org_id: string;
@@ -326,60 +442,67 @@ export interface GetOrgBillingPurchaseRequest {
 export interface GetOrgBillingSpendRequest {
   org_id: string;
   /** The month as YYYY-MM. Defaults to the current month. */
-  period?: string;
+  period?: string | undefined;
 }
-/** all: read the page from the billing providers instead of this pod's cache, and refresh the cache. */
-export type ListAccountBillingChargesRequestRefresh = "all";
 export interface ListAccountBillingChargesRequest {
   /** Opaque cursor from a previous response's next_cursor. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Charges per page. */
-  per_page?: number;
-  /** all: read the page from the billing providers instead of this pod's cache, and refresh the cache. */
-  refresh?: ListAccountBillingChargesRequestRefresh | (string & {});
+  per_page?: number | undefined;
 }
 /** Currency of the amount. */
 export type BillingChargeCurrency = "usd";
-/** purchase: bought by the subject. automatic_top_up: charged when credit ran low. */
-export type BillingChargeKind = "purchase" | "automatic_top_up";
-/** paid: the card was charged. failed: the card was declined and nothing was added. */
-export type BillingChargeStatus = "paid" | "failed";
+/** purchase: bought by the subject. automatic_top_up: charged when credit ran low. trial_credit, promo_code, granted_credit: given credit. */
+export type BillingChargeKind =
+  | "purchase"
+  | "automatic_top_up"
+  | "trial_credit"
+  | "promo_code"
+  | "granted_credit";
+/** Historical purchase method. */
+export type BillingChargePurchaseMethod = "saved_card" | "manual_checkout";
+/** paid: the card was charged. failed: the card was declined and nothing was added. granted: given credit. */
+export type BillingChargeStatus = "paid" | "failed" | "granted";
 export interface BillingCharge {
   /** Amount in the smallest currency unit. */
   amount_cents: number;
-  /** When the card was charged, RFC 3339. */
+  /** When the credit was added, RFC 3339. */
   created_at: string;
   /** Currency of the amount. */
   currency: BillingChargeCurrency;
-  /** The Metronome invoice id. */
+  /** When the credit ends, RFC 3339. Present only when it ends. */
+  expires_at?: string | undefined;
+  /** True for a paid charge with an invoice. Read it from the charge invoice endpoint. */
+  has_invoice: boolean;
+  /** Opaque id of the charge. */
   id: string;
-  /** Hosted Stripe invoice page, with tax and PDF. Present only for a paid charge whose invoice is available. */
-  invoice_url?: string;
-  /** purchase: bought by the subject. automatic_top_up: charged when credit ran low. */
+  /** purchase: bought by the subject. automatic_top_up: charged when credit ran low. trial_credit, promo_code, granted_credit: given credit. */
   kind: BillingChargeKind;
-  /** paid: the card was charged. failed: the card was declined and nothing was added. */
+  /** Historical purchase method. */
+  purchase_method?: BillingChargePurchaseMethod | undefined;
+  /** paid: the card was charged. failed: the card was declined and nothing was added. granted: given credit. */
   status: BillingChargeStatus;
+  /** Verified manual purchase tax in USD cents. */
+  tax_cents?: number | undefined;
+  /** Verified manual payment total in USD cents, including tax. */
+  total_cents?: number | undefined;
   [key: string]: unknown;
 }
 export type BillingChargesBodyChargesList = Array<BillingCharge>;
 export interface BillingChargesBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   charges: BillingChargesBodyChargesList;
   /** Present only when more charges remain. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
   [key: string]: unknown;
 }
-/** all: read the page from the billing providers instead of this pod's cache, and refresh the cache. */
-export type ListOrgBillingChargesRequestRefresh = "all";
 export interface ListOrgBillingChargesRequest {
   org_id: string;
   /** Opaque cursor from a previous response's next_cursor. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Charges per page. */
-  per_page?: number;
-  /** all: read the page from the billing providers instead of this pod's cache, and refresh the cache. */
-  refresh?: ListOrgBillingChargesRequestRefresh | (string & {});
+  per_page?: number | undefined;
 }
 export interface SetupAccountBillingRequest {
   /** Absolute https URL on entire.com, entire.io or partial.to for a cancelled Checkout. */
@@ -401,29 +524,31 @@ export type BillingSetupUnavailableItem =
 export type BillingSetupUnavailableList = Array<BillingSetupUnavailableItem>;
 export interface BillingSetup {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
+  /** Unfinished manual purchase to resume through the shared purchase GET. */
+  active_purchase_id?: string | undefined;
   /** The subject's automatic top-up. Omitted before the contract exists. */
-  automatic_top_up?: BillingAutomaticTopUp;
+  automatic_top_up?: BillingAutomaticTopUp | undefined;
   /** Credit left on the subject's contract. Omitted before the contract exists. */
-  balance?: BillingBalance;
+  balance?: BillingBalance | undefined;
   /** The subject's default card. Omitted when there is none. */
-  card?: BillingCard;
+  card?: BillingCard | undefined;
   /** Stripe Checkout URL that saves a card. Empty when nothing needs Checkout. */
-  checkout_url?: string;
+  checkout_url?: string | undefined;
   /** Billing currency. Empty until sign-up starts. */
-  currency?: string;
+  currency?: string | undefined;
   /** Usage past all credit in the current period. Omitted before the contract exists. */
-  overage?: BillingOverage;
+  overage?: BillingOverage | undefined;
   /** The subject's default payment method, of any type. Omitted when there is none. */
-  payment_method?: BillingPaymentMethod;
+  payment_method?: BillingPaymentMethod | undefined;
   /** Whether billing is refusing all of the subject's runs. Restrictions on a single project or repo group do not count, and nothing is paused unless billing enforcement is on. */
-  runs_paused?: BillingRunsPaused;
+  runs_paused?: BillingRunsPaused | undefined;
   /** not_started: nothing created. pending_card: waiting for the card. provisioning: card saved, setup unfinished and retried automatically. active: signed up. */
   state: BillingSetupState;
   /** The subject's trial credit. Stays after sign-up. */
-  trial?: BillingTrial;
+  trial?: BillingTrial | undefined;
   /** Sections that could not be read now. Read again later. card means the default payment method, in both the card and payment_method fields. */
-  unavailable?: BillingSetupUnavailableList;
+  unavailable?: BillingSetupUnavailableList | undefined;
   [key: string]: unknown;
 }
 export interface SetupOrgBillingRequest {
@@ -435,22 +560,54 @@ export interface SetupOrgBillingRequest {
 }
 export interface BillingAutomaticTopUpPatch {
   /** true turns automatic top-up on and needs both amounts in the same request. false turns it off and keeps the amounts. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Balance in cents the top-up charges up to. At least threshold_cents + 1000, at most 1000000. */
-  target_cents?: number;
+  target_cents?: number | undefined;
   /** Balance in cents at or below which a top-up is charged. At least 500. */
-  threshold_cents?: number;
+  threshold_cents?: number | undefined;
   [key: string]: unknown;
 }
 export interface UpdateAccountBillingRequest {
   /** Changes to the automatic top-up. Turning it on while the balance is at or below threshold_cents charges the card at once. */
-  automatic_top_up?: BillingAutomaticTopUpPatch;
+  automatic_top_up?: BillingAutomaticTopUpPatch | undefined;
 }
 export interface UpdateOrgBillingRequest {
   org_id: string;
   /** Changes to the automatic top-up. Turning it on while the balance is at or below threshold_cents charges the card at once. */
-  automatic_top_up?: BillingAutomaticTopUpPatch;
+  automatic_top_up?: BillingAutomaticTopUpPatch | undefined;
 }
+export type CancelAccountBillingPurchaseError = EntireOpError;
+export const cancelAccountBillingPurchase: API.OperationMethod<
+  CancelAccountBillingPurchaseRequest,
+  CancelAccountBillingPurchaseResponse,
+  CancelAccountBillingPurchaseError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<CancelAccountBillingPurchaseRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<CancelAccountBillingPurchaseResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelAccountBillingPurchase",
+}));
+
+export type CancelOrgBillingPurchaseError = EntireOpError;
+export const cancelOrgBillingPurchase: API.OperationMethod<
+  CancelOrgBillingPurchaseRequest,
+  CancelOrgBillingPurchaseResponse,
+  CancelOrgBillingPurchaseError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(32, __c2, 0) as any as S.Schema<CancelOrgBillingPurchaseRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<CancelOrgBillingPurchaseResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelOrgBillingPurchase",
+}));
+
 export type CompleteAccountBillingSignupError = EntireOpError;
 export const completeAccountBillingSignup: API.OperationMethod<
   CompleteAccountBillingSignupRequest,
@@ -458,8 +615,8 @@ export const completeAccountBillingSignup: API.OperationMethod<
   CompleteAccountBillingSignupError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CompleteAccountBillingSignupRequest>,
-  output: __S(32, __c2, 0) as any as S.Schema<BillingStatus>,
+  input: __S(240, __c15, 0) as any as S.Schema<CompleteAccountBillingSignupRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<BillingStatus>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -474,13 +631,46 @@ export const completeOrgBillingSignup: API.OperationMethod<
   CompleteOrgBillingSignupError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<CompleteOrgBillingSignupRequest>,
-  output: __S(32, __c2, 0) as any as S.Schema<BillingStatus>,
+  input: __S(432, __c27, 0) as any as S.Schema<CompleteOrgBillingSignupRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<BillingStatus>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CompleteOrgBillingSignup",
+}));
+
+export type CreateAccountBillingCheckoutPurchaseError = EntireOpError;
+export const createAccountBillingCheckoutPurchase: API.OperationMethod<
+  CreateAccountBillingCheckoutPurchaseRequest,
+  BillingPurchase,
+  CreateAccountBillingCheckoutPurchaseError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(448, __c28, 0) as any as S.Schema<CreateAccountBillingCheckoutPurchaseRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<BillingPurchase>,
+  errors: [UnknownEntireError],
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountBillingCheckoutPurchase",
+}));
+
+export type CreateAccountBillingPromoRedemptionError = EntireOpError;
+/** Redeem a promotion code for the caller Adds the code's credit at once, with no sign-up needed. The code must be a fixed USD amount. A billing account redeems a code once. An unknown, inactive or expired code gets the same 404. Idempotency-Key is required. Each caller has a burst of 10 attempts, then one every 6 minutes, whatever the outcome. */
+export const createAccountBillingPromoRedemption: API.OperationMethod<
+  CreateAccountBillingPromoRedemptionRequest,
+  BillingPromoRedemption,
+  CreateAccountBillingPromoRedemptionError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(480, __c30, 0) as any as S.Schema<CreateAccountBillingPromoRedemptionRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<BillingPromoRedemption>,
+  errors: [UnknownEntireError],
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountBillingPromoRedemption",
 }));
 
 export type CreateAccountBillingPurchaseError = EntireOpError;
@@ -490,8 +680,8 @@ export const createAccountBillingPurchase: API.OperationMethod<
   CreateAccountBillingPurchaseError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<CreateAccountBillingPurchaseRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<BillingPurchase>,
+  input: __S(512, __c32, 0) as any as S.Schema<CreateAccountBillingPurchaseRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<BillingPurchase>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -507,13 +697,46 @@ export const createAccountBillingSettingsSession: API.OperationMethod<
   CreateAccountBillingSettingsSessionError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<CreateAccountBillingSettingsSessionRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<BillingSettingsSession>,
+  input: __S(528, __c33, 0) as any as S.Schema<CreateAccountBillingSettingsSessionRequest>,
+  output: __S(544, __c34, 0) as any as S.Schema<BillingSettingsSession>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAccountBillingSettingsSession",
+}));
+
+export type CreateOrgBillingCheckoutPurchaseError = EntireOpError;
+export const createOrgBillingCheckoutPurchase: API.OperationMethod<
+  CreateOrgBillingCheckoutPurchaseRequest,
+  BillingPurchase,
+  CreateOrgBillingCheckoutPurchaseError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(560, __c35, 0) as any as S.Schema<CreateOrgBillingCheckoutPurchaseRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<BillingPurchase>,
+  errors: [UnknownEntireError],
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgBillingCheckoutPurchase",
+}));
+
+export type CreateOrgBillingPromoRedemptionError = EntireOpError;
+/** Redeem a promotion code for an org Requires org#manage_billing, and GitHub organization admin for a GitHub org. Adds the code's credit at once, with no sign-up needed. The code must be a fixed USD amount. A billing account redeems a code once. An unknown, inactive or expired code gets the same 404. Idempotency-Key is required. Each caller has a burst of 10 attempts, then one every 6 minutes, whatever the outcome. */
+export const createOrgBillingPromoRedemption: API.OperationMethod<
+  CreateOrgBillingPromoRedemptionRequest,
+  BillingPromoRedemption,
+  CreateOrgBillingPromoRedemptionError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(576, __c36, 0) as any as S.Schema<CreateOrgBillingPromoRedemptionRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<BillingPromoRedemption>,
+  errors: [UnknownEntireError],
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgBillingPromoRedemption",
 }));
 
 export type CreateOrgBillingPurchaseError = EntireOpError;
@@ -523,8 +746,8 @@ export const createOrgBillingPurchase: API.OperationMethod<
   CreateOrgBillingPurchaseError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<CreateOrgBillingPurchaseRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<BillingPurchase>,
+  input: __S(48, __c3, 0) as any as S.Schema<CreateOrgBillingPurchaseRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<BillingPurchase>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -540,8 +763,8 @@ export const createOrgBillingSettingsSession: API.OperationMethod<
   CreateOrgBillingSettingsSessionError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<CreateOrgBillingSettingsSessionRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<BillingSettingsSession>,
+  input: __S(64, __c4, 0) as any as S.Schema<CreateOrgBillingSettingsSessionRequest>,
+  output: __S(544, __c34, 0) as any as S.Schema<BillingSettingsSession>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -556,13 +779,30 @@ export const getAccountBilling: API.OperationMethod<
   GetAccountBillingError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetAccountBillingRequest>,
-  output: __S(32, __c2, 0) as any as S.Schema<BillingStatus>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetAccountBillingRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<BillingStatus>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAccountBilling",
+}));
+
+export type GetAccountBillingChargeInvoiceError = EntireOpError;
+/** Get a charge's hosted invoice page Needs the same access as the charges list. Answers 404 for a charge without a Stripe invoice. */
+export const getAccountBillingChargeInvoice: API.OperationMethod<
+  GetAccountBillingChargeInvoiceRequest,
+  BillingChargeInvoiceBody,
+  GetAccountBillingChargeInvoiceError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c6, 0) as any as S.Schema<GetAccountBillingChargeInvoiceRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<BillingChargeInvoiceBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountBillingChargeInvoice",
 }));
 
 export type GetAccountBillingPurchaseError = EntireOpError;
@@ -572,8 +812,8 @@ export const getAccountBillingPurchase: API.OperationMethod<
   GetAccountBillingPurchaseError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetAccountBillingPurchaseRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<BillingPurchase>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetAccountBillingPurchaseRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<BillingPurchase>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -588,8 +828,8 @@ export const getAccountBillingSpend: API.OperationMethod<
   GetAccountBillingSpendError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetAccountBillingSpendRequest>,
-  output: __S(393, __c24, 9) as any as S.Schema<BillingSpend>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetAccountBillingSpendRequest>,
+  output: __S(169, __c10, 9) as any as S.Schema<BillingSpend>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -604,13 +844,30 @@ export const getOrgBilling: API.OperationMethod<
   GetOrgBillingError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetOrgBillingRequest>,
-  output: __S(32, __c2, 0) as any as S.Schema<BillingStatus>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetOrgBillingRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<BillingStatus>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrgBilling",
+}));
+
+export type GetOrgBillingChargeInvoiceError = EntireOpError;
+/** Get a charge's hosted invoice page Needs the same access as the charges list. Answers 404 for a charge without a Stripe invoice. */
+export const getOrgBillingChargeInvoice: API.OperationMethod<
+  GetOrgBillingChargeInvoiceRequest,
+  BillingChargeInvoiceBody,
+  GetOrgBillingChargeInvoiceError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c12, 0) as any as S.Schema<GetOrgBillingChargeInvoiceRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<BillingChargeInvoiceBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgBillingChargeInvoice",
 }));
 
 export type GetOrgBillingPurchaseError = EntireOpError;
@@ -620,8 +877,8 @@ export const getOrgBillingPurchase: API.OperationMethod<
   GetOrgBillingPurchaseError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetOrgBillingPurchaseRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<BillingPurchase>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetOrgBillingPurchaseRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<BillingPurchase>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -636,8 +893,8 @@ export const getOrgBillingSpend: API.OperationMethod<
   GetOrgBillingSpendError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetOrgBillingSpendRequest>,
-  output: __S(393, __c24, 9) as any as S.Schema<BillingSpend>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetOrgBillingSpendRequest>,
+  output: __S(169, __c10, 9) as any as S.Schema<BillingSpend>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -654,8 +911,8 @@ export const listAccountBillingCharges: API.PaginatedOperationMethod<
   BillingCharge
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(96, __c6, 0) as any as S.Schema<ListAccountBillingChargesRequest>,
-    output: __S(114, __c7, 2) as any as S.Schema<BillingChargesBody>,
+    input: __S(288, __c18, 0) as any as S.Schema<ListAccountBillingChargesRequest>,
+    output: __S(306, __c19, 2) as any as S.Schema<BillingChargesBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -680,8 +937,8 @@ export const listOrgBillingCharges: API.PaginatedOperationMethod<
   BillingCharge
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(128, __c8, 0) as any as S.Schema<ListOrgBillingChargesRequest>,
-    output: __S(114, __c7, 2) as any as S.Schema<BillingChargesBody>,
+    input: __S(320, __c20, 0) as any as S.Schema<ListOrgBillingChargesRequest>,
+    output: __S(306, __c19, 2) as any as S.Schema<BillingChargesBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -704,8 +961,8 @@ export const setupAccountBilling: API.OperationMethod<
   SetupAccountBillingError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<SetupAccountBillingRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<BillingSetup>,
+  input: __S(336, __c21, 0) as any as S.Schema<SetupAccountBillingRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<BillingSetup>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -720,8 +977,8 @@ export const setupOrgBilling: API.OperationMethod<
   SetupOrgBillingError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<SetupOrgBillingRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<BillingSetup>,
+  input: __S(368, __c23, 0) as any as S.Schema<SetupOrgBillingRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<BillingSetup>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -737,8 +994,8 @@ export const updateAccountBilling: API.OperationMethod<
   UpdateAccountBillingError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<UpdateAccountBillingRequest>,
-  output: __S(32, __c2, 0) as any as S.Schema<BillingStatus>,
+  input: __S(384, __c24, 0) as any as S.Schema<UpdateAccountBillingRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<BillingStatus>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -754,8 +1011,8 @@ export const updateOrgBilling: API.OperationMethod<
   UpdateOrgBillingError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<UpdateOrgBillingRequest>,
-  output: __S(32, __c2, 0) as any as S.Schema<BillingStatus>,
+  input: __S(416, __c26, 0) as any as S.Schema<UpdateOrgBillingRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<BillingStatus>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -769,12 +1026,287 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          purchase_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v1/me/billing/purchases/{purchase_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CancelAccountBillingPurchaseRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "CancelAccountBillingPurchaseResponse",
+      });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org_id: S.String.pipe(T.Label()),
+          purchase_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v1/orgs/{org_id}/billing/purchases/{purchase_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CancelOrgBillingPurchaseRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org_id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          amount_cents: S.Number,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/v1/orgs/{org_id}/billing/purchases", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateOrgBillingPurchaseRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org_id: S.String.pipe(T.Label()),
+          return_url: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/orgs/{org_id}/billing/settings-sessions",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateOrgBillingSettingsSessionRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          refresh: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/me/billing", code: 200 })),
+      ).annotate({ identifier: "GetAccountBillingRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          charge_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/me/billing/charges/{charge_id}/invoice",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetAccountBillingChargeInvoiceRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            invoice_url: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "BillingChargeInvoiceBody" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          purchase_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/v1/me/billing/purchases/{purchase_id}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetAccountBillingPurchaseRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          period: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/me/billing/spend", code: 200 })),
+      ).annotate({ identifier: "GetAccountBillingSpendRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            earliest: S.String,
+            latest: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "BillingSpendPeriods" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            amount_cents: S.Number,
+            name: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "BillingSpendOther" });
+    case 2:
+      return S.Array(__S(161, __c10, 1));
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            key: S.String,
+            kind: S.String,
+            total_cents: S.Number,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "BillingSpendRunner" });
+    case 4:
+      return S.Array(__S(163, __c10, 3));
+    case 5:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            deleted: S.Boolean,
+            id: S.String,
+            name: S.optional(S.String),
+            runners: __S(164, __c10, 4),
+            total_cents: S.Number,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "BillingSpendRepo" });
+    case 6:
+      return S.Array(__S(165, __c10, 5));
+    case 7:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            deleted: S.Boolean,
+            id: S.String,
+            name: S.optional(S.String),
+            repos: __S(166, __c10, 6),
+            total_cents: S.Number,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "BillingSpendProject" });
+    case 8:
+      return S.Array(__S(167, __c10, 7));
+    case 9:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            available_periods: __S(160, __c10, 0),
+            currency: S.String,
+            final: S.Boolean,
+            other_usage: __S(162, __c10, 2),
+            period: S.String,
+            projects: __S(168, __c10, 8),
+            total_cents: S.Number,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "BillingSpend" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org_id: S.String.pipe(T.Label()),
+          refresh: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/orgs/{org_id}/billing", code: 200 })),
+      ).annotate({ identifier: "GetOrgBillingRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org_id: S.String.pipe(T.Label()),
+          charge_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/orgs/{org_id}/billing/charges/{charge_id}/invoice",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetOrgBillingChargeInvoiceRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org_id: S.String.pipe(T.Label()),
+          purchase_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/orgs/{org_id}/billing/purchases/{purchase_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetOrgBillingPurchaseRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org_id: S.String.pipe(T.Label()),
+          period: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/orgs/{org_id}/billing/spend", code: 200 })),
+      ).annotate({ identifier: "GetOrgBillingSpendRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           checkoutSessionId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/me/billing/complete", code: 200 })),
       ).annotate({ identifier: "CompleteAccountBillingSignupRequest" });
   }
 }
-function __c1(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -806,7 +1338,7 @@ function __c1(j: number): any {
           S.Struct({
             currency: S.String,
             granted_cents: S.Number,
-            next_expiry: S.optional(__S(17, __c1, 1)),
+            next_expiry: S.optional(__S(257, __c16, 1)),
             purchased_cents: S.Number,
             total_cents: S.Number,
             trial_cents: S.Number,
@@ -879,83 +1411,42 @@ function __c1(j: number): any {
       return S.Array(S.String);
   }
 }
-function __c2(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            automatic_top_up: S.optional(__S(16, __c1, 0)),
-            balance: S.optional(__S(18, __c1, 2)),
-            card: S.optional(__S(19, __c1, 3)),
+            active_purchase_id: S.optional(S.String),
+            automatic_top_up: S.optional(__S(256, __c16, 0)),
+            balance: S.optional(__S(258, __c16, 2)),
+            card: S.optional(__S(259, __c16, 3)),
             currency: S.optional(S.String),
-            overage: S.optional(__S(20, __c1, 4)),
-            payment_method: S.optional(__S(21, __c1, 5)),
-            runs_paused: S.optional(__S(22, __c1, 6)),
+            overage: S.optional(__S(260, __c16, 4)),
+            payment_method: S.optional(__S(261, __c16, 5)),
+            runs_paused: S.optional(__S(262, __c16, 6)),
             state: S.String,
-            trial: S.optional(__S(23, __c1, 7)),
-            unavailable: S.optional(__S(24, __c1, 8)),
+            trial: S.optional(__S(263, __c16, 7)),
+            unavailable: S.optional(__S(264, __c16, 8)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "BillingStatus" });
   }
 }
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          org_id: S.String.pipe(T.Label()),
-          checkoutSessionId: S.String,
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/v1/orgs/{org_id}/billing/complete", code: 200 }),
-        ),
-      ).annotate({ identifier: "CompleteOrgBillingSignupRequest" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          org_id: S.String.pipe(T.Label()),
-          purchase_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/orgs/{org_id}/billing/purchases/{purchase_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetOrgBillingPurchaseRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          org_id: S.String.pipe(T.Label()),
-          period: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/orgs/{org_id}/billing/spend", code: 200 })),
-      ).annotate({ identifier: "GetOrgBillingSpendRequest" });
-  }
-}
-function __c6(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           cursor: S.optional(S.String.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
-          refresh: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/me/billing/charges", code: 200 })),
       ).annotate({ identifier: "ListAccountBillingChargesRequest" });
   }
 }
-function __c7(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -964,22 +1455,26 @@ function __c7(j: number): any {
             amount_cents: S.Number,
             created_at: S.String,
             currency: S.String,
+            expires_at: S.optional(S.String),
+            has_invoice: S.Boolean,
             id: S.String,
-            invoice_url: S.optional(S.String),
             kind: S.String,
+            purchase_method: S.optional(S.String),
             status: S.String,
+            tax_cents: S.optional(S.Number),
+            total_cents: S.optional(S.Number),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "BillingCharge" });
     case 1:
-      return S.Array(__S(112, __c7, 0));
+      return S.Array(__S(304, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            charges: __S(113, __c7, 1),
+            charges: __S(305, __c19, 1),
             next_cursor: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -987,7 +1482,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "BillingChargesBody" });
   }
 }
-function __c8(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -995,12 +1490,11 @@ function __c8(j: number): any {
           org_id: S.String.pipe(T.Label()),
           cursor: S.optional(S.String.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
-          refresh: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/orgs/{org_id}/billing/charges", code: 200 })),
       ).annotate({ identifier: "ListOrgBillingChargesRequest" });
   }
 }
-function __c9(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1011,31 +1505,32 @@ function __c9(j: number): any {
       ).annotate({ identifier: "SetupAccountBillingRequest" });
   }
 }
-function __c10(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            automatic_top_up: S.optional(__S(16, __c1, 0)),
-            balance: S.optional(__S(18, __c1, 2)),
-            card: S.optional(__S(19, __c1, 3)),
+            active_purchase_id: S.optional(S.String),
+            automatic_top_up: S.optional(__S(256, __c16, 0)),
+            balance: S.optional(__S(258, __c16, 2)),
+            card: S.optional(__S(259, __c16, 3)),
             checkout_url: S.optional(S.String),
             currency: S.optional(S.String),
-            overage: S.optional(__S(20, __c1, 4)),
-            payment_method: S.optional(__S(21, __c1, 5)),
-            runs_paused: S.optional(__S(22, __c1, 6)),
+            overage: S.optional(__S(260, __c16, 4)),
+            payment_method: S.optional(__S(261, __c16, 5)),
+            runs_paused: S.optional(__S(262, __c16, 6)),
             state: S.String,
-            trial: S.optional(__S(23, __c1, 7)),
-            unavailable: S.optional(__S(24, __c1, 8)),
+            trial: S.optional(__S(263, __c16, 7)),
+            unavailable: S.optional(__S(264, __c16, 8)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "BillingSetup" });
   }
 }
-function __c11(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1047,17 +1542,17 @@ function __c11(j: number): any {
       ).annotate({ identifier: "SetupOrgBillingRequest" });
   }
 }
-function __c12(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          automatic_top_up: S.optional(__S(208, __c13, 0)),
+          automatic_top_up: S.optional(__S(400, __c25, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/me/billing", code: 200 })),
       ).annotate({ identifier: "UpdateAccountBillingRequest" });
   }
 }
-function __c13(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1072,18 +1567,100 @@ function __c13(j: number): any {
       ).annotate({ identifier: "BillingAutomaticTopUpPatch" });
   }
 }
-function __c14(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           org_id: S.String.pipe(T.Label()),
-          automatic_top_up: S.optional(__S(208, __c13, 0)),
+          automatic_top_up: S.optional(__S(400, __c25, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/orgs/{org_id}/billing", code: 200 })),
       ).annotate({ identifier: "UpdateOrgBillingRequest" });
   }
 }
-function __c15(j: number): any {
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org_id: S.String.pipe(T.Label()),
+          checkoutSessionId: S.String,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/v1/orgs/{org_id}/billing/complete", code: 200 }),
+        ),
+      ).annotate({ identifier: "CompleteOrgBillingSignupRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
+          amount_cents: S.Number,
+          cancel_url: S.String,
+          success_url: S.String,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/v1/me/billing/checkout-purchases", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateAccountBillingCheckoutPurchaseRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            amount_cents: S.Number,
+            charge_id: S.optional(S.String),
+            checkout_url: S.optional(S.String),
+            expires_at: S.optional(S.String),
+            failure_code: S.optional(S.String),
+            id: S.String,
+            invoice_url: S.optional(S.String),
+            paid_at: S.optional(S.String),
+            progress: S.optional(S.String),
+            purchase_method: S.optional(S.String),
+            retry_at: S.optional(S.String),
+            status: S.String,
+            tax_cents: S.optional(S.Number),
+            total_cents: S.optional(S.Number),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "BillingPurchase" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          code: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/me/billing/promo-redemptions", code: 200 })),
+      ).annotate({ identifier: "CreateAccountBillingPromoRedemptionRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            credit_cents: S.Number,
+            expires_at: S.String,
+            id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "BillingPromoRedemption" });
+  }
+}
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1094,24 +1671,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateAccountBillingPurchaseRequest" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            amount_cents: S.Number,
-            charge_id: S.optional(S.String),
-            id: S.String,
-            status: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BillingPurchase" });
-  }
-}
-function __c17(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1121,7 +1681,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateAccountBillingSettingsSessionRequest" });
   }
 }
-function __c18(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1135,163 +1695,42 @@ function __c18(j: number): any {
       ).annotate({ identifier: "BillingSettingsSession" });
   }
 }
-function __c19(j: number): any {
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org_id: S.String.pipe(T.Label()),
+          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
+          amount_cents: S.Number,
+          cancel_url: S.String,
+          success_url: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/orgs/{org_id}/billing/checkout-purchases",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateOrgBillingCheckoutPurchaseRequest" });
+  }
+}
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           org_id: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          amount_cents: S.Number,
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/v1/orgs/{org_id}/billing/purchases", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateOrgBillingPurchaseRequest" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          org_id: S.String.pipe(T.Label()),
-          return_url: S.String,
+          code: S.String,
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/v1/orgs/{org_id}/billing/settings-sessions",
+            uri: "/api/v1/orgs/{org_id}/billing/promo-redemptions",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreateOrgBillingSettingsSessionRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          refresh: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/me/billing", code: 200 })),
-      ).annotate({ identifier: "GetAccountBillingRequest" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          purchase_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/me/billing/purchases/{purchase_id}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetAccountBillingPurchaseRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          period: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/me/billing/spend", code: 200 })),
-      ).annotate({ identifier: "GetAccountBillingSpendRequest" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            earliest: S.String,
-            latest: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BillingSpendPeriods" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            amount_cents: S.Number,
-            name: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BillingSpendOther" });
-    case 2:
-      return S.Array(__S(385, __c24, 1));
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            key: S.String,
-            kind: S.String,
-            total_cents: S.Number,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BillingSpendRunner" });
-    case 4:
-      return S.Array(__S(387, __c24, 3));
-    case 5:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            deleted: S.Boolean,
-            id: S.String,
-            name: S.optional(S.String),
-            runners: __S(388, __c24, 4),
-            total_cents: S.Number,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BillingSpendRepo" });
-    case 6:
-      return S.Array(__S(389, __c24, 5));
-    case 7:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            deleted: S.Boolean,
-            id: S.String,
-            name: S.optional(S.String),
-            repos: __S(390, __c24, 6),
-            total_cents: S.Number,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BillingSpendProject" });
-    case 8:
-      return S.Array(__S(391, __c24, 7));
-    case 9:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            available_periods: __S(384, __c24, 0),
-            currency: S.String,
-            final: S.Boolean,
-            other_usage: __S(386, __c24, 2),
-            period: S.String,
-            projects: __S(392, __c24, 8),
-            total_cents: S.Number,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BillingSpend" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          org_id: S.String.pipe(T.Label()),
-          refresh: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/orgs/{org_id}/billing", code: 200 })),
-      ).annotate({ identifier: "GetOrgBillingRequest" });
+      ).annotate({ identifier: "CreateOrgBillingPromoRedemptionRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

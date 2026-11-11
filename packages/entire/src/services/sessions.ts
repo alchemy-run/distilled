@@ -31,7 +31,7 @@ export interface GetSessionRequest {
 }
 export interface SessionListItem {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   agent: string | null;
   attributionAgentLines: number | null;
   attributionCalculatedAt: string | null;
@@ -44,7 +44,7 @@ export interface SessionListItem {
   checkpointCount: number;
   customName: string | null;
   displayName: string;
-  firstCommitAuthorAvatarUrl?: string;
+  firstCommitAuthorAvatarUrl?: string | undefined;
   firstCommitAuthorUsername: string | null;
   inputTokens: number | null;
   isPublic: boolean;
@@ -57,6 +57,43 @@ export interface SessionListItem {
   startedAt: string;
   stepCount: number;
   subagentCount: number;
+}
+export interface GetSessionMetaRequest {
+  repo_id: string;
+  session_id: string;
+}
+export interface SessionMetaRepo {
+  default_branch: string;
+  full_name: string;
+  is_private: boolean;
+  name: string;
+  owner: string;
+  public_sharing_enabled: boolean;
+  share_toggle_applicable: boolean;
+}
+export interface SessionMetaFields {
+  agent: string;
+  checkpoint_count: number;
+  created_at?: string | undefined;
+  custom_name?: string | undefined;
+  display_name: string;
+  is_public: boolean;
+  model?: string | undefined;
+  prompt?: string | undefined;
+  share_id?: string | undefined;
+  steps: number;
+}
+export interface SessionMetaViewer {
+  can_edit: boolean;
+  can_see_checkpoint_data: boolean;
+}
+export interface SessionMetaOutputBody {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  repo: SessionMetaRepo;
+  session: SessionMetaFields;
+  session_id: string;
+  viewer: SessionMetaViewer;
 }
 export interface GetSessionSubagentTranscriptRequest {
   repo_id: string;
@@ -111,7 +148,13 @@ export interface SessionAttribution {
   humanRemoved: number;
   totalCommitted: number;
 }
+export interface TranscriptImageAsset {
+  checkpointId: string;
+  name: string;
+  session: number;
+}
 export interface TranscriptImage {
+  asset?: TranscriptImageAsset | undefined;
   data: string;
   mediaType: string;
 }
@@ -122,65 +165,67 @@ export interface TranscriptRuntimeTag {
 }
 export type TranscriptMessageRuntimeTagsList = Array<TranscriptRuntimeTag>;
 export interface TranscriptSkillSource {
-  agent?: string;
-  confidence?: string;
-  signal?: string;
+  agent?: string | undefined;
+  confidence?: string | undefined;
+  signal?: string | undefined;
 }
 export interface TranscriptSkillInvocation {
-  collapseTarget?: string;
-  defaultCollapsed?: boolean;
-  eventId?: string;
+  collapseTarget?: string | undefined;
+  defaultCollapsed?: boolean | undefined;
+  eventId?: string | undefined;
   eventType: string;
-  label?: string;
+  label?: string | undefined;
   skillName: string;
-  source?: TranscriptSkillSource;
+  source?: TranscriptSkillSource | undefined;
 }
 export type ToolCallCategoriesList = Array<string>;
 export type ToolCallInputMap = { [key: string]: unknown | undefined };
 export interface ToolCallMetadata {
-  mcpServer?: string;
+  mcpServer?: string | undefined;
 }
 export type ToolCallOperationsList = Array<ToolCall>;
 export type ToolCallResultAnswersMap = { [key: string]: string | undefined };
 export interface ToolResultFile {
   filePath: string;
-  numLines?: number;
+  numLines?: number | undefined;
 }
+export type ToolCallResultImagesList = Array<TranscriptImage>;
 export interface ToolCallResult {
-  answers?: ToolCallResultAnswersMap;
-  error?: string;
-  file?: ToolResultFile;
-  matchCount?: number;
-  output?: string;
+  answers?: ToolCallResultAnswersMap | undefined;
+  error?: string | undefined;
+  file?: ToolResultFile | undefined;
+  images?: ToolCallResultImagesList | null | undefined;
+  matchCount?: number | undefined;
+  output?: string | undefined;
   type: string;
 }
 export interface ToolCall {
-  categories?: ToolCallCategoriesList | null;
+  categories?: ToolCallCategoriesList | null | undefined;
   id: string;
   input: ToolCallInputMap;
-  metadata?: ToolCallMetadata;
+  metadata?: ToolCallMetadata | undefined;
   name: string;
-  operations?: ToolCallOperationsList | null;
-  result?: ToolCallResult;
-  skillInvocation?: TranscriptSkillInvocation;
+  operations?: ToolCallOperationsList | null | undefined;
+  result?: ToolCallResult | undefined;
+  skillInvocation?: TranscriptSkillInvocation | undefined;
   timestamp: string;
 }
 export type TranscriptMessageToolCallsList = Array<ToolCall>;
 export interface TranscriptMessage {
   content: string;
   id: string;
-  images?: TranscriptMessageImagesList | null;
+  images?: TranscriptMessageImagesList | null | undefined;
   role: string;
-  runtimeTags?: TranscriptMessageRuntimeTagsList | null;
-  skillInvocation?: TranscriptSkillInvocation;
+  runtimeTags?: TranscriptMessageRuntimeTagsList | null | undefined;
+  skillInvocation?: TranscriptSkillInvocation | undefined;
   timestamp: string;
-  toolCalls?: TranscriptMessageToolCallsList | null;
+  toolCalls?: TranscriptMessageToolCallsList | null | undefined;
 }
 export type SessionTranscriptMessagesList = Array<TranscriptMessage>;
 export interface SkillCollapse {
-  defaultCollapsed?: boolean;
-  label?: string;
-  target?: string;
+  defaultCollapsed?: boolean | undefined;
+  label?: string | undefined;
+  target?: string | undefined;
 }
 export type SkillEventNativeMap = { [key: string]: string | undefined };
 export interface SkillEventSkill {
@@ -188,22 +233,22 @@ export interface SkillEventSkill {
 }
 export type SkillTranscriptAnchorEntryIdsList = Array<string>;
 export interface SkillTranscriptAnchor {
-  end?: number;
-  entryIds?: SkillTranscriptAnchorEntryIdsList | null;
-  start?: number;
-  toolUseId?: string;
-  unit?: string;
+  end?: number | undefined;
+  entryIds?: SkillTranscriptAnchorEntryIdsList | null | undefined;
+  start?: number | undefined;
+  toolUseId?: string | undefined;
+  unit?: string | undefined;
 }
 export interface SkillEvent {
-  collapse?: SkillCollapse;
+  collapse?: SkillCollapse | undefined;
   eventType: string;
-  id?: string;
-  native?: SkillEventNativeMap;
+  id?: string | undefined;
+  native?: SkillEventNativeMap | undefined;
   skill: SkillEventSkill;
-  source?: TranscriptSkillSource;
-  timestamp?: string;
-  transcriptAnchor?: SkillTranscriptAnchor;
-  turnId?: string;
+  source?: TranscriptSkillSource | undefined;
+  timestamp?: string | undefined;
+  transcriptAnchor?: SkillTranscriptAnchor | undefined;
+  turnId?: string | undefined;
 }
 export type SessionTranscriptSkillEventsList = Array<SkillEvent>;
 export interface SessionTokenUsage {
@@ -212,19 +257,19 @@ export interface SessionTokenUsage {
 }
 export interface SessionTranscript {
   agent: string;
-  attribution?: SessionAttribution;
+  attribution?: SessionAttribution | undefined;
   checkpointTranscriptStart: number | null;
   messages: SessionTranscriptMessagesList | null;
-  parsingFallback?: boolean;
-  parsingWarning?: string;
+  parsingFallback?: boolean | undefined;
+  parsingWarning?: string | undefined;
   sessionId: string;
-  skillEvents?: SessionTranscriptSkillEventsList | null;
-  tokenUsage?: SessionTokenUsage;
+  skillEvents?: SessionTranscriptSkillEventsList | null | undefined;
+  tokenUsage?: SessionTokenUsage | undefined;
   transcriptIdentifierAtStart: string | null;
 }
 export interface SessionSubagentTranscriptOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   handback: SessionSubagentTranscriptOutputBodyHandback;
   /** true when Codex handback resolution is incomplete: parent capture unreadable or clipped, or child identity could not be joined; may be true even when handback is null */
   handbackIncomplete: boolean;
@@ -241,7 +286,7 @@ export interface GetSessionTranscriptRequest {
 }
 export interface SessionEnvelopeCheckpoint {
   additions: number;
-  authorUsername?: string;
+  authorUsername?: string | undefined;
   checkpointId: string;
   commitSha: string;
   deletions: number;
@@ -262,13 +307,13 @@ export interface SessionRepoMeta {
 export interface SessionMeta {
   agent: string;
   checkpointCount: number;
-  createdAt?: string;
-  customName?: string;
+  createdAt?: string | undefined;
+  customName?: string | undefined;
   displayName: string;
   isPublic: boolean;
-  model?: string;
-  prompt?: string;
-  shareId?: string;
+  model?: string | undefined;
+  prompt?: string | undefined;
+  shareId?: string | undefined;
   steps: number;
 }
 export type SessionTranscriptOutputBodySessionsList = Array<SessionTranscript>;
@@ -278,7 +323,7 @@ export interface SessionViewer {
 }
 export interface SessionTranscriptOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   checkpoints: SessionTranscriptOutputBodyCheckpointsList | null;
   from_cache: boolean;
   repo: SessionRepoMeta;
@@ -294,6 +339,9 @@ export interface GetSessionTranscriptRawRequest {
   session_id: string;
 }
 export interface GetSessionTranscriptRawResponse {}
+export interface GetSharedSessionMetaRequest {
+  share_id: string;
+}
 export interface GetSharedSessionSubagentTranscriptRequest {
   share_id: string;
   subagent_id: string;
@@ -318,38 +366,38 @@ export type ListSessionsRequestModelNotList = Array<string>;
 export interface ListSessionsRequest {
   repo_id: string;
   /** Set to all to include every historically linked repo session; omit for branch/default-branch or base/head reachability */
-  scope?: ListSessionsRequestScope | (string & {});
+  scope?: ListSessionsRequestScope | (string & {}) | undefined;
   /** Branch to filter to; empty = the repo's default branch */
-  branch?: string;
+  branch?: string | undefined;
   /** Base branch or commit SHA to exclude; must be supplied with head and without branch */
-  base?: string;
+  base?: string | undefined;
   /** Head branch or commit SHA to include; must be supplied with base and without branch */
-  head?: string;
-  cursor?: string;
+  head?: string | undefined;
+  cursor?: string | undefined;
   /** Page size, clamped to 1..200 */
-  limit?: number;
+  limit?: number | undefined;
   /** RFC 3339 lower bound on last_activity_at, inclusive (optional; unbounded by default) */
-  since?: string;
+  since?: string | undefined;
   /** RFC 3339 upper bound on last_activity_at, exclusive (optional; unbounded by default -- in practice capped 100 years out, an unreachable bound for any real session) */
-  until?: string;
+  until?: string | undefined;
   /** Include complete scoped author, agent, and model filter choices on the first page; ignored with cursor */
-  includeFacets?: boolean;
+  includeFacets?: boolean | undefined;
   /** Match any author facet key (repeatable or comma-separated) */
-  authorFacet?: ListSessionsRequestAuthorFacetList;
+  authorFacet?: ListSessionsRequestAuthorFacetList | undefined;
   /** Exclude author facet keys (repeatable or comma-separated) */
-  authorFacetNot?: ListSessionsRequestAuthorFacetNotList;
+  authorFacetNot?: ListSessionsRequestAuthorFacetNotList | undefined;
   /** Match any agent (repeatable or comma-separated) */
-  agent?: ListSessionsRequestAgentList;
+  agent?: ListSessionsRequestAgentList | undefined;
   /** Exclude agents (repeatable or comma-separated) */
-  agentNot?: ListSessionsRequestAgentNotList;
+  agentNot?: ListSessionsRequestAgentNotList | undefined;
   /** Match any model (repeatable or comma-separated) */
-  model?: ListSessionsRequestModelList;
+  model?: ListSessionsRequestModelList | undefined;
   /** Exclude models (repeatable or comma-separated) */
-  modelNot?: ListSessionsRequestModelNotList;
+  modelNot?: ListSessionsRequestModelNotList | undefined;
   /** Match Review sessions when true, or non-Review sessions when false */
-  isReview?: boolean;
+  isReview?: boolean | undefined;
   /** Case-insensitive literal substring over effective name, prompt, and agent */
-  search?: string;
+  search?: string | undefined;
 }
 export type SessionListFacetsAgentsList = Array<string>;
 export interface SessionFacetOption {
@@ -366,9 +414,9 @@ export interface SessionListFacets {
 export type RepoSessionsOutputBodySessionsList = Array<SessionListItem>;
 export interface RepoSessionsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   app_has_access: boolean;
-  facets?: SessionListFacets;
+  facets?: SessionListFacets | undefined;
   history_complete: boolean;
   history_status: string;
   next_cursor: string | null;
@@ -381,14 +429,14 @@ export interface ListSessionSubagentsRequest {
   repo_id: string;
   session_id: string;
   /** Maximum children to return (default 50, maximum 200) */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type SessionSubagentsOutputBodySubagentsList = Array<SubagentSummaryItem>;
 export interface SessionSubagentsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   nextCursor: string | null;
   sessionId: string;
   subagents: SessionSubagentsOutputBodySubagentsList | null;
@@ -396,9 +444,9 @@ export interface SessionSubagentsOutputBody {
 export interface ListSharedSessionSubagentsRequest {
   share_id: string;
   /** Maximum children to return (default 50, maximum 200) */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface RenameSessionRequest {
   repo_id: string;
@@ -408,7 +456,7 @@ export interface RenameSessionRequest {
 }
 export interface SessionRenameOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   displayName: string;
 }
 export type ResolveSessionNamesRequestIncludeItem = "rows";
@@ -422,7 +470,7 @@ export interface ResolveSessionNamesRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
   /** Extra data to include; "rows" adds full session list items */
-  include?: ResolveSessionNamesRequestIncludeList | null;
+  include?: ResolveSessionNamesRequestIncludeList | null | undefined;
   /** Session ids to resolve */
   sessionIds: ResolveSessionNamesRequestSessionIdsList | null;
 }
@@ -430,10 +478,10 @@ export type SessionNamesResolveResultNamesMap = { [key: string]: string | undefi
 export type SessionNamesResolveResultSessionsMap = { [key: string]: SessionListItem | undefined };
 export interface SessionNamesResolveResult {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  codeRepoFullName?: string;
+  _schema?: string | undefined;
+  codeRepoFullName?: string | undefined;
   names: SessionNamesResolveResultNamesMap;
-  sessions?: SessionNamesResolveResultSessionsMap;
+  sessions?: SessionNamesResolveResultSessionsMap | undefined;
 }
 export type ResolveSessionNamesBatchRequestIncludeItem = "rows";
 /** Extra data to include; "rows" adds full session list items */
@@ -452,7 +500,7 @@ export interface SessionNamesBatchRepoRefs {
 export type ResolveSessionNamesBatchRequestReposList = Array<SessionNamesBatchRepoRefs>;
 export interface ResolveSessionNamesBatchRequest {
   /** Extra data to include; "rows" adds full session list items */
-  include?: ResolveSessionNamesBatchRequestIncludeList | null;
+  include?: ResolveSessionNamesBatchRequestIncludeList | null | undefined;
   /** Repo groups to resolve; the total session ids across groups is capped at 500 */
   repos: ResolveSessionNamesBatchRequestReposList | null;
 }
@@ -461,7 +509,7 @@ export type SessionNamesBatchResolveOutputBodyReposMap = {
 };
 export interface SessionNamesBatchResolveOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   repos: SessionNamesBatchResolveOutputBodyReposMap;
 }
 export interface ShareSessionRequest {
@@ -470,17 +518,17 @@ export interface ShareSessionRequest {
 }
 export interface SessionShareOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   isPublic: boolean;
-  shareId?: string;
-  sharePath?: string;
+  shareId?: string | undefined;
+  sharePath?: string | undefined;
 }
 export interface UnshareSessionRequest {
   repo_id: string;
   session_id: string;
 }
 export type GetSessionError = EntireOpError;
-/** A single session */
+/** A single session **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Also requires pull on a separate checkpoint-storage repository when configured; denial on that repository returns 404. Separate anonymous exception: with no bearer, X-Anon-Repo can authorize public-repository reads when anonymous signing is configured; a separate checkpoint-storage repository must also be public. This exception is outside the user/plugin credential labels. */
 export const getSession: API.OperationMethod<
   GetSessionRequest,
   SessionListItem,
@@ -496,6 +544,23 @@ export const getSession: API.OperationMethod<
   span: "GetSession",
 }));
 
+export type GetSessionMetaError = EntireOpError;
+/** A session's title and access, without its transcript A session's title and sharing state, with the same access as its transcript but without loading it. A caller who can read the repository's checkpoints gets it live; anyone else gets it only while the session is shared. */
+export const getSessionMeta: API.OperationMethod<
+  GetSessionMetaRequest,
+  SessionMetaOutputBody,
+  GetSessionMetaError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c2, 0) as any as S.Schema<GetSessionMetaRequest>,
+  output: __S(99, __c3, 3) as any as S.Schema<SessionMetaOutputBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionMeta",
+}));
+
 export type GetSessionSubagentTranscriptError = EntireOpError;
 /** A subagent session transcript */
 export const getSessionSubagentTranscript: API.OperationMethod<
@@ -504,8 +569,8 @@ export const getSessionSubagentTranscript: API.OperationMethod<
   GetSessionSubagentTranscriptError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<GetSessionSubagentTranscriptRequest>,
-  output: __S(195, __c6, 3) as any as S.Schema<SessionSubagentTranscriptOutputBody>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetSessionSubagentTranscriptRequest>,
+  output: __S(515, __c16, 3) as any as S.Schema<SessionSubagentTranscriptOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -514,15 +579,15 @@ export const getSessionSubagentTranscript: API.OperationMethod<
 }));
 
 export type GetSessionTranscriptError = EntireOpError;
-/** A session's full transcript as a message tree A session's full transcript, merged across all of its checkpoints. When the session has been shared, it is served from that public snapshot, so it stays readable after sharing. */
+/** A session's full transcript as a message tree **Accepted credentials:** User token, Plugin installation token. A session's full transcript, merged across all of its checkpoints. When the session has been shared, it is served from that public snapshot, so it stays readable after sharing. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Live reads require pull on the repository storing the checkpoint payload (contents:read for plugin installations). Other authorized automation principals are accepted. Separate public/share exceptions: with no bearer, X-Anon-Repo supports public-repository reads when anonymous signing is configured; the storage repository must be readable for live content. A caller without storage-repository access, including a tokenless caller without X-Anon-Repo, may instead read an existing visible share snapshot, even for a private repository. Missing or disabled shares return 404; access-check failures do not fall back to snapshots. These exceptions are outside the user/plugin credential labels. */
 export const getSessionTranscript: API.OperationMethod<
   GetSessionTranscriptRequest,
   SessionTranscriptOutputBody,
   GetSessionTranscriptError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetSessionTranscriptRequest>,
-  output: __S(486, __c15, 6) as any as S.Schema<SessionTranscriptOutputBody>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetSessionTranscriptRequest>,
+  output: __S(614, __c19, 6) as any as S.Schema<SessionTranscriptOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -538,13 +603,30 @@ export const getSessionTranscriptRaw: API.OperationMethod<
   GetSessionTranscriptRawError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetSessionTranscriptRawRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<GetSessionTranscriptRawResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetSessionTranscriptRawRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<GetSessionTranscriptRawResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSessionTranscriptRaw",
+}));
+
+export type GetSharedSessionMetaError = EntireOpError;
+/** A shared session's title, by share link, without its transcript A publicly shared session's title and sharing state, opened from its share link with no sign-in and without loading the transcript. It stops working exactly when the share link does. */
+export const getSharedSessionMeta: API.OperationMethod<
+  GetSharedSessionMetaRequest,
+  SessionMetaOutputBody,
+  GetSharedSessionMetaError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(672, __c21, 0) as any as S.Schema<GetSharedSessionMetaRequest>,
+  output: __S(99, __c3, 3) as any as S.Schema<SessionMetaOutputBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSharedSessionMeta",
 }));
 
 export type GetSharedSessionSubagentTranscriptError = EntireOpError;
@@ -555,8 +637,8 @@ export const getSharedSessionSubagentTranscript: API.OperationMethod<
   GetSharedSessionSubagentTranscriptError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetSharedSessionSubagentTranscriptRequest>,
-  output: __S(195, __c6, 3) as any as S.Schema<SessionSubagentTranscriptOutputBody>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetSharedSessionSubagentTranscriptRequest>,
+  output: __S(515, __c16, 3) as any as S.Schema<SessionSubagentTranscriptOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -572,8 +654,8 @@ export const getSharedSessionTranscript: API.OperationMethod<
   GetSharedSessionTranscriptError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetSharedSessionTranscriptRequest>,
-  output: __S(486, __c15, 6) as any as S.Schema<SessionTranscriptOutputBody>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetSharedSessionTranscriptRequest>,
+  output: __S(614, __c19, 6) as any as S.Schema<SessionTranscriptOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -582,7 +664,7 @@ export const getSharedSessionTranscript: API.OperationMethod<
 }));
 
 export type ListSessionsError = EntireOpError;
-/** Sessions in a repository */
+/** Sessions in a repository **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Also requires pull on a separate checkpoint-storage repository when configured; denial on that repository returns 404. Separate anonymous exception: with no bearer, X-Anon-Repo can authorize public-repository reads when anonymous signing is configured; a separate checkpoint-storage repository must also be public. This exception is outside the user/plugin credential labels. */
 export const listSessions: API.PaginatedOperationMethod<
   ListSessionsRequest,
   RepoSessionsOutputBody,
@@ -591,8 +673,8 @@ export const listSessions: API.PaginatedOperationMethod<
   SessionListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(608, __c19, 0) as any as S.Schema<ListSessionsRequest>,
-    output: __S(613, __c19, 5) as any as S.Schema<RepoSessionsOutputBody>,
+    input: __S(768, __c24, 0) as any as S.Schema<ListSessionsRequest>,
+    output: __S(773, __c24, 5) as any as S.Schema<RepoSessionsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -618,8 +700,8 @@ export const listSessionSubagents: API.PaginatedOperationMethod<
   SubagentSummaryItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(640, __c20, 0) as any as S.Schema<ListSessionSubagentsRequest>,
-    output: __S(673, __c21, 1) as any as S.Schema<SessionSubagentsOutputBody>,
+    input: __S(800, __c25, 0) as any as S.Schema<ListSessionSubagentsRequest>,
+    output: __S(833, __c26, 1) as any as S.Schema<SessionSubagentsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -645,8 +727,8 @@ export const listSharedSessionSubagents: API.PaginatedOperationMethod<
   SubagentSummaryItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(704, __c22, 0) as any as S.Schema<ListSharedSessionSubagentsRequest>,
-    output: __S(673, __c21, 1) as any as S.Schema<SessionSubagentsOutputBody>,
+    input: __S(128, __c4, 0) as any as S.Schema<ListSharedSessionSubagentsRequest>,
+    output: __S(833, __c26, 1) as any as S.Schema<SessionSubagentsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -670,8 +752,8 @@ export const renameSession: API.OperationMethod<
   RenameSessionError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<RenameSessionRequest>,
-  output: __S(737, __c23, 1) as any as S.Schema<SessionRenameOutputBody>,
+  input: __S(160, __c5, 0) as any as S.Schema<RenameSessionRequest>,
+  output: __S(161, __c5, 1) as any as S.Schema<SessionRenameOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -687,8 +769,8 @@ export const resolveSessionNames: API.OperationMethod<
   ResolveSessionNamesError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<ResolveSessionNamesRequest>,
-  output: __S(290, __c9, 2) as any as S.Schema<SessionNamesResolveResult>,
+  input: __S(192, __c6, 0) as any as S.Schema<ResolveSessionNamesRequest>,
+  output: __S(226, __c7, 2) as any as S.Schema<SessionNamesResolveResult>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -704,8 +786,8 @@ export const resolveSessionNamesBatch: API.OperationMethod<
   ResolveSessionNamesBatchError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(322, __c10, 2) as any as S.Schema<ResolveSessionNamesBatchRequest>,
-  output: __S(324, __c10, 4) as any as S.Schema<SessionNamesBatchResolveOutputBody>,
+  input: __S(258, __c8, 2) as any as S.Schema<ResolveSessionNamesBatchRequest>,
+  output: __S(260, __c8, 4) as any as S.Schema<SessionNamesBatchResolveOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -721,8 +803,8 @@ export const shareSession: API.OperationMethod<
   ShareSessionError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<ShareSessionRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<SessionShareOutputBody>,
+  input: __S(288, __c9, 0) as any as S.Schema<ShareSessionRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<SessionShareOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -738,8 +820,8 @@ export const unshareSession: API.OperationMethod<
   UnshareSessionError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<UnshareSessionRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<SessionShareOutputBody>,
+  input: __S(352, __c11, 0) as any as S.Schema<UnshareSessionRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<SessionShareOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -807,6 +889,219 @@ function __c2(j: number): any {
         S.Struct({
           repo_id: S.String.pipe(T.Label()),
           session_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/sessions/{session_id}/meta",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetSessionMetaRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          default_branch: S.String,
+          full_name: S.String,
+          is_private: S.Boolean,
+          name: S.String,
+          owner: S.String,
+          public_sharing_enabled: S.Boolean,
+          share_toggle_applicable: S.Boolean,
+        }),
+      ).annotate({ identifier: "SessionMetaRepo" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          agent: S.String,
+          checkpoint_count: S.Number,
+          created_at: S.optional(S.String),
+          custom_name: S.optional(S.String),
+          display_name: S.String,
+          is_public: S.Boolean,
+          model: S.optional(S.String),
+          prompt: S.optional(S.String),
+          share_id: S.optional(S.String),
+          steps: S.Number,
+        }),
+      ).annotate({ identifier: "SessionMetaFields" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          can_edit: S.Boolean,
+          can_see_checkpoint_data: S.Boolean,
+        }),
+      ).annotate({ identifier: "SessionMetaViewer" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          repo: __S(96, __c3, 0),
+          session: __S(97, __c3, 1),
+          session_id: S.String,
+          viewer: __S(98, __c3, 2),
+        }),
+      ).annotate({ identifier: "SessionMetaOutputBody" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          share_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/sessions/{share_id}/subagents", code: 200 })),
+      ).annotate({ identifier: "ListSharedSessionSubagentsRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          session_id: S.String.pipe(T.Label()),
+          displayName: S.NullOr(S.String),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v1/repos/{repo_id}/session/{session_id}/display-name",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RenameSessionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          displayName: S.String,
+        }),
+      ).annotate({ identifier: "SessionRenameOutputBody" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          include: S.optional(S.NullOr(__S(224, __c7, 0))),
+          sessionIds: S.NullOr(__S(480, __c15, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/repos/{repo_id}/sessions:resolve-names",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ResolveSessionNamesRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.Record(S.String, __S(32, __c1, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          codeRepoFullName: S.optional(S.String),
+          names: __S(448, __c14, 0),
+          sessions: S.optional(__S(225, __c7, 1)),
+        }),
+      ).annotate({ identifier: "SessionNamesResolveResult" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repoId: S.String,
+          sessionIds: S.NullOr(__S(480, __c15, 0)),
+        }),
+      ).annotate({ identifier: "SessionNamesBatchRepoRefs" });
+    case 1:
+      return S.Array(__S(256, __c8, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          include: S.optional(S.NullOr(__S(224, __c7, 0))),
+          repos: S.NullOr(__S(257, __c8, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/sessions:resolve-names", code: 200 })),
+      ).annotate({ identifier: "ResolveSessionNamesBatchRequest" });
+    case 3:
+      return S.Record(S.String, __S(226, __c7, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          repos: __S(259, __c8, 3),
+        }),
+      ).annotate({ identifier: "SessionNamesBatchResolveOutputBody" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          session_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/repos/{repo_id}/sessions/{session_id}/share",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ShareSessionRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          isPublic: S.Boolean,
+          shareId: S.optional(S.String),
+          sharePath: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SessionShareOutputBody" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          session_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v1/repos/{repo_id}/sessions/{session_id}/share",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UnshareSessionRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          session_id: S.String.pipe(T.Label()),
           subagent_id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -818,7 +1113,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetSessionSubagentTranscriptRequest" });
   }
 }
-function __c3(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -835,22 +1130,31 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          checkpointId: S.String,
+          name: S.String,
+          session: S.Number,
+        }),
+      ).annotate({ identifier: "TranscriptImageAsset" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          asset: S.optional(__S(417, __c13, 1)),
           data: S.String,
           mediaType: S.String,
         }),
       ).annotate({ identifier: "TranscriptImage" });
-    case 2:
-      return S.Array(__S(97, __c3, 1));
     case 3:
+      return S.Array(__S(418, __c13, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           content: S.String,
           tag: S.String,
         }),
       ).annotate({ identifier: "TranscriptRuntimeTag" });
-    case 4:
-      return S.Array(__S(99, __c3, 3));
     case 5:
+      return S.Array(__S(420, __c13, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           agent: S.optional(S.String),
@@ -858,7 +1162,7 @@ function __c3(j: number): any {
           signal: S.optional(S.String),
         }),
       ).annotate({ identifier: "TranscriptSkillSource" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           collapseTarget: S.optional(S.String),
@@ -867,69 +1171,70 @@ function __c3(j: number): any {
           eventType: S.String,
           label: S.optional(S.String),
           skillName: S.String,
-          source: S.optional(__S(101, __c3, 5)),
+          source: S.optional(__S(422, __c13, 6)),
         }),
       ).annotate({ identifier: "TranscriptSkillInvocation" });
-    case 7:
-      return S.Record(S.String, S.Unknown);
     case 8:
+      return S.Record(S.String, S.Unknown);
+    case 9:
       return S.suspend(() =>
         S.Struct({
           mcpServer: S.optional(S.String),
         }),
       ).annotate({ identifier: "ToolCallMetadata" });
-    case 9:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(108, __c3, 12)));
     case 10:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(429, __c13, 13)));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           filePath: S.String,
           numLines: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ToolResultFile" });
-    case 11:
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          answers: S.optional(__S(128, __c4, 0)),
+          answers: S.optional(__S(448, __c14, 0)),
           error: S.optional(S.String),
-          file: S.optional(__S(106, __c3, 10)),
+          file: S.optional(__S(427, __c13, 11)),
+          images: S.optional(S.NullOr(__S(419, __c13, 3))),
           matchCount: S.optional(S.Number),
           output: S.optional(S.String),
           type: S.String,
         }),
       ).annotate({ identifier: "ToolCallResult" });
-    case 12:
+    case 13:
       return S.suspend(() =>
         S.Struct({
-          categories: S.optional(S.NullOr(__S(160, __c5, 0))),
+          categories: S.optional(S.NullOr(__S(480, __c15, 0))),
           id: S.String,
-          input: __S(103, __c3, 7),
-          metadata: S.optional(__S(104, __c3, 8)),
+          input: __S(424, __c13, 8),
+          metadata: S.optional(__S(425, __c13, 9)),
           name: S.String,
-          operations: S.optional(S.NullOr(__S(105, __c3, 9))),
-          result: S.optional(__S(107, __c3, 11)),
-          skillInvocation: S.optional(__S(102, __c3, 6)),
+          operations: S.optional(S.NullOr(__S(426, __c13, 10))),
+          result: S.optional(__S(428, __c13, 12)),
+          skillInvocation: S.optional(__S(423, __c13, 7)),
           timestamp: S.String,
         }),
       ).annotate({ identifier: "ToolCall" });
-    case 13:
-      return S.Array(__S(108, __c3, 12));
     case 14:
+      return S.Array(__S(429, __c13, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           content: S.String,
           id: S.String,
-          images: S.optional(S.NullOr(__S(98, __c3, 2))),
+          images: S.optional(S.NullOr(__S(419, __c13, 3))),
           role: S.String,
-          runtimeTags: S.optional(S.NullOr(__S(100, __c3, 4))),
-          skillInvocation: S.optional(__S(102, __c3, 6)),
+          runtimeTags: S.optional(S.NullOr(__S(421, __c13, 5))),
+          skillInvocation: S.optional(__S(423, __c13, 7)),
           timestamp: S.String,
-          toolCalls: S.optional(S.NullOr(__S(109, __c3, 13))),
+          toolCalls: S.optional(S.NullOr(__S(430, __c13, 14))),
         }),
       ).annotate({ identifier: "TranscriptMessage" });
-    case 15:
-      return S.Array(__S(110, __c3, 14));
     case 16:
+      return S.Array(__S(431, __c13, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           defaultCollapsed: S.optional(S.Boolean),
@@ -937,75 +1242,75 @@ function __c3(j: number): any {
           target: S.optional(S.String),
         }),
       ).annotate({ identifier: "SkillCollapse" });
-    case 17:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
         }),
       ).annotate({ identifier: "SkillEventSkill" });
-    case 18:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           end: S.optional(S.Number),
-          entryIds: S.optional(S.NullOr(__S(160, __c5, 0))),
+          entryIds: S.optional(S.NullOr(__S(480, __c15, 0))),
           start: S.optional(S.Number),
           toolUseId: S.optional(S.String),
           unit: S.optional(S.String),
         }),
       ).annotate({ identifier: "SkillTranscriptAnchor" });
-    case 19:
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          collapse: S.optional(__S(112, __c3, 16)),
+          collapse: S.optional(__S(433, __c13, 17)),
           eventType: S.String,
           id: S.optional(S.String),
-          native: S.optional(__S(128, __c4, 0)),
-          skill: __S(113, __c3, 17),
-          source: S.optional(__S(101, __c3, 5)),
+          native: S.optional(__S(448, __c14, 0)),
+          skill: __S(434, __c13, 18),
+          source: S.optional(__S(422, __c13, 6)),
           timestamp: S.optional(S.String),
-          transcriptAnchor: S.optional(__S(114, __c3, 18)),
+          transcriptAnchor: S.optional(__S(435, __c13, 19)),
           turnId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SkillEvent" });
-    case 20:
-      return S.Array(__S(115, __c3, 19));
     case 21:
+      return S.Array(__S(436, __c13, 20));
+    case 22:
       return S.suspend(() =>
         S.Struct({
           inputTokens: S.Number,
           outputTokens: S.Number,
         }),
       ).annotate({ identifier: "SessionTokenUsage" });
-    case 22:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           agent: S.String,
-          attribution: S.optional(__S(96, __c3, 0)),
+          attribution: S.optional(__S(416, __c13, 0)),
           checkpointTranscriptStart: S.NullOr(S.Number),
-          messages: S.NullOr(__S(111, __c3, 15)),
+          messages: S.NullOr(__S(432, __c13, 16)),
           parsingFallback: S.optional(S.Boolean),
           parsingWarning: S.optional(S.String),
           sessionId: S.String,
-          skillEvents: S.optional(S.NullOr(__S(116, __c3, 20))),
-          tokenUsage: S.optional(__S(117, __c3, 21)),
+          skillEvents: S.optional(S.NullOr(__S(437, __c13, 21))),
+          tokenUsage: S.optional(__S(438, __c13, 22)),
           transcriptIdentifierAtStart: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "SessionTranscript" });
   }
 }
-function __c4(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c5(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c6(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1025,22 +1330,22 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "SubagentHandbackMessage" });
     case 2:
-      return S.Array(__S(193, __c6, 1));
+      return S.Array(__S(513, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          handback: __S(192, __c6, 0),
+          handback: __S(512, __c16, 0),
           handbackIncomplete: S.Boolean,
-          handbackMessages: S.NullOr(__S(194, __c6, 2)),
+          handbackMessages: S.NullOr(__S(514, __c16, 2)),
           model: S.NullOr(S.String),
-          summary: __S(224, __c7, 0),
-          transcript: __S(118, __c3, 22),
+          summary: __S(544, __c17, 0),
+          transcript: __S(439, __c13, 23),
         }),
       ).annotate({ identifier: "SessionSubagentTranscriptOutputBody" });
   }
 }
-function __c7(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1058,118 +1363,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "SubagentSummaryItem" });
   }
 }
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          include: S.optional(S.NullOr(__S(288, __c9, 0))),
-          sessionIds: S.NullOr(__S(160, __c5, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/repos/{repo_id}/sessions:resolve-names",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ResolveSessionNamesRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-    case 1:
-      return S.Record(S.String, __S(32, __c1, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          codeRepoFullName: S.optional(S.String),
-          names: __S(128, __c4, 0),
-          sessions: S.optional(__S(289, __c9, 1)),
-        }),
-      ).annotate({ identifier: "SessionNamesResolveResult" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repoId: S.String,
-          sessionIds: S.NullOr(__S(160, __c5, 0)),
-        }),
-      ).annotate({ identifier: "SessionNamesBatchRepoRefs" });
-    case 1:
-      return S.Array(__S(320, __c10, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          include: S.optional(S.NullOr(__S(288, __c9, 0))),
-          repos: S.NullOr(__S(321, __c10, 1)),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/sessions:resolve-names", code: 200 })),
-      ).annotate({ identifier: "ResolveSessionNamesBatchRequest" });
-    case 3:
-      return S.Record(S.String, __S(290, __c9, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          repos: __S(323, __c10, 3),
-        }),
-      ).annotate({ identifier: "SessionNamesBatchResolveOutputBody" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          session_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/repos/{repo_id}/sessions/{session_id}/share",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ShareSessionRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          isPublic: S.Boolean,
-          shareId: S.optional(S.String),
-          sharePath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SessionShareOutputBody" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          session_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/v1/repos/{repo_id}/sessions/{session_id}/share",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UnshareSessionRequest" });
-  }
-}
-function __c14(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1186,7 +1380,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetSessionTranscriptRequest" });
   }
 }
-function __c15(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1202,7 +1396,7 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "SessionEnvelopeCheckpoint" });
     case 1:
-      return S.Array(__S(480, __c15, 0));
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1231,7 +1425,7 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "SessionMeta" });
     case 4:
-      return S.Array(__S(118, __c3, 22));
+      return S.Array(__S(439, __c13, 23));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1243,20 +1437,20 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          checkpoints: S.NullOr(__S(481, __c15, 1)),
+          checkpoints: S.NullOr(__S(609, __c19, 1)),
           from_cache: S.Boolean,
-          repo: __S(482, __c15, 2),
-          session: __S(483, __c15, 3),
+          repo: __S(610, __c19, 2),
+          session: __S(611, __c19, 3),
           sessionId: S.String,
-          sessions: S.NullOr(__S(484, __c15, 4)),
+          sessions: S.NullOr(__S(612, __c19, 4)),
           status: S.String,
-          tokenUsage: __S(117, __c3, 21),
-          viewer: __S(485, __c15, 5),
+          tokenUsage: __S(438, __c13, 22),
+          viewer: __S(613, __c19, 5),
         }),
       ).annotate({ identifier: "SessionTranscriptOutputBody" });
   }
 }
-function __c16(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1277,7 +1471,17 @@ function __c16(j: number): any {
       });
   }
 }
-function __c17(j: number): any {
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          share_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/sessions/{share_id}/meta", code: 200 })),
+      ).annotate({ identifier: "GetSharedSessionMetaRequest" });
+  }
+}
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1294,7 +1498,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetSharedSessionSubagentTranscriptRequest" });
   }
 }
-function __c18(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1304,7 +1508,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetSharedSessionTranscriptRequest" });
   }
 }
-function __c19(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1319,12 +1523,12 @@ function __c19(j: number): any {
           since: S.optional(S.String.pipe(T.Query())),
           until: S.optional(S.String.pipe(T.Query())),
           includeFacets: S.optional(S.Boolean.pipe(T.Query())),
-          authorFacet: S.optional(__S(160, __c5, 0).pipe(T.Query())),
-          authorFacetNot: S.optional(__S(160, __c5, 0).pipe(T.Query())),
-          agent: S.optional(__S(160, __c5, 0).pipe(T.Query())),
-          agentNot: S.optional(__S(160, __c5, 0).pipe(T.Query())),
-          model: S.optional(__S(160, __c5, 0).pipe(T.Query())),
-          modelNot: S.optional(__S(160, __c5, 0).pipe(T.Query())),
+          authorFacet: S.optional(__S(480, __c15, 0).pipe(T.Query())),
+          authorFacetNot: S.optional(__S(480, __c15, 0).pipe(T.Query())),
+          agent: S.optional(__S(480, __c15, 0).pipe(T.Query())),
+          agentNot: S.optional(__S(480, __c15, 0).pipe(T.Query())),
+          model: S.optional(__S(480, __c15, 0).pipe(T.Query())),
+          modelNot: S.optional(__S(480, __c15, 0).pipe(T.Query())),
           isReview: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
           search: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/sessions", code: 200 })),
@@ -1337,13 +1541,13 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "SessionFacetOption" });
     case 2:
-      return S.Array(__S(609, __c19, 1));
+      return S.Array(__S(769, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          agents: S.NullOr(__S(160, __c5, 0)),
-          authors: S.NullOr(__S(610, __c19, 2)),
-          models: S.NullOr(__S(160, __c5, 0)),
+          agents: S.NullOr(__S(480, __c15, 0)),
+          authors: S.NullOr(__S(770, __c24, 2)),
+          models: S.NullOr(__S(480, __c15, 0)),
         }),
       ).annotate({ identifier: "SessionListFacets" });
     case 4:
@@ -1353,19 +1557,19 @@ function __c19(j: number): any {
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           app_has_access: S.Boolean,
-          facets: S.optional(__S(611, __c19, 3)),
+          facets: S.optional(__S(771, __c24, 3)),
           history_complete: S.Boolean,
           history_status: S.String,
           next_cursor: S.NullOr(S.String),
           repo_full_name: S.String,
           session_branch_exists: S.Boolean,
-          sessions: S.NullOr(__S(612, __c19, 4)),
+          sessions: S.NullOr(__S(772, __c24, 4)),
           source: S.String,
         }),
       ).annotate({ identifier: "RepoSessionsOutputBody" });
   }
 }
-function __c20(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1384,56 +1588,19 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ListSessionSubagentsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(224, __c7, 0));
+      return S.Array(__S(544, __c17, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           nextCursor: S.NullOr(S.String),
           sessionId: S.String,
-          subagents: S.NullOr(__S(672, __c21, 0)),
+          subagents: S.NullOr(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "SessionSubagentsOutputBody" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          share_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/sessions/{share_id}/subagents", code: 200 })),
-      ).annotate({ identifier: "ListSharedSessionSubagentsRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          session_id: S.String.pipe(T.Label()),
-          displayName: S.NullOr(S.String),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v1/repos/{repo_id}/session/{session_id}/display-name",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RenameSessionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          displayName: S.String,
-        }),
-      ).annotate({ identifier: "SessionRenameOutputBody" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

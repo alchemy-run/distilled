@@ -43,7 +43,7 @@ export interface BatchReposRequest {
   /** Repo ids to authorize and hydrate */
   ids: BatchReposRequestIdsList | null;
   /** Extra computed fields to include; supported: activity */
-  include?: BatchReposRequestIncludeList | null;
+  include?: BatchReposRequestIncludeList | null | undefined;
 }
 export type RepoListItemActivityList = Array<number>;
 export interface RepoCapabilities {
@@ -53,8 +53,8 @@ export interface RepoCapabilities {
 }
 export interface RepoListItem {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  activity?: RepoListItemActivityList | null;
+  _schema?: string | undefined;
+  activity?: RepoListItemActivityList | null | undefined;
   archived: boolean;
   auto_run_on_push: boolean;
   capabilities: RepoCapabilities;
@@ -73,7 +73,7 @@ export interface RepoListItem {
   permission: string;
   private: boolean;
   public_sharing_enabled: boolean;
-  repo_group_id?: string;
+  repo_group_id?: string | undefined;
   runners_enabled: boolean;
   stargazers_count: number;
   trails_enabled: boolean;
@@ -83,7 +83,7 @@ export interface RepoListItem {
 export type ReposListOutputBodyReposList = Array<RepoListItem>;
 export interface ReposListOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   from_db: boolean;
   repos: ReposListOutputBodyReposList | null;
   updated_at: string;
@@ -93,14 +93,14 @@ export type GetRepoActivityRequestGranularity = "day" | "week";
 export type GetRepoActivityRequestTimeframe = "last-month" | "last-3-months" | "last-6-months";
 export interface GetRepoActivityRequest {
   repo_id: string;
-  granularity?: GetRepoActivityRequestGranularity | (string & {});
+  granularity?: GetRepoActivityRequestGranularity | (string & {}) | undefined;
   /** Relative window */
-  timeframe?: GetRepoActivityRequestTimeframe | (string & {});
+  timeframe?: GetRepoActivityRequestTimeframe | (string & {}) | undefined;
   /** RFC 3339; overrides timeframe start */
-  since?: string;
+  since?: string | undefined;
   /** RFC 3339; overrides timeframe end */
-  until?: string;
-  limit?: number;
+  until?: string | undefined;
+  limit?: number | undefined;
 }
 export interface BucketItem {
   additions: number;
@@ -116,14 +116,14 @@ export type ActivityBucketsOutputBodyBucketsList = Array<BucketItem>;
 export type MetaPartialList = Array<string>;
 export interface Meta {
   /** Code for degraded behaviour */
-  degraded?: string;
+  degraded?: string | undefined;
   /** Codes for partial-result conditions: team_stats_foreign_region, unroutable_repos, unroutable_projects, unresolved_caller_login, change_readiness_unavailable */
-  partial?: MetaPartialList | null;
+  partial?: MetaPartialList | null | undefined;
   server_time: string;
 }
 export interface ActivityBucketsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   buckets: ActivityBucketsOutputBodyBucketsList | null;
   meta: Meta;
   timeframe: string;
@@ -138,12 +138,12 @@ export interface GetRepoSummaryRequest {
   /** Repo id: placement ULID, public repo_<group ULID>, or audience slug */
   repo_id: string;
   /** Relative window */
-  timeframe?: GetRepoSummaryRequestTimeframe | (string & {});
+  timeframe?: GetRepoSummaryRequestTimeframe | (string & {}) | undefined;
   /** RFC 3339; overrides timeframe start */
-  since?: string;
+  since?: string | undefined;
   /** RFC 3339; overrides timeframe end */
-  until?: string;
-  limit?: number;
+  until?: string | undefined;
+  limit?: number | undefined;
 }
 export interface SummaryBody {
   active_days: number;
@@ -155,16 +155,16 @@ export interface SummaryBody {
   contributors: number;
   deletions: number;
   files_changed: number;
-  first_activity?: string;
+  first_activity?: string | undefined;
   input_tokens: number;
-  last_activity?: string;
+  last_activity?: string | undefined;
   output_tokens: number;
   sessions: number;
   steps: number;
 }
 export interface RepoSummaryOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   meta: Meta;
   repo_id: string;
   summary: SummaryBody;
@@ -173,11 +173,11 @@ export interface RepoSummaryOutputBody {
 export interface ListCheckRunsRequest {
   repo_id: string;
   sha: string;
-  suite_key?: string;
+  suite_key?: string | undefined;
 }
 export interface CheckRunOutput {
-  summary?: string;
-  title?: string;
+  summary?: string | undefined;
+  title?: string | undefined;
 }
 export interface CurrentCheckRun {
   completed_at: string | null;
@@ -198,7 +198,7 @@ export interface CurrentCheckRun {
 export type CheckRunsResponseCheckRunsList = Array<CurrentCheckRun>;
 export interface CheckRunsResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   check_runs: CheckRunsResponseCheckRunsList | null;
 }
 export interface ListCheckSuitesRequest {
@@ -217,47 +217,47 @@ export interface CurrentCheckSuite {
 export type CheckSuitesResponseCheckSuitesList = Array<CurrentCheckSuite>;
 export interface CheckSuitesResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   check_suites: CheckSuitesResponseCheckSuitesList | null;
 }
 export interface ListRepoCollaboratorsRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
   /** Max collaborators per page */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Cursor from a previous page's nextPageToken */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface RepoCollaboratorItem {
   accountId: string;
   handle: string;
   role: string;
   /** Entire username; omitted until claimed */
-  username?: string;
+  username?: string | undefined;
 }
 export type RepoCollaboratorsBodyItemsList = Array<RepoCollaboratorItem>;
 export interface RepoCollaboratorsBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   items: RepoCollaboratorsBodyItemsList | null;
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListRepoContributorsRequestSort = "commits" | "checkpoints" | "tokens" | "lines";
 /** Relative window */
 export type ListRepoContributorsRequestTimeframe = "last-month" | "last-3-months" | "last-6-months";
 export interface ListRepoContributorsRequest {
   repo_id: string;
-  sort?: ListRepoContributorsRequestSort | (string & {});
+  sort?: ListRepoContributorsRequestSort | (string & {}) | undefined;
   /** Relative window */
-  timeframe?: ListRepoContributorsRequestTimeframe | (string & {});
+  timeframe?: ListRepoContributorsRequestTimeframe | (string & {}) | undefined;
   /** RFC 3339; overrides timeframe start */
-  since?: string;
+  since?: string | undefined;
   /** RFC 3339; overrides timeframe end */
-  until?: string;
-  limit?: number;
+  until?: string | undefined;
+  limit?: number | undefined;
 }
 export interface ContributorItem {
-  account_id?: string;
+  account_id?: string | undefined;
   active_days: number;
   additions: number;
   checkpoints: number;
@@ -266,43 +266,43 @@ export interface ContributorItem {
   files_changed: number;
   input_tokens: number;
   last_active: string;
-  name?: string;
+  name?: string | undefined;
   output_tokens: number;
   steps: number;
 }
 export type ContributorsOutputBodyContributorsList = Array<ContributorItem>;
 export interface ContributorsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   contributors: ContributorsOutputBodyContributorsList | null;
   meta: Meta;
   timeframe: string;
 }
 export interface CheckRunWrite {
-  completed_at?: string;
-  conclusion?: string;
-  deadline_at?: string;
-  details_url?: string;
+  completed_at?: string | undefined;
+  conclusion?: string | undefined;
+  deadline_at?: string | undefined;
+  details_url?: string | undefined;
   external_id: string;
   external_updated_at: string;
   key: string;
   name: string;
-  output?: CheckRunOutput;
-  started_at?: string;
+  output?: CheckRunOutput | undefined;
+  started_at?: string | undefined;
   status: string;
 }
 /** Up to 5000 runs. May be empty or omitted only when check_suite reports status and external_updated_at, with conclusion required for completed status. */
 export type WriteCheckRunsRequestCheckRunsList = Array<CheckRunWrite>;
 export interface CheckSuiteWrite {
-  completed_at?: string;
-  conclusion?: string;
-  details_url?: string;
+  completed_at?: string | undefined;
+  conclusion?: string | undefined;
+  details_url?: string | undefined;
   external_id: string;
-  external_updated_at?: string;
+  external_updated_at?: string | undefined;
   key: string;
   name: string;
-  started_at?: string;
-  status?: string;
+  started_at?: string | undefined;
+  status?: string | undefined;
 }
 export interface WriteCheckRunsRequest {
   repo_id: string;
@@ -310,7 +310,7 @@ export interface WriteCheckRunsRequest {
   /** Branch name without the refs/heads/ prefix. */
   branch: string;
   /** Up to 5000 runs. May be empty or omitted only when check_suite reports status and external_updated_at, with conclusion required for completed status. */
-  check_runs?: WriteCheckRunsRequestCheckRunsList | null;
+  check_runs?: WriteCheckRunsRequestCheckRunsList | null | undefined;
   check_suite: CheckSuiteWrite;
 }
 export interface CheckRunsWriteResultCheckSuiteStruct {
@@ -331,7 +331,7 @@ export interface CheckRunResult {
 export type CheckRunsWriteResultResultsList = Array<CheckRunResult>;
 export interface CheckRunsWriteResult {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   check_suite: CheckRunsWriteResultCheckSuiteStruct;
   results: CheckRunsWriteResultResultsList | null;
 }
@@ -404,7 +404,7 @@ export const getRepoSummary: API.OperationMethod<
 }));
 
 export type ListCheckRunsError = EntireOpError;
-/** List current check runs */
+/** List current check runs **Accepted credentials:** Plugin installation token. Use a Core-issued plugin installation bearer token with an automation subject, plugin_id and installation_id. Own-account tokens are not accepted. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository write_checks permission (checks:write), including for GET. Reads return only the calling plugin's checks. Use a public repo_ identifier and the repository's primary API region. Available only when checks are enabled for this service. */
 export const listCheckRuns: API.OperationMethod<
   ListCheckRunsRequest,
   CheckRunsResponse,
@@ -421,7 +421,7 @@ export const listCheckRuns: API.OperationMethod<
 }));
 
 export type ListCheckSuitesError = EntireOpError;
-/** List current check suites */
+/** List current check suites **Accepted credentials:** Plugin installation token. Use a Core-issued plugin installation bearer token with an automation subject, plugin_id and installation_id. Own-account tokens are not accepted. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository write_checks permission (checks:write), including for GET. Reads return only the calling plugin's checks. Use a public repo_ identifier and the repository's primary API region. Available only when checks are enabled for this service. */
 export const listCheckSuites: API.OperationMethod<
   ListCheckSuitesRequest,
   CheckSuitesResponse,
@@ -482,7 +482,7 @@ export const listRepoContributors: API.OperationMethod<
 }));
 
 export type WriteCheckRunsError = EntireOpError;
-/** Upsert check runs */
+/** Upsert check runs **Accepted credentials:** Plugin installation token. Use a Core-issued plugin installation bearer token with an automation subject, plugin_id and installation_id. Own-account tokens are not accepted. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository write_checks permission (checks:write), including for GET. Reads return only the calling plugin's checks. Use a public repo_ identifier and the repository's primary API region. Available only when checks are enabled for this service. */
 export const writeCheckRuns: API.OperationMethod<
   WriteCheckRunsRequest,
   CheckRunsWriteResult,

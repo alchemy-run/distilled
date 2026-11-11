@@ -50,10 +50,10 @@ export interface MirrorRequestResult {
 export type MirrorRequestStatus = "pending" | "processing" | "succeeded" | "failed";
 export interface MirrorRequest {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  failure?: MirrorRequestFailure;
+  _schema?: string | undefined;
+  failure?: MirrorRequestFailure | undefined;
   requestId: string;
-  result?: MirrorRequestResult;
+  result?: MirrorRequestResult | undefined;
   status: MirrorRequestStatus;
   [key: string]: unknown;
 }
@@ -80,26 +80,26 @@ export interface MirrorSyncBlock {
 }
 export interface Mirror {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Physical cell the mirror's cluster runs in, e.g. aws-us-east-2. */
-  cell?: string;
+  cell?: string | undefined;
   /** Public host of the cluster serving this mirror. */
   clusterHost: string;
   createdAt: string;
-  isArchived?: boolean;
-  isPrivate?: boolean;
+  isArchived?: boolean | undefined;
+  isPrivate?: boolean | undefined;
   /** True when this placement does its repo group's per-event work. Removing it is refused while other placements remain. */
-  isProcessingPrimary?: boolean;
-  jurisdiction?: string;
+  isProcessingPrimary?: boolean | undefined;
+  jurisdiction?: string | undefined;
   mirrorId: string;
   owner: string;
   provider: string;
   repo: string;
   /** Clone lifecycle: processing (cloning), ready (clonable), failed (initial clone failed), or suspended. */
-  status?: MirrorStatus;
-  suspendedAt?: string;
+  status?: MirrorStatus | undefined;
+  suspendedAt?: string | undefined;
   /** Present while GitHub blocks the upstream's GitHub App installation, so the mirror cannot sync. The block is per installation: every placement of the upstream carries the same value. */
-  syncBlock?: MirrorSyncBlock;
+  syncBlock?: MirrorSyncBlock | undefined;
   [key: string]: unknown;
 }
 export interface GetMirrorRequestRequest {
@@ -107,7 +107,7 @@ export interface GetMirrorRequestRequest {
 }
 export interface ListAvailableMirrorsRequest {
   /** Optional: restrict to repos with this owner login (case-insensitive). */
-  owner?: string;
+  owner?: string | undefined;
 }
 /** Caller's effective GitHub access: read, write, or admin. */
 export type AvailableMirrorAccess = "read" | "write" | "admin";
@@ -116,11 +116,11 @@ export type AvailableMirrorStatus = "available" | "mirrored" | "owner-only";
 export interface AvailableMirror {
   /** Caller's effective GitHub access: read, write, or admin. */
   access: AvailableMirrorAccess;
-  isArchived?: boolean;
-  isPrivate?: boolean;
+  isArchived?: boolean | undefined;
+  isPrivate?: boolean | undefined;
   owner: string;
   /** Time of the latest push to the upstream repository. */
-  pushedAt?: string;
+  pushedAt?: string | undefined;
   repo: string;
   /** available (can onboard), mirrored (already mirrored), or owner-only (personal repo of another user). */
   status: AvailableMirrorStatus;
@@ -139,13 +139,13 @@ export interface GitHubInstallation {
 export type GitHubInstallationsItemsList = Array<GitHubInstallation>;
 export type GitHubInstallationsStatus = "ok" | "unavailable";
 export interface GitHubInstallations {
-  items?: GitHubInstallationsItemsList;
+  items?: GitHubInstallationsItemsList | undefined;
   status: GitHubInstallationsStatus;
   [key: string]: unknown;
 }
 export interface ListAvailableMirrorsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   available: ListAvailableMirrorsOutputBodyAvailableList;
   githubInstallations: GitHubInstallations;
   [key: string]: unknown;
@@ -161,39 +161,39 @@ export interface ListMirrorCollaboratorsRequest {
 export interface MirrorCollaborator {
   accountId: string;
   /** Primary handle (provider:label), empty if none resolves. */
-  handle?: string;
+  handle?: string | undefined;
   /** reader (pull) or writer (pull+push). */
   role: string;
   /** The account's Entire username. Omitted until claimed. */
-  username?: string;
+  username?: string | undefined;
   [key: string]: unknown;
 }
 export type ListMirrorCollaboratorsOutputBodyCollaboratorsList = Array<MirrorCollaborator>;
 export interface ListMirrorCollaboratorsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   collaborators: ListMirrorCollaboratorsOutputBodyCollaboratorsList;
   [key: string]: unknown;
 }
 export interface ListMirrorsRequest {
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional: restrict to mirrors on this cluster (public host, e.g. royalcanin.partial.to). Case-sensitive exact match. */
-  cluster?: string;
+  cluster?: string | undefined;
   /** Optional: restrict to mirrors of this upstream provider, case-insensitive (e.g. "github"). */
-  provider?: string;
+  provider?: string | undefined;
   /** Optional: restrict to mirrors with this upstream owner login (case-insensitive). */
-  owner?: string;
+  owner?: string | undefined;
 }
 export type ListMirrorsOutputBodyMirrorsList = Array<Mirror>;
 export interface ListMirrorsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   mirrors: ListMirrorsOutputBodyMirrorsList;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   [key: string]: unknown;
 }
 export type ResolveMirrorPlacementsRequestProvider = "github";
@@ -206,17 +206,17 @@ export interface ResolveMirrorPlacementsRequest {
 }
 export interface ResolvedPlacement {
   /** Physical cell the mirror's cluster runs in, e.g. aws-us-east-2. */
-  cell?: string;
+  cell?: string | undefined;
   /** Public host of the cluster serving this mirror. */
   clusterHost: string;
-  jurisdiction?: string;
+  jurisdiction?: string | undefined;
   mirrorId: string;
   [key: string]: unknown;
 }
 export type ResolvePlacementsOutputBodyPlacementsList = Array<ResolvedPlacement>;
 export interface ResolvePlacementsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   placements: ResolvePlacementsOutputBodyPlacementsList;
   [key: string]: unknown;
 }
@@ -229,7 +229,7 @@ export interface ResyncMirrorRequest {
 export type ResyncMirrorOutputBodyStatus = "queued";
 export interface ResyncMirrorOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** The placement the resync was published for. */
   mirrorId: string;
   status: ResyncMirrorOutputBodyStatus;

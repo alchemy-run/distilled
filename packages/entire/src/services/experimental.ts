@@ -25,7 +25,7 @@ const TELEMETRY = {
 
 export interface GetExperimentalMeRequest {
   /** RFC3339 lower bound for the jurisdiction list; defaults to the last 90 days */
-  since?: string;
+  since?: string | undefined;
 }
 /** Regions where the caller has data; clients federate /me/* across these */
 export type MeOutputBodyJurisdictionsList = Array<string>;
@@ -33,16 +33,16 @@ export type MeOutputBodyJurisdictionsList = Array<string>;
 export type MetaPartialList = Array<string>;
 export interface Meta {
   /** Code for degraded behaviour */
-  degraded?: string;
+  degraded?: string | undefined;
   /** Codes for partial-result conditions: team_stats_foreign_region, unroutable_repos, unroutable_projects, unresolved_caller_login, change_readiness_unavailable */
-  partial?: MetaPartialList | null;
+  partial?: MetaPartialList | null | undefined;
   server_time: string;
 }
 export interface MeOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   account_id: string;
-  handle?: string;
+  handle?: string | undefined;
   home_jurisdiction: string;
   /** Regions where the caller has data; clients federate /me/* across these */
   jurisdictions: MeOutputBodyJurisdictionsList | null;
@@ -57,14 +57,14 @@ export type GetExperimentalMyActivityRequestTimeframe =
 export type GetExperimentalMyActivityRequestRepoIdsList = Array<string>;
 export interface GetExperimentalMyActivityRequest {
   /** Relative window */
-  timeframe?: GetExperimentalMyActivityRequestTimeframe | (string & {});
+  timeframe?: GetExperimentalMyActivityRequestTimeframe | (string & {}) | undefined;
   /** RFC 3339; overrides timeframe start */
-  since?: string;
+  since?: string | undefined;
   /** RFC 3339; overrides timeframe end */
-  until?: string;
-  limit?: number;
+  until?: string | undefined;
+  limit?: number | undefined;
   /** Restrict to specific repo IDs */
-  repo_ids?: GetExperimentalMyActivityRequestRepoIdsList;
+  repo_ids?: GetExperimentalMyActivityRequestRepoIdsList | undefined;
 }
 export interface ActivityAgentRollup {
   agent: string;
@@ -94,7 +94,7 @@ export interface StreakStruct {
 }
 export interface ActivityOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   agents: ActivityOutputBodyAgentsList | null;
   buckets: ActivityOutputBodyBucketsList | null;
   in_progress: StateCounts;
@@ -111,14 +111,14 @@ export type GetExperimentalMyRecapRequestTimeframe =
   | "last-6-months";
 export interface GetExperimentalMyRecapRequest {
   /** Relative window */
-  timeframe?: GetExperimentalMyRecapRequestTimeframe | (string & {});
+  timeframe?: GetExperimentalMyRecapRequestTimeframe | (string & {}) | undefined;
   /** RFC 3339; overrides timeframe start */
-  since?: string;
+  since?: string | undefined;
   /** RFC 3339; overrides timeframe end */
-  until?: string;
-  limit?: number;
+  until?: string | undefined;
+  limit?: number | undefined;
   /** Restrict to one repo_id; adds the team column (federated if foreign) */
-  repo?: string;
+  repo?: string | undefined;
 }
 export interface RecapAgent {
   agent: string;
@@ -136,10 +136,10 @@ export interface SummaryStruct {
 }
 export interface RecapOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   agents: RecapOutputBodyAgentsList | null;
   meta: Meta;
-  repo?: string;
+  repo?: string | undefined;
   summary: SummaryStruct;
   updated_at: string;
 }
@@ -150,12 +150,12 @@ export type ListExperimentalMyCheckpointsRequestTimeframe =
   | "last-6-months";
 export interface ListExperimentalMyCheckpointsRequest {
   /** Relative window */
-  timeframe?: ListExperimentalMyCheckpointsRequestTimeframe | (string & {});
+  timeframe?: ListExperimentalMyCheckpointsRequestTimeframe | (string & {}) | undefined;
   /** RFC 3339; overrides timeframe start */
-  since?: string;
+  since?: string | undefined;
   /** RFC 3339; overrides timeframe end */
-  until?: string;
-  limit?: number;
+  until?: string | undefined;
+  limit?: number | undefined;
 }
 export interface CheckpointItem {
   agent: string;
@@ -174,7 +174,7 @@ export type CheckpointsOutputBodyCheckpointsList = Array<CheckpointItem>;
 export type CheckpointsOutputBodyStreakDatesList = Array<string>;
 export interface CheckpointsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   checkpoints: CheckpointsOutputBodyCheckpointsList | null;
   meta: Meta;
   streakDates: CheckpointsOutputBodyStreakDatesList | null;
@@ -188,13 +188,15 @@ export type ListExperimentalMyCommitsRequestTimeframe =
   | "last-6-months";
 export interface ListExperimentalMyCommitsRequest {
   /** Relative window */
-  timeframe?: ListExperimentalMyCommitsRequestTimeframe | (string & {});
+  timeframe?: ListExperimentalMyCommitsRequestTimeframe | (string & {}) | undefined;
   /** RFC 3339; overrides timeframe start */
-  since?: string;
+  since?: string | undefined;
   /** RFC 3339; overrides timeframe end */
-  until?: string;
-  limit?: number;
+  until?: string | undefined;
+  limit?: number | undefined;
 }
+/** Route identity of the commit's repo: which product surface links to it. Omitted when no provider can be resolved for the repo. */
+export type CommitItemProvider = "github" | "entire";
 export interface CommitItem {
   additions: number;
   committed_at: string;
@@ -202,6 +204,8 @@ export interface CommitItem {
   files_changed: number;
   has_checkpoint: boolean;
   jurisdiction: string;
+  /** Route identity of the commit's repo: which product surface links to it. Omitted when no provider can be resolved for the repo. */
+  provider?: CommitItemProvider | undefined;
   repo_id: string;
   sha: string;
   state: string;
@@ -209,7 +213,7 @@ export interface CommitItem {
 export type CommitsOutputBodyCommitsList = Array<CommitItem>;
 export interface CommitsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   commits: CommitsOutputBodyCommitsList | null;
   meta: Meta;
   timeframe: string;
@@ -284,7 +288,7 @@ export const listExperimentalMyCheckpoints: API.OperationMethod<
 }));
 
 export type ListExperimentalMyCommitsError = EntireOpError;
-/** Your recent commits, each with its checkpoints A residency-aware preview of your commits: portable pointers you hydrate from each commit's home region, rather than full content. Orphaned commits are excluded. */
+/** Your recent commits, each with its checkpoints A residency-aware preview of your commits: portable pointers you hydrate from each commit's home region, rather than full content. Each pointer carries its repository's route provider (github/entire) when one can be resolved. Orphaned commits are excluded. */
 export const listExperimentalMyCommits: API.OperationMethod<
   ListExperimentalMyCommitsRequest,
   CommitsOutputBody,
@@ -516,6 +520,7 @@ function __c5(j: number): any {
           files_changed: S.Number,
           has_checkpoint: S.Boolean,
           jurisdiction: S.String,
+          provider: S.optional(S.String),
           repo_id: S.String,
           sha: S.String,
           state: S.String,

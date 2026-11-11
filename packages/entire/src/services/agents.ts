@@ -33,7 +33,7 @@ export interface ArchiveProjectAgentRequest {
   /** Agent or Environment id (ULID). */
   id: string;
   /** Required: copy the JSON etag write token from the last read or write of this configuration. Missing returns 428; stale returns 412. */
-  ifMatch?: string;
+  ifMatch?: string | undefined;
 }
 export interface AgentArchivedBy {
   /** Full principal id: an account ULID, svc_<ULID> for a service account, or aut_<ULID> for an automation. */
@@ -42,14 +42,17 @@ export interface AgentArchivedBy {
   kind: string;
 }
 export type AgentCreatedBy = AgentArchivedBy;
+export type AgentPausedBy = AgentArchivedBy;
 export interface AgentPreset2 {
   /** Preset id (GET /agents/presets). */
   id: string;
   /** The preset's current version: what the agent's next run will run. A run records the version it ran. */
   version: number;
 }
-/** The selected repositories of the project (ULIDs), in the order saved. */
+/** The repositories it reviews (ULIDs), in the order added; [] means it never runs. */
 export type AgentRepositoryIdsList = Array<string>;
+/** Whose machines run the agent: its environment's runs_on at the environment's current version. self_hosted: a runner the project operates claims each run. */
+export type AgentRunsOn = "entire" | "self_hosted";
 /** Which readings are good. */
 export type AgentSignalPolarity = "higher_is_better" | "lower_is_better" | "neutral";
 /** boolean (true/false), percent (0-100) or size (small, medium, large). */
@@ -60,7 +63,7 @@ export interface AgentSignal {
   /** boolean (true/false), percent (0-100) or size (small, medium, large). */
   value_type: AgentSignalValueType;
 }
-/** The subset of repository_ids this cell no longer records as repositories of the project -- transferred to another project, deleted, or unknown here -- read now, not saved. They grant nothing; replace the agent without them to repair the selection. Not covered by the ETag. */
+/** The selected repositories this cell no longer records as the project's (moved, deleted or unknown). They grant nothing; a replace can drop them. */
 export type AgentStaleRepositoryIdsList = Array<string>;
 /** Branch name globs (main, release/*, feature/**): the trigger runs only on a Change whose branch one matches; empty, every branch. * matches within one segment of a slash-separated name, ? one character in one, ** as a whole segment any number of segments; anything else is literal and case-sensitive. */
 export type AgentTriggerBranchesList = Array<string>;
@@ -86,10 +89,10 @@ export interface AgentTrigger {
 export type AgentTriggersList = Array<AgentTrigger>;
 export interface Agent {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** When the agent was archived; null while active. */
   archived_at: string | null;
-  archived_by?: AgentArchivedBy;
+  archived_by?: AgentArchivedBy | undefined;
   /** When version 1 was saved. */
   created_at: string;
   created_by: AgentArchivedBy;
@@ -97,7 +100,7 @@ export interface Agent {
   description: string;
   /** The project environment (ULID) the agent runs in. */
   environment_id: string;
-  /** Write token. Copy this JSON value unchanged into If-Match when replacing, archiving or restoring. Prefer it to the HTTP ETag header, which intermediaries may transform. */
+  /** Opaque write token; it changes on every write. Send it as If-Match. Prefer it to the HTTP ETag header, which intermediaries may transform. */
   etag: string;
   /** Agent CLI that runs the instructions. */
   harness: string;
@@ -105,41 +108,118 @@ export interface Agent {
   id: string;
   /** Review focus, rendered after the review contract's guidance. */
   instructions: string;
-  /** Whether its trigger runs it. Manual runs ignore it: a paused agent still runs when asked to. */
+  /** Whether its trigger runs it; false while paused. Pause and resume change it. Manual runs ignore it. */
   is_enabled: boolean;
   /** Model passed to the harness; null uses the harness default. */
   model: string | null;
   /** Display name, unique among the project's active agents (ignoring case). A preset agent's is its preset's. */
   name: string;
+  /** When the agent was paused; null while is_enabled is true. Kept through archive and restore. */
+  paused_at: string | null;
+  paused_by?: AgentArchivedBy | undefined;
   preset: AgentPreset2;
   /** Owning project id (ULID). */
   project_id: string;
   /** Reasoning effort the agent runs at. Null when its model takes none, or for a version saved before efforts were stored, which runs at the harness default. */
   reasoning_effort: string | null;
-  /** The selected repositories of the project (ULIDs), in the order saved. */
+  /** How many repositories it selects, departed ones included. Read the agent for their ids. */
+  repository_count: number;
+  /** The repositories it reviews (ULIDs), in the order added; [] means it never runs. */
   repository_ids: AgentRepositoryIdsList | null;
+  /** Whose machines run the agent: its environment's runs_on at the environment's current version. self_hosted: a runner the project operates claims each run. */
+  runs_on: AgentRunsOn;
   signal: AgentSignal;
-  /** The subset of repository_ids this cell no longer records as repositories of the project -- transferred to another project, deleted, or unknown here -- read now, not saved. They grant nothing; replace the agent without them to repair the selection. Not covered by the ETag. */
+  /** The selected repositories this cell no longer records as the project's (moved, deleted or unknown). They grant nothing; a replace can drop them. */
   stale_repository_ids: AgentStaleRepositoryIdsList | null;
   /** Agent process time limit, in milliseconds. */
   timeout_ms: number;
   /** Zero or one trigger; empty means the agent only runs when asked to. Push triggers run when the push listener is enabled. */
   triggers: AgentTriggersList | null;
-  /** When the last version was saved, or the agent was archived or restored. */
+  /** When the agent was last written. */
   updated_at: string;
   /** Current version. */
   version: number;
 }
+export interface ClaimSelfHostedRunnerRequest {
+  /** The run to claim (ULID). */
+  run_id: string;
+}
+export interface SelfHostedRunClaim {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  /** The agent the run belongs to (ULID). */
+  agent_id: string;
+  /** The Change's base branch. */
+  base_branch: string;
+  /** The merge base the diff is taken from. */
+  base_sha: string;
+  /** The Change's branch. */
+  branch: string;
+  /** The Change the run reviews (ULID). */
+  change_id: string;
+  /** When the run times out if it has no result by then. */
+  deadline_at: string;
+  /** The entire:// remote to clone the repository from. */
+  git_remote_url: string;
+  /** The agent CLI the run is to use: claude, codex or pi. */
+  harness: string;
+  /** The commit under review. */
+  head_sha: string;
+  /** The model to pass to the harness; empty takes the harness's own default. */
+  model: string;
+  /** A minimal valid result for this run, a shape to copy and not something to post. */
+  output_example: unknown;
+  /** JSON Schema of the result. Hosted harnesses receive it natively; a runner passes it to its harness the same way, or appends it to the prompt. */
+  output_schema: unknown;
+  /** The agent's project (ULID). */
+  project_id: string;
+  /** The starter prompt: review guidance, the agent's instructions and the Change's context. */
+  prompt: string;
+  /** The repository the run reviews (ULID). */
+  repository_id: string;
+  /** The kind of result the run takes. */
+  result_type: string;
+  /** The claimed run (ULID). */
+  run_id: string;
+}
+export interface CompleteSelfHostedRunnerRequest {
+  /** The claimed run (ULID). */
+  run_id: string;
+  /** The harness the runner used, for display. */
+  harness: string;
+  /** The model the runner used, for display. */
+  model?: string | undefined;
+  /** The review result, shaped by the claim's output_schema. */
+  result: unknown;
+}
+/** The run's final status. */
+export type SelfHostedRunCompletedStatus = "succeeded";
+export interface SelfHostedRunCompleted {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  /** The review the result was published as (ULID). */
+  review_id: string;
+  /** The completed run (ULID). */
+  run_id: string;
+  /** The run's final status. */
+  status: SelfHostedRunCompletedStatus;
+}
+/** Whose machines run the environment's agents: entire (default). Fixed at creation: a replace that changes it returns 422 environment_runs_on_fixed. self_hosted is Entire's to manage: an environment create or a replace to it returns 422 environment_runs_on_managed; create an agent with runs_on self_hosted instead. More values will be added; any other value returns 422. */
+export type CreateProjectAgentRequestEnvironmentRunsOn = "entire" | "self_hosted";
 export interface CreateProjectAgentRequestEnvironment {
-  /** Sandbox lifetime in minutes (Daytona: idle time; E2B: initial wall-clock lifetime, renewed while in use). Omit or send null for the cell default. */
-  auto_stop_minutes?: number | null;
+  /** Sandbox lifetime in minutes (Daytona: idle time; E2B: initial wall-clock lifetime, renewed while in use). Omit or send null for the cell default. 422 on a self_hosted environment, which has no sandbox. */
+  auto_stop_minutes?: number | null | undefined;
+  /** self_hosted only (422 otherwise): how long a run waits for a runner to claim it before it times out, in milliseconds. Omit for 60 minutes. The agent's timeout_ms bounds the review once claimed. */
+  claim_timeout_ms?: number | undefined;
   /** Free-form description. */
-  description?: string;
+  description?: string | undefined;
   /** Display name, without surrounding whitespace. */
   name: string;
+  /** Whose machines run the environment's agents: entire (default). Fixed at creation: a replace that changes it returns 422 environment_runs_on_fixed. self_hosted is Entire's to manage: an environment create or a replace to it returns 422 environment_runs_on_managed; create an agent with runs_on self_hosted instead. More values will be added; any other value returns 422. */
+  runs_on?: CreateProjectAgentRequestEnvironmentRunsOn | (string & {}) | undefined;
 }
 /** Agent CLI that runs the instructions. Required without a preset. */
-export type CreateProjectAgentRequestHarness = "claude" | "codex";
+export type CreateProjectAgentRequestHarness = "claude" | "codex" | "pi";
 /** Reasoning effort: one of the reasoning_efforts GET /agents/models lists for the model the agent runs (the harness default model when model is null). Any other value returns 422. Omit or send null to save the harness's default_reasoning_effort, or none when the model takes none. */
 export type CreateProjectAgentRequestReasoningEffort =
   | "low"
@@ -148,8 +228,10 @@ export type CreateProjectAgentRequestReasoningEffort =
   | "xhigh"
   | "max"
   | "ultra";
-/** 1-100 distinct repository ids (ULIDs) of the project. Each must be a repository of the project in this cell, and the caller needs repository push on each. */
+/** The whole selection: distinct repository ids of the project. A create needs at least one and push on each; a replace may send [] and needs push on each it adds, and on each kept one if it saves a new version. */
 export type CreateProjectAgentRequestRepositoryIdsList = Array<string>;
+/** What an agent read reports, accepted back. Alone, only self_hosted: the shorthand for the project's managed self-hosted environment, created on first use (its id is then the agent's environment_id); a caller needs push on every selected repository and a preset agent cannot use it. entire alone is 422: send environment_id. Beside environment_id or environment it must equal that environment's runs_on (422 otherwise). */
+export type CreateProjectAgentRequestRunsOn = "entire" | "self_hosted";
 /** Which readings are good. Omit or send null for neutral; the agent stores it explicitly. */
 export type CreateProjectAgentRequestSignalPolarity =
   | "higher_is_better"
@@ -159,7 +241,7 @@ export type CreateProjectAgentRequestSignalPolarity =
 export type CreateProjectAgentRequestSignalValueType = "boolean" | "percent" | "size";
 export interface CreateProjectAgentRequestSignal {
   /** Which readings are good. Omit or send null for neutral; the agent stores it explicitly. */
-  polarity?: CreateProjectAgentRequestSignalPolarity | (string & {}) | null;
+  polarity?: CreateProjectAgentRequestSignalPolarity | (string & {}) | null | undefined;
   /** boolean (true/false), percent (0-100) or size (small, medium, large). */
   value_type: CreateProjectAgentRequestSignalValueType | (string & {});
 }
@@ -173,15 +255,15 @@ export type AgentTriggerInputPathsList = Array<string>;
 export type AgentTriggerInputWhen = "ready" | "always" | "not_ready";
 export interface AgentTriggerInput {
   /** Branch name globs (main, release/*, feature/**): the trigger runs only on a Change whose branch one matches; empty, every branch. * matches within one segment of a slash-separated name, ? one character in one, ** as a whole segment any number of segments; anything else is literal and case-sensitive. At most 32 patterns of at most 256 bytes, each relative (no leading or trailing /, no empty segment, not refs/...), with ** only as a whole segment. Omit or send [] for every branch. */
-  branches?: AgentTriggerInputBranchesList | null;
+  branches?: AgentTriggerInputBranchesList | null | undefined;
   /** Stable id, unique in the agent: lowercase letters, digits, - and _. Defaults to the kind. Keep it to keep the trigger's push history. */
-  id?: string;
+  id?: string | undefined;
   /** push: run on a push to a branch with an open Change in a selected repository, as when admits it. */
   kind: AgentTriggerInputKind | (string & {});
   /** Repository path globs (frontend/**, **\/*.go), in the syntax of branches: the trigger runs only on a Change that changes a path one matches, over the whole Change from its merge base with its base branch to its head (a renamed file under both names); empty, every Change. A Change too large for the host to list in full runs unless the part listed already matches. The limits of branches apply. Omit or send [] for every Change. Manual runs ignore both filters. */
-  paths?: AgentTriggerInputPathsList | null;
+  paths?: AgentTriggerInputPathsList | null | undefined;
   /** Which Changes the push trigger runs on, by readiness for review. ready: only a Change ready for review, including when one becomes ready. always: every push, ready or not. not_ready: only a Change not yet ready for review. A Change is ready once marked ready for review, which a GitHub pull request is not while it is a draft. In a repository without an approvals gate, which keeps no readiness, every open Change is ready, so not_ready never runs there. Defaults to ready; push triggers only. */
-  when?: AgentTriggerInputWhen | (string & {});
+  when?: AgentTriggerInputWhen | (string & {}) | undefined;
 }
 /** At most one trigger. Omit or send [] for an agent that only runs when asked to. */
 export type CreateProjectAgentRequestTriggersList = Array<AgentTriggerInput>;
@@ -193,31 +275,49 @@ export interface CreateProjectAgentRequest {
   /** Required. Reuse it, with the same body, to retry this create: the retry returns the configuration the first attempt saved instead of saving another. The same key with a different body returns 409. Scoped to the caller, project and resource; it does not expire. */
   idempotencyKey: string;
   /** Free-form description. */
-  description?: string;
-  environment?: CreateProjectAgentRequestEnvironment;
-  /** An existing active environment of the project (ULID). Send exactly one of environment_id and environment. */
-  environment_id?: string;
+  description?: string | undefined;
+  environment?: CreateProjectAgentRequestEnvironment | undefined;
+  /** An existing active environment of the project (ULID). Send one of environment_id and environment; runs_on may accompany either. */
+  environment_id?: string | undefined;
   /** Agent CLI that runs the instructions. Required without a preset. */
-  harness?: CreateProjectAgentRequestHarness | (string & {});
+  harness?: CreateProjectAgentRequestHarness | (string & {}) | undefined;
   /** Review focus. Supports {{branch}} and {{base_branch}} placeholders. Required without a preset. */
-  instructions?: string;
-  /** Whether its trigger runs it. Defaults to false. Manual runs ignore it. */
-  is_enabled?: boolean;
+  instructions?: string | undefined;
+  /** On create, false or omitted creates the agent paused. On replace, omit it or send the current value; anything else is 422. */
+  is_enabled?: boolean | undefined;
   /** Model passed to the harness: an id GET /agents/models lists for it. Omit or send null for the harness default. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Display name, without surrounding whitespace, unique among the project's active agents (ignoring case). Required without a preset. */
-  name?: string;
+  name?: string | undefined;
   /** Run an Entire preset (GET /agents/presets) as it is now: its name, description, model, instructions and signal are the preset's, on every read and run. Send null or omit it for a custom agent. One active agent per preset per project. */
-  preset?: string | null;
+  preset?: string | null | undefined;
   /** Reasoning effort: one of the reasoning_efforts GET /agents/models lists for the model the agent runs (the harness default model when model is null). Any other value returns 422. Omit or send null to save the harness's default_reasoning_effort, or none when the model takes none. */
-  reasoning_effort?: CreateProjectAgentRequestReasoningEffort | (string & {}) | null;
-  /** 1-100 distinct repository ids (ULIDs) of the project. Each must be a repository of the project in this cell, and the caller needs repository push on each. */
+  reasoning_effort?: CreateProjectAgentRequestReasoningEffort | (string & {}) | null | undefined;
+  /** The whole selection: distinct repository ids of the project. A create needs at least one and push on each; a replace may send [] and needs push on each it adds, and on each kept one if it saves a new version. */
   repository_ids: CreateProjectAgentRequestRepositoryIdsList | null;
-  signal?: CreateProjectAgentRequestSignal;
+  /** What an agent read reports, accepted back. Alone, only self_hosted: the shorthand for the project's managed self-hosted environment, created on first use (its id is then the agent's environment_id); a caller needs push on every selected repository and a preset agent cannot use it. entire alone is 422: send environment_id. Beside environment_id or environment it must equal that environment's runs_on (422 otherwise). */
+  runs_on?: CreateProjectAgentRequestRunsOn | (string & {}) | undefined;
+  signal?: CreateProjectAgentRequestSignal | undefined;
   /** Agent process time limit, in milliseconds. Required without a preset. */
-  timeout_ms?: number;
+  timeout_ms?: number | undefined;
   /** At most one trigger. Omit or send [] for an agent that only runs when asked to. */
-  triggers?: CreateProjectAgentRequestTriggersList | null;
+  triggers?: CreateProjectAgentRequestTriggersList | null | undefined;
+}
+export interface FailSelfHostedRunnerRequest {
+  /** The claimed run (ULID). */
+  run_id: string;
+  /** Why the run could not produce a result. Shown as the run's error, prefixed with self-hosted runner. */
+  error: string;
+}
+/** The run's final status. */
+export type SelfHostedRunFailedStatus = "failed";
+export interface SelfHostedRunFailed {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  /** The failed run (ULID). */
+  run_id: string;
+  /** The run's final status. */
+  status: SelfHostedRunFailedStatus;
 }
 export interface GetAgentPresetRequest {
   /** Preset id. */
@@ -252,7 +352,7 @@ export interface AgentPresetAgent {
 }
 export interface AgentPreset {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   agent: AgentPresetAgent;
   /** What an agent of the preset does. */
   description: string;
@@ -285,8 +385,6 @@ export interface GetProjectAgentVersionRequest {
 }
 export type AgentVersionCreatedBy = AgentArchivedBy;
 export type AgentVersionPreset = AgentPreset2;
-/** The selected repositories of the project (ULIDs), in the order saved. */
-export type AgentVersionRepositoryIdsList = Array<string>;
 /** Which readings are good. */
 export type AgentVersionSignalPolarity = "higher_is_better" | "lower_is_better" | "neutral";
 /** boolean (true/false), percent (0-100) or size (small, medium, large). */
@@ -301,7 +399,7 @@ export interface AgentVersionSignal {
 export type AgentVersionTriggersList = Array<AgentTrigger>;
 export interface AgentVersion {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Agent id (ULID) this version belongs to. */
   agent_id: string;
   /** When this version was saved. */
@@ -315,8 +413,6 @@ export interface AgentVersion {
   harness: string;
   /** Review focus, rendered after the review contract's guidance. */
   instructions: string;
-  /** Whether its trigger runs it. Manual runs ignore it: a paused agent still runs when asked to. */
-  is_enabled: boolean;
   /** Model passed to the harness; null uses the harness default. */
   model: string | null;
   /** Display name, unique among the project's active agents (ignoring case). A preset agent's is its preset's. */
@@ -324,8 +420,6 @@ export interface AgentVersion {
   preset: AgentPreset2;
   /** Reasoning effort the agent runs at. Null when its model takes none, or for a version saved before efforts were stored, which runs at the harness default. */
   reasoning_effort: string | null;
-  /** The selected repositories of the project (ULIDs), in the order saved. */
-  repository_ids: AgentVersionRepositoryIdsList | null;
   signal: AgentVersionSignal;
   /** Agent process time limit, in milliseconds. */
   timeout_ms: number;
@@ -334,9 +428,49 @@ export interface AgentVersion {
   /** Version number. */
   version: number;
 }
+export interface ListAgentModelPricesRequest {}
+export type AgentHarnessPricesHarness = "claude" | "codex" | "pi";
+export interface AgentModelPriceUsdPerMillionTokens {
+  cache_read: string;
+  cache_write: string;
+  input: string;
+  output: string;
+}
+export interface AgentModelPrice {
+  id: string;
+  usd_per_million_tokens: AgentModelPriceUsdPerMillionTokens;
+}
+/** The same models, in the same order, as the agent model list. */
+export type AgentHarnessPricesModelsList = Array<AgentModelPrice>;
+export interface AgentHarnessPrices {
+  harness: AgentHarnessPricesHarness;
+  /** The same models, in the same order, as the agent model list. */
+  models: AgentHarnessPricesModelsList | null;
+  /** Display name of the company whose models the harness runs. */
+  provider: string;
+}
+export type AgentModelPricesAgentsList = Array<AgentHarnessPrices>;
+export interface AgentModelOtherRate {
+  name: string;
+  /** Decimal USD for one unit of what the rate counts. */
+  usd_per_unit: string;
+}
+/** Charges not tied to a model, such as web searches. */
+export type AgentModelPricesOtherRatesList = Array<AgentModelOtherRate>;
+export interface AgentModelPrices {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  agents: AgentModelPricesAgentsList | null;
+  /** When the prices were last read from the rate card. */
+  fetched_at: string;
+  /** Charges not tied to a model, such as web searches. */
+  other_rates: AgentModelPricesOtherRatesList | null;
+  /** When the rate card's prices last changed; null when the card does not say. */
+  rate_card_updated_at: string | null;
+}
 export interface ListAgentModelsRequest {}
 /** Agent CLI the models run under. */
-export type AgentHarnessModelsHarness = "claude" | "codex";
+export type AgentHarnessModelsHarness = "claude" | "codex" | "pi";
 /** Accepted reasoning_effort values for an agent using this model, lowest first; empty when the model takes none. */
 export type AgentModelReasoningEffortsList = Array<string>;
 /** Whether the picker shows the model in the current lineup or under more models. */
@@ -346,6 +480,8 @@ export interface AgentModel {
   id: string;
   /** Display name. */
   name: string;
+  /** Company that made the model. */
+  publisher: string;
   /** Accepted reasoning_effort values for an agent using this model, lowest first; empty when the model takes none. */
   reasoning_efforts: AgentModelReasoningEffortsList | null;
   /** Whether the picker shows the model in the current lineup or under more models. */
@@ -364,6 +500,8 @@ export interface AgentHarnessModels {
   harness: AgentHarnessModelsHarness;
   /** Models the picker offers for this harness, current ones first, then more. Hidden models are omitted but still accepted on save. */
   models: AgentHarnessModelsModelsList | null;
+  /** Display name for the harness. */
+  name: string;
   /** Every reasoning_effort value some model of this harness accepts, hidden models included, lowest first; empty when the harness takes none. A model's own reasoning_efforts is what an agent using it may set. */
   reasoning_efforts: AgentHarnessModelsReasoningEffortsList | null;
 }
@@ -371,7 +509,7 @@ export interface AgentHarnessModels {
 export type AgentModelsAgentsList = Array<AgentHarnessModels>;
 export interface AgentModels {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** One entry per harness an agent can use. */
   agents: AgentModelsAgentsList | null;
 }
@@ -379,10 +517,58 @@ export interface ListAgentPresetsRequest {}
 export type ConfigPageAgentPresetItemsList = Array<AgentPreset>;
 export interface ConfigPageAgentPreset {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   items: ConfigPageAgentPresetItemsList | null;
   /** Pass as cursor to fetch the next page; omitted on the last page. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
+}
+export interface ListProjectAgentEventsRequest {
+  /** Project host slug (gh or et). */
+  host: string;
+  /** Canonical public project name. */
+  project: string;
+  /** Agent or Environment id (ULID). */
+  id: string;
+  /** Items per page (default 50, maximum 100). */
+  per_page?: number | undefined;
+  /** Opaque continuation cursor from next_cursor. */
+  cursor?: string | undefined;
+}
+export type AgentEventActor = AgentArchivedBy;
+/** For edited: the spec fields this version changed from the one before, sorted, by their field name (model, instructions, triggers, ...). A pause or selection saved only in the versions, before events recorded them, reads as paused, resumed or repositories. Empty when there is nothing to report; null for other kinds. */
+export type AgentEventChangedList = Array<string>;
+/** What changed. */
+export type AgentEventKind =
+  | "created"
+  | "edited"
+  | "repository_added"
+  | "repository_removed"
+  | "paused"
+  | "resumed"
+  | "archived"
+  | "restored";
+export interface AgentEvent {
+  actor: AgentArchivedBy;
+  /** For edited: the spec fields this version changed from the one before, sorted, by their field name (model, instructions, triggers, ...). A pause or selection saved only in the versions, before events recorded them, reads as paused, resumed or repositories. Empty when there is nothing to report; null for other kinds. */
+  changed: AgentEventChangedList | null;
+  /** When. */
+  created_at: string;
+  /** Event id (ULID). */
+  id: string;
+  /** What changed. */
+  kind: AgentEventKind;
+  /** The repository added or removed; null for other kinds. */
+  repository_id: string | null;
+  /** The version created or edited saved; read it at GET .../versions/{version}. Null for other kinds. */
+  version: number | null;
+}
+export type ConfigPageAgentEventItemsList = Array<AgentEvent>;
+export interface ConfigPageAgentEvent {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  items: ConfigPageAgentEventItemsList | null;
+  /** Pass as cursor to fetch the next page; omitted on the last page. */
+  next_cursor?: string | undefined;
 }
 export interface ListProjectAgentsRequest {
   /** Project host slug (gh or et). */
@@ -390,21 +576,90 @@ export interface ListProjectAgentsRequest {
   /** Canonical public project name. */
   project: string;
   /** Items per page (default 50, maximum 100). */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Opaque continuation cursor from next_cursor. Restores include_archived and repository_id; repeating either with another value is refused. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Also return archived agents. Off by default: the default list answers what can be selected for new use. */
-  include_archived?: boolean;
+  include_archived?: boolean | undefined;
   /** Only agents whose current selection includes this repository (ULID), including a selected repository the project no longer owns. */
-  repository_id?: string;
+  repository_id?: string | undefined;
 }
-export type ConfigPageAgentItemsList = Array<Agent>;
-export interface ConfigPageAgent {
+export type AgentListItemArchivedBy = AgentArchivedBy;
+export type AgentListItemCreatedBy = AgentArchivedBy;
+export type AgentListItemPausedBy = AgentArchivedBy;
+export type AgentListItemPreset = AgentPreset2;
+/** Whose machines run the agent: its environment's runs_on at the environment's current version. self_hosted: a runner the project operates claims each run. */
+export type AgentListItemRunsOn = "entire" | "self_hosted";
+/** Which readings are good. */
+export type AgentListItemSignalPolarity = "higher_is_better" | "lower_is_better" | "neutral";
+/** boolean (true/false), percent (0-100) or size (small, medium, large). */
+export type AgentListItemSignalValueType = "boolean" | "percent" | "size";
+export interface AgentListItemSignal {
+  /** Which readings are good. */
+  polarity: AgentListItemSignalPolarity;
+  /** boolean (true/false), percent (0-100) or size (small, medium, large). */
+  value_type: AgentListItemSignalValueType;
+}
+/** The selected repositories this cell no longer records as the project's (moved, deleted or unknown). They grant nothing; a replace can drop them. */
+export type AgentListItemStaleRepositoryIdsList = Array<string>;
+/** Zero or one trigger; empty means the agent only runs when asked to. Push triggers run when the push listener is enabled. */
+export type AgentListItemTriggersList = Array<AgentTrigger>;
+export interface AgentListItem {
+  /** When the agent was archived; null while active. */
+  archived_at: string | null;
+  archived_by?: AgentArchivedBy | undefined;
+  /** When version 1 was saved. */
+  created_at: string;
+  created_by: AgentArchivedBy;
+  /** Free-form description; empty when unset. */
+  description: string;
+  /** The project environment (ULID) the agent runs in. */
+  environment_id: string;
+  /** Opaque write token; it changes on every write. Send it as If-Match. Prefer it to the HTTP ETag header, which intermediaries may transform. */
+  etag: string;
+  /** Agent CLI that runs the instructions. */
+  harness: string;
+  /** Agent id (ULID); stable across versions, a customization and a restore. Runs, a Change's agents and review comments name the agent by it. */
+  id: string;
+  /** Review focus, rendered after the review contract's guidance. */
+  instructions: string;
+  /** Whether its trigger runs it; false while paused. Pause and resume change it. Manual runs ignore it. */
+  is_enabled: boolean;
+  /** Model passed to the harness; null uses the harness default. */
+  model: string | null;
+  /** Display name, unique among the project's active agents (ignoring case). A preset agent's is its preset's. */
+  name: string;
+  /** When the agent was paused; null while is_enabled is true. Kept through archive and restore. */
+  paused_at: string | null;
+  paused_by?: AgentArchivedBy | undefined;
+  preset: AgentPreset2;
+  /** Owning project id (ULID). */
+  project_id: string;
+  /** Reasoning effort the agent runs at. Null when its model takes none, or for a version saved before efforts were stored, which runs at the harness default. */
+  reasoning_effort: string | null;
+  /** How many repositories it selects, departed ones included. Read the agent for their ids. */
+  repository_count: number;
+  /** Whose machines run the agent: its environment's runs_on at the environment's current version. self_hosted: a runner the project operates claims each run. */
+  runs_on: AgentListItemRunsOn;
+  signal: AgentListItemSignal;
+  /** The selected repositories this cell no longer records as the project's (moved, deleted or unknown). They grant nothing; a replace can drop them. */
+  stale_repository_ids: AgentListItemStaleRepositoryIdsList | null;
+  /** Agent process time limit, in milliseconds. */
+  timeout_ms: number;
+  /** Zero or one trigger; empty means the agent only runs when asked to. Push triggers run when the push listener is enabled. */
+  triggers: AgentListItemTriggersList | null;
+  /** When the agent was last written. */
+  updated_at: string;
+  /** Current version. */
+  version: number;
+}
+export type ConfigPageAgentListItemItemsList = Array<AgentListItem>;
+export interface ConfigPageAgentListItem {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  items: ConfigPageAgentItemsList | null;
+  _schema?: string | undefined;
+  items: ConfigPageAgentListItemItemsList | null;
   /** Pass as cursor to fetch the next page; omitted on the last page. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface ListProjectAgentVersionsRequest {
   /** Project host slug (gh or et). */
@@ -414,17 +669,17 @@ export interface ListProjectAgentVersionsRequest {
   /** Agent or Environment id (ULID). */
   id: string;
   /** Items per page (default 50, maximum 100). */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Opaque continuation cursor from next_cursor. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ConfigPageAgentVersionItemsList = Array<AgentVersion>;
 export interface ConfigPageAgentVersion {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   items: ConfigPageAgentVersionItemsList | null;
   /** Pass as cursor to fetch the next page; omitted on the last page. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface ListRepoAgentsRequest {
   /** Repository id (placement ULID or public repo_<group ULID>). */
@@ -453,7 +708,7 @@ export interface RepositoryAgentLatestReading {
   verdicts: RepositoryAgentLatestReadingVerdicts;
 }
 export interface RepositoryAgentLatestRunError {
-  /** Set when the run was refused for billing: billing_trial_ended, billing_credit_exhausted, billing_over_limit, billing_blocked or billing_not_enrolled; null otherwise. */
+  /** Set when the run was refused for billing: billing_trial_ended, billing_credit_exhausted, billing_over_limit, billing_blocked, billing_not_enrolled or billing_no_paid_balance; null otherwise. */
   code: string | null;
   message: string;
 }
@@ -522,11 +777,65 @@ export interface RepositoryAgent {
 export type RepositoryAgentsOutputBodyItemsList = Array<RepositoryAgent>;
 export interface RepositoryAgentsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   items: RepositoryAgentsOutputBodyItemsList | null;
 }
+export interface ListSelfHostedRunnerJobsRequest {
+  /** Items per page (default 50, maximum 100). */
+  per_page?: number | undefined;
+  /** Opaque continuation cursor from next_cursor. */
+  cursor?: string | undefined;
+}
+/** waiting for a runner to claim it, or claimed: the caller holds it and has not finished it. */
+export type SelfHostedJobState = "waiting" | "claimed";
+export interface SelfHostedJob {
+  /** The agent the run belongs to (ULID). */
+  agent_id: string;
+  /** The agent's name as the run pinned it. */
+  agent_name: string;
+  /** The Change's branch. */
+  branch: string;
+  /** The Change the run reviews (ULID). */
+  change_id: string;
+  /** When the run was admitted. */
+  created_at: string;
+  /** When the run times out: unclaimed, its claim deadline; once claimed, the agent's own timeout. */
+  deadline_at: string;
+  /** The agent CLI the run is to use: claude, codex or pi. */
+  harness: string;
+  /** The commit under review. */
+  head_sha: string;
+  /** The model to pass to the harness; empty takes the harness's own default. */
+  model: string;
+  /** The agent's project (ULID). */
+  project_id: string;
+  /** The repository the run reviews (ULID). */
+  repository_id: string;
+  /** The run (ULID). Claim it at /self-hosted-runner/jobs/{run_id}/claim. */
+  run_id: string;
+  /** waiting for a runner to claim it, or claimed: the caller holds it and has not finished it. */
+  state: SelfHostedJobState;
+}
+export type ConfigPageSelfHostedJobItemsList = Array<SelfHostedJob>;
+export interface ConfigPageSelfHostedJob {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  items: ConfigPageSelfHostedJobItemsList | null;
+  /** Pass as cursor to fetch the next page; omitted on the last page. */
+  next_cursor?: string | undefined;
+}
+export interface PauseProjectAgentRequest {
+  /** Project host slug (gh or et). */
+  host: string;
+  /** Canonical public project name. */
+  project: string;
+  /** Agent or Environment id (ULID). */
+  id: string;
+  /** Required: copy the JSON etag write token from the last read or write of this configuration. Missing returns 428; stale returns 412. */
+  ifMatch?: string | undefined;
+}
 /** Agent CLI that runs the instructions. Required without a preset. */
-export type ReplaceProjectAgentRequestHarness = "claude" | "codex";
+export type ReplaceProjectAgentRequestHarness = "claude" | "codex" | "pi";
 /** Reasoning effort: one of the reasoning_efforts GET /agents/models lists for the model the agent runs (the harness default model when model is null). Any other value returns 422. Omit or send null to save the harness's default_reasoning_effort, or none when the model takes none. */
 export type ReplaceProjectAgentRequestReasoningEffort =
   | "low"
@@ -535,8 +844,10 @@ export type ReplaceProjectAgentRequestReasoningEffort =
   | "xhigh"
   | "max"
   | "ultra";
-/** 1-100 distinct repository ids (ULIDs) of the project. Each must be a repository of the project in this cell, and the caller needs repository push on each. */
+/** The whole selection: distinct repository ids of the project. A create needs at least one and push on each; a replace may send [] and needs push on each it adds, and on each kept one if it saves a new version. */
 export type ReplaceProjectAgentRequestRepositoryIdsList = Array<string>;
+/** As on a create: self_hosted alone is the managed-environment shorthand; entire alone is 422; beside environment_id it must equal that environment's runs_on (422 otherwise). */
+export type ReplaceProjectAgentRequestRunsOn = "entire" | "self_hosted";
 /** Which readings are good. Omit or send null for neutral; the agent stores it explicitly. */
 export type ReplaceProjectAgentRequestSignalPolarity =
   | "higher_is_better"
@@ -546,7 +857,7 @@ export type ReplaceProjectAgentRequestSignalPolarity =
 export type ReplaceProjectAgentRequestSignalValueType = "boolean" | "percent" | "size";
 export interface ReplaceProjectAgentRequestSignal {
   /** Which readings are good. Omit or send null for neutral; the agent stores it explicitly. */
-  polarity?: ReplaceProjectAgentRequestSignalPolarity | (string & {}) | null;
+  polarity?: ReplaceProjectAgentRequestSignalPolarity | (string & {}) | null | undefined;
   /** boolean (true/false), percent (0-100) or size (small, medium, large). */
   value_type: ReplaceProjectAgentRequestSignalValueType | (string & {});
 }
@@ -560,32 +871,34 @@ export interface ReplaceProjectAgentRequest {
   /** Agent or Environment id (ULID). */
   id: string;
   /** Required: copy the JSON etag write token from the last read or write of this configuration. Missing returns 428; stale returns 412. */
-  ifMatch?: string;
+  ifMatch?: string | undefined;
   /** Free-form description. */
-  description?: string;
-  /** An active environment of the project (ULID). Inline environments are create-only. */
-  environment_id: string;
+  description?: string | undefined;
+  /** An active environment of the project (ULID). Inline environments are create-only. Send environment_id, runs_on self_hosted, or both when it equals the environment's runs_on. */
+  environment_id?: string | undefined;
   /** Agent CLI that runs the instructions. Required without a preset. */
-  harness?: ReplaceProjectAgentRequestHarness | (string & {});
+  harness?: ReplaceProjectAgentRequestHarness | (string & {}) | undefined;
   /** Review focus. Supports {{branch}} and {{base_branch}} placeholders. Required without a preset. */
-  instructions?: string;
-  /** Whether its trigger runs it. Defaults to false. Manual runs ignore it. */
-  is_enabled?: boolean;
+  instructions?: string | undefined;
+  /** On create, false or omitted creates the agent paused. On replace, omit it or send the current value; anything else is 422. */
+  is_enabled?: boolean | undefined;
   /** Model passed to the harness: an id GET /agents/models lists for it. Omit or send null for the harness default. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Display name, without surrounding whitespace, unique among the project's active agents (ignoring case). Required without a preset. */
-  name?: string;
+  name?: string | undefined;
   /** Run an Entire preset (GET /agents/presets) as it is now: its name, description, model, instructions and signal are the preset's, on every read and run. Send null or omit it for a custom agent. One active agent per preset per project. */
-  preset?: string | null;
+  preset?: string | null | undefined;
   /** Reasoning effort: one of the reasoning_efforts GET /agents/models lists for the model the agent runs (the harness default model when model is null). Any other value returns 422. Omit or send null to save the harness's default_reasoning_effort, or none when the model takes none. */
-  reasoning_effort?: ReplaceProjectAgentRequestReasoningEffort | (string & {}) | null;
-  /** 1-100 distinct repository ids (ULIDs) of the project. Each must be a repository of the project in this cell, and the caller needs repository push on each. */
+  reasoning_effort?: ReplaceProjectAgentRequestReasoningEffort | (string & {}) | null | undefined;
+  /** The whole selection: distinct repository ids of the project. A create needs at least one and push on each; a replace may send [] and needs push on each it adds, and on each kept one if it saves a new version. */
   repository_ids: ReplaceProjectAgentRequestRepositoryIdsList | null;
-  signal?: ReplaceProjectAgentRequestSignal;
+  /** As on a create: self_hosted alone is the managed-environment shorthand; entire alone is 422; beside environment_id it must equal that environment's runs_on (422 otherwise). */
+  runs_on?: ReplaceProjectAgentRequestRunsOn | (string & {}) | undefined;
+  signal?: ReplaceProjectAgentRequestSignal | undefined;
   /** Agent process time limit, in milliseconds. Required without a preset. */
-  timeout_ms?: number;
+  timeout_ms?: number | undefined;
   /** At most one trigger. Omit or send [] for an agent that only runs when asked to. */
-  triggers?: ReplaceProjectAgentRequestTriggersList | null;
+  triggers?: ReplaceProjectAgentRequestTriggersList | null | undefined;
 }
 export interface RestoreProjectAgentRequest {
   /** Project host slug (gh or et). */
@@ -595,10 +908,20 @@ export interface RestoreProjectAgentRequest {
   /** Agent or Environment id (ULID). */
   id: string;
   /** Required: copy the JSON etag write token from the last read or write of this configuration. Missing returns 428; stale returns 412. */
-  ifMatch?: string;
+  ifMatch?: string | undefined;
+}
+export interface ResumeProjectAgentRequest {
+  /** Project host slug (gh or et). */
+  host: string;
+  /** Canonical public project name. */
+  project: string;
+  /** Agent or Environment id (ULID). */
+  id: string;
+  /** Required: copy the JSON etag write token from the last read or write of this configuration. Missing returns 428; stale returns 412. */
+  ifMatch?: string | undefined;
 }
 export type ArchiveProjectAgentError = EntireOpError;
-/** Archive an agent Archives the agent under the same If-Match precondition as a replace (428 missing, 412 stale). Send no body, or an empty object. The version does not change but the ETag does; history stays readable, the record leaves the default list, and further writes, including a second archive, return 409. Requires repository push on every repository of the current selection the project still owns. Restore it with POST .../agents/{id}/restore. Requires canManageAgents (automation principals require project write or manage). Route requests to the project's API URL returned by Core. */
+/** Archive an agent Archives the agent under the same If-Match precondition as a replace (428 missing, 412 stale). Send no body, or an empty object. The version does not change but the ETag does; history stays readable, the record leaves the default list, and further writes, including a second archive, return 409. Needs no repository push. Restore it with POST .../agents/{id}/restore. Requires canManageAgents (automation principals require project write or manage). Route requests to the project's API URL returned by Core. */
 export const archiveProjectAgent: API.OperationMethod<
   ArchiveProjectAgentRequest,
   Agent,
@@ -606,7 +929,7 @@ export const archiveProjectAgent: API.OperationMethod<
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ArchiveProjectAgentRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<Agent>,
+  output: __S(32, __c2, 0) as any as S.Schema<Agent>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -614,21 +937,72 @@ export const archiveProjectAgent: API.OperationMethod<
   span: "ArchiveProjectAgent",
 }));
 
+export type ClaimSelfHostedRunnerError = EntireOpError;
+/** Claim a self-hosted agent run Claims the run for the calling service account and starts it: it is running until its result arrives or its deadline passes. A run still waiting is checked against its branch: if the branch moved past the run's commit, the run is canceled as superseded and the claim is refused as run_not_claimable; an unreadable branch is a 503. A run the account already holds, still running and before its deadline, is returned again unchanged, so a claim whose response was lost can be retried. Every call, held runs included, re-checks that the account is bound to the run's Environment, is a member of the run's repository with pull on it, and that the repository is not paused; an account that lost access never gets the prompt again. 404 run_not_found: the run is unknown or the caller may not see it. 409: run_claimed (another account holds it), run_not_claimable (it is no longer waiting) or repository_paused. The route is not scoped to a project: bindings say which Environments the account serves, and a runner talks to the cell that processes its project's repositories. Needs a service account token. */
+export const claimSelfHostedRunner: API.OperationMethod<
+  ClaimSelfHostedRunnerRequest,
+  SelfHostedRunClaim,
+  ClaimSelfHostedRunnerError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c6, 0) as any as S.Schema<ClaimSelfHostedRunnerRequest>,
+  output: __S(97, __c6, 1) as any as S.Schema<SelfHostedRunClaim>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClaimSelfHostedRunner",
+}));
+
+export type CompleteSelfHostedRunnerError = EntireOpError;
+/** Complete a claimed self-hosted agent run Validates the result with the checks a hosted run's result gets and publishes it as the run's review. A result that does not parse, or whose findings point at files absent from the reviewed commit, is a 422 that leaves the run claimed, so the runner can correct it and post again before the deadline. 404 when the run is not one this account claimed; 409 when the run has finished, timed out, been canceled, or its Change moved past the reviewed commit. Needs a service account token. */
+export const completeSelfHostedRunner: API.OperationMethod<
+  CompleteSelfHostedRunnerRequest,
+  SelfHostedRunCompleted,
+  CompleteSelfHostedRunnerError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(272, __c17, 0) as any as S.Schema<CompleteSelfHostedRunnerRequest>,
+  output: __S(273, __c17, 1) as any as S.Schema<SelfHostedRunCompleted>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteSelfHostedRunner",
+}));
+
 export type CreateProjectAgentError = EntireOpError;
-/** Create an agent Saves a new agent in the project at version 1 and returns it with its JSON etag write token, HTTP ETag and Location. Saving runs nothing. Send preset for an Entire preset, with only the fields that place it (is_enabled, environment, repository_ids, triggers), or every field and a name for a custom agent. Send environment_id or environment: an inline environment is saved in the same transaction as an ordinary, reusable project record, and any refusal saves nothing. Agent names are unique among the project's active agents, ignoring case, and a project runs each preset at most once among its active agents (409 otherwise). It selects repositories of the project and requires repository push on each. Saving starts no run. Idempotency-Key is required: a retry with the same key and body saves nothing and returns the agent the first attempt saved, at its current version, with Idempotency-Replayed: true; the same key with a different body returns 409. A key is scoped to the caller, the project and agents, and does not expire. Bodies use the typed request schema; unknown fields, including spec wrappers and server-owned fields, are refused. Requires canManageAgents (automation principals require project write or manage). Route requests to the project's API URL returned by Core. */
+/** Create an agent Saves a new agent in the project at version 1 and returns it with its JSON etag write token, HTTP ETag and Location. Saving runs nothing. Send preset for an Entire preset with its environment, repository_ids, triggers and is_enabled, or every field and a name for a custom agent. Send environment_id, environment (saved in the same transaction as an ordinary, reusable project record; any refusal saves nothing) or runs_on self_hosted alone (the project's managed self-hosted environment). runs_on may accompany environment_id or environment when it equals that environment's runs_on, so an agent read can be sent back; a mismatch is 422. Agent names are unique among the project's active agents, ignoring case, and a project runs each preset at most once among its active agents (409 otherwise). It selects repositories of the project and requires repository push on each, recorded as repository_added events. Saving starts no run. Idempotency-Key is required: a retry with the same key and body saves nothing and returns the agent the first attempt saved, at its current version, with Idempotency-Replayed: true; the same key with a different body returns 409. A key is scoped to the caller, the project and agents, and does not expire. Bodies use the typed request schema; unknown fields, including spec wrappers and server-owned fields, are refused. Requires canManageAgents (automation principals require project write or manage). Route requests to the project's API URL returned by Core. */
 export const createProjectAgent: API.OperationMethod<
   CreateProjectAgentRequest,
   Agent,
   CreateProjectAgentError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c6, 1) as any as S.Schema<CreateProjectAgentRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<Agent>,
+  input: __S(289, __c18, 1) as any as S.Schema<CreateProjectAgentRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<Agent>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectAgent",
+}));
+
+export type FailSelfHostedRunnerError = EntireOpError;
+/** Fail a claimed self-hosted agent run Ends a run the runner cannot answer, so it need not wait out its deadline, and recomputes the Change's findings as a hosted failure does. 404 when the run is not one this account claimed; 409 when the run has already finished, timed out or been canceled. Needs a service account token. */
+export const failSelfHostedRunner: API.OperationMethod<
+  FailSelfHostedRunnerRequest,
+  SelfHostedRunFailed,
+  FailSelfHostedRunnerError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(320, __c20, 0) as any as S.Schema<FailSelfHostedRunnerRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<SelfHostedRunFailed>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FailSelfHostedRunner",
 }));
 
 export type GetAgentPresetError = EntireOpError;
@@ -639,8 +1013,8 @@ export const getAgentPreset: API.OperationMethod<
   GetAgentPresetError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetAgentPresetRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<AgentPreset>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetAgentPresetRequest>,
+  output: __S(353, __c22, 1) as any as S.Schema<AgentPreset>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -656,8 +1030,8 @@ export const getProjectAgent: API.OperationMethod<
   GetProjectAgentError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetProjectAgentRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<Agent>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetProjectAgentRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<Agent>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -673,13 +1047,30 @@ export const getProjectAgentVersion: API.OperationMethod<
   GetProjectAgentVersionError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetProjectAgentVersionRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<AgentVersion>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetProjectAgentVersionRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<AgentVersion>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectAgentVersion",
+}));
+
+export type ListAgentModelPricesError = EntireOpError;
+/** List agent model prices Lists what the default rate card charges for each listed agent model. Customers on a custom contract may pay different prices. Returns 503 until prices have been read from the rate card, with Retry-After when they are expected shortly. Requires a signed-in caller. */
+export const listAgentModelPrices: API.OperationMethod<
+  ListAgentModelPricesRequest,
+  AgentModelPrices,
+  ListAgentModelPricesError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(416, __c26, 0) as any as S.Schema<ListAgentModelPricesRequest>,
+  output: __S(424, __c26, 8) as any as S.Schema<AgentModelPrices>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentModelPrices",
 }));
 
 export type ListAgentModelsError = EntireOpError;
@@ -690,8 +1081,8 @@ export const listAgentModels: API.OperationMethod<
   ListAgentModelsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ListAgentModelsRequest>,
-  output: __S(245, __c15, 5) as any as S.Schema<AgentModels>,
+  input: __S(432, __c27, 0) as any as S.Schema<ListAgentModelsRequest>,
+  output: __S(437, __c27, 5) as any as S.Schema<AgentModels>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -707,8 +1098,8 @@ export const listAgentPresets: API.OperationMethod<
   ListAgentPresetsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ListAgentPresetsRequest>,
-  output: __S(258, __c16, 2) as any as S.Schema<ConfigPageAgentPreset>,
+  input: __S(112, __c7, 0) as any as S.Schema<ListAgentPresetsRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<ConfigPageAgentPreset>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -716,18 +1107,45 @@ export const listAgentPresets: API.OperationMethod<
   span: "ListAgentPresets",
 }));
 
+export type ListProjectAgentEventsError = EntireOpError;
+/** List an agent's events Pages the agent's history, newest first, with who and when: each saved version (created, edited), selection change and lifecycle change. Requires canManageAgents (automation principals require project write or manage). Route requests to the project's API URL returned by Core. */
+export const listProjectAgentEvents: API.PaginatedOperationMethod<
+  ListProjectAgentEventsRequest,
+  ConfigPageAgentEvent,
+  ListProjectAgentEventsError,
+  EntireOpContext,
+  AgentEvent
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(128, __c8, 0) as any as S.Schema<ListProjectAgentEventsRequest>,
+    output: __S(131, __c8, 3) as any as S.Schema<ConfigPageAgentEvent>,
+    errors: [UnknownEntireError],
+    protocol: EntireCellProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListProjectAgentEvents",
+    pagination: {
+      inputToken: "cursor",
+      outputToken: "next_cursor",
+      items: "items",
+      pageSize: "per_page",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
+
 export type ListProjectAgentsError = EntireOpError;
 /** List agents Pages the project's agents by id, each at its current version. Archived ones are left out unless include_archived is set. repository_id keeps the agents whose current selection includes that repository. A repository's readers without canManageAgents read its agents' summaries with GET /repos/{repo_id}/agents. Requires canManageAgents (automation principals require project write or manage). Route requests to the project's API URL returned by Core. */
 export const listProjectAgents: API.PaginatedOperationMethod<
   ListProjectAgentsRequest,
-  ConfigPageAgent,
+  ConfigPageAgentListItem,
   ListProjectAgentsError,
   EntireOpContext,
-  Agent
+  AgentListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(272, __c17, 0) as any as S.Schema<ListProjectAgentsRequest>,
-    output: __S(274, __c17, 2) as any as S.Schema<ConfigPageAgent>,
+    input: __S(144, __c9, 0) as any as S.Schema<ListProjectAgentsRequest>,
+    output: __S(147, __c9, 3) as any as S.Schema<ConfigPageAgentListItem>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -753,8 +1171,8 @@ export const listProjectAgentVersions: API.PaginatedOperationMethod<
   AgentVersion
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(288, __c18, 0) as any as S.Schema<ListProjectAgentVersionsRequest>,
-    output: __S(290, __c18, 2) as any as S.Schema<ConfigPageAgentVersion>,
+    input: __S(160, __c10, 0) as any as S.Schema<ListProjectAgentVersionsRequest>,
+    output: __S(162, __c10, 2) as any as S.Schema<ConfigPageAgentVersion>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -778,8 +1196,8 @@ export const listRepoAgents: API.OperationMethod<
   ListRepoAgentsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<ListRepoAgentsRequest>,
-  output: __S(312, __c19, 8) as any as S.Schema<RepositoryAgentsOutputBody>,
+  input: __S(176, __c11, 0) as any as S.Schema<ListRepoAgentsRequest>,
+  output: __S(184, __c11, 8) as any as S.Schema<RepositoryAgentsOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -787,16 +1205,60 @@ export const listRepoAgents: API.OperationMethod<
   span: "ListRepoAgents",
 }));
 
+export type ListSelfHostedRunnerJobsError = EntireOpError;
+/** List self-hosted agent runs Lists, oldest first, the runs the calling service account can claim, and the ones it already holds. A run is listed when its pinned Environment has an active binding for the account, its repository is one the account is a member of and this cell processes, and it is waiting or held by the caller before its deadline. Items are metadata only; claiming a run returns its prompt. A repository paused in Core is refused at claim time, not hidden here. The route is not scoped to a project: bindings say which Environments the account serves, and a runner talks to the cell that processes its project's repositories. Needs a service account token. */
+export const listSelfHostedRunnerJobs: API.PaginatedOperationMethod<
+  ListSelfHostedRunnerJobsRequest,
+  ConfigPageSelfHostedJob,
+  ListSelfHostedRunnerJobsError,
+  EntireOpContext,
+  SelfHostedJob
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(192, __c12, 0) as any as S.Schema<ListSelfHostedRunnerJobsRequest>,
+    output: __S(195, __c12, 3) as any as S.Schema<ConfigPageSelfHostedJob>,
+    errors: [UnknownEntireError],
+    protocol: EntireCellProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSelfHostedRunnerJobs",
+    pagination: {
+      inputToken: "cursor",
+      outputToken: "next_cursor",
+      items: "items",
+      pageSize: "per_page",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
+
+export type PauseProjectAgentError = EntireOpError;
+/** Pause an agent Sets is_enabled, paused_at and paused_by. Stops its trigger and cancels its queued and running runs; manual runs still work. Needs no repository push: pausing only stops runs. Send If-Match (428 missing, 412 stale) and no body. Already in that state returns 200 and changes nothing. Stale repositories do not block it. An archived agent returns 409. Requires canManageAgents (automation principals require project write or manage). Route requests to the project's API URL returned by Core. */
+export const pauseProjectAgent: API.OperationMethod<
+  PauseProjectAgentRequest,
+  Agent,
+  PauseProjectAgentError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(208, __c13, 0) as any as S.Schema<PauseProjectAgentRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<Agent>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseProjectAgent",
+}));
+
 export type ReplaceProjectAgentError = EntireOpError;
-/** Replace an agent Replaces every editable field as a new immutable version; omitted optional fields take their defaults. Send If-Match with the JSON etag value of the last read or write: missing returns 428 and stale returns 412. An archived agent returns 409. Every field, as for a create, with environment_id. A preset agent's name, model, instructions and signal are the preset's: a replace that sends different ones is refused (422); send preset null with every field to customize the agent under the same id. Requires repository push on every repository of the new selection and of the current one the project still owns; a selected repository that has left the project can be dropped without access to it. Requires canManageAgents (automation principals require project write or manage). Route requests to the project's API URL returned by Core. */
+/** Replace an agent Replaces every editable field as a new immutable version; omitted optional fields take their defaults. Send If-Match with the JSON etag value of the last read or write: missing returns 428 and stale returns 412. An archived agent returns 409. Every field, as for a create, with environment_id or runs_on self_hosted alone; runs_on may accompany environment_id when it equals the environment's runs_on, so an agent read can be sent back. A preset agent's name, model, instructions and signal are the preset's: a replace that sends different ones is refused (422); send preset null with every field to customize the agent under the same id. It saves a version only when what the agent runs changes; repository_ids is applied as adds and removes. is_enabled, if sent, must match the agent's state (422 agent_state_not_replaceable). Requires push on each repository it adds, and on each one it keeps when it saves a version, departed ones included. Removing a repository needs no push. Requires canManageAgents (automation principals require project write or manage). Route requests to the project's API URL returned by Core. */
 export const replaceProjectAgent: API.OperationMethod<
   ReplaceProjectAgentRequest,
   Agent,
   ReplaceProjectAgentError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<ReplaceProjectAgentRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<Agent>,
+  input: __S(224, __c14, 0) as any as S.Schema<ReplaceProjectAgentRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<Agent>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -805,20 +1267,37 @@ export const replaceProjectAgent: API.OperationMethod<
 }));
 
 export type RestoreProjectAgentError = EntireOpError;
-/** Restore an agent Makes an archived agent active again under the same id and version; send If-Match with its archived ETag ("<version>-archived"; 428 missing, 412 stale). Send no body, or an empty object. Its name and preset must still be free among the project's active agents (409 otherwise), its environment must still be active (422 otherwise), and restoring an active agent returns 409. Requires repository push on every repository of its selection the project still owns, where it runs again. Requires canManageAgents (automation principals require project write or manage). Route requests to the project's API URL returned by Core. */
+/** Restore an agent Makes an archived agent active again, paused or not as it was. Send If-Match (428 missing, 412 stale) and no body. Its name and preset must still be free among the project's active agents (409 otherwise), its environment must still be active (422 otherwise), and restoring an active agent returns 409. Needs no repository push: it runs again only as already approved. Requires canManageAgents (automation principals require project write or manage). Route requests to the project's API URL returned by Core. */
 export const restoreProjectAgent: API.OperationMethod<
   RestoreProjectAgentRequest,
   Agent,
   RestoreProjectAgentError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<RestoreProjectAgentRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<Agent>,
+  input: __S(240, __c15, 0) as any as S.Schema<RestoreProjectAgentRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<Agent>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectAgent",
+}));
+
+export type ResumeProjectAgentError = EntireOpError;
+/** Resume an agent Sets is_enabled, paused_at and paused_by. Lets its trigger run it again; 422 when its saved version can no longer run. Needs no repository push: it runs again only as already approved. Send If-Match (428 missing, 412 stale) and no body. Already in that state returns 200 and changes nothing. Stale repositories do not block it. An archived agent returns 409. Requires canManageAgents (automation principals require project write or manage). Route requests to the project's API URL returned by Core. */
+export const resumeProjectAgent: API.OperationMethod<
+  ResumeProjectAgentRequest,
+  Agent,
+  ResumeProjectAgentError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(256, __c16, 0) as any as S.Schema<ResumeProjectAgentRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<Agent>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeProjectAgent",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -855,7 +1334,38 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          archived_at: S.NullOr(S.String),
+          archived_by: S.optional(__S(48, __c3, 0)),
+          created_at: S.String,
+          created_by: __S(48, __c3, 0),
+          description: S.String,
+          environment_id: S.String,
+          etag: S.String,
+          harness: S.String,
+          id: S.String,
+          instructions: S.String,
+          is_enabled: S.Boolean,
+          model: S.NullOr(S.String),
+          name: S.String,
+          paused_at: S.NullOr(S.String),
+          paused_by: S.optional(__S(48, __c3, 0)),
+          preset: __S(64, __c4, 0),
+          project_id: S.String,
+          reasoning_effort: S.NullOr(S.String),
+          repository_count: S.Number,
+          repository_ids: S.NullOr(__S(80, __c5, 0)),
+          runs_on: S.String,
+          signal: __S(16, __c1, 0),
+          stale_repository_ids: S.NullOr(__S(80, __c5, 0)),
+          timeout_ms: S.Number,
+          triggers: S.NullOr(__S(66, __c4, 2)),
+          updated_at: S.String,
+          version: S.Number,
+        }),
+      ).annotate({ identifier: "Agent" });
   }
 }
 function __c3(j: number): any {
@@ -881,10 +1391,10 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          branches: S.NullOr(__S(32, __c2, 0)),
+          branches: S.NullOr(__S(80, __c5, 0)),
           id: S.String,
           kind: S.String,
-          paths: S.NullOr(__S(32, __c2, 0)),
+          paths: S.NullOr(__S(80, __c5, 0)),
           when: S.String,
         }),
       ).annotate({ identifier: "AgentTrigger" });
@@ -895,34 +1405,7 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          archived_at: S.NullOr(S.String),
-          archived_by: S.optional(__S(48, __c3, 0)),
-          created_at: S.String,
-          created_by: __S(48, __c3, 0),
-          description: S.String,
-          environment_id: S.String,
-          etag: S.String,
-          harness: S.String,
-          id: S.String,
-          instructions: S.String,
-          is_enabled: S.Boolean,
-          model: S.NullOr(S.String),
-          name: S.String,
-          preset: __S(64, __c4, 0),
-          project_id: S.String,
-          reasoning_effort: S.NullOr(S.String),
-          repository_ids: S.NullOr(__S(32, __c2, 0)),
-          signal: __S(16, __c1, 0),
-          stale_repository_ids: S.NullOr(__S(32, __c2, 0)),
-          timeout_ms: S.Number,
-          triggers: S.NullOr(__S(66, __c4, 2)),
-          updated_at: S.String,
-          version: S.Number,
-        }),
-      ).annotate({ identifier: "Agent" });
+      return S.Array(S.String);
   }
 }
 function __c6(j: number): any {
@@ -930,56 +1413,56 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          auto_stop_minutes: S.optional(S.NullOr(S.Number)),
-          description: S.optional(S.String),
-          name: S.String,
-        }),
-      ).annotate({ identifier: "CreateProjectAgentRequestEnvironment" });
+          run_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/self-hosted-runner/jobs/{run_id}/claim",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ClaimSelfHostedRunnerRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          host: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
-          description: S.optional(S.String),
-          environment: S.optional(__S(96, __c6, 0)),
-          environment_id: S.optional(S.String),
-          harness: S.optional(S.String),
-          instructions: S.optional(S.String),
-          is_enabled: S.optional(S.Boolean),
-          model: S.optional(S.NullOr(S.String)),
-          name: S.optional(S.String),
-          preset: S.optional(S.NullOr(S.String)),
-          reasoning_effort: S.optional(S.NullOr(S.String)),
-          repository_ids: S.NullOr(__S(32, __c2, 0)),
-          signal: S.optional(__S(112, __c7, 0)),
-          timeout_ms: S.optional(S.Number),
-          triggers: S.optional(S.NullOr(__S(114, __c7, 2))),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/{host}/{project}/agents", code: 200 })),
-      ).annotate({ identifier: "CreateProjectAgentRequest" });
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          agent_id: S.String,
+          base_branch: S.String,
+          base_sha: S.String,
+          branch: S.String,
+          change_id: S.String,
+          deadline_at: S.String,
+          git_remote_url: S.String,
+          harness: S.String,
+          head_sha: S.String,
+          model: S.String,
+          output_example: S.Unknown,
+          output_schema: S.Unknown,
+          project_id: S.String,
+          prompt: S.String,
+          repository_id: S.String,
+          result_type: S.String,
+          run_id: S.String,
+        }),
+      ).annotate({ identifier: "SelfHostedRunClaim" });
   }
 }
 function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          polarity: S.optional(S.NullOr(S.String)),
-          value_type: S.String,
-        }),
-      ).annotate({ identifier: "CreateProjectAgentRequestSignal" });
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/agents/presets", code: 200 })),
+      ).annotate({ identifier: "ListAgentPresetsRequest" });
     case 1:
+      return S.Array(__S(353, __c22, 1));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          branches: S.optional(S.NullOr(__S(32, __c2, 0))),
-          id: S.optional(S.String),
-          kind: S.String,
-          paths: S.optional(S.NullOr(__S(32, __c2, 0))),
-          when: S.optional(S.String),
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          items: S.NullOr(__S(113, __c7, 1)),
+          next_cursor: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AgentTriggerInput" });
-    case 2:
-      return S.Array(__S(113, __c7, 1));
+      ).annotate({ identifier: "ConfigPageAgentPreset" });
   }
 }
 function __c8(j: number): any {
@@ -990,197 +1473,37 @@ function __c8(j: number): any {
           host: S.String.pipe(T.Label()),
           project: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
-          description: S.optional(S.String),
-          environment_id: S.String,
-          harness: S.optional(S.String),
-          instructions: S.optional(S.String),
-          is_enabled: S.optional(S.Boolean),
-          model: S.optional(S.NullOr(S.String)),
-          name: S.optional(S.String),
-          preset: S.optional(S.NullOr(S.String)),
-          reasoning_effort: S.optional(S.NullOr(S.String)),
-          repository_ids: S.NullOr(__S(32, __c2, 0)),
-          signal: S.optional(__S(112, __c7, 0)),
-          timeout_ms: S.optional(S.Number),
-          triggers: S.optional(S.NullOr(__S(114, __c7, 2))),
-        }).pipe(T.Http({ method: "PUT", uri: "/api/v1/{host}/{project}/agents/{id}", code: 200 })),
-      ).annotate({ identifier: "ReplaceProjectAgentRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
+          per_page: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
         }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/{host}/{project}/agents/{id}/restore",
-            code: 200,
-          }),
+          T.Http({ method: "GET", uri: "/api/v1/{host}/{project}/agents/{id}/events", code: 200 }),
         ),
-      ).annotate({ identifier: "RestoreProjectAgentRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/agents/presets/{id}", code: 200 })),
-      ).annotate({ identifier: "GetAgentPresetRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.String,
-          harness: S.String,
-          instructions: S.String,
-          model: S.NullOr(S.String),
-          name: S.String,
-          reasoning_effort: S.NullOr(S.String),
-          signal: __S(16, __c1, 0),
-          timeout_ms: S.Number,
-        }),
-      ).annotate({ identifier: "AgentPresetAgent" });
+      ).annotate({ identifier: "ListProjectAgentEventsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          agent: __S(176, __c11, 0),
-          description: S.String,
-          id: S.String,
-          name: S.String,
-          sha256: S.String,
-          version: S.Number,
-        }),
-      ).annotate({ identifier: "AgentPreset" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/{host}/{project}/agents/{id}", code: 200 })),
-      ).annotate({ identifier: "GetProjectAgentRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          version: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/{host}/{project}/agents/{id}/versions/{version}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectAgentVersionRequest" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          agent_id: S.String,
+          actor: __S(48, __c3, 0),
+          changed: S.NullOr(__S(80, __c5, 0)),
           created_at: S.String,
-          created_by: __S(48, __c3, 0),
-          description: S.String,
-          environment_id: S.String,
-          harness: S.String,
-          instructions: S.String,
-          is_enabled: S.Boolean,
-          model: S.NullOr(S.String),
-          name: S.String,
-          preset: __S(64, __c4, 0),
-          reasoning_effort: S.NullOr(S.String),
-          repository_ids: S.NullOr(__S(32, __c2, 0)),
-          signal: __S(16, __c1, 0),
-          timeout_ms: S.Number,
-          triggers: S.NullOr(__S(66, __c4, 2)),
-          version: S.Number,
-        }),
-      ).annotate({ identifier: "AgentVersion" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/agents/models", code: 200 })),
-      ).annotate({ identifier: "ListAgentModelsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           id: S.String,
-          name: S.String,
-          reasoning_efforts: S.NullOr(__S(32, __c2, 0)),
-          visibility: S.String,
+          kind: S.String,
+          repository_id: S.NullOr(S.String),
+          version: S.NullOr(S.Number),
         }),
-      ).annotate({ identifier: "AgentModel" });
+      ).annotate({ identifier: "AgentEvent" });
     case 2:
-      return S.Array(__S(241, __c15, 1));
+      return S.Array(__S(129, __c8, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          default_model: S.String,
-          default_reasoning_effort: S.NullOr(S.String),
-          harness: S.String,
-          models: S.NullOr(__S(242, __c15, 2)),
-          reasoning_efforts: S.NullOr(__S(32, __c2, 0)),
-        }),
-      ).annotate({ identifier: "AgentHarnessModels" });
-    case 4:
-      return S.Array(__S(243, __c15, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          agents: S.NullOr(__S(244, __c15, 4)),
-        }),
-      ).annotate({ identifier: "AgentModels" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/agents/presets", code: 200 })),
-      ).annotate({ identifier: "ListAgentPresetsRequest" });
-    case 1:
-      return S.Array(__S(177, __c11, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          items: S.NullOr(__S(257, __c16, 1)),
+          items: S.NullOr(__S(130, __c8, 2)),
           next_cursor: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ConfigPageAgentPreset" });
+      ).annotate({ identifier: "ConfigPageAgentEvent" });
   }
 }
-function __c17(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1194,18 +1517,49 @@ function __c17(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/{host}/{project}/agents", code: 200 })),
       ).annotate({ identifier: "ListProjectAgentsRequest" });
     case 1:
-      return S.Array(__S(80, __c5, 0));
+      return S.suspend(() =>
+        S.Struct({
+          archived_at: S.NullOr(S.String),
+          archived_by: S.optional(__S(48, __c3, 0)),
+          created_at: S.String,
+          created_by: __S(48, __c3, 0),
+          description: S.String,
+          environment_id: S.String,
+          etag: S.String,
+          harness: S.String,
+          id: S.String,
+          instructions: S.String,
+          is_enabled: S.Boolean,
+          model: S.NullOr(S.String),
+          name: S.String,
+          paused_at: S.NullOr(S.String),
+          paused_by: S.optional(__S(48, __c3, 0)),
+          preset: __S(64, __c4, 0),
+          project_id: S.String,
+          reasoning_effort: S.NullOr(S.String),
+          repository_count: S.Number,
+          runs_on: S.String,
+          signal: __S(16, __c1, 0),
+          stale_repository_ids: S.NullOr(__S(80, __c5, 0)),
+          timeout_ms: S.Number,
+          triggers: S.NullOr(__S(66, __c4, 2)),
+          updated_at: S.String,
+          version: S.Number,
+        }),
+      ).annotate({ identifier: "AgentListItem" });
     case 2:
+      return S.Array(__S(145, __c9, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          items: S.NullOr(__S(273, __c17, 1)),
+          items: S.NullOr(__S(146, __c9, 2)),
           next_cursor: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ConfigPageAgent" });
+      ).annotate({ identifier: "ConfigPageAgentListItem" });
   }
 }
-function __c18(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1224,18 +1578,18 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectAgentVersionsRequest" });
     case 1:
-      return S.Array(__S(224, __c14, 0));
+      return S.Array(__S(400, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          items: S.NullOr(__S(289, __c18, 1)),
+          items: S.NullOr(__S(161, __c10, 1)),
           next_cursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigPageAgentVersion" });
   }
 }
-function __c19(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1263,7 +1617,7 @@ function __c19(j: number): any {
           size_value: S.NullOr(S.String),
           summary: S.NullOr(S.String),
           updated_at: S.String,
-          verdicts: __S(305, __c19, 1),
+          verdicts: __S(177, __c11, 1),
         }),
       ).annotate({ identifier: "RepositoryAgentLatestReading" });
     case 3:
@@ -1285,12 +1639,12 @@ function __c19(j: number): any {
         S.Struct({
           change_id: S.String,
           created_at: S.String,
-          error: __S(307, __c19, 3),
+          error: __S(179, __c11, 3),
           head_sha: S.NullOr(S.String),
           id: S.String,
           status: S.String,
           trail_id: S.String,
-          trigger: __S(308, __c19, 4),
+          trigger: __S(180, __c11, 4),
         }),
       ).annotate({ identifier: "RepositoryAgentLatestRun" });
     case 6:
@@ -1300,8 +1654,8 @@ function __c19(j: number): any {
           harness: S.String,
           id: S.String,
           is_enabled: S.Boolean,
-          latest_reading: __S(306, __c19, 2),
-          latest_run: __S(309, __c19, 5),
+          latest_reading: __S(178, __c11, 2),
+          latest_run: __S(181, __c11, 5),
           model: S.NullOr(S.String),
           name: S.String,
           preset: __S(64, __c4, 0),
@@ -1310,14 +1664,434 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "RepositoryAgent" });
     case 7:
-      return S.Array(__S(310, __c19, 6));
+      return S.Array(__S(182, __c11, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          items: S.NullOr(__S(311, __c19, 7)),
+          items: S.NullOr(__S(183, __c11, 7)),
         }),
       ).annotate({ identifier: "RepositoryAgentsOutputBody" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          per_page: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/self-hosted-runner/jobs", code: 200 })),
+      ).annotate({ identifier: "ListSelfHostedRunnerJobsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          agent_id: S.String,
+          agent_name: S.String,
+          branch: S.String,
+          change_id: S.String,
+          created_at: S.String,
+          deadline_at: S.String,
+          harness: S.String,
+          head_sha: S.String,
+          model: S.String,
+          project_id: S.String,
+          repository_id: S.String,
+          run_id: S.String,
+          state: S.String,
+        }),
+      ).annotate({ identifier: "SelfHostedJob" });
+    case 2:
+      return S.Array(__S(193, __c12, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          items: S.NullOr(__S(194, __c12, 2)),
+          next_cursor: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConfigPageSelfHostedJob" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/v1/{host}/{project}/agents/{id}/pause", code: 200 }),
+        ),
+      ).annotate({ identifier: "PauseProjectAgentRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
+          description: S.optional(S.String),
+          environment_id: S.optional(S.String),
+          harness: S.optional(S.String),
+          instructions: S.optional(S.String),
+          is_enabled: S.optional(S.Boolean),
+          model: S.optional(S.NullOr(S.String)),
+          name: S.optional(S.String),
+          preset: S.optional(S.NullOr(S.String)),
+          reasoning_effort: S.optional(S.NullOr(S.String)),
+          repository_ids: S.NullOr(__S(80, __c5, 0)),
+          runs_on: S.optional(S.String),
+          signal: S.optional(__S(304, __c19, 0)),
+          timeout_ms: S.optional(S.Number),
+          triggers: S.optional(S.NullOr(__S(306, __c19, 2))),
+        }).pipe(T.Http({ method: "PUT", uri: "/api/v1/{host}/{project}/agents/{id}", code: 200 })),
+      ).annotate({ identifier: "ReplaceProjectAgentRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/{host}/{project}/agents/{id}/restore",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RestoreProjectAgentRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/v1/{host}/{project}/agents/{id}/resume", code: 200 }),
+        ),
+      ).annotate({ identifier: "ResumeProjectAgentRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          run_id: S.String.pipe(T.Label()),
+          harness: S.String,
+          model: S.optional(S.String),
+          result: S.Unknown,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/self-hosted-runner/runs/{run_id}/complete",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CompleteSelfHostedRunnerRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          review_id: S.String,
+          run_id: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "SelfHostedRunCompleted" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          auto_stop_minutes: S.optional(S.NullOr(S.Number)),
+          claim_timeout_ms: S.optional(S.Number),
+          description: S.optional(S.String),
+          name: S.String,
+          runs_on: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateProjectAgentRequestEnvironment" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
+          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
+          description: S.optional(S.String),
+          environment: S.optional(__S(288, __c18, 0)),
+          environment_id: S.optional(S.String),
+          harness: S.optional(S.String),
+          instructions: S.optional(S.String),
+          is_enabled: S.optional(S.Boolean),
+          model: S.optional(S.NullOr(S.String)),
+          name: S.optional(S.String),
+          preset: S.optional(S.NullOr(S.String)),
+          reasoning_effort: S.optional(S.NullOr(S.String)),
+          repository_ids: S.NullOr(__S(80, __c5, 0)),
+          runs_on: S.optional(S.String),
+          signal: S.optional(__S(304, __c19, 0)),
+          timeout_ms: S.optional(S.Number),
+          triggers: S.optional(S.NullOr(__S(306, __c19, 2))),
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/{host}/{project}/agents", code: 200 })),
+      ).annotate({ identifier: "CreateProjectAgentRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          polarity: S.optional(S.NullOr(S.String)),
+          value_type: S.String,
+        }),
+      ).annotate({ identifier: "CreateProjectAgentRequestSignal" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          branches: S.optional(S.NullOr(__S(80, __c5, 0))),
+          id: S.optional(S.String),
+          kind: S.String,
+          paths: S.optional(S.NullOr(__S(80, __c5, 0))),
+          when: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AgentTriggerInput" });
+    case 2:
+      return S.Array(__S(305, __c19, 1));
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          run_id: S.String.pipe(T.Label()),
+          error: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/self-hosted-runner/runs/{run_id}/fail",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "FailSelfHostedRunnerRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          run_id: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "SelfHostedRunFailed" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/agents/presets/{id}", code: 200 })),
+      ).annotate({ identifier: "GetAgentPresetRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.String,
+          harness: S.String,
+          instructions: S.String,
+          model: S.NullOr(S.String),
+          name: S.String,
+          reasoning_effort: S.NullOr(S.String),
+          signal: __S(16, __c1, 0),
+          timeout_ms: S.Number,
+        }),
+      ).annotate({ identifier: "AgentPresetAgent" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          agent: __S(352, __c22, 0),
+          description: S.String,
+          id: S.String,
+          name: S.String,
+          sha256: S.String,
+          version: S.Number,
+        }),
+      ).annotate({ identifier: "AgentPreset" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/{host}/{project}/agents/{id}", code: 200 })),
+      ).annotate({ identifier: "GetProjectAgentRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          version: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/{host}/{project}/agents/{id}/versions/{version}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectAgentVersionRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          agent_id: S.String,
+          created_at: S.String,
+          created_by: __S(48, __c3, 0),
+          description: S.String,
+          environment_id: S.String,
+          harness: S.String,
+          instructions: S.String,
+          model: S.NullOr(S.String),
+          name: S.String,
+          preset: __S(64, __c4, 0),
+          reasoning_effort: S.NullOr(S.String),
+          signal: __S(16, __c1, 0),
+          timeout_ms: S.Number,
+          triggers: S.NullOr(__S(66, __c4, 2)),
+          version: S.Number,
+        }),
+      ).annotate({ identifier: "AgentVersion" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "GET", uri: "/api/v1/agents/models/prices", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListAgentModelPricesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          cache_read: S.String,
+          cache_write: S.String,
+          input: S.String,
+          output: S.String,
+        }),
+      ).annotate({ identifier: "AgentModelPriceUsdPerMillionTokens" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          usd_per_million_tokens: __S(417, __c26, 1),
+        }),
+      ).annotate({ identifier: "AgentModelPrice" });
+    case 3:
+      return S.Array(__S(418, __c26, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          harness: S.String,
+          models: S.NullOr(__S(419, __c26, 3)),
+          provider: S.String,
+        }),
+      ).annotate({ identifier: "AgentHarnessPrices" });
+    case 5:
+      return S.Array(__S(420, __c26, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          usd_per_unit: S.String,
+        }),
+      ).annotate({ identifier: "AgentModelOtherRate" });
+    case 7:
+      return S.Array(__S(422, __c26, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          agents: S.NullOr(__S(421, __c26, 5)),
+          fetched_at: S.String,
+          other_rates: S.NullOr(__S(423, __c26, 7)),
+          rate_card_updated_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "AgentModelPrices" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/agents/models", code: 200 })),
+      ).annotate({ identifier: "ListAgentModelsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          publisher: S.String,
+          reasoning_efforts: S.NullOr(__S(80, __c5, 0)),
+          visibility: S.String,
+        }),
+      ).annotate({ identifier: "AgentModel" });
+    case 2:
+      return S.Array(__S(433, __c27, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          default_model: S.String,
+          default_reasoning_effort: S.NullOr(S.String),
+          harness: S.String,
+          models: S.NullOr(__S(434, __c27, 2)),
+          name: S.String,
+          reasoning_efforts: S.NullOr(__S(80, __c5, 0)),
+        }),
+      ).annotate({ identifier: "AgentHarnessModels" });
+    case 4:
+      return S.Array(__S(435, __c27, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          agents: S.NullOr(__S(436, __c27, 4)),
+        }),
+      ).annotate({ identifier: "AgentModels" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -35,19 +35,22 @@ export interface CreatePluginInstallationRequest {
   /** Plugin installation profile */
   plugin: string;
   /** The plugin's permissions as the user was shown them, as resource:access. A list that no longer matches the plugin answers 409. Omitted accepts the plugin's permissions as they stand */
-  accepted_permissions?: CreatePluginInstallationRequestAcceptedPermissionsList;
+  accepted_permissions?: CreatePluginInstallationRequestAcceptedPermissionsList | undefined;
   /** Existing installation (ins_<ULID>) to retry */
-  installation_id?: string;
+  installation_id?: string | undefined;
   /** Entire project the installation belongs to */
-  project_id?: string;
+  project_id?: string | undefined;
   /** A post-install URL registered for the plugin, which redirect_to returns the receipt to */
-  redirect_uri?: string;
+  redirect_uri?: string | undefined;
   /** Public repository ids (repo_<ULID>) when repository_selection is selected */
-  repository_ids?: CreatePluginInstallationRequestRepositoryIdsList;
+  repository_ids?: CreatePluginInstallationRequestRepositoryIdsList | undefined;
   /** All repositories in the project, or only repository_ids */
-  repository_selection?: CreatePluginInstallationRequestRepositorySelection | (string & {});
+  repository_selection?:
+    | CreatePluginInstallationRequestRepositorySelection
+    | (string & {})
+    | undefined;
   /** Opaque state from a plugin-started install. Without one, the installation gets no receipt */
-  state?: string;
+  state?: string | undefined;
 }
 /** Opaque output from the selected static plugin profile */
 export type PluginInstallationProfileMap = { [key: string]: unknown | undefined };
@@ -60,22 +63,22 @@ export interface PluginProject {
 }
 export interface PluginInstallation {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Provider account for this installation (ins-<ulid>) */
   account: string;
   /** Installation id (ins_<ULID>) the plugin stores */
   installation_id: string;
   /** Web app page where the customer manages a project installation */
-  manage_url?: string;
+  manage_url?: string | undefined;
   /** The project's owning org, when it has one */
-  org_id?: string;
+  org_id?: string | undefined;
   /** Opaque output from the selected static plugin profile */
   profile: PluginInstallationProfileMap;
-  project?: PluginProject;
+  project?: PluginProject | undefined;
   /** Entire project the installation belongs to */
-  project_id?: string;
+  project_id?: string | undefined;
   /** all or selected */
-  repository_selection?: string;
+  repository_selection?: string | undefined;
   [key: string]: unknown;
 }
 export interface CreatePluginInstallationAccessTokenRequest {
@@ -88,12 +91,100 @@ export interface CreatePluginInstallationAccessTokenRequest {
 export type PluginAccessTokenOutputBodyPermissionsMap = { [key: string]: string | undefined };
 export interface PluginAccessTokenOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   expires_at: string;
   permissions: PluginAccessTokenOutputBodyPermissionsMap;
   token: string;
   username: string;
   [key: string]: unknown;
+}
+/** Projects that can install the plugin. */
+export type CreatePluginRegistrationRequestInstallableBy = "owner_project" | "any";
+/** Exact redirect_uri values of the plugin's user OAuth flow. Empty means the plugin is not an OAuth client. */
+export type CreatePluginRegistrationRequestOauthRedirectUrisList = Array<string>;
+/** Accesses a project installation's token carries, such as contents:read. */
+export type CreatePluginRegistrationRequestPermissionsList = Array<string>;
+/** Exact redirect_uri values an install may return its receipt to. */
+export type CreatePluginRegistrationRequestPostInstallUrlsList = Array<string>;
+/** PEM-encoded Ed25519 public keys that sign the plugin's tokens. */
+export type CreatePluginRegistrationRequestPublicKeysList = Array<string>;
+export interface CreatePluginRegistrationRequest {
+  description?: string | undefined;
+  /** HTTPS URL that Install in Entire's catalog opens, so the plugin starts the install. May be a deep link. Empty installs directly. */
+  install_url?: string | undefined;
+  /** Projects that can install the plugin. */
+  installable_by: CreatePluginRegistrationRequestInstallableBy | (string & {});
+  /** iss claim of the plugin's tokens: urn:entire:plugin:<slug>, or an older plugin's own value. Omit to keep, or set the standard. */
+  issuer?: string | undefined;
+  /** HTTPS URL serving the keys that sign the plugin's tokens. Core fetches a new value before saving it. */
+  jwks_url?: string | undefined;
+  /** HTTPS URL, or a path on the web app's origin. */
+  logo_url: string;
+  name: string;
+  /** Exact redirect_uri values of the plugin's user OAuth flow. Empty means the plugin is not an OAuth client. */
+  oauth_redirect_uris?: CreatePluginRegistrationRequestOauthRedirectUrisList | undefined;
+  /** Project that publishes the plugin. */
+  owner_project_id: string;
+  /** Accesses a project installation's token carries, such as contents:read. */
+  permissions: CreatePluginRegistrationRequestPermissionsList;
+  /** Exact redirect_uri values an install may return its receipt to. */
+  post_install_urls?: CreatePluginRegistrationRequestPostInstallUrlsList | undefined;
+  /** PEM-encoded Ed25519 public keys that sign the plugin's tokens. */
+  public_keys?: CreatePluginRegistrationRequestPublicKeysList | undefined;
+  /** aud claim of core's install receipts: urn:entire:plugin:<slug>, or an older plugin's own value. Omit to keep, or set the standard. */
+  receipt_audience?: string | undefined;
+  /** Permanent URL name. The plugin's tokens and webhook deliveries carry it, so a replace must repeat it. */
+  slug: string;
+  /** HTTPS URL receiving the plugin's event deliveries. Empty delivers nothing. */
+  webhook_url?: string | undefined;
+}
+/** Projects that can install the plugin. */
+export type PluginRegistrationInstallableBy = "owner_project" | "any";
+/** Exact redirect_uri values of the plugin's user OAuth flow. Empty means the plugin is not an OAuth client. */
+export type PluginRegistrationOauthRedirectUrisList = Array<string>;
+/** Accesses a project installation's token carries, such as contents:read. */
+export type PluginRegistrationPermissionsList = Array<string>;
+/** Exact redirect_uri values an install may return its receipt to. */
+export type PluginRegistrationPostInstallUrlsList = Array<string>;
+/** PEM-encoded Ed25519 public keys that sign the plugin's tokens. */
+export type PluginRegistrationPublicKeysList = Array<string>;
+export interface PluginRegistration {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  description?: string | undefined;
+  /** plugin_ followed by a ULID. */
+  id: string;
+  /** HTTPS URL that Install in Entire's catalog opens, so the plugin starts the install. May be a deep link. Empty installs directly. */
+  install_url?: string | undefined;
+  /** Projects that can install the plugin. */
+  installable_by: PluginRegistrationInstallableBy;
+  /** iss claim of the plugin's tokens: urn:entire:plugin:<slug>, or an older plugin's own value. Omit to keep, or set the standard. */
+  issuer?: string | undefined;
+  /** HTTPS URL serving the keys that sign the plugin's tokens. Core fetches a new value before saving it. */
+  jwks_url?: string | undefined;
+  /** Shows the plugin in every project's catalog. Requires installable_by any. An unlisted plugin installs through its own install link. */
+  listed: boolean;
+  /** HTTPS URL, or a path on the web app's origin. */
+  logo_url: string;
+  name: string;
+  /** Exact redirect_uri values of the plugin's user OAuth flow. Empty means the plugin is not an OAuth client. */
+  oauth_redirect_uris?: PluginRegistrationOauthRedirectUrisList | undefined;
+  /** Project that publishes the plugin. */
+  owner_project_id: string;
+  /** Accesses a project installation's token carries, such as contents:read. */
+  permissions: PluginRegistrationPermissionsList;
+  /** Exact redirect_uri values an install may return its receipt to. */
+  post_install_urls?: PluginRegistrationPostInstallUrlsList | undefined;
+  /** PEM-encoded Ed25519 public keys that sign the plugin's tokens. */
+  public_keys?: PluginRegistrationPublicKeysList | undefined;
+  /** aud claim of core's install receipts: urn:entire:plugin:<slug>, or an older plugin's own value. Omit to keep, or set the standard. */
+  receipt_audience?: string | undefined;
+  /** Repositories one installation may create in a rolling 24 hours. 0 uses the default of 100. */
+  repo_create_daily_limit?: number | undefined;
+  /** Permanent URL name. The plugin's tokens and webhook deliveries carry it, so a replace must repeat it. */
+  slug: string;
+  /** HTTPS URL receiving the plugin's event deliveries. Empty delivers nothing. */
+  webhook_url?: string | undefined;
 }
 export interface DeletePluginInstallationRequest {
   /** Plugin installation profile */
@@ -102,13 +193,18 @@ export interface DeletePluginInstallationRequest {
   id: string;
 }
 export interface DeletePluginInstallationResponse {}
+export interface DeletePluginRegistrationRequest {
+  /** plugin_ followed by a ULID. */
+  plugin_id: string;
+}
+export interface DeletePluginRegistrationResponse {}
 export interface GetPluginRequest {
   /** Plugin slug */
   plugin: string;
   /** Project the plugin is read for. Needs manage permission on the project. A plugin that only its owner project can install is not found for another project */
-  project_id?: string;
+  project_id?: string | undefined;
 }
-export type PluginInstallLevelsItem = "org" | "project";
+export type PluginInstallLevelsItem = "project";
 /** Where the plugin installs */
 export type PluginInstallLevelsList = Array<PluginInstallLevelsItem>;
 export interface PluginPermission {
@@ -124,23 +220,27 @@ export interface PluginPermission {
 export type PluginPermissionsList = Array<PluginPermission>;
 export interface Plugin {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Display description */
-  description?: string;
+  description?: string | undefined;
   /** Plugin id (plugin_<ULID>) */
   id: string;
   /** Where the plugin installs */
   install_levels: PluginInstallLevelsList;
   /** Where Install in Entire sends a customer. Absent installs directly */
-  install_url?: string;
+  install_url?: string | undefined;
   /** The only project that can install the plugin. Absent when any project can */
-  installable_project_id?: string;
+  installable_project_id?: string | undefined;
   /** Logo URL. A path without a host is on the web app's origin */
   logo_url: string;
   /** Display name */
   name: string;
+  /** True when the caller sees only the id, slug, name, logo and installable project */
+  partial?: boolean | undefined;
   /** Repository access an installation grants. A project installation also reads itself */
   permissions: PluginPermissionsList;
+  /** Project that publishes the plugin. Absent when its name cannot be shown */
+  publisher_project?: PluginProject | undefined;
   /** Plugin slug, the {plugin} in plugin paths */
   slug: string;
   [key: string]: unknown;
@@ -151,9 +251,9 @@ export interface GetPluginInstallationRequest {
   /** Installation (ins_<ULID>) */
   id: string;
   /** Opaque cursor from a previous response's next_cursor */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Repositories per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** active, suspended, or deleting */
 export type GetPluginInstallationOutputBodyLifecycleState = "active" | "suspended" | "deleting";
@@ -173,88 +273,52 @@ export type GetPluginInstallationOutputBodyRepositoriesList = Array<PluginInstal
 export type GetPluginInstallationOutputBodySuspendedBy = "plugin" | "customer";
 export interface GetPluginInstallationOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   account: string;
   /** Plugin automation id; absent until the installation is provisioned */
-  automation_id?: string;
+  automation_id?: string | undefined;
   created_at: string;
   installation_id: string;
   /** active, suspended, or deleting */
   lifecycle_state: GetPluginInstallationOutputBodyLifecycleState;
   /** Web app page where the customer manages a project installation */
-  manage_url?: string;
+  manage_url?: string | undefined;
   /** Present when more repositories remain */
-  next_cursor?: string;
-  org_id?: string;
+  next_cursor?: string | undefined;
+  org_id?: string | undefined;
   /** Plugin permissions that wait for a project manager to accept them */
-  pending_permissions?: GetPluginInstallationOutputBodyPendingPermissionsList;
+  pending_permissions?: GetPluginInstallationOutputBodyPendingPermissionsList | undefined;
   /** Plugin permissions the project installation holds, as resource:access */
-  permissions?: GetPluginInstallationOutputBodyPermissionsList;
+  permissions?: GetPluginInstallationOutputBodyPermissionsList | undefined;
   /** Plugin id (ULID) */
   plugin_id: string;
-  project?: PluginProject;
-  project_id?: string;
+  project?: PluginProject | undefined;
+  project_id?: string | undefined;
   repositories: GetPluginInstallationOutputBodyRepositoriesList;
-  repository_selection?: string;
+  repository_selection?: string | undefined;
   /** Increases with each change; matches the installation lifecycle events */
   revision: number;
   /** While suspended: when the suspension started */
-  suspended_at?: string;
+  suspended_at?: string | undefined;
   /** While suspended: plugin or customer. Only that side resumes. */
-  suspended_by?: GetPluginInstallationOutputBodySuspendedBy;
+  suspended_by?: GetPluginInstallationOutputBodySuspendedBy | undefined;
   [key: string]: unknown;
 }
 export interface GetPluginRegistrationRequest {
   /** plugin_ followed by a ULID. */
-  pluginId: string;
+  plugin_id: string;
 }
-/** Projects that can install the plugin. */
-export type PluginRegistrationInstallableBy = "owner_project" | "any";
-/** Exact redirect_uri values of the plugin's user OAuth flow. Empty means the plugin is not an OAuth client. */
-export type PluginRegistrationOauthRedirectUrisList = Array<string>;
-/** Accesses a project installation's token carries, such as contents:read. */
-export type PluginRegistrationPermissionsList = Array<string>;
-/** Exact redirect_uri values an install may return its receipt to. */
-export type PluginRegistrationPostInstallUrlsList = Array<string>;
-/** PEM-encoded Ed25519 public keys that sign the plugin's tokens. */
-export type PluginRegistrationPublicKeysList = Array<string>;
-export interface PluginRegistration {
+export interface GetProjectPluginInstallationRequest {
+  /** Entire project */
+  projectId: string;
+  /** Plugin installation profile */
+  plugin: string;
+}
+export interface GetProjectPluginInstallationOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  description?: string;
-  /** plugin_ followed by a ULID. */
-  id: string;
-  /** HTTPS URL that Install in Entire's catalog opens, so the plugin starts the install. May be a deep link. Empty installs directly. */
-  install_url?: string;
-  /** Projects that can install the plugin. */
-  installable_by: PluginRegistrationInstallableBy;
-  /** iss claim of the plugin's tokens: urn:entire:plugin:<slug>, or an older plugin's own value. Omit to keep, or set the standard. */
-  issuer?: string;
-  /** HTTPS URL serving the keys that sign the plugin's tokens. Core fetches a new value before saving it. */
-  jwks_url?: string;
-  /** Shows the plugin in every project's catalog. Requires installable_by any. An unlisted plugin installs through its own install link. */
-  listed: boolean;
-  /** HTTPS URL, or a path on the web app's origin. */
-  logo_url: string;
-  name: string;
-  /** Exact redirect_uri values of the plugin's user OAuth flow. Empty means the plugin is not an OAuth client. */
-  oauth_redirect_uris?: PluginRegistrationOauthRedirectUrisList;
-  /** Project that publishes the plugin. */
-  owner_project_id: string;
-  /** Accesses a project installation's token carries, such as contents:read. */
-  permissions: PluginRegistrationPermissionsList;
-  /** Exact redirect_uri values an install may return its receipt to. */
-  post_install_urls?: PluginRegistrationPostInstallUrlsList;
-  /** PEM-encoded Ed25519 public keys that sign the plugin's tokens. */
-  public_keys?: PluginRegistrationPublicKeysList;
-  /** aud claim of core's install receipts: urn:entire:plugin:<slug>, or an older plugin's own value. Omit to keep, or set the standard. */
-  receipt_audience?: string;
-  /** Repositories one installation may create in a rolling 24 hours. 0 uses the default of 100. */
-  repo_create_daily_limit?: number;
-  /** Permanent URL name. The plugin's tokens and webhook deliveries carry it, so a replace must repeat it. */
-  slug: string;
-  /** HTTPS URL receiving the plugin's event deliveries. Empty delivers nothing. */
-  webhook_url?: string;
+  _schema?: string | undefined;
+  installation_id: string;
+  [key: string]: unknown;
 }
 export interface ListPluginInstallationRepositoriesRequest {
   /** Plugin slug */
@@ -263,7 +327,7 @@ export interface ListPluginInstallationRepositoriesRequest {
   id: string;
 }
 export interface PluginRepoPlacement {
-  api_base_url?: string;
+  api_base_url?: string | undefined;
   region: string;
   role: string;
   [key: string]: unknown;
@@ -281,91 +345,106 @@ export interface PluginRepository {
 export type PluginRepositoriesOutputBodyRepositoriesList = Array<PluginRepository>;
 export interface PluginRepositoriesOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Always null: the list is one page. */
   next_cursor: unknown;
   repositories: PluginRepositoriesOutputBodyRepositoriesList;
   [key: string]: unknown;
 }
 export interface ListPluginInstallationsRequest {
-  /** Plugin installation profile */
+  /** Plugin slug */
   plugin: string;
-  /** Entire org */
-  org_id?: string;
-  /** Entire project */
-  project_id?: string;
+  /** next_cursor of the previous page */
+  cursor?: string | undefined;
+  /** Page size, 1 to 100. The default is 30. */
+  per_page?: string | undefined;
 }
 /** active, suspended, or deleting */
-export type PluginInstallationViewLifecycleState = "active" | "suspended" | "deleting";
-/** Plugin permissions that wait for a project manager to accept them */
-export type PluginInstallationViewPendingPermissionsList = Array<string>;
-/** Plugin permissions the project installation holds, as resource:access */
-export type PluginInstallationViewPermissionsList = Array<string>;
-/** While suspended: plugin or customer. Only that side resumes. */
-export type PluginInstallationViewSuspendedBy = "plugin" | "customer";
-export interface PluginInstallationView {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  account: string;
-  created_at: string;
-  installation_id: string;
+export type PluginInstallationSummaryLifecycleState = "active" | "suspended" | "deleting";
+export interface PluginInstallationSummary {
+  id: string;
   /** active, suspended, or deleting */
-  lifecycle_state: PluginInstallationViewLifecycleState;
-  /** Web app page where the customer manages a project installation */
-  manage_url?: string;
-  org_id?: string;
-  /** Plugin permissions that wait for a project manager to accept them */
-  pending_permissions?: PluginInstallationViewPendingPermissionsList;
-  /** Plugin permissions the project installation holds, as resource:access */
-  permissions?: PluginInstallationViewPermissionsList;
-  project?: PluginProject;
-  project_id?: string;
-  repository_selection?: string;
-  /** While suspended: when the suspension started */
-  suspended_at?: string;
-  /** While suspended: plugin or customer. Only that side resumes. */
-  suspended_by?: PluginInstallationViewSuspendedBy;
+  lifecycle_state: PluginInstallationSummaryLifecycleState;
+  project_id: string;
   [key: string]: unknown;
 }
-export type ListPluginInstallationsOutputBodyItemsList = Array<PluginInstallationView>;
-export interface ListPluginInstallationsOutputBody {
+export type PluginInstallationsOutputBodyInstallationsList = Array<PluginInstallationSummary>;
+export interface PluginInstallationsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  items: ListPluginInstallationsOutputBodyItemsList;
+  _schema?: string | undefined;
+  installations: PluginInstallationsOutputBodyInstallationsList;
+  /** Absent on the last page. */
+  next_cursor?: string | undefined;
+  [key: string]: unknown;
+}
+export interface ListPluginPermissionsRequest {}
+export interface PluginPermissionAccess {
+  /** Access, such as read. The permission is resource:access */
+  access: string;
+  /** The permission as an installer reads it */
+  description: string;
+  /** Display name, such as Read and write */
+  name: string;
+  [key: string]: unknown;
+}
+/** Access levels from narrowest to widest. A plugin holds at most one. Each wider level includes the narrower ones */
+export type PluginPermissionResourceAccessesList = Array<PluginPermissionAccess>;
+/** Where an installation holds the access: on each covered repository, or on its project */
+export type PluginPermissionResourceScope = "repositories" | "project";
+export interface PluginPermissionResource {
+  /** Access levels from narrowest to widest. A plugin holds at most one. Each wider level includes the narrower ones */
+  accesses: PluginPermissionResourceAccessesList;
+  /** What the resource covers */
+  description: string;
+  /** Display name, such as Repository contents */
+  name: string;
+  /** Resource, such as contents */
+  resource: string;
+  /** Where an installation holds the access: on each covered repository, or on its project */
+  scope: PluginPermissionResourceScope;
+  [key: string]: unknown;
+}
+/** Resources in display order */
+export type ListPluginPermissionsOutputBodyResourcesList = Array<PluginPermissionResource>;
+export interface ListPluginPermissionsOutputBody {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  /** Resources in display order */
+  resources: ListPluginPermissionsOutputBodyResourcesList;
   [key: string]: unknown;
 }
 export interface ListPluginRegistrationsRequest {
   /** Project that owns the plugins. Needs manage permission on the project */
   project_id: string;
   /** Opaque cursor from a previous response's next_cursor */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Plugins per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListPluginRegistrationsOutputBodyPluginsList = Array<PluginRegistration>;
 export interface ListPluginRegistrationsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Present when more plugins remain */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
   plugins: ListPluginRegistrationsOutputBodyPluginsList;
   [key: string]: unknown;
 }
 export interface ListPluginsRequest {
   /** Project the catalog is for. It adds the unlisted plugins the project owns or has installed, and needs manage permission on the project */
-  project_id?: string;
+  project_id?: string | undefined;
   /** Opaque cursor from a previous response's next_cursor */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Plugins per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Plugins in display order */
 export type ListPluginsOutputBodyPluginsList = Array<Plugin>;
 export interface ListPluginsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Present when more plugins remain */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
   /** Plugins in display order */
   plugins: ListPluginsOutputBodyPluginsList;
   [key: string]: unknown;
@@ -376,9 +455,9 @@ export interface ListPluginUserInstallationRepositoriesRequest {
   /** Installation id */
   id: string;
   /** next_cursor of the previous page */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Page size, 1 to 100. The default is 30. */
-  per_page?: string;
+  per_page?: string | undefined;
 }
 export interface PluginUserInstallation {
   created_at: string;
@@ -391,27 +470,27 @@ export interface PluginUserInstallation {
 export type PluginUserInstallationsOutputBodyInstallationsList = Array<PluginUserInstallation>;
 export interface PluginUserInstallationsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   installations: PluginUserInstallationsOutputBodyInstallationsList;
   /** Absent on the last page. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
   [key: string]: unknown;
 }
 export interface ListPluginUserInstallationsRequest {
   /** Plugin slug */
   plugin: string;
   /** next_cursor of the previous page */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Page size, 1 to 100. The default is 30. */
-  per_page?: string;
+  per_page?: string | undefined;
 }
 export interface ListProjectPluginInstallationsRequest {
   /** Entire project */
   projectId: string;
   /** Opaque cursor from a previous response's next_cursor */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Installations per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** active, suspended, or deleting */
 export type ProjectPluginInstallationLifecycleState = "active" | "suspended" | "deleting";
@@ -428,45 +507,110 @@ export interface ProjectPluginInstallation {
   /** active, suspended, or deleting */
   lifecycle_state: ProjectPluginInstallationLifecycleState;
   /** Web app page where the customer manages a project installation */
-  manage_url?: string;
-  org_id?: string;
+  manage_url?: string | undefined;
+  org_id?: string | undefined;
   /** Plugin permissions that wait for a project manager to accept them */
-  pending_permissions?: ProjectPluginInstallationPendingPermissionsList;
+  pending_permissions?: ProjectPluginInstallationPendingPermissionsList | undefined;
   /** Plugin permissions the project installation holds, as resource:access */
-  permissions?: ProjectPluginInstallationPermissionsList;
+  permissions?: ProjectPluginInstallationPermissionsList | undefined;
   plugin: Plugin;
-  project?: PluginProject;
-  project_id?: string;
-  repository_selection?: string;
+  project?: PluginProject | undefined;
+  project_id?: string | undefined;
+  repository_selection?: string | undefined;
   /** While suspended: when the suspension started */
-  suspended_at?: string;
+  suspended_at?: string | undefined;
   /** While suspended: plugin or customer. Only that side resumes. */
-  suspended_by?: ProjectPluginInstallationSuspendedBy;
+  suspended_by?: ProjectPluginInstallationSuspendedBy | undefined;
   [key: string]: unknown;
 }
 export type ListProjectPluginInstallationsOutputBodyItemsList = Array<ProjectPluginInstallation>;
 export interface ListProjectPluginInstallationsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   items: ListProjectPluginInstallationsOutputBodyItemsList;
   /** Present when more installations remain */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
   [key: string]: unknown;
 }
-export interface RemovePluginInstallationRepositoryRequest {
-  /** Plugin installation profile */
-  plugin: string;
-  /** Plugin installation id */
-  id: string;
-  /** Public repository id */
-  repository_id: string;
+/** Projects that can install the plugin. */
+export type ReplacePluginRegistrationRequestInstallableBy = "owner_project" | "any";
+/** Exact redirect_uri values of the plugin's user OAuth flow. Empty means the plugin is not an OAuth client. */
+export type ReplacePluginRegistrationRequestOauthRedirectUrisList = Array<string>;
+/** Accesses a project installation's token carries, such as contents:read. */
+export type ReplacePluginRegistrationRequestPermissionsList = Array<string>;
+/** Exact redirect_uri values an install may return its receipt to. */
+export type ReplacePluginRegistrationRequestPostInstallUrlsList = Array<string>;
+/** PEM-encoded Ed25519 public keys that sign the plugin's tokens. */
+export type ReplacePluginRegistrationRequestPublicKeysList = Array<string>;
+export interface ReplacePluginRegistrationRequest {
+  /** plugin_ followed by a ULID. */
+  plugin_id: string;
+  description?: string | undefined;
+  /** HTTPS URL that Install in Entire's catalog opens, so the plugin starts the install. May be a deep link. Empty installs directly. */
+  install_url?: string | undefined;
+  /** Projects that can install the plugin. */
+  installable_by: ReplacePluginRegistrationRequestInstallableBy | (string & {});
+  /** iss claim of the plugin's tokens: urn:entire:plugin:<slug>, or an older plugin's own value. Omit to keep, or set the standard. */
+  issuer?: string | undefined;
+  /** HTTPS URL serving the keys that sign the plugin's tokens. Core fetches a new value before saving it. */
+  jwks_url?: string | undefined;
+  /** HTTPS URL, or a path on the web app's origin. */
+  logo_url: string;
+  name: string;
+  /** Exact redirect_uri values of the plugin's user OAuth flow. Empty means the plugin is not an OAuth client. */
+  oauth_redirect_uris?: ReplacePluginRegistrationRequestOauthRedirectUrisList | undefined;
+  /** Project that publishes the plugin. */
+  owner_project_id: string;
+  /** Accesses a project installation's token carries, such as contents:read. */
+  permissions: ReplacePluginRegistrationRequestPermissionsList;
+  /** Exact redirect_uri values an install may return its receipt to. */
+  post_install_urls?: ReplacePluginRegistrationRequestPostInstallUrlsList | undefined;
+  /** PEM-encoded Ed25519 public keys that sign the plugin's tokens. */
+  public_keys?: ReplacePluginRegistrationRequestPublicKeysList | undefined;
+  /** aud claim of core's install receipts: urn:entire:plugin:<slug>, or an older plugin's own value. Omit to keep, or set the standard. */
+  receipt_audience?: string | undefined;
+  /** Permanent URL name. The plugin's tokens and webhook deliveries carry it, so a replace must repeat it. */
+  slug: string;
+  /** HTTPS URL receiving the plugin's event deliveries. Empty delivers nothing. */
+  webhook_url?: string | undefined;
 }
-export interface RemovePluginInstallationRepositoryResponse {}
 export interface ResumePluginInstallationRequest {
   /** Plugin installation profile */
   plugin: string;
   /** Plugin installation id */
   id: string;
+}
+/** active, suspended, or deleting */
+export type PluginInstallationViewLifecycleState = "active" | "suspended" | "deleting";
+/** Plugin permissions that wait for a project manager to accept them */
+export type PluginInstallationViewPendingPermissionsList = Array<string>;
+/** Plugin permissions the project installation holds, as resource:access */
+export type PluginInstallationViewPermissionsList = Array<string>;
+/** While suspended: plugin or customer. Only that side resumes. */
+export type PluginInstallationViewSuspendedBy = "plugin" | "customer";
+export interface PluginInstallationView {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  account: string;
+  created_at: string;
+  installation_id: string;
+  /** active, suspended, or deleting */
+  lifecycle_state: PluginInstallationViewLifecycleState;
+  /** Web app page where the customer manages a project installation */
+  manage_url?: string | undefined;
+  org_id?: string | undefined;
+  /** Plugin permissions that wait for a project manager to accept them */
+  pending_permissions?: PluginInstallationViewPendingPermissionsList | undefined;
+  /** Plugin permissions the project installation holds, as resource:access */
+  permissions?: PluginInstallationViewPermissionsList | undefined;
+  project?: PluginProject | undefined;
+  project_id?: string | undefined;
+  repository_selection?: string | undefined;
+  /** While suspended: when the suspension started */
+  suspended_at?: string | undefined;
+  /** While suspended: plugin or customer. Only that side resumes. */
+  suspended_by?: PluginInstallationViewSuspendedBy | undefined;
+  [key: string]: unknown;
 }
 export interface SuspendPluginInstallationRequest {
   /** Plugin installation profile */
@@ -486,15 +630,18 @@ export interface UpdatePluginInstallationRequest {
   /** Installation (ins_<ULID>) */
   id: string;
   /** The plugin's permissions as the user was shown them, as resource:access. Records them as accepted; a list that no longer matches the plugin answers 409. Omitted keeps the accepted permissions */
-  accepted_permissions?: UpdatePluginInstallationRequestAcceptedPermissionsList;
+  accepted_permissions?: UpdatePluginInstallationRequestAcceptedPermissionsList | undefined;
   /** A post-install URL registered for the plugin, which redirect_to returns the receipt to */
-  redirect_uri?: string;
+  redirect_uri?: string | undefined;
   /** Public repository ids (repo_<ULID>) when selected. Replaces the whole list; omitted keeps it */
-  repository_ids?: UpdatePluginInstallationRequestRepositoryIdsList;
+  repository_ids?: UpdatePluginInstallationRequestRepositoryIdsList | undefined;
   /** all repositories in the project, or only repository_ids. Omitted keeps the selection */
-  repository_selection?: UpdatePluginInstallationRequestRepositorySelection | (string & {});
+  repository_selection?:
+    | UpdatePluginInstallationRequestRepositorySelection
+    | (string & {})
+    | undefined;
   /** Opaque state from a plugin-started consent. Without one, the update gets no receipt */
-  state?: string;
+  state?: string | undefined;
 }
 /** active, suspended, or deleting */
 export type UpdatePluginInstallationOutputBodyLifecycleState = "active" | "suspended" | "deleting";
@@ -508,28 +655,28 @@ export type UpdatePluginInstallationOutputBodyProfileMap = { [key: string]: unkn
 export type UpdatePluginInstallationOutputBodySuspendedBy = "plugin" | "customer";
 export interface UpdatePluginInstallationOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   account: string;
   created_at: string;
   installation_id: string;
   /** active, suspended, or deleting */
   lifecycle_state: UpdatePluginInstallationOutputBodyLifecycleState;
   /** Web app page where the customer manages a project installation */
-  manage_url?: string;
-  org_id?: string;
+  manage_url?: string | undefined;
+  org_id?: string | undefined;
   /** Plugin permissions that wait for a project manager to accept them */
-  pending_permissions?: UpdatePluginInstallationOutputBodyPendingPermissionsList;
+  pending_permissions?: UpdatePluginInstallationOutputBodyPendingPermissionsList | undefined;
   /** Plugin permissions the project installation holds, as resource:access */
-  permissions?: UpdatePluginInstallationOutputBodyPermissionsList;
+  permissions?: UpdatePluginInstallationOutputBodyPermissionsList | undefined;
   /** Opaque output from the selected static plugin profile */
   profile: UpdatePluginInstallationOutputBodyProfileMap;
-  project?: PluginProject;
-  project_id?: string;
-  repository_selection?: string;
+  project?: PluginProject | undefined;
+  project_id?: string | undefined;
+  repository_selection?: string | undefined;
   /** While suspended: when the suspension started */
-  suspended_at?: string;
+  suspended_at?: string | undefined;
   /** While suspended: plugin or customer. Only that side resumes. */
-  suspended_by?: UpdatePluginInstallationOutputBodySuspendedBy;
+  suspended_by?: UpdatePluginInstallationOutputBodySuspendedBy | undefined;
   [key: string]: unknown;
 }
 export interface ValidatePluginInstallRedirectRequest {
@@ -542,7 +689,7 @@ export interface ValidatePluginInstallRedirectRequest {
 }
 export interface ValidatePluginInstallRedirectOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** redirect_uri carrying error=access_denied and the state */
   cancel_url: string;
   [key: string]: unknown;
@@ -565,7 +712,7 @@ export const createPluginInstallation: API.OperationMethod<
 }));
 
 export type CreatePluginInstallationAccessTokenError = EntireOpError;
-/** Issue an access token for a plugin installation Called by the plugin with a JWT it signed for the installation. A token this core issued is refused. A request with a repository_id scopes the token to that repository. A request with no repository_id takes every permission the installation holds, only repositories:create, or only installations:read. A repositories:create token reaches no repository; it creates repositories in the installation's project through POST /api/v1/repos. */
+/** Issue an access token for a plugin installation **Accepted credentials:** Plugin JWT. Called by the plugin with a JWT it signed for the installation. A token this core issued is refused. A request with a repository_id scopes the token to that repository. A request with no repository_id takes every permission the installation holds, only repositories:create, or only installations:read. A repositories:create token reaches no repository; it creates repositories in the installation's project through POST /api/v1/repos. */
 export const createPluginInstallationAccessToken: API.OperationMethod<
   CreatePluginInstallationAccessTokenRequest,
   PluginAccessTokenOutputBody,
@@ -581,6 +728,23 @@ export const createPluginInstallationAccessToken: API.OperationMethod<
   span: "CreatePluginInstallationAccessToken",
 }));
 
+export type CreatePluginRegistrationError = EntireOpError;
+/** Create a plugin that a project publishes Requires project#manage on owner_project_id. Any other caller gets 404, as for a project that does not exist. The plugin starts unlisted. A project owns at most 100 plugins; more is refused with plugin_limit_reached. Entire sets listed and repo_create_daily_limit; the plugin's owner reads them. Core fetches a jwks_url once before saving it. logo_url must name an image the caller uploaded with an entire.com session to PUT /api/v1/plugin-images on the web app origin; a replace may also keep the plugin's current logo. A save that sets a new upload publishes it, and a replace deletes the uploaded logo it replaced. An expired upload is refused with logo_upload_expired. A create whose logo is refused still creates the plugin, without a published logo. */
+export const createPluginRegistration: API.OperationMethod<
+  CreatePluginRegistrationRequest,
+  PluginRegistration,
+  CreatePluginRegistrationError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(136, __c17, 0) as any as S.Schema<CreatePluginRegistrationRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<PluginRegistration>,
+  errors: [UnknownEntireError],
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePluginRegistration",
+}));
+
 export type DeletePluginInstallationError = EntireOpError;
 /** Uninstall a plugin Requires project#manage on the installation's project. */
 export const deletePluginInstallation: API.OperationMethod<
@@ -589,13 +753,30 @@ export const deletePluginInstallation: API.OperationMethod<
   DeletePluginInstallationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<DeletePluginInstallationRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<DeletePluginInstallationResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<DeletePluginInstallationRequest>,
+  output: __S(176, __c22, 0) as any as S.Schema<DeletePluginInstallationResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeletePluginInstallation",
+}));
+
+export type DeletePluginRegistrationError = EntireOpError;
+/** Delete a plugin Requires project#manage on the plugin's owner project. Any other caller gets 404. Refused with plugin_listed while the plugin is listed. The plugin is gone from every read, install and token mint at once, and core deletes its uploaded logo. Core then uninstalls each installation, as its project's manager would, and then removes the plugin. */
+export const deletePluginRegistration: API.OperationMethod<
+  DeletePluginRegistrationRequest,
+  DeletePluginRegistrationResponse,
+  DeletePluginRegistrationError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(184, __c23, 0) as any as S.Schema<DeletePluginRegistrationRequest>,
+  output: __S(176, __c22, 0) as any as S.Schema<DeletePluginRegistrationResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePluginRegistration",
 }));
 
 export type GetPluginError = EntireOpError;
@@ -606,8 +787,8 @@ export const getPlugin: API.OperationMethod<
   GetPluginError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetPluginRequest>,
-  output: __S(139, __c17, 3) as any as S.Schema<Plugin>,
+  input: __S(192, __c24, 0) as any as S.Schema<GetPluginRequest>,
+  output: __S(203, __c25, 3) as any as S.Schema<Plugin>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -623,8 +804,8 @@ export const getPluginInstallation: API.OperationMethod<
   GetPluginInstallationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetPluginInstallationRequest>,
-  output: __S(147, __c18, 3) as any as S.Schema<GetPluginInstallationOutputBody>,
+  input: __S(208, __c26, 0) as any as S.Schema<GetPluginInstallationRequest>,
+  output: __S(211, __c26, 3) as any as S.Schema<GetPluginInstallationOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -640,8 +821,8 @@ export const getPluginRegistration: API.OperationMethod<
   GetPluginRegistrationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetPluginRegistrationRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<PluginRegistration>,
+  input: __S(216, __c27, 0) as any as S.Schema<GetPluginRegistrationRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<PluginRegistration>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -649,16 +830,33 @@ export const getPluginRegistration: API.OperationMethod<
   span: "GetPluginRegistration",
 }));
 
+export type GetProjectPluginInstallationError = EntireOpError;
+/** Get the id of a project's installation of a plugin Requires project#manage. Answers 404 when the project has no installation of the plugin. */
+export const getProjectPluginInstallation: API.OperationMethod<
+  GetProjectPluginInstallationRequest,
+  GetProjectPluginInstallationOutputBody,
+  GetProjectPluginInstallationError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(224, __c28, 0) as any as S.Schema<GetProjectPluginInstallationRequest>,
+  output: __S(225, __c28, 1) as any as S.Schema<GetProjectPluginInstallationOutputBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectPluginInstallation",
+}));
+
 export type ListPluginInstallationRepositoriesError = EntireOpError;
-/** List the repositories a plugin installation covers Called by the plugin with a JWT it signed for the installation, or with a token this core issued to the installation's automation. */
+/** List the repositories a plugin installation covers **Accepted credentials:** Plugin JWT, Plugin installation token. Called by the plugin with a JWT it signed for the installation, or with a token this core issued to the installation's automation. */
 export const listPluginInstallationRepositories: API.OperationMethod<
   ListPluginInstallationRepositoriesRequest,
   PluginRepositoriesOutputBody,
   ListPluginInstallationRepositoriesError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<ListPluginInstallationRepositoriesRequest>,
-  output: __S(173, __c21, 5) as any as S.Schema<PluginRepositoriesOutputBody>,
+  input: __S(232, __c29, 0) as any as S.Schema<ListPluginInstallationRepositoriesRequest>,
+  output: __S(237, __c29, 5) as any as S.Schema<PluginRepositoriesOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -667,20 +865,47 @@ export const listPluginInstallationRepositories: API.OperationMethod<
 }));
 
 export type ListPluginInstallationsError = EntireOpError;
-/** List a project's plugin installations Requires project#manage with project_id, or org#manage with org_id. An org has no plugin installations, so org_id lists nothing. */
-export const listPluginInstallations: API.OperationMethod<
+/** List the plugin's installations **Accepted credentials:** Plugin JWT. Called by the plugin with a JWT it signed. Lists the plugin's installations in every project and lifecycle state. The JWT's installation_id, if any, does not narrow the list. */
+export const listPluginInstallations: API.PaginatedOperationMethod<
   ListPluginInstallationsRequest,
-  ListPluginInstallationsOutputBody,
+  PluginInstallationsOutputBody,
   ListPluginInstallationsError,
+  EntireOpContext,
+  PluginInstallationSummary
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(40, __c5, 0) as any as S.Schema<ListPluginInstallationsRequest>,
+    output: __S(43, __c5, 3) as any as S.Schema<PluginInstallationsOutputBody>,
+    errors: [UnknownEntireError],
+    protocol: EntireCoreProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPluginInstallations",
+    pagination: {
+      inputToken: "cursor",
+      outputToken: "next_cursor",
+      items: "installations",
+      pageSize: "per_page",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
+
+export type ListPluginPermissionsError = EntireOpError;
+/** List the permissions a plugin can request Any signed-in account can read it. */
+export const listPluginPermissions: API.OperationMethod<
+  ListPluginPermissionsRequest,
+  ListPluginPermissionsOutputBody,
+  ListPluginPermissionsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<ListPluginInstallationsRequest>,
-  output: __S(178, __c22, 2) as any as S.Schema<ListPluginInstallationsOutputBody>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListPluginPermissionsRequest>,
+  output: __S(53, __c6, 5) as any as S.Schema<ListPluginPermissionsOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "ListPluginInstallations",
+  span: "ListPluginPermissions",
 }));
 
 export type ListPluginRegistrationsError = EntireOpError;
@@ -693,8 +918,8 @@ export const listPluginRegistrations: API.PaginatedOperationMethod<
   PluginRegistration
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(192, __c24, 0) as any as S.Schema<ListPluginRegistrationsRequest>,
-    output: __S(194, __c24, 2) as any as S.Schema<ListPluginRegistrationsOutputBody>,
+    input: __S(56, __c7, 0) as any as S.Schema<ListPluginRegistrationsRequest>,
+    output: __S(58, __c7, 2) as any as S.Schema<ListPluginRegistrationsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -720,8 +945,8 @@ export const listPlugins: API.PaginatedOperationMethod<
   Plugin
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(200, __c25, 0) as any as S.Schema<ListPluginsRequest>,
-    output: __S(202, __c25, 2) as any as S.Schema<ListPluginsOutputBody>,
+    input: __S(64, __c8, 0) as any as S.Schema<ListPluginsRequest>,
+    output: __S(66, __c8, 2) as any as S.Schema<ListPluginsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -738,7 +963,7 @@ export const listPlugins: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListPluginUserInstallationRepositoriesError = EntireOpError;
-/** List an installation's repositories the user can pull Called by the plugin with a user's plugin access token. A page can be short or empty while next_cursor continues the walk. */
+/** List an installation's repositories the user can pull **Accepted credentials:** Plugin OAuth user token. Called by the plugin with a user's plugin access token. A page can be short or empty while next_cursor continues the walk. */
 export const listPluginUserInstallationRepositories: API.PaginatedOperationMethod<
   ListPluginUserInstallationRepositoriesRequest,
   PluginUserInstallationsOutputBody,
@@ -747,8 +972,8 @@ export const listPluginUserInstallationRepositories: API.PaginatedOperationMetho
   PluginUserInstallation
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(40, __c5, 0) as any as S.Schema<ListPluginUserInstallationRepositoriesRequest>,
-    output: __S(50, __c6, 2) as any as S.Schema<PluginUserInstallationsOutputBody>,
+    input: __S(72, __c9, 0) as any as S.Schema<ListPluginUserInstallationRepositoriesRequest>,
+    output: __S(82, __c10, 2) as any as S.Schema<PluginUserInstallationsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -765,7 +990,7 @@ export const listPluginUserInstallationRepositories: API.PaginatedOperationMetho
 ) as any;
 
 export type ListPluginUserInstallationsError = EntireOpError;
-/** List the plugin's installations the user can read Called by the plugin with a user's plugin access token. Lists active project installations in projects the user can read. */
+/** List the plugin's installations the user can read **Accepted credentials:** Plugin OAuth user token. Called by the plugin with a user's plugin access token. Lists active project installations in projects the user can read. */
 export const listPluginUserInstallations: API.PaginatedOperationMethod<
   ListPluginUserInstallationsRequest,
   PluginUserInstallationsOutputBody,
@@ -774,8 +999,8 @@ export const listPluginUserInstallations: API.PaginatedOperationMethod<
   PluginUserInstallation
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(56, __c7, 0) as any as S.Schema<ListPluginUserInstallationsRequest>,
-    output: __S(50, __c6, 2) as any as S.Schema<PluginUserInstallationsOutputBody>,
+    input: __S(88, __c11, 0) as any as S.Schema<ListPluginUserInstallationsRequest>,
+    output: __S(82, __c10, 2) as any as S.Schema<PluginUserInstallationsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -801,8 +1026,8 @@ export const listProjectPluginInstallations: API.PaginatedOperationMethod<
   ProjectPluginInstallation
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(64, __c8, 0) as any as S.Schema<ListProjectPluginInstallationsRequest>,
-    output: __S(67, __c8, 3) as any as S.Schema<ListProjectPluginInstallationsOutputBody>,
+    input: __S(96, __c12, 0) as any as S.Schema<ListProjectPluginInstallationsRequest>,
+    output: __S(99, __c12, 3) as any as S.Schema<ListProjectPluginInstallationsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -818,33 +1043,33 @@ export const listProjectPluginInstallations: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
-export type RemovePluginInstallationRepositoryError = EntireOpError;
-/** Remove a repository from a plugin installation Requires project#manage on the installation's project. */
-export const removePluginInstallationRepository: API.OperationMethod<
-  RemovePluginInstallationRepositoryRequest,
-  RemovePluginInstallationRepositoryResponse,
-  RemovePluginInstallationRepositoryError,
+export type ReplacePluginRegistrationError = EntireOpError;
+/** Replace a plugin's settings Requires project#manage on the plugin's owner project. Any other caller gets 404. Full replace of the owner settings. The slug and owner_project_id cannot change. Entire sets listed and repo_create_daily_limit; the plugin's owner reads them. Core fetches a changed jwks_url once before saving it. logo_url must name an image the caller uploaded with an entire.com session to PUT /api/v1/plugin-images on the web app origin; a replace may also keep the plugin's current logo. A save that sets a new upload publishes it, and a replace deletes the uploaded logo it replaced. An expired upload is refused with logo_upload_expired. */
+export const replacePluginRegistration: API.OperationMethod<
+  ReplacePluginRegistrationRequest,
+  PluginRegistration,
+  ReplacePluginRegistrationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<RemovePluginInstallationRepositoryRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<RemovePluginInstallationRepositoryResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<ReplacePluginRegistrationRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<PluginRegistration>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "RemovePluginInstallationRepository",
+  span: "ReplacePluginRegistration",
 }));
 
 export type ResumePluginInstallationError = EntireOpError;
-/** Resume a suspended project plugin installation Only the side that suspended the installation can resume it; the other side gets 409. Resuming an active installation succeeds. */
+/** Resume a suspended project plugin installation **Accepted credentials:** User token, Plugin JWT. Only the side that suspended the installation can resume it; the other side gets 409. Resuming an active installation succeeds. */
 export const resumePluginInstallation: API.OperationMethod<
   ResumePluginInstallationRequest,
   PluginInstallationView,
   ResumePluginInstallationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<ResumePluginInstallationRequest>,
-  output: __S(184, __c23, 0) as any as S.Schema<PluginInstallationView>,
+  input: __S(112, __c14, 0) as any as S.Schema<ResumePluginInstallationRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<PluginInstallationView>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -853,15 +1078,15 @@ export const resumePluginInstallation: API.OperationMethod<
 }));
 
 export type SuspendPluginInstallationError = EntireOpError;
-/** Suspend a project plugin installation The plugin suspends with a JWT it signs for the installation. A caller with project#manage suspends as the customer. A suspended installation mints no tokens, lists no repositories, and gets no repository events. Repeating a suspension succeeds. A suspension by the other side answers 409. */
+/** Suspend a project plugin installation **Accepted credentials:** User token, Plugin JWT. The plugin suspends with a JWT it signs for the installation. A caller with project#manage suspends as the customer. A suspended installation mints no tokens, lists no repositories, and gets no repository events. Repeating a suspension succeeds. A suspension by the other side answers 409. */
 export const suspendPluginInstallation: API.OperationMethod<
   SuspendPluginInstallationRequest,
   PluginInstallationView,
   SuspendPluginInstallationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<SuspendPluginInstallationRequest>,
-  output: __S(184, __c23, 0) as any as S.Schema<PluginInstallationView>,
+  input: __S(128, __c16, 0) as any as S.Schema<SuspendPluginInstallationRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<PluginInstallationView>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -877,8 +1102,8 @@ export const updatePluginInstallation: API.OperationMethod<
   UpdatePluginInstallationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<UpdatePluginInstallationRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<UpdatePluginInstallationOutputBody>,
+  input: __S(152, __c19, 0) as any as S.Schema<UpdatePluginInstallationRequest>,
+  output: __S(153, __c19, 1) as any as S.Schema<UpdatePluginInstallationOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -894,8 +1119,8 @@ export const validatePluginInstallRedirect: API.OperationMethod<
   ValidatePluginInstallRedirectError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<ValidatePluginInstallRedirectRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<ValidatePluginInstallRedirectOutputBody>,
+  input: __S(160, __c20, 0) as any as S.Schema<ValidatePluginInstallRedirectRequest>,
+  output: __S(161, __c20, 1) as any as S.Schema<ValidatePluginInstallRedirectOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -910,11 +1135,11 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           plugin: S.String.pipe(T.Label()),
-          accepted_permissions: S.optional(__S(16, __c2, 0)),
+          accepted_permissions: S.optional(__S(8, __c1, 0)),
           installation_id: S.optional(S.String),
           project_id: S.optional(S.String),
           redirect_uri: S.optional(S.String),
-          repository_ids: S.optional(__S(16, __c2, 0)),
+          repository_ids: S.optional(__S(8, __c1, 0)),
           repository_selection: S.optional(S.String),
           state: S.optional(S.String),
         }).pipe(
@@ -930,7 +1155,7 @@ function __c0(j: number): any {
             installation_id: S.String,
             manage_url: S.optional(S.String),
             org_id: S.optional(S.String),
-            profile: __S(8, __c1, 0),
+            profile: __S(16, __c2, 0),
             project: S.optional(__S(24, __c3, 0)),
             project_id: S.optional(S.String),
             repository_selection: S.optional(S.String),
@@ -943,13 +1168,13 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(S.String);
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Record(S.String, S.Unknown);
   }
 }
 function __c3(j: number): any {
@@ -1006,6 +1231,140 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           plugin: S.String.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          per_page: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/v1/plugins/{plugin}/installations", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListPluginInstallationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            id: S.String,
+            lifecycle_state: S.String,
+            project_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PluginInstallationSummary" });
+    case 2:
+      return S.Array(__S(41, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            installations: __S(42, __c5, 2),
+            next_cursor: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PluginInstallationsOutputBody" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/plugin-permissions", code: 200 })),
+      ).annotate({ identifier: "ListPluginPermissionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            access: S.String,
+            description: S.String,
+            name: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PluginPermissionAccess" });
+    case 2:
+      return S.Array(__S(49, __c6, 1));
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            accesses: __S(50, __c6, 2),
+            description: S.String,
+            name: S.String,
+            resource: S.String,
+            scope: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PluginPermissionResource" });
+    case 4:
+      return S.Array(__S(51, __c6, 3));
+    case 5:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            resources: __S(52, __c6, 4),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ListPluginPermissionsOutputBody" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Query()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          per_page: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/plugin-registrations", code: 200 })),
+      ).annotate({ identifier: "ListPluginRegistrationsRequest" });
+    case 1:
+      return S.Array(__S(144, __c18, 0));
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            next_cursor: S.optional(S.String),
+            plugins: __S(57, __c7, 1),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ListPluginRegistrationsOutputBody" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.optional(S.String.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          per_page: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/plugins", code: 200 })),
+      ).annotate({ identifier: "ListPluginsRequest" });
+    case 1:
+      return S.Array(__S(203, __c25, 3));
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            next_cursor: S.optional(S.String),
+            plugins: __S(65, __c8, 1),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ListPluginsOutputBody" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          plugin: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           cursor: S.optional(S.String.pipe(T.Query())),
           per_page: S.optional(S.String.pipe(T.Query())),
@@ -1019,7 +1378,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ListPluginUserInstallationRepositoriesRequest" });
   }
 }
-function __c6(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1035,13 +1394,13 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "PluginUserInstallation" });
     case 1:
-      return S.Array(__S(48, __c6, 0));
+      return S.Array(__S(80, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            installations: __S(49, __c6, 1),
+            installations: __S(81, __c10, 1),
             next_cursor: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -1049,7 +1408,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "PluginUserInstallationsOutputBody" });
   }
 }
-function __c7(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1063,7 +1422,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ListPluginUserInstallationsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1089,9 +1448,9 @@ function __c8(j: number): any {
             lifecycle_state: S.String,
             manage_url: S.optional(S.String),
             org_id: S.optional(S.String),
-            pending_permissions: S.optional(__S(16, __c2, 0)),
-            permissions: S.optional(__S(16, __c2, 0)),
-            plugin: __S(139, __c17, 3),
+            pending_permissions: S.optional(__S(8, __c1, 0)),
+            permissions: S.optional(__S(8, __c1, 0)),
+            plugin: __S(203, __c25, 3),
             project: S.optional(__S(24, __c3, 0)),
             project_id: S.optional(S.String),
             repository_selection: S.optional(S.String),
@@ -1102,13 +1461,13 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ProjectPluginInstallation" });
     case 2:
-      return S.Array(__S(65, __c8, 1));
+      return S.Array(__S(97, __c12, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            items: __S(66, __c8, 2),
+            items: __S(98, __c12, 2),
             next_cursor: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -1116,25 +1475,34 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ListProjectPluginInstallationsOutputBody" });
   }
 }
-function __c9(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          plugin: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          repository_id: S.String.pipe(T.Label()),
+          plugin_id: S.String.pipe(T.Label()),
+          description: S.optional(S.String),
+          install_url: S.optional(S.String),
+          installable_by: S.String,
+          issuer: S.optional(S.String),
+          jwks_url: S.optional(S.String),
+          logo_url: S.String,
+          name: S.String,
+          oauth_redirect_uris: S.optional(__S(8, __c1, 0)),
+          owner_project_id: S.String,
+          permissions: __S(8, __c1, 0),
+          post_install_urls: S.optional(__S(8, __c1, 0)),
+          public_keys: S.optional(__S(8, __c1, 0)),
+          receipt_audience: S.optional(S.String),
+          slug: S.String,
+          webhook_url: S.optional(S.String),
         }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/v1/plugins/{plugin}/installations/{id}/repositories/{repository_id}",
-            code: 200,
-          }),
+          T.Http({ method: "PUT", uri: "/api/v1/plugin-registrations/{plugin_id}", code: 200 }),
         ),
-      ).annotate({ identifier: "RemovePluginInstallationRepositoryRequest" });
+      ).annotate({ identifier: "ReplacePluginRegistrationRequest" });
   }
 }
-function __c10(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1151,7 +1519,33 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ResumePluginInstallationRequest" });
   }
 }
-function __c11(j: number): any {
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            account: S.String,
+            created_at: S.String,
+            installation_id: S.String,
+            lifecycle_state: S.String,
+            manage_url: S.optional(S.String),
+            org_id: S.optional(S.String),
+            pending_permissions: S.optional(__S(8, __c1, 0)),
+            permissions: S.optional(__S(8, __c1, 0)),
+            project: S.optional(__S(24, __c3, 0)),
+            project_id: S.optional(S.String),
+            repository_selection: S.optional(S.String),
+            suspended_at: S.optional(S.String),
+            suspended_by: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PluginInstallationView" });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1168,16 +1562,68 @@ function __c11(j: number): any {
       ).annotate({ identifier: "SuspendPluginInstallationRequest" });
   }
 }
-function __c12(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          install_url: S.optional(S.String),
+          installable_by: S.String,
+          issuer: S.optional(S.String),
+          jwks_url: S.optional(S.String),
+          logo_url: S.String,
+          name: S.String,
+          oauth_redirect_uris: S.optional(__S(8, __c1, 0)),
+          owner_project_id: S.String,
+          permissions: __S(8, __c1, 0),
+          post_install_urls: S.optional(__S(8, __c1, 0)),
+          public_keys: S.optional(__S(8, __c1, 0)),
+          receipt_audience: S.optional(S.String),
+          slug: S.String,
+          webhook_url: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/plugin-registrations", code: 200 })),
+      ).annotate({ identifier: "CreatePluginRegistrationRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          description: S.optional(S.String),
+          id: S.String,
+          install_url: S.optional(S.String),
+          installable_by: S.String,
+          issuer: S.optional(S.String),
+          jwks_url: S.optional(S.String),
+          listed: S.Boolean,
+          logo_url: S.String,
+          name: S.String,
+          oauth_redirect_uris: S.optional(__S(8, __c1, 0)),
+          owner_project_id: S.String,
+          permissions: __S(8, __c1, 0),
+          post_install_urls: S.optional(__S(8, __c1, 0)),
+          public_keys: S.optional(__S(8, __c1, 0)),
+          receipt_audience: S.optional(S.String),
+          repo_create_daily_limit: S.optional(S.Number),
+          slug: S.String,
+          webhook_url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PluginRegistration" });
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           plugin: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          accepted_permissions: S.optional(__S(16, __c2, 0)),
+          accepted_permissions: S.optional(__S(8, __c1, 0)),
           redirect_uri: S.optional(S.String),
-          repository_ids: S.optional(__S(16, __c2, 0)),
+          repository_ids: S.optional(__S(8, __c1, 0)),
           repository_selection: S.optional(S.String),
           state: S.optional(S.String),
         }).pipe(
@@ -1199,9 +1645,9 @@ function __c12(j: number): any {
             lifecycle_state: S.String,
             manage_url: S.optional(S.String),
             org_id: S.optional(S.String),
-            pending_permissions: S.optional(__S(16, __c2, 0)),
-            permissions: S.optional(__S(16, __c2, 0)),
-            profile: __S(8, __c1, 0),
+            pending_permissions: S.optional(__S(8, __c1, 0)),
+            permissions: S.optional(__S(8, __c1, 0)),
+            profile: __S(16, __c2, 0),
             project: S.optional(__S(24, __c3, 0)),
             project_id: S.optional(S.String),
             repository_selection: S.optional(S.String),
@@ -1213,7 +1659,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "UpdatePluginInstallationOutputBody" });
   }
 }
-function __c13(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1237,7 +1683,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ValidatePluginInstallRedirectOutputBody" });
   }
 }
-function __c14(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1254,7 +1700,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeletePluginInstallationRequest" });
   }
 }
-function __c15(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1262,7 +1708,19 @@ function __c15(j: number): any {
       });
   }
 }
-function __c16(j: number): any {
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          plugin_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/api/v1/plugin-registrations/{plugin_id}", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeletePluginRegistrationRequest" });
+  }
+}
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1273,7 +1731,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetPluginRequest" });
   }
 }
-function __c17(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1289,7 +1747,7 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "PluginPermission" });
     case 2:
-      return S.Array(__S(137, __c17, 1));
+      return S.Array(__S(201, __c25, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -1297,12 +1755,14 @@ function __c17(j: number): any {
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             description: S.optional(S.String),
             id: S.String,
-            install_levels: __S(136, __c17, 0),
+            install_levels: __S(200, __c25, 0),
             install_url: S.optional(S.String),
             installable_project_id: S.optional(S.String),
             logo_url: S.String,
             name: S.String,
-            permissions: __S(138, __c17, 2),
+            partial: S.optional(S.Boolean),
+            permissions: __S(202, __c25, 2),
+            publisher_project: S.optional(__S(24, __c3, 0)),
             slug: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -1310,7 +1770,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "Plugin" });
   }
 }
-function __c18(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1334,7 +1794,7 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "PluginInstallationRepository" });
     case 2:
-      return S.Array(__S(145, __c18, 1));
+      return S.Array(__S(209, __c26, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -1348,12 +1808,12 @@ function __c18(j: number): any {
             manage_url: S.optional(S.String),
             next_cursor: S.optional(S.String),
             org_id: S.optional(S.String),
-            pending_permissions: S.optional(__S(16, __c2, 0)),
-            permissions: S.optional(__S(16, __c2, 0)),
+            pending_permissions: S.optional(__S(8, __c1, 0)),
+            permissions: S.optional(__S(8, __c1, 0)),
             plugin_id: S.String,
             project: S.optional(__S(24, __c3, 0)),
             project_id: S.optional(S.String),
-            repositories: __S(146, __c18, 2),
+            repositories: __S(210, __c26, 2),
             repository_selection: S.optional(S.String),
             revision: S.Number,
             suspended_at: S.optional(S.String),
@@ -1364,47 +1824,46 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetPluginInstallationOutputBody" });
   }
 }
-function __c19(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pluginId: S.String.pipe(T.Label()),
+          plugin_id: S.String.pipe(T.Label()),
         }).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/plugin-registrations/{pluginId}", code: 200 }),
+          T.Http({ method: "GET", uri: "/api/v1/plugin-registrations/{plugin_id}", code: 200 }),
         ),
       ).annotate({ identifier: "GetPluginRegistrationRequest" });
   }
 }
-function __c20(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          description: S.optional(S.String),
-          id: S.String,
-          install_url: S.optional(S.String),
-          installable_by: S.String,
-          issuer: S.optional(S.String),
-          jwks_url: S.optional(S.String),
-          listed: S.Boolean,
-          logo_url: S.String,
-          name: S.String,
-          oauth_redirect_uris: S.optional(__S(16, __c2, 0)),
-          owner_project_id: S.String,
-          permissions: __S(16, __c2, 0),
-          post_install_urls: S.optional(__S(16, __c2, 0)),
-          public_keys: S.optional(__S(16, __c2, 0)),
-          receipt_audience: S.optional(S.String),
-          repo_create_daily_limit: S.optional(S.Number),
-          slug: S.String,
-          webhook_url: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PluginRegistration" });
+          projectId: S.String.pipe(T.Label()),
+          plugin: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/projects/{projectId}/plugin-installations/{plugin}/id",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectPluginInstallationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            installation_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "GetProjectPluginInstallationOutputBody" });
   }
 }
-function __c21(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1431,7 +1890,7 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "PluginRepoPlacement" });
     case 2:
-      return S.Array(__S(169, __c21, 1));
+      return S.Array(__S(233, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -1441,126 +1900,24 @@ function __c21(j: number): any {
             full_name: S.String,
             id: S.String,
             path: S.String,
-            placements: __S(170, __c21, 2),
+            placements: __S(234, __c29, 2),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "PluginRepository" });
     case 4:
-      return S.Array(__S(171, __c21, 3));
+      return S.Array(__S(235, __c29, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             next_cursor: S.Unknown,
-            repositories: __S(172, __c21, 4),
+            repositories: __S(236, __c29, 4),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "PluginRepositoriesOutputBody" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          plugin: S.String.pipe(T.Label()),
-          org_id: S.optional(S.String.pipe(T.Query())),
-          project_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/plugins/{plugin}/installations", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListPluginInstallationsRequest" });
-    case 1:
-      return S.Array(__S(184, __c23, 0));
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            items: __S(177, __c22, 1),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ListPluginInstallationsOutputBody" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            account: S.String,
-            created_at: S.String,
-            installation_id: S.String,
-            lifecycle_state: S.String,
-            manage_url: S.optional(S.String),
-            org_id: S.optional(S.String),
-            pending_permissions: S.optional(__S(16, __c2, 0)),
-            permissions: S.optional(__S(16, __c2, 0)),
-            project: S.optional(__S(24, __c3, 0)),
-            project_id: S.optional(S.String),
-            repository_selection: S.optional(S.String),
-            suspended_at: S.optional(S.String),
-            suspended_by: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PluginInstallationView" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Query()),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          per_page: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/plugin-registrations", code: 200 })),
-      ).annotate({ identifier: "ListPluginRegistrationsRequest" });
-    case 1:
-      return S.Array(__S(160, __c20, 0));
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            next_cursor: S.optional(S.String),
-            plugins: __S(193, __c24, 1),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ListPluginRegistrationsOutputBody" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.optional(S.String.pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          per_page: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/plugins", code: 200 })),
-      ).annotate({ identifier: "ListPluginsRequest" });
-    case 1:
-      return S.Array(__S(139, __c17, 3));
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            next_cursor: S.optional(S.String),
-            plugins: __S(201, __c25, 1),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ListPluginsOutputBody" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -29,11 +29,11 @@ export type ListRefEventsRequestPrefixList = Array<string>;
 export interface ListRefEventsRequest {
   repo_id: string;
   /** Ref-name prefixes to filter by (repeatable), e.g. "refs/heads/", "refs/tags/", "HEAD" -- the same convention as GET /repos/{repo_id}/refs. Empty streams every ref. */
-  prefix?: ListRefEventsRequestPrefixList;
+  prefix?: ListRefEventsRequestPrefixList | undefined;
 }
 export interface ListRefEventsResponse {}
 export type ListRefEventsError = EntireOpError;
-/** Stream live ref (branch/tag/HEAD) change events for a repository Streams live ref (branch/tag/HEAD) changes as they happen -- a push, not a poll -- with rapid updates to the same ref coalesced to at most one event roughly every 200ms. On connect you get a snapshot of current refs, then only changes from that point on; there is no history to replay, so a reconnect re-snapshots rather than catching up on what it missed. */
+/** Stream live ref (branch/tag/HEAD) change events for a repository **Accepted credentials:** User token, Plugin installation token. Streams live ref (branch/tag/HEAD) changes as they happen -- a push, not a poll -- with rapid updates to the same ref coalesced to at most one event roughly every 200ms. On connect you get a snapshot of current refs, then only changes from that point on; there is no history to replay, so a reconnect re-snapshots rather than catching up on what it missed. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Streaming requires ref-events configuration; credential validity and live repository access are rechecked during the stream. */
 export const listRefEvents: API.OperationMethod<
   ListRefEventsRequest,
   ListRefEventsResponse,

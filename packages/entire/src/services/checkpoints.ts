@@ -28,7 +28,7 @@ export interface GetCheckpointRequest {
   repo_id: string;
   checkpoint_id: string;
   /** Branch the caller is viewing; drives needs_redirect, not which checkpoint resolves */
-  branch?: string;
+  branch?: string | undefined;
 }
 export type CheckpointResolveOutputBodyBranchesList = Array<string>;
 export type CheckpointInfoAgentsList = Array<string>;
@@ -45,46 +45,46 @@ export interface FileStats {
   additions: number;
   deletions: number;
   filename: string;
-  patch?: string;
-  patchTruncated?: boolean;
-  previousFilename?: string;
+  patch?: string | undefined;
+  patchTruncated?: boolean | undefined;
+  previousFilename?: string | undefined;
   status: string;
 }
 export type CheckpointInfoFileStatsList = Array<FileStats>;
 export type CheckpointInfoFilesTouchedList = Array<string>;
 export type CheckpointSessionAttribution = CheckpointAttribution;
 export interface SkillCollapse {
-  defaultCollapsed?: boolean;
-  label?: string;
-  target?: string;
+  defaultCollapsed?: boolean | undefined;
+  label?: string | undefined;
+  target?: string | undefined;
 }
 export type SkillEventNativeMap = { [key: string]: string | undefined };
 export interface SkillEventSkill {
   name: string;
 }
 export interface TranscriptSkillSource {
-  agent?: string;
-  confidence?: string;
-  signal?: string;
+  agent?: string | undefined;
+  confidence?: string | undefined;
+  signal?: string | undefined;
 }
 export type SkillTranscriptAnchorEntryIdsList = Array<string>;
 export interface SkillTranscriptAnchor {
-  end?: number;
-  entryIds?: SkillTranscriptAnchorEntryIdsList | null;
-  start?: number;
-  toolUseId?: string;
-  unit?: string;
+  end?: number | undefined;
+  entryIds?: SkillTranscriptAnchorEntryIdsList | null | undefined;
+  start?: number | undefined;
+  toolUseId?: string | undefined;
+  unit?: string | undefined;
 }
 export interface SkillEvent {
-  collapse?: SkillCollapse;
+  collapse?: SkillCollapse | undefined;
   eventType: string;
-  id?: string;
-  native?: SkillEventNativeMap;
+  id?: string | undefined;
+  native?: SkillEventNativeMap | undefined;
   skill: SkillEventSkill;
-  source?: TranscriptSkillSource;
-  timestamp?: string;
-  transcriptAnchor?: SkillTranscriptAnchor;
-  turnId?: string;
+  source?: TranscriptSkillSource | undefined;
+  timestamp?: string | undefined;
+  transcriptAnchor?: SkillTranscriptAnchor | undefined;
+  turnId?: string | undefined;
 }
 export type CheckpointSessionInfoSkillEventsList = Array<SkillEvent>;
 export interface CheckpointSessionTokenUsage {
@@ -96,22 +96,22 @@ export interface CheckpointSessionTokenUsage {
 }
 export interface CheckpointSessionInfo {
   agent: string;
-  attribution?: CheckpointAttribution;
-  checkpointTranscriptStart?: number;
-  createdAt?: string;
-  displayName?: string;
-  kind?: string;
-  model?: string;
+  attribution?: CheckpointAttribution | undefined;
+  checkpointTranscriptStart?: number | undefined;
+  createdAt?: string | undefined;
+  displayName?: string | undefined;
+  kind?: string | undefined;
+  model?: string | undefined;
   prompt: string | null;
-  sessionId?: string;
-  skillEvents?: CheckpointSessionInfoSkillEventsList | null;
+  sessionId?: string | undefined;
+  skillEvents?: CheckpointSessionInfoSkillEventsList | null | undefined;
   steps: number;
-  tokenUsage?: CheckpointSessionTokenUsage;
-  transcriptIdentifierAtStart?: string;
+  tokenUsage?: CheckpointSessionTokenUsage | undefined;
+  transcriptIdentifierAtStart?: string | undefined;
 }
 export type CheckpointInfoSessionsList = Array<CheckpointSessionInfo>;
 export interface CheckpointInfo {
-  additions: number;
+  additions: number | null;
   agents: CheckpointInfoAgentsList | null;
   apiCallCount: number;
   attribution: CheckpointAttribution;
@@ -120,7 +120,7 @@ export interface CheckpointInfo {
   checkpointId: string;
   checkpointRepoFullName: string | null;
   commitAuthor: string;
-  commitAuthorAvatarUrl?: string;
+  commitAuthorAvatarUrl?: string | undefined;
   commitAuthorUsername: string | null;
   commitBody: string | null;
   commitDate: string;
@@ -128,9 +128,9 @@ export interface CheckpointInfo {
   commitSha: string;
   commitSubject: string;
   createdAt: string;
-  deletions: number;
+  deletions: number | null;
   fileStats: CheckpointInfoFileStatsList | null;
-  filesChanged: number;
+  filesChanged: number | null;
   filesTouched: CheckpointInfoFilesTouchedList | null;
   inputTokens: number;
   outputTokens: number;
@@ -140,7 +140,7 @@ export interface CheckpointInfo {
 }
 export interface CheckpointResolveOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   branches: CheckpointResolveOutputBodyBranchesList | null;
   checkpoint: CheckpointInfo;
   checkpoint_id: string;
@@ -156,15 +156,15 @@ export interface GetCheckpointAnalysisRequest {
 }
 export type DecisionSectionRejectedList = Array<string>;
 export interface DecisionSection {
-  accepted?: string;
+  accepted?: string | undefined;
   narrative: string;
-  reasoning?: string;
-  rejected?: DecisionSectionRejectedList | null;
+  reasoning?: string | undefined;
+  rejected?: DecisionSectionRejectedList | null | undefined;
   title: string;
 }
 export type InvestigationSectionKeyFindingsList = Array<string>;
 export interface InvestigationSection {
-  keyFindings?: InvestigationSectionKeyFindingsList | null;
+  keyFindings?: InvestigationSectionKeyFindingsList | null | undefined;
   narrative: string;
   title: string;
 }
@@ -174,30 +174,39 @@ export interface SummarySection {
   title: string;
 }
 export interface CheckpointExtraction {
-  decision?: DecisionSection;
-  investigation?: InvestigationSection;
+  decision?: DecisionSection | undefined;
+  investigation?: InvestigationSection | undefined;
   labels: CheckpointExtractionLabelsList | null;
-  summary?: SummarySection;
+  summary?: SummarySection | undefined;
 }
 export type CheckpointAnalysisBodySearchableFilesList = Array<string>;
 export interface CheckpointAnalysisBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  extraction?: CheckpointExtraction;
-  failedChunks?: number;
-  incomplete?: boolean;
-  pipeline_version?: string;
-  searchableFiles?: CheckpointAnalysisBodySearchableFilesList | null;
+  _schema?: string | undefined;
+  extraction?: CheckpointExtraction | undefined;
+  failedChunks?: number | undefined;
+  incomplete?: boolean | undefined;
+  pipeline_version?: string | undefined;
+  searchableFiles?: CheckpointAnalysisBodySearchableFilesList | null | undefined;
   status: string;
-  totalFilesChanged?: number;
-  total_transcript_tokens?: number;
+  totalFilesChanged?: number | undefined;
+  total_transcript_tokens?: number | undefined;
 }
+export interface GetCheckpointAssetRequest {
+  repo_id: string;
+  checkpoint_id: string;
+  /** Asset filename, as in a transcript image's asset.name */
+  name: string;
+  /** Session index within the checkpoint */
+  session?: number | undefined;
+}
+export interface GetCheckpointAssetResponse {}
 export interface GetCheckpointStatusRequest {
   repo_id: string;
 }
 export interface CheckpointStatusOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   app_has_access: boolean;
   checkpoint_branch_state: string;
   checkpoint_count: number;
@@ -210,7 +219,13 @@ export interface GetCheckpointTranscriptRequest {
   checkpoint_id: string;
 }
 export type SessionAttribution = CheckpointAttribution;
+export interface TranscriptImageAsset {
+  checkpointId: string;
+  name: string;
+  session: number;
+}
 export interface TranscriptImage {
+  asset?: TranscriptImageAsset | undefined;
   data: string;
   mediaType: string;
 }
@@ -221,54 +236,56 @@ export interface TranscriptRuntimeTag {
 }
 export type TranscriptMessageRuntimeTagsList = Array<TranscriptRuntimeTag>;
 export interface TranscriptSkillInvocation {
-  collapseTarget?: string;
-  defaultCollapsed?: boolean;
-  eventId?: string;
+  collapseTarget?: string | undefined;
+  defaultCollapsed?: boolean | undefined;
+  eventId?: string | undefined;
   eventType: string;
-  label?: string;
+  label?: string | undefined;
   skillName: string;
-  source?: TranscriptSkillSource;
+  source?: TranscriptSkillSource | undefined;
 }
 export type ToolCallCategoriesList = Array<string>;
 export type ToolCallInputMap = { [key: string]: unknown | undefined };
 export interface ToolCallMetadata {
-  mcpServer?: string;
+  mcpServer?: string | undefined;
 }
 export type ToolCallOperationsList = Array<ToolCall>;
 export type ToolCallResultAnswersMap = { [key: string]: string | undefined };
 export interface ToolResultFile {
   filePath: string;
-  numLines?: number;
+  numLines?: number | undefined;
 }
+export type ToolCallResultImagesList = Array<TranscriptImage>;
 export interface ToolCallResult {
-  answers?: ToolCallResultAnswersMap;
-  error?: string;
-  file?: ToolResultFile;
-  matchCount?: number;
-  output?: string;
+  answers?: ToolCallResultAnswersMap | undefined;
+  error?: string | undefined;
+  file?: ToolResultFile | undefined;
+  images?: ToolCallResultImagesList | null | undefined;
+  matchCount?: number | undefined;
+  output?: string | undefined;
   type: string;
 }
 export interface ToolCall {
-  categories?: ToolCallCategoriesList | null;
+  categories?: ToolCallCategoriesList | null | undefined;
   id: string;
   input: ToolCallInputMap;
-  metadata?: ToolCallMetadata;
+  metadata?: ToolCallMetadata | undefined;
   name: string;
-  operations?: ToolCallOperationsList | null;
-  result?: ToolCallResult;
-  skillInvocation?: TranscriptSkillInvocation;
+  operations?: ToolCallOperationsList | null | undefined;
+  result?: ToolCallResult | undefined;
+  skillInvocation?: TranscriptSkillInvocation | undefined;
   timestamp: string;
 }
 export type TranscriptMessageToolCallsList = Array<ToolCall>;
 export interface TranscriptMessage {
   content: string;
   id: string;
-  images?: TranscriptMessageImagesList | null;
+  images?: TranscriptMessageImagesList | null | undefined;
   role: string;
-  runtimeTags?: TranscriptMessageRuntimeTagsList | null;
-  skillInvocation?: TranscriptSkillInvocation;
+  runtimeTags?: TranscriptMessageRuntimeTagsList | null | undefined;
+  skillInvocation?: TranscriptSkillInvocation | undefined;
   timestamp: string;
-  toolCalls?: TranscriptMessageToolCallsList | null;
+  toolCalls?: TranscriptMessageToolCallsList | null | undefined;
 }
 export type SessionTranscriptMessagesList = Array<TranscriptMessage>;
 export type SessionTranscriptSkillEventsList = Array<SkillEvent>;
@@ -278,20 +295,20 @@ export interface SessionTokenUsage {
 }
 export interface SessionTranscript {
   agent: string;
-  attribution?: CheckpointAttribution;
+  attribution?: CheckpointAttribution | undefined;
   checkpointTranscriptStart: number | null;
   messages: SessionTranscriptMessagesList | null;
-  parsingFallback?: boolean;
-  parsingWarning?: string;
+  parsingFallback?: boolean | undefined;
+  parsingWarning?: string | undefined;
   sessionId: string;
-  skillEvents?: SessionTranscriptSkillEventsList | null;
-  tokenUsage?: SessionTokenUsage;
+  skillEvents?: SessionTranscriptSkillEventsList | null | undefined;
+  tokenUsage?: SessionTokenUsage | undefined;
   transcriptIdentifierAtStart: string | null;
 }
 export type CheckpointTranscriptOutputBodySessionsList = Array<SessionTranscript>;
 export interface CheckpointTranscriptOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   checkpointId: string;
   from_cache: boolean;
   sessions: CheckpointTranscriptOutputBodySessionsList | null;
@@ -301,26 +318,26 @@ export interface GetCheckpointTranscriptRawRequest {
   repo_id: string;
   checkpoint_id: string;
   /** Session index within the checkpoint */
-  session?: number;
+  session?: number | undefined;
 }
 export interface GetCheckpointTranscriptRawResponse {}
 export interface ListCheckpointsRequest {
   repo_id: string;
   /** Branch to filter to; empty = the repo's default branch */
-  branch?: string;
+  branch?: string | undefined;
   /** Optional branch whose reachable commits are excluded: lists only checkpoints on commits reachable from branch but not from this one (git branch ^excludeBranch) */
-  excludeBranch?: string;
+  excludeBranch?: string | undefined;
   /** Page size, clamped to 1..1000 */
-  limit?: number;
+  limit?: number | undefined;
   /** RFC 3339 lower bound on the checkpoint's anchoring commit date, inclusive (optional; unbounded by default) */
-  since?: string;
+  since?: string | undefined;
   /** RFC 3339 upper bound on the checkpoint's anchoring commit date, exclusive (optional; unbounded by default) */
-  until?: string;
+  until?: string | undefined;
 }
 export type RepoCheckpointsOutputBodyCheckpointsList = Array<CheckpointInfo>;
 export interface RepoCheckpointsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   app_has_access: boolean;
   checkpoints: RepoCheckpointsOutputBodyCheckpointsList | null;
   history_complete: boolean;
@@ -334,10 +351,10 @@ export interface ListCommitCheckpointsRequest {
   repo_id: string;
   sha: string;
   /** Page size, clamped to 1..1000 */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetCheckpointError = EntireOpError;
-/** A single checkpoint, with its branch membership */
+/** A single checkpoint, with its branch membership **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Also requires pull on a separate checkpoint-storage repository when configured; denial on that repository returns 404. Separate anonymous exception: with no bearer, X-Anon-Repo can authorize public-repository reads when anonymous signing is configured; a separate checkpoint-storage repository must also be public. This exception is outside the user/plugin credential labels. */
 export const getCheckpoint: API.OperationMethod<
   GetCheckpointRequest,
   CheckpointResolveOutputBody,
@@ -370,6 +387,23 @@ export const getCheckpointAnalysis: API.OperationMethod<
   span: "GetCheckpointAnalysis",
 }));
 
+export type GetCheckpointAssetError = EntireOpError;
+/** Stream an image externalized from a checkpoint session's transcript */
+export const getCheckpointAsset: API.OperationMethod<
+  GetCheckpointAssetRequest,
+  GetCheckpointAssetResponse,
+  GetCheckpointAssetError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(160, __c5, 0) as any as S.Schema<GetCheckpointAssetRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<GetCheckpointAssetResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCheckpointAsset",
+}));
+
 export type GetCheckpointStatusError = EntireOpError;
 /** Repository-level checkpoint availability and sync status A lightweight availability check for a repository's checkpoints, used to decide whether to show the overview. When the checkpoints are stored separately and aren't available to you, the count is redacted rather than the request failing. */
 export const getCheckpointStatus: API.OperationMethod<
@@ -378,8 +412,8 @@ export const getCheckpointStatus: API.OperationMethod<
   GetCheckpointStatusError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<GetCheckpointStatusRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<CheckpointStatusOutputBody>,
+  input: __S(224, __c7, 0) as any as S.Schema<GetCheckpointStatusRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<CheckpointStatusOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -388,15 +422,15 @@ export const getCheckpointStatus: API.OperationMethod<
 }));
 
 export type GetCheckpointTranscriptError = EntireOpError;
-/** A checkpoint's sessions as message trees */
+/** A checkpoint's sessions as message trees **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Also requires pull on a separate checkpoint-storage repository when configured; denial on that repository returns 404. Separate anonymous exception: with no bearer, X-Anon-Repo can authorize public-repository reads when anonymous signing is configured; a separate checkpoint-storage repository must also be public. This exception is outside the user/plugin credential labels. */
 export const getCheckpointTranscript: API.OperationMethod<
   GetCheckpointTranscriptRequest,
   CheckpointTranscriptOutputBody,
   GetCheckpointTranscriptError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<GetCheckpointTranscriptRequest>,
-  output: __S(210, __c6, 18) as any as S.Schema<CheckpointTranscriptOutputBody>,
+  input: __S(256, __c8, 0) as any as S.Schema<GetCheckpointTranscriptRequest>,
+  output: __S(275, __c8, 19) as any as S.Schema<CheckpointTranscriptOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -405,15 +439,15 @@ export const getCheckpointTranscript: API.OperationMethod<
 }));
 
 export type GetCheckpointTranscriptRawError = EntireOpError;
-/** Stream a checkpoint session's raw transcript */
+/** Stream a checkpoint session's raw transcript **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Also requires pull on a separate checkpoint-storage repository when configured; denial on that repository returns 404. Anonymous access and share snapshots are not supported by this raw transcript operation. */
 export const getCheckpointTranscriptRaw: API.OperationMethod<
   GetCheckpointTranscriptRawRequest,
   GetCheckpointTranscriptRawResponse,
   GetCheckpointTranscriptRawError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<GetCheckpointTranscriptRawRequest>,
-  output: __S(225, __c7, 1) as any as S.Schema<GetCheckpointTranscriptRawResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetCheckpointTranscriptRawRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<GetCheckpointTranscriptRawResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -422,15 +456,15 @@ export const getCheckpointTranscriptRaw: API.OperationMethod<
 }));
 
 export type ListCheckpointsError = EntireOpError;
-/** Checkpoints on a branch, with commit, diffstat, and sessions */
+/** Checkpoints on a branch, with commit, diffstat, and sessions **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Also requires pull on a separate checkpoint-storage repository when configured; denial on that repository returns 404. Separate anonymous exception: with no bearer, X-Anon-Repo can authorize public-repository reads when anonymous signing is configured; a separate checkpoint-storage repository must also be public. This exception is outside the user/plugin credential labels. */
 export const listCheckpoints: API.OperationMethod<
   ListCheckpointsRequest,
   RepoCheckpointsOutputBody,
   ListCheckpointsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<ListCheckpointsRequest>,
-  output: __S(289, __c9, 1) as any as S.Schema<RepoCheckpointsOutputBody>,
+  input: __S(320, __c10, 0) as any as S.Schema<ListCheckpointsRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<RepoCheckpointsOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -439,15 +473,15 @@ export const listCheckpoints: API.OperationMethod<
 }));
 
 export type ListCommitCheckpointsError = EntireOpError;
-/** Checkpoints linked to a commit, with commit, diffstat, and sessions */
+/** Checkpoints linked to a commit, with commit, diffstat, and sessions **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Also requires pull on a separate checkpoint-storage repository when configured; denial on that repository returns 404. Separate anonymous exception: with no bearer, X-Anon-Repo can authorize public-repository reads when anonymous signing is configured; a separate checkpoint-storage repository must also be public. This exception is outside the user/plugin credential labels. */
 export const listCommitCheckpoints: API.OperationMethod<
   ListCommitCheckpointsRequest,
   RepoCheckpointsOutputBody,
   ListCommitCheckpointsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<ListCommitCheckpointsRequest>,
-  output: __S(289, __c9, 1) as any as S.Schema<RepoCheckpointsOutputBody>,
+  input: __S(384, __c12, 0) as any as S.Schema<ListCommitCheckpointsRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<RepoCheckpointsOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -609,7 +643,7 @@ function __c3(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          additions: S.Number,
+          additions: S.NullOr(S.Number),
           agents: S.NullOr(__S(32, __c1, 0)),
           apiCallCount: S.Number,
           attribution: __S(64, __c2, 0),
@@ -626,9 +660,9 @@ function __c3(j: number): any {
           commitSha: S.String,
           commitSubject: S.String,
           createdAt: S.String,
-          deletions: S.Number,
+          deletions: S.NullOr(S.Number),
           fileStats: S.NullOr(__S(97, __c3, 1)),
-          filesChanged: S.Number,
+          filesChanged: S.NullOr(S.Number),
           filesTouched: S.NullOr(__S(32, __c1, 0)),
           inputTokens: S.Number,
           outputTokens: S.Number,
@@ -710,6 +744,31 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           repo_id: S.String.pipe(T.Label()),
+          checkpoint_id: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          session: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/checkpoints/{checkpoint_id}/assets/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetCheckpointAssetRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "GetCheckpointAssetResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/checkpoint-status", code: 200 }),
         ),
@@ -728,7 +787,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CheckpointStatusOutputBody" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -746,22 +805,31 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          checkpointId: S.String,
+          name: S.String,
+          session: S.Number,
+        }),
+      ).annotate({ identifier: "TranscriptImageAsset" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          asset: S.optional(__S(257, __c8, 1)),
           data: S.String,
           mediaType: S.String,
         }),
       ).annotate({ identifier: "TranscriptImage" });
-    case 2:
-      return S.Array(__S(193, __c6, 1));
     case 3:
+      return S.Array(__S(258, __c8, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           content: S.String,
           tag: S.String,
         }),
       ).annotate({ identifier: "TranscriptRuntimeTag" });
-    case 4:
-      return S.Array(__S(195, __c6, 3));
     case 5:
+      return S.Array(__S(260, __c8, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           collapseTarget: S.optional(S.String),
@@ -773,102 +841,103 @@ function __c6(j: number): any {
           source: S.optional(__S(68, __c2, 4)),
         }),
       ).annotate({ identifier: "TranscriptSkillInvocation" });
-    case 6:
-      return S.Record(S.String, S.Unknown);
     case 7:
+      return S.Record(S.String, S.Unknown);
+    case 8:
       return S.suspend(() =>
         S.Struct({
           mcpServer: S.optional(S.String),
         }),
       ).annotate({ identifier: "ToolCallMetadata" });
-    case 8:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(203, __c6, 11)));
     case 9:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(268, __c8, 12)));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           filePath: S.String,
           numLines: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ToolResultFile" });
-    case 10:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           answers: S.optional(__S(66, __c2, 2)),
           error: S.optional(S.String),
-          file: S.optional(__S(201, __c6, 9)),
+          file: S.optional(__S(266, __c8, 10)),
+          images: S.optional(S.NullOr(__S(259, __c8, 3))),
           matchCount: S.optional(S.Number),
           output: S.optional(S.String),
           type: S.String,
         }),
       ).annotate({ identifier: "ToolCallResult" });
-    case 11:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           categories: S.optional(S.NullOr(__S(32, __c1, 0))),
           id: S.String,
-          input: __S(198, __c6, 6),
-          metadata: S.optional(__S(199, __c6, 7)),
+          input: __S(263, __c8, 7),
+          metadata: S.optional(__S(264, __c8, 8)),
           name: S.String,
-          operations: S.optional(S.NullOr(__S(200, __c6, 8))),
-          result: S.optional(__S(202, __c6, 10)),
-          skillInvocation: S.optional(__S(197, __c6, 5)),
+          operations: S.optional(S.NullOr(__S(265, __c8, 9))),
+          result: S.optional(__S(267, __c8, 11)),
+          skillInvocation: S.optional(__S(262, __c8, 6)),
           timestamp: S.String,
         }),
       ).annotate({ identifier: "ToolCall" });
-    case 12:
-      return S.Array(__S(203, __c6, 11));
     case 13:
+      return S.Array(__S(268, __c8, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
           content: S.String,
           id: S.String,
-          images: S.optional(S.NullOr(__S(194, __c6, 2))),
+          images: S.optional(S.NullOr(__S(259, __c8, 3))),
           role: S.String,
-          runtimeTags: S.optional(S.NullOr(__S(196, __c6, 4))),
-          skillInvocation: S.optional(__S(197, __c6, 5)),
+          runtimeTags: S.optional(S.NullOr(__S(261, __c8, 5))),
+          skillInvocation: S.optional(__S(262, __c8, 6)),
           timestamp: S.String,
-          toolCalls: S.optional(S.NullOr(__S(204, __c6, 12))),
+          toolCalls: S.optional(S.NullOr(__S(269, __c8, 13))),
         }),
       ).annotate({ identifier: "TranscriptMessage" });
-    case 14:
-      return S.Array(__S(205, __c6, 13));
     case 15:
+      return S.Array(__S(270, __c8, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
           inputTokens: S.Number,
           outputTokens: S.Number,
         }),
       ).annotate({ identifier: "SessionTokenUsage" });
-    case 16:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           agent: S.String,
           attribution: S.optional(__S(64, __c2, 0)),
           checkpointTranscriptStart: S.NullOr(S.Number),
-          messages: S.NullOr(__S(206, __c6, 14)),
+          messages: S.NullOr(__S(271, __c8, 15)),
           parsingFallback: S.optional(S.Boolean),
           parsingWarning: S.optional(S.String),
           sessionId: S.String,
           skillEvents: S.optional(S.NullOr(__S(71, __c2, 7))),
-          tokenUsage: S.optional(__S(207, __c6, 15)),
+          tokenUsage: S.optional(__S(272, __c8, 16)),
           transcriptIdentifierAtStart: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "SessionTranscript" });
-    case 17:
-      return S.Array(__S(208, __c6, 16));
     case 18:
+      return S.Array(__S(273, __c8, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           checkpointId: S.String,
           from_cache: S.Boolean,
-          sessions: S.NullOr(__S(209, __c6, 17)),
+          sessions: S.NullOr(__S(274, __c8, 18)),
           status: S.String,
         }),
       ).annotate({ identifier: "CheckpointTranscriptOutputBody" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -884,13 +953,9 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetCheckpointTranscriptRawRequest" });
-    case 1:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "GetCheckpointTranscriptRawResponse",
-      });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -905,7 +970,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ListCheckpointsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(101, __c3, 5));
@@ -914,7 +979,7 @@ function __c9(j: number): any {
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           app_has_access: S.Boolean,
-          checkpoints: S.NullOr(__S(288, __c9, 0)),
+          checkpoints: S.NullOr(__S(352, __c11, 0)),
           history_complete: S.Boolean,
           history_status: S.String,
           repo_full_name: S.String,
@@ -925,7 +990,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "RepoCheckpointsOutputBody" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

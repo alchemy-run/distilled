@@ -49,14 +49,14 @@ export type CreateRepoRequestMirrorClusterSlugsList = Array<string>;
 export type CreateRepoRequestObjectFormat = "sha1" | "sha256";
 export interface CreateRepoRequest {
   /** Public host of the cluster to pin the repo to (e.g. royalcanin.partial.to); must be in the project's processing cell. Empty takes that cell's cluster. */
-  clusterHost?: string;
+  clusterHost?: string | undefined;
   /** Clusters to add native mirrors on once the repo is active. Core stores them with the create and retries each until its mirror exists. */
-  mirrorClusterSlugs?: CreateRepoRequestMirrorClusterSlugsList;
+  mirrorClusterSlugs?: CreateRepoRequestMirrorClusterSlugsList | undefined;
   name: string;
   /** Hash format; defaults to sha1. */
-  objectFormat?: CreateRepoRequestObjectFormat | (string & {});
+  objectFormat?: CreateRepoRequestObjectFormat | (string & {}) | undefined;
   /** Project to create the repo in. Required for an account. A plugin installation's token may omit it; the repo then goes in the installation's project, and any other project answers 404. */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 export type RepoCandidateAccess = "read" | "write" | "admin";
 export interface RepoCandidate {
@@ -82,18 +82,18 @@ export type NativeMirrorPlacementStage =
 export type NativeMirrorPlacementStatus = "processing" | "ready" | "failed" | "suspended";
 export interface NativeMirrorPlacement {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   attempts: number;
   clusterSlug: string;
   createdAt: string;
-  creationFailedAt?: string;
+  creationFailedAt?: string | undefined;
   desiredState: NativeMirrorPlacementDesiredState;
   /** Stable code for why the region failed, when it did. */
-  failureCode?: string;
+  failureCode?: string | undefined;
   /** Why the region failed, as a sentence that is safe to show a user. */
-  failureMessage?: string;
-  lastError?: string;
-  nextRetryAt?: string;
+  failureMessage?: string | undefined;
+  lastError?: string | undefined;
+  nextRetryAt?: string | undefined;
   placementId: string;
   stage: NativeMirrorPlacementStage;
   status: NativeMirrorPlacementStatus;
@@ -104,7 +104,7 @@ export type CreatedRepoNativeMirrorsList = Array<NativeMirrorPlacement>;
 export type CreatedRepoObjectFormat = "sha1" | "sha256";
 export type RepoPlacementStatus = "processing" | "ready" | "failed" | "suspended";
 export interface RepoPlacement {
-  apiBaseUrl?: string;
+  apiBaseUrl?: string | undefined;
   cell: string;
   clusterSlug: string;
   id: string;
@@ -123,7 +123,7 @@ export interface RepoPrimaries {
   data_primary: ForgeRepoIdentity;
   git_data: string;
   processing: string;
-  processing_primary?: ForgeRepoIdentity;
+  processing_primary?: ForgeRepoIdentity | undefined;
   [key: string]: unknown;
 }
 export type CreatedRepoProvider = "github" | "entire";
@@ -132,40 +132,40 @@ export type CreatedRepoState = "provisioning" | "active" | "failed" | "deleting"
 export type CreatedRepoVisibility = "public" | "private";
 export interface CreatedRepo {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  candidate?: RepoCandidate;
+  _schema?: string | undefined;
+  candidate?: RepoCandidate | undefined;
   capabilities: RepoCapabilities;
-  clusterHost?: string;
-  clusterSlug?: string;
+  clusterHost?: string | undefined;
+  clusterSlug?: string | undefined;
   /** Deprecated: read the X-Entire-Commit-Token response header instead. */
-  commitToken?: string;
-  detachedAt?: string;
-  foreign?: boolean;
-  fullName?: string;
+  commitToken?: string | undefined;
+  detachedAt?: string | undefined;
+  foreign?: boolean | undefined;
+  fullName?: string | undefined;
   id: string;
-  jurisdiction?: string;
-  lastPushedAt?: string;
+  jurisdiction?: string | undefined;
+  lastPushedAt?: string | undefined;
   /** Native-mirror clusters core stored with this create. Their status is on GET /repos/{repoId}/native-mirrors. */
-  mirrorClusterSlugs?: CreatedRepoMirrorClusterSlugsList;
-  mirrorSuspended?: boolean;
-  mirrorSuspendedAt?: string;
+  mirrorClusterSlugs?: CreatedRepoMirrorClusterSlugsList | undefined;
+  mirrorSuspended?: boolean | undefined;
+  mirrorSuspendedAt?: string | undefined;
   name: string;
   /** Native mirrors this create queued, each pending with its reserved placementId. Their status is on GET /repos/{repoId}/native-mirrors. */
-  nativeMirrors?: CreatedRepoNativeMirrorsList;
-  objectFormat?: CreatedRepoObjectFormat;
+  nativeMirrors?: CreatedRepoNativeMirrorsList | undefined;
+  objectFormat?: CreatedRepoObjectFormat | undefined;
   owningProjectId: string;
-  path?: string;
-  placements?: CreatedRepoPlacementsList;
-  primaries?: RepoPrimaries;
+  path?: string | undefined;
+  placements?: CreatedRepoPlacementsList | undefined;
+  primaries?: RepoPrimaries | undefined;
   provider: CreatedRepoProvider;
-  provisionAttempts?: number;
-  provisionReason?: string;
-  repoGroupId?: string;
+  provisionAttempts?: number | undefined;
+  provisionReason?: string | undefined;
+  repoGroupId?: string | undefined;
   /** Public repository id (repo_ followed by a ULID). Plugin installation routes, access tokens and webhooks use it. */
-  repositoryId?: string;
+  repositoryId?: string | undefined;
   /** Provisioning lifecycle. A mirror is active from creation, before its initial clone completes. A native primary reports deleting while a cascade delete removes its native mirrors; poll until 404. */
-  state?: CreatedRepoState;
-  visibility?: CreatedRepoVisibility;
+  state?: CreatedRepoState | undefined;
+  visibility?: CreatedRepoVisibility | undefined;
   [key: string]: unknown;
 }
 export type CreateRepoInvitationRequestRole = "reader" | "writer" | "admin";
@@ -182,11 +182,11 @@ export interface AccountProfileHandle {
 }
 export type AccountIdentityHandlesList = Array<AccountProfileHandle>;
 export interface AccountIdentity {
-  avatarUrl?: string;
-  displayName?: string;
+  avatarUrl?: string | undefined;
+  displayName?: string | undefined;
   handles: AccountIdentityHandlesList;
   /** The account's Entire username. Omitted until claimed. */
-  username?: string;
+  username?: string | undefined;
   [key: string]: unknown;
 }
 export type ResourceInvitationRole = "reader" | "writer" | "admin";
@@ -195,27 +195,27 @@ export type ResourceInvitationScope = "project" | "repo";
 export type ResourceInvitationStatus = "open" | "accepted" | "revoked" | "expired" | "declined";
 export interface ResourceInvitation {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  acceptedAt?: string;
+  _schema?: string | undefined;
+  acceptedAt?: string | undefined;
   /** Account ID that used the token. Empty until the invitation is accepted. */
-  acceptedBy?: string;
+  acceptedBy?: string | undefined;
   /** Resolved identity for AcceptedBy. Absent when it cannot be resolved. */
-  acceptedByIdentity?: AccountIdentity;
+  acceptedByIdentity?: AccountIdentity | undefined;
   createdAt: string;
-  declinedAt?: string;
+  declinedAt?: string | undefined;
   /** The invited address, normalized to lowercase. Empty for an account-targeted invitation. */
-  email?: string;
+  email?: string | undefined;
   expiresAt: string;
   id: string;
   /** Account ID of the manager who created the invitation. Empty when that account has been erased. */
   invitedBy: string;
   /** Resolved identity for InvitedBy. Absent when it cannot be resolved. */
-  invitedByIdentity?: AccountIdentity;
+  invitedByIdentity?: AccountIdentity | undefined;
   /** The invited account. Empty for an email invitation. */
-  inviteeAccountId?: string;
+  inviteeAccountId?: string | undefined;
   /** Resolved identity for InviteeAccountID. Absent when it cannot be resolved. */
-  inviteeIdentity?: AccountIdentity;
-  revokedAt?: string;
+  inviteeIdentity?: AccountIdentity | undefined;
+  revokedAt?: string | undefined;
   role: ResourceInvitationRole;
   scope: ResourceInvitationScope;
   /** Project ID or repository ID. */
@@ -227,7 +227,7 @@ export interface ResourceInvitation {
 export interface DeleteRepoRequest {
   repoId: string;
   /** Also delete the repo's native mirrors. With mirrors present the server marks every copy for teardown, answers 202, and deletes the primary once they are gone; poll GET /repos/{repoId} until 404. Without mirrors the delete runs synchronously as usual. */
-  cascade?: boolean;
+  cascade?: boolean | undefined;
 }
 export interface DeleteRepoResponse {}
 export interface DetachRepoRequest {
@@ -235,9 +235,9 @@ export interface DetachRepoRequest {
   /** Evaluate the preconditions and change nothing. */
   dryRun: boolean;
   /** Native repository name. Defaults to the GitHub repository name. */
-  name?: string;
+  name?: string | undefined;
   /** Account the checks apply to. Defaults to the caller. Only a platform admin may set another account. */
-  requestedBy?: string;
+  requestedBy?: string | undefined;
   /** Project ID that owns the native repository after the detach. */
   targetProject: string;
 }
@@ -252,7 +252,7 @@ export type DetachPreconditionPrecondition =
   | "no-pending-teardown"
   | "import-complete";
 export interface DetachPrecondition {
-  detail?: string;
+  detail?: string | undefined;
   passed: boolean;
   precondition: DetachPreconditionPrecondition;
   [key: string]: unknown;
@@ -264,25 +264,25 @@ export type DetachRepoResultReleasedAddressesList = Array<string>;
 export type DetachRepoResultStatus = "complete" | "in_progress" | "stalled";
 export interface DetachRepoResult {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   dryRun: boolean;
   /** True when every precondition passes. */
   eligible: boolean;
   /** Native repository name the detach would use. */
   name: string;
   /** Real detach only. The repository's new address, et/<project>/<repo>. */
-  nativeName?: string;
+  nativeName?: string | undefined;
   /** Real detach only. Notices for the requester: the GitHub repository stays live, and the gate guarantee. */
-  notices?: DetachRepoResultNoticesList;
+  notices?: DetachRepoResultNoticesList | undefined;
   preconditions: DetachRepoResultPreconditionsList;
   /** Real detach only. The gh/<owner>/<repo> addresses that now answer moved. */
-  releasedAddresses?: DetachRepoResultReleasedAddressesList;
+  releasedAddresses?: DetachRepoResultReleasedAddressesList | undefined;
   /** Account the checks applied to. */
   requestedBy: string;
   /** Real detach only. complete: every step finished. in_progress: the repository is native and frozen while the rewire runs on. stalled: the rewire stopped; the repository stays frozen until the core's sweep resumes it, after the lease expires, or a call resumes it. */
-  status?: DetachRepoResultStatus;
+  status?: DetachRepoResultStatus | undefined;
   /** in_progress and stalled only. The path of GET /api/v1/repos/{repoId}/detach. Poll it to follow the rewire to its end. */
-  statusUrl?: string;
+  statusUrl?: string | undefined;
   targetProject: string;
   [key: string]: unknown;
 }
@@ -293,14 +293,14 @@ export interface BranchRule {
   /** "HEAD" or a refs/heads/ name, fnmatch wildcards allowed. */
   ref: string;
   /** The branch moves only through a server-side merge by Entire; every direct write, fast-forward included, is refused. Defaults to false. */
-  serverSideMergeOnly?: boolean;
+  serverSideMergeOnly?: boolean | undefined;
   [key: string]: unknown;
 }
 /** Protection rules, one per pattern; each ref at most once. Empty protects nothing. */
 export type BranchProtectionRulesList = Array<BranchRule>;
 export interface BranchProtection {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Protection rules, one per pattern; each ref at most once. Empty protects nothing. */
   rules: BranchProtectionRulesList;
   [key: string]: unknown;
@@ -308,9 +308,9 @@ export interface BranchProtection {
 export interface GetRepoRequest {
   repoId: string;
   /** Require the repo's regional lifecycle state. A local repo is unaffected. A repo homed in another jurisdiction redirects with 421. This core reports 503 when it cannot route the read. Provisioning and failed states still return 200. */
-  authoritative?: boolean;
+  authoritative?: boolean | undefined;
   /** Optional: opaque commit token from this repo's create, to read at a snapshot that contains that write. The lifecycle state, the placements, and a provisioning failure are always read fresh. */
-  commitToken?: string;
+  commitToken?: string | undefined;
 }
 export type RepoObjectFormat = "sha1" | "sha256";
 export type RepoPlacementsList = Array<RepoPlacement>;
@@ -320,32 +320,32 @@ export type RepoState = "provisioning" | "active" | "failed" | "deleting";
 export type RepoVisibility = "public" | "private";
 export interface Repo {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  candidate?: RepoCandidate;
+  _schema?: string | undefined;
+  candidate?: RepoCandidate | undefined;
   capabilities: RepoCapabilities;
-  clusterHost?: string;
-  clusterSlug?: string;
-  detachedAt?: string;
-  foreign?: boolean;
-  fullName?: string;
+  clusterHost?: string | undefined;
+  clusterSlug?: string | undefined;
+  detachedAt?: string | undefined;
+  foreign?: boolean | undefined;
+  fullName?: string | undefined;
   id: string;
-  jurisdiction?: string;
-  lastPushedAt?: string;
-  mirrorSuspended?: boolean;
-  mirrorSuspendedAt?: string;
+  jurisdiction?: string | undefined;
+  lastPushedAt?: string | undefined;
+  mirrorSuspended?: boolean | undefined;
+  mirrorSuspendedAt?: string | undefined;
   name: string;
-  objectFormat?: RepoObjectFormat;
+  objectFormat?: RepoObjectFormat | undefined;
   owningProjectId: string;
-  path?: string;
-  placements?: RepoPlacementsList;
-  primaries?: RepoPrimaries;
+  path?: string | undefined;
+  placements?: RepoPlacementsList | undefined;
+  primaries?: RepoPrimaries | undefined;
   provider: RepoProvider;
-  provisionAttempts?: number;
-  provisionReason?: string;
-  repoGroupId?: string;
+  provisionAttempts?: number | undefined;
+  provisionReason?: string | undefined;
+  repoGroupId?: string | undefined;
   /** Provisioning lifecycle. A mirror is active from creation, before its initial clone completes. A native primary reports deleting while a cascade delete removes its native mirrors; poll until 404. */
-  state?: RepoState;
-  visibility?: RepoVisibility;
+  state?: RepoState | undefined;
+  visibility?: RepoVisibility | undefined;
   [key: string]: unknown;
 }
 export interface GetRepoDetachRequest {
@@ -357,13 +357,13 @@ export type RepoDetachStateReleasedAddressesList = Array<string>;
 export type RepoDetachStateStatus = "none" | "in_progress" | "stalled" | "complete";
 export interface RepoDetachState {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** When the group rewrite made the repository native. */
-  detachedAt?: string;
+  detachedAt?: string | undefined;
   /** True when a detach froze the repository's writes, so a push answers 423. With status none it is a hint: a detach before its group rewrite holds or held the lease, and it can have set the freeze. */
   frozen: boolean;
   /** The repository's native address, et/<project>/<repo>. */
-  nativeName?: string;
+  nativeName?: string | undefined;
   /** The gh/<owner>/<repo> addresses that answer moved. */
   releasedAddresses: RepoDetachStateReleasedAddressesList;
   /** True when the rewire stopped and the core's sweep resumes it after the step in step. False on a stalled detach that needs a call to the detach from an admin of the repo's project or a platform admin. */
@@ -371,9 +371,9 @@ export interface RepoDetachState {
   /** none: no detach is recorded. in_progress: the repository is native and frozen while the rewire runs. stalled: the rewire stopped and the repository stays frozen. complete: every step finished. */
   status: RepoDetachStateStatus;
   /** The last rewire step that finished, 4 to 9. Absent before the group rewrite. */
-  step?: number;
+  step?: number | undefined;
   /** The name of the step in step, as the rewire's logs and metrics name it. */
-  stepName?: string;
+  stepName?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetRepoVisibilityRequest {
@@ -382,7 +382,7 @@ export interface GetRepoVisibilityRequest {
 export type GetRepoVisibilityOutputBodyVisibility = "public" | "private";
 export interface GetRepoVisibilityOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   visibility: GetRepoVisibilityOutputBodyVisibility;
   [key: string]: unknown;
 }
@@ -391,17 +391,17 @@ export type GrantRepoAccessRequestRole = "reader" | "writer" | "admin";
 export interface GrantRepoAccessRequest {
   repoId: string;
   /** Entire account ULID to grant directly. Mutually exclusive with provider/providerUserId; the account must exist. */
-  accountId?: string;
-  granteeType?: GrantRepoAccessRequestGranteeType | (string & {});
+  accountId?: string | undefined;
+  granteeType?: GrantRepoAccessRequestGranteeType | (string & {}) | undefined;
   /** Legacy identity selector; requires providerUserId and must not be combined with accountId. */
-  provider?: string;
+  provider?: string | undefined;
   /** Legacy provider user ID; requires provider and must not be combined with accountId. */
-  providerUserId?: string;
+  providerUserId?: string | undefined;
   role: GrantRepoAccessRequestRole | (string & {});
 }
 export interface GrantRepoAccessOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   status: string;
   [key: string]: unknown;
 }
@@ -410,69 +410,69 @@ export type ListProjectReposRequestScope = "onboarded" | "all";
 export interface ListProjectReposRequest {
   projectId: string;
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional: exact-match repo name (case-insensitive). */
-  name?: string;
+  name?: string | undefined;
   /** onboarded (default): the project's repos in Entire. all: also lists the GitHub owner's unmirrored repos that the caller can access on GitHub, after all published repos. Only a GitHub mirrors project has such repos. Ignored when name is set. */
-  scope?: ListProjectReposRequestScope | (string & {});
+  scope?: ListProjectReposRequestScope | (string & {}) | undefined;
   /** Optional: opaque commit token from a create, to read a snapshot that contains that write. */
-  commitToken?: string;
+  commitToken?: string | undefined;
 }
 export type ListProjectReposOutputBodyReposList = Array<Repo>;
 export interface ListProjectReposOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  candidatesIncomplete?: boolean;
+  _schema?: string | undefined;
+  candidatesIncomplete?: boolean | undefined;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
-  repo?: Repo;
+  nextPageToken?: string | undefined;
+  repo?: Repo | undefined;
   repos: ListProjectReposOutputBodyReposList;
   [key: string]: unknown;
 }
 export interface ListRepoCollaboratorsRequest {
   repoId: string;
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Display tier. Admin includes GitHub settings administrators and does not imply permission to manage grants. */
 export type RepoCollaboratorRole = "reader" | "writer" | "admin";
 export interface RepoCollaborator {
   accountId: string;
-  handle?: string;
+  handle?: string | undefined;
   /** Display tier. Admin includes GitHub settings administrators and does not imply permission to manage grants. */
   role: RepoCollaboratorRole;
   /** The account's Entire username. Omitted until claimed. */
-  username?: string;
+  username?: string | undefined;
   [key: string]: unknown;
 }
 export type ListRepoCollaboratorsOutputBodyCollaboratorsList = Array<RepoCollaborator>;
 export interface ListRepoCollaboratorsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   collaborators: ListRepoCollaboratorsOutputBodyCollaboratorsList;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   [key: string]: unknown;
 }
 export interface ListRepoGrantsRequest {
   repoId: string;
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface RepoGrant {
   /** The account's public display name, when it has one. Absent for non-account grantees. */
-  displayName?: string;
+  displayName?: string | undefined;
   granteeId: string;
-  granteeName?: string;
+  granteeName?: string | undefined;
   granteeType: string;
   /** The account's Entire username. Omitted until claimed and for non-account grantees. */
-  granteeUsername?: string;
+  granteeUsername?: string | undefined;
   role: string;
   source: string;
   [key: string]: unknown;
@@ -480,10 +480,10 @@ export interface RepoGrant {
 export type ListRepoGrantsOutputBodyGrantsList = Array<RepoGrant>;
 export interface ListRepoGrantsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   grants: ListRepoGrantsOutputBodyGrantsList;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   [key: string]: unknown;
 }
 /** Lifecycle state to return; all returns every state. */
@@ -497,45 +497,45 @@ export type ListRepoInvitationsRequestStatus =
 export interface ListRepoInvitationsRequest {
   repoId: string;
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Lifecycle state to return; all returns every state. */
-  status?: ListRepoInvitationsRequestStatus | (string & {});
+  status?: ListRepoInvitationsRequestStatus | (string & {}) | undefined;
 }
 export type ListResourceInvitationsOutputBodyInvitationsList = Array<ResourceInvitation>;
 export interface ListResourceInvitationsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   invitations: ListResourceInvitationsOutputBodyInvitationsList;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   [key: string]: unknown;
 }
 export interface ListRepoLanguageFacetsRequest {
   /** Maximum facet values to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Case-insensitive substring match over facet values. */
-  q?: string;
+  q?: string | undefined;
 }
 export type RepoFacetPageItemsList = Array<string>;
 export interface RepoFacetPage {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   items: RepoFacetPageItemsList;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   [key: string]: unknown;
 }
 export interface ListRepoOrgFacetsRequest {
   /** Maximum facet values to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Case-insensitive substring match over facet values. */
-  q?: string;
+  q?: string | undefined;
 }
 /** Exact effective role on the selected resource. */
 export type ListRepoPeopleRequestRole =
@@ -552,17 +552,17 @@ export type ListRepoPeopleRequestOrder = "asc" | "desc";
 export interface ListRepoPeopleRequest {
   repoId: string;
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Case-insensitive substring of account ID, public handle, or public display name. */
-  search?: string;
+  search?: string | undefined;
   /** Exact effective role on the selected resource. */
-  role?: ListRepoPeopleRequestRole | (string & {});
+  role?: ListRepoPeopleRequestRole | (string & {}) | undefined;
   /** Sort column, name when omitted. name orders by public display name, else GitHub handle; people without either come last. handle orders by GitHub handle ignoring case, people without one last. role orders strongest first, then by name. access orders by the listed sources, then by name. */
-  sort?: ListRepoPeopleRequestSort | (string & {});
+  sort?: ListRepoPeopleRequestSort | (string & {}) | undefined;
   /** asc (default) or desc. desc reverses the order, but people without a name stay last on the name and handle sorts. */
-  order?: ListRepoPeopleRequestOrder | (string & {});
+  order?: ListRepoPeopleRequestOrder | (string & {}) | undefined;
 }
 /** Outstanding (open and expired) invitations. Only grant managers on the scope's home core get them, on the first page of an unfiltered request. */
 export type ResourcePeopleOutputBodyInvitationsList = Array<ResourceInvitation>;
@@ -602,28 +602,28 @@ export interface ResourcePersonSource {
 export type ResourcePersonSourcesList = Array<ResourcePersonSource>;
 export interface ResourcePerson {
   accountId: string;
-  avatarUrl?: string;
+  avatarUrl?: string | undefined;
   directGrant: ResourcePersonDirectGrant;
-  displayName?: string;
-  handle?: string;
+  displayName?: string | undefined;
+  handle?: string | undefined;
   /** Earliest known effective-access time for the selected project. Organization-derived dates use membership activation, not invitation creation. Omitted for repositories and access without a known timestamp. */
-  joinedAt?: string;
-  provider?: string;
+  joinedAt?: string | undefined;
+  provider?: string | undefined;
   role: string;
   sources: ResourcePersonSourcesList;
   /** The account's Entire username. Omitted until claimed. */
-  username?: string;
+  username?: string | undefined;
   [key: string]: unknown;
 }
 export type ResourcePeopleOutputBodyItemsList = Array<ResourcePerson>;
 export interface ResourcePeopleOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Outstanding (open and expired) invitations. Only grant managers on the scope's home core get them, on the first page of an unfiltered request. */
-  invitations?: ResourcePeopleOutputBodyInvitationsList;
+  invitations?: ResourcePeopleOutputBodyInvitationsList | undefined;
   items: ResourcePeopleOutputBodyItemsList;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   totalCount: number;
   [key: string]: unknown;
 }
@@ -639,75 +639,75 @@ export type ListReposRequestStatus = "mirrored" | "processing" | "inactive";
 export type ListReposRequestPermission = "read" | "write" | "admin";
 export interface ListReposRequest {
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** onboarded (default): repos in Entire; all: also include onboardable GitHub candidates. */
-  scope?: ListReposRequestScope | (string & {});
+  scope?: ListReposRequestScope | (string & {}) | undefined;
   /** Optional: up to 100 comma-separated names: gh/owner/repo (GitHub only), et/project/repo (Entire-native only), or legacy owner/repo (both namespaces). Exact matching is case-insensitive; deduplication includes the forge. Unknown prefixes or malformed names return 400. Returns authorized onboarded repos with consolidated placements. Missing repos are omitted. Pagination, scope, and sorting are ignored; fact filters and projectId still apply. A single name remains supported. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional: opaque commit token from a create, to read a snapshot that contains that write. Requires a single filter name. A non-empty token with multiple supplied names returns 400, including duplicate names. */
-  commitToken?: string;
+  commitToken?: string | undefined;
   /** Multi-key sort spec, e.g. org:asc,stars:desc. Keys: name,org,language,candidacy,stars,forks,pushed_at,last_activity_at,last_pushed_at,activity_hotness,checkpoint_count,open_pr_count. A single bare key uses the order param. Encoded into the cursor (authoritative on continuation). */
-  sort?: string;
+  sort?: string | undefined;
   /** Direction for a single bare sort key; defaults to asc. Ignored when sort carries per-key :asc/:desc suffixes. Encoded into the cursor (authoritative on continuation). */
-  order?: ListReposRequestOrder | (string & {});
+  order?: ListReposRequestOrder | (string & {}) | undefined;
   /** Exact-match repo_facts.language. Also accepts language[eq]/language[ne] (bare is sugar for [eq]). */
-  language?: string;
+  language?: string | undefined;
   /** Filter on the observed repo_facts.private fact (public: private=false; private: private=true). Also accepts visibility[eq]/visibility[ne]. */
-  visibility?: ListReposRequestVisibility | (string & {});
+  visibility?: ListReposRequestVisibility | (string & {}) | undefined;
   /** Filter on repo_facts.archived. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** true: repo_facts.checkpoint_count > 0; false: no checkpoints (0 or unobserved). */
-  hasCheckpoints?: boolean;
+  hasCheckpoints?: boolean | undefined;
   /** Exact-match owner/project org (case-insensitive). Also accepts org[eq]/org[ne]. */
-  org?: string;
+  org?: string | undefined;
   /** Literal case-insensitive substring match on the full name (owner/repo). */
-  q?: string;
+  q?: string | undefined;
   /** Exact-match owning project id (ULID). Also accepts projectId[eq]; projectId[ne] is rejected. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Filter on placement/candidacy lifecycle. inactive requires scope=all. Also accepts status[eq]/status[ne]. */
-  status?: ListReposRequestStatus | (string & {});
+  status?: ListReposRequestStatus | (string & {}) | undefined;
   /** Minimum caller access tier: read (all), write (write+admin), or admin. Also accepts permission[eq]; permission[ne] is rejected. */
-  permission?: ListReposRequestPermission | (string & {});
+  permission?: ListReposRequestPermission | (string & {}) | undefined;
 }
 export type RepoIndexEntryPermission = "read" | "write" | "admin";
 export type RepoIndexEntryPlacementsList = Array<RepoPlacement>;
 export type RepoIndexEntryProvider = "github" | "entire";
 export interface RepoIndexEntry {
-  activityHotness?: number;
-  archived?: boolean;
-  candidate?: RepoCandidate;
+  activityHotness?: number | undefined;
+  archived?: boolean | undefined;
+  candidate?: RepoCandidate | undefined;
   cell: string;
-  checkpointCount?: number;
+  checkpointCount?: number | undefined;
   clusterSlug: string;
-  forks?: number;
+  forks?: number | undefined;
   full_name: string;
   id: string;
   jurisdiction: string;
-  language?: string;
-  lastActivityAt?: string;
-  lastPushedAt?: string;
+  language?: string | undefined;
+  lastActivityAt?: string | undefined;
+  lastPushedAt?: string | undefined;
   name: string;
-  openPrCount?: number;
+  openPrCount?: number | undefined;
   org: string;
-  permission?: RepoIndexEntryPermission;
+  permission?: RepoIndexEntryPermission | undefined;
   placements: RepoIndexEntryPlacementsList;
-  primaries?: RepoPrimaries;
+  primaries?: RepoPrimaries | undefined;
   provider: RepoIndexEntryProvider;
-  pushedAt?: string;
+  pushedAt?: string | undefined;
   repoGroupId: string;
-  stars?: number;
+  stars?: number | undefined;
   visibility: string;
   [key: string]: unknown;
 }
 export type ListReposOutputBodyReposList = Array<RepoIndexEntry>;
 export interface ListReposOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   candidatesIncomplete: boolean;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   repos: ListReposOutputBodyReposList;
   truncated: boolean;
   [key: string]: unknown;
@@ -718,7 +718,7 @@ export interface LookupRepoBySlugRequest {
 }
 export interface LookupBySlugOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   cell: string;
   jurisdiction: string;
   owner: string;
@@ -734,9 +734,9 @@ export interface ResolveRepoIDsRequest {
 export type RepoIDResolutionProvider = "github" | "entire";
 export type RepoIDResolutionStatus = "resolved" | "unavailable";
 export interface RepoIDResolution {
-  fullName?: string;
-  provider?: RepoIDResolutionProvider;
-  repoGroupId?: string;
+  fullName?: string | undefined;
+  provider?: RepoIDResolutionProvider | undefined;
+  repoGroupId?: string | undefined;
   repoId: string;
   status: RepoIDResolutionStatus;
   [key: string]: unknown;
@@ -744,7 +744,7 @@ export interface RepoIDResolution {
 export type ResolveRepoIDsResponseResolutionsList = Array<RepoIDResolution>;
 export interface ResolveRepoIDsResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   resolutions: ResolveRepoIDsResponseResolutionsList;
   [key: string]: unknown;
 }
@@ -756,24 +756,24 @@ export interface RepoReference {
 }
 export type ResolveReposRequestRepositoriesList = Array<RepoReference>;
 export interface ResolveReposRequest {
-  commitToken?: string;
+  commitToken?: string | undefined;
   /** Retry stale permission denials for navigation. Defaults to false for list enrichment. Failed retries retain denials; a commitToken authorization revision takes precedence. */
-  recheckDeniedPermissions?: boolean;
+  recheckDeniedPermissions?: boolean | undefined;
   repositories: ResolveReposRequestRepositoriesList;
 }
 export type RepoResolutionPlacementsList = Array<RepoPlacement>;
 export type RepoResolutionProvider = "github" | "entire";
 export type RepoResolutionStatus = "ready" | "processing" | "no-mirror" | "moved" | "unavailable";
 export interface RepoResolution {
-  candidate?: RepoCandidate;
-  fullName?: string;
-  gitCommand?: string;
-  movedTo?: RepoReference;
-  placements?: RepoResolutionPlacementsList;
-  primaries?: RepoPrimaries;
+  candidate?: RepoCandidate | undefined;
+  fullName?: string | undefined;
+  gitCommand?: string | undefined;
+  movedTo?: RepoReference | undefined;
+  placements?: RepoResolutionPlacementsList | undefined;
+  primaries?: RepoPrimaries | undefined;
   provider: RepoResolutionProvider;
-  repoGroupId?: string;
-  repoId?: string;
+  repoGroupId?: string | undefined;
+  repoId?: string | undefined;
   requestedFullName: string;
   status: RepoResolutionStatus;
   [key: string]: unknown;
@@ -781,7 +781,7 @@ export interface RepoResolution {
 export type ResolveReposResponseResolutionsList = Array<RepoResolution>;
 export interface ResolveReposResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   resolutions: ResolveReposResponseResolutionsList;
   [key: string]: unknown;
 }
@@ -809,6 +809,20 @@ export interface SetBranchProtectionRequest {
   /** Protection rules, one per pattern; each ref at most once. Empty protects nothing. */
   rules: SetBranchProtectionRequestRulesList;
 }
+export interface SetDefaultBranchRequest {
+  repoId: string;
+  /** An existing branch: a short name (main) or a full ref (refs/heads/main). */
+  branch: string;
+}
+export interface SetDefaultBranchOutputBody {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  branch: string;
+  changed: boolean;
+  previous: string;
+  repo_id: string;
+  [key: string]: unknown;
+}
 export type SetRepoVisibilityRequestVisibility = "public" | "private";
 export interface SetRepoVisibilityRequest {
   repoId: string;
@@ -817,7 +831,7 @@ export interface SetRepoVisibilityRequest {
 export type SetRepoVisibilityOutputBodyVisibility = "public" | "private";
 export interface SetRepoVisibilityOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   visibility: SetRepoVisibilityOutputBodyVisibility;
   [key: string]: unknown;
 }
@@ -825,7 +839,7 @@ export interface BranchRuleUpdate {
   /** "HEAD" or a refs/heads/ name, fnmatch wildcards allowed. */
   ref: string;
   /** Sets the level: true for server-side merge only, false for protected. Omit to keep an existing rule's level. */
-  serverSideMergeOnly?: boolean;
+  serverSideMergeOnly?: boolean | undefined;
   [key: string]: unknown;
 }
 /** Rules to add or edit by ref: an existing rule keeps its position; omit serverSideMergeOnly to keep its level. */
@@ -835,12 +849,12 @@ export type UpdateBranchProtectionRequestRemoveRefsList = Array<string>;
 export interface UpdateBranchProtectionRequest {
   repoId: string;
   /** Rules to add or edit by ref: an existing rule keeps its position; omit serverSideMergeOnly to keep its level. */
-  addRules?: UpdateBranchProtectionRequestAddRulesList;
+  addRules?: UpdateBranchProtectionRequestAddRulesList | undefined;
   /** Patterns to remove; absent entries are ignored. */
-  removeRefs?: UpdateBranchProtectionRequestRemoveRefsList;
+  removeRefs?: UpdateBranchProtectionRequestRemoveRefsList | undefined;
 }
 export type CreateRepoError = RepoNameInUse | RepoNameInvalid | EntireOpError;
-/** Create repository An account needs create permission on the project. A plugin installation's access token needs repositories:create; the repository then goes in the installation's project and joins the installation, and the response comes after the installation can mint tokens for it. An installation token cannot set clusterHost or mirrorClusterSlugs. An installation creates at most its plugin's daily limit of repositories in a rolling 24 hours (100 by default); past it the create answers 429 with Retry-After. */
+/** Create repository **Accepted credentials:** User token, Plugin installation token. An account needs create permission on the project. A plugin installation's access token needs repositories:create. The repository goes in the installation's project and joins its coverage. A successful create does not guarantee token readiness. A failed grant reconciliation leaves the repository created and can delay token minting. An installation token cannot set clusterHost or mirrorClusterSlugs. An installation creates at most its plugin's daily limit of repositories in a rolling 24 hours (100 by default). Exceeding this limit returns 429 with Retry-After. */
 export const createRepo: API.OperationMethod<
   CreateRepoRequest,
   CreatedRepo,
@@ -864,8 +878,8 @@ export const createRepoInvitation: API.OperationMethod<
   CreateRepoInvitationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<CreateRepoInvitationRequest>,
-  output: __S(203, __c25, 3) as any as S.Schema<ResourceInvitation>,
+  input: __S(200, __c25, 0) as any as S.Schema<CreateRepoInvitationRequest>,
+  output: __S(211, __c26, 3) as any as S.Schema<ResourceInvitation>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -881,8 +895,8 @@ export const deleteRepo: API.OperationMethod<
   DeleteRepoError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<DeleteRepoRequest>,
-  output: __S(216, __c27, 0) as any as S.Schema<DeleteRepoResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<DeleteRepoRequest>,
+  output: __S(224, __c28, 0) as any as S.Schema<DeleteRepoResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -898,8 +912,8 @@ export const detachRepo: API.OperationMethod<
   DetachRepoError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<DetachRepoRequest>,
-  output: __S(227, __c28, 3) as any as S.Schema<DetachRepoResult>,
+  input: __S(232, __c29, 0) as any as S.Schema<DetachRepoRequest>,
+  output: __S(235, __c29, 3) as any as S.Schema<DetachRepoResult>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -915,8 +929,8 @@ export const getBranchProtection: API.OperationMethod<
   GetBranchProtectionError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<GetBranchProtectionRequest>,
-  output: __S(242, __c30, 2) as any as S.Schema<BranchProtection>,
+  input: __S(240, __c30, 0) as any as S.Schema<GetBranchProtectionRequest>,
+  output: __S(250, __c31, 2) as any as S.Schema<BranchProtection>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -925,11 +939,11 @@ export const getBranchProtection: API.OperationMethod<
 }));
 
 export type GetRepoError = EntireOpError;
-/** Get repository */
+/** Get repository **Accepted credentials:** User token. */
 export const getRepo: API.OperationMethod<GetRepoRequest, Repo, GetRepoError, EntireOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(248, __c31, 0) as any as S.Schema<GetRepoRequest>,
-    output: __S(256, __c32, 0) as any as S.Schema<Repo>,
+    input: __S(256, __c32, 0) as any as S.Schema<GetRepoRequest>,
+    output: __S(264, __c33, 0) as any as S.Schema<Repo>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -945,8 +959,8 @@ export const getRepoDetach: API.OperationMethod<
   GetRepoDetachError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<GetRepoDetachRequest>,
-  output: __S(265, __c33, 1) as any as S.Schema<RepoDetachState>,
+  input: __S(272, __c34, 0) as any as S.Schema<GetRepoDetachRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<RepoDetachState>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -962,8 +976,8 @@ export const getRepoVisibility: API.OperationMethod<
   GetRepoVisibilityError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<GetRepoVisibilityRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<GetRepoVisibilityOutputBody>,
+  input: __S(280, __c35, 0) as any as S.Schema<GetRepoVisibilityRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<GetRepoVisibilityOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -989,7 +1003,7 @@ export const grantRepoAccess: API.OperationMethod<
 }));
 
 export type ListProjectReposError = EntireOpError;
-/** List repositories in a project (or one by name) */
+/** List repositories in a project (or one by name) **Accepted credentials:** User token. */
 export const listProjectRepos: API.PaginatedOperationMethod<
   ListProjectReposRequest,
   ListProjectReposOutputBody,
@@ -1178,7 +1192,7 @@ export const listRepoPeople: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListReposError = EntireOpError;
-/** List the caller's readable repositories (placement index) */
+/** List the caller's readable repositories (placement index) **Accepted credentials:** User token. */
 export const listRepos: API.PaginatedOperationMethod<
   ListReposRequest,
   ListReposOutputBody,
@@ -1264,7 +1278,7 @@ export const revokeRepoAccess: API.OperationMethod<
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<RevokeRepoAccessRequest>,
-  output: __S(216, __c27, 0) as any as S.Schema<RevokeRepoAccessResponse>,
+  output: __S(224, __c28, 0) as any as S.Schema<RevokeRepoAccessResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -1281,7 +1295,7 @@ export const revokeRepoAccessByProvider: API.OperationMethod<
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<RevokeRepoAccessByProviderRequest>,
-  output: __S(216, __c27, 0) as any as S.Schema<RevokeRepoAccessByProviderResponse>,
+  output: __S(224, __c28, 0) as any as S.Schema<RevokeRepoAccessByProviderResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -1298,7 +1312,7 @@ export const revokeRepoInvitation: API.OperationMethod<
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<RevokeRepoInvitationRequest>,
-  output: __S(216, __c27, 0) as any as S.Schema<RevokeRepoInvitationResponse>,
+  output: __S(224, __c28, 0) as any as S.Schema<RevokeRepoInvitationResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -1315,12 +1329,29 @@ export const setBranchProtection: API.OperationMethod<
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<SetBranchProtectionRequest>,
-  output: __S(242, __c30, 2) as any as S.Schema<BranchProtection>,
+  output: __S(250, __c31, 2) as any as S.Schema<BranchProtection>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetBranchProtection",
+}));
+
+export type SetDefaultBranchError = EntireOpError;
+/** Set repository default branch */
+export const setDefaultBranch: API.OperationMethod<
+  SetDefaultBranchRequest,
+  SetDefaultBranchOutputBody,
+  SetDefaultBranchError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(176, __c22, 0) as any as S.Schema<SetDefaultBranchRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<SetDefaultBranchOutputBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDefaultBranch",
 }));
 
 export type SetRepoVisibilityError = EntireOpError;
@@ -1331,8 +1362,8 @@ export const setRepoVisibility: API.OperationMethod<
   SetRepoVisibilityError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<SetRepoVisibilityRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<SetRepoVisibilityOutputBody>,
+  input: __S(184, __c23, 0) as any as S.Schema<SetRepoVisibilityRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<SetRepoVisibilityOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -1348,8 +1379,8 @@ export const updateBranchProtection: API.OperationMethod<
   UpdateBranchProtectionError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<UpdateBranchProtectionRequest>,
-  output: __S(242, __c30, 2) as any as S.Schema<BranchProtection>,
+  input: __S(192, __c24, 0) as any as S.Schema<UpdateBranchProtectionRequest>,
+  output: __S(250, __c31, 2) as any as S.Schema<BranchProtection>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -1397,7 +1428,7 @@ function __c1(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/projects/{projectId}/repos", code: 200 })),
       ).annotate({ identifier: "ListProjectReposRequest" });
     case 1:
-      return S.Array(__S(256, __c32, 0));
+      return S.Array(__S(264, __c33, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
@@ -1405,7 +1436,7 @@ function __c1(j: number): any {
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             candidatesIncomplete: S.optional(S.Boolean),
             nextPageToken: S.optional(S.String),
-            repo: S.optional(__S(256, __c32, 0)),
+            repo: S.optional(__S(264, __c33, 0)),
             repos: __S(9, __c1, 1),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -1517,7 +1548,7 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(203, __c25, 3));
+      return S.Array(__S(211, __c26, 3));
   }
 }
 function __c6(j: number): any {
@@ -2010,7 +2041,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           repoId: S.String.pipe(T.Label()),
-          rules: __S(241, __c30, 1),
+          rules: __S(249, __c31, 1),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v1/repos/{repoId}/branch-protection", code: 200 }),
         ),
@@ -2023,9 +2054,22 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           repoId: S.String.pipe(T.Label()),
-          visibility: S.String,
-        }).pipe(T.Http({ method: "PUT", uri: "/api/v1/repos/{repoId}/visibility", code: 200 })),
-      ).annotate({ identifier: "SetRepoVisibilityRequest" });
+          branch: S.String,
+        }).pipe(T.Http({ method: "PUT", uri: "/api/v1/repos/{repoId}/default-branch", code: 200 })),
+      ).annotate({ identifier: "SetDefaultBranchRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            branch: S.String,
+            changed: S.Boolean,
+            previous: S.String,
+            repo_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "SetDefaultBranchOutputBody" });
   }
 }
 function __c23(j: number): any {
@@ -2034,7 +2078,18 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           repoId: S.String.pipe(T.Label()),
-          addRules: S.optional(__S(241, __c30, 1)),
+          visibility: S.String,
+        }).pipe(T.Http({ method: "PUT", uri: "/api/v1/repos/{repoId}/visibility", code: 200 })),
+      ).annotate({ identifier: "SetRepoVisibilityRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repoId: S.String.pipe(T.Label()),
+          addRules: S.optional(__S(249, __c31, 1)),
           removeRefs: S.optional(__S(104, __c13, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/repos/{repoId}/branch-protection", code: 200 }),
@@ -2042,7 +2097,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "UpdateBranchProtectionRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2054,7 +2109,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "CreateRepoInvitationRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2068,14 +2123,14 @@ function __c25(j: number): any {
         ),
       ).annotate({ identifier: "AccountProfileHandle" });
     case 1:
-      return S.Array(__S(200, __c25, 0));
+      return S.Array(__S(208, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             avatarUrl: S.optional(S.String),
             displayName: S.optional(S.String),
-            handles: __S(201, __c25, 1),
+            handles: __S(209, __c26, 1),
             username: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -2088,16 +2143,16 @@ function __c25(j: number): any {
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             acceptedAt: S.optional(S.String),
             acceptedBy: S.optional(S.String),
-            acceptedByIdentity: S.optional(__S(202, __c25, 2)),
+            acceptedByIdentity: S.optional(__S(210, __c26, 2)),
             createdAt: S.String,
             declinedAt: S.optional(S.String),
             email: S.optional(S.String),
             expiresAt: S.String,
             id: S.String,
             invitedBy: S.String,
-            invitedByIdentity: S.optional(__S(202, __c25, 2)),
+            invitedByIdentity: S.optional(__S(210, __c26, 2)),
             inviteeAccountId: S.optional(S.String),
-            inviteeIdentity: S.optional(__S(202, __c25, 2)),
+            inviteeIdentity: S.optional(__S(210, __c26, 2)),
             revokedAt: S.optional(S.String),
             role: S.String,
             scope: S.String,
@@ -2109,7 +2164,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "ResourceInvitation" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2120,13 +2175,13 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteRepoRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteRepoResponse" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2150,7 +2205,7 @@ function __c28(j: number): any {
         ),
       ).annotate({ identifier: "DetachPrecondition" });
     case 2:
-      return S.Array(__S(225, __c28, 1));
+      return S.Array(__S(233, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -2161,7 +2216,7 @@ function __c28(j: number): any {
             name: S.String,
             nativeName: S.optional(S.String),
             notices: S.optional(__S(104, __c13, 0)),
-            preconditions: __S(226, __c28, 2),
+            preconditions: __S(234, __c29, 2),
             releasedAddresses: S.optional(__S(104, __c13, 0)),
             requestedBy: S.String,
             status: S.optional(S.String),
@@ -2173,7 +2228,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DetachRepoResult" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2185,7 +2240,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetBranchProtectionRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2198,20 +2253,20 @@ function __c30(j: number): any {
         ),
       ).annotate({ identifier: "BranchRule" });
     case 1:
-      return S.Array(__S(240, __c30, 0));
+      return S.Array(__S(248, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            rules: __S(241, __c30, 1),
+            rules: __S(249, __c31, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "BranchProtection" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2223,7 +2278,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetRepoRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2260,7 +2315,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "Repo" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2287,7 +2342,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "RepoDetachState" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2297,7 +2352,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetRepoVisibilityRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

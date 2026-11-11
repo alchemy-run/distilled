@@ -45,40 +45,52 @@ export class ProjectNameInvalid
 
 export type CreateProjectRequestOwnerType = "org" | "account";
 export interface CreateProjectRequest {
+  /** Processing cell ID, not a cluster slug, e.g. aws-us-east-2. A visible cluster in region must serve it. Defaults to the region's default cell. */
+  cell?: string | undefined;
   name: string;
   ownerId: string;
   ownerType: CreateProjectRequestOwnerType | (string & {});
-  region?: string;
+  region?: string | undefined;
 }
 export interface ProjectCapabilities {
   canCreateRepository: boolean;
   canDelete: boolean;
   canManageAccess: boolean;
-  canManageAgents?: boolean;
+  canManageAgents?: boolean | undefined;
   canManagePlugins: boolean;
   canManageTrails: boolean;
   [key: string]: unknown;
 }
 export type CreatedProjectOwnerType = "org" | "account";
+export type ProjectPluginRepositorySelection = "all" | "selected";
+export interface ProjectPlugin {
+  repository_selection: ProjectPluginRepositorySelection;
+  slug: string;
+  [key: string]: unknown;
+}
+/** Plugins with an active installation on the project, ordered by slug. Present on project resolve and get, and [] when none is installed. Omitted from project lists, when the caller lacks project read, manage, or GitHub namespace admin, and when the installations are unavailable. */
+export type CreatedProjectPluginsList = Array<ProjectPlugin>;
 export interface CreatedProject {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Public entire-api base URL for the assigned cell. Empty when unassigned or routing is unavailable; do not fall back to another cell. */
-  apiUrl?: string;
+  apiUrl?: string | undefined;
   capabilities: ProjectCapabilities;
   /** Deprecated: read the X-Entire-Commit-Token response header instead. */
-  commitToken?: string;
+  commitToken?: string | undefined;
   createdAt: string;
   id: string;
   name: string;
   ownerId: string;
-  ownerName?: string;
+  ownerName?: string | undefined;
   ownerType: CreatedProjectOwnerType;
+  /** Plugins with an active installation on the project, ordered by slug. Present on project resolve and get, and [] when none is installed. Omitted from project lists, when the caller lacks project read, manage, or GitHub namespace admin, and when the installations are unavailable. */
+  plugins?: CreatedProjectPluginsList | undefined;
   /** Stored processing cell ID, not a cluster slug. Empty when the project is unassigned. */
-  primaryProcessingCell?: string;
+  primaryProcessingCell?: string | undefined;
   region: string;
   /** Published logical repositories in paginated project listings. Omitted without project inspect permission or when unavailable. */
-  repositoryCount?: number;
+  repositoryCount?: number | undefined;
   [key: string]: unknown;
 }
 export type CreateProjectInvitationRequestRole = "reader" | "writer" | "admin";
@@ -95,11 +107,11 @@ export interface AccountProfileHandle {
 }
 export type AccountIdentityHandlesList = Array<AccountProfileHandle>;
 export interface AccountIdentity {
-  avatarUrl?: string;
-  displayName?: string;
+  avatarUrl?: string | undefined;
+  displayName?: string | undefined;
   handles: AccountIdentityHandlesList;
   /** The account's Entire username. Omitted until claimed. */
-  username?: string;
+  username?: string | undefined;
   [key: string]: unknown;
 }
 export type ResourceInvitationRole = "reader" | "writer" | "admin";
@@ -108,27 +120,27 @@ export type ResourceInvitationScope = "project" | "repo";
 export type ResourceInvitationStatus = "open" | "accepted" | "revoked" | "expired" | "declined";
 export interface ResourceInvitation {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  acceptedAt?: string;
+  _schema?: string | undefined;
+  acceptedAt?: string | undefined;
   /** Account ID that used the token. Empty until the invitation is accepted. */
-  acceptedBy?: string;
+  acceptedBy?: string | undefined;
   /** Resolved identity for AcceptedBy. Absent when it cannot be resolved. */
-  acceptedByIdentity?: AccountIdentity;
+  acceptedByIdentity?: AccountIdentity | undefined;
   createdAt: string;
-  declinedAt?: string;
+  declinedAt?: string | undefined;
   /** The invited address, normalized to lowercase. Empty for an account-targeted invitation. */
-  email?: string;
+  email?: string | undefined;
   expiresAt: string;
   id: string;
   /** Account ID of the manager who created the invitation. Empty when that account has been erased. */
   invitedBy: string;
   /** Resolved identity for InvitedBy. Absent when it cannot be resolved. */
-  invitedByIdentity?: AccountIdentity;
+  invitedByIdentity?: AccountIdentity | undefined;
   /** The invited account. Empty for an email invitation. */
-  inviteeAccountId?: string;
+  inviteeAccountId?: string | undefined;
   /** Resolved identity for InviteeAccountID. Absent when it cannot be resolved. */
-  inviteeIdentity?: AccountIdentity;
-  revokedAt?: string;
+  inviteeIdentity?: AccountIdentity | undefined;
+  revokedAt?: string | undefined;
   role: ResourceInvitationRole;
   scope: ResourceInvitationScope;
   /** Project ID or repository ID. */
@@ -146,28 +158,32 @@ export type GetProjectRequestCapabilities = "live" | "display";
 export interface GetProjectRequest {
   projectId: string;
   /** Optional: live (default) checks GitHub namespace authority now. display may answer from a roster up to 70 minutes old; never use a display capability to authorize a write. */
-  capabilities?: GetProjectRequestCapabilities | (string & {});
+  capabilities?: GetProjectRequestCapabilities | (string & {}) | undefined;
   /** Optional: opaque commit token from a project create, to read the project at a snapshot that contains that write. */
-  commitToken?: string;
+  commitToken?: string | undefined;
 }
 export type ProjectOwnerType = "org" | "account";
+/** Plugins with an active installation on the project, ordered by slug. Present on project resolve and get, and [] when none is installed. Omitted from project lists, when the caller lacks project read, manage, or GitHub namespace admin, and when the installations are unavailable. */
+export type ProjectPluginsList = Array<ProjectPlugin>;
 export interface Project {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Public entire-api base URL for the assigned cell. Empty when unassigned or routing is unavailable; do not fall back to another cell. */
-  apiUrl?: string;
+  apiUrl?: string | undefined;
   capabilities: ProjectCapabilities;
   createdAt: string;
   id: string;
   name: string;
   ownerId: string;
-  ownerName?: string;
+  ownerName?: string | undefined;
   ownerType: ProjectOwnerType;
+  /** Plugins with an active installation on the project, ordered by slug. Present on project resolve and get, and [] when none is installed. Omitted from project lists, when the caller lacks project read, manage, or GitHub namespace admin, and when the installations are unavailable. */
+  plugins?: ProjectPluginsList | undefined;
   /** Stored processing cell ID, not a cluster slug. Empty when the project is unassigned. */
-  primaryProcessingCell?: string;
+  primaryProcessingCell?: string | undefined;
   region: string;
   /** Published logical repositories in paginated project listings. Omitted without project inspect permission or when unavailable. */
-  repositoryCount?: number;
+  repositoryCount?: number | undefined;
   [key: string]: unknown;
 }
 export type GrantProjectAccessRequestGranteeType = "account";
@@ -175,66 +191,66 @@ export type GrantProjectAccessRequestRole = "reader" | "writer" | "admin";
 export interface GrantProjectAccessRequest {
   projectId: string;
   /** Entire account ULID to grant directly. Mutually exclusive with provider/providerUserId; the account must exist. */
-  accountId?: string;
-  granteeType?: GrantProjectAccessRequestGranteeType | (string & {});
+  accountId?: string | undefined;
+  granteeType?: GrantProjectAccessRequestGranteeType | (string & {}) | undefined;
   /** Legacy identity selector; requires providerUserId and must not be combined with accountId. */
-  provider?: string;
+  provider?: string | undefined;
   /** Legacy provider user ID; requires provider and must not be combined with accountId. */
-  providerUserId?: string;
+  providerUserId?: string | undefined;
   role: GrantProjectAccessRequestRole | (string & {});
 }
 export interface GrantProjectAccessOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   status: string;
   [key: string]: unknown;
 }
 export interface ListOrgProjectsRequest {
   orgId: string;
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional: exact-match project name (case-insensitive). */
-  name?: string;
+  name?: string | undefined;
 }
 export type ListOrgProjectsOutputBodyProjectsList = Array<Project>;
 export interface ListOrgProjectsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
-  project?: Project;
+  nextPageToken?: string | undefined;
+  project?: Project | undefined;
   projects: ListOrgProjectsOutputBodyProjectsList;
   [key: string]: unknown;
 }
 export interface ListProjectCollaboratorsRequest {
   projectId: string;
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional repository placement ID owned by this project. Adds people granted on that logical repository. */
-  repoId?: string;
+  repoId?: string | undefined;
   /** Case-insensitive substring of account ID, active public handle, or public display name. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ProjectCollaborator {
   accountId: string;
-  avatarUrl?: string;
-  displayName?: string;
-  handle?: string;
+  avatarUrl?: string | undefined;
+  displayName?: string | undefined;
+  handle?: string | undefined;
   /** The account's Entire username. Omitted until claimed. */
-  username?: string;
+  username?: string | undefined;
   [key: string]: unknown;
 }
 export type ListProjectCollaboratorsOutputBodyCollaboratorsList = Array<ProjectCollaborator>;
 export interface ListProjectCollaboratorsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   collaborators: ListProjectCollaboratorsOutputBodyCollaboratorsList;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   [key: string]: unknown;
 }
 /** Lifecycle state to return; all returns every state. */
@@ -248,36 +264,36 @@ export type ListProjectInvitationsRequestStatus =
 export interface ListProjectInvitationsRequest {
   projectId: string;
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Lifecycle state to return; all returns every state. */
-  status?: ListProjectInvitationsRequestStatus | (string & {});
+  status?: ListProjectInvitationsRequestStatus | (string & {}) | undefined;
 }
 export type ListResourceInvitationsOutputBodyInvitationsList = Array<ResourceInvitation>;
 export interface ListResourceInvitationsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   invitations: ListResourceInvitationsOutputBodyInvitationsList;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   [key: string]: unknown;
 }
 export interface ListProjectMembersRequest {
   projectId: string;
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ProjectGrant {
   /** The account's public display name, when it has one. Absent for non-account grantees. */
-  displayName?: string;
+  displayName?: string | undefined;
   granteeId: string;
-  granteeName?: string;
+  granteeName?: string | undefined;
   granteeType: string;
   /** The account's Entire username. Omitted until claimed and for non-account grantees. */
-  granteeUsername?: string;
+  granteeUsername?: string | undefined;
   role: string;
   source: string;
   [key: string]: unknown;
@@ -285,10 +301,10 @@ export interface ProjectGrant {
 export type ListProjectMembersOutputBodyMembersList = Array<ProjectGrant>;
 export interface ListProjectMembersOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   members: ListProjectMembersOutputBodyMembersList;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   [key: string]: unknown;
 }
 /** Exact effective role on the selected resource. */
@@ -306,17 +322,17 @@ export type ListProjectPeopleRequestOrder = "asc" | "desc";
 export interface ListProjectPeopleRequest {
   projectId: string;
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Case-insensitive substring of account ID, public handle, or public display name. */
-  search?: string;
+  search?: string | undefined;
   /** Exact effective role on the selected resource. */
-  role?: ListProjectPeopleRequestRole | (string & {});
+  role?: ListProjectPeopleRequestRole | (string & {}) | undefined;
   /** Sort column, name when omitted. name orders by public display name, else GitHub handle; people without either come last. handle orders by GitHub handle ignoring case, people without one last. role orders strongest first, then by name. access orders by the listed sources, then by name. */
-  sort?: ListProjectPeopleRequestSort | (string & {});
+  sort?: ListProjectPeopleRequestSort | (string & {}) | undefined;
   /** asc (default) or desc. desc reverses the order, but people without a name stay last on the name and handle sorts. */
-  order?: ListProjectPeopleRequestOrder | (string & {});
+  order?: ListProjectPeopleRequestOrder | (string & {}) | undefined;
 }
 /** Outstanding (open and expired) invitations. Only grant managers on the scope's home core get them, on the first page of an unfiltered request. */
 export type ResourcePeopleOutputBodyInvitationsList = Array<ResourceInvitation>;
@@ -356,28 +372,28 @@ export interface ResourcePersonSource {
 export type ResourcePersonSourcesList = Array<ResourcePersonSource>;
 export interface ResourcePerson {
   accountId: string;
-  avatarUrl?: string;
+  avatarUrl?: string | undefined;
   directGrant: ResourcePersonDirectGrant;
-  displayName?: string;
-  handle?: string;
+  displayName?: string | undefined;
+  handle?: string | undefined;
   /** Earliest known effective-access time for the selected project. Organization-derived dates use membership activation, not invitation creation. Omitted for repositories and access without a known timestamp. */
-  joinedAt?: string;
-  provider?: string;
+  joinedAt?: string | undefined;
+  provider?: string | undefined;
   role: string;
   sources: ResourcePersonSourcesList;
   /** The account's Entire username. Omitted until claimed. */
-  username?: string;
+  username?: string | undefined;
   [key: string]: unknown;
 }
 export type ResourcePeopleOutputBodyItemsList = Array<ResourcePerson>;
 export interface ResourcePeopleOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Outstanding (open and expired) invitations. Only grant managers on the scope's home core get them, on the first page of an unfiltered request. */
-  invitations?: ResourcePeopleOutputBodyInvitationsList;
+  invitations?: ResourcePeopleOutputBodyInvitationsList | undefined;
   items: ResourcePeopleOutputBodyItemsList;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   totalCount: number;
   [key: string]: unknown;
 }
@@ -385,44 +401,63 @@ export interface ResourcePeopleOutputBody {
 export type ListProjectsRequestCapabilities = "live" | "display";
 export interface ListProjectsRequest {
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional: exact-match project name (case-insensitive). */
-  name?: string;
+  name?: string | undefined;
   /** Optional: live (default) checks GitHub namespace authority now. display may answer from a roster up to 70 minutes old; never use a display capability to authorize a write. */
-  capabilities?: ListProjectsRequestCapabilities | (string & {});
+  capabilities?: ListProjectsRequestCapabilities | (string & {}) | undefined;
   /** Optional: opaque commit token from a project create or delete, to list at a snapshot that contains that write. Ignored when name is set. */
-  commitToken?: string;
+  commitToken?: string | undefined;
 }
 export type ListProjectsOutputBodyProjectsList = Array<Project>;
 export interface ListProjectsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
-  project?: Project;
+  nextPageToken?: string | undefined;
+  project?: Project | undefined;
   projects: ListProjectsOutputBodyProjectsList;
   [key: string]: unknown;
 }
-export type ResolveProjectRequestHost = "et" | "gh";
+export interface LookupProjectBySlugRequest {
+  /** Host-scoped project slug: et/<project> or gh/<owner> */
+  slug: string;
+}
+export type LookupProjectBySlugOutputBodyHost = "et" | "gh";
+export interface LookupProjectBySlugOutputBody {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  cell: string;
+  host: LookupProjectBySlugOutputBodyHost;
+  jurisdiction: string;
+  project: string;
+  project_id: string;
+  [key: string]: unknown;
+}
+export type ResolveProjectRequestForgePrefix = "et" | "gh";
 /** Optional: live (default) checks GitHub namespace authority now. display may answer from a roster up to 70 minutes old; never use a display capability to authorize a write. */
 export type ResolveProjectRequestCapabilities = "live" | "display";
 export interface ResolveProjectRequest {
-  host: ResolveProjectRequestHost | (string & {});
+  forge_prefix: ResolveProjectRequestForgePrefix | (string & {});
   project: string;
   /** Optional: live (default) checks GitHub namespace authority now. display may answer from a roster up to 70 minutes old; never use a display capability to authorize a write. */
-  capabilities?: ResolveProjectRequestCapabilities | (string & {});
+  capabilities?: ResolveProjectRequestCapabilities | (string & {}) | undefined;
 }
+export type ProjectReferenceForgePrefix = "et" | "gh";
+/** Deprecated: use forge_prefix. */
 export type ProjectReferenceHost = "et" | "gh";
 export interface ProjectReference {
+  forge_prefix: ProjectReferenceForgePrefix;
+  /** Deprecated: use forge_prefix. */
   host: ProjectReferenceHost;
   project: string;
   [key: string]: unknown;
 }
 export interface ResolveProjectOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   project: Project;
   reference: ProjectReference;
   [key: string]: unknown;
@@ -452,8 +487,8 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CreateProjectRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<CreatedProject>,
+  input: __S(64, __c8, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<CreatedProject>,
   errors: [ProjectNameInUse, ProjectNameInvalid, UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -469,8 +504,8 @@ export const createProjectInvitation: API.OperationMethod<
   CreateProjectInvitationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<CreateProjectInvitationRequest>,
-  output: __S(83, __c10, 3) as any as S.Schema<ResourceInvitation>,
+  input: __S(80, __c10, 0) as any as S.Schema<CreateProjectInvitationRequest>,
+  output: __S(91, __c11, 3) as any as S.Schema<ResourceInvitation>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -486,8 +521,8 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<DeleteProjectRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<DeleteProjectResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<DeleteProjectRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<DeleteProjectResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -496,15 +531,15 @@ export const deleteProject: API.OperationMethod<
 }));
 
 export type GetProjectError = EntireOpError;
-/** Get a project by id */
+/** Get a project by id **Accepted credentials:** User token. */
 export const getProject: API.OperationMethod<
   GetProjectRequest,
   Project,
   GetProjectError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<Project>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<Project>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -520,8 +555,8 @@ export const grantProjectAccess: API.OperationMethod<
   GrantProjectAccessError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GrantProjectAccessRequest>,
-  output: __S(121, __c15, 1) as any as S.Schema<GrantProjectAccessOutputBody>,
+  input: __S(128, __c16, 0) as any as S.Schema<GrantProjectAccessRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<GrantProjectAccessOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -530,7 +565,7 @@ export const grantProjectAccess: API.OperationMethod<
 }));
 
 export type ListOrgProjectsError = EntireOpError;
-/** List projects owned by an organization */
+/** List projects owned by an organization **Accepted credentials:** User token. */
 export const listOrgProjects: API.PaginatedOperationMethod<
   ListOrgProjectsRequest,
   ListOrgProjectsOutputBody,
@@ -539,8 +574,8 @@ export const listOrgProjects: API.PaginatedOperationMethod<
   Project
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(128, __c16, 0) as any as S.Schema<ListOrgProjectsRequest>,
-    output: __S(137, __c17, 1) as any as S.Schema<ListOrgProjectsOutputBody>,
+    input: __S(136, __c17, 0) as any as S.Schema<ListOrgProjectsRequest>,
+    output: __S(145, __c18, 1) as any as S.Schema<ListOrgProjectsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -566,8 +601,8 @@ export const listProjectCollaborators: API.PaginatedOperationMethod<
   ProjectCollaborator
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(144, __c18, 0) as any as S.Schema<ListProjectCollaboratorsRequest>,
-    output: __S(147, __c18, 3) as any as S.Schema<ListProjectCollaboratorsOutputBody>,
+    input: __S(152, __c19, 0) as any as S.Schema<ListProjectCollaboratorsRequest>,
+    output: __S(155, __c19, 3) as any as S.Schema<ListProjectCollaboratorsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -593,8 +628,8 @@ export const listProjectInvitations: API.PaginatedOperationMethod<
   ResourceInvitation
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(152, __c19, 0) as any as S.Schema<ListProjectInvitationsRequest>,
-    output: __S(153, __c19, 1) as any as S.Schema<ListResourceInvitationsOutputBody>,
+    input: __S(160, __c20, 0) as any as S.Schema<ListProjectInvitationsRequest>,
+    output: __S(161, __c20, 1) as any as S.Schema<ListResourceInvitationsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -665,7 +700,7 @@ export const listProjectPeople: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListProjectsError = EntireOpError;
-/** List projects accessible to the caller (or one by name) */
+/** List projects accessible to the caller (or one by name) **Accepted credentials:** User token. */
 export const listProjects: API.PaginatedOperationMethod<
   ListProjectsRequest,
   ListProjectsOutputBody,
@@ -675,7 +710,7 @@ export const listProjects: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(16, __c2, 0) as any as S.Schema<ListProjectsRequest>,
-    output: __S(137, __c17, 1) as any as S.Schema<ListProjectsOutputBody>,
+    output: __S(145, __c18, 1) as any as S.Schema<ListProjectsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -691,16 +726,33 @@ export const listProjects: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
+export type LookupProjectBySlugError = EntireOpError;
+/** Resolve a project slug to its Trails routing (BFF only) Routing only: the project ID, its jurisdiction and primary processing cell, and its canonical public name. No user permission is checked; entire-api authorizes every request the BFF routes with this answer. Requires a verified web-bff-api Cloudflare Access assertion; any other caller receives 401. Missing, ambiguous and unrouted projects return 404. */
+export const lookupProjectBySlug: API.OperationMethod<
+  LookupProjectBySlugRequest,
+  LookupProjectBySlugOutputBody,
+  LookupProjectBySlugError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(24, __c3, 0) as any as S.Schema<LookupProjectBySlugRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<LookupProjectBySlugOutputBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupProjectBySlug",
+}));
+
 export type ResolveProjectError = EntireOpError;
-/** Resolve a canonical project reference Case-insensitive lookup by native project name (et) or GitHub owner namespace (gh). Uses project inspect permission, including platform administrators. An existing native (et) project the caller cannot inspect returns 403, so a creator can tell a taken name from a free one. Missing projects, and inaccessible GitHub (gh) namespaces, return 404. An automation token always receives 404. */
+/** Resolve a canonical project reference **Accepted credentials:** User token. Case-insensitive lookup by native project name (et) or GitHub owner namespace (gh). Uses project inspect permission, including platform administrators. An existing native (et) project the caller cannot inspect returns 403, so a creator can tell a taken name from a free one. Missing projects, and inaccessible GitHub (gh) namespaces, return 404. An automation token always receives 404. */
 export const resolveProject: API.OperationMethod<
   ResolveProjectRequest,
   ResolveProjectOutputBody,
   ResolveProjectError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ResolveProjectRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<ResolveProjectOutputBody>,
+  input: __S(32, __c4, 0) as any as S.Schema<ResolveProjectRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<ResolveProjectOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -716,8 +768,8 @@ export const revokeProjectAccess: API.OperationMethod<
   RevokeProjectAccessError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<RevokeProjectAccessRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<RevokeProjectAccessResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<RevokeProjectAccessRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<RevokeProjectAccessResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -733,8 +785,8 @@ export const revokeProjectAccessByProvider: API.OperationMethod<
   RevokeProjectAccessByProviderError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<RevokeProjectAccessByProviderRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<RevokeProjectAccessByProviderResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<RevokeProjectAccessByProviderRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<RevokeProjectAccessByProviderResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -750,8 +802,8 @@ export const revokeProjectInvitation: API.OperationMethod<
   RevokeProjectInvitationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<RevokeProjectInvitationRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<RevokeProjectInvitationResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<RevokeProjectInvitationRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<RevokeProjectInvitationResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -851,7 +903,7 @@ function __c1(j: number): any {
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            invitations: S.optional(__S(160, __c20, 0)),
+            invitations: S.optional(__S(168, __c21, 0)),
             items: __S(12, __c1, 4),
             nextPageToken: S.optional(S.String),
             totalCount: S.Number,
@@ -880,17 +932,46 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          host: S.String.pipe(T.Label()),
+          slug: S.String.pipe(T.Query()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/projects/lookup-by-slug", code: 200 })),
+      ).annotate({ identifier: "LookupProjectBySlugRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            cell: S.String,
+            host: S.String,
+            jurisdiction: S.String,
+            project: S.String,
+            project_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "LookupProjectBySlugOutputBody" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          forge_prefix: S.String.pipe(T.Label()),
           project: S.String.pipe(T.Label()),
           capabilities: S.optional(S.String.pipe(T.Query())),
         }).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/projects/resolve/{host}/{project}", code: 200 }),
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/project-resolver/{forge_prefix}/{project}",
+            code: 200,
+          }),
         ),
       ).annotate({ identifier: "ResolveProjectRequest" });
     case 1:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
+            forge_prefix: S.String,
             host: S.String,
             project: S.String,
           }),
@@ -902,15 +983,15 @@ function __c3(j: number): any {
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            project: __S(112, __c14, 0),
-            reference: __S(25, __c3, 1),
+            project: __S(120, __c15, 0),
+            reference: __S(33, __c4, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ResolveProjectOutputBody" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -928,7 +1009,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "RevokeProjectAccessRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -946,7 +1027,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "RevokeProjectAccessByProviderRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -963,11 +1044,12 @@ function __c6(j: number): any {
       ).annotate({ identifier: "RevokeProjectInvitationRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          cell: S.optional(S.String),
           name: S.String,
           ownerId: S.String,
           ownerType: S.String,
@@ -980,7 +1062,7 @@ function __c7(j: number): any {
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             apiUrl: S.optional(S.String),
-            capabilities: __S(64, __c8, 0),
+            capabilities: __S(72, __c9, 0),
             commitToken: S.optional(S.String),
             createdAt: S.String,
             id: S.String,
@@ -988,6 +1070,7 @@ function __c7(j: number): any {
             ownerId: S.String,
             ownerName: S.optional(S.String),
             ownerType: S.String,
+            plugins: S.optional(__S(74, __c9, 2)),
             primaryProcessingCell: S.optional(S.String),
             region: S.String,
             repositoryCount: S.optional(S.Number),
@@ -997,7 +1080,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreatedProject" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1013,9 +1096,21 @@ function __c8(j: number): any {
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ProjectCapabilities" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            repository_selection: S.String,
+            slug: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProjectPlugin" });
+    case 2:
+      return S.Array(__S(73, __c9, 1));
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1029,7 +1124,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateProjectInvitationRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1043,14 +1138,14 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "AccountProfileHandle" });
     case 1:
-      return S.Array(__S(80, __c10, 0));
+      return S.Array(__S(88, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             avatarUrl: S.optional(S.String),
             displayName: S.optional(S.String),
-            handles: __S(81, __c10, 1),
+            handles: __S(89, __c11, 1),
             username: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -1063,16 +1158,16 @@ function __c10(j: number): any {
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             acceptedAt: S.optional(S.String),
             acceptedBy: S.optional(S.String),
-            acceptedByIdentity: S.optional(__S(82, __c10, 2)),
+            acceptedByIdentity: S.optional(__S(90, __c11, 2)),
             createdAt: S.String,
             declinedAt: S.optional(S.String),
             email: S.optional(S.String),
             expiresAt: S.String,
             id: S.String,
             invitedBy: S.String,
-            invitedByIdentity: S.optional(__S(82, __c10, 2)),
+            invitedByIdentity: S.optional(__S(90, __c11, 2)),
             inviteeAccountId: S.optional(S.String),
-            inviteeIdentity: S.optional(__S(82, __c10, 2)),
+            inviteeIdentity: S.optional(__S(90, __c11, 2)),
             revokedAt: S.optional(S.String),
             role: S.String,
             scope: S.String,
@@ -1084,7 +1179,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ResourceInvitation" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1094,13 +1189,13 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteProjectResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1112,7 +1207,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1120,13 +1215,14 @@ function __c14(j: number): any {
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             apiUrl: S.optional(S.String),
-            capabilities: __S(64, __c8, 0),
+            capabilities: __S(72, __c9, 0),
             createdAt: S.String,
             id: S.String,
             name: S.String,
             ownerId: S.String,
             ownerName: S.optional(S.String),
             ownerType: S.String,
+            plugins: S.optional(__S(74, __c9, 2)),
             primaryProcessingCell: S.optional(S.String),
             region: S.String,
             repositoryCount: S.optional(S.Number),
@@ -1136,7 +1232,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "Project" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1161,7 +1257,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GrantProjectAccessOutputBody" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1174,25 +1270,25 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ListOrgProjectsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(112, __c14, 0));
+      return S.Array(__S(120, __c15, 0));
     case 1:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             nextPageToken: S.optional(S.String),
-            project: S.optional(__S(112, __c14, 0)),
-            projects: __S(136, __c17, 0),
+            project: S.optional(__S(120, __c15, 0)),
+            projects: __S(144, __c18, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ListOrgProjectsOutputBody" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1220,13 +1316,13 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ProjectCollaborator" });
     case 2:
-      return S.Array(__S(145, __c18, 1));
+      return S.Array(__S(153, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            collaborators: __S(146, __c18, 2),
+            collaborators: __S(154, __c19, 2),
             nextPageToken: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -1234,7 +1330,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ListProjectCollaboratorsOutputBody" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1252,7 +1348,7 @@ function __c19(j: number): any {
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            invitations: __S(160, __c20, 0),
+            invitations: __S(168, __c21, 0),
             nextPageToken: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -1260,10 +1356,10 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ListResourceInvitationsOutputBody" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(83, __c10, 3));
+      return S.Array(__S(91, __c11, 3));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

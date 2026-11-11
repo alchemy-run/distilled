@@ -30,59 +30,59 @@ export interface GetEditorSyncRequest {
 }
 export interface EditorSyncDocumentJSON {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   contentJson: unknown;
   documentKey: string;
   id: string;
   schemaVersion: number;
   updatedAt: string;
   /** Encoded Yjs document state (base64). */
-  yjsState?: string;
-  yjsUpdatedAt?: string;
+  yjsState?: string | undefined;
+  yjsUpdatedAt?: string | undefined;
 }
 export interface PostEditorUpdateRequest {
   /** Editor document key. */
   documentKey: string;
   /** Editor schema version; only 1 is supported. */
-  schemaVersion?: number;
+  schemaVersion?: number | undefined;
   /** Yjs update to merge (base64). Required. */
   update: string;
   /** Account (ULID) the merge is attributed to. Exactly one of updatedByAccountId/updatedByActorRef is required. */
-  updatedByAccountId?: string;
+  updatedByAccountId?: string | undefined;
   /** Non-account actor (e.g. an automation principal) the merge is attributed to. Exactly one of updatedByAccountId/updatedByActorRef is required. */
-  updatedByActorRef?: string;
+  updatedByActorRef?: string | undefined;
 }
 export interface PutEditorContentRequest {
   /** Editor document key. */
   documentKey: string;
   /** Optimistic concurrency: a weak ETag (W/"<updatedAt>") from a prior read/write of this document, as returned by the sync GET or this route. If present, the request 412s when it no longer matches the document's current ETag. Omit to apply unconditionally. */
-  ifMatch?: string;
+  ifMatch?: string | undefined;
   /** Replacement editor-document content (ProseMirror JSON). Required. */
   contentJson: unknown;
   /** Apply only while the document is structurally empty: every node is the top doc node or a paragraph (any number of blank paragraphs, or an empty content array, still counts as empty), and no text node holds non-whitespace text. Any other node type -- horizontalRule, taskList/taskItem, codeBlock, blockquote, attachmentImage, heading, bulletList/orderedList, hardBreak, ... -- counts as content even when it renders no visible text of its own. A document that already has content is a 200 no-op, not an error: see the response's isApplied/reason. This is not concurrency control -- combine it with If-Match if you need both. */
-  onlyIfEmpty?: boolean;
+  onlyIfEmpty?: boolean | undefined;
   /** Editor schema version; only 1 is supported. */
-  schemaVersion?: number;
+  schemaVersion?: number | undefined;
   /** Account (ULID) the write is attributed to. Exactly one of updatedByAccountId/updatedByActorRef is required. */
-  updatedByAccountId?: string;
+  updatedByAccountId?: string | undefined;
   /** Non-account actor (e.g. an automation principal) the write is attributed to. Exactly one of updatedByAccountId/updatedByActorRef is required. */
-  updatedByActorRef?: string;
+  updatedByActorRef?: string | undefined;
 }
 export interface EditorContentPutResponseJSON {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   contentJson: unknown;
   documentKey: string;
   id: string;
   /** Whether this write replaced the document's content. */
   isApplied: boolean;
   /** Set when isApplied is false; currently: document_not_empty. */
-  reason?: string;
+  reason?: string | undefined;
   schemaVersion: number;
   updatedAt: string;
   /** Encoded Yjs document state (base64). */
-  yjsState?: string;
-  yjsUpdatedAt?: string;
+  yjsState?: string | undefined;
+  yjsUpdatedAt?: string | undefined;
 }
 export type GetEditorSyncError = EntireOpError;
 /** Read editor document sync state (service) Rehydrates the trail-body editor: the document's current yjsState (the CRDT source of truth once present) and its contentJson projection. Service-only -- the caller must hold the sync_editor_documents platform grant; end-user authorization happened upstream at the websocket route. */
@@ -102,7 +102,7 @@ export const getEditorSync: API.OperationMethod<
 }));
 
 export type PostEditorUpdateError = EntireOpError;
-/** Merge a Yjs update into an editor document (service) Merges a Yjs update into an editor document via the yjs-engine sidecar (ENT-1231): reads the current state, calls the engine, then writes the merged state and its contentJson projection conditional on the row it read being unchanged. On a conflict (another merge landed first, or the key was recreated under a new row) it re-reads and re-merges -- safe because CRDT merge is commutative and idempotent -- up to a bounded number of attempts, after which it 503s rather than retrying forever. 503 also covers an unreachable, slow, or misbehaving engine; 422 covers non-retryable input -- a malformed account id, or an update the engine cannot apply or that exceeds its body cap. Service-only, same sync_editor_documents gate as the sibling sync routes. */
+/** Merge a Yjs update into an editor document (service) Merges a Yjs update into an editor document via the yjs-engine sidecar (ENT-1231): reads the current state, calls the engine, then writes the merged state and its contentJson projection conditional on the row it read being unchanged. On a conflict (another merge landed first, or the key was recreated under a new row) it re-reads and re-merges -- safe because CRDT merge is commutative and idempotent -- up to a bounded number of attempts, after which it 503s rather than retrying forever. 503 also covers an unreachable, slow, or misbehaving engine; 422 covers non-retryable input -- a malformed account id, or an update the engine cannot apply or that exceeds its body cap. Service-only, requires the sync_editor_documents platform grant. Change-description documents are read-only; writes return 403. */
 export const postEditorUpdate: API.OperationMethod<
   PostEditorUpdateRequest,
   EditorSyncDocumentJSON,
@@ -119,7 +119,7 @@ export const postEditorUpdate: API.OperationMethod<
 }));
 
 export type PutEditorContentError = EntireOpError;
-/** Replace an editor document's content wholesale (service) Replaces an editor document's content wholesale, for callers holding a complete document rather than a Yjs update to merge (automation, CLI, MCP): the yjs-engine sidecar computes an in-lineage replacement from the document's current state, which is then written through the same guarded, bounded-retry loop as the merge route. Unlike a merge, a wholesale replace cannot reconcile with a concurrent write, so two orthogonal controls guard it: If-Match for concurrency, and onlyIfEmpty for "write only if there is nothing to lose" -- the latter is not concurrency control and declines with a no-op rather than an error. Both are re-evaluated on every retry, so a write landing mid-flight cannot slip past a check that already passed. Rejected input and content the engine cannot apply are 422; an unreachable engine or exhausted retries are 503. Service-only, same sync_editor_documents gate as the sibling sync routes. */
+/** Replace an editor document's content wholesale (service) Replaces an editor document's content wholesale, for callers holding a complete document rather than a Yjs update to merge: the yjs-engine sidecar computes an in-lineage replacement from the document's current state, which is then written through the same guarded, bounded-retry loop as the merge route. Unlike a merge, a wholesale replace cannot reconcile with a concurrent write, so two orthogonal controls guard it: If-Match for concurrency, and onlyIfEmpty for "write only if there is nothing to lose" -- the latter is not concurrency control and declines with a no-op rather than an error. Both are re-evaluated on every retry, so a write landing mid-flight cannot slip past a check that already passed. Rejected input and content the engine cannot apply are 422; an unreachable engine or exhausted retries are 503. Service-only, requires the sync_editor_documents platform grant. Change-description documents are read-only; writes return 403. */
 export const putEditorContent: API.OperationMethod<
   PutEditorContentRequest,
   EditorContentPutResponseJSON,

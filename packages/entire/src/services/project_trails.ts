@@ -35,8 +35,8 @@ export interface AttachTrailChangeRequest {
   /** Stable Change ULID */
   changeId: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
-  ifMatch?: string;
+  project_id?: string | undefined;
+  ifMatch?: string | undefined;
 }
 /** available: read succeeded (possibly empty). unavailable: the read failed; not zero deployments. not_applicable: no head SHA. */
 export type ChangeSummaryResponseDeploymentsAvailability =
@@ -53,16 +53,18 @@ export interface ChangeSummaryResponseDeployments {
 }
 export interface ChangeSummaryResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   base: string;
   /** Active head branch; empty when detached */
   branch: string;
   createdAt: string;
-  deployments?: ChangeSummaryResponseDeployments;
-  ghPrId?: number;
+  deployments?: ChangeSummaryResponseDeployments | undefined;
+  ghPrId?: number | undefined;
   hasCodeChanges: boolean;
   id: string;
   lastActivityAt: string;
+  /** Branch a merged Change landed on, as its merge recorded it, without refs/heads/. Merged through Entire, a stacked Change names its stack's base, not its own base; merged on GitHub, it names the base GitHub reported for the pull request. Omitted when the Change is not merged or its merge recorded no destination, as for merges that predate the record. */
+  mergedBase?: string | undefined;
   number: number;
   originalBranch: string;
   /** Repository basename, or empty when display metadata has not resolved */
@@ -80,32 +82,41 @@ export interface CreateProjectDiscussionRequest {
   /** Globally unique Trail ULID or project-local positive number */
   trailId: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
-  body?: unknown;
-  title?: unknown;
+  project_id?: string | undefined;
+  body?: unknown | undefined;
+  title?: unknown | undefined;
+}
+export interface ContributorIdentityAgent {
+  /** Agent id (GET .../agents/{id}). */
+  id: string;
+  /** The agent's current name. */
+  name: string;
 }
 export interface AutomationIdentity {
   /** The automation's aut_<ULID> subject, for an automation that is not a plugin installation. */
-  automation_id?: string;
+  automation_id?: string | undefined;
   /** The plugin installation's ins_<ULID> id. */
-  installation_id?: string;
+  installation_id?: string | undefined;
   /** The plugin's slug. */
-  plugin?: string;
+  plugin?: string | undefined;
 }
 export interface IdentityHandle {
   handle: string;
-  is_primary?: boolean;
+  is_primary?: boolean | undefined;
   provider: string;
 }
 export type ContributorIdentityHandlesList = Array<IdentityHandle>;
 export interface ContributorIdentity {
   account_id: string | null;
-  automation?: AutomationIdentity;
+  agent?: ContributorIdentityAgent | undefined;
+  automation?: AutomationIdentity | undefined;
   avatar_url: string | null;
   display_name: string | null;
   handles: ContributorIdentityHandlesList | null;
   kind: string;
-  username?: string;
+  /** The agent run that acted (GET .../runs/{id}). */
+  run_id?: string | undefined;
+  username?: string | undefined;
 }
 export interface TrailDiscussionMessageReplyJSON {
   author: string;
@@ -119,7 +130,7 @@ export interface TrailDiscussionMessageJSON {
   author: string;
   body: string;
   created_at: string;
-  etag?: string;
+  etag?: string | undefined;
   id: string;
   identity: ContributorIdentity;
   replies: TrailDiscussionMessageJSONRepliesList | null;
@@ -127,11 +138,25 @@ export interface TrailDiscussionMessageJSON {
 /** Only on the list route with include_messages=true */
 export type DiscussionSummaryJSONMessagesList = Array<TrailDiscussionMessageJSON>;
 export interface TrailDiscussionParticipantJSON {
-  actor_account_id?: string;
+  actor_account_id?: string | undefined;
   identity: ContributorIdentity;
   login: string;
 }
 export type DiscussionSummaryJSONParticipantsList = Array<TrailDiscussionParticipantJSON>;
+export type ReviewCommentJSONActorIdentityAgent = ContributorIdentityAgent;
+export type ReviewCommentJSONActorIdentityHandlesList = Array<IdentityHandle>;
+export interface ReviewCommentJSONActorIdentity {
+  account_id: string | null;
+  agent?: ContributorIdentityAgent | undefined;
+  automation?: AutomationIdentity | undefined;
+  avatar_url: string | null;
+  display_name: string | null;
+  handles: ReviewCommentJSONActorIdentityHandlesList | null;
+  kind: string;
+  /** The agent run that acted (GET .../runs/{id}). */
+  run_id?: string | undefined;
+  username?: string | undefined;
+}
 /** resolved or dismissed: the agent closed the finding; awaiting_confirmation: a high severity finding stays open until a person closes it; reopened_by_person, already_closed: a person's decision stood; kept: still present. */
 export type ReviewCommentJSONAgentVerdictOutcome =
   | "resolved"
@@ -165,24 +190,33 @@ export interface CommentLocationJSON {
   start_column: number | null;
   start_line: number | null;
 }
-export interface ReviewCommentJSONSourceAgent {
-  /** Agent id (GET .../agents/{id}). */
-  id: string;
-  /** The agent's current name. */
-  name: string;
-}
+export type ReviewCommentJSONSourceAgent = ContributorIdentityAgent;
 export interface ReviewCommentJSONSource {
-  agent: ReviewCommentJSONSourceAgent;
+  agent: ContributorIdentityAgent;
   /** The run that published it (GET .../runs/{id}). */
   run_id: string;
 }
+export type ReviewCommentJSONStatusActorIdentityAgent = ContributorIdentityAgent;
+export type ReviewCommentJSONStatusActorIdentityHandlesList = Array<IdentityHandle>;
+export interface ReviewCommentJSONStatusActorIdentity {
+  account_id: string | null;
+  agent?: ContributorIdentityAgent | undefined;
+  automation?: AutomationIdentity | undefined;
+  avatar_url: string | null;
+  display_name: string | null;
+  handles: ReviewCommentJSONStatusActorIdentityHandlesList | null;
+  kind: string;
+  /** The agent run that acted (GET .../runs/{id}). */
+  run_id?: string | undefined;
+  username?: string | undefined;
+}
 export interface ReviewCommentJSON {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   actor_display_name: string | null;
   actor_id: string | null;
-  actor_identity: ContributorIdentity;
-  agent_verdict?: ReviewCommentJSONAgentVerdict;
+  actor_identity: ReviewCommentJSONActorIdentity;
+  agent_verdict?: ReviewCommentJSONAgentVerdict | undefined;
   body: string | null;
   client_id: string | null;
   client_id_hash: string | null;
@@ -196,14 +230,14 @@ export interface ReviewCommentJSON {
   repo_id: string;
   review_id: string;
   severity: string | null;
-  source?: ReviewCommentJSONSource;
+  source?: ReviewCommentJSONSource | undefined;
   stale_checked_at: string | null;
   stale_checked_code_version_id: string | null;
   stale_outcome: string;
   status: string;
   status_actor_display_name: string | null;
   status_actor_id: string | null;
-  status_actor_identity: ContributorIdentity;
+  status_actor_identity: ReviewCommentJSONStatusActorIdentity;
   status_actor_kind: string | null;
   status_changed_at: string | null;
   status_reason: string | null;
@@ -215,14 +249,14 @@ export interface DiscussionSummaryJSON {
   created_at: string;
   created_by: string | null;
   created_by_identity: ContributorIdentity;
-  etag?: string;
+  etag?: string | undefined;
   id: string;
   kind: string;
   last_message_at: string | null;
   last_message_author: string | null;
   message_count: number;
   /** Only on the list route with include_messages=true */
-  messages?: DiscussionSummaryJSONMessagesList;
+  messages?: DiscussionSummaryJSONMessagesList | undefined;
   participants: DiscussionSummaryJSONParticipantsList | null;
   resolved: boolean;
   resolved_at: string | null;
@@ -236,7 +270,7 @@ export interface DiscussionSummaryJSON {
 }
 export interface DiscussionCreateResponseBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   discussion: DiscussionSummaryJSON;
   message: TrailDiscussionMessageJSON;
 }
@@ -249,27 +283,24 @@ export interface CreateProjectDiscussionMessageRequest {
   trailId: string;
   discussionId: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
-  body?: unknown;
+  project_id?: string | undefined;
+  body?: unknown | undefined;
 }
 export interface TrailDiscussionMessageResponseBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   message: TrailDiscussionMessageJSON;
 }
 /** Actor references: ulid:ACCOUNT_ID or @username. A bare string is a GitHub login (legacy). */
 export type CreateProjectTrailRequestAssigneesList = Array<string>;
 export interface InitialTrailChangeBody {
-  assignees?: unknown;
-  base?: unknown;
-  branchAction?: unknown;
-  branchName?: unknown;
-  priority?: unknown;
-  readyForReview?: unknown;
+  base?: unknown | undefined;
+  branchAction?: unknown | undefined;
+  branchName?: unknown | undefined;
+  readyForReview?: unknown | undefined;
   repositoryId: string;
-  status?: unknown;
-  title?: unknown;
-  type?: unknown;
+  status?: unknown | undefined;
+  title?: unknown | undefined;
 }
 /** Initial branch-backed Changes; all database writes commit together */
 export type CreateProjectTrailRequestChangesList = Array<InitialTrailChangeBody>;
@@ -284,36 +315,35 @@ export interface CreateProjectTrailRequest {
   /** Canonical public project name */
   project: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
+  project_id?: string | undefined;
   /** Required when changes is non-empty; reuse for retries (24-hour retention) */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Actor references: ulid:ACCOUNT_ID or @username. A bare string is a GitHub login (legacy). */
-  assignees?: CreateProjectTrailRequestAssigneesList | null;
-  body?: string;
+  assignees?: CreateProjectTrailRequestAssigneesList | null | undefined;
+  /** Markdown, stored as written. A line holding only ![alt](attachment:<attachment ULID>) is an inline image when the ULID names an inline-safe image (PNG, JPEG, GIF, WebP) attachment of this Trail; any other reference stays literal text. References are checked whenever the body is converted to rich content (detail reads, editor initialization), so attachments uploaded after creation count. Alt text is not stored. See docs/project-trail-attachments.md. */
+  body?: string | undefined;
   /** Initial branch-backed Changes; all database writes commit together */
-  changes?: CreateProjectTrailRequestChangesList | null;
-  metadata?: CreateProjectTrailRequestMetadataMap;
-  priority?: CreateProjectTrailRequestPriority | (string & {});
-  repoIds?: CreateProjectTrailRequestRepoIdsList | null;
-  status?: CreateProjectTrailRequestStatus | (string & {});
+  changes?: CreateProjectTrailRequestChangesList | null | undefined;
+  metadata?: CreateProjectTrailRequestMetadataMap | undefined;
+  priority?: CreateProjectTrailRequestPriority | (string & {}) | undefined;
+  repoIds?: CreateProjectTrailRequestRepoIdsList | null | undefined;
+  status?: CreateProjectTrailRequestStatus | (string & {}) | undefined;
   title: string;
-  type?: CreateProjectTrailRequestType | (string & {});
+  type?: CreateProjectTrailRequestType | (string & {}) | undefined;
 }
 /** Account IDs aligned with assignees */
 export type TrailResponseAssigneeAccountIdsList = Array<string | null>;
 export interface TrailPersonResponse {
-  accountId?: string;
-  avatarUrl?: string;
+  accountId?: string | undefined;
+  avatarUrl?: string | undefined;
   displayName: string;
   identity: ContributorIdentity;
   login: string;
-  username?: string;
+  username?: string | undefined;
 }
 export type TrailResponseAssigneeProfilesList = Array<TrailPersonResponse>;
 export type TrailResponseAssigneesList = Array<string>;
 export interface TrailResponseBodyDocument {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string;
   content_json: unknown;
   document_key: string;
   etag: string;
@@ -357,12 +387,14 @@ export interface ProjectTrailChangeReadiness {
   /** Active head branch; empty when detached */
   branch: string;
   createdAt: string;
-  deployments?: ProjectTrailChangeReadinessDeployments;
-  ghPrId?: number;
+  deployments?: ProjectTrailChangeReadinessDeployments | undefined;
+  ghPrId?: number | undefined;
   hasCodeChanges: boolean;
   id: string;
   lastActivityAt: string;
   mergeability: ProjectTrailChangeReadinessMergeability;
+  /** Branch a merged Change landed on, as its merge recorded it, without refs/heads/. Merged through Entire, a stacked Change names its stack's base, not its own base; merged on GitHub, it names the base GitHub reported for the pull request. Omitted when the Change is not merged or its merge recorded no destination, as for merges that predate the record. */
+  mergedBase?: string | undefined;
   number: number;
   originalBranch: string;
   /** Readiness projected from stored gates, conflicts, and database-backed base-branch CI snapshots; unknown when evidence cannot establish readiness. Lists and addressed Trail responses use the same evidence sources. */
@@ -395,7 +427,7 @@ export interface GlobalTrailProjectResponse {
   jurisdiction: string;
   name: string;
   /** Core's assigned project cell; empty means routing is unavailable */
-  primaryProcessingCell?: string;
+  primaryProcessingCell?: string | undefined;
   provider: GlobalTrailProjectResponseProvider;
   reference: GlobalTrailProjectReferenceResponse;
 }
@@ -404,24 +436,24 @@ export type TrailResponseStatus = "open" | "closed";
 export type TrailResponseType = "bug" | "feature" | "task";
 export interface TrailResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Account IDs aligned with assignees */
   assigneeAccountIds: TrailResponseAssigneeAccountIdsList | null;
-  assigneeProfiles?: TrailResponseAssigneeProfilesList | null;
+  assigneeProfiles?: TrailResponseAssigneeProfilesList | null | undefined;
   assignees: TrailResponseAssigneesList | null;
-  author?: TrailPersonResponse;
+  author?: TrailPersonResponse | undefined;
   authorAccountId: string;
-  /** Markdown until the first editor-backed body write; a plain-text projection thereafter. Rich content is in bodyDocument. */
+  /** Markdown until the first editor-backed body write; a plain-text projection thereafter, in which each inline image is a line ![image](attachment:<attachment ULID>) that a body PATCH accepts back. Rich content is in bodyDocument. */
   body: string;
-  bodyDocument?: TrailResponseBodyDocument;
-  capabilities?: ProjectTrailCapabilitiesResponse;
+  bodyDocument?: TrailResponseBodyDocument | undefined;
+  capabilities?: ProjectTrailCapabilitiesResponse | undefined;
   /** Authorized Changes with database-backed readiness; no live mergeability checks */
-  changes?: TrailResponseChangesList;
+  changes?: TrailResponseChangesList | undefined;
   closedAt: string | null;
   createdAt: string;
   id: string;
   /** True when access filtering means repoIds or changes must not be interpreted as a complete aggregate; this is conservative and does not indicate that any item was omitted */
-  isPossiblyPartial?: boolean;
+  isPossiblyPartial?: boolean | undefined;
   /** Latest meaningful activity on this Trail or an independently readable Change; excludes background bookkeeping */
   lastActivityAt: string;
   /** Caller's last platform read; null if never visited, unavailable, or caller is not an account */
@@ -433,14 +465,14 @@ export interface TrailResponse {
   /** Derived project lifecycle phase; closed follows the project Trail status, while other phases inherit repository Change progress */
   phase: TrailResponsePhase;
   priority: TrailResponsePriority;
-  project?: GlobalTrailProjectResponse;
+  project?: GlobalTrailProjectResponse | undefined;
   projectId: string;
   repoIds: TrailResponseRepoIdsList | null;
   status: TrailResponseStatus;
   title: string;
   type: TrailResponseType;
   /** Web app page for this Trail; absent when this deployment has no frontend origin */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateTrailChangeRequest {
   /** Trail host slug (gh or et) */
@@ -450,25 +482,22 @@ export interface CreateTrailChangeRequest {
   /** Globally unique Trail ULID or project-local positive number */
   trailId: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
+  project_id?: string | undefined;
   /** Parent Trail ETag */
   ifMatch: string;
   /** Reuse for retries of the same creation request (24-hour retention) */
   idempotencyKey: string;
-  assignees?: unknown;
-  base?: unknown;
-  branchAction?: unknown;
-  branchName?: unknown;
-  priority?: unknown;
-  readyForReview?: unknown;
+  base?: unknown | undefined;
+  branchAction?: unknown | undefined;
+  branchName?: unknown | undefined;
+  readyForReview?: unknown | undefined;
   repositoryId: string;
-  status?: unknown;
-  title?: unknown;
-  type?: unknown;
+  status?: unknown | undefined;
+  title?: unknown | undefined;
 }
 export interface TrailChangeCreateOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   id: string;
   repositoryId: string;
   trailId: string;
@@ -483,9 +512,9 @@ export interface DeleteProjectDiscussionMessageRequest {
   discussionId: string;
   messageId: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
+  project_id?: string | undefined;
   /** Optional message ETag from the message's etag field or write response. Stale or weak validators return 412. */
-  ifMatch?: string;
+  ifMatch?: string | undefined;
 }
 export interface DeleteProjectDiscussionMessageResponse {}
 export interface EnsureProjectTrailBodyDocumentRequest {
@@ -494,11 +523,11 @@ export interface EnsureProjectTrailBodyDocumentRequest {
   /** Globally unique Trail ULID or project-local positive number */
   trail_id: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
+  project_id?: string | undefined;
 }
 export interface EditorDocumentIdentityJSON {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   document_key: string;
   id: string;
   jurisdiction: string;
@@ -514,12 +543,12 @@ export interface GetProjectDiscussionRequest {
   trailId: string;
   discussionId: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
+  project_id?: string | undefined;
 }
 export type DiscussionDetailResponseBodyMessagesList = Array<TrailDiscussionMessageJSON>;
 export interface DiscussionDetailResponseBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   discussion: DiscussionSummaryJSON;
   eventCursor: string;
   messages: DiscussionDetailResponseBodyMessagesList | null;
@@ -532,9 +561,9 @@ export interface GetProjectTrailRequest {
   /** Globally unique Trail ULID or project-local positive number */
   trailId: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
+  project_id?: string | undefined;
   /** Set by the UI when viewing Trail details to record the caller's last visit; omit for background reads */
-  platform_read?: boolean;
+  platform_read?: boolean | undefined;
 }
 export interface GetProjectTrailTimelineRequest {
   /** Trail host slug (gh or et) */
@@ -544,19 +573,21 @@ export interface GetProjectTrailTimelineRequest {
   /** Globally unique Trail ULID or project-local positive number */
   trail_id: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
+  project_id?: string | undefined;
   /** Items per page (default 50, maximum 100). */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Opaque continuation cursor from next_cursor. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ProjectTrailTimelineResponseItemsList = Array<unknown>;
 export interface ProjectTrailTimelineResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   items: ProjectTrailTimelineResponseItemsList | null;
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
+/** readings keeps the legacy reading-only history; runs includes preserved cancellations and a kind discriminator on every entry. */
+export type GetTrailChangeRequestAgentHistory = "readings" | "runs";
 export interface GetTrailChangeRequest {
   /** Trail host slug (gh or et) */
   host: string;
@@ -567,7 +598,9 @@ export interface GetTrailChangeRequest {
   /** Stable Change ULID */
   changeId: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
+  project_id?: string | undefined;
+  /** readings keeps the legacy reading-only history; runs includes preserved cancellations and a kind discriminator on every entry. */
+  agent_history?: GetTrailChangeRequestAgentHistory | (string & {}) | undefined;
 }
 export type TrailActionAvailabilityState = "enabled" | "blocked" | "unavailable";
 export interface TrailActionAvailability {
@@ -596,32 +629,36 @@ export interface TrailAgentRefJSON {
   name: string;
   preset: TrailAgentRefJSONPreset;
 }
-export type TrailAgentReadingJSONSizeValue = "small" | "medium" | "large";
-export interface TrailAgentReadingJSONVerdicts {
+/** reading = a succeeded run that produced a signal value; canceled = a canceled run preserved on the chart. */
+export type TrailAgentHistoryEntryJSONKind = "reading" | "canceled";
+export type TrailAgentHistoryEntryJSONSizeValue = "small" | "medium" | "large";
+export interface TrailAgentHistoryEntryJSONVerdicts {
   /** Verdicts a person's decision overrode (already_closed, reopened_by_person); not counted above. */
   decided_by_person: number;
   fixed: number;
   no_longer_applies: number;
   still_present: number;
 }
-export interface TrailAgentReadingJSON {
+export interface TrailAgentHistoryEntryJSON {
   boolean_value: boolean | null;
   /** The head it reviewed. */
   head_sha: string | null;
+  /** reading = a succeeded run that produced a signal value; canceled = a canceled run preserved on the chart. */
+  kind?: TrailAgentHistoryEntryJSONKind | undefined;
   percent_value: number | null;
   rationale: string | null;
   /** The run that produced it. */
   run_id: string;
-  size_value: TrailAgentReadingJSONSizeValue | null;
+  size_value: TrailAgentHistoryEntryJSONSizeValue | null;
   /** The review as a whole; null for a result from before summaries. */
   summary: string | null;
   updated_at: string;
-  verdicts: TrailAgentReadingJSONVerdicts;
+  verdicts: TrailAgentHistoryEntryJSONVerdicts;
 }
-/** Finished readings of the current value type, newest first, at most six. */
-export type TrailAgentJSONHistoryList = Array<TrailAgentReadingJSON>;
+/** At most six entries, newest first. By default, finished readings of the current value type. With agent_history=runs, includes preserved canceled runs and a kind discriminator on every entry. */
+export type TrailAgentJSONHistoryList = Array<TrailAgentHistoryEntryJSON>;
 export interface TrailAgentJSONLatestRunError {
-  /** Set when the run was refused for billing: billing_trial_ended, billing_credit_exhausted, billing_over_limit, billing_blocked or billing_not_enrolled; null otherwise. */
+  /** Set when the run was refused for billing: billing_trial_ended, billing_credit_exhausted, billing_over_limit, billing_blocked, billing_not_enrolled or billing_no_paid_balance; null otherwise. */
   code: string | null;
   message: string;
 }
@@ -641,7 +678,7 @@ export interface TrailAgentJSONLatestRun {
   status: TrailAgentJSONLatestRunStatus;
 }
 export type TrailAgentJSONReadingSizeValue = "small" | "medium" | "large";
-export type TrailAgentJSONReadingVerdicts = TrailAgentReadingJSONVerdicts;
+export type TrailAgentJSONReadingVerdicts = TrailAgentHistoryEntryJSONVerdicts;
 export interface TrailAgentJSONReading {
   boolean_value: boolean | null;
   /** The head it reviewed. */
@@ -654,7 +691,7 @@ export interface TrailAgentJSONReading {
   /** The review as a whole; null for a result from before summaries. */
   summary: string | null;
   updated_at: string;
-  verdicts: TrailAgentReadingJSONVerdicts;
+  verdicts: TrailAgentHistoryEntryJSONVerdicts;
 }
 /** Which readings are good. */
 export type TrailAgentJSONSignalPolarity = "higher_is_better" | "lower_is_better" | "neutral";
@@ -670,24 +707,18 @@ export interface TrailAgentJSONSignal {
 export type TrailAgentJSONWaitingFor = "ready" | "not_ready" | "push";
 export interface TrailAgentJSON {
   agent: TrailAgentRefJSON;
-  /** Finished readings of the current value type, newest first, at most six. */
+  /** At most six entries, newest first. By default, finished readings of the current value type. With agent_history=runs, includes preserved canceled runs and a kind discriminator on every entry. */
   history: TrailAgentJSONHistoryList | null;
   latest_run: TrailAgentJSONLatestRun;
   reading: TrailAgentJSONReading;
   signal: TrailAgentJSONSignal;
-  /** The reading minus the one before it (percent points, or steps of small/medium/large, false/true); null without two. */
+  /** The reading minus the one before it (percent points, or steps of small/medium/large, false/true); null without two. Canceled entries do not contribute. */
   trend_delta: number | null;
   /** Set while the agent has no run on the Change: ready, it runs once the Change is ready for review; not_ready, it runs only before the Change is ready for review, so not on this one while it stays ready; push, it runs on the next push (or run it now). */
   waiting_for: TrailAgentJSONWaitingFor | null;
 }
 /** Saved agents with a run on this Change, apart from the repository runners' monitors: each one's latest run, its signal's readings and who it is. */
 export type ChangeResponseAgentsList = Array<TrailAgentJSON>;
-export interface TrailAssigneeIdentity {
-  identity: ContributorIdentity;
-  login: string | null;
-}
-export type ChangeResponseAssigneeIdentitiesList = Array<TrailAssigneeIdentity>;
-export type ChangeResponseAssigneesList = Array<string>;
 export interface TrailAuthor {
   id: string;
   identity: ContributorIdentity;
@@ -708,26 +739,26 @@ export interface DeploymentGroup {
 /** inactive: the resource no longer exists, such as a torn-down preview; do not offer its links. */
 export type TrailDeploymentStatus = "queued" | "in_progress" | "completed" | "inactive";
 export interface TrailDeployment {
-  completed_at?: string;
-  conclusion?: TrailDeploymentConclusion;
-  deadline_at?: string;
+  completed_at?: string | undefined;
+  conclusion?: TrailDeploymentConclusion | undefined;
+  deadline_at?: string | undefined;
   /** Defaults to preview; the only documented environment in v0. */
-  environment?: string;
-  environment_url?: string;
+  environment?: string | undefined;
+  environment_url?: string | undefined;
   external_updated_at: string;
-  group?: DeploymentGroup;
+  group?: DeploymentGroup | undefined;
   id: string;
   /** Stable resource id, unique per plugin and commit. At most 255 characters. */
   key: string;
-  logs_url?: string;
+  logs_url?: string | undefined;
   name: string;
   plugin: string;
   /** queued or in_progress past deadline_at; the reported status is unchanged. */
   stale: boolean;
-  started_at?: string;
+  started_at?: string | undefined;
   /** inactive: the resource no longer exists, such as a torn-down preview; do not offer its links. */
   status: TrailDeploymentStatus;
-  type?: string;
+  type?: string | undefined;
 }
 /** Latest resource per plugin and key on this SHA; always an array. */
 export type ChangeResponseDeploymentsItemsList = Array<TrailDeployment>;
@@ -750,7 +781,7 @@ export type TrailMergeabilityResponseChecksAvailability =
   | "not_applicable";
 export interface CheckRunStep {
   conclusion: string | null;
-  exit_status?: number;
+  exit_status?: number | undefined;
   id: string;
   name: string;
   status: string;
@@ -763,10 +794,10 @@ export interface TrailCheckRunJSON {
   details_url: string | null;
   name: string;
   /** Slug of the CI plugin that reported this run. Absent for a run read from the forge. */
-  source?: string;
+  source?: string | undefined;
   started_at: string | null;
   status: string;
-  steps?: TrailCheckRunJSONStepsList | null;
+  steps?: TrailCheckRunJSONStepsList | null | undefined;
 }
 export type TrailMergeabilityResponseChecksRunsList = Array<TrailCheckRunJSON>;
 export interface TrailMergeabilityResponseChecks {
@@ -774,7 +805,7 @@ export interface TrailMergeabilityResponseChecks {
   availability: TrailMergeabilityResponseChecksAvailability;
   runs: TrailMergeabilityResponseChecksRunsList | null;
 }
-/** Provider conflict verdict for headSha; conflicting blocks mergeable independently of gates and CI evidence. */
+/** Provider conflict verdict for headSha; mergeable requires clean, independently of gates and CI evidence. The merge action is blocked only by conflicting: an unknown verdict leaves conflicts to the forge's merge. */
 export type TrailMergeabilityResponseConflictStatus = "clean" | "conflicting" | "unknown";
 export interface TrailMergeabilityResponseForgeMergeBlock {
   /** Open set: review_required means GitHub needs an approving review; changes_requested means a GitHub reviewer requested changes; checks_pending means a required check on headSha has not finished; blocked means GitHub reports the merge as blocked without naming a readable rule. Unknown future values must be tolerated. */
@@ -791,7 +822,7 @@ export type ApprovalReviewerState =
   | "changes_requested"
   | "excluded";
 export interface ApprovalReviewer {
-  actor_account_id?: string;
+  actor_account_id?: string | undefined;
   login: string;
   reason: string | null;
   reviewed_head_sha: string | null;
@@ -812,27 +843,27 @@ export interface GateResult {
   head_sha: string | null;
   id: string;
   /** Machine-readable reason for a not_applicable gate. no_changes means the branch has no changes from its base; it is not an evaluated skipped verdict. Absent for other results, including disabled gates. */
-  not_applicable_reason?: GateResultNotApplicableReason;
+  not_applicable_reason?: GateResultNotApplicableReason | undefined;
   outcome: string | null;
   rationale: string | null;
   reviewers: GateResultReviewersList;
   /** Sorted unique runner IDs contributing to this gate, drawn from the Trail detail runners array. Empty when none are associated or configuration is unavailable. */
   runner_ids: GateResultRunnerIdsList;
   stale_reason: string | null;
-  state?: string;
+  state?: string | undefined;
   status: string;
   value: unknown;
 }
 export type TrailMergeabilityResponseGatesList = Array<GateResult>;
 export interface TrailMergeabilityResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   behind_by: number;
   /** Effective bypass policy for this response. When readiness is unavailable, nobody is a fail-closed fallback, not the saved repository setting; merge actions remain unavailable. */
   bypass_policy: string;
   checks: TrailMergeabilityResponseChecks;
   comparison_status: string;
-  /** Provider conflict verdict for headSha; conflicting blocks mergeable independently of gates and CI evidence. */
+  /** Provider conflict verdict for headSha; mergeable requires clean, independently of gates and CI evidence. The merge action is blocked only by conflicting: an unknown verdict leaves conflicts to the forge's merge. */
   conflict_status: TrailMergeabilityResponseConflictStatus;
   /** Default for the merge request's deleteBranch option, i.e. the repository's delete-branch-on-merge setting; false means the setting is off. Null for a GitHub-backed repository, where entire-api never deletes the branch, and when readiness is unavailable. */
   delete_branch_on_merge: boolean | null;
@@ -843,7 +874,7 @@ export interface TrailMergeabilityResponse {
 }
 export interface TrailMonitorHistoryItemJSON {
   boolean_value: boolean | null;
-  evaluating?: boolean;
+  evaluating?: boolean | undefined;
   head_sha: string | null;
   percent_value: number | null;
   rationale: string | null;
@@ -895,12 +926,12 @@ export interface ChangeResponseParent {
   project: string;
   project_id: string;
   /** Web app page for the parent Trail; absent when this deployment has no frontend origin */
-  url?: string;
+  url?: string | undefined;
 }
 export interface TrailReviewer {
-  actor_account_id?: string;
+  actor_account_id?: string | undefined;
   identity: ContributorIdentity;
-  is_approval_stale?: boolean;
+  is_approval_stale?: boolean | undefined;
   login: string;
   status: string;
 }
@@ -917,12 +948,10 @@ export interface TrailRunnerItemJSON {
 export type ChangeResponseRunnersList = Array<TrailRunnerItemJSON>;
 export interface ChangeResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   actions: ChangeResponseActions;
   /** Saved agents with a run on this Change, apart from the repository runners' monitors: each one's latest run, its signal's readings and who it is. */
   agents: ChangeResponseAgentsList | null;
-  assignee_identities: ChangeResponseAssigneeIdentitiesList | null;
-  assignees: ChangeResponseAssigneesList | null;
   author: TrailAuthor;
   base: string;
   base_sha: string | null;
@@ -932,11 +961,10 @@ export interface ChangeResponse {
   branch_state: ChangeResponseBranchState;
   /** Current code evidence: present means commits ahead of base, none means a confirmed zero or an indexed base tip equal to the displayed head when comparison is unavailable, unknown means no usable evidence for a Change that tracks a branch. not_applicable means no live comparison exists (merged, closed or unlinked); terminal history uses frozen snapshot refs. */
   code_changes: ChangeResponseCodeChanges;
-  comment_count: number;
   config_source: string;
   created_at: string;
-  deployments?: ChangeResponseDeployments;
-  gh_pr_id?: number;
+  deployments?: ChangeResponseDeployments | undefined;
+  gh_pr_id?: number | undefined;
   has_code_changes: boolean;
   head_sha: string | null;
   id: string;
@@ -947,12 +975,12 @@ export interface ChangeResponse {
   merge_base_sha: string | null;
   mergeability: TrailMergeabilityResponse;
   merged_at: string | null;
+  /** Branch a merged Change landed on, as its merge recorded it, without refs/heads/. Merged through Entire, a stacked Change names its stack's base, not its own base; merged on GitHub, it names the base GitHub reported for the pull request. Omitted when the Change is not merged or its merge recorded no destination, as for merges that predate the record. */
+  merged_base?: string | undefined;
   monitors: ChangeResponseMonitorsList | null;
   number: number;
   original_branch: string | null;
-  parent?: ChangeResponseParent;
-  phase: string | null;
-  priority: string;
+  parent?: ChangeResponseParent | undefined;
   ready_for_review: boolean;
   /** Repository basename, or empty when display metadata has not resolved */
   repository: string;
@@ -962,11 +990,9 @@ export interface ChangeResponse {
   status: string;
   title: string;
   trailId: string;
-  type: string;
-  unresolved_count: number;
   updated_at: string;
   /** Web app page for this code work; absent when this deployment has no frontend origin */
-  url?: string;
+  url?: string | undefined;
 }
 export interface ListProjectDiscussionEventsRequest {
   /** Trail host slug (gh or et) */
@@ -976,11 +1002,11 @@ export interface ListProjectDiscussionEventsRequest {
   /** Globally unique Trail ULID or project-local positive number */
   trailId: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
-  after?: string;
-  limit?: string;
-  accept?: string;
-  lastEventID?: string;
+  project_id?: string | undefined;
+  after?: string | undefined;
+  limit?: string | undefined;
+  accept?: string | undefined;
+  lastEventID?: string | undefined;
 }
 export interface DiscussionEventJSON {
   actorId: string;
@@ -995,7 +1021,7 @@ export interface DiscussionEventJSON {
 export type DiscussionEventsResponseBodyEventsList = Array<DiscussionEventJSON>;
 export interface DiscussionEventsResponseBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   events: DiscussionEventsResponseBodyEventsList | null;
 }
 export interface ListProjectDiscussionsRequest {
@@ -1006,14 +1032,14 @@ export interface ListProjectDiscussionsRequest {
   /** Globally unique Trail ULID or project-local positive number */
   trailId: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
-  pageSize?: number;
-  pageToken?: string;
+  project_id?: string | undefined;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
 }
 export type DiscussionsListResponseBodyItemsList = Array<DiscussionSummaryJSON>;
 export interface DiscussionsListResponseBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   eventCursor: string;
   items: DiscussionsListResponseBodyItemsList | null;
   nextPageToken: string | null;
@@ -1047,44 +1073,44 @@ export type ListProjectTrailFacetsRequestFacetList = Array<string>;
 export interface ListProjectTrailFacetsRequest {
   /** Exactly one project ULID; required addressing scope */
   projectId: string;
-  repoId?: string;
+  repoId?: string | undefined;
   /** Match any of these statuses (repeatable or comma-separated) */
-  status?: ListProjectTrailFacetsRequestStatusList;
+  status?: ListProjectTrailFacetsRequestStatusList | undefined;
   /** Exclude these statuses (repeatable or comma-separated) */
-  statusNot?: ListProjectTrailFacetsRequestStatusNotList;
+  statusNot?: ListProjectTrailFacetsRequestStatusNotList | undefined;
   /** Match any of these priorities (repeatable or comma-separated) */
-  priority?: ListProjectTrailFacetsRequestPriorityList;
+  priority?: ListProjectTrailFacetsRequestPriorityList | undefined;
   /** Exclude these priorities (repeatable or comma-separated) */
-  priorityNot?: ListProjectTrailFacetsRequestPriorityNotList;
+  priorityNot?: ListProjectTrailFacetsRequestPriorityNotList | undefined;
   /** Match any of these types (repeatable or comma-separated) */
-  type?: ListProjectTrailFacetsRequestTypeList;
+  type?: ListProjectTrailFacetsRequestTypeList | undefined;
   /** Exclude these types (repeatable or comma-separated) */
-  typeNot?: ListProjectTrailFacetsRequestTypeNotList;
+  typeNot?: ListProjectTrailFacetsRequestTypeNotList | undefined;
   /** Match any of these author account ULIDs (repeatable or comma-separated) */
-  author?: ListProjectTrailFacetsRequestAuthorList;
+  author?: ListProjectTrailFacetsRequestAuthorList | undefined;
   /** Exclude these author account ULIDs (repeatable or comma-separated) */
-  authorNot?: ListProjectTrailFacetsRequestAuthorNotList;
+  authorNot?: ListProjectTrailFacetsRequestAuthorNotList | undefined;
   /** Match any of these assignee account ULIDs, bare or ulid:-prefixed (repeatable or comma-separated); a value that is not a ULID matches nothing */
-  assignee?: ListProjectTrailFacetsRequestAssigneeList;
+  assignee?: ListProjectTrailFacetsRequestAssigneeList | undefined;
   /** Exclude these assignee account ULIDs, bare or ulid:-prefixed (repeatable or comma-separated) */
-  assigneeNot?: ListProjectTrailFacetsRequestAssigneeNotList;
+  assigneeNot?: ListProjectTrailFacetsRequestAssigneeNotList | undefined;
   /** Case-insensitive search over Trail text; project lists also match #number and project identity */
-  search?: string;
+  search?: string | undefined;
   /** Match any of these derived phases (repeatable or comma-separated) */
-  phase?: ListProjectTrailFacetsRequestPhaseList;
+  phase?: ListProjectTrailFacetsRequestPhaseList | undefined;
   /** Exclude these derived phases (repeatable or comma-separated) */
-  phaseNot?: ListProjectTrailFacetsRequestPhaseNotList;
+  phaseNot?: ListProjectTrailFacetsRequestPhaseNotList | undefined;
   /** Facets to calculate: author and/or assignee (repeatable or comma-separated); defaults to both */
-  facet?: ListProjectTrailFacetsRequestFacetList;
+  facet?: ListProjectTrailFacetsRequestFacetList | undefined;
 }
 export interface GlobalProjectTrailFacetBucketResponse {
-  accountId?: string;
-  avatarUrl?: string;
+  accountId?: string | undefined;
+  avatarUrl?: string | undefined;
   /** Trails selected by this value; assignee buckets can overlap */
   count: number;
   /** Core display name when available, otherwise GitHub login or account ULID */
   label: string;
-  login?: string;
+  login?: string | undefined;
   /** Account ULID accepted by the corresponding Trail filter */
   value: string;
 }
@@ -1094,12 +1120,12 @@ export interface GlobalProjectTrailFacetResponse {
   buckets: GlobalProjectTrailFacetResponseBucketsList | null;
 }
 export interface GlobalProjectTrailFacetSetResponse {
-  assignee?: GlobalProjectTrailFacetResponse;
-  author?: GlobalProjectTrailFacetResponse;
+  assignee?: GlobalProjectTrailFacetResponse | undefined;
+  author?: GlobalProjectTrailFacetResponse | undefined;
 }
 export interface GlobalProjectTrailFacetsResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   facets: GlobalProjectTrailFacetSetResponse;
   jurisdiction: string;
 }
@@ -1109,7 +1135,7 @@ export interface ListProjectTrailRepositoriesRequest {
   /** Exactly one project ULID */
   project_id: string;
   /** Required repository permission; project authority never substitutes for it */
-  permission?: ListProjectTrailRepositoriesRequestPermission | (string & {});
+  permission?: ListProjectTrailRepositoriesRequestPermission | (string & {}) | undefined;
 }
 export interface ProjectTrailRepositoryResponse {
   forge: string;
@@ -1120,7 +1146,7 @@ export type ProjectTrailRepositoriesResponseRepositoriesList =
   Array<ProjectTrailRepositoryResponse>;
 export interface ProjectTrailRepositoriesResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   repositories: ProjectTrailRepositoriesResponseRepositoriesList | null;
 }
 /** Match any of these statuses (repeatable or comma-separated) */
@@ -1164,37 +1190,37 @@ export type ListProjectTrailsRequestGroupBy =
 export interface ListProjectTrailsRequest {
   /** Exactly one project ULID; required addressing scope */
   projectId: string;
-  repoId?: string;
+  repoId?: string | undefined;
   /** Match any of these statuses (repeatable or comma-separated) */
-  status?: ListProjectTrailsRequestStatusList;
+  status?: ListProjectTrailsRequestStatusList | undefined;
   /** Exclude these statuses (repeatable or comma-separated) */
-  statusNot?: ListProjectTrailsRequestStatusNotList;
+  statusNot?: ListProjectTrailsRequestStatusNotList | undefined;
   /** Match any of these priorities (repeatable or comma-separated) */
-  priority?: ListProjectTrailsRequestPriorityList;
+  priority?: ListProjectTrailsRequestPriorityList | undefined;
   /** Exclude these priorities (repeatable or comma-separated) */
-  priorityNot?: ListProjectTrailsRequestPriorityNotList;
+  priorityNot?: ListProjectTrailsRequestPriorityNotList | undefined;
   /** Match any of these types (repeatable or comma-separated) */
-  type?: ListProjectTrailsRequestTypeList;
+  type?: ListProjectTrailsRequestTypeList | undefined;
   /** Exclude these types (repeatable or comma-separated) */
-  typeNot?: ListProjectTrailsRequestTypeNotList;
+  typeNot?: ListProjectTrailsRequestTypeNotList | undefined;
   /** Match any of these author account ULIDs (repeatable or comma-separated) */
-  author?: ListProjectTrailsRequestAuthorList;
+  author?: ListProjectTrailsRequestAuthorList | undefined;
   /** Exclude these author account ULIDs (repeatable or comma-separated) */
-  authorNot?: ListProjectTrailsRequestAuthorNotList;
+  authorNot?: ListProjectTrailsRequestAuthorNotList | undefined;
   /** Match any of these assignee account ULIDs, bare or ulid:-prefixed (repeatable or comma-separated); a value that is not a ULID matches nothing */
-  assignee?: ListProjectTrailsRequestAssigneeList;
+  assignee?: ListProjectTrailsRequestAssigneeList | undefined;
   /** Exclude these assignee account ULIDs, bare or ulid:-prefixed (repeatable or comma-separated) */
-  assigneeNot?: ListProjectTrailsRequestAssigneeNotList;
+  assigneeNot?: ListProjectTrailsRequestAssigneeNotList | undefined;
   /** Case-insensitive search over Trail text; project lists also match #number and project identity */
-  search?: string;
+  search?: string | undefined;
   /** Match any of these derived phases (repeatable or comma-separated) */
-  phase?: ListProjectTrailsRequestPhaseList;
+  phase?: ListProjectTrailsRequestPhaseList | undefined;
   /** Exclude these derived phases (repeatable or comma-separated) */
-  phaseNot?: ListProjectTrailsRequestPhaseNotList;
-  sort?: ListProjectTrailsRequestSort | (string & {});
-  groupBy?: ListProjectTrailsRequestGroupBy | (string & {});
-  pageSize?: number;
-  pageToken?: string;
+  phaseNot?: ListProjectTrailsRequestPhaseNotList | undefined;
+  sort?: ListProjectTrailsRequestSort | (string & {}) | undefined;
+  groupBy?: ListProjectTrailsRequestGroupBy | (string & {}) | undefined;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
 }
 export type ProjectTrailsListResponseCapabilities = GlobalTrailProjectCapabilitiesResponse;
 export interface GlobalProjectTrailGroupTotalResponse {
@@ -1231,14 +1257,14 @@ export type ProjectTrailListItemResponseType = "bug" | "feature" | "task";
 export interface ProjectTrailListItemResponse {
   /** Account IDs aligned with assignees */
   assigneeAccountIds: ProjectTrailListItemResponseAssigneeAccountIdsList | null;
-  assigneeProfiles?: ProjectTrailListItemResponseAssigneeProfilesList | null;
+  assigneeProfiles?: ProjectTrailListItemResponseAssigneeProfilesList | null | undefined;
   assignees: ProjectTrailListItemResponseAssigneesList | null;
-  author?: TrailPersonResponse;
+  author?: TrailPersonResponse | undefined;
   authorAccountId: string;
-  /** Markdown until the first editor-backed body write; a plain-text projection thereafter. Rich content is in bodyDocument. */
+  /** Markdown until the first editor-backed body write; a plain-text projection thereafter, in which each inline image is a line ![image](attachment:<attachment ULID>) that a body PATCH accepts back. Rich content is in bodyDocument. */
   body: string;
-  bodyDocument?: TrailResponseBodyDocument;
-  capabilities?: ProjectTrailCapabilitiesResponse;
+  bodyDocument?: TrailResponseBodyDocument | undefined;
+  capabilities?: ProjectTrailCapabilitiesResponse | undefined;
   /** Compact authorized Change readiness for building Trails; empty otherwise */
   changes: ProjectTrailListItemResponseChangesList | null;
   closedAt: string | null;
@@ -1247,7 +1273,7 @@ export interface ProjectTrailListItemResponse {
   groupKey: string;
   id: string;
   /** True when access filtering means repoIds or changes must not be interpreted as a complete aggregate; this is conservative and does not indicate that any item was omitted */
-  isPossiblyPartial?: boolean;
+  isPossiblyPartial?: boolean | undefined;
   /** Latest meaningful activity on this Trail or an independently readable Change; excludes background bookkeeping */
   lastActivityAt: string;
   /** Caller's last platform read; null if never visited, unavailable, or caller is not an account */
@@ -1259,7 +1285,7 @@ export interface ProjectTrailListItemResponse {
   /** Derived project lifecycle phase; closed follows the project Trail status, while other phases inherit repository Change progress */
   phase: ProjectTrailListItemResponsePhase;
   priority: ProjectTrailListItemResponsePriority;
-  project?: GlobalTrailProjectResponse;
+  project?: GlobalTrailProjectResponse | undefined;
   projectId: string;
   /** Stored gate/conflict readiness plus current base-branch checks; unknown when required evidence is unavailable or stale */
   readiness: ProjectTrailListItemResponseReadiness;
@@ -1268,12 +1294,12 @@ export interface ProjectTrailListItemResponse {
   title: string;
   type: ProjectTrailListItemResponseType;
   /** Web app page for this Trail; absent when this deployment has no frontend origin */
-  url?: string;
+  url?: string | undefined;
 }
 export type ProjectTrailsListResponseItemsList = Array<ProjectTrailListItemResponse>;
 export interface ProjectTrailsListResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   capabilities: GlobalTrailProjectCapabilitiesResponse;
   groupBy: string;
   groupTotals: ProjectTrailsListResponseGroupTotalsList | null;
@@ -1291,15 +1317,15 @@ export interface UpdateProjectDiscussionRequest {
   trailId: string;
   discussionId: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
+  project_id?: string | undefined;
   /** Optional discussion ETag from a read or write response. Stale or weak validators return 412. */
-  ifMatch?: string;
-  resolved?: unknown;
-  title?: unknown;
+  ifMatch?: string | undefined;
+  resolved?: unknown | undefined;
+  title?: unknown | undefined;
 }
 export interface DiscussionUpdateResponseBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   discussion: DiscussionSummaryJSON;
 }
 export interface UpdateProjectDiscussionMessageRequest {
@@ -1312,10 +1338,10 @@ export interface UpdateProjectDiscussionMessageRequest {
   discussionId: string;
   messageId: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
+  project_id?: string | undefined;
   /** Optional message ETag from the message's etag field or write response. Stale or weak validators return 412. */
-  ifMatch?: string;
-  body?: unknown;
+  ifMatch?: string | undefined;
+  body?: unknown | undefined;
 }
 /** Actor references: ulid:ACCOUNT_ID or @username. A bare string is a GitHub login (legacy). */
 export type UpdateProjectTrailRequestAssigneesList = Array<string>;
@@ -1332,18 +1358,18 @@ export interface UpdateProjectTrailRequest {
   /** Globally unique Trail ULID or project-local positive number */
   trailId: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
-  ifMatch?: string;
+  project_id?: string | undefined;
+  ifMatch?: string | undefined;
   /** Actor references: ulid:ACCOUNT_ID or @username. A bare string is a GitHub login (legacy). */
-  assignees?: UpdateProjectTrailRequestAssigneesList;
-  /** Markdown input. When an editor document exists, updates its rich content and stores the plain-text projection in body. */
-  body?: string;
-  metadata?: UpdateProjectTrailRequestMetadataMap;
-  priority?: UpdateProjectTrailRequestPriority | (string & {});
-  repoIds?: UpdateProjectTrailRequestRepoIdsList;
-  status?: UpdateProjectTrailRequestStatus | (string & {});
-  title?: string;
-  type?: UpdateProjectTrailRequestType | (string & {});
+  assignees?: UpdateProjectTrailRequestAssigneesList | undefined;
+  /** Markdown input. When an editor document exists, updates its rich content and stores the plain-text projection in body. A line holding only ![alt](attachment:<attachment ULID>) becomes an inline image when the ULID names an inline-safe image (PNG, JPEG, GIF, WebP) attachment of this Trail; any other reference stays literal text. Alt text is not stored. See docs/project-trail-attachments.md. */
+  body?: string | undefined;
+  metadata?: UpdateProjectTrailRequestMetadataMap | undefined;
+  priority?: UpdateProjectTrailRequestPriority | (string & {}) | undefined;
+  repoIds?: UpdateProjectTrailRequestRepoIdsList | undefined;
+  status?: UpdateProjectTrailRequestStatus | (string & {}) | undefined;
+  title?: string | undefined;
+  type?: UpdateProjectTrailRequestType | (string & {}) | undefined;
 }
 export type AttachTrailChangeError = EntireOpError;
 /** Attach a Change to a Trail Makes existing repository code work an owned Change under its stable Change ID. The Change's repository must be in the Trail's scope, and the caller needs both project write and repository push access. Attachment is idempotent: a replay for the same Trail returns the same Change and Location with 201. */
@@ -1534,7 +1560,7 @@ export const getTrailChange: API.OperationMethod<
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetTrailChangeRequest>,
-  output: __S(233, __c7, 9) as any as S.Schema<ChangeResponse>,
+  output: __S(232, __c7, 8) as any as S.Schema<ChangeResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -1730,6 +1756,7 @@ function __c0(j: number): any {
           hasCodeChanges: S.Boolean,
           id: S.String,
           lastActivityAt: S.String,
+          mergedBase: S.optional(S.String),
           number: S.Number,
           originalBranch: S.String,
           repository: S.String,
@@ -1776,7 +1803,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          discussion: __S(168, __c5, 8),
+          discussion: __S(167, __c5, 7),
           message: __S(130, __c4, 2),
         }),
       ).annotate({ identifier: "DiscussionCreateResponseBody" });
@@ -1787,12 +1814,19 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "ContributorIdentityAgent" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           automation_id: S.optional(S.String),
           installation_id: S.optional(S.String),
           plugin: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutomationIdentity" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           handle: S.String,
@@ -1800,17 +1834,19 @@ function __c3(j: number): any {
           provider: S.String,
         }),
       ).annotate({ identifier: "IdentityHandle" });
-    case 2:
-      return S.Array(__S(97, __c3, 1));
     case 3:
+      return S.Array(__S(98, __c3, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           account_id: S.NullOr(S.String),
-          automation: S.optional(__S(96, __c3, 0)),
+          agent: S.optional(__S(96, __c3, 0)),
+          automation: S.optional(__S(97, __c3, 1)),
           avatar_url: S.NullOr(S.String),
           display_name: S.NullOr(S.String),
-          handles: S.NullOr(__S(98, __c3, 2)),
+          handles: S.NullOr(__S(99, __c3, 3)),
           kind: S.String,
+          run_id: S.optional(S.String),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContributorIdentity" });
@@ -1825,7 +1861,7 @@ function __c4(j: number): any {
           body: S.String,
           created_at: S.String,
           id: S.String,
-          identity: __S(99, __c3, 3),
+          identity: __S(100, __c3, 4),
         }),
       ).annotate({ identifier: "TrailDiscussionMessageReplyJSON" });
     case 1:
@@ -1838,7 +1874,7 @@ function __c4(j: number): any {
           created_at: S.String,
           etag: S.optional(S.String),
           id: S.String,
-          identity: __S(99, __c3, 3),
+          identity: __S(100, __c3, 4),
           replies: S.NullOr(__S(129, __c4, 1)),
         }),
       ).annotate({ identifier: "TrailDiscussionMessageJSON" });
@@ -1852,7 +1888,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           actor_account_id: S.optional(S.String),
-          identity: __S(99, __c3, 3),
+          identity: __S(100, __c3, 4),
           login: S.String,
         }),
       ).annotate({ identifier: "TrailDiscussionParticipantJSON" });
@@ -1888,24 +1924,17 @@ function __c5(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          id: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "ReviewCommentJSONSourceAgent" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          agent: __S(165, __c5, 5),
+          agent: __S(96, __c3, 0),
           run_id: S.String,
         }),
       ).annotate({ identifier: "ReviewCommentJSONSource" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           actor_display_name: S.NullOr(S.String),
           actor_id: S.NullOr(S.String),
-          actor_identity: __S(99, __c3, 3),
+          actor_identity: __S(100, __c3, 4),
           agent_verdict: S.optional(__S(163, __c5, 3)),
           body: S.NullOr(S.String),
           client_id: S.NullOr(S.String),
@@ -1920,14 +1949,14 @@ function __c5(j: number): any {
           repo_id: S.String,
           review_id: S.String,
           severity: S.NullOr(S.String),
-          source: S.optional(__S(166, __c5, 6)),
+          source: S.optional(__S(165, __c5, 5)),
           stale_checked_at: S.NullOr(S.String),
           stale_checked_code_version_id: S.NullOr(S.String),
           stale_outcome: S.String,
           status: S.String,
           status_actor_display_name: S.NullOr(S.String),
           status_actor_id: S.NullOr(S.String),
-          status_actor_identity: __S(99, __c3, 3),
+          status_actor_identity: __S(100, __c3, 4),
           status_actor_kind: S.NullOr(S.String),
           status_changed_at: S.NullOr(S.String),
           status_reason: S.NullOr(S.String),
@@ -1936,12 +1965,12 @@ function __c5(j: number): any {
           updated_at: S.String,
         }),
       ).annotate({ identifier: "ReviewCommentJSON" });
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           created_at: S.String,
           created_by: S.NullOr(S.String),
-          created_by_identity: __S(99, __c3, 3),
+          created_by_identity: __S(100, __c3, 4),
           etag: S.optional(S.String),
           id: S.String,
           kind: S.String,
@@ -1953,8 +1982,8 @@ function __c5(j: number): any {
           resolved: S.Boolean,
           resolved_at: S.NullOr(S.String),
           resolved_by: S.NullOr(S.String),
-          resolved_by_identity: __S(99, __c3, 3),
-          review_comment: __S(167, __c5, 7),
+          resolved_by_identity: __S(100, __c3, 4),
+          review_comment: __S(166, __c5, 6),
           review_comment_id: S.NullOr(S.String),
           title: S.String,
           trail_id: S.String,
@@ -1973,6 +2002,7 @@ function __c6(j: number): any {
           trailId: S.String.pipe(T.Label()),
           changeId: S.String.pipe(T.Label()),
           project_id: S.optional(S.String.pipe(T.Query())),
+          agent_history: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2023,12 +2053,13 @@ function __c6(j: number): any {
           no_longer_applies: S.Number,
           still_present: S.Number,
         }),
-      ).annotate({ identifier: "TrailAgentReadingJSONVerdicts" });
+      ).annotate({ identifier: "TrailAgentHistoryEntryJSONVerdicts" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           boolean_value: S.NullOr(S.Boolean),
           head_sha: S.NullOr(S.String),
+          kind: S.optional(S.String),
           percent_value: S.NullOr(S.Number),
           rationale: S.NullOr(S.String),
           run_id: S.String,
@@ -2037,7 +2068,7 @@ function __c6(j: number): any {
           updated_at: S.String,
           verdicts: __S(197, __c6, 5),
         }),
-      ).annotate({ identifier: "TrailAgentReadingJSON" });
+      ).annotate({ identifier: "TrailAgentHistoryEntryJSON" });
     case 7:
       return S.Array(__S(198, __c6, 6));
     case 8:
@@ -2060,49 +2091,54 @@ function __c6(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
+          boolean_value: S.NullOr(S.Boolean),
+          head_sha: S.NullOr(S.String),
+          percent_value: S.NullOr(S.Number),
+          rationale: S.NullOr(S.String),
+          run_id: S.String,
+          size_value: S.NullOr(S.String),
+          summary: S.NullOr(S.String),
+          updated_at: S.String,
+          verdicts: __S(197, __c6, 5),
+        }),
+      ).annotate({ identifier: "TrailAgentJSONReading" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
           polarity: S.String,
           value_type: S.String,
         }),
       ).annotate({ identifier: "TrailAgentJSONSignal" });
-    case 11:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           agent: __S(196, __c6, 4),
           history: S.NullOr(__S(199, __c6, 7)),
           latest_run: __S(201, __c6, 9),
-          reading: __S(198, __c6, 6),
-          signal: __S(202, __c6, 10),
+          reading: __S(202, __c6, 10),
+          signal: __S(203, __c6, 11),
           trend_delta: S.NullOr(S.Number),
           waiting_for: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "TrailAgentJSON" });
-    case 12:
-      return S.Array(__S(203, __c6, 11));
     case 13:
-      return S.suspend(() =>
-        S.Struct({
-          identity: __S(99, __c3, 3),
-          login: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "TrailAssigneeIdentity" });
+      return S.Array(__S(204, __c6, 12));
     case 14:
-      return S.Array(__S(205, __c6, 13));
-    case 15:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          identity: __S(99, __c3, 3),
+          identity: __S(100, __c3, 4),
           login: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "TrailAuthor" });
-    case 16:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "DeploymentGroup" });
-    case 17:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           completed_at: S.optional(S.String),
@@ -2111,7 +2147,7 @@ function __c6(j: number): any {
           environment: S.optional(S.String),
           environment_url: S.optional(S.String),
           external_updated_at: S.String,
-          group: S.optional(__S(208, __c6, 16)),
+          group: S.optional(__S(207, __c6, 15)),
           id: S.String,
           key: S.String,
           logs_url: S.optional(S.String),
@@ -2123,18 +2159,18 @@ function __c6(j: number): any {
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "TrailDeployment" });
+    case 17:
+      return S.Array(__S(208, __c6, 16));
     case 18:
-      return S.Array(__S(209, __c6, 17));
-    case 19:
       return S.suspend(() =>
         S.Struct({
           availability: S.String,
-          items: S.NullOr(__S(210, __c6, 18)),
+          items: S.NullOr(__S(209, __c6, 17)),
           ready: S.Number,
           total: S.Number,
         }),
       ).annotate({ identifier: "ChangeResponseDeployments" });
-    case 20:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           conclusion: S.NullOr(S.String),
@@ -2144,9 +2180,9 @@ function __c6(j: number): any {
           status: S.String,
         }),
       ).annotate({ identifier: "CheckRunStep" });
+    case 20:
+      return S.Array(__S(211, __c6, 19));
     case 21:
-      return S.Array(__S(212, __c6, 20));
-    case 22:
       return S.suspend(() =>
         S.Struct({
           app_name: S.NullOr(S.String),
@@ -2157,26 +2193,26 @@ function __c6(j: number): any {
           source: S.optional(S.String),
           started_at: S.NullOr(S.String),
           status: S.String,
-          steps: S.optional(S.NullOr(__S(213, __c6, 21))),
+          steps: S.optional(S.NullOr(__S(212, __c6, 20))),
         }),
       ).annotate({ identifier: "TrailCheckRunJSON" });
+    case 22:
+      return S.Array(__S(213, __c6, 21));
     case 23:
-      return S.Array(__S(214, __c6, 22));
-    case 24:
       return S.suspend(() =>
         S.Struct({
           availability: S.String,
-          runs: S.NullOr(__S(215, __c6, 23)),
+          runs: S.NullOr(__S(214, __c6, 22)),
         }),
       ).annotate({ identifier: "TrailMergeabilityResponseChecks" });
-    case 25:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           reason: S.String,
           required_approving_review_count: S.Number,
         }),
       ).annotate({ identifier: "TrailMergeabilityResponseForgeMergeBlock" });
-    case 26:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           actor_account_id: S.optional(S.String),
@@ -2186,9 +2222,9 @@ function __c6(j: number): any {
           state: S.String,
         }),
       ).annotate({ identifier: "ApprovalReviewer" });
+    case 26:
+      return S.Array(__S(217, __c6, 25));
     case 27:
-      return S.Array(__S(218, __c6, 26));
-    case 28:
       return S.suspend(() =>
         S.Struct({
           blocking: S.Boolean,
@@ -2204,7 +2240,7 @@ function __c6(j: number): any {
           not_applicable_reason: S.optional(S.String),
           outcome: S.NullOr(S.String),
           rationale: S.NullOr(S.String),
-          reviewers: __S(219, __c6, 27),
+          reviewers: __S(218, __c6, 26),
           runner_ids: __S(608, __c19, 0),
           stale_reason: S.NullOr(S.String),
           state: S.optional(S.String),
@@ -2212,25 +2248,25 @@ function __c6(j: number): any {
           value: S.Unknown,
         }),
       ).annotate({ identifier: "GateResult" });
+    case 28:
+      return S.Array(__S(219, __c6, 27));
     case 29:
-      return S.Array(__S(220, __c6, 28));
-    case 30:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           behind_by: S.Number,
           bypass_policy: S.String,
-          checks: __S(216, __c6, 24),
+          checks: __S(215, __c6, 23),
           comparison_status: S.String,
           conflict_status: S.String,
           delete_branch_on_merge: S.NullOr(S.Boolean),
-          forge_merge_block: __S(217, __c6, 25),
-          gates: S.NullOr(__S(221, __c6, 29)),
+          forge_merge_block: __S(216, __c6, 24),
+          gates: S.NullOr(__S(220, __c6, 28)),
           head_sha: S.NullOr(S.String),
           mergeable: S.Boolean,
         }),
       ).annotate({ identifier: "TrailMergeabilityResponse" });
-    case 31:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           boolean_value: S.NullOr(S.Boolean),
@@ -2243,13 +2279,13 @@ function __c6(j: number): any {
           updated_at: S.String,
         }),
       ).annotate({ identifier: "TrailMonitorHistoryItemJSON" });
+    case 31:
+      return S.Array(__S(222, __c6, 30));
   }
 }
 function __c7(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(223, __c6, 31));
-    case 1:
       return S.suspend(() =>
         S.Struct({
           failed_at: S.String,
@@ -2257,17 +2293,17 @@ function __c7(j: number): any {
           run_id: S.String,
         }),
       ).annotate({ identifier: "TrailMonitorFailedAttemptJSON" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           boolean_value: S.NullOr(S.Boolean),
           evaluated_at_sha: S.NullOr(S.String),
           evaluating: S.Boolean,
           head_sha: S.NullOr(S.String),
-          history: S.NullOr(__S(224, __c7, 0)),
+          history: S.NullOr(__S(223, __c6, 31)),
           key: S.String,
           label: S.String,
-          last_failed_attempt: __S(225, __c7, 1),
+          last_failed_attempt: __S(224, __c7, 0),
           outcome: S.NullOr(S.String),
           percent_value: S.NullOr(S.Number),
           polarity: S.NullOr(S.String),
@@ -2281,9 +2317,9 @@ function __c7(j: number): any {
           value_type: S.String,
         }),
       ).annotate({ identifier: "TrailMonitorItemJSON" });
+    case 2:
+      return S.Array(__S(225, __c7, 1));
     case 3:
-      return S.Array(__S(226, __c7, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
           host: S.String,
@@ -2297,19 +2333,19 @@ function __c7(j: number): any {
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChangeResponseParent" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           actor_account_id: S.optional(S.String),
-          identity: __S(99, __c3, 3),
+          identity: __S(100, __c3, 4),
           is_approval_stale: S.optional(S.Boolean),
           login: S.String,
           status: S.String,
         }),
       ).annotate({ identifier: "TrailReviewer" });
+    case 5:
+      return S.Array(__S(228, __c7, 4));
     case 6:
-      return S.Array(__S(229, __c7, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
           evaluated_at_sha: S.NullOr(S.String),
@@ -2321,27 +2357,24 @@ function __c7(j: number): any {
           state: S.String,
         }),
       ).annotate({ identifier: "TrailRunnerItemJSON" });
+    case 7:
+      return S.Array(__S(230, __c7, 6));
     case 8:
-      return S.Array(__S(231, __c7, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           actions: __S(194, __c6, 2),
-          agents: S.NullOr(__S(204, __c6, 12)),
-          assignee_identities: S.NullOr(__S(206, __c6, 14)),
-          assignees: S.NullOr(__S(608, __c19, 0)),
-          author: __S(207, __c6, 15),
+          agents: S.NullOr(__S(205, __c6, 13)),
+          author: __S(206, __c6, 14),
           base: S.String,
           base_sha: S.NullOr(S.String),
           body_document: __S(640, __c20, 0),
           branch: S.NullOr(S.String),
           branch_state: S.String,
           code_changes: S.String,
-          comment_count: S.Number,
           config_source: S.String,
           created_at: S.String,
-          deployments: S.optional(__S(211, __c6, 19)),
+          deployments: S.optional(__S(210, __c6, 18)),
           gh_pr_id: S.optional(S.Number),
           has_code_changes: S.Boolean,
           head_sha: S.NullOr(S.String),
@@ -2349,24 +2382,21 @@ function __c7(j: number): any {
           last_activity_at: S.String,
           lifecycle_sync: S.String,
           merge_base_sha: S.NullOr(S.String),
-          mergeability: __S(222, __c6, 30),
+          mergeability: __S(221, __c6, 29),
           merged_at: S.NullOr(S.String),
-          monitors: S.NullOr(__S(227, __c7, 3)),
+          merged_base: S.optional(S.String),
+          monitors: S.NullOr(__S(226, __c7, 2)),
           number: S.Number,
           original_branch: S.NullOr(S.String),
-          parent: S.optional(__S(228, __c7, 4)),
-          phase: S.NullOr(S.String),
-          priority: S.String,
+          parent: S.optional(__S(227, __c7, 3)),
           ready_for_review: S.Boolean,
           repository: S.String,
           repositoryId: S.String,
-          reviewers: S.NullOr(__S(230, __c7, 6)),
-          runners: S.NullOr(__S(232, __c7, 8)),
+          reviewers: S.NullOr(__S(229, __c7, 5)),
+          runners: S.NullOr(__S(231, __c7, 7)),
           status: S.String,
           title: S.String,
           trailId: S.String,
-          type: S.String,
-          unresolved_count: S.Number,
           updated_at: S.String,
           url: S.optional(S.String),
         }),
@@ -2438,7 +2468,7 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectDiscussionsRequest" });
     case 1:
-      return S.Array(__S(168, __c5, 8));
+      return S.Array(__S(167, __c5, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2662,7 +2692,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          discussion: __S(168, __c5, 8),
+          discussion: __S(167, __c5, 7),
         }),
       ).annotate({ identifier: "DiscussionUpdateResponseBody" });
   }
@@ -2751,16 +2781,13 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          assignees: S.optional(S.Unknown),
           base: S.optional(S.Unknown),
           branchAction: S.optional(S.Unknown),
           branchName: S.optional(S.Unknown),
-          priority: S.optional(S.Unknown),
           readyForReview: S.optional(S.Unknown),
           repositoryId: S.String,
           status: S.optional(S.Unknown),
           title: S.optional(S.Unknown),
-          type: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "InitialTrailChangeBody" });
     case 1:
@@ -2796,7 +2823,6 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           content_json: S.Unknown,
           document_key: S.String,
           etag: S.String,
@@ -2820,7 +2846,7 @@ function __c21(j: number): any {
           accountId: S.optional(S.String),
           avatarUrl: S.optional(S.String),
           displayName: S.String,
-          identity: __S(99, __c3, 3),
+          identity: __S(100, __c3, 4),
           login: S.String,
           username: S.optional(S.String),
         }),
@@ -2855,6 +2881,7 @@ function __c21(j: number): any {
           id: S.String,
           lastActivityAt: S.String,
           mergeability: __S(677, __c21, 5),
+          mergedBase: S.optional(S.String),
           number: S.Number,
           originalBranch: S.String,
           readiness: S.String,
@@ -2942,16 +2969,13 @@ function __c23(j: number): any {
           project_id: S.optional(S.String.pipe(T.Query())),
           ifMatch: S.String.pipe(T.Header("If-Match")),
           idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
-          assignees: S.optional(S.Unknown),
           base: S.optional(S.Unknown),
           branchAction: S.optional(S.Unknown),
           branchName: S.optional(S.Unknown),
-          priority: S.optional(S.Unknown),
           readyForReview: S.optional(S.Unknown),
           repositoryId: S.String,
           status: S.optional(S.Unknown),
           title: S.optional(S.Unknown),
-          type: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3049,7 +3073,7 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          discussion: __S(168, __c5, 8),
+          discussion: __S(167, __c5, 7),
           eventCursor: S.String,
           messages: S.NullOr(__S(160, __c5, 0)),
         }),

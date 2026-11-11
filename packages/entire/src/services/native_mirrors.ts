@@ -38,18 +38,18 @@ export type NativeMirrorPlacementStage =
 export type NativeMirrorPlacementStatus = "processing" | "ready" | "failed" | "suspended";
 export interface NativeMirrorPlacement {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   attempts: number;
   clusterSlug: string;
   createdAt: string;
-  creationFailedAt?: string;
+  creationFailedAt?: string | undefined;
   desiredState: NativeMirrorPlacementDesiredState;
   /** Stable code for why the region failed, when it did. */
-  failureCode?: string;
+  failureCode?: string | undefined;
   /** Why the region failed, as a sentence that is safe to show a user. */
-  failureMessage?: string;
-  lastError?: string;
-  nextRetryAt?: string;
+  failureMessage?: string | undefined;
+  lastError?: string | undefined;
+  nextRetryAt?: string | undefined;
   placementId: string;
   stage: NativeMirrorPlacementStage;
   status: NativeMirrorPlacementStatus;
@@ -65,7 +65,7 @@ export interface ListNativeMirrorsRequest {
 export type ListNativeMirrorsOutputBodyNativeMirrorsList = Array<NativeMirrorPlacement>;
 export interface ListNativeMirrorsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   nativeMirrors: ListNativeMirrorsOutputBodyNativeMirrorsList;
   [key: string]: unknown;
 }
@@ -83,18 +83,18 @@ export interface NativeMirrorTarget {
 export type ListProjectNativeMirrorTargetsOutputBodyTargetsList = Array<NativeMirrorTarget>;
 export interface ListProjectNativeMirrorTargetsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   targets: ListProjectNativeMirrorTargetsOutputBodyTargetsList;
   [key: string]: unknown;
 }
 export interface ListRepoAvailablePlacementsRequest {
   repoId: string;
-  ifNoneMatch?: string;
+  ifNoneMatch?: string | undefined;
 }
 export type ListNativeMirrorTargetsOutputBodyTargetsList = Array<NativeMirrorTarget>;
 export interface ListNativeMirrorTargetsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   targets: ListNativeMirrorTargetsOutputBodyTargetsList;
   [key: string]: unknown;
 }

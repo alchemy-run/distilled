@@ -28,15 +28,15 @@ const TELEMETRY = {
 export interface CompareRepoRequest {
   repo_id: string;
   /** Base ref (branch name or commit SHA) */
-  base?: string;
+  base?: string | undefined;
   /** Head ref (branch name or commit SHA) */
-  head?: string;
+  head?: string | undefined;
   /** Page size, clamped to 1..200 */
-  limit?: number;
+  limit?: number | undefined;
   /** Commits to skip from the head-of-delta, clamped to 0..1000 */
-  offset?: number;
+  offset?: number | undefined;
   /** Comma-separated optional includes; only 'sessions' is supported */
-  include?: string;
+  include?: string | undefined;
 }
 export type CompareCheckpointAgentsList = Array<string>;
 export interface CheckpointSessionAttribution {
@@ -49,37 +49,37 @@ export interface CheckpointSessionAttribution {
   totalCommitted: number;
 }
 export interface SkillCollapse {
-  defaultCollapsed?: boolean;
-  label?: string;
-  target?: string;
+  defaultCollapsed?: boolean | undefined;
+  label?: string | undefined;
+  target?: string | undefined;
 }
 export type SkillEventNativeMap = { [key: string]: string | undefined };
 export interface SkillEventSkill {
   name: string;
 }
 export interface TranscriptSkillSource {
-  agent?: string;
-  confidence?: string;
-  signal?: string;
+  agent?: string | undefined;
+  confidence?: string | undefined;
+  signal?: string | undefined;
 }
 export type SkillTranscriptAnchorEntryIdsList = Array<string>;
 export interface SkillTranscriptAnchor {
-  end?: number;
-  entryIds?: SkillTranscriptAnchorEntryIdsList | null;
-  start?: number;
-  toolUseId?: string;
-  unit?: string;
+  end?: number | undefined;
+  entryIds?: SkillTranscriptAnchorEntryIdsList | null | undefined;
+  start?: number | undefined;
+  toolUseId?: string | undefined;
+  unit?: string | undefined;
 }
 export interface SkillEvent {
-  collapse?: SkillCollapse;
+  collapse?: SkillCollapse | undefined;
   eventType: string;
-  id?: string;
-  native?: SkillEventNativeMap;
+  id?: string | undefined;
+  native?: SkillEventNativeMap | undefined;
   skill: SkillEventSkill;
-  source?: TranscriptSkillSource;
-  timestamp?: string;
-  transcriptAnchor?: SkillTranscriptAnchor;
-  turnId?: string;
+  source?: TranscriptSkillSource | undefined;
+  timestamp?: string | undefined;
+  transcriptAnchor?: SkillTranscriptAnchor | undefined;
+  turnId?: string | undefined;
 }
 export type CheckpointSessionInfoSkillEventsList = Array<SkillEvent>;
 export interface CheckpointSessionTokenUsage {
@@ -91,55 +91,64 @@ export interface CheckpointSessionTokenUsage {
 }
 export interface CheckpointSessionInfo {
   agent: string;
-  attribution?: CheckpointSessionAttribution;
-  checkpointTranscriptStart?: number;
-  createdAt?: string;
-  displayName?: string;
-  kind?: string;
-  model?: string;
+  attribution?: CheckpointSessionAttribution | undefined;
+  checkpointTranscriptStart?: number | undefined;
+  createdAt?: string | undefined;
+  displayName?: string | undefined;
+  kind?: string | undefined;
+  model?: string | undefined;
   prompt: string | null;
-  sessionId?: string;
-  skillEvents?: CheckpointSessionInfoSkillEventsList | null;
+  sessionId?: string | undefined;
+  skillEvents?: CheckpointSessionInfoSkillEventsList | null | undefined;
   steps: number;
-  tokenUsage?: CheckpointSessionTokenUsage;
-  transcriptIdentifierAtStart?: string;
+  tokenUsage?: CheckpointSessionTokenUsage | undefined;
+  transcriptIdentifierAtStart?: string | undefined;
 }
 export type CompareCheckpointSessionsList = Array<CheckpointSessionInfo>;
 export interface CompareCheckpoint {
   agents: CompareCheckpointAgentsList | null;
   checkpointId: string;
   sessionCount: number;
-  sessions?: CompareCheckpointSessionsList;
+  sessions?: CompareCheckpointSessionsList | undefined;
 }
 export type CompareCommitSummaryCheckpointsList = Array<CompareCheckpoint>;
+export interface ContributorIdentityAgent {
+  /** Agent id (GET .../agents/{id}). */
+  id: string;
+  /** The agent's current name. */
+  name: string;
+}
 export interface AutomationIdentity {
   /** The automation's aut_<ULID> subject, for an automation that is not a plugin installation. */
-  automation_id?: string;
+  automation_id?: string | undefined;
   /** The plugin installation's ins_<ULID> id. */
-  installation_id?: string;
+  installation_id?: string | undefined;
   /** The plugin's slug. */
-  plugin?: string;
+  plugin?: string | undefined;
 }
 export interface IdentityHandle {
   handle: string;
-  is_primary?: boolean;
+  is_primary?: boolean | undefined;
   provider: string;
 }
 export type ContributorIdentityHandlesList = Array<IdentityHandle>;
 export interface ContributorIdentity {
   account_id: string | null;
-  automation?: AutomationIdentity;
+  agent?: ContributorIdentityAgent | undefined;
+  automation?: AutomationIdentity | undefined;
   avatar_url: string | null;
   display_name: string | null;
   handles: ContributorIdentityHandlesList | null;
   kind: string;
-  username?: string;
+  /** The agent run that acted (GET .../runs/{id}). */
+  run_id?: string | undefined;
+  username?: string | undefined;
 }
 export interface CompareCommitSummary {
   additions: number | null;
   checkpoints: CompareCommitSummaryCheckpointsList | null;
-  commitAuthorAvatarUrl?: string;
-  commitAuthorIdentity?: ContributorIdentity;
+  commitAuthorAvatarUrl?: string | undefined;
+  commitAuthorIdentity?: ContributorIdentity | undefined;
   commitAuthorUsername: string | null;
   commitBody: string | null;
   commitDate: string | null;
@@ -153,7 +162,7 @@ export interface CompareCommitSummary {
 export type CompareOutputBodyCommitsList = Array<CompareCommitSummary>;
 export interface CompareOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   ahead_by: number;
   base: string;
   behind_by: number;
@@ -167,23 +176,23 @@ export interface CompareOutputBody {
 export interface GetMergePreviewRequest {
   repo_id: string;
   /** Base ref (branch name) */
-  base?: string;
+  base?: string | undefined;
   /** Head ref (branch, tag, or full commit SHA) */
-  head?: string;
+  head?: string | undefined;
 }
 export type MergePreviewOutputBodyConflictedPathsList = Array<string>;
 export interface MergePreviewOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   commitsAhead: number;
   /** treeType | treeMode | blobOverlap | blobBinary; omitted when clean */
-  conflictReason?: string;
+  conflictReason?: string | undefined;
   conflictedPaths: MergePreviewOutputBodyConflictedPathsList | null;
-  mergeBaseSha?: string;
+  mergeBaseSha?: string | undefined;
   /** mergeCommit | fastForward | squash | alreadyUpToDate | conflict */
   outcome: string;
-  resolvedBaseSha?: string;
-  resolvedHeadSha?: string;
+  resolvedBaseSha?: string | undefined;
+  resolvedHeadSha?: string | undefined;
 }
 export interface GetRepoCommitRequest {
   repo_id: string;
@@ -197,9 +206,9 @@ export interface FileStats {
   additions: number;
   deletions: number;
   filename: string;
-  patch?: string;
-  patchTruncated?: boolean;
-  previousFilename?: string;
+  patch?: string | undefined;
+  patchTruncated?: boolean | undefined;
+  previousFilename?: string | undefined;
   status: string;
 }
 export type CommitCheckpointInfoFileStatsList = Array<FileStats>;
@@ -241,8 +250,8 @@ export interface ResolvedRepoCommit {
   additions: number | null;
   checkpoints: ResolvedRepoCommitCheckpointsList | null;
   commitAuthor: string;
-  commitAuthorAvatarUrl?: string;
-  commitAuthorIdentity?: ContributorIdentity;
+  commitAuthorAvatarUrl?: string | undefined;
+  commitAuthorIdentity?: ContributorIdentity | undefined;
   commitAuthorUsername: string | null;
   commitBody: string | null;
   commitDate: string;
@@ -261,7 +270,7 @@ export interface ResolvedRepoCommit {
 }
 export interface CommitDetailOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   branches: CommitDetailOutputBodyBranchesList | null;
   commit: ResolvedRepoCommit;
   commit_sha: string;
@@ -273,7 +282,7 @@ export interface GetRepoRawFileRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
   /** Ref or SHA to read at (defaults to HEAD when empty) */
-  ref?: string;
+  ref?: string | undefined;
   /** File path within the repo */
   path: string;
 }
@@ -282,19 +291,19 @@ export interface GetRepoTreeRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
   /** Ref or SHA to list at (defaults to HEAD when empty) */
-  ref?: string;
+  ref?: string | undefined;
   /** Subtree to list; empty lists the root */
-  path?: string;
+  path?: string | undefined;
   /** Walk the whole subtree */
-  recursive?: boolean;
+  recursive?: boolean | undefined;
 }
 export interface GetRepoTreeResponse {}
 export interface ListCompareContributorsRequest {
   repo_id: string;
   /** Base ref (branch name or commit SHA) */
-  base?: string;
+  base?: string | undefined;
   /** Head ref (branch name or commit SHA) */
-  head?: string;
+  head?: string | undefined;
 }
 export interface CompareContributor {
   accountId: string;
@@ -305,7 +314,7 @@ export interface CompareContributor {
 export type CompareContributorsOutputBodyContributorsList = Array<CompareContributor>;
 export interface CompareContributorsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   contributors: CompareContributorsOutputBodyContributorsList | null;
 }
 export interface ListRepoBranchesRequest {
@@ -314,24 +323,66 @@ export interface ListRepoBranchesRequest {
 export type BranchesOutputBodyBranchesList = Array<string>;
 export interface BranchesOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   branches: BranchesOutputBodyBranchesList | null;
   default_branch: string;
   from_cache: boolean;
   stored_default_branch: string;
 }
+export interface ListRepoCommitChecksRequest {
+  repo_id: string;
+  sha: string;
+  /** Branch to use for plugin builds; defaults to the repository default branch. */
+  branch?: string | undefined;
+}
+/** available means a complete read, including an empty list; pending means forge evidence is loading; unavailable means a source failed or returned stale evidence. */
+export type CommitChecksResponseAvailability = "available" | "pending" | "unavailable";
+export interface CheckRunStep {
+  conclusion: string | null;
+  exit_status?: number | undefined;
+  id: string;
+  name: string;
+  status: string;
+}
+export type TrailCheckRunJSONStepsList = Array<CheckRunStep>;
+export interface TrailCheckRunJSON {
+  app_name: string | null;
+  completed_at: string | null;
+  conclusion: string | null;
+  details_url: string | null;
+  name: string;
+  /** Slug of the CI plugin that reported this run. Absent for a run read from the forge. */
+  source?: string | undefined;
+  started_at: string | null;
+  status: string;
+  steps?: TrailCheckRunJSONStepsList | null | undefined;
+}
+export type CommitChecksResponseChecksList = Array<TrailCheckRunJSON>;
+/** Availability for identified check sources. GitHub forge checks use github; plugin checks use their source slug. A failed plugin read may not identify a source, so clients must also honor overall availability even when every listed source is available. An absent key does not establish source health. */
+export type CommitChecksResponseSourceAvailabilityMap = { [key: string]: string | undefined };
+export interface CommitChecksResponse {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  /** available means a complete read, including an empty list; pending means forge evidence is loading; unavailable means a source failed or returned stale evidence. */
+  availability: CommitChecksResponseAvailability;
+  branch: string;
+  checks: CommitChecksResponseChecksList | null;
+  commit_sha: string;
+  /** Availability for identified check sources. GitHub forge checks use github; plugin checks use their source slug. A failed plugin read may not identify a source, so clients must also honor overall availability even when every listed source is available. An absent key does not establish source health. */
+  source_availability: CommitChecksResponseSourceAvailabilityMap;
+}
 export interface ListRepoCommitsRequest {
   repo_id: string;
   /** Branch to list; empty = the repo's default branch */
-  branch?: string;
+  branch?: string | undefined;
   /** Opaque entiredb page token from a prior next_cursor */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Page size, clamped to 1..200 */
-  limit?: number;
+  limit?: number | undefined;
   /** RFC 3339 lower bound on commit date (optional; unbounded by default) */
-  since?: string;
+  since?: string | undefined;
   /** RFC 3339 upper bound on commit date (optional; unbounded by default) */
-  until?: string;
+  until?: string | undefined;
 }
 export type RepoCommitListItemCheckpointsList = Array<CommitCheckpointInfo>;
 export type RepoCommitListItemFileStatsList = Array<FileStats>;
@@ -340,8 +391,8 @@ export interface RepoCommitListItem {
   additions: number | null;
   checkpoints: RepoCommitListItemCheckpointsList | null;
   commitAuthor: string;
-  commitAuthorAvatarUrl?: string;
-  commitAuthorIdentity?: ContributorIdentity;
+  commitAuthorAvatarUrl?: string | undefined;
+  commitAuthorIdentity?: ContributorIdentity | undefined;
   commitAuthorUsername: string | null;
   commitBody: string | null;
   commitDate: string;
@@ -357,7 +408,7 @@ export interface RepoCommitListItem {
 export type RepoCommitsOutputBodyCommitsList = Array<RepoCommitListItem>;
 export interface RepoCommitsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   app_has_access: boolean;
   commits: RepoCommitsOutputBodyCommitsList | null;
   from_cache: boolean;
@@ -382,7 +433,7 @@ export interface ResolveRepoCommitRowsRequest {
 export type CommitRowsResolveOutputBodyRowsMap = { [key: string]: RepoCommitListItem | undefined };
 export interface CommitRowsResolveOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   rows: CommitRowsResolveOutputBodyRowsMap;
 }
 export type CompareRepoError = EntireOpError;
@@ -410,8 +461,8 @@ export const getMergePreview: API.OperationMethod<
   GetMergePreviewError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<GetMergePreviewRequest>,
-  output: __S(49, __c3, 1) as any as S.Schema<MergePreviewOutputBody>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetMergePreviewRequest>,
+  output: __S(65, __c4, 1) as any as S.Schema<MergePreviewOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -427,8 +478,8 @@ export const getRepoCommit: API.OperationMethod<
   GetRepoCommitError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetRepoCommitRequest>,
-  output: __S(67, __c4, 3) as any as S.Schema<CommitDetailOutputBody>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetRepoCommitRequest>,
+  output: __S(83, __c5, 3) as any as S.Schema<CommitDetailOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -444,8 +495,8 @@ export const getRepoRawFile: API.OperationMethod<
   GetRepoRawFileError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetRepoRawFileRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<GetRepoRawFileResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetRepoRawFileRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<GetRepoRawFileResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -461,8 +512,8 @@ export const getRepoTree: API.OperationMethod<
   GetRepoTreeError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetRepoTreeRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<GetRepoTreeResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetRepoTreeRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<GetRepoTreeResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -478,8 +529,8 @@ export const listCompareContributors: API.OperationMethod<
   ListCompareContributorsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<ListCompareContributorsRequest>,
-  output: __S(147, __c9, 3) as any as S.Schema<CompareContributorsOutputBody>,
+  input: __S(160, __c10, 0) as any as S.Schema<ListCompareContributorsRequest>,
+  output: __S(163, __c10, 3) as any as S.Schema<CompareContributorsOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -495,13 +546,30 @@ export const listRepoBranches: API.OperationMethod<
   ListRepoBranchesError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<ListRepoBranchesRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<BranchesOutputBody>,
+  input: __S(176, __c11, 0) as any as S.Schema<ListRepoBranchesRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<BranchesOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRepoBranches",
+}));
+
+export type ListRepoCommitChecksError = EntireOpError;
+/** Checks reported for one commit */
+export const listRepoCommitChecks: API.OperationMethod<
+  ListRepoCommitChecksRequest,
+  CommitChecksResponse,
+  ListRepoCommitChecksError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c12, 0) as any as S.Schema<ListRepoCommitChecksRequest>,
+  output: __S(197, __c12, 5) as any as S.Schema<CommitChecksResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoCommitChecks",
 }));
 
 export type ListRepoCommitsError = EntireOpError;
@@ -514,8 +582,8 @@ export const listRepoCommits: API.PaginatedOperationMethod<
   RepoCommitListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(176, __c11, 0) as any as S.Schema<ListRepoCommitsRequest>,
-    output: __S(178, __c11, 2) as any as S.Schema<RepoCommitsOutputBody>,
+    input: __S(208, __c13, 0) as any as S.Schema<ListRepoCommitsRequest>,
+    output: __S(210, __c13, 2) as any as S.Schema<RepoCommitsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -539,8 +607,8 @@ export const resolveRepoCommitRows: API.OperationMethod<
   ResolveRepoCommitRowsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ResolveRepoCommitRowsRequest>,
-  output: __S(210, __c13, 2) as any as S.Schema<CommitRowsResolveOutputBody>,
+  input: __S(240, __c15, 0) as any as S.Schema<ResolveRepoCommitRowsRequest>,
+  output: __S(242, __c15, 2) as any as S.Schema<CommitRowsResolveOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -568,7 +636,7 @@ function __c0(j: number): any {
           agents: S.NullOr(__S(16, __c1, 0)),
           checkpointId: S.String,
           sessionCount: S.Number,
-          sessions: S.optional(__S(42, __c2, 10)),
+          sessions: S.optional(__S(57, __c3, 9)),
         }),
       ).annotate({ identifier: "CompareCheckpoint" });
     case 2:
@@ -579,7 +647,7 @@ function __c0(j: number): any {
           additions: S.NullOr(S.Number),
           checkpoints: S.NullOr(__S(2, __c0, 2)),
           commitAuthorAvatarUrl: S.optional(S.String),
-          commitAuthorIdentity: S.optional(__S(46, __c2, 14)),
+          commitAuthorIdentity: S.optional(__S(62, __c3, 14)),
           commitAuthorUsername: S.NullOr(S.String),
           commitBody: S.NullOr(S.String),
           commitDate: S.NullOr(S.String),
@@ -619,6 +687,12 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           agentLines: S.Number,
@@ -639,14 +713,12 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "SkillCollapse" });
     case 2:
-      return S.Record(S.String, S.String);
-    case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
         }),
       ).annotate({ identifier: "SkillEventSkill" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           agent: S.optional(S.String),
@@ -654,7 +726,7 @@ function __c2(j: number): any {
           signal: S.optional(S.String),
         }),
       ).annotate({ identifier: "TranscriptSkillSource" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           end: S.optional(S.Number),
@@ -664,23 +736,23 @@ function __c2(j: number): any {
           unit: S.optional(S.String),
         }),
       ).annotate({ identifier: "SkillTranscriptAnchor" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          collapse: S.optional(__S(33, __c2, 1)),
+          collapse: S.optional(__S(49, __c3, 1)),
           eventType: S.String,
           id: S.optional(S.String),
-          native: S.optional(__S(34, __c2, 2)),
-          skill: __S(35, __c2, 3),
-          source: S.optional(__S(36, __c2, 4)),
+          native: S.optional(__S(32, __c2, 0)),
+          skill: __S(50, __c3, 2),
+          source: S.optional(__S(51, __c3, 3)),
           timestamp: S.optional(S.String),
-          transcriptAnchor: S.optional(__S(37, __c2, 5)),
+          transcriptAnchor: S.optional(__S(52, __c3, 4)),
           turnId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SkillEvent" });
+    case 6:
+      return S.Array(__S(53, __c3, 5));
     case 7:
-      return S.Array(__S(38, __c2, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
           apiCallCount: S.Number,
@@ -690,11 +762,11 @@ function __c2(j: number): any {
           outputTokens: S.Number,
         }),
       ).annotate({ identifier: "CheckpointSessionTokenUsage" });
-    case 9:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           agent: S.String,
-          attribution: S.optional(__S(32, __c2, 0)),
+          attribution: S.optional(__S(48, __c3, 0)),
           checkpointTranscriptStart: S.optional(S.Number),
           createdAt: S.optional(S.String),
           displayName: S.optional(S.String),
@@ -702,14 +774,21 @@ function __c2(j: number): any {
           model: S.optional(S.String),
           prompt: S.NullOr(S.String),
           sessionId: S.optional(S.String),
-          skillEvents: S.optional(S.NullOr(__S(39, __c2, 7))),
+          skillEvents: S.optional(S.NullOr(__S(54, __c3, 6))),
           steps: S.Number,
-          tokenUsage: S.optional(__S(40, __c2, 8)),
+          tokenUsage: S.optional(__S(55, __c3, 7)),
           transcriptIdentifierAtStart: S.optional(S.String),
         }),
       ).annotate({ identifier: "CheckpointSessionInfo" });
+    case 9:
+      return S.Array(__S(56, __c3, 8));
     case 10:
-      return S.Array(__S(41, __c2, 9));
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "ContributorIdentityAgent" });
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -727,22 +806,24 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "IdentityHandle" });
     case 13:
-      return S.Array(__S(44, __c2, 12));
+      return S.Array(__S(60, __c3, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           account_id: S.NullOr(S.String),
-          automation: S.optional(__S(43, __c2, 11)),
+          agent: S.optional(__S(58, __c3, 10)),
+          automation: S.optional(__S(59, __c3, 11)),
           avatar_url: S.NullOr(S.String),
           display_name: S.NullOr(S.String),
-          handles: S.NullOr(__S(45, __c2, 13)),
+          handles: S.NullOr(__S(61, __c3, 13)),
           kind: S.String,
+          run_id: S.optional(S.String),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContributorIdentity" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -767,7 +848,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "MergePreviewOutputBody" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -782,10 +863,10 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           additions: S.NullOr(S.Number),
-          checkpoints: S.NullOr(__S(83, __c5, 3)),
+          checkpoints: S.NullOr(__S(99, __c6, 3)),
           commitAuthor: S.String,
           commitAuthorAvatarUrl: S.optional(S.String),
-          commitAuthorIdentity: S.optional(__S(46, __c2, 14)),
+          commitAuthorIdentity: S.optional(__S(62, __c3, 14)),
           commitAuthorUsername: S.NullOr(S.String),
           commitBody: S.NullOr(S.String),
           commitDate: S.String,
@@ -793,11 +874,11 @@ function __c4(j: number): any {
           commitSha: S.String,
           commitSubject: S.String,
           deletions: S.NullOr(S.Number),
-          fileStats: S.NullOr(__S(81, __c5, 1)),
+          fileStats: S.NullOr(__S(97, __c6, 1)),
           filesChanged: S.NullOr(S.Number),
           filesTouched: S.NullOr(__S(16, __c1, 0)),
           trailNumber: S.NullOr(S.Number),
-          trailNumbers: S.NullOr(__S(65, __c4, 1)),
+          trailNumbers: S.NullOr(__S(81, __c5, 1)),
           url: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ResolvedRepoCommit" });
@@ -806,7 +887,7 @@ function __c4(j: number): any {
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           branches: S.NullOr(__S(16, __c1, 0)),
-          commit: __S(66, __c4, 2),
+          commit: __S(82, __c5, 2),
           commit_sha: S.String,
           default_branch: S.NullOr(S.String),
           repo_full_name: S.String,
@@ -815,7 +896,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CommitDetailOutputBody" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -830,14 +911,14 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "FileStats" });
     case 1:
-      return S.Array(__S(80, __c5, 0));
+      return S.Array(__S(96, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           additions: S.NullOr(S.Number),
           agents: S.NullOr(__S(16, __c1, 0)),
           apiCallCount: S.NullOr(S.Number),
-          attribution: __S(32, __c2, 0),
+          attribution: __S(48, __c3, 0),
           cacheCreationTokens: S.NullOr(S.Number),
           cacheReadTokens: S.NullOr(S.Number),
           checkpointId: S.String,
@@ -851,21 +932,21 @@ function __c5(j: number): any {
           commitSubject: S.String,
           createdAt: S.String,
           deletions: S.NullOr(S.Number),
-          fileStats: S.NullOr(__S(81, __c5, 1)),
+          fileStats: S.NullOr(__S(97, __c6, 1)),
           filesChanged: S.NullOr(S.Number),
           filesTouched: S.NullOr(__S(16, __c1, 0)),
           inputTokens: S.NullOr(S.Number),
           outputTokens: S.NullOr(S.Number),
           sessionCount: S.Number,
-          sessions: S.NullOr(__S(42, __c2, 10)),
+          sessions: S.NullOr(__S(57, __c3, 9)),
           totalSteps: S.Number,
         }),
       ).annotate({ identifier: "CommitCheckpointInfo" });
     case 3:
-      return S.Array(__S(82, __c5, 2));
+      return S.Array(__S(98, __c6, 2));
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -877,13 +958,13 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetRepoRawFileRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "GetRepoRawFileResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -896,7 +977,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetRepoTreeRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -918,17 +999,17 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "CompareContributor" });
     case 2:
-      return S.Array(__S(145, __c9, 1));
+      return S.Array(__S(161, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          contributors: S.NullOr(__S(146, __c9, 2)),
+          contributors: S.NullOr(__S(162, __c10, 2)),
         }),
       ).annotate({ identifier: "CompareContributorsOutputBody" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -948,7 +1029,60 @@ function __c10(j: number): any {
       ).annotate({ identifier: "BranchesOutputBody" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          sha: S.String.pipe(T.Label()),
+          branch: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/commits/{sha}/checks", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListRepoCommitChecksRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          conclusion: S.NullOr(S.String),
+          exit_status: S.optional(S.Number),
+          id: S.String,
+          name: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "CheckRunStep" });
+    case 2:
+      return S.Array(__S(193, __c12, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          app_name: S.NullOr(S.String),
+          completed_at: S.NullOr(S.String),
+          conclusion: S.NullOr(S.String),
+          details_url: S.NullOr(S.String),
+          name: S.String,
+          source: S.optional(S.String),
+          started_at: S.NullOr(S.String),
+          status: S.String,
+          steps: S.optional(S.NullOr(__S(194, __c12, 2))),
+        }),
+      ).annotate({ identifier: "TrailCheckRunJSON" });
+    case 4:
+      return S.Array(__S(195, __c12, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          availability: S.String,
+          branch: S.String,
+          checks: S.NullOr(__S(196, __c12, 4)),
+          commit_sha: S.String,
+          source_availability: __S(32, __c2, 0),
+        }),
+      ).annotate({ identifier: "CommitChecksResponse" });
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -962,13 +1096,13 @@ function __c11(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/commits", code: 200 })),
       ).annotate({ identifier: "ListRepoCommitsRequest" });
     case 1:
-      return S.Array(__S(192, __c12, 0));
+      return S.Array(__S(224, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           app_has_access: S.Boolean,
-          commits: S.NullOr(__S(177, __c11, 1)),
+          commits: S.NullOr(__S(209, __c13, 1)),
           from_cache: S.Boolean,
           has_more: S.Boolean,
           history_complete: S.Boolean,
@@ -983,16 +1117,16 @@ function __c11(j: number): any {
       ).annotate({ identifier: "RepoCommitsOutputBody" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           additions: S.NullOr(S.Number),
-          checkpoints: S.NullOr(__S(83, __c5, 3)),
+          checkpoints: S.NullOr(__S(99, __c6, 3)),
           commitAuthor: S.String,
           commitAuthorAvatarUrl: S.optional(S.String),
-          commitAuthorIdentity: S.optional(__S(46, __c2, 14)),
+          commitAuthorIdentity: S.optional(__S(62, __c3, 14)),
           commitAuthorUsername: S.NullOr(S.String),
           commitBody: S.NullOr(S.String),
           commitDate: S.String,
@@ -1000,7 +1134,7 @@ function __c12(j: number): any {
           commitSha: S.String,
           commitSubject: S.String,
           deletions: S.NullOr(S.Number),
-          fileStats: S.NullOr(__S(81, __c5, 1)),
+          fileStats: S.NullOr(__S(97, __c6, 1)),
           filesChanged: S.NullOr(S.Number),
           filesTouched: S.NullOr(__S(16, __c1, 0)),
           url: S.NullOr(S.String),
@@ -1008,7 +1142,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "RepoCommitListItem" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1024,12 +1158,12 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ResolveRepoCommitRowsRequest" });
     case 1:
-      return S.Record(S.String, __S(192, __c12, 0));
+      return S.Record(S.String, __S(224, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          rows: __S(209, __c13, 1),
+          rows: __S(241, __c15, 1),
         }),
       ).annotate({ identifier: "CommitRowsResolveOutputBody" });
   }

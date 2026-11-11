@@ -8,13 +8,20 @@
  * `{host}/{owner}/{repo}` and once by the repo's id. The id-addressed form
  * keeps the plain name (it is what the Core repo id gives you); the slug
  * form takes a `BySlug` suffix.
+ *
+ * Entire is renaming trails to changes: each repo-id trail route also has a
+ * `/repos/{repo_id}/changes/...` twin, named like its trail twin with
+ * `Change` for `Trail` (`changesListByRepoID` → `listChanges`).
  */
 export const OPERATION_NAMES: Readonly<Record<string, string>> = {
+  // agents
+  selfHostedRunnerFail: "failSelfHostedRunner",
   // brainstore
   health__brainstore: "getBrainstoreHealth",
   recordTrailMerge: "createTrailMergeRecord",
   // checkpoints
   repoCheckpointAnalysis: "getCheckpointAnalysis",
+  repoCheckpointAsset: "getCheckpointAsset",
   repoCheckpointResolve: "getCheckpoint",
   repoCheckpoints: "listCheckpoints",
   repoCheckpointStatus: "getCheckpointStatus",
@@ -25,12 +32,16 @@ export const OPERATION_NAMES: Readonly<Record<string, string>> = {
   repoMergePreview: "getMergePreview",
   repoBranches: "listRepoBranches",
   repoCommitDetail: "getRepoCommit",
+  repoCommitChecks: "listRepoCommitChecks",
   repoCommitRowsResolve: "resolveRepoCommitRows",
   repoCommits: "listRepoCommits",
   repoCompare: "compareRepo",
   repoCompareContributors: "listCompareContributors",
   repoRawFile: "getRepoRawFile",
   repoTree: "getRepoTree",
+  // environments
+  projectEnvironmentRunnerBind: "bindProjectEnvironmentRunner",
+  projectEnvironmentRunnerUnbind: "unbindProjectEnvironmentRunner",
   // experimental
   experimentalGetMe: "getExperimentalMe",
   experimentalGetMyActivity: "getExperimentalMyActivity",
@@ -91,6 +102,7 @@ export const OPERATION_NAMES: Readonly<Record<string, string>> = {
   search: "searchSemantic",
   // sessions
   repoSessionDetail: "getSession",
+  repoSessionMeta: "getSessionMeta",
   repoSessionResolveNames: "resolveSessionNames",
   repoSessions: "listSessions",
   repoSessionSubagents: "listSessionSubagents",
@@ -99,6 +111,7 @@ export const OPERATION_NAMES: Readonly<Record<string, string>> = {
   repoSessionTranscriptRaw: "getSessionTranscriptRaw",
   sessionsResolveNamesBatch: "resolveSessionNamesBatch",
   sharedSessionSubagents: "listSharedSessionSubagents",
+  sharedSessionMeta: "getSharedSessionMeta",
   sharedSessionSubagentTranscript: "getSharedSessionSubagentTranscript",
   sharedSessionTranscript: "getSharedSessionTranscript",
   repoSessionRename: "renameSession",
@@ -108,6 +121,9 @@ export const OPERATION_NAMES: Readonly<Record<string, string>> = {
   repoWatchers: "listRepoWatchers",
   trailEvents: "listTrailEventsBySlug",
   trailEventsByRepoID: "listTrailEvents",
+  changeEventsByRepoID: "listChangeEvents",
+  changesTimelineByRepoID: "getChangeTimeline",
+  changeWatchersByRepoID: "listChangeWatchers",
   trailsTimelineByRepoID: "getTrailTimeline",
   trailWatchersByRepoID: "listTrailWatchers",
   // trail-approvals
@@ -117,15 +133,18 @@ export const OPERATION_NAMES: Readonly<Record<string, string>> = {
   trailsApprovalsSubmitByRepoID: "submitTrailApproval",
   trailsMergeabilityByRepoID: "getTrailMergeability",
   trailsMergeSubmitByRepoID: "mergeTrail",
+  changesApprovalsByRepoID: "listChangeApprovals",
+  changesApprovalsSubmitByRepoID: "submitChangeApproval",
+  changesMergeabilityByRepoID: "getChangeMergeability",
+  changesMergeSubmitByRepoID: "mergeChange",
   // trail-attachments
   projectTrailAttachmentIntent: "createProjectTrailAttachment",
   projectTrailAttachmentServe: "getProjectTrailAttachment",
   repoAttachmentServe: "getRepoAttachment",
-  trailsAttachmentCompleteByRepoID: "completeTrailAttachment",
-  trailsAttachmentDeleteByRepoID: "deleteTrailAttachment",
-  trailsAttachmentIntentByRepoID: "createTrailAttachment",
   trailsAttachmentServeByRepoID: "getTrailAttachment",
   trailsAttachmentsListByRepoID: "listTrailAttachments",
+  changesAttachmentServeByRepoID: "getChangeAttachment",
+  changesAttachmentsListByRepoID: "listChangeAttachments",
   // trail-discussions
   trailDiscussionDetail: "getTrailDiscussionBySlug",
   trailDiscussionDetailByRepoID: "getTrailDiscussion",
@@ -142,6 +161,14 @@ export const OPERATION_NAMES: Readonly<Record<string, string>> = {
   trailDiscussionsListByRepoID: "listTrailDiscussions",
   trailDiscussionUpdate: "updateTrailDiscussionBySlug",
   trailDiscussionUpdateByRepoID: "updateTrailDiscussion",
+  changeDiscussionDetailByRepoID: "getChangeDiscussion",
+  changeDiscussionEventsStreamByRepoID: "listChangeDiscussionEvents",
+  changeDiscussionMessageCreateByRepoID: "createChangeDiscussionMessage",
+  changeDiscussionMessageDeleteByRepoID: "deleteChangeDiscussionMessage",
+  changeDiscussionMessageUpdateByRepoID: "updateChangeDiscussionMessage",
+  changeDiscussionsCreateByRepoID: "createChangeDiscussion",
+  changeDiscussionsListByRepoID: "listChangeDiscussions",
+  changeDiscussionUpdateByRepoID: "updateChangeDiscussion",
   // trail-gates
   trailGateConfig: "getTrailGateConfigBySlug",
   trailGateConfigByRepoID: "getTrailGateConfig",
@@ -152,6 +179,14 @@ export const OPERATION_NAMES: Readonly<Record<string, string>> = {
   trailsGatesByRepoID: "listTrailGates",
   trailsGateSettingsGetByRepoID: "getTrailGateSettings",
   trailsGateSettingsPatchByRepoID: "updateTrailGateSettings",
+  changeGateConfigByRepoID: "getChangeGateConfig",
+  changesGateDefinitionCreateByRepoID: "createChangeGate",
+  changesGateDefinitionDeleteByRepoID: "deleteChangeGate",
+  changesGateDefinitionPatchByRepoID: "updateChangeGate",
+  changesGateRecomputeByRepoID: "recomputeChangeGates",
+  changesGatesByRepoID: "listChangeGates",
+  changesGateSettingsGetByRepoID: "getChangeGateSettings",
+  changesGateSettingsPatchByRepoID: "updateChangeGateSettings",
   // trail-reviews
   reviewCommentGetByRepoID: "getReviewComment",
   reviewCommentPatch: "updateReviewCommentBySlug",
@@ -169,6 +204,16 @@ export const OPERATION_NAMES: Readonly<Record<string, string>> = {
   reviewStartByRepoID: "startReview",
   trailReviewCommentsList: "listTrailReviewCommentsBySlug",
   trailReviewCommentsListByRepoID: "listTrailReviewComments",
+  changeReviewCommentGetByRepoID: "getChangeReviewComment",
+  changeReviewCommentPatchByRepoID: "updateChangeReviewComment",
+  changeReviewCommentsByRepoID: "createChangeReviewComments",
+  changeReviewCommentsListByRepoID: "listChangeReviewComments",
+  changeReviewCommentsListByReviewID: "listChangeReviewCommentsForReview",
+  changeReviewDiffByRepoID: "getChangeReviewDiff",
+  changeReviewFilesByRepoID: "listChangeReviewFiles",
+  changeReviewRerun: "retryChangeReview",
+  changeReviewSnapshotByRepoID: "getChangeReview",
+  changeReviewStartByRepoID: "startChangeReview",
   // trail-runs
   manualTrailRunnerLaunch: "launchTrailRunner",
   projectRunnerStatus: "getProjectRunnerStatus",
@@ -181,9 +226,10 @@ export const OPERATION_NAMES: Readonly<Record<string, string>> = {
   runsListByRepoID: "listRunnerRuns",
   trailMonitorsByRepoID: "listTrailMonitors",
   trailRunByRepoID: "getTrailRun",
+  changeMonitorsByRepoID: "listChangeMonitors",
+  changeRunByRepoID: "getChangeRun",
+  manualChangeRunnerLaunch: "launchChangeRunner",
   // trails
-  trailBodyDocumentEnsure: "ensureTrailBodyDocumentBySlug",
-  trailBodyDocumentEnsureByRepoID: "ensureTrailBodyDocument",
   trailDetail: "getTrailBySlug",
   trailDetailByRepoID: "getTrail",
   trailsCreate: "createTrailBySlug",
@@ -200,6 +246,17 @@ export const OPERATION_NAMES: Readonly<Record<string, string>> = {
   trailsUpdate: "updateTrailBySlug",
   trailsUpdateBranchByRepoID: "updateTrailBranch",
   trailsUpdateByRepoID: "updateTrail",
+  changeDetailByRepoID: "getChange",
+  changesCreateByRepoID: "createChange",
+  changesCreateCIPrByRepoID: "createChangeCIPr",
+  changesDeleteBranchByRepoID: "deleteChangeBranch",
+  changesLinkedBranchesByRepoID: "listChangeLinkedBranches",
+  changesListByRepoID: "listChanges",
+  changesRestoreBranchByRepoID: "restoreChangeBranch",
+  changesStackByRepoID: "getChangeStack",
+  changesStatsByRepoID: "getChangeStats",
+  changesUpdateBranchByRepoID: "updateChangeBranch",
+  changesUpdateByRepoID: "updateChange",
   // trails-internal
   editorSyncGet: "getEditorSync",
   editorUpdatePost: "postEditorUpdate",

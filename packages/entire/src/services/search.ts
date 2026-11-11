@@ -30,11 +30,11 @@ export interface GetBlameRequest {
   /** File path to blame */
   path: string;
   /** Optional 1-based start line (0 is rejected with 400); filters to runs overlapping [start, end]. Filtering only activates when both `start` and `end` are given -- `start` alone is a no-op and every run is returned. */
-  start?: number;
+  start?: number | undefined;
   /** Optional 1-based end line (0 is rejected with 400); filters to runs overlapping [start, end]. Filtering only activates when both `start` and `end` are given -- `end` alone is a no-op and every run is returned. */
-  end?: number;
+  end?: number | undefined;
   /** Maximum runs returned (clamped to 10000). When more overlapping runs exist, the response sets truncated=true. */
-  max?: number;
+  max?: number | undefined;
 }
 export type BlameRunCheckpointIdsList = Array<string>;
 export interface BlameRun {
@@ -58,7 +58,7 @@ export interface GetFileContentRequest {
   /** File path within the repository */
   path: string;
   /** Include symbols (definitions, references) in the response */
-  symbols?: boolean;
+  symbols?: boolean | undefined;
 }
 /** Definition site a reference resolves to (index-time resolution). */
 export interface ResolvedTo {
@@ -72,11 +72,11 @@ export interface SymbolEntry {
   line: number;
   col_start: number;
   col_end: number;
-  parent?: string;
-  signature?: string;
+  parent?: string | undefined;
+  signature?: string | undefined;
   /** Number of known usages; only present on definitions. */
-  usages_count?: number;
-  resolved_to?: ResolvedTo;
+  usages_count?: number | undefined;
+  resolved_to?: ResolvedTo | undefined;
 }
 /** Symbols in the file (only present when ?symbols=true) */
 export type FileResponseSymbolsList = Array<SymbolEntry>;
@@ -87,7 +87,7 @@ export interface FileResponse {
   language: string;
   total_lines: number;
   /** Symbols in the file (only present when ?symbols=true) */
-  symbols?: FileResponseSymbolsList;
+  symbols?: FileResponseSymbolsList | undefined;
 }
 export interface GetHoverRequest {
   /** Repository ID */
@@ -97,7 +97,7 @@ export interface GetHoverRequest {
   /** Line number of the definition */
   line: number;
   /** Disambiguates lines holding several definitions. Without it, a multi-definition line yields 404 rather than an arbitrary symbol. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface HoverResponse {
   name: string;
@@ -105,7 +105,7 @@ export interface HoverResponse {
   /** Full declaration header sliced from source. */
   signature: string;
   /** Leading doc comment (markers stripped) or Python docstring. */
-  docs?: string;
+  docs?: string | undefined;
   path: string;
   line: number;
 }
@@ -120,6 +120,8 @@ export interface RepoEntry {
   index_size_bytes: number;
   indexed_commit: string;
   indexed_at: number;
+  /** Local index availability when listed or acquired for detail. */
+  resident: boolean;
 }
 export interface GetSymbolsRequest {
   repo: string;
@@ -137,9 +139,9 @@ export interface GetUsagesRequest {
   /** Line number of the definition */
   line: number;
   /** Selects among several definitions on the line (`import { a, type B } from ...`). Without it the line's first definition in index order is used. */
-  name?: string;
+  name?: string | undefined;
   /** Maximum usages to return */
-  max?: number;
+  max?: number | undefined;
 }
 export interface UsageDefinition {
   path: string;
@@ -162,7 +164,7 @@ export interface UsagesResponse {
   truncated: boolean;
 }
 export interface ListReposRequest {
-  org_id?: string;
+  org_id?: string | undefined;
 }
 export type ReposResponseReposList = Array<RepoEntry>;
 export interface ReposResponse {
@@ -199,13 +201,13 @@ export interface SearchCodeRequest {
   /** Search query */
   q: string;
   /** Organization ID filter */
-  org_id?: string;
+  org_id?: string | undefined;
   /** Repository ID(s) to search in */
-  repo?: SearchCodeRequestRepoList;
+  repo?: SearchCodeRequestRepoList | undefined;
   /** Maximum results to return */
-  max_results?: number;
+  max_results?: number | undefined;
   /** Enable case-sensitive matching (default is case-insensitive) */
-  case_sensitive?: boolean;
+  case_sensitive?: boolean | undefined;
 }
 export interface SearchStats {
   total_matches: number;
@@ -213,7 +215,7 @@ export interface SearchStats {
   duration_ms: number;
   repos_searched: number;
   /** Number of repos that failed to search (omitted when 0) */
-  repos_failed?: number;
+  repos_failed?: number | undefined;
 }
 export interface RepoStat {
   repo: string;
@@ -244,28 +246,32 @@ export type SearchFuzzyRequestRepoList = Array<string>;
 export interface SearchFuzzyRequest {
   /** Search query */
   q: string;
-  org_id?: string;
-  repo?: SearchFuzzyRequestRepoList;
-  max_results?: number;
+  org_id?: string | undefined;
+  repo?: SearchFuzzyRequestRepoList | undefined;
+  max_results?: number | undefined;
   /** Search symbols instead of file paths */
-  symbols?: boolean;
+  symbols?: boolean | undefined;
   /** Filter by symbol kind (only with symbols=true) */
-  kind?: string;
+  kind?: string | undefined;
   /** Only definitions (only with symbols=true) */
-  defs?: boolean;
+  defs?: boolean | undefined;
 }
 export interface FuzzyHit {
   repo: string;
   path: string;
-  symbol?: string;
-  kind?: string;
-  line?: number;
+  symbol?: string | undefined;
+  kind?: string | undefined;
+  line?: number | undefined;
 }
 export type FuzzyResponseResultsList = Array<FuzzyHit>;
 export interface FuzzyResponse {
   query: string;
   results: FuzzyResponseResultsList;
   duration_ms: number;
+  /** Number of repositories that could not be loaded or searched. */
+  repos_failed: number;
+  /** False when any repository failed or the result limit was reached; results are then incomplete. */
+  matches_exact: boolean;
 }
 export type GetBlameError = EntireOpError;
 /** Blame attribution for a file, from the index's attribution section Pure mmap read, no git. Returns an empty `runs` array whenever there's no provenance to show -- attribution wasn't enabled at build time, the file has no runs, or the requested range has no overlap. */
@@ -575,6 +581,7 @@ function __c6(j: number): any {
           index_size_bytes: S.Number,
           indexed_commit: S.String,
           indexed_at: S.Number,
+          resident: S.Boolean,
         }),
       ).annotate({ identifier: "RepoEntry" });
   }
@@ -791,6 +798,8 @@ function __c12(j: number): any {
           query: S.String,
           results: __S(98, __c12, 2),
           duration_ms: S.Number,
+          repos_failed: S.Number,
+          matches_exact: S.Boolean,
         }),
       ).annotate({ identifier: "FuzzyResponse" });
   }

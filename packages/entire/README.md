@@ -47,7 +47,9 @@ each cell's `apiUrl` for repos homed outside the US.
 
 The cell's two collisions with Core module names are renamed: its `projects` tag is
 `projectTrails` and its `repos` tag is `repoDetails`. Most trail routes exist twice, addressed by
-repo id (`listTrails`) and by `{host}/{owner}/{repo}` (`listTrailsBySlug`).
+repo id (`listTrails`) and by `{host}/{owner}/{repo}` (`listTrailsBySlug`). Entire is renaming
+trails to changes, so each repo-id trail route also has a `changes` twin (`listChanges`,
+`getChange`, `startChangeReview`).
 
 ## Auth
 

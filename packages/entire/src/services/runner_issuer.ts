@@ -30,7 +30,7 @@ export type DiscoveryDocumentResponseTypesSupportedList = Array<string>;
 export type DiscoveryDocumentSubjectTypesSupportedList = Array<string>;
 export interface DiscoveryDocument {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   claims_supported: DiscoveryDocumentClaimsSupportedList | null;
   id_token_signing_alg_values_supported: DiscoveryDocumentIdTokenSigningAlgValuesSupportedList | null;
   issuer: string;
@@ -176,7 +176,7 @@ export interface JSONWebKey {
 export type JSONWebKeySetKeysList = Array<JSONWebKey>;
 export interface JSONWebKeySet {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   keys: JSONWebKeySetKeysList | null;
 }
 export type GetRunnerIssuerDiscoveryError = EntireOpError;

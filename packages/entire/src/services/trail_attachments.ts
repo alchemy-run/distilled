@@ -32,7 +32,7 @@ export interface CompleteProjectTrailAttachmentRequest {
   /** Attachment ULID */
   attachment_id: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
+  project_id?: string | undefined;
 }
 export interface ProjectAttachmentJSON {
   content_type: string;
@@ -50,35 +50,8 @@ export interface ProjectAttachmentJSON {
 }
 export interface ProjectAttachmentCompleteOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   attachment: ProjectAttachmentJSON;
-}
-export interface CompleteTrailAttachmentRequest {
-  /** Repo id: placement ULID or public repo_<group ULID> */
-  repo_id: string;
-  /** Trail number */
-  number: string;
-  /** Attachment id (ULID) */
-  attachmentId: string;
-}
-export interface AttachmentJSON {
-  contentType: string;
-  createdAt: string;
-  createdByAccountId: string;
-  filename: string;
-  height: number | null;
-  id: string;
-  isReady: boolean;
-  kind: string;
-  repoId: string;
-  sizeBytes: number;
-  trailId: string;
-  width: number | null;
-}
-export interface AttachmentCompleteResponseBody {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  attachment: AttachmentJSON;
 }
 export interface CreateProjectTrailAttachmentRequest {
   host: string;
@@ -86,13 +59,13 @@ export interface CreateProjectTrailAttachmentRequest {
   /** Globally unique Trail ULID or project-local positive number */
   trail_id: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
+  project_id?: string | undefined;
   /** Optional actor-scoped replay key; retries return the original attachment with a fresh upload URL. */
-  idempotencyKey?: string;
-  content_type?: unknown;
-  filename?: unknown;
-  height?: unknown;
-  width?: unknown;
+  idempotencyKey?: string | undefined;
+  content_type?: unknown | undefined;
+  filename?: unknown | undefined;
+  height?: unknown | undefined;
+  width?: unknown | undefined;
 }
 export interface ProjectAttachmentUploadJSON {
   expires_at: string;
@@ -101,32 +74,9 @@ export interface ProjectAttachmentUploadJSON {
 }
 export interface ProjectAttachmentIntentOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   id: string;
   upload: ProjectAttachmentUploadJSON;
-}
-export interface CreateTrailAttachmentRequest {
-  /** Repo id: placement ULID or public repo_<group ULID> */
-  repo_id: string;
-  /** Trail number */
-  number: string;
-  /** Optional replay-safe key; a retried upload-intent resolves to the same attachment with a fresh presigned URL. */
-  idempotencyKey?: string;
-  contentType?: unknown;
-  filename?: unknown;
-  height?: unknown;
-  width?: unknown;
-}
-export interface UploadInfoJSON {
-  expiresAt: string;
-  maxBytes: number;
-  url: string;
-}
-export interface AttachmentIntentResponseBody {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  id: string;
-  upload: UploadInfoJSON;
 }
 export interface DeleteProjectTrailAttachmentRequest {
   host: string;
@@ -136,10 +86,10 @@ export interface DeleteProjectTrailAttachmentRequest {
   /** Attachment ULID */
   attachment_id: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
+  project_id?: string | undefined;
 }
 export interface DeleteProjectTrailAttachmentResponse {}
-export interface DeleteTrailAttachmentRequest {
+export interface GetChangeAttachmentRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
   /** Trail number */
@@ -147,7 +97,7 @@ export interface DeleteTrailAttachmentRequest {
   /** Attachment id (ULID) */
   attachmentId: string;
 }
-export interface DeleteTrailAttachmentResponse {}
+export interface GetChangeAttachmentResponse {}
 export interface GetProjectTrailAttachmentRequest {
   host: string;
   project: string;
@@ -156,7 +106,7 @@ export interface GetProjectTrailAttachmentRequest {
   /** Attachment ULID */
   attachment_id: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
+  project_id?: string | undefined;
 }
 export interface GetProjectTrailAttachmentResponse {}
 export interface GetRepoAttachmentRequest {
@@ -175,18 +125,44 @@ export interface GetTrailAttachmentRequest {
   attachmentId: string;
 }
 export interface GetTrailAttachmentResponse {}
+export interface ListChangeAttachmentsRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  /** Trail number */
+  number: string;
+}
+export interface AttachmentJSON {
+  contentType: string;
+  createdAt: string;
+  createdByAccountId: string;
+  filename: string;
+  height: number | null;
+  id: string;
+  isReady: boolean;
+  kind: string;
+  repoId: string;
+  sizeBytes: number;
+  trailId: string;
+  width: number | null;
+}
+export type AttachmentListResponseBodyAttachmentsList = Array<AttachmentJSON>;
+export interface AttachmentListResponseBody {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  attachments: AttachmentListResponseBodyAttachmentsList | null;
+}
 export interface ListProjectTrailAttachmentsRequest {
   host: string;
   project: string;
   /** Globally unique Trail ULID or project-local positive number */
   trail_id: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
+  project_id?: string | undefined;
 }
 export type ProjectAttachmentListOutputBodyAttachmentsList = Array<ProjectAttachmentJSON>;
 export interface ProjectAttachmentListOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   attachments: ProjectAttachmentListOutputBodyAttachmentsList | null;
 }
 export interface ListTrailAttachmentsRequest {
@@ -194,12 +170,6 @@ export interface ListTrailAttachmentsRequest {
   repo_id: string;
   /** Trail number */
   number: string;
-}
-export type AttachmentListResponseBodyAttachmentsList = Array<AttachmentJSON>;
-export interface AttachmentListResponseBody {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  attachments: AttachmentListResponseBodyAttachmentsList | null;
 }
 export type CompleteProjectTrailAttachmentError = EntireOpError;
 /** Confirm a project Trail attachment upload */
@@ -218,23 +188,6 @@ export const completeProjectTrailAttachment: API.OperationMethod<
   span: "CompleteProjectTrailAttachment",
 }));
 
-export type CompleteTrailAttachmentError = EntireOpError;
-/** Confirm a trail attachment upload (repo_id addressing) Confirms an uploaded attachment via the opaque repo id path, with the same verification and outcomes. */
-export const completeTrailAttachment: API.OperationMethod<
-  CompleteTrailAttachmentRequest,
-  AttachmentCompleteResponseBody,
-  CompleteTrailAttachmentError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<CompleteTrailAttachmentRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<AttachmentCompleteResponseBody>,
-  errors: [UnknownEntireError],
-  protocol: EntireCellProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CompleteTrailAttachment",
-}));
-
 export type CreateProjectTrailAttachmentError = EntireOpError;
 /** Begin a project Trail attachment upload */
 export const createProjectTrailAttachment: API.OperationMethod<
@@ -243,30 +196,13 @@ export const createProjectTrailAttachment: API.OperationMethod<
   CreateProjectTrailAttachmentError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<CreateProjectTrailAttachmentRequest>,
-  output: __S(22, __c5, 2) as any as S.Schema<ProjectAttachmentIntentOutputBody>,
+  input: __S(8, __c2, 0) as any as S.Schema<CreateProjectTrailAttachmentRequest>,
+  output: __S(10, __c2, 2) as any as S.Schema<ProjectAttachmentIntentOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectTrailAttachment",
-}));
-
-export type CreateTrailAttachmentError = EntireOpError;
-/** Begin a trail attachment upload (repo_id addressing) Begins an attachment upload via the opaque repo id path; behaviour matches the wire-parity intent. */
-export const createTrailAttachment: API.OperationMethod<
-  CreateTrailAttachmentRequest,
-  AttachmentIntentResponseBody,
-  CreateTrailAttachmentError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<CreateTrailAttachmentRequest>,
-  output: __S(26, __c6, 2) as any as S.Schema<AttachmentIntentResponseBody>,
-  errors: [UnknownEntireError],
-  protocol: EntireCellProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateTrailAttachment",
 }));
 
 export type DeleteProjectTrailAttachmentError = EntireOpError;
@@ -277,8 +213,8 @@ export const deleteProjectTrailAttachment: API.OperationMethod<
   DeleteProjectTrailAttachmentError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<DeleteProjectTrailAttachmentRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<DeleteProjectTrailAttachmentResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<DeleteProjectTrailAttachmentRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<DeleteProjectTrailAttachmentResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -286,21 +222,21 @@ export const deleteProjectTrailAttachment: API.OperationMethod<
   span: "DeleteProjectTrailAttachment",
 }));
 
-export type DeleteTrailAttachmentError = EntireOpError;
-/** Delete a trail attachment (repo_id addressing) Deletes an attachment via the opaque repo id path, with the same idempotent behaviour. */
-export const deleteTrailAttachment: API.OperationMethod<
-  DeleteTrailAttachmentRequest,
-  DeleteTrailAttachmentResponse,
-  DeleteTrailAttachmentError,
+export type GetChangeAttachmentError = EntireOpError;
+/** Serve a ready change attachment (repo_id addressing) Redirects to a presigned download URL via the opaque repo id path, with the same readiness behaviour. */
+export const getChangeAttachment: API.OperationMethod<
+  GetChangeAttachmentRequest,
+  GetChangeAttachmentResponse,
+  GetChangeAttachmentError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<DeleteTrailAttachmentRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<DeleteTrailAttachmentResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<GetChangeAttachmentRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<GetChangeAttachmentResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "DeleteTrailAttachment",
+  span: "GetChangeAttachment",
 }));
 
 export type GetProjectTrailAttachmentError = EntireOpError;
@@ -311,8 +247,8 @@ export const getProjectTrailAttachment: API.OperationMethod<
   GetProjectTrailAttachmentError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<GetProjectTrailAttachmentRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<GetProjectTrailAttachmentResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetProjectTrailAttachmentRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<GetProjectTrailAttachmentResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -328,8 +264,8 @@ export const getRepoAttachment: API.OperationMethod<
   GetRepoAttachmentError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<GetRepoAttachmentRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<GetRepoAttachmentResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetRepoAttachmentRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<GetRepoAttachmentResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -345,13 +281,30 @@ export const getTrailAttachment: API.OperationMethod<
   GetTrailAttachmentError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<GetTrailAttachmentRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<GetTrailAttachmentResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetTrailAttachmentRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<GetTrailAttachmentResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTrailAttachment",
+}));
+
+export type ListChangeAttachmentsError = EntireOpError;
+/** List change attachments (repo_id addressing) */
+export const listChangeAttachments: API.OperationMethod<
+  ListChangeAttachmentsRequest,
+  AttachmentListResponseBody,
+  ListChangeAttachmentsError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(36, __c9, 0) as any as S.Schema<ListChangeAttachmentsRequest>,
+  output: __S(42, __c10, 2) as any as S.Schema<AttachmentListResponseBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChangeAttachments",
 }));
 
 export type ListProjectTrailAttachmentsError = EntireOpError;
@@ -362,8 +315,8 @@ export const listProjectTrailAttachments: API.OperationMethod<
   ListProjectTrailAttachmentsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<ListProjectTrailAttachmentsRequest>,
-  output: __S(54, __c13, 2) as any as S.Schema<ProjectAttachmentListOutputBody>,
+  input: __S(44, __c11, 0) as any as S.Schema<ListProjectTrailAttachmentsRequest>,
+  output: __S(46, __c11, 2) as any as S.Schema<ProjectAttachmentListOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -379,8 +332,8 @@ export const listTrailAttachments: API.OperationMethod<
   ListTrailAttachmentsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListTrailAttachmentsRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<AttachmentListResponseBody>,
+  input: __S(48, __c12, 0) as any as S.Schema<ListTrailAttachmentsRequest>,
+  output: __S(42, __c10, 2) as any as S.Schema<AttachmentListResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -442,78 +395,6 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-          attachmentId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/attachments/{attachmentId}/complete",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CompleteTrailAttachmentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          attachment: __S(12, __c3, 0),
-        }),
-      ).annotate({ identifier: "AttachmentCompleteResponseBody" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          contentType: S.String,
-          createdAt: S.String,
-          createdByAccountId: S.String,
-          filename: S.String,
-          height: S.NullOr(S.Number),
-          id: S.String,
-          isReady: S.Boolean,
-          kind: S.String,
-          repoId: S.String,
-          sizeBytes: S.Number,
-          trailId: S.String,
-          width: S.NullOr(S.Number),
-        }),
-      ).annotate({ identifier: "AttachmentJSON" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/attachments",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListTrailAttachmentsRequest" });
-    case 1:
-      return S.Array(__S(12, __c3, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          attachments: S.NullOr(__S(17, __c4, 1)),
-        }),
-      ).annotate({ identifier: "AttachmentListResponseBody" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           host: S.String.pipe(T.Label()),
           project: S.String.pipe(T.Label()),
           trail_id: S.String.pipe(T.Label()),
@@ -544,50 +425,12 @@ function __c5(j: number): any {
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           id: S.String,
-          upload: __S(21, __c5, 1),
+          upload: __S(9, __c2, 1),
         }),
       ).annotate({ identifier: "ProjectAttachmentIntentOutputBody" });
   }
 }
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          contentType: S.optional(S.Unknown),
-          filename: S.optional(S.Unknown),
-          height: S.optional(S.Unknown),
-          width: S.optional(S.Unknown),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/attachments",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateTrailAttachmentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          expiresAt: S.String,
-          maxBytes: S.Number,
-          url: S.String,
-        }),
-      ).annotate({ identifier: "UploadInfoJSON" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          id: S.String,
-          upload: __S(25, __c6, 1),
-        }),
-      ).annotate({ identifier: "AttachmentIntentResponseBody" });
-  }
-}
-function __c7(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -607,7 +450,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteProjectTrailAttachmentRequest" });
   }
 }
-function __c8(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -615,7 +458,7 @@ function __c8(j: number): any {
       });
   }
 }
-function __c9(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -625,15 +468,15 @@ function __c9(j: number): any {
           attachmentId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "DELETE",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/attachments/{attachmentId}",
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/attachments/{attachmentId}",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "DeleteTrailAttachmentRequest" });
+      ).annotate({ identifier: "GetChangeAttachmentRequest" });
   }
 }
-function __c10(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -653,7 +496,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetProjectTrailAttachmentRequest" });
   }
 }
-function __c11(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -670,7 +513,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetRepoAttachmentRequest" });
   }
 }
-function __c12(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -688,7 +531,54 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetTrailAttachmentRequest" });
   }
 }
-function __c13(j: number): any {
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/attachments",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListChangeAttachmentsRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          contentType: S.String,
+          createdAt: S.String,
+          createdByAccountId: S.String,
+          filename: S.String,
+          height: S.NullOr(S.Number),
+          id: S.String,
+          isReady: S.Boolean,
+          kind: S.String,
+          repoId: S.String,
+          sizeBytes: S.Number,
+          trailId: S.String,
+          width: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "AttachmentJSON" });
+    case 1:
+      return S.Array(__S(40, __c10, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          attachments: S.NullOr(__S(41, __c10, 1)),
+        }),
+      ).annotate({ identifier: "AttachmentListResponseBody" });
+  }
+}
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -711,9 +601,26 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          attachments: S.NullOr(__S(53, __c13, 1)),
+          attachments: S.NullOr(__S(45, __c11, 1)),
         }),
       ).annotate({ identifier: "ProjectAttachmentListOutputBody" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/trails/{number}/attachments",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListTrailAttachmentsRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

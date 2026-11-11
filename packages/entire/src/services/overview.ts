@@ -28,11 +28,11 @@ export interface GetOverviewAgentActivityRequest {
   /** Repo id: placement ULID, public repo_<group ULID>, or audience slug */
   repo_id: string;
   /** ISO date; inclusive lower bound on commit date (default unbounded) */
-  since?: string;
+  since?: string | undefined;
   /** ISO date; inclusive upper bound on commit date (default unbounded) */
-  until?: string;
+  until?: string | undefined;
   /** IANA time zone: since/until and days are the viewer's local days (default UTC) */
-  timeZone?: string;
+  timeZone?: string | undefined;
 }
 export interface AgentActivityDayItem {
   agent: string;
@@ -45,7 +45,7 @@ export interface AgentActivityDayItem {
 export type RepoAgentActivityOutputBodyDailyList = Array<AgentActivityDayItem>;
 export interface RepoAgentActivityOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   branch: string;
   daily: RepoAgentActivityOutputBodyDailyList | null;
   since: string | null;
@@ -57,11 +57,11 @@ export interface GetOverviewBranchCommitDatesRequest {
   /** Repo id: placement ULID, public repo_<group ULID>, or audience slug */
   repo_id: string;
   /** Branch name; repeat the param for multiple branches */
-  branch?: GetOverviewBranchCommitDatesRequestBranchList;
+  branch?: GetOverviewBranchCommitDatesRequestBranchList | undefined;
   /** RFC3339/ISO date; inclusive lower bound on commit date (default unbounded) */
-  since?: string;
+  since?: string | undefined;
   /** RFC3339/ISO date; upper bound on commit date (default unbounded) */
-  until?: string;
+  until?: string | undefined;
 }
 export type BranchCommitDaysDaysList = Array<string>;
 export interface BranchCommitDays {
@@ -71,7 +71,7 @@ export interface BranchCommitDays {
 export type RepoBranchCommitDatesOutputBodyBranchesList = Array<BranchCommitDays>;
 export interface RepoBranchCommitDatesOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   branches: RepoBranchCommitDatesOutputBodyBranchesList | null;
   since: string;
   until: string;
@@ -79,13 +79,13 @@ export interface RepoBranchCommitDatesOutputBody {
 export interface GetOverviewCheckpointMetricsRequest {
   repo_id: string;
   /** ISO date lower bound (inclusive); absent = unbounded */
-  since?: string;
+  since?: string | undefined;
   /** ISO date upper bound (inclusive); absent = unbounded */
-  until?: string;
+  until?: string | undefined;
 }
 export interface RepoCheckpointMetricsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   avg_messages_per_checkpoint: number;
   avg_sessions_per_checkpoint: number;
   avg_tokens_per_checkpoint: number;
@@ -100,11 +100,11 @@ export interface GetOverviewCommitStatsRequest {
   /** Repo id: placement ULID, public repo_<group ULID>, or audience slug */
   repo_id: string;
   /** ISO date; inclusive lower bound on commit date (default unbounded) */
-  since?: string;
+  since?: string | undefined;
   /** ISO date; inclusive upper bound on commit date (default unbounded) */
-  until?: string;
+  until?: string | undefined;
   /** IANA time zone: since/until and days are the viewer's local days (default UTC) */
-  timeZone?: string;
+  timeZone?: string | undefined;
 }
 export interface CommitStatDayItem {
   count: number;
@@ -114,7 +114,7 @@ export interface CommitStatDayItem {
 export type RepoCommitStatsOutputBodyDailyList = Array<CommitStatDayItem>;
 export interface RepoCommitStatsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   branch: string;
   daily: RepoCommitStatsOutputBodyDailyList | null;
   last_activity_at: string | null;
@@ -128,33 +128,42 @@ export interface GetOverviewContributorAgentsRequest {
   /** Repo id: placement ULID, public repo_<group ULID>, or audience slug */
   repo_id: string;
   /** ISO date; inclusive lower bound on commit date (default unbounded) */
-  since?: string;
+  since?: string | undefined;
   /** ISO date; inclusive upper bound on commit date (default unbounded) */
-  until?: string;
+  until?: string | undefined;
 }
 export type ContributorAgentsItemAgentsMap = { [key: string]: number | undefined };
+export interface ContributorIdentityAgent {
+  /** Agent id (GET .../agents/{id}). */
+  id: string;
+  /** The agent's current name. */
+  name: string;
+}
 export interface AutomationIdentity {
   /** The automation's aut_<ULID> subject, for an automation that is not a plugin installation. */
-  automation_id?: string;
+  automation_id?: string | undefined;
   /** The plugin installation's ins_<ULID> id. */
-  installation_id?: string;
+  installation_id?: string | undefined;
   /** The plugin's slug. */
-  plugin?: string;
+  plugin?: string | undefined;
 }
 export interface IdentityHandle {
   handle: string;
-  is_primary?: boolean;
+  is_primary?: boolean | undefined;
   provider: string;
 }
 export type ContributorIdentityHandlesList = Array<IdentityHandle>;
 export interface ContributorIdentity {
   account_id: string | null;
-  automation?: AutomationIdentity;
+  agent?: ContributorIdentityAgent | undefined;
+  automation?: AutomationIdentity | undefined;
   avatar_url: string | null;
   display_name: string | null;
   handles: ContributorIdentityHandlesList | null;
   kind: string;
-  username?: string;
+  /** The agent run that acted (GET .../runs/{id}). */
+  run_id?: string | undefined;
+  username?: string | undefined;
 }
 export interface ContributorAgentsItem {
   account_id: string | null;
@@ -170,7 +179,7 @@ export interface ContributorAgentsItem {
 export type RepoContributorAgentsOutputBodyContributorsList = Array<ContributorAgentsItem>;
 export interface RepoContributorAgentsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   branch: string;
   contributors: RepoContributorAgentsOutputBodyContributorsList | null;
   since: string | null;
@@ -181,9 +190,9 @@ export interface GetOverviewContributorsRequest {
   /** Repo id: placement ULID, public repo_<group ULID>, or audience slug */
   repo_id: string;
   /** ISO date; inclusive lower bound on commit date (default unbounded) */
-  since?: string;
+  since?: string | undefined;
   /** ISO date; inclusive upper bound on commit date (default unbounded) */
-  until?: string;
+  until?: string | undefined;
 }
 export interface OverviewContributorDayItem {
   count: number;
@@ -200,7 +209,7 @@ export interface OverviewContributorItem {
 export type RepoContributorsOverviewOutputBodyTopContributorsList = Array<OverviewContributorItem>;
 export interface RepoContributorsOverviewOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   branch: string;
   daily: RepoContributorsOverviewOutputBodyDailyList | null;
   since: string | null;
@@ -212,9 +221,9 @@ export interface GetOverviewContributorTokensRequest {
   /** Repo id: placement ULID, public repo_<group ULID>, or audience slug */
   repo_id: string;
   /** ISO date; inclusive lower bound on commit date (default unbounded) */
-  since?: string;
+  since?: string | undefined;
   /** ISO date; inclusive upper bound on commit date (default unbounded) */
-  until?: string;
+  until?: string | undefined;
 }
 export interface ContributorTokenItem {
   account_id: string | null;
@@ -227,7 +236,7 @@ export interface ContributorTokenItem {
 export type RepoContributorTokensOutputBodyContributorsList = Array<ContributorTokenItem>;
 export interface RepoContributorTokensOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   branch: string;
   contributors: RepoContributorTokensOutputBodyContributorsList | null;
   since: string | null;
@@ -237,16 +246,16 @@ export interface GetOverviewPRStatsRequest {
   /** Repo id: placement ULID, public repo_<group ULID>, or audience slug */
   repo_id: string;
   /** ISO date; inclusive lower bound on PR date (default unbounded) */
-  since?: string;
+  since?: string | undefined;
   /** ISO date; inclusive upper bound on PR date (default unbounded) */
-  until?: string;
+  until?: string | undefined;
 }
 export type PRStatDayItem = OverviewContributorDayItem;
 export type RepoPRStatsOutputBodyMergedDailyList = Array<OverviewContributorDayItem>;
 export type RepoPRStatsOutputBodyOpenedDailyList = Array<OverviewContributorDayItem>;
 export interface RepoPRStatsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   merged: number;
   merged_daily: RepoPRStatsOutputBodyMergedDailyList | null;
   opened: number;
@@ -258,11 +267,11 @@ export interface GetOverviewSessionPatternsRequest {
   /** Repo id: placement ULID, public repo_<group ULID>, or audience slug */
   repo_id: string;
   /** ISO date; inclusive lower bound on commit date (default unbounded) */
-  since?: string;
+  since?: string | undefined;
   /** ISO date; inclusive upper bound on commit date (default unbounded) */
-  until?: string;
+  until?: string | undefined;
   /** IANA timezone for hour/weekday/date bucketing (default UTC) */
-  timeZone?: string;
+  timeZone?: string | undefined;
 }
 export interface SessionPatternHourItem {
   count: number;
@@ -286,7 +295,7 @@ export interface SessionPatternVelocityItem {
 export type RepoSessionPatternsOutputBodyVelocityByDateList = Array<SessionPatternVelocityItem>;
 export interface RepoSessionPatternsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   branch: string;
   by_hour: RepoSessionPatternsOutputBodyByHourList | null;
   by_weekday: RepoSessionPatternsOutputBodyByWeekdayList | null;
@@ -312,11 +321,11 @@ export interface RepoTLDRSources {
 }
 export interface RepoTLDROutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   branch: string;
   hasSummary: boolean;
-  isPending?: boolean;
-  isRefreshing?: boolean;
+  isPending?: boolean | undefined;
+  isRefreshing?: boolean | undefined;
   markdown: string | null;
   model: string | null;
   sections: RepoTLDROutputBodySectionsList | null;
@@ -676,7 +685,7 @@ function __c4(j: number): any {
           agents: __S(65, __c4, 1),
           deletions: S.Number,
           github_id: S.NullOr(S.Number),
-          identity: __S(83, __c5, 3),
+          identity: __S(84, __c5, 4),
           total_commits: S.Number,
           untracked: S.Number,
           username: S.NullOr(S.String),
@@ -702,12 +711,19 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "ContributorIdentityAgent" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           automation_id: S.optional(S.String),
           installation_id: S.optional(S.String),
           plugin: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutomationIdentity" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           handle: S.String,
@@ -715,17 +731,19 @@ function __c5(j: number): any {
           provider: S.String,
         }),
       ).annotate({ identifier: "IdentityHandle" });
-    case 2:
-      return S.Array(__S(81, __c5, 1));
     case 3:
+      return S.Array(__S(82, __c5, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           account_id: S.NullOr(S.String),
-          automation: S.optional(__S(80, __c5, 0)),
+          agent: S.optional(__S(80, __c5, 0)),
+          automation: S.optional(__S(81, __c5, 1)),
           avatar_url: S.NullOr(S.String),
           display_name: S.NullOr(S.String),
-          handles: S.NullOr(__S(82, __c5, 2)),
+          handles: S.NullOr(__S(83, __c5, 3)),
           kind: S.String,
+          run_id: S.optional(S.String),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContributorIdentity" });
@@ -753,7 +771,7 @@ function __c6(j: number): any {
           account_id: S.NullOr(S.String),
           commit_count: S.Number,
           github_id: S.NullOr(S.Number),
-          identity: __S(83, __c5, 3),
+          identity: __S(84, __c5, 4),
           username: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "OverviewContributorItem" });
@@ -807,7 +825,7 @@ function __c8(j: number): any {
         S.Struct({
           account_id: S.NullOr(S.String),
           github_id: S.NullOr(S.Number),
-          identity: __S(83, __c5, 3),
+          identity: __S(84, __c5, 4),
           input_tokens: S.Number,
           output_tokens: S.Number,
           username: S.NullOr(S.String),

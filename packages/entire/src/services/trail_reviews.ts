@@ -27,15 +27,15 @@ const TELEMETRY = {
 
 export type ReviewCommentLocationInputJSONGranularity = "line" | "range" | "file" | "whole_change";
 export interface ReviewCommentLocationInputJSON {
-  end_column?: number;
-  end_line?: number;
-  file_path?: string;
+  end_column?: number | undefined;
+  end_line?: number | undefined;
+  file_path?: string | undefined;
   granularity: ReviewCommentLocationInputJSONGranularity | (string & {});
-  language?: string;
-  nearby_text?: string;
-  selected_text?: string;
-  start_column?: number;
-  start_line?: number;
+  language?: string | undefined;
+  nearby_text?: string | undefined;
+  selected_text?: string | undefined;
+  start_column?: number | undefined;
+  start_line?: number | undefined;
 }
 export type ReviewCommentBatchRequestJSONSeverity = "high" | "medium" | "low";
 export type ReviewCommentBatchRequestJSONStatus = "open" | "resolved" | "dismissed";
@@ -46,56 +46,65 @@ export type ReviewSuggestedChangeInputJSONChangeType =
   | "manual_instruction";
 export interface ReviewSuggestedChangeInputJSON {
   change_type: ReviewSuggestedChangeInputJSONChangeType | (string & {});
-  expected_end_line?: number;
-  expected_file_hash?: string;
-  expected_file_path?: string;
-  expected_lines?: string;
-  expected_start_line?: number;
-  instruction?: string;
-  patch?: string;
+  expected_end_line?: number | undefined;
+  expected_file_hash?: string | undefined;
+  expected_file_path?: string | undefined;
+  expected_lines?: string | undefined;
+  expected_start_line?: number | undefined;
+  instruction?: string | undefined;
+  patch?: string | undefined;
 }
 export interface ReviewCommentBatchRequestJSON {
-  body?: string | null;
+  body?: string | null | undefined;
   client_id: string;
-  confidence?: number | null;
+  confidence?: number | null | undefined;
   location: ReviewCommentLocationInputJSON;
-  severity?: ReviewCommentBatchRequestJSONSeverity | (string & {}) | null;
-  status?: ReviewCommentBatchRequestJSONStatus | (string & {});
-  status_reason?: string | null;
-  suggested_change?: ReviewSuggestedChangeInputJSON | null;
+  severity?: ReviewCommentBatchRequestJSONSeverity | (string & {}) | null | undefined;
+  status?: ReviewCommentBatchRequestJSONStatus | (string & {}) | undefined;
+  status_reason?: string | null | undefined;
+  suggested_change?: ReviewSuggestedChangeInputJSON | null | undefined;
 }
-export type CreateReviewCommentsRequestCommentsList = Array<ReviewCommentBatchRequestJSON>;
-export interface CreateReviewCommentsRequest {
+export type CreateChangeReviewCommentsRequestCommentsList = Array<ReviewCommentBatchRequestJSON>;
+export interface CreateChangeReviewCommentsRequest {
   repo_id: string;
   number: string;
   review_id: string;
   /** Optional replay-safe key; a retried request with the same key and body returns the cached response instead of re-executing. */
-  idempotencyKey?: string;
-  comments?: CreateReviewCommentsRequestCommentsList | null;
-  summary?: string | null;
+  idempotencyKey?: string | undefined;
+  comments?: CreateChangeReviewCommentsRequestCommentsList | null | undefined;
+  summary?: string | null | undefined;
+}
+export interface ReviewCommentJSONActorIdentityAgent {
+  /** Agent id (GET .../agents/{id}). */
+  id: string;
+  /** The agent's current name. */
+  name: string;
 }
 export interface AutomationIdentity {
   /** The automation's aut_<ULID> subject, for an automation that is not a plugin installation. */
-  automation_id?: string;
+  automation_id?: string | undefined;
   /** The plugin installation's ins_<ULID> id. */
-  installation_id?: string;
+  installation_id?: string | undefined;
   /** The plugin's slug. */
-  plugin?: string;
+  plugin?: string | undefined;
 }
 export interface IdentityHandle {
   handle: string;
-  is_primary?: boolean;
+  is_primary?: boolean | undefined;
   provider: string;
 }
-export type ContributorIdentityHandlesList = Array<IdentityHandle>;
-export interface ContributorIdentity {
+export type ReviewCommentJSONActorIdentityHandlesList = Array<IdentityHandle>;
+export interface ReviewCommentJSONActorIdentity {
   account_id: string | null;
-  automation?: AutomationIdentity;
+  agent?: ReviewCommentJSONActorIdentityAgent | undefined;
+  automation?: AutomationIdentity | undefined;
   avatar_url: string | null;
   display_name: string | null;
-  handles: ContributorIdentityHandlesList | null;
+  handles: ReviewCommentJSONActorIdentityHandlesList | null;
   kind: string;
-  username?: string;
+  /** The agent run that acted (GET .../runs/{id}). */
+  run_id?: string | undefined;
+  username?: string | undefined;
 }
 /** resolved or dismissed: the agent closed the finding; awaiting_confirmation: a high severity finding stays open until a person closes it; reopened_by_person, already_closed: a person's decision stood; kept: still present. */
 export type ReviewCommentJSONAgentVerdictOutcome =
@@ -130,24 +139,33 @@ export interface CommentLocationJSON {
   start_column: number | null;
   start_line: number | null;
 }
-export interface ReviewCommentJSONSourceAgent {
-  /** Agent id (GET .../agents/{id}). */
-  id: string;
-  /** The agent's current name. */
-  name: string;
-}
+export type ReviewCommentJSONSourceAgent = ReviewCommentJSONActorIdentityAgent;
 export interface ReviewCommentJSONSource {
-  agent: ReviewCommentJSONSourceAgent;
+  agent: ReviewCommentJSONActorIdentityAgent;
   /** The run that published it (GET .../runs/{id}). */
   run_id: string;
 }
+export type ReviewCommentJSONStatusActorIdentityAgent = ReviewCommentJSONActorIdentityAgent;
+export type ReviewCommentJSONStatusActorIdentityHandlesList = Array<IdentityHandle>;
+export interface ReviewCommentJSONStatusActorIdentity {
+  account_id: string | null;
+  agent?: ReviewCommentJSONActorIdentityAgent | undefined;
+  automation?: AutomationIdentity | undefined;
+  avatar_url: string | null;
+  display_name: string | null;
+  handles: ReviewCommentJSONStatusActorIdentityHandlesList | null;
+  kind: string;
+  /** The agent run that acted (GET .../runs/{id}). */
+  run_id?: string | undefined;
+  username?: string | undefined;
+}
 export interface ReviewCommentJSON {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   actor_display_name: string | null;
   actor_id: string | null;
-  actor_identity: ContributorIdentity;
-  agent_verdict?: ReviewCommentJSONAgentVerdict;
+  actor_identity: ReviewCommentJSONActorIdentity;
+  agent_verdict?: ReviewCommentJSONAgentVerdict | undefined;
   body: string | null;
   client_id: string | null;
   client_id_hash: string | null;
@@ -161,14 +179,14 @@ export interface ReviewCommentJSON {
   repo_id: string;
   review_id: string;
   severity: string | null;
-  source?: ReviewCommentJSONSource;
+  source?: ReviewCommentJSONSource | undefined;
   stale_checked_at: string | null;
   stale_checked_code_version_id: string | null;
   stale_outcome: string;
   status: string;
   status_actor_display_name: string | null;
   status_actor_id: string | null;
-  status_actor_identity: ContributorIdentity;
+  status_actor_identity: ReviewCommentJSONStatusActorIdentity;
   status_actor_kind: string | null;
   status_changed_at: string | null;
   status_reason: string | null;
@@ -200,10 +218,10 @@ export interface SuggestedChangeJSON {
 }
 export interface ReviewCommentBatchResultJSON {
   client_id: string;
-  comment?: ReviewCommentJSON;
-  error?: ReviewCommentBatchErrorJSON;
+  comment?: ReviewCommentJSON | undefined;
+  error?: ReviewCommentBatchErrorJSON | undefined;
   status: string;
-  suggested_change?: SuggestedChangeJSON;
+  suggested_change?: SuggestedChangeJSON | undefined;
 }
 export type ReviewCommentsAtomicResponseBodyResultsList = Array<ReviewCommentBatchResultJSON>;
 export interface ReviewCommentsAtomicReviewJSON {
@@ -218,9 +236,19 @@ export interface ReviewCommentsAtomicReviewJSON {
 }
 export interface ReviewCommentsAtomicResponseBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   results: ReviewCommentsAtomicResponseBodyResultsList | null;
   review: ReviewCommentsAtomicReviewJSON;
+}
+export type CreateReviewCommentsRequestCommentsList = Array<ReviewCommentBatchRequestJSON>;
+export interface CreateReviewCommentsRequest {
+  repo_id: string;
+  number: string;
+  review_id: string;
+  /** Optional replay-safe key; a retried request with the same key and body returns the cached response instead of re-executing. */
+  idempotencyKey?: string | undefined;
+  comments?: CreateReviewCommentsRequestCommentsList | null | undefined;
+  summary?: string | null | undefined;
 }
 export type CreateReviewCommentsBySlugRequestCommentsList = Array<ReviewCommentBatchRequestJSON>;
 export interface CreateReviewCommentsBySlugRequest {
@@ -230,28 +258,28 @@ export interface CreateReviewCommentsBySlugRequest {
   number: string;
   review_id: string;
   /** Optional replay-safe key; a retried request with the same key and body returns the cached response instead of re-executing. */
-  idempotencyKey?: string;
-  comments?: CreateReviewCommentsBySlugRequestCommentsList | null;
-  summary?: string | null;
+  idempotencyKey?: string | undefined;
+  comments?: CreateReviewCommentsBySlugRequestCommentsList | null | undefined;
+  summary?: string | null | undefined;
 }
 export type ReviewCommentsBatchResponseBodyResultsList = Array<ReviewCommentBatchResultJSON>;
 export interface ReviewCommentsBatchResponseBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   results: ReviewCommentsBatchResponseBodyResultsList | null;
 }
-export interface GetReviewRequest {
+export interface GetChangeReviewRequest {
   repo_id: string;
   number: string;
   review_id: string;
   /** Include dismissed comments when exactly true; retained by the cursor. */
-  include_dismissed?: string;
+  include_dismissed?: string | undefined;
   /** current (default), stale, or any. Unrecognized values mean current; retained by the cursor. */
-  stale?: string;
+  stale?: string | undefined;
   /** Page size (default 100, capped at 1000). */
-  per_page?: string;
+  per_page?: string | undefined;
   /** Opaque continuation cursor; restores filters and ordering. Repeated filters must match. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface CodeVersionJSON {
   base_ref: string | null;
@@ -294,36 +322,21 @@ export interface ReviewJSON {
 }
 export interface ReviewSnapshotResponseBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   code_version: CodeVersionJSON;
   comments: ReviewSnapshotResponseBodyCommentsList | null;
   counts: ReviewSnapshotCountsJSON;
   event_cursor: string;
-  next_cursor?: string;
+  next_cursor?: string | undefined;
   review: ReviewJSON;
 }
-export interface GetReviewBySlugRequest {
-  host: string;
-  owner: string;
-  repo: string;
-  number: string;
-  review_id: string;
-  /** Include dismissed comments when exactly true; retained by the cursor. */
-  include_dismissed?: string;
-  /** current (default), stale, or any. Unrecognized values mean current; retained by the cursor. */
-  stale?: string;
-  /** Page size (default 100, capped at 1000). */
-  per_page?: string;
-  /** Opaque continuation cursor; restores filters and ordering. Repeated filters must match. */
-  cursor?: string;
-}
-export interface GetReviewCommentRequest {
+export interface GetChangeReviewCommentRequest {
   repo_id: string;
   number: string;
   review_id: string;
   comment_id: string;
 }
-export interface GetReviewDiffRequest {
+export interface GetChangeReviewDiffRequest {
   repo_id: string;
   number: string;
   review_id: string;
@@ -340,10 +353,146 @@ export interface ReviewDiffFileJSON {
 export type ReviewDiffResponseBodyFilesList = Array<ReviewDiffFileJSON>;
 export interface ReviewDiffResponseBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   base_sha: string | null;
   code_version_id: string;
   files: ReviewDiffResponseBodyFilesList | null;
+  files_truncated: boolean;
+  head_sha: string | null;
+}
+export interface GetReviewRequest {
+  repo_id: string;
+  number: string;
+  review_id: string;
+  /** Include dismissed comments when exactly true; retained by the cursor. */
+  include_dismissed?: string | undefined;
+  /** current (default), stale, or any. Unrecognized values mean current; retained by the cursor. */
+  stale?: string | undefined;
+  /** Page size (default 100, capped at 1000). */
+  per_page?: string | undefined;
+  /** Opaque continuation cursor; restores filters and ordering. Repeated filters must match. */
+  cursor?: string | undefined;
+}
+export interface GetReviewBySlugRequest {
+  host: string;
+  owner: string;
+  repo: string;
+  number: string;
+  review_id: string;
+  /** Include dismissed comments when exactly true; retained by the cursor. */
+  include_dismissed?: string | undefined;
+  /** current (default), stale, or any. Unrecognized values mean current; retained by the cursor. */
+  stale?: string | undefined;
+  /** Page size (default 100, capped at 1000). */
+  per_page?: string | undefined;
+  /** Opaque continuation cursor; restores filters and ordering. Repeated filters must match. */
+  cursor?: string | undefined;
+}
+export interface GetReviewCommentRequest {
+  repo_id: string;
+  number: string;
+  review_id: string;
+  comment_id: string;
+}
+export interface GetReviewDiffRequest {
+  repo_id: string;
+  number: string;
+  review_id: string;
+}
+/** Alias for status[eq]; repeatable or comma-separated. */
+export type ListChangeReviewCommentsRequestStatusList = Array<string>;
+/** Match any of open, resolved, dismissed. Overrides the default dismissed exclusion. */
+export type ListChangeReviewCommentsRequestStatusEqList = Array<string>;
+/** Exclude these statuses; repeatable or comma-separated. */
+export type ListChangeReviewCommentsRequestStatusNeList = Array<string>;
+/** Alias for severity[eq]; repeatable or comma-separated. */
+export type ListChangeReviewCommentsRequestSeverityList = Array<string>;
+/** Match any of high, medium, low. */
+export type ListChangeReviewCommentsRequestSeverityEqList = Array<string>;
+/** Exclude these severities; comments without a severity remain eligible. */
+export type ListChangeReviewCommentsRequestSeverityNeList = Array<string>;
+export interface ListChangeReviewCommentsRequest {
+  repo_id: string;
+  number: string;
+  /** Alias for status[eq]; repeatable or comma-separated. */
+  status?: ListChangeReviewCommentsRequestStatusList | undefined;
+  /** Match any of open, resolved, dismissed. Overrides the default dismissed exclusion. */
+  status_eq_?: ListChangeReviewCommentsRequestStatusEqList | undefined;
+  /** Exclude these statuses; repeatable or comma-separated. */
+  status_ne_?: ListChangeReviewCommentsRequestStatusNeList | undefined;
+  /** Alias for severity[eq]; repeatable or comma-separated. */
+  severity?: ListChangeReviewCommentsRequestSeverityList | undefined;
+  /** Match any of high, medium, low. */
+  severity_eq_?: ListChangeReviewCommentsRequestSeverityEqList | undefined;
+  /** Exclude these severities; comments without a severity remain eligible. */
+  severity_ne_?: ListChangeReviewCommentsRequestSeverityNeList | undefined;
+  /** current (default), stale, or any; retained by the cursor. */
+  stale?: string | undefined;
+  /** Include dismissed comments when exactly true, unless an explicit status filter selects them; retained by the cursor. */
+  include_dismissed?: string | undefined;
+  /** Page size (default 100, capped at 1000). */
+  per_page?: string | undefined;
+  /** Opaque continuation cursor. Filters may be omitted or repeated with matching values. */
+  cursor?: string | undefined;
+}
+export type ReviewCommentsPageCommentsList = Array<ReviewCommentJSON>;
+export interface ReviewCommentsPage {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  comments: ReviewCommentsPageCommentsList | null;
+  event_cursor: string;
+  next_cursor?: string | undefined;
+}
+/** Alias for status[eq]; repeatable or comma-separated. */
+export type ListChangeReviewCommentsForReviewRequestStatusList = Array<string>;
+/** Match any of open, resolved, dismissed. Overrides the default dismissed exclusion. */
+export type ListChangeReviewCommentsForReviewRequestStatusEqList = Array<string>;
+/** Exclude these statuses; repeatable or comma-separated. */
+export type ListChangeReviewCommentsForReviewRequestStatusNeList = Array<string>;
+/** Alias for severity[eq]; repeatable or comma-separated. */
+export type ListChangeReviewCommentsForReviewRequestSeverityList = Array<string>;
+/** Match any of high, medium, low. */
+export type ListChangeReviewCommentsForReviewRequestSeverityEqList = Array<string>;
+/** Exclude these severities; comments without a severity remain eligible. */
+export type ListChangeReviewCommentsForReviewRequestSeverityNeList = Array<string>;
+export interface ListChangeReviewCommentsForReviewRequest {
+  repo_id: string;
+  number: string;
+  review_id: string;
+  /** Alias for status[eq]; repeatable or comma-separated. */
+  status?: ListChangeReviewCommentsForReviewRequestStatusList | undefined;
+  /** Match any of open, resolved, dismissed. Overrides the default dismissed exclusion. */
+  status_eq_?: ListChangeReviewCommentsForReviewRequestStatusEqList | undefined;
+  /** Exclude these statuses; repeatable or comma-separated. */
+  status_ne_?: ListChangeReviewCommentsForReviewRequestStatusNeList | undefined;
+  /** Alias for severity[eq]; repeatable or comma-separated. */
+  severity?: ListChangeReviewCommentsForReviewRequestSeverityList | undefined;
+  /** Match any of high, medium, low. */
+  severity_eq_?: ListChangeReviewCommentsForReviewRequestSeverityEqList | undefined;
+  /** Exclude these severities; comments without a severity remain eligible. */
+  severity_ne_?: ListChangeReviewCommentsForReviewRequestSeverityNeList | undefined;
+  /** current (default), stale, or any; retained by the cursor. */
+  stale?: string | undefined;
+  /** Include dismissed comments when exactly true, unless an explicit status filter selects them; retained by the cursor. */
+  include_dismissed?: string | undefined;
+  /** Page size (default 100, capped at 1000). */
+  per_page?: string | undefined;
+  /** Opaque continuation cursor. Filters may be omitted or repeated with matching values. */
+  cursor?: string | undefined;
+}
+export interface ListChangeReviewFilesRequest {
+  repo_id: string;
+  number: string;
+  review_id: string;
+  /** Comma-separated file paths to read at the code_version head SHA (max 200). */
+  paths?: string | undefined;
+}
+export type ReviewFilesResponseBodyFilesMap = { [key: string]: string | null | undefined };
+export interface ReviewFilesResponseBody {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  code_version_id: string;
+  files: ReviewFilesResponseBodyFilesMap;
   head_sha: string | null;
 }
 /** Alias for status[eq]; repeatable or comma-separated. */
@@ -363,33 +512,25 @@ export interface ListReviewCommentsRequest {
   number: string;
   review_id: string;
   /** Alias for status[eq]; repeatable or comma-separated. */
-  status?: ListReviewCommentsRequestStatusList;
+  status?: ListReviewCommentsRequestStatusList | undefined;
   /** Match any of open, resolved, dismissed. Overrides the default dismissed exclusion. */
-  status_eq_?: ListReviewCommentsRequestStatusEqList;
+  status_eq_?: ListReviewCommentsRequestStatusEqList | undefined;
   /** Exclude these statuses; repeatable or comma-separated. */
-  status_ne_?: ListReviewCommentsRequestStatusNeList;
+  status_ne_?: ListReviewCommentsRequestStatusNeList | undefined;
   /** Alias for severity[eq]; repeatable or comma-separated. */
-  severity?: ListReviewCommentsRequestSeverityList;
+  severity?: ListReviewCommentsRequestSeverityList | undefined;
   /** Match any of high, medium, low. */
-  severity_eq_?: ListReviewCommentsRequestSeverityEqList;
+  severity_eq_?: ListReviewCommentsRequestSeverityEqList | undefined;
   /** Exclude these severities; comments without a severity remain eligible. */
-  severity_ne_?: ListReviewCommentsRequestSeverityNeList;
+  severity_ne_?: ListReviewCommentsRequestSeverityNeList | undefined;
   /** current (default), stale, or any; retained by the cursor. */
-  stale?: string;
+  stale?: string | undefined;
   /** Include dismissed comments when exactly true, unless an explicit status filter selects them; retained by the cursor. */
-  include_dismissed?: string;
+  include_dismissed?: string | undefined;
   /** Page size (default 100, capped at 1000). */
-  per_page?: string;
+  per_page?: string | undefined;
   /** Opaque continuation cursor. Filters may be omitted or repeated with matching values. */
-  cursor?: string;
-}
-export type ReviewCommentsPageCommentsList = Array<ReviewCommentJSON>;
-export interface ReviewCommentsPage {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  comments: ReviewCommentsPageCommentsList | null;
-  event_cursor: string;
-  next_cursor?: string;
+  cursor?: string | undefined;
 }
 /** Alias for status[eq]; repeatable or comma-separated. */
 export type ListReviewCommentsBySlugRequestStatusList = Array<string>;
@@ -410,40 +551,32 @@ export interface ListReviewCommentsBySlugRequest {
   number: string;
   review_id: string;
   /** Alias for status[eq]; repeatable or comma-separated. */
-  status?: ListReviewCommentsBySlugRequestStatusList;
+  status?: ListReviewCommentsBySlugRequestStatusList | undefined;
   /** Match any of open, resolved, dismissed. Overrides the default dismissed exclusion. */
-  status_eq_?: ListReviewCommentsBySlugRequestStatusEqList;
+  status_eq_?: ListReviewCommentsBySlugRequestStatusEqList | undefined;
   /** Exclude these statuses; repeatable or comma-separated. */
-  status_ne_?: ListReviewCommentsBySlugRequestStatusNeList;
+  status_ne_?: ListReviewCommentsBySlugRequestStatusNeList | undefined;
   /** Alias for severity[eq]; repeatable or comma-separated. */
-  severity?: ListReviewCommentsBySlugRequestSeverityList;
+  severity?: ListReviewCommentsBySlugRequestSeverityList | undefined;
   /** Match any of high, medium, low. */
-  severity_eq_?: ListReviewCommentsBySlugRequestSeverityEqList;
+  severity_eq_?: ListReviewCommentsBySlugRequestSeverityEqList | undefined;
   /** Exclude these severities; comments without a severity remain eligible. */
-  severity_ne_?: ListReviewCommentsBySlugRequestSeverityNeList;
+  severity_ne_?: ListReviewCommentsBySlugRequestSeverityNeList | undefined;
   /** current (default), stale, or any; retained by the cursor. */
-  stale?: string;
+  stale?: string | undefined;
   /** Include dismissed comments when exactly true, unless an explicit status filter selects them; retained by the cursor. */
-  include_dismissed?: string;
+  include_dismissed?: string | undefined;
   /** Page size (default 100, capped at 1000). */
-  per_page?: string;
+  per_page?: string | undefined;
   /** Opaque continuation cursor. Filters may be omitted or repeated with matching values. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface ListReviewFilesRequest {
   repo_id: string;
   number: string;
   review_id: string;
   /** Comma-separated file paths to read at the code_version head SHA (max 200). */
-  paths?: string;
-}
-export type ReviewFilesResponseBodyFilesMap = { [key: string]: string | null | undefined };
-export interface ReviewFilesResponseBody {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  code_version_id: string;
-  files: ReviewFilesResponseBodyFilesMap;
-  head_sha: string | null;
+  paths?: string | undefined;
 }
 /** Alias for status[eq]; repeatable or comma-separated. */
 export type ListTrailReviewCommentsRequestStatusList = Array<string>;
@@ -461,25 +594,25 @@ export interface ListTrailReviewCommentsRequest {
   repo_id: string;
   number: string;
   /** Alias for status[eq]; repeatable or comma-separated. */
-  status?: ListTrailReviewCommentsRequestStatusList;
+  status?: ListTrailReviewCommentsRequestStatusList | undefined;
   /** Match any of open, resolved, dismissed. Overrides the default dismissed exclusion. */
-  status_eq_?: ListTrailReviewCommentsRequestStatusEqList;
+  status_eq_?: ListTrailReviewCommentsRequestStatusEqList | undefined;
   /** Exclude these statuses; repeatable or comma-separated. */
-  status_ne_?: ListTrailReviewCommentsRequestStatusNeList;
+  status_ne_?: ListTrailReviewCommentsRequestStatusNeList | undefined;
   /** Alias for severity[eq]; repeatable or comma-separated. */
-  severity?: ListTrailReviewCommentsRequestSeverityList;
+  severity?: ListTrailReviewCommentsRequestSeverityList | undefined;
   /** Match any of high, medium, low. */
-  severity_eq_?: ListTrailReviewCommentsRequestSeverityEqList;
+  severity_eq_?: ListTrailReviewCommentsRequestSeverityEqList | undefined;
   /** Exclude these severities; comments without a severity remain eligible. */
-  severity_ne_?: ListTrailReviewCommentsRequestSeverityNeList;
+  severity_ne_?: ListTrailReviewCommentsRequestSeverityNeList | undefined;
   /** current (default), stale, or any; retained by the cursor. */
-  stale?: string;
+  stale?: string | undefined;
   /** Include dismissed comments when exactly true, unless an explicit status filter selects them; retained by the cursor. */
-  include_dismissed?: string;
+  include_dismissed?: string | undefined;
   /** Page size (default 100, capped at 1000). */
-  per_page?: string;
+  per_page?: string | undefined;
   /** Opaque continuation cursor. Filters may be omitted or repeated with matching values. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** Alias for status[eq]; repeatable or comma-separated. */
 export type ListTrailReviewCommentsBySlugRequestStatusList = Array<string>;
@@ -499,27 +632,27 @@ export interface ListTrailReviewCommentsBySlugRequest {
   repo: string;
   number: string;
   /** Alias for status[eq]; repeatable or comma-separated. */
-  status?: ListTrailReviewCommentsBySlugRequestStatusList;
+  status?: ListTrailReviewCommentsBySlugRequestStatusList | undefined;
   /** Match any of open, resolved, dismissed. Overrides the default dismissed exclusion. */
-  status_eq_?: ListTrailReviewCommentsBySlugRequestStatusEqList;
+  status_eq_?: ListTrailReviewCommentsBySlugRequestStatusEqList | undefined;
   /** Exclude these statuses; repeatable or comma-separated. */
-  status_ne_?: ListTrailReviewCommentsBySlugRequestStatusNeList;
+  status_ne_?: ListTrailReviewCommentsBySlugRequestStatusNeList | undefined;
   /** Alias for severity[eq]; repeatable or comma-separated. */
-  severity?: ListTrailReviewCommentsBySlugRequestSeverityList;
+  severity?: ListTrailReviewCommentsBySlugRequestSeverityList | undefined;
   /** Match any of high, medium, low. */
-  severity_eq_?: ListTrailReviewCommentsBySlugRequestSeverityEqList;
+  severity_eq_?: ListTrailReviewCommentsBySlugRequestSeverityEqList | undefined;
   /** Exclude these severities; comments without a severity remain eligible. */
-  severity_ne_?: ListTrailReviewCommentsBySlugRequestSeverityNeList;
+  severity_ne_?: ListTrailReviewCommentsBySlugRequestSeverityNeList | undefined;
   /** current (default), stale, or any; retained by the cursor. */
-  stale?: string;
+  stale?: string | undefined;
   /** Include dismissed comments when exactly true, unless an explicit status filter selects them; retained by the cursor. */
-  include_dismissed?: string;
+  include_dismissed?: string | undefined;
   /** Page size (default 100, capped at 1000). */
-  per_page?: string;
+  per_page?: string | undefined;
   /** Opaque continuation cursor. Filters may be omitted or repeated with matching values. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
-export interface RetryReviewRequest {
+export interface RetryChangeReviewRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
   /** Trail number */
@@ -527,28 +660,34 @@ export interface RetryReviewRequest {
 }
 export interface ReviewRerunBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   launched: number;
 }
-export interface StartReviewRequest {
+export interface RetryReviewRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  /** Trail number */
+  number: string;
+}
+export interface StartChangeReviewRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
   /** Trail number */
   number: string;
   /** Optional replay-safe key; a retried request with the same key and body returns the cached response instead of re-executing. */
-  idempotencyKey?: string;
-  actor_id?: string;
-  base_ref?: string;
-  base_sha?: string | null;
-  head_ref?: string;
-  head_sha?: string | null;
+  idempotencyKey?: string | undefined;
+  actor_id?: string | undefined;
+  base_ref?: string | undefined;
+  base_sha?: string | null | undefined;
+  head_ref?: string | undefined;
+  head_sha?: string | null | undefined;
 }
 export interface ReviewLimitsJSON {
   max_comments_per_batch: number;
 }
 export interface StartReviewResponseBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   base_sha: string | null;
   code_version_id: string;
   diff_url: string;
@@ -560,6 +699,19 @@ export interface StartReviewResponseBody {
   review_id: string;
   trail_id: string;
 }
+export interface StartReviewRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  /** Trail number */
+  number: string;
+  /** Optional replay-safe key; a retried request with the same key and body returns the cached response instead of re-executing. */
+  idempotencyKey?: string | undefined;
+  actor_id?: string | undefined;
+  base_ref?: string | undefined;
+  base_sha?: string | null | undefined;
+  head_ref?: string | undefined;
+  head_sha?: string | null | undefined;
+}
 export interface StartReviewBySlugRequest {
   /** Forge host slug (gh or et) */
   host: string;
@@ -570,12 +722,25 @@ export interface StartReviewBySlugRequest {
   /** Trail number */
   number: string;
   /** Optional replay-safe key; a retried request with the same key and body returns the cached response instead of re-executing. */
-  idempotencyKey?: string;
-  actor_id?: string;
-  base_ref?: string;
-  base_sha?: string | null;
-  head_ref?: string;
-  head_sha?: string | null;
+  idempotencyKey?: string | undefined;
+  actor_id?: string | undefined;
+  base_ref?: string | undefined;
+  base_sha?: string | null | undefined;
+  head_ref?: string | undefined;
+  head_sha?: string | null | undefined;
+}
+export type UpdateChangeReviewCommentRequestSeverity = "high" | "medium" | "low";
+export type UpdateChangeReviewCommentRequestStatus = "open" | "resolved" | "dismissed";
+export interface UpdateChangeReviewCommentRequest {
+  repo_id: string;
+  number: string;
+  review_id: string;
+  comment_id: string;
+  body?: string | null | undefined;
+  confidence?: number | null | undefined;
+  severity?: UpdateChangeReviewCommentRequestSeverity | (string & {}) | null | undefined;
+  status?: UpdateChangeReviewCommentRequestStatus | (string & {}) | undefined;
+  status_reason?: string | null | undefined;
 }
 export type UpdateReviewCommentRequestSeverity = "high" | "medium" | "low";
 export type UpdateReviewCommentRequestStatus = "open" | "resolved" | "dismissed";
@@ -584,11 +749,11 @@ export interface UpdateReviewCommentRequest {
   number: string;
   review_id: string;
   comment_id: string;
-  body?: string | null;
-  confidence?: number | null;
-  severity?: UpdateReviewCommentRequestSeverity | (string & {}) | null;
-  status?: UpdateReviewCommentRequestStatus | (string & {});
-  status_reason?: string | null;
+  body?: string | null | undefined;
+  confidence?: number | null | undefined;
+  severity?: UpdateReviewCommentRequestSeverity | (string & {}) | null | undefined;
+  status?: UpdateReviewCommentRequestStatus | (string & {}) | undefined;
+  status_reason?: string | null | undefined;
 }
 export type UpdateReviewCommentBySlugRequestSeverity = "high" | "medium" | "low";
 export type UpdateReviewCommentBySlugRequestStatus = "open" | "resolved" | "dismissed";
@@ -599,22 +764,39 @@ export interface UpdateReviewCommentBySlugRequest {
   number: string;
   review_id: string;
   comment_id: string;
-  body?: string | null;
-  confidence?: number | null;
-  severity?: UpdateReviewCommentBySlugRequestSeverity | (string & {}) | null;
-  status?: UpdateReviewCommentBySlugRequestStatus | (string & {});
-  status_reason?: string | null;
+  body?: string | null | undefined;
+  confidence?: number | null | undefined;
+  severity?: UpdateReviewCommentBySlugRequestSeverity | (string & {}) | null | undefined;
+  status?: UpdateReviewCommentBySlugRequestStatus | (string & {}) | undefined;
+  status_reason?: string | null | undefined;
 }
+export type CreateChangeReviewCommentsError = EntireOpError;
+/** Change: Atomically publish review comments and summary (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push or write_findings permission (contents:write or findings:write for plugin installations), or the separate platform publish_review service grant. Comments must belong to the review author; a plugin installation authors its reviews, so a refreshed token of the same installation keeps authorship. Trails must be enabled. Send requests to the repository's primary API region. */
+export const createChangeReviewComments: API.OperationMethod<
+  CreateChangeReviewCommentsRequest,
+  ReviewCommentsAtomicResponseBody,
+  CreateChangeReviewCommentsError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<CreateChangeReviewCommentsRequest>,
+  output: __S(17, __c1, 1) as any as S.Schema<ReviewCommentsAtomicResponseBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChangeReviewComments",
+}));
+
 export type CreateReviewCommentsError = EntireOpError;
-/** Atomically publish review comments and summary (repo_id addressing) */
+/** Atomically publish review comments and summary (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push or write_findings permission (contents:write or findings:write for plugin installations), or the separate platform publish_review service grant. Comments must belong to the review author; a plugin installation authors its reviews, so a refreshed token of the same installation keeps authorship. Trails must be enabled. Send requests to the repository's primary API region. */
 export const createReviewComments: API.OperationMethod<
   CreateReviewCommentsRequest,
   ReviewCommentsAtomicResponseBody,
   CreateReviewCommentsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateReviewCommentsRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<ReviewCommentsAtomicResponseBody>,
+  input: __S(80, __c5, 0) as any as S.Schema<CreateReviewCommentsRequest>,
+  output: __S(17, __c1, 1) as any as S.Schema<ReviewCommentsAtomicResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -630,8 +812,8 @@ export const createReviewCommentsBySlug: API.OperationMethod<
   CreateReviewCommentsBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<CreateReviewCommentsBySlugRequest>,
-  output: __S(65, __c4, 1) as any as S.Schema<ReviewCommentsBatchResponseBody>,
+  input: __S(304, __c19, 0) as any as S.Schema<CreateReviewCommentsBySlugRequest>,
+  output: __S(305, __c19, 1) as any as S.Schema<ReviewCommentsBatchResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -639,8 +821,69 @@ export const createReviewCommentsBySlug: API.OperationMethod<
   span: "CreateReviewCommentsBySlug",
 }));
 
+export type GetChangeReviewError = EntireOpError;
+/** Change: Get review state (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. A review's current state, addressed by opaque repo id. Same projection, counts, keyset paging, and event cursor as the wire-parity path. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull or read_findings permission (contents:read or findings:read for plugin installations). Findings can include code excerpts: location selected_text and nearby_text, and suggested changes. Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. */
+export const getChangeReview: API.PaginatedOperationMethod<
+  GetChangeReviewRequest,
+  ReviewSnapshotResponseBody,
+  GetChangeReviewError,
+  EntireOpContext,
+  SnapshotCommentJSON
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(432, __c27, 0) as any as S.Schema<GetChangeReviewRequest>,
+    output: __S(456, __c28, 8) as any as S.Schema<ReviewSnapshotResponseBody>,
+    errors: [UnknownEntireError],
+    protocol: EntireCellProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetChangeReview",
+    pagination: {
+      inputToken: "cursor",
+      outputToken: "next_cursor",
+      items: "comments",
+      pageSize: "per_page",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
+
+export type GetChangeReviewCommentError = EntireOpError;
+/** Change: Get a review comment (repo_id addressing) */
+export const getChangeReviewComment: API.OperationMethod<
+  GetChangeReviewCommentRequest,
+  ReviewCommentJSON,
+  GetChangeReviewCommentError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(464, __c29, 0) as any as S.Schema<GetChangeReviewCommentRequest>,
+  output: __S(72, __c4, 8) as any as S.Schema<ReviewCommentJSON>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChangeReviewComment",
+}));
+
+export type GetChangeReviewDiffError = EntireOpError;
+/** Change: Diff of the code reviewed by a review (repo_id addressing) The per-file diff of the code a review pins, resolved through the git source. The base is the code_version's stored merge base, or derived from its base ref when absent; a review whose head or base can't be resolved is a 409. Patches are attached best-effort and dropped (with the file flagged) when the whole diff exceeds the read cap. */
+export const getChangeReviewDiff: API.OperationMethod<
+  GetChangeReviewDiffRequest,
+  ReviewDiffResponseBody,
+  GetChangeReviewDiffError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(480, __c30, 0) as any as S.Schema<GetChangeReviewDiffRequest>,
+  output: __S(498, __c31, 2) as any as S.Schema<ReviewDiffResponseBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChangeReviewDiff",
+}));
+
 export type GetReviewError = EntireOpError;
-/** Get review state (repo_id addressing) A review's current state, addressed by opaque repo id. Same projection, counts, keyset paging, and event cursor as the wire-parity path. */
+/** Get review state (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. A review's current state, addressed by opaque repo id. Same projection, counts, keyset paging, and event cursor as the wire-parity path. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull or read_findings permission (contents:read or findings:read for plugin installations). Findings can include code excerpts: location selected_text and nearby_text, and suggested changes. Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. */
 export const getReview: API.PaginatedOperationMethod<
   GetReviewRequest,
   ReviewSnapshotResponseBody,
@@ -649,8 +892,8 @@ export const getReview: API.PaginatedOperationMethod<
   SnapshotCommentJSON
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(192, __c12, 0) as any as S.Schema<GetReviewRequest>,
-    output: __S(216, __c13, 8) as any as S.Schema<ReviewSnapshotResponseBody>,
+    input: __S(512, __c32, 0) as any as S.Schema<GetReviewRequest>,
+    output: __S(456, __c28, 8) as any as S.Schema<ReviewSnapshotResponseBody>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -676,8 +919,8 @@ export const getReviewBySlug: API.PaginatedOperationMethod<
   SnapshotCommentJSON
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(224, __c14, 0) as any as S.Schema<GetReviewBySlugRequest>,
-    output: __S(216, __c13, 8) as any as S.Schema<ReviewSnapshotResponseBody>,
+    input: __S(528, __c33, 0) as any as S.Schema<GetReviewBySlugRequest>,
+    output: __S(456, __c28, 8) as any as S.Schema<ReviewSnapshotResponseBody>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -701,8 +944,8 @@ export const getReviewComment: API.OperationMethod<
   GetReviewCommentError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetReviewCommentRequest>,
-  output: __S(56, __c3, 8) as any as S.Schema<ReviewCommentJSON>,
+  input: __S(544, __c34, 0) as any as S.Schema<GetReviewCommentRequest>,
+  output: __S(72, __c4, 8) as any as S.Schema<ReviewCommentJSON>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -718,13 +961,84 @@ export const getReviewDiff: API.OperationMethod<
   GetReviewDiffError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetReviewDiffRequest>,
-  output: __S(259, __c16, 3) as any as S.Schema<ReviewDiffResponseBody>,
+  input: __S(560, __c35, 0) as any as S.Schema<GetReviewDiffRequest>,
+  output: __S(498, __c31, 2) as any as S.Schema<ReviewDiffResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetReviewDiff",
+}));
+
+export type ListChangeReviewCommentsError = EntireOpError;
+/** List all review comments for a change (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull or read_findings permission (contents:read or findings:read for plugin installations). Findings can include code excerpts: location selected_text and nearby_text, and suggested changes. Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. */
+export const listChangeReviewComments: API.PaginatedOperationMethod<
+  ListChangeReviewCommentsRequest,
+  ReviewCommentsPage,
+  ListChangeReviewCommentsError,
+  EntireOpContext,
+  ReviewCommentJSON
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(96, __c6, 0) as any as S.Schema<ListChangeReviewCommentsRequest>,
+    output: __S(114, __c7, 2) as any as S.Schema<ReviewCommentsPage>,
+    errors: [UnknownEntireError],
+    protocol: EntireCellProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListChangeReviewComments",
+    pagination: {
+      inputToken: "cursor",
+      outputToken: "next_cursor",
+      items: "comments",
+      pageSize: "per_page",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
+
+export type ListChangeReviewCommentsForReviewError = EntireOpError;
+/** Change: List comments for a review (repo_id addressing) A review's comments, addressed by opaque repo id, with the same filters and event cursor as the wire-parity path. */
+export const listChangeReviewCommentsForReview: API.PaginatedOperationMethod<
+  ListChangeReviewCommentsForReviewRequest,
+  ReviewCommentsPage,
+  ListChangeReviewCommentsForReviewError,
+  EntireOpContext,
+  ReviewCommentJSON
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(128, __c8, 0) as any as S.Schema<ListChangeReviewCommentsForReviewRequest>,
+    output: __S(114, __c7, 2) as any as S.Schema<ReviewCommentsPage>,
+    errors: [UnknownEntireError],
+    protocol: EntireCellProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListChangeReviewCommentsForReview",
+    pagination: {
+      inputToken: "cursor",
+      outputToken: "next_cursor",
+      items: "comments",
+      pageSize: "per_page",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
+
+export type ListChangeReviewFilesError = EntireOpError;
+/** Change: File contents for the code reviewed by a review (repo_id addressing) File contents at the reviewed code_version's head SHA. A path that is missing, too large, or unreadable comes back as a null entry rather than failing the request; the batch is bounded by an aggregate byte budget. */
+export const listChangeReviewFiles: API.OperationMethod<
+  ListChangeReviewFilesRequest,
+  ReviewFilesResponseBody,
+  ListChangeReviewFilesError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(144, __c9, 0) as any as S.Schema<ListChangeReviewFilesRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<ReviewFilesResponseBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChangeReviewFiles",
 }));
 
 export type ListReviewCommentsError = EntireOpError;
@@ -737,8 +1051,8 @@ export const listReviewComments: API.PaginatedOperationMethod<
   ReviewCommentJSON
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(272, __c17, 0) as any as S.Schema<ListReviewCommentsRequest>,
-    output: __S(290, __c18, 2) as any as S.Schema<ReviewCommentsPage>,
+    input: __S(176, __c11, 0) as any as S.Schema<ListReviewCommentsRequest>,
+    output: __S(114, __c7, 2) as any as S.Schema<ReviewCommentsPage>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -764,8 +1078,8 @@ export const listReviewCommentsBySlug: API.PaginatedOperationMethod<
   ReviewCommentJSON
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(304, __c19, 0) as any as S.Schema<ListReviewCommentsBySlugRequest>,
-    output: __S(290, __c18, 2) as any as S.Schema<ReviewCommentsPage>,
+    input: __S(192, __c12, 0) as any as S.Schema<ListReviewCommentsBySlugRequest>,
+    output: __S(114, __c7, 2) as any as S.Schema<ReviewCommentsPage>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -789,8 +1103,8 @@ export const listReviewFiles: API.OperationMethod<
   ListReviewFilesError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ListReviewFilesRequest>,
-  output: __S(322, __c20, 2) as any as S.Schema<ReviewFilesResponseBody>,
+  input: __S(208, __c13, 0) as any as S.Schema<ListReviewFilesRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<ReviewFilesResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -799,7 +1113,7 @@ export const listReviewFiles: API.OperationMethod<
 }));
 
 export type ListTrailReviewCommentsError = EntireOpError;
-/** List all review comments for a trail (repo_id addressing) */
+/** List all review comments for a trail (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull or read_findings permission (contents:read or findings:read for plugin installations). Findings can include code excerpts: location selected_text and nearby_text, and suggested changes. Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. */
 export const listTrailReviewComments: API.PaginatedOperationMethod<
   ListTrailReviewCommentsRequest,
   ReviewCommentsPage,
@@ -808,8 +1122,8 @@ export const listTrailReviewComments: API.PaginatedOperationMethod<
   ReviewCommentJSON
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(336, __c21, 0) as any as S.Schema<ListTrailReviewCommentsRequest>,
-    output: __S(290, __c18, 2) as any as S.Schema<ReviewCommentsPage>,
+    input: __S(224, __c14, 0) as any as S.Schema<ListTrailReviewCommentsRequest>,
+    output: __S(114, __c7, 2) as any as S.Schema<ReviewCommentsPage>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -835,8 +1149,8 @@ export const listTrailReviewCommentsBySlug: API.PaginatedOperationMethod<
   ReviewCommentJSON
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(80, __c5, 0) as any as S.Schema<ListTrailReviewCommentsBySlugRequest>,
-    output: __S(290, __c18, 2) as any as S.Schema<ReviewCommentsPage>,
+    input: __S(240, __c15, 0) as any as S.Schema<ListTrailReviewCommentsBySlugRequest>,
+    output: __S(114, __c7, 2) as any as S.Schema<ReviewCommentsPage>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -852,16 +1166,33 @@ export const listTrailReviewCommentsBySlug: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
+export type RetryChangeReviewError = EntireOpError;
+/** Change: Re-run configured native review runners and saved agent reviewers Re-runs every configured native review runner against the trail's current head and also fires the trail's saved agent reviewers the way a push would, so a stuck agent reviewer recovers alongside any runner reruns. Already active same-head runs and completed reviews are preserved rather than duplicated; only newly accepted runner runs count in the response's Launched. If any runner's run is recorded failed at launch because its prompt is over the 64 KiB launch limit, the response is 422 with the message that run records, even when other runners launched. A launch refused for billing answers 422 with a message saying what to do next, and records no run. A repo whose only reviewers are saved agents answers 202 with Launched: 0; a repo with no reviewer of either kind answers 422. */
+export const retryChangeReview: API.OperationMethod<
+  RetryChangeReviewRequest,
+  ReviewRerunBody,
+  RetryChangeReviewError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(256, __c16, 0) as any as S.Schema<RetryChangeReviewRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<ReviewRerunBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetryChangeReview",
+}));
+
 export type RetryReviewError = EntireOpError;
-/** Re-run configured native review runners Re-runs every configured native review runner against the trail's current head. Already active same-head runs and completed reviews are preserved rather than duplicated; only newly accepted runs count in the response. If any runner's run is recorded failed at launch because its prompt is over the 64 KiB launch limit or the owner has spent Entire's model-key budget, the response is 422 with the message that run records, even when other runners launched. A launch refused for billing answers 422 with a message saying what to do next, and records no run. */
+/** Re-run configured native review runners and saved agent reviewers Re-runs every configured native review runner against the trail's current head and also fires the trail's saved agent reviewers the way a push would, so a stuck agent reviewer recovers alongside any runner reruns. Already active same-head runs and completed reviews are preserved rather than duplicated; only newly accepted runner runs count in the response's Launched. If any runner's run is recorded failed at launch because its prompt is over the 64 KiB launch limit, the response is 422 with the message that run records, even when other runners launched. A launch refused for billing answers 422 with a message saying what to do next, and records no run. A repo whose only reviewers are saved agents answers 202 with Launched: 0; a repo with no reviewer of either kind answers 422. */
 export const retryReview: API.OperationMethod<
   RetryReviewRequest,
   ReviewRerunBody,
   RetryReviewError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<RetryReviewRequest>,
-  output: __S(97, __c6, 1) as any as S.Schema<ReviewRerunBody>,
+  input: __S(288, __c18, 0) as any as S.Schema<RetryReviewRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<ReviewRerunBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -869,16 +1200,33 @@ export const retryReview: API.OperationMethod<
   span: "RetryReview",
 }));
 
+export type StartChangeReviewError = EntireOpError;
+/** Change: Start a code review (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push or write_findings permission (contents:write or findings:write for plugin installations). Separate service exception: platform publish_review also admits a caller without push; actor_id overrides require that platform grant and are forbidden for automations. Trails must be enabled. Send requests to the repository's primary API region. */
+export const startChangeReview: API.OperationMethod<
+  StartChangeReviewRequest,
+  StartReviewResponseBody,
+  StartChangeReviewError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(320, __c20, 0) as any as S.Schema<StartChangeReviewRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<StartReviewResponseBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartChangeReview",
+}));
+
 export type StartReviewError = EntireOpError;
-/** Start a code review (repo_id addressing) */
+/** Start a code review (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push or write_findings permission (contents:write or findings:write for plugin installations). Separate service exception: platform publish_review also admits a caller without push; actor_id overrides require that platform grant and are forbidden for automations. Trails must be enabled. Send requests to the repository's primary API region. */
 export const startReview: API.OperationMethod<
   StartReviewRequest,
   StartReviewResponseBody,
   StartReviewError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<StartReviewRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<StartReviewResponseBody>,
+  input: __S(352, __c22, 0) as any as S.Schema<StartReviewRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<StartReviewResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -894,8 +1242,8 @@ export const startReviewBySlug: API.OperationMethod<
   StartReviewBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<StartReviewBySlugRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<StartReviewResponseBody>,
+  input: __S(368, __c23, 0) as any as S.Schema<StartReviewBySlugRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<StartReviewResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -903,16 +1251,33 @@ export const startReviewBySlug: API.OperationMethod<
   span: "StartReviewBySlug",
 }));
 
+export type UpdateChangeReviewCommentError = EntireOpError;
+/** Change: Update a review comment (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push or write_findings permission (contents:write or findings:write for plugin installations); platform publish_review alone does not authorize PATCH. A caller without push may update only comments on reviews it authored. Comment-field and status-transition rules still apply. Trails must be enabled. Send requests to the repository's primary API region. */
+export const updateChangeReviewComment: API.OperationMethod<
+  UpdateChangeReviewCommentRequest,
+  ReviewCommentJSON,
+  UpdateChangeReviewCommentError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(384, __c24, 0) as any as S.Schema<UpdateChangeReviewCommentRequest>,
+  output: __S(72, __c4, 8) as any as S.Schema<ReviewCommentJSON>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChangeReviewComment",
+}));
+
 export type UpdateReviewCommentError = EntireOpError;
-/** Update a review comment (repo_id addressing) */
+/** Update a review comment (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push or write_findings permission (contents:write or findings:write for plugin installations); platform publish_review alone does not authorize PATCH. A caller without push may update only comments on reviews it authored. Comment-field and status-transition rules still apply. Trails must be enabled. Send requests to the repository's primary API region. */
 export const updateReviewComment: API.OperationMethod<
   UpdateReviewCommentRequest,
   ReviewCommentJSON,
   UpdateReviewCommentError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<UpdateReviewCommentRequest>,
-  output: __S(56, __c3, 8) as any as S.Schema<ReviewCommentJSON>,
+  input: __S(400, __c25, 0) as any as S.Schema<UpdateReviewCommentRequest>,
+  output: __S(72, __c4, 8) as any as S.Schema<ReviewCommentJSON>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -928,8 +1293,8 @@ export const updateReviewCommentBySlug: API.OperationMethod<
   UpdateReviewCommentBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<UpdateReviewCommentBySlugRequest>,
-  output: __S(56, __c3, 8) as any as S.Schema<ReviewCommentJSON>,
+  input: __S(416, __c26, 0) as any as S.Schema<UpdateReviewCommentBySlugRequest>,
+  output: __S(72, __c4, 8) as any as S.Schema<ReviewCommentJSON>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -947,17 +1312,21 @@ function __c0(j: number): any {
           number: S.String.pipe(T.Label()),
           review_id: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          comments: S.optional(S.NullOr(__S(19, __c1, 3))),
+          comments: S.optional(S.NullOr(__S(35, __c2, 3))),
           summary: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/reviews/{review_id}/comments",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/reviews/{review_id}/comments",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreateReviewCommentsRequest" });
-    case 1:
+      ).annotate({ identifier: "CreateChangeReviewCommentsRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           actor_id: S.NullOr(S.String),
@@ -970,17 +1339,17 @@ function __c0(j: number): any {
           trail_id: S.String,
         }),
       ).annotate({ identifier: "ReviewCommentsAtomicReviewJSON" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          results: S.NullOr(__S(22, __c1, 6)),
-          review: __S(1, __c0, 1),
+          results: S.NullOr(__S(38, __c2, 6)),
+          review: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "ReviewCommentsAtomicResponseBody" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1015,15 +1384,15 @@ function __c1(j: number): any {
           body: S.optional(S.NullOr(S.String)),
           client_id: S.String,
           confidence: S.optional(S.NullOr(S.Number)),
-          location: __S(16, __c1, 0),
+          location: __S(32, __c2, 0),
           severity: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
           status_reason: S.optional(S.NullOr(S.String)),
-          suggested_change: S.optional(S.NullOr(__S(17, __c1, 1))),
+          suggested_change: S.optional(S.NullOr(__S(33, __c2, 1))),
         }),
       ).annotate({ identifier: "ReviewCommentBatchRequestJSON" });
     case 3:
-      return S.Array(__S(18, __c1, 2));
+      return S.Array(__S(34, __c2, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1037,17 +1406,17 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           client_id: S.String,
-          comment: S.optional(__S(56, __c3, 8)),
-          error: S.optional(__S(20, __c1, 4)),
+          comment: S.optional(__S(72, __c4, 8)),
+          error: S.optional(__S(36, __c2, 4)),
           status: S.String,
-          suggested_change: S.optional(__S(32, __c2, 0)),
+          suggested_change: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "ReviewCommentBatchResultJSON" });
     case 6:
-      return S.Array(__S(21, __c1, 5));
+      return S.Array(__S(37, __c2, 5));
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1070,9 +1439,16 @@ function __c2(j: number): any {
       ).annotate({ identifier: "SuggestedChangeJSON" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "ReviewCommentJSONActorIdentityAgent" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           automation_id: S.optional(S.String),
@@ -1080,7 +1456,7 @@ function __c3(j: number): any {
           plugin: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutomationIdentity" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           handle: S.String,
@@ -1088,21 +1464,23 @@ function __c3(j: number): any {
           provider: S.String,
         }),
       ).annotate({ identifier: "IdentityHandle" });
-    case 2:
-      return S.Array(__S(49, __c3, 1));
     case 3:
+      return S.Array(__S(66, __c4, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           account_id: S.NullOr(S.String),
-          automation: S.optional(__S(48, __c3, 0)),
+          agent: S.optional(__S(64, __c4, 0)),
+          automation: S.optional(__S(65, __c4, 1)),
           avatar_url: S.NullOr(S.String),
           display_name: S.NullOr(S.String),
-          handles: S.NullOr(__S(50, __c3, 2)),
+          handles: S.NullOr(__S(67, __c4, 3)),
           kind: S.String,
+          run_id: S.optional(S.String),
           username: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ContributorIdentity" });
-    case 4:
+      ).annotate({ identifier: "ReviewCommentJSONActorIdentity" });
+    case 5:
       return S.suspend(() =>
         S.Struct({
           created_at: S.String,
@@ -1112,7 +1490,7 @@ function __c3(j: number): any {
           verdict: S.String,
         }),
       ).annotate({ identifier: "ReviewCommentJSONAgentVerdict" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           code_version_id: S.String,
@@ -1129,17 +1507,10 @@ function __c3(j: number): any {
           start_line: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "CommentLocationJSON" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "ReviewCommentJSONSourceAgent" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          agent: __S(54, __c3, 6),
+          agent: __S(64, __c4, 0),
           run_id: S.String,
         }),
       ).annotate({ identifier: "ReviewCommentJSONSource" });
@@ -1149,8 +1520,8 @@ function __c3(j: number): any {
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           actor_display_name: S.NullOr(S.String),
           actor_id: S.NullOr(S.String),
-          actor_identity: __S(51, __c3, 3),
-          agent_verdict: S.optional(__S(52, __c3, 4)),
+          actor_identity: __S(68, __c4, 4),
+          agent_verdict: S.optional(__S(69, __c4, 5)),
           body: S.NullOr(S.String),
           client_id: S.NullOr(S.String),
           client_id_hash: S.NullOr(S.String),
@@ -1160,18 +1531,18 @@ function __c3(j: number): any {
           discussion_id: S.NullOr(S.String),
           discussion_message_count: S.Number,
           id: S.String,
-          location: __S(53, __c3, 5),
+          location: __S(70, __c4, 6),
           repo_id: S.String,
           review_id: S.String,
           severity: S.NullOr(S.String),
-          source: S.optional(__S(55, __c3, 7)),
+          source: S.optional(__S(71, __c4, 7)),
           stale_checked_at: S.NullOr(S.String),
           stale_checked_code_version_id: S.NullOr(S.String),
           stale_outcome: S.String,
           status: S.String,
           status_actor_display_name: S.NullOr(S.String),
           status_actor_id: S.NullOr(S.String),
-          status_actor_identity: __S(51, __c3, 3),
+          status_actor_identity: __S(68, __c4, 4),
           status_actor_kind: S.NullOr(S.String),
           status_changed_at: S.NullOr(S.String),
           status_reason: S.NullOr(S.String),
@@ -1182,7 +1553,162 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ReviewCommentJSON" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          review_id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          comments: S.optional(S.NullOr(__S(35, __c2, 3))),
+          summary: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/repos/{repo_id}/trails/{number}/reviews/{review_id}/comments",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateReviewCommentsRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          status: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          status_eq_: S.optional(__S(112, __c7, 0).pipe(T.Query("status[eq]"))),
+          status_ne_: S.optional(__S(112, __c7, 0).pipe(T.Query("status[ne]"))),
+          severity: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          severity_eq_: S.optional(__S(112, __c7, 0).pipe(T.Query("severity[eq]"))),
+          severity_ne_: S.optional(__S(112, __c7, 0).pipe(T.Query("severity[ne]"))),
+          stale: S.optional(S.String.pipe(T.Query())),
+          include_dismissed: S.optional(S.String.pipe(T.Query())),
+          per_page: S.optional(S.String.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/reviews/comments",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListChangeReviewCommentsRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.Array(__S(72, __c4, 8));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          comments: S.NullOr(__S(113, __c7, 1)),
+          event_cursor: S.String,
+          next_cursor: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReviewCommentsPage" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          review_id: S.String.pipe(T.Label()),
+          status: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          status_eq_: S.optional(__S(112, __c7, 0).pipe(T.Query("status[eq]"))),
+          status_ne_: S.optional(__S(112, __c7, 0).pipe(T.Query("status[ne]"))),
+          severity: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          severity_eq_: S.optional(__S(112, __c7, 0).pipe(T.Query("severity[eq]"))),
+          severity_ne_: S.optional(__S(112, __c7, 0).pipe(T.Query("severity[ne]"))),
+          stale: S.optional(S.String.pipe(T.Query())),
+          include_dismissed: S.optional(S.String.pipe(T.Query())),
+          per_page: S.optional(S.String.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/reviews/{review_id}/comments",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListChangeReviewCommentsForReviewRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          review_id: S.String.pipe(T.Label()),
+          paths: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/reviews/{review_id}/files",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListChangeReviewFilesRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          code_version_id: S.String,
+          files: __S(160, __c10, 0),
+          head_sha: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ReviewFilesResponseBody" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          review_id: S.String.pipe(T.Label()),
+          status: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          status_eq_: S.optional(__S(112, __c7, 0).pipe(T.Query("status[eq]"))),
+          status_ne_: S.optional(__S(112, __c7, 0).pipe(T.Query("status[ne]"))),
+          severity: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          severity_eq_: S.optional(__S(112, __c7, 0).pipe(T.Query("severity[eq]"))),
+          severity_ne_: S.optional(__S(112, __c7, 0).pipe(T.Query("severity[ne]"))),
+          stale: S.optional(S.String.pipe(T.Query())),
+          include_dismissed: S.optional(S.String.pipe(T.Query())),
+          per_page: S.optional(S.String.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/trails/{number}/reviews/{review_id}/comments",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListReviewCommentsRequest" });
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1192,27 +1718,73 @@ function __c4(j: number): any {
           repo: S.String.pipe(T.Label()),
           number: S.String.pipe(T.Label()),
           review_id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          comments: S.optional(S.NullOr(__S(19, __c1, 3))),
-          summary: S.optional(S.NullOr(S.String)),
+          status: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          status_eq_: S.optional(__S(112, __c7, 0).pipe(T.Query("status[eq]"))),
+          status_ne_: S.optional(__S(112, __c7, 0).pipe(T.Query("status[ne]"))),
+          severity: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          severity_eq_: S.optional(__S(112, __c7, 0).pipe(T.Query("severity[eq]"))),
+          severity_ne_: S.optional(__S(112, __c7, 0).pipe(T.Query("severity[ne]"))),
+          stale: S.optional(S.String.pipe(T.Query())),
+          include_dismissed: S.optional(S.String.pipe(T.Query())),
+          per_page: S.optional(S.String.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
-            method: "POST",
+            method: "GET",
             uri: "/api/v1/trails/{host}/{owner}/{repo}/{number}/reviews/{review_id}/comments",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreateReviewCommentsBySlugRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          results: S.NullOr(__S(22, __c1, 6)),
-        }),
-      ).annotate({ identifier: "ReviewCommentsBatchResponseBody" });
+      ).annotate({ identifier: "ListReviewCommentsBySlugRequest" });
   }
 }
-function __c5(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          review_id: S.String.pipe(T.Label()),
+          paths: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/trails/{number}/reviews/{review_id}/files",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListReviewFilesRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          status: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          status_eq_: S.optional(__S(112, __c7, 0).pipe(T.Query("status[eq]"))),
+          status_ne_: S.optional(__S(112, __c7, 0).pipe(T.Query("status[ne]"))),
+          severity: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          severity_eq_: S.optional(__S(112, __c7, 0).pipe(T.Query("severity[eq]"))),
+          severity_ne_: S.optional(__S(112, __c7, 0).pipe(T.Query("severity[ne]"))),
+          stale: S.optional(S.String.pipe(T.Query())),
+          include_dismissed: S.optional(S.String.pipe(T.Query())),
+          per_page: S.optional(S.String.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/trails/{number}/reviews/comments",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListTrailReviewCommentsRequest" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1221,12 +1793,12 @@ function __c5(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           number: S.String.pipe(T.Label()),
-          status: S.optional(__S(288, __c18, 0).pipe(T.Query())),
-          status_eq_: S.optional(__S(288, __c18, 0).pipe(T.Query("status[eq]"))),
-          status_ne_: S.optional(__S(288, __c18, 0).pipe(T.Query("status[ne]"))),
-          severity: S.optional(__S(288, __c18, 0).pipe(T.Query())),
-          severity_eq_: S.optional(__S(288, __c18, 0).pipe(T.Query("severity[eq]"))),
-          severity_ne_: S.optional(__S(288, __c18, 0).pipe(T.Query("severity[ne]"))),
+          status: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          status_eq_: S.optional(__S(112, __c7, 0).pipe(T.Query("status[eq]"))),
+          status_ne_: S.optional(__S(112, __c7, 0).pipe(T.Query("status[ne]"))),
+          severity: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          severity_eq_: S.optional(__S(112, __c7, 0).pipe(T.Query("severity[eq]"))),
+          severity_ne_: S.optional(__S(112, __c7, 0).pipe(T.Query("severity[ne]"))),
           stale: S.optional(S.String.pipe(T.Query())),
           include_dismissed: S.optional(S.String.pipe(T.Query())),
           per_page: S.optional(S.String.pipe(T.Query())),
@@ -1241,7 +1813,35 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ListTrailReviewCommentsBySlugRequest" });
   }
 }
-function __c6(j: number): any {
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/review-rerun",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RetryChangeReviewRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          launched: S.Number,
+        }),
+      ).annotate({ identifier: "ReviewRerunBody" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1256,16 +1856,88 @@ function __c6(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RetryReviewRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String.pipe(T.Label()),
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          review_id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          comments: S.optional(S.NullOr(__S(35, __c2, 3))),
+          summary: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/trails/{host}/{owner}/{repo}/{number}/reviews/{review_id}/comments",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateReviewCommentsBySlugRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          launched: S.Number,
+          results: S.NullOr(__S(38, __c2, 6)),
         }),
-      ).annotate({ identifier: "ReviewRerunBody" });
+      ).annotate({ identifier: "ReviewCommentsBatchResponseBody" });
   }
 }
-function __c7(j: number): any {
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          actor_id: S.optional(S.String),
+          base_ref: S.optional(S.String),
+          base_sha: S.optional(S.NullOr(S.String)),
+          head_ref: S.optional(S.String),
+          head_sha: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/reviews",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "StartChangeReviewRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          max_comments_per_batch: S.Number,
+        }),
+      ).annotate({ identifier: "ReviewLimitsJSON" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          base_sha: S.NullOr(S.String),
+          code_version_id: S.String,
+          diff_url: S.String,
+          event_stream_url: S.String,
+          files_url: S.String,
+          head_sha: S.NullOr(S.String),
+          limits: __S(336, __c21, 0),
+          repo_id: S.String,
+          review_id: S.String,
+          trail_id: S.String,
+        }),
+      ).annotate({ identifier: "StartReviewResponseBody" });
+  }
+}
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1288,33 +1960,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "StartReviewRequest" });
   }
 }
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          max_comments_per_batch: S.Number,
-        }),
-      ).annotate({ identifier: "ReviewLimitsJSON" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          base_sha: S.NullOr(S.String),
-          code_version_id: S.String,
-          diff_url: S.String,
-          event_stream_url: S.String,
-          files_url: S.String,
-          head_sha: S.NullOr(S.String),
-          limits: __S(128, __c8, 0),
-          repo_id: S.String,
-          review_id: S.String,
-          trail_id: S.String,
-        }),
-      ).annotate({ identifier: "StartReviewResponseBody" });
-  }
-}
-function __c9(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1339,7 +1985,31 @@ function __c9(j: number): any {
       ).annotate({ identifier: "StartReviewBySlugRequest" });
   }
 }
-function __c10(j: number): any {
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          review_id: S.String.pipe(T.Label()),
+          comment_id: S.String.pipe(T.Label()),
+          body: S.optional(S.NullOr(S.String)),
+          confidence: S.optional(S.NullOr(S.Number)),
+          severity: S.optional(S.NullOr(S.String)),
+          status: S.optional(S.String),
+          status_reason: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/reviews/{review_id}/comments/{comment_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateChangeReviewCommentRequest" });
+  }
+}
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1363,7 +2033,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "UpdateReviewCommentRequest" });
   }
 }
-function __c11(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1389,7 +2059,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "UpdateReviewCommentBySlugRequest" });
   }
 }
-function __c12(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1404,14 +2074,14 @@ function __c12(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/reviews/{review_id}",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/reviews/{review_id}",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "GetReviewRequest" });
+      ).annotate({ identifier: "GetChangeReviewRequest" });
   }
 }
-function __c13(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1435,18 +2105,18 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "ReviewCommentLinkJSON" });
     case 2:
-      return S.Array(__S(209, __c13, 1));
+      return S.Array(__S(449, __c28, 1));
     case 3:
-      return S.Array(__S(32, __c2, 0));
+      return S.Array(__S(48, __c3, 0));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          outgoing_links: S.NullOr(__S(210, __c13, 2)),
-          suggested_changes: S.NullOr(__S(211, __c13, 3)),
+          outgoing_links: S.NullOr(__S(450, __c28, 2)),
+          suggested_changes: S.NullOr(__S(451, __c28, 3)),
         }),
       ).annotate({ identifier: "SnapshotCommentJSON" });
     case 5:
-      return S.Array(__S(212, __c13, 4));
+      return S.Array(__S(452, __c28, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -1473,17 +2143,105 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          code_version: __S(208, __c13, 0),
-          comments: S.NullOr(__S(213, __c13, 5)),
-          counts: __S(214, __c13, 6),
+          code_version: __S(448, __c28, 0),
+          comments: S.NullOr(__S(453, __c28, 5)),
+          counts: __S(454, __c28, 6),
           event_cursor: S.String,
           next_cursor: S.optional(S.String),
-          review: __S(215, __c13, 7),
+          review: __S(455, __c28, 7),
         }),
       ).annotate({ identifier: "ReviewSnapshotResponseBody" });
   }
 }
-function __c14(j: number): any {
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          review_id: S.String.pipe(T.Label()),
+          comment_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/reviews/{review_id}/comments/{comment_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetChangeReviewCommentRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          review_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/reviews/{review_id}/diff",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetChangeReviewDiffRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          additions: S.Number,
+          deletions: S.Number,
+          patch: S.NullOr(S.String),
+          patch_truncated: S.Boolean,
+          path: S.String,
+          previous_path: S.NullOr(S.String),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "ReviewDiffFileJSON" });
+    case 1:
+      return S.Array(__S(496, __c31, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          base_sha: S.NullOr(S.String),
+          code_version_id: S.String,
+          files: S.NullOr(__S(497, __c31, 1)),
+          files_truncated: S.Boolean,
+          head_sha: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ReviewDiffResponseBody" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          review_id: S.String.pipe(T.Label()),
+          include_dismissed: S.optional(S.String.pipe(T.Query())),
+          stale: S.optional(S.String.pipe(T.Query())),
+          per_page: S.optional(S.String.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/trails/{number}/reviews/{review_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetReviewRequest" });
+  }
+}
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1507,7 +2265,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetReviewBySlugRequest" });
   }
 }
-function __c15(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1526,7 +2284,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetReviewCommentRequest" });
   }
 }
-function __c16(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1542,162 +2300,6 @@ function __c16(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetReviewDiffRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          additions: S.Number,
-          deletions: S.Number,
-          patch: S.NullOr(S.String),
-          patch_truncated: S.Boolean,
-          path: S.String,
-          previous_path: S.NullOr(S.String),
-          status: S.String,
-        }),
-      ).annotate({ identifier: "ReviewDiffFileJSON" });
-    case 2:
-      return S.Array(__S(257, __c16, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          base_sha: S.NullOr(S.String),
-          code_version_id: S.String,
-          files: S.NullOr(__S(258, __c16, 2)),
-          head_sha: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ReviewDiffResponseBody" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-          review_id: S.String.pipe(T.Label()),
-          status: S.optional(__S(288, __c18, 0).pipe(T.Query())),
-          status_eq_: S.optional(__S(288, __c18, 0).pipe(T.Query("status[eq]"))),
-          status_ne_: S.optional(__S(288, __c18, 0).pipe(T.Query("status[ne]"))),
-          severity: S.optional(__S(288, __c18, 0).pipe(T.Query())),
-          severity_eq_: S.optional(__S(288, __c18, 0).pipe(T.Query("severity[eq]"))),
-          severity_ne_: S.optional(__S(288, __c18, 0).pipe(T.Query("severity[ne]"))),
-          stale: S.optional(S.String.pipe(T.Query())),
-          include_dismissed: S.optional(S.String.pipe(T.Query())),
-          per_page: S.optional(S.String.pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/reviews/{review_id}/comments",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListReviewCommentsRequest" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-    case 1:
-      return S.Array(__S(56, __c3, 8));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          comments: S.NullOr(__S(289, __c18, 1)),
-          event_cursor: S.String,
-          next_cursor: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReviewCommentsPage" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String.pipe(T.Label()),
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-          review_id: S.String.pipe(T.Label()),
-          status: S.optional(__S(288, __c18, 0).pipe(T.Query())),
-          status_eq_: S.optional(__S(288, __c18, 0).pipe(T.Query("status[eq]"))),
-          status_ne_: S.optional(__S(288, __c18, 0).pipe(T.Query("status[ne]"))),
-          severity: S.optional(__S(288, __c18, 0).pipe(T.Query())),
-          severity_eq_: S.optional(__S(288, __c18, 0).pipe(T.Query("severity[eq]"))),
-          severity_ne_: S.optional(__S(288, __c18, 0).pipe(T.Query("severity[ne]"))),
-          stale: S.optional(S.String.pipe(T.Query())),
-          include_dismissed: S.optional(S.String.pipe(T.Query())),
-          per_page: S.optional(S.String.pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/trails/{host}/{owner}/{repo}/{number}/reviews/{review_id}/comments",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListReviewCommentsBySlugRequest" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-          review_id: S.String.pipe(T.Label()),
-          paths: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/reviews/{review_id}/files",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListReviewFilesRequest" });
-    case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          code_version_id: S.String,
-          files: __S(321, __c20, 1),
-          head_sha: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ReviewFilesResponseBody" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-          status: S.optional(__S(288, __c18, 0).pipe(T.Query())),
-          status_eq_: S.optional(__S(288, __c18, 0).pipe(T.Query("status[eq]"))),
-          status_ne_: S.optional(__S(288, __c18, 0).pipe(T.Query("status[ne]"))),
-          severity: S.optional(__S(288, __c18, 0).pipe(T.Query())),
-          severity_eq_: S.optional(__S(288, __c18, 0).pipe(T.Query("severity[eq]"))),
-          severity_ne_: S.optional(__S(288, __c18, 0).pipe(T.Query("severity[ne]"))),
-          stale: S.optional(S.String.pipe(T.Query())),
-          include_dismissed: S.optional(S.String.pipe(T.Query())),
-          per_page: S.optional(S.String.pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/reviews/comments",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListTrailReviewCommentsRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

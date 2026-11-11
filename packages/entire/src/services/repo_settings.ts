@@ -43,9 +43,9 @@ export interface DeleteRepoSecretResponse {}
 export interface ListRepoSecretsRequest {
   repo_id: string;
   /** Max keys per page */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Cursor from a previous page's nextPageToken */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface RepoSecretMetaItem {
   /** Which secret is configured (e.g. api_key_anthropic). */
@@ -56,9 +56,9 @@ export interface RepoSecretMetaItem {
 export type RepoSecretsListOutputBodyItemsList = Array<RepoSecretMetaItem>;
 export interface RepoSecretsListOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   items: RepoSecretsListOutputBodyItemsList | null;
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface SetRepoSecretRequest {
   repo_id: string;
@@ -69,17 +69,17 @@ export interface SetRepoSecretRequest {
 export interface SetRepoSecretResponse {}
 export interface UpdateRepoPublicSharingRequest {
   repo_id: string;
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface PublicSharingOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   public_sharing_enabled: boolean;
 }
 export interface UpdateRepoRunnerSettingsRequest {
   repo_id: string;
-  auto_run_on_push?: boolean;
-  runners_enabled?: boolean;
+  auto_run_on_push?: boolean | undefined;
+  runners_enabled?: boolean | undefined;
 }
 export interface RunnerSettingsBody {
   auto_run_on_push: boolean;
@@ -87,7 +87,7 @@ export interface RunnerSettingsBody {
 }
 export interface RunnerSettingsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   settings: RunnerSettingsBody;
 }
 export interface UpdateRepoTrailSettingsRequest {
@@ -99,7 +99,7 @@ export interface TrailSettingsBody {
 }
 export interface TrailSettingsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   settings: TrailSettingsBody;
 }
 export type DeleteRepoSecretError = RepoNotInRegion | EntireOpError;

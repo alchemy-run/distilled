@@ -37,23 +37,23 @@ export interface SearchSemanticRequest {
   /** Search query (max 500 characters) */
   q: string;
   /** Comma-separated entity types to search. Any of: repos, checkpoints, commits, prs, sessions. Defaults to all types when omitted. */
-  types?: string;
-  /** Restrict results to specific repositories by repo ULID (case-insensitive; normalized to canonical uppercase). Repeatable; duplicate values are ignored. Omitted = all accessible repos. Full names (values containing '/'), blank values, more than 100 values, or values over 250 characters are rejected with 400. A filter matching none of the caller's accessible repos is rejected with 404. */
-  repo?: SearchSemanticRequestRepoList;
+  types?: string | undefined;
+  /** Restrict results to specific repositories by repo ULID (case-insensitive; normalized to canonical uppercase). Repeatable; duplicate values are ignored. Omitted = all accessible repos. Full names (values containing '/'), blank values, more than 100 values, or values over 250 characters are rejected with 400. An explicit value may name any repo the caller can pull -- including a public repo outside their affiliations (ENT-3635); values naming no such repo are dropped, and a filter matching none overall is rejected with 404. Unfiltered searches never cover unaffiliated public repos. */
+  repo?: SearchSemanticRequestRepoList | undefined;
   /** Restrict results to a branch (max 250 characters) */
-  branch?: string;
+  branch?: string | undefined;
   /** Restrict results to an author */
-  author?: string;
+  author?: string | undefined;
   /** Restrict results to the last week or month */
-  date?: SearchSemanticRequestDate | (string & {});
+  date?: SearchSemanticRequestDate | (string & {}) | undefined;
   /** Search mode. Defaults to hybrid. */
-  mode?: SearchSemanticRequestMode | (string & {});
+  mode?: SearchSemanticRequestMode | (string & {}) | undefined;
   /** Narrow a single-type search further (legacy CLI/compat path, ENT-1363). When set, the response is one type with the global limit cut and page honored. When omitted, per-type caps apply instead (see limit/page). */
-  filter_type?: SearchSemanticRequestFilterType | (string & {});
+  filter_type?: SearchSemanticRequestFilterType | (string & {}) | undefined;
   /** Maximum results to return (1-500, default 20). Without filter_type this is a per-type cap (ENT-1363): up to limit results of each type are returned in one response, and a type that hit its cap is flagged in truncated_types. With filter_type it is the page size. */
-  limit?: number;
+  limit?: number | undefined;
   /** 1-based page number. Only honored with filter_type; ignored on the per-type-capped path (ENT-1363). */
-  page?: number;
+  page?: number | undefined;
 }
 export type SearchResultType = "repo" | "checkpoint" | "commit" | "pr" | "session";
 /** Forge namespace the repo lives in. Clients route and render by it; an entire-native row addressed as GitHub resolves names against the wrong forge. Rollout: servers predating this field omit it -- clients must treat an absent or empty value as "github". */
@@ -69,7 +69,7 @@ export interface RepoResult {
   /** Forge namespace the repo lives in. Clients route and render by it; an entire-native row addressed as GitHub resolves names against the wrong forge. Rollout: servers predating this field omit it -- clients must treat an absent or empty value as "github". */
   provider: RepoResultProvider;
   /** Deprecated -- always null. Its only source (the legacy repos table) was retired in ENT-1912; the field stays on the v1 wire for compatibility and will be removed in the next API version. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** entire-core's repo_facts checkpoint count (0 when unobserved). */
   checkpointCount: number;
 }
@@ -79,20 +79,20 @@ export type CheckpointResultFilesTouchedList = Array<string>;
 export interface CheckpointResult {
   id: string;
   prompt: string;
-  commitMessage?: string | null;
-  commitSubject?: string | null;
-  commitSha?: string | null;
+  commitMessage?: string | null | undefined;
+  commitSubject?: string | null | undefined;
+  commitSha?: string | null | undefined;
   branch: string;
   org: string;
   repo: string;
   /** Forge namespace the repo lives in. Clients route and render by it; an entire-native row addressed as GitHub resolves names against the wrong forge. Rollout: servers predating this field omit it -- clients must treat an absent or empty value as "github". */
   provider: CheckpointResultProvider;
   author: string;
-  authorUsername?: string | null;
+  authorUsername?: string | null | undefined;
   createdAt: string;
   filesTouched: CheckpointResultFilesTouchedList;
   /** First session of the checkpoint (from sessions_display), for deep-linking to /session/<id>#timeline-<checkpointId>. Null for index docs that predate the attribute. */
-  sessionId?: string | null;
+  sessionId?: string | null | undefined;
 }
 /** Forge namespace the repo lives in. Clients route and render by it; an entire-native row addressed as GitHub resolves names against the wrong forge. Rollout: servers predating this field omit it -- clients must treat an absent or empty value as "github". */
 export type CommitResultProvider = "github" | "entire";
@@ -107,12 +107,12 @@ export interface CommitResult {
   /** Forge namespace the repo lives in. Clients route and render by it; an entire-native row addressed as GitHub resolves names against the wrong forge. Rollout: servers predating this field omit it -- clients must treat an absent or empty value as "github". */
   provider: CommitResultProvider;
   author: string;
-  authorUsername?: string | null;
+  authorUsername?: string | null | undefined;
   createdAt: string;
   additions: number;
   deletions: number;
   filesChanged: number;
-  htmlUrl?: string | null;
+  htmlUrl?: string | null | undefined;
 }
 /** Forge namespace the repo lives in. Clients route and render by it; an entire-native row addressed as GitHub resolves names against the wrong forge. Rollout: servers predating this field omit it -- clients must treat an absent or empty value as "github". */
 export type PRResultProvider = "github" | "entire";
@@ -121,42 +121,42 @@ export interface PRResult {
   githubPrId: number;
   number: number;
   title: string;
-  htmlUrl?: string | null;
+  htmlUrl?: string | null | undefined;
   state: string;
   draft: boolean;
-  headBranch?: string | null;
-  userLogin?: string | null;
+  headBranch?: string | null | undefined;
+  userLogin?: string | null | undefined;
   org: string;
   repo: string;
   /** Forge namespace the repo lives in. Clients route and render by it; an entire-native row addressed as GitHub resolves names against the wrong forge. Rollout: servers predating this field omit it -- clients must treat an absent or empty value as "github". */
   provider: PRResultProvider;
   createdAt: string;
-  mergedAt?: string | null;
+  mergedAt?: string | null | undefined;
 }
 /** Forge namespace the repo lives in. Clients route and render by it; an entire-native row addressed as GitHub resolves names against the wrong forge. Rollout: servers predating this field omit it -- clients must treat an absent or empty value as "github". */
 export type SessionResultProvider = "github" | "entire";
 export interface SessionResult {
   sessionId: string;
   /** The folding checkpoint's commit sha, carried so a folded row can navigate/hydrate without a second lookup (ENT-1595). Omitted when absent. */
-  commitSha?: string | null;
+  commitSha?: string | null | undefined;
   displayName: string;
-  prompt?: string | null;
-  agent?: string | null;
-  model?: string | null;
+  prompt?: string | null | undefined;
+  agent?: string | null | undefined;
+  model?: string | null | undefined;
   stepCount: number;
   org: string;
   repo: string;
   /** Forge namespace the repo lives in. Clients route and render by it; an entire-native row addressed as GitHub resolves names against the wrong forge. Rollout: servers predating this field omit it -- clients must treat an absent or empty value as "github". */
   provider: SessionResultProvider;
-  branch?: string | null;
-  authorUsername?: string | null;
+  branch?: string | null | undefined;
+  authorUsername?: string | null | undefined;
   createdAt: string;
   /** Live checkpoint count, overlaid from the cell's sessions table at query time; absent when hydration was skipped or the id was unknown. */
-  checkpointCount?: number | null;
+  checkpointCount?: number | null | undefined;
   /** Session kind (e.g. agent_review), overlaid at query time. */
-  kind?: string | null;
+  kind?: string | null | undefined;
   /** Public visibility, overlaid at query time. */
-  isPublic?: boolean | null;
+  isPublic?: boolean | null | undefined;
 }
 export type SearchResultData =
   | RepoResult
@@ -175,19 +175,19 @@ export interface SearchMeta {
   score: number;
   /** Ranking tier: 0 (exact keyword), 1 (reranked ANN), 2 (remaining ANN) */
   tier: number;
-  snippet?: string;
+  snippet?: string | undefined;
   /** Cross-encoder relevance judgement, present only on reranked results. Where present, this is the signal the ordering was built from, and the only score comparable across repositories -- bm25Score is computed per-namespace against per-repo corpus statistics. */
-  rerankScore?: number;
+  rerankScore?: number | undefined;
   /** Raw BM25 score for the keyword leg; higher is better. */
-  bm25Score?: number;
+  bm25Score?: number | undefined;
   /** Raw cosine distance for the semantic leg; LOWER is better. Inverted into a similarity before contributing to score. */
-  annScore?: number;
-  bm25Rank?: number;
-  annRank?: number;
+  annScore?: number | undefined;
+  bm25Rank?: number | undefined;
+  annRank?: number | undefined;
   /** Marks a result synthesized from another type's document (e.g. a commit projected from a checkpoint hit) rather than a match on the type's own documents. Absent means a real match. */
-  projected?: boolean;
+  projected?: boolean | undefined;
   /** Session results only: which evidence matched -- the session's AI/custom title (its session_title doc), its transcript (checkpoint chunks), or both. The server already orders title-matched sessions above transcript-only ones; clients render labels off this field without heuristics. */
-  matchedIn?: SearchMetaMatchedIn;
+  matchedIn?: SearchMetaMatchedIn | undefined;
 }
 export interface SearchResult {
   type: SearchResultType;
@@ -197,29 +197,29 @@ export interface SearchResult {
 export type EntireSearchSearchResponseResultsList = Array<SearchResult>;
 export interface SearchTiming {
   total_ms: number;
-  keyword_ms?: number | null;
-  embedding_ms?: number | null;
-  vector_ms?: number | null;
-  rerank_ms?: number | null;
-  fanout_ms?: number | null;
-  session_hydration_ms?: number | null;
-  session_names_ms?: number | null;
+  keyword_ms?: number | null | undefined;
+  embedding_ms?: number | null | undefined;
+  vector_ms?: number | null | undefined;
+  rerank_ms?: number | null | undefined;
+  fanout_ms?: number | null | undefined;
+  session_hydration_ms?: number | null | undefined;
+  session_names_ms?: number | null | undefined;
 }
 /** Per-type flag marking that the returned result list for that type was capped at the per-type limit (ENT-1363): the ranked set held more results of that type than the response carries, so a tab count derived from the list is a lower bound (render "N+"). Only populated on the unfiltered (no filter_type) path, where per-type caps replace the global limit cut. The zero value (false) means complete. Composable across cells: OR the flag per type, together with any re-cap the gateway applies when merging. */
 export interface SearchTypeTruncated {
-  repos?: boolean;
-  checkpoints?: boolean;
-  commits?: boolean;
-  prs?: boolean;
-  sessions?: boolean;
+  repos?: boolean | undefined;
+  checkpoints?: boolean | undefined;
+  commits?: boolean | undefined;
+  prs?: boolean | undefined;
+  sessions?: boolean | undefined;
 }
 /** True per-type match counts from a deterministic keyword + structured-filter count pass against the index, independent of ranking, Cohere reranking, and tier truncation -- NOT a tally of the returned result window. commits and prs are exact document Counts (one document per entity); checkpoints and sessions are distinct-entity counts from a bounded enumeration (see counts_lower_bound); repos is the keyword-matched repo set. repos/checkpoints/commits/prs are repo-bound, and each repo has exactly one home cell (ENT-1114 one-canonical-cell guarantee), so a gateway may sum those per-cell counts across cells. sessions are the exception: a session can be cross-linked to repos in different cells, so it is deduped within a cell but summing sessions across cells may over-count a cross-cell session (bounded, and no worse than the previous per-cell behavior). */
 export interface SearchTypeCounts {
-  repos?: number;
-  checkpoints?: number;
-  commits?: number;
-  prs?: number;
-  sessions?: number;
+  repos?: number | undefined;
+  checkpoints?: number | undefined;
+  commits?: number | undefined;
+  prs?: number | undefined;
+  sessions?: number | undefined;
 }
 /** Per-facet flag marking whether the matching value in counts is a lower bound (true -> render "N+") rather than an exact total. A facet is a lower bound when its count could not be fully accounted for: a namespace errored or timed out, the per-namespace enumeration budget was exhausted with matches remaining, or (repos) the keyword match hit its per-type cap. The zero value (false) means exact, so an absent flag defaults to exact. Composable across cells: OR the flag per facet, so any cell reporting a lower bound makes the merged facet a lower bound. */
 export type SearchTypeCountsLowerBound = SearchTypeTruncated;
@@ -236,6 +236,8 @@ export interface FanoutStats {
   /** Namespaces cut off by the fan-out deadline or cancellation. */
   timeout: number;
 }
+/** Resolved placement ULIDs of the repos counted in `fanout.missing` (matching `accessible_repos[].repo_id`; a filter value that is a row alias echoes its home placement), so a client can tell the user which repo is still being indexed instead of showing a generic empty state (ENT-3634). Deliberately top-level, not inside `fanout`, whose values are numeric counters that clients merge by summation. Populated only when the request supplied a repo filter; omitted on unscoped searches, where hundreds of accessible repos may be unindexed. Missing repos still do not set `partial`. */
+export type EntireSearchSearchResponseMissingReposList = Array<string>;
 /** Forge namespace the repo lives in, matching the provider stamped on result rows. Rollout: servers predating this field omit it -- clients must treat an absent or empty value as "github". */
 export type AccessibleRepoProvider = "github" | "entire";
 export interface AccessibleRepo {
@@ -253,19 +255,21 @@ export interface EntireSearchSearchResponse {
   total: number;
   page: number;
   timing: SearchTiming;
-  reranked?: boolean;
+  reranked?: boolean | undefined;
   /** True when results are a bounded subset rather than exhaustive: repository enumeration was capped by the repo-access resolver (ENT-1114) or the query fan-out stopped early under the per-request memory budget (ENT-1017). Retrying does not recover the remainder while the underlying cap persists. */
-  truncated?: boolean;
-  truncated_types?: SearchTypeTruncated;
-  counts?: SearchTypeCounts;
+  truncated?: boolean | undefined;
+  truncated_types?: SearchTypeTruncated | undefined;
+  counts?: SearchTypeCounts | undefined;
   /** Per-type tally of the RETURNED (post-fold, post-cap) result list -- "exact for what you can see", distinct from `counts` (corpus match counts, independent of ranking/truncation). Present only on the server-side session-fold path (ENT-1595); omitted otherwise, so a client that ignores it is unaffected. */
-  returned_counts?: SearchTypeCounts;
-  counts_lower_bound?: SearchTypeTruncated;
+  returned_counts?: SearchTypeCounts | undefined;
+  counts_lower_bound?: SearchTypeTruncated | undefined;
   /** True when the fan-out could not query every accessible namespace (some repos errored or timed out), so results may be incomplete. Omitted when the search was complete. A missing (404) namespace -- a new or never-indexed repo -- does not set this. */
-  partial?: boolean;
-  fanout?: FanoutStats;
+  partial?: boolean | undefined;
+  fanout?: FanoutStats | undefined;
+  /** Resolved placement ULIDs of the repos counted in `fanout.missing` (matching `accessible_repos[].repo_id`; a filter value that is a row alias echoes its home placement), so a client can tell the user which repo is still being indexed instead of showing a generic empty state (ENT-3634). Deliberately top-level, not inside `fanout`, whose values are numeric counters that clients merge by summation. Populated only when the request supplied a repo filter; omitted on unscoped searches, where hundreds of accessible repos may be unindexed. Missing repos still do not set `partial`. */
+  missing_repos?: EntireSearchSearchResponseMissingReposList | undefined;
   /** The caller's broad search scope in this cell -- every repo an unfiltered search would cover, independent of any repo filter on this request (ENT-1158; parity with peregrine's accessible_repos on code search). Lets the repo-filter UI offer the authoritative searchable set instead of deriving options from filter-narrowed results. Sorted by repo full name. Omitted when empty. */
-  accessible_repos?: EntireSearchSearchResponseAccessibleReposList;
+  accessible_repos?: EntireSearchSearchResponseAccessibleReposList | undefined;
 }
 export type GetSemanticSearchHealthError = EntireOpError;
 /** Liveness/readiness probe */
@@ -435,6 +439,7 @@ function __c1(j: number): any {
           counts_lower_bound: S.optional(__S(22, __c1, 6)),
           partial: S.optional(S.Boolean),
           fanout: S.optional(__S(24, __c1, 8)),
+          missing_repos: S.optional(__S(16, __c1, 0)),
           accessible_repos: S.optional(__S(26, __c1, 10)),
         }),
       ).annotate({ identifier: "EntireSearchSearchResponse" });

@@ -33,29 +33,29 @@ export interface GetGitMetaRequest {
   /** git-meta target: commit:<sha>, branch:<name>, path:<p>, change-id:<id>, or project */
   target: string;
   /** Exact key; omit to list all keys for the target */
-  key?: string;
+  key?: string | undefined;
   /** Namespace filter, e.g. agent (returns agent and agent:*) */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Max keys per page */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Cursor from a previous page's nextPageToken */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type MetaItemListList = Array<string>;
 export type MetaItemSetList = Array<string>;
 export interface MetaItem {
   key: string;
-  list?: MetaItemListList | null;
-  set?: MetaItemSetList | null;
-  string?: string;
+  list?: MetaItemListList | null | undefined;
+  set?: MetaItemSetList | null | undefined;
+  string?: string | undefined;
   type: string;
 }
 export type RepoMetaReadOutputBodyItemsList = Array<MetaItem>;
 export interface RepoMetaReadOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   items: RepoMetaReadOutputBodyItemsList | null;
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListGitMetaTargetsRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
@@ -63,19 +63,19 @@ export interface ListGitMetaTargetsRequest {
   /** Metadata namespace: the complete ref sub-path under refs/meta/, e.g. records/planning/main */
   namespace: string;
   /** Return every path target at or beneath this path, e.g. records/plan. Segment-aligned, not a string prefix: records/pl selects nothing rather than matching records/plan. Omit for every path target in the namespace. */
-  targetPath?: string;
+  targetPath?: string | undefined;
   /** Full commit OID to pin the whole scan to (typically a prior ETag). Must be a complete object id, not a branch, tag or abbreviation: the pin is reused across several upstream reads and across pages, so anything still needing resolution could resolve differently at each. Omit to pin the namespace tip resolved on the first page. */
-  ref?: string;
+  ref?: string | undefined;
   /** Exact key; omit to list all keys */
-  key?: string;
+  key?: string | undefined;
   /** Key namespace filter, e.g. agent (returns agent and agent:*). Unrelated to targetPath. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Max targets per page. A target's keys are never split across pages. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Cursor from a previous page's nextPageToken. Carries the pinned commit and the scan's scope, so continuation pages read the same tree with the same filters. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Also report who last changed each target, derived from git history at the pinned commit. Costs one extra read per page. */
-  includeAuthorship?: boolean;
+  includeAuthorship?: boolean | undefined;
 }
 export type MetaAuthorshipReason =
   | "notFound"
@@ -84,32 +84,32 @@ export type MetaAuthorshipReason =
   | "noVerdict";
 export interface MetaAuthorship {
   /** RFC3339 author date of the commit that last changed the target */
-  changedAt?: string;
+  changedAt?: string | undefined;
   /** SHA of the commit that last changed the target */
-  commitSha?: string;
-  email?: string;
+  commitSha?: string | undefined;
+  email?: string | undefined;
   isResolved: boolean;
-  name?: string;
-  reason?: MetaAuthorshipReason;
+  name?: string | undefined;
+  reason?: MetaAuthorshipReason | undefined;
 }
 export type MetaTargetItemsList = Array<MetaItem>;
 export interface MetaTarget {
-  authorship?: MetaAuthorship;
+  authorship?: MetaAuthorship | undefined;
   items: MetaTargetItemsList | null;
   target: string;
 }
 export type RepoMetaTargetsOutputBodyItemsList = Array<MetaTarget>;
 export interface RepoMetaTargetsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   items: RepoMetaTargetsOutputBodyItemsList | null;
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface WriteGitMetaRequestExpected {
   /** Require the key to currently hold this value (true, with value set) or be absent (false, value ignored). */
   isPresent: boolean;
   /** Required current value when isPresent=true; ignored when isPresent=false. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface WriteGitMetaRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
@@ -117,8 +117,8 @@ export interface WriteGitMetaRequest {
   /** Metadata namespace: the ref sub-path under refs/meta/ (e.g. entire/settings) */
   namespace: string;
   /** Optimistic concurrency: apply only if the namespace's ETag still matches; "*" requires it to exist. Omit to apply unconditionally (merges onto the latest). */
-  ifMatch?: string;
-  expected?: WriteGitMetaRequestExpected;
+  ifMatch?: string | undefined;
+  expected?: WriteGitMetaRequestExpected | undefined;
   /** Colon-namespaced metadata key, e.g. agent:model */
   key: string;
   /** git-meta verb: set, rm, list:push, list:rm, set:add, set:rm */
@@ -126,7 +126,7 @@ export interface WriteGitMetaRequest {
   /** git-meta target: commit:<sha>, branch:<name>, path:<p>, change-id:<id>, or project */
   target: string;
   /** Value for set/list:push/set:add/list:rm/set:rm; ignored for rm */
-  value?: string;
+  value?: string | undefined;
 }
 export interface WriteGitMetaResponse {}
 export type GetGitMetaError = EntireOpError;

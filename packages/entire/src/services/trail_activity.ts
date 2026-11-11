@@ -25,62 +25,64 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+export interface GetChangeTimelineRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  /** Trail number */
+  number: string;
+  /** Page size, clamped to 1..100 */
+  pageSize?: number | undefined;
+  /** Opaque cursor from a prior nextPageToken */
+  pageToken?: string | undefined;
+}
+export type TrailTimelineResponseItemsList = Array<unknown>;
+export interface TrailTimelineResponse {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  commitCount?: number | undefined;
+  incomplete: boolean;
+  items: TrailTimelineResponseItemsList | null;
+  nextPageToken?: string | undefined;
+}
 export interface GetTrailTimelineRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
   /** Trail number */
   number: string;
   /** Page size, clamped to 1..100 */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a prior nextPageToken */
-  pageToken?: string;
-}
-export type TrailTimelineResponseItemsList = Array<unknown>;
-export interface TrailTimelineResponse {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  commitCount?: number;
-  incomplete: boolean;
-  items: TrailTimelineResponseItemsList | null;
-  nextPageToken?: string;
-}
-export interface ListRepoWatchersRequest {
-  repo_id: string;
-}
-export type RepoWatchersBodyTrailsValueList = Array<string>;
-export type RepoWatchersBodyTrailsMap = {
-  [key: string]: RepoWatchersBodyTrailsValueList | null | undefined;
-};
-export interface RepoWatchersBody {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  trails: RepoWatchersBodyTrailsMap;
+  pageToken?: string | undefined;
 }
 /** Alias for type[eq]; repeatable or comma-separated. */
-export type ListTrailEventsRequestTypeList = Array<string>;
+export type ListChangeEventsRequestTypeList = Array<string>;
 /** Match runner, monitor, or finding categories; repeatable or comma-separated. */
-export type ListTrailEventsRequestTypeEqList = Array<string>;
+export type ListChangeEventsRequestTypeEqList = Array<string>;
 /** Exclude runner, monitor, or finding categories; repeatable or comma-separated. */
-export type ListTrailEventsRequestTypeNeList = Array<string>;
-export interface ListTrailEventsRequest {
+export type ListChangeEventsRequestTypeNeList = Array<string>;
+/** head starts at the trail's latest push instead of the first event. For SSE, Last-Event-ID and after take precedence, since they resume a stream; the ready frame reports the start, head_sha and latest_event_id. For JSON pages it starts the first page (empty when the push has no events yet), is mutually exclusive with cursor and after, and the body carries no start metadata: a trail with no head pages the full log. */
+export type ListChangeEventsRequestFrom = "head";
+export interface ListChangeEventsRequest {
   repo_id: string;
   number: string;
   /** Alias for type[eq]; repeatable or comma-separated. */
-  type?: ListTrailEventsRequestTypeList;
+  type?: ListChangeEventsRequestTypeList | undefined;
   /** Match runner, monitor, or finding categories; repeatable or comma-separated. */
-  type_eq_?: ListTrailEventsRequestTypeEqList;
+  type_eq_?: ListChangeEventsRequestTypeEqList | undefined;
   /** Exclude runner, monitor, or finding categories; repeatable or comma-separated. */
-  type_ne_?: ListTrailEventsRequestTypeNeList;
+  type_ne_?: ListChangeEventsRequestTypeNeList | undefined;
   /** Opaque JSON-page continuation. Filters may be omitted or repeated with matching values. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** JSON page size: default 200, capped at 1000; zero returns an empty page. */
-  per_page?: string;
+  per_page?: string | undefined;
   /** Numeric resume cursor: for SSE, used when Last-Event-ID is absent; for JSON pages, an alternative first-page start to cursor (mutually exclusive with cursor). */
-  after?: string;
+  after?: string | undefined;
+  /** head starts at the trail's latest push instead of the first event. For SSE, Last-Event-ID and after take precedence, since they resume a stream; the ready frame reports the start, head_sha and latest_event_id. For JSON pages it starts the first page (empty when the push has no events yet), is mutually exclusive with cursor and after, and the body carries no start metadata: a trail with no head pages the full log. */
+  from?: ListChangeEventsRequestFrom | (string & {}) | undefined;
   /** text/event-stream streams events; otherwise returns a JSON page. */
-  accept?: string;
+  accept?: string | undefined;
   /** SSE numeric resume cursor; falls back to after. */
-  lastEventID?: string;
+  lastEventID?: string | undefined;
 }
 export interface ReviewEventJSON {
   actor_id: string | null;
@@ -97,9 +99,61 @@ export interface ReviewEventJSON {
 export type ReviewEventsResponseBodyEventsList = Array<ReviewEventJSON>;
 export interface ReviewEventsResponseBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   events: ReviewEventsResponseBodyEventsList | null;
-  next_cursor?: string;
+  next_cursor?: string | undefined;
+}
+export interface ListChangeWatchersRequest {
+  repo_id: string;
+  number: string;
+}
+export type TrailWatchersBodyWatchersList = Array<string>;
+export interface TrailWatchersBody {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  watchers: TrailWatchersBodyWatchersList | null;
+}
+export interface ListRepoWatchersRequest {
+  repo_id: string;
+}
+export type RepoWatchersBodyTrailsValueList = Array<string>;
+export type RepoWatchersBodyTrailsMap = {
+  [key: string]: RepoWatchersBodyTrailsValueList | null | undefined;
+};
+export interface RepoWatchersBody {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  trails: RepoWatchersBodyTrailsMap;
+}
+/** Alias for type[eq]; repeatable or comma-separated. */
+export type ListTrailEventsRequestTypeList = Array<string>;
+/** Match runner, monitor, or finding categories; repeatable or comma-separated. */
+export type ListTrailEventsRequestTypeEqList = Array<string>;
+/** Exclude runner, monitor, or finding categories; repeatable or comma-separated. */
+export type ListTrailEventsRequestTypeNeList = Array<string>;
+/** head starts at the trail's latest push instead of the first event. For SSE, Last-Event-ID and after take precedence, since they resume a stream; the ready frame reports the start, head_sha and latest_event_id. For JSON pages it starts the first page (empty when the push has no events yet), is mutually exclusive with cursor and after, and the body carries no start metadata: a trail with no head pages the full log. */
+export type ListTrailEventsRequestFrom = "head";
+export interface ListTrailEventsRequest {
+  repo_id: string;
+  number: string;
+  /** Alias for type[eq]; repeatable or comma-separated. */
+  type?: ListTrailEventsRequestTypeList | undefined;
+  /** Match runner, monitor, or finding categories; repeatable or comma-separated. */
+  type_eq_?: ListTrailEventsRequestTypeEqList | undefined;
+  /** Exclude runner, monitor, or finding categories; repeatable or comma-separated. */
+  type_ne_?: ListTrailEventsRequestTypeNeList | undefined;
+  /** Opaque JSON-page continuation. Filters may be omitted or repeated with matching values. */
+  cursor?: string | undefined;
+  /** JSON page size: default 200, capped at 1000; zero returns an empty page. */
+  per_page?: string | undefined;
+  /** Numeric resume cursor: for SSE, used when Last-Event-ID is absent; for JSON pages, an alternative first-page start to cursor (mutually exclusive with cursor). */
+  after?: string | undefined;
+  /** head starts at the trail's latest push instead of the first event. For SSE, Last-Event-ID and after take precedence, since they resume a stream; the ready frame reports the start, head_sha and latest_event_id. For JSON pages it starts the first page (empty when the push has no events yet), is mutually exclusive with cursor and after, and the body carries no start metadata: a trail with no head pages the full log. */
+  from?: ListTrailEventsRequestFrom | (string & {}) | undefined;
+  /** text/event-stream streams events; otherwise returns a JSON page. */
+  accept?: string | undefined;
+  /** SSE numeric resume cursor; falls back to after. */
+  lastEventID?: string | undefined;
 }
 /** Alias for type[eq]; repeatable or comma-separated. */
 export type ListTrailEventsBySlugRequestTypeList = Array<string>;
@@ -107,38 +161,63 @@ export type ListTrailEventsBySlugRequestTypeList = Array<string>;
 export type ListTrailEventsBySlugRequestTypeEqList = Array<string>;
 /** Exclude runner, monitor, or finding categories; repeatable or comma-separated. */
 export type ListTrailEventsBySlugRequestTypeNeList = Array<string>;
+/** head starts at the trail's latest push instead of the first event. For SSE, Last-Event-ID and after take precedence, since they resume a stream; the ready frame reports the start, head_sha and latest_event_id. For JSON pages it starts the first page (empty when the push has no events yet), is mutually exclusive with cursor and after, and the body carries no start metadata: a trail with no head pages the full log. */
+export type ListTrailEventsBySlugRequestFrom = "head";
 export interface ListTrailEventsBySlugRequest {
   host: string;
   owner: string;
   repo: string;
   number: string;
   /** Alias for type[eq]; repeatable or comma-separated. */
-  type?: ListTrailEventsBySlugRequestTypeList;
+  type?: ListTrailEventsBySlugRequestTypeList | undefined;
   /** Match runner, monitor, or finding categories; repeatable or comma-separated. */
-  type_eq_?: ListTrailEventsBySlugRequestTypeEqList;
+  type_eq_?: ListTrailEventsBySlugRequestTypeEqList | undefined;
   /** Exclude runner, monitor, or finding categories; repeatable or comma-separated. */
-  type_ne_?: ListTrailEventsBySlugRequestTypeNeList;
+  type_ne_?: ListTrailEventsBySlugRequestTypeNeList | undefined;
   /** Opaque JSON-page continuation. Filters may be omitted or repeated with matching values. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** JSON page size: default 200, capped at 1000; zero returns an empty page. */
-  per_page?: string;
+  per_page?: string | undefined;
   /** Numeric resume cursor: for SSE, used when Last-Event-ID is absent; for JSON pages, an alternative first-page start to cursor (mutually exclusive with cursor). */
-  after?: string;
+  after?: string | undefined;
+  /** head starts at the trail's latest push instead of the first event. For SSE, Last-Event-ID and after take precedence, since they resume a stream; the ready frame reports the start, head_sha and latest_event_id. For JSON pages it starts the first page (empty when the push has no events yet), is mutually exclusive with cursor and after, and the body carries no start metadata: a trail with no head pages the full log. */
+  from?: ListTrailEventsBySlugRequestFrom | (string & {}) | undefined;
   /** text/event-stream streams events; otherwise returns a JSON page. */
-  accept?: string;
+  accept?: string | undefined;
   /** SSE numeric resume cursor; falls back to after. */
-  lastEventID?: string;
+  lastEventID?: string | undefined;
 }
 export interface ListTrailWatchersRequest {
   repo_id: string;
   number: string;
 }
-export type TrailWatchersBodyWatchersList = Array<string>;
-export interface TrailWatchersBody {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  watchers: TrailWatchersBodyWatchersList | null;
-}
+export type GetChangeTimelineError = EntireOpError;
+/** Get a change's merged event timeline (repo_id addressing) The trail's merged event timeline, newest first, cursor-paginated. Lifecycle, message, review, and commit events are merged into one ordered stream; commits are read through from git. commitCount is omitted and incomplete is true when the commit read-through degraded. */
+export const getChangeTimeline: API.PaginatedOperationMethod<
+  GetChangeTimelineRequest,
+  TrailTimelineResponse,
+  GetChangeTimelineError,
+  EntireOpContext,
+  unknown
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(0, __c0, 0) as any as S.Schema<GetChangeTimelineRequest>,
+    output: __S(5, __c1, 1) as any as S.Schema<TrailTimelineResponse>,
+    errors: [UnknownEntireError],
+    protocol: EntireCellProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetChangeTimeline",
+    pagination: {
+      inputToken: "pageToken",
+      outputToken: "nextPageToken",
+      items: "items",
+      pageSize: "pageSize",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
+
 export type GetTrailTimelineError = EntireOpError;
 /** Get a trail's merged event timeline (repo_id addressing) The trail's merged event timeline, newest first, cursor-paginated. Lifecycle, message, review, and commit events are merged into one ordered stream; commits are read through from git. commitCount is omitted and incomplete is true when the commit read-through degraded. */
 export const getTrailTimeline: API.PaginatedOperationMethod<
@@ -149,8 +228,8 @@ export const getTrailTimeline: API.PaginatedOperationMethod<
   unknown
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(0, __c0, 0) as any as S.Schema<GetTrailTimelineRequest>,
-    output: __S(2, __c0, 2) as any as S.Schema<TrailTimelineResponse>,
+    input: __S(8, __c2, 0) as any as S.Schema<GetTrailTimelineRequest>,
+    output: __S(5, __c1, 1) as any as S.Schema<TrailTimelineResponse>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -166,6 +245,50 @@ export const getTrailTimeline: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
+export type ListChangeEventsError = EntireOpError;
+/** List or stream change events (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Returns trail events by opaque repo id with the same JSON cursor pagination, category filters, open event catalog, Last-Event-ID SSE resume, and from=head latest-push start as the name-addressed route. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. Streams recheck credentials, repository access and placement. */
+export const listChangeEvents: API.PaginatedOperationMethod<
+  ListChangeEventsRequest,
+  ReviewEventsResponseBody,
+  ListChangeEventsError,
+  EntireOpContext,
+  ReviewEventJSON
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(12, __c3, 0) as any as S.Schema<ListChangeEventsRequest>,
+    output: __S(22, __c5, 2) as any as S.Schema<ReviewEventsResponseBody>,
+    errors: [UnknownEntireError],
+    protocol: EntireCellProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListChangeEvents",
+    pagination: {
+      inputToken: "cursor",
+      outputToken: "next_cursor",
+      items: "events",
+      pageSize: "per_page",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
+
+export type ListChangeWatchersError = EntireOpError;
+/** List live watchers on a change (repo_id addressing) */
+export const listChangeWatchers: API.OperationMethod<
+  ListChangeWatchersRequest,
+  TrailWatchersBody,
+  ListChangeWatchersError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(24, __c6, 0) as any as S.Schema<ListChangeWatchersRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<TrailWatchersBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChangeWatchers",
+}));
+
 export type ListRepoWatchersError = EntireOpError;
 /** List live watchers for all trails in a repo */
 export const listRepoWatchers: API.OperationMethod<
@@ -174,8 +297,8 @@ export const listRepoWatchers: API.OperationMethod<
   ListRepoWatchersError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<ListRepoWatchersRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<RepoWatchersBody>,
+  input: __S(32, __c8, 0) as any as S.Schema<ListRepoWatchersRequest>,
+  output: __S(34, __c8, 2) as any as S.Schema<RepoWatchersBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -184,7 +307,7 @@ export const listRepoWatchers: API.OperationMethod<
 }));
 
 export type ListTrailEventsError = EntireOpError;
-/** List or stream trail events (repo_id addressing) Returns trail events by opaque repo id with the same JSON cursor pagination, category filters, open event catalog, and Last-Event-ID SSE resume as the name-addressed route. */
+/** List or stream trail events (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Returns trail events by opaque repo id with the same JSON cursor pagination, category filters, open event catalog, Last-Event-ID SSE resume, and from=head latest-push start as the name-addressed route. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. Streams recheck credentials, repository access and placement. */
 export const listTrailEvents: API.PaginatedOperationMethod<
   ListTrailEventsRequest,
   ReviewEventsResponseBody,
@@ -193,8 +316,8 @@ export const listTrailEvents: API.PaginatedOperationMethod<
   ReviewEventJSON
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(12, __c3, 0) as any as S.Schema<ListTrailEventsRequest>,
-    output: __S(18, __c4, 2) as any as S.Schema<ReviewEventsResponseBody>,
+    input: __S(36, __c9, 0) as any as S.Schema<ListTrailEventsRequest>,
+    output: __S(22, __c5, 2) as any as S.Schema<ReviewEventsResponseBody>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -211,7 +334,7 @@ export const listTrailEvents: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListTrailEventsBySlugError = EntireOpError;
-/** List or stream trail events Returns trail events oldest-first as JSON with per_page and a filter-bound next_cursor, or SSE for Accept: text/event-stream. SSE resumes with Last-Event-ID (after is its fallback). Event names retain periods between domains and use lowercase snake_case within each segment; the documented catalog is open to future names. */
+/** List or stream trail events Returns trail events oldest-first as JSON with per_page and a filter-bound next_cursor, or SSE for Accept: text/event-stream. SSE resumes with Last-Event-ID (after is its fallback). from=head starts at the trail's latest push instead of the first event when no resume cursor is given (a JSON page is then empty if the push has no events yet); the SSE ready frame then reports start (head, tail when the push has no events yet, or beginning when the trail has no head) and head_sha, and always reports latest_event_id. Event names retain periods between domains and use lowercase snake_case within each segment; the documented catalog is open to future names. */
 export const listTrailEventsBySlug: API.PaginatedOperationMethod<
   ListTrailEventsBySlugRequest,
   ReviewEventsResponseBody,
@@ -220,8 +343,8 @@ export const listTrailEventsBySlug: API.PaginatedOperationMethod<
   ReviewEventJSON
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(20, __c5, 0) as any as S.Schema<ListTrailEventsBySlugRequest>,
-    output: __S(18, __c4, 2) as any as S.Schema<ReviewEventsResponseBody>,
+    input: __S(40, __c10, 0) as any as S.Schema<ListTrailEventsBySlugRequest>,
+    output: __S(22, __c5, 2) as any as S.Schema<ReviewEventsResponseBody>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -245,8 +368,8 @@ export const listTrailWatchers: API.OperationMethod<
   ListTrailWatchersError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<ListTrailWatchersRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<TrailWatchersBody>,
+  input: __S(44, __c11, 0) as any as S.Schema<ListTrailWatchersRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<TrailWatchersBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -267,48 +390,46 @@ function __c0(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/timeline",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/timeline",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "GetTrailTimelineRequest" });
-    case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          commitCount: S.optional(S.Number),
-          incomplete: S.Boolean,
-          items: S.NullOr(__S(1, __c0, 1)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TrailTimelineResponse" });
+      ).annotate({ identifier: "GetChangeTimelineRequest" });
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/watchers", code: 200 })),
-      ).annotate({ identifier: "ListRepoWatchersRequest" });
+      return S.Array(S.Unknown);
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8, __c2, 0)));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          trails: __S(5, __c1, 1),
+          commitCount: S.optional(S.Number),
+          incomplete: S.Boolean,
+          items: S.NullOr(__S(4, __c1, 0)),
+          nextPageToken: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RepoWatchersBody" });
+      ).annotate({ identifier: "TrailTimelineResponse" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/trails/{number}/timeline",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetTrailTimelineRequest" });
   }
 }
 function __c3(j: number): any {
@@ -318,25 +439,32 @@ function __c3(j: number): any {
         S.Struct({
           repo_id: S.String.pipe(T.Label()),
           number: S.String.pipe(T.Label()),
-          type: S.optional(__S(8, __c2, 0).pipe(T.Query())),
-          type_eq_: S.optional(__S(8, __c2, 0).pipe(T.Query("type[eq]"))),
-          type_ne_: S.optional(__S(8, __c2, 0).pipe(T.Query("type[ne]"))),
+          type: S.optional(__S(16, __c4, 0).pipe(T.Query())),
+          type_eq_: S.optional(__S(16, __c4, 0).pipe(T.Query("type[eq]"))),
+          type_ne_: S.optional(__S(16, __c4, 0).pipe(T.Query("type[ne]"))),
           cursor: S.optional(S.String.pipe(T.Query())),
           per_page: S.optional(S.String.pipe(T.Query())),
           after: S.optional(S.String.pipe(T.Query())),
+          from: S.optional(S.String.pipe(T.Query())),
           accept: S.optional(S.String.pipe(T.Header("Accept"))),
           lastEventID: S.optional(S.String.pipe(T.Header("Last-Event-ID"))),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/events",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/events",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "ListTrailEventsRequest" });
+      ).annotate({ identifier: "ListChangeEventsRequest" });
   }
 }
 function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -353,18 +481,91 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "ReviewEventJSON" });
     case 1:
-      return S.Array(__S(16, __c4, 0));
+      return S.Array(__S(20, __c5, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          events: S.NullOr(__S(17, __c4, 1)),
+          events: S.NullOr(__S(21, __c5, 1)),
           next_cursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReviewEventsResponseBody" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/watchers",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListChangeWatchersRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          watchers: S.NullOr(__S(16, __c4, 0)),
+        }),
+      ).annotate({ identifier: "TrailWatchersBody" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/watchers", code: 200 })),
+      ).annotate({ identifier: "ListRepoWatchersRequest" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(16, __c4, 0)));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          trails: __S(33, __c8, 1),
+        }),
+      ).annotate({ identifier: "RepoWatchersBody" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          type: S.optional(__S(16, __c4, 0).pipe(T.Query())),
+          type_eq_: S.optional(__S(16, __c4, 0).pipe(T.Query("type[eq]"))),
+          type_ne_: S.optional(__S(16, __c4, 0).pipe(T.Query("type[ne]"))),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          per_page: S.optional(S.String.pipe(T.Query())),
+          after: S.optional(S.String.pipe(T.Query())),
+          from: S.optional(S.String.pipe(T.Query())),
+          accept: S.optional(S.String.pipe(T.Header("Accept"))),
+          lastEventID: S.optional(S.String.pipe(T.Header("Last-Event-ID"))),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/trails/{number}/events",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListTrailEventsRequest" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -373,12 +574,13 @@ function __c5(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           number: S.String.pipe(T.Label()),
-          type: S.optional(__S(8, __c2, 0).pipe(T.Query())),
-          type_eq_: S.optional(__S(8, __c2, 0).pipe(T.Query("type[eq]"))),
-          type_ne_: S.optional(__S(8, __c2, 0).pipe(T.Query("type[ne]"))),
+          type: S.optional(__S(16, __c4, 0).pipe(T.Query())),
+          type_eq_: S.optional(__S(16, __c4, 0).pipe(T.Query("type[eq]"))),
+          type_ne_: S.optional(__S(16, __c4, 0).pipe(T.Query("type[ne]"))),
           cursor: S.optional(S.String.pipe(T.Query())),
           per_page: S.optional(S.String.pipe(T.Query())),
           after: S.optional(S.String.pipe(T.Query())),
+          from: S.optional(S.String.pipe(T.Query())),
           accept: S.optional(S.String.pipe(T.Header("Accept"))),
           lastEventID: S.optional(S.String.pipe(T.Header("Last-Event-ID"))),
         }).pipe(
@@ -391,7 +593,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ListTrailEventsBySlugRequest" });
   }
 }
-function __c6(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -406,13 +608,6 @@ function __c6(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListTrailWatchersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          watchers: S.NullOr(__S(8, __c2, 0)),
-        }),
-      ).annotate({ identifier: "TrailWatchersBody" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

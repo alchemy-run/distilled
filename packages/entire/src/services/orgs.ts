@@ -51,39 +51,39 @@ export type MembershipRole = "owner" | "admin" | "member";
 export type MembershipStatus = "active" | "inactive" | "pending";
 export interface Membership {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   accountId: string;
   createdAt: string;
-  handle?: string;
+  handle?: string | undefined;
   id: string;
   orgId: string;
-  provider?: string;
+  provider?: string | undefined;
   role: MembershipRole;
   /** Membership lifecycle status. */
   status: MembershipStatus;
   /** The member's Entire username. Omitted until claimed. */
-  username?: string;
-  workosOrgMembershipId?: string;
+  username?: string | undefined;
+  workosOrgMembershipId?: string | undefined;
   [key: string]: unknown;
 }
 export type InvitationReferenceHost = "et" | "gh";
 export interface InvitationReference {
   host: InvitationReferenceHost;
   project: string;
-  repo?: string;
+  repo?: string | undefined;
   [key: string]: unknown;
 }
 export type AcceptInvitationResponseRole = "owner" | "admin" | "member" | "reader" | "writer";
 export type AcceptInvitationResponseScope = "org" | "project" | "repo";
 export interface AcceptInvitationResponse {
-  membership?: Membership;
+  membership?: Membership | undefined;
   orgId: string;
   orgName: string;
-  projectId?: string;
-  projectName?: string;
-  reference?: InvitationReference;
-  repoId?: string;
-  repoName?: string;
+  projectId?: string | undefined;
+  projectName?: string | undefined;
+  reference?: InvitationReference | undefined;
+  repoId?: string | undefined;
+  repoName?: string | undefined;
   role: AcceptInvitationResponseRole;
   scope: AcceptInvitationResponseScope;
 }
@@ -94,13 +94,13 @@ export interface AddOrgMemberRequest {
   provider: string;
   providerUserId: string;
   /** Role at the org; defaults to member. */
-  role?: AddOrgMemberRequestRole | (string & {});
+  role?: AddOrgMemberRequestRole | (string & {}) | undefined;
 }
 export interface CreateOrgRequest {
   /** Display name. */
   name: string;
   /** Jurisdiction slug; defaults to the server's home jurisdiction. */
-  region?: string;
+  region?: string | undefined;
 }
 export interface OrgCapabilities {
   /** Whether this surface permits the caller to change organization owners. Individual mutations still enforce all guards. */
@@ -120,17 +120,17 @@ export interface OrgCapabilities {
 export type CreatedOrgProvider = "github";
 export interface CreatedOrg {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   capabilities: OrgCapabilities;
   /** Deprecated: read the X-Entire-Commit-Token response header instead. */
-  commitToken?: string;
+  commitToken?: string | undefined;
   createdAt: string;
   id: string;
   name: string;
   /** Set when the org is linked to an external source, e.g. a GitHub organization. */
-  provider?: CreatedOrgProvider;
+  provider?: CreatedOrgProvider | undefined;
   region: string;
-  workosOrganizationId?: string;
+  workosOrganizationId?: string | undefined;
   [key: string]: unknown;
 }
 export type CreateOrgInvitationRequestRole = "owner" | "admin" | "member";
@@ -147,11 +147,11 @@ export interface AccountProfileHandle {
 }
 export type AccountIdentityHandlesList = Array<AccountProfileHandle>;
 export interface AccountIdentity {
-  avatarUrl?: string;
-  displayName?: string;
+  avatarUrl?: string | undefined;
+  displayName?: string | undefined;
   handles: AccountIdentityHandlesList;
   /** The account's Entire username. Omitted until claimed. */
-  username?: string;
+  username?: string | undefined;
   [key: string]: unknown;
 }
 export type InvitationRole = "owner" | "admin" | "member";
@@ -159,27 +159,27 @@ export type InvitationRole = "owner" | "admin" | "member";
 export type InvitationStatus = "open" | "accepted" | "revoked" | "expired" | "declined";
 export interface Invitation {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  acceptedAt?: string;
+  _schema?: string | undefined;
+  acceptedAt?: string | undefined;
   /** Account ID that used the token. Empty until the invitation is accepted. */
-  acceptedBy?: string;
+  acceptedBy?: string | undefined;
   /** Resolved identity for AcceptedBy. Absent when it cannot be resolved. */
-  acceptedByIdentity?: AccountIdentity;
+  acceptedByIdentity?: AccountIdentity | undefined;
   createdAt: string;
-  declinedAt?: string;
+  declinedAt?: string | undefined;
   /** The invited address, normalized to lowercase. Empty for an account-targeted invitation. */
-  email?: string;
+  email?: string | undefined;
   expiresAt: string;
   id: string;
   /** Account ID of the manager who created the invitation. Empty when that account has been erased. */
   invitedBy: string;
   /** Resolved identity for InvitedBy. Absent when it cannot be resolved. */
-  invitedByIdentity?: AccountIdentity;
+  invitedByIdentity?: AccountIdentity | undefined;
   /** The invited account. Empty for an email invitation. */
-  inviteeAccountId?: string;
+  inviteeAccountId?: string | undefined;
   /** Resolved identity for InviteeAccountID. Absent when it cannot be resolved. */
-  inviteeIdentity?: AccountIdentity;
-  revokedAt?: string;
+  inviteeIdentity?: AccountIdentity | undefined;
+  revokedAt?: string | undefined;
   role: InvitationRole;
   /** Derived from the outcome columns at read time. */
   status: InvitationStatus;
@@ -200,15 +200,15 @@ export interface GetOrgRequest {
 export type OrgProvider = "github";
 export interface Org {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   capabilities: OrgCapabilities;
   createdAt: string;
   id: string;
   name: string;
   /** Set when the org is linked to an external source, e.g. a GitHub organization. */
-  provider?: OrgProvider;
+  provider?: OrgProvider | undefined;
   region: string;
-  workosOrganizationId?: string;
+  workosOrganizationId?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetOrgPersonAccessRequest {
@@ -228,7 +228,7 @@ export interface OrgPersonGrantCapabilities {
   /** Roles the caller may request. An empty array means read-only. */
   allowedRoles: OrgPersonGrantCapabilitiesAllowedRolesList;
   /** ID for the existing role mutation: membership ID, project ID, or native primary repo placement ID. Present only when roles are editable. */
-  targetId?: string;
+  targetId?: string | undefined;
   [key: string]: unknown;
 }
 export type OrgPersonGrantResourceType = "organization" | "project" | "repository";
@@ -262,16 +262,16 @@ export interface OrgPersonMembership {
 }
 export interface OrgPerson {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   accountId: string;
-  avatarUrl?: string;
-  displayName?: string;
+  avatarUrl?: string | undefined;
+  displayName?: string | undefined;
   grants: OrgPersonGrantsList;
-  handle?: string;
+  handle?: string | undefined;
   membership: OrgPersonMembership;
-  provider?: string;
+  provider?: string | undefined;
   /** The account's Entire username. Omitted until claimed. */
-  username?: string;
+  username?: string | undefined;
   [key: string]: unknown;
 }
 /** Lifecycle state to return; all returns every state. */
@@ -285,19 +285,19 @@ export type ListOrgInvitationsRequestStatus =
 export interface ListOrgInvitationsRequest {
   orgId: string;
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Lifecycle state to return; all returns every state. */
-  status?: ListOrgInvitationsRequestStatus | (string & {});
+  status?: ListOrgInvitationsRequestStatus | (string & {}) | undefined;
 }
 export type ListOrgInvitationsOutputBodyInvitationsList = Array<Invitation>;
 export interface ListOrgInvitationsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   invitations: ListOrgInvitationsOutputBodyInvitationsList;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   [key: string]: unknown;
 }
 /** Sort column, name when omitted. name orders by public display name, else GitHub handle; people without either come last. role orders by membership role, owner first, then by name; collaborators come last. status orders active, pending, inactive, then people without a membership. joined orders by membership creation, oldest first; people without a membership come last. */
@@ -307,13 +307,13 @@ export type ListOrgMembersRequestOrder = "asc" | "desc";
 export interface ListOrgMembersRequest {
   orgId: string;
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Sort column, name when omitted. name orders by public display name, else GitHub handle; people without either come last. role orders by membership role, owner first, then by name; collaborators come last. status orders active, pending, inactive, then people without a membership. joined orders by membership creation, oldest first; people without a membership come last. */
-  sort?: ListOrgMembersRequestSort | (string & {});
+  sort?: ListOrgMembersRequestSort | (string & {}) | undefined;
   /** asc (default) or desc. desc reverses the order, but people without a name stay last on the name sort, and people without a membership stay last on joined. */
-  order?: ListOrgMembersRequestOrder | (string & {});
+  order?: ListOrgMembersRequestOrder | (string & {}) | undefined;
 }
 export type OrgMemberListItemRole = "owner" | "admin" | "member";
 /** Membership lifecycle status. */
@@ -321,29 +321,29 @@ export type OrgMemberListItemStatus = "active" | "inactive" | "pending";
 export interface OrgMemberListItem {
   accountId: string;
   /** Public avatar URL. */
-  avatarUrl?: string;
+  avatarUrl?: string | undefined;
   createdAt: string;
   /** Account-level public display name. */
-  displayName?: string;
-  handle?: string;
+  displayName?: string | undefined;
+  handle?: string | undefined;
   id: string;
   orgId: string;
-  provider?: string;
+  provider?: string | undefined;
   role: OrgMemberListItemRole;
   /** Membership lifecycle status. */
   status: OrgMemberListItemStatus;
   /** The member's Entire username. Omitted until claimed. */
-  username?: string;
-  workosOrgMembershipId?: string;
+  username?: string | undefined;
+  workosOrgMembershipId?: string | undefined;
   [key: string]: unknown;
 }
 export type ListOrgMembersOutputBodyMembersList = Array<OrgMemberListItem>;
 export interface ListOrgMembersOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   members: ListOrgMembersOutputBodyMembersList;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   [key: string]: unknown;
 }
 /** Sort column, name when omitted. name orders by public display name, else GitHub handle; people without either come last. role orders by membership role, owner first, then by name; collaborators come last. status orders active, pending, inactive, then people without a membership. joined orders by membership creation, oldest first; people without a membership come last. */
@@ -367,23 +367,23 @@ export type ListOrgPeopleRequestRole =
 export interface ListOrgPeopleRequest {
   orgId: string;
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Sort column, name when omitted. name orders by public display name, else GitHub handle; people without either come last. role orders by membership role, owner first, then by name; collaborators come last. status orders active, pending, inactive, then people without a membership. joined orders by membership creation, oldest first; people without a membership come last. */
-  sort?: ListOrgPeopleRequestSort | (string & {});
+  sort?: ListOrgPeopleRequestSort | (string & {}) | undefined;
   /** asc (default) or desc. desc reverses the order, but people without a name stay last on the name sort, and people without a membership stay last on joined. */
-  order?: ListOrgPeopleRequestOrder | (string & {});
+  order?: ListOrgPeopleRequestOrder | (string & {}) | undefined;
   /** Select people with a recorded grant at this resource level. */
-  scope?: ListOrgPeopleRequestScope | (string & {});
+  scope?: ListOrgPeopleRequestScope | (string & {}) | undefined;
   /** Case-insensitive substring of account ID, public handle, or public display name. */
-  search?: string;
+  search?: string | undefined;
   /** member includes non-pending memberships; invited means a WorkOS membership with status pending, not an email invitation; collaborator means no direct membership. */
-  membership?: ListOrgPeopleRequestMembership | (string & {});
+  membership?: ListOrgPeopleRequestMembership | (string & {}) | undefined;
   /** Direct membership status; collaborators have no membership status. */
-  status?: ListOrgPeopleRequestStatus | (string & {});
+  status?: ListOrgPeopleRequestStatus | (string & {}) | undefined;
   /** Exact recorded grant role, including organization membership and weaker independent grants. */
-  role?: ListOrgPeopleRequestRole | (string & {});
+  role?: ListOrgPeopleRequestRole | (string & {}) | undefined;
 }
 /** Outstanding (open and expired) invitations, only on the first page of an unfiltered request and only when the caller passes the SSO check. They are never joined to an account. */
 export type ListOrgPeopleOutputBodyInvitationsList = Array<Invitation>;
@@ -394,45 +394,45 @@ export interface OrgPersonSummary {
   /** Recorded grant levels, not effective permissions. */
   accessScopes: OrgPersonSummaryAccessScopesList;
   accountId: string;
-  avatarUrl?: string;
-  displayName?: string;
-  handle?: string;
+  avatarUrl?: string | undefined;
+  displayName?: string | undefined;
+  handle?: string | undefined;
   membership: OrgPersonMembership;
-  provider?: string;
+  provider?: string | undefined;
   /** The account's Entire username. Omitted until claimed. */
-  username?: string;
+  username?: string | undefined;
   [key: string]: unknown;
 }
 export type ListOrgPeopleOutputBodyItemsList = Array<OrgPersonSummary>;
 export interface ListOrgPeopleOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Outstanding (open and expired) invitations, only on the first page of an unfiltered request and only when the caller passes the SSO check. They are never joined to an account. */
-  invitations?: ListOrgPeopleOutputBodyInvitationsList;
+  invitations?: ListOrgPeopleOutputBodyInvitationsList | undefined;
   items: ListOrgPeopleOutputBodyItemsList;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   totalCount: number;
   [key: string]: unknown;
 }
 export interface ListOrgsRequest {
   /** Maximum entries to return; server may cap further. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a previous response's nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Deprecated: exact org name among the caller's own orgs, case-insensitive. List orgs and match client-side instead. */
-  name?: string;
+  name?: string | undefined;
   /** Optional: opaque commit token from an org create or delete, to read at a snapshot that contains that write. Applies to both the name lookup and the page. */
-  commitToken?: string;
-  ifNoneMatch?: string;
+  commitToken?: string | undefined;
+  ifNoneMatch?: string | undefined;
 }
 export type ListOrgsOutputBodyOrgsList = Array<Org>;
 export interface ListOrgsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Pass back to fetch the next page; empty when no more entries. */
-  nextPageToken?: string;
-  org?: Org;
+  nextPageToken?: string | undefined;
+  org?: Org | undefined;
   orgs: ListOrgsOutputBodyOrgsList;
   [key: string]: unknown;
 }
@@ -443,19 +443,19 @@ export type PreviewInvitationResponseRole = "owner" | "admin" | "member" | "read
 export type PreviewInvitationResponseScope = "org" | "project" | "repo";
 export interface PreviewInvitationResponse {
   /** The inviter's avatar URL. Absent when unseeded. */
-  inviterAvatarUrl?: string;
+  inviterAvatarUrl?: string | undefined;
   /** The inviter's Display Name. Absent when unseeded. */
-  inviterDisplayName?: string;
+  inviterDisplayName?: string | undefined;
   inviterHandle: string;
   /** The inviter's Entire username. Omitted until claimed. */
-  inviterUsername?: string;
+  inviterUsername?: string | undefined;
   orgName: string;
-  projectId?: string;
-  projectName?: string;
-  repoId?: string;
-  repoName?: string;
+  projectId?: string | undefined;
+  projectName?: string | undefined;
+  repoId?: string | undefined;
+  repoName?: string | undefined;
   role: PreviewInvitationResponseRole;
-  scope?: PreviewInvitationResponseScope;
+  scope?: PreviewInvitationResponseScope | undefined;
 }
 export interface RemoveOrgMemberRequest {
   orgId: string;
@@ -584,7 +584,7 @@ export const deleteOrg: API.OperationMethod<
 }));
 
 export type GetOrgError = EntireOpError;
-/** Get an organization */
+/** Get an organization **Accepted credentials:** User token. */
 export const getOrg: API.OperationMethod<GetOrgRequest, Org, GetOrgError, EntireOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(160, __c20, 0) as any as S.Schema<GetOrgRequest>,
@@ -641,7 +641,7 @@ export const listOrgInvitations: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListOrgMembersError = EntireOpError;
-/** List members of an organization */
+/** List members of an organization **Accepted credentials:** User token. */
 export const listOrgMembers: API.PaginatedOperationMethod<
   ListOrgMembersRequest,
   ListOrgMembersOutputBody,
@@ -695,7 +695,7 @@ export const listOrgPeople: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListOrgsError = EntireOpError;
-/** List organizations the caller can see (or one by name) */
+/** List organizations the caller can see (or one by name) **Accepted credentials:** User token. */
 export const listOrgs: API.PaginatedOperationMethod<
   ListOrgsRequest,
   ListOrgsOutputBody,

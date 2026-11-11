@@ -31,9 +31,9 @@ export interface BatchCommitsRequest {
   /** Repository ULID. */
   repoId: string;
   /** Include diff stats (additions, deletions, filesChanged) per commit, from its diff against its first parent. Stats that exceed the per-commit timeout are omitted (null). */
-  includeStats?: boolean;
+  includeStats?: boolean | undefined;
   /** Parse git trailers from each commit message into the trailers field. */
-  parseTrailers?: boolean;
+  parseTrailers?: boolean | undefined;
   /** Commit SHAs (full hex) to fetch metadata for. Duplicates and case variants collapse to one entry. */
   shas: BatchCommitsRequestShasList | null;
 }
@@ -64,15 +64,15 @@ export type CommitTrailersList = Array<ExtraHeader>;
 export interface Commit {
   author: Signature;
   committer: Signature;
-  extraHeaders?: CommitExtraHeadersList | null;
-  mergeTags?: CommitMergeTagsList | null;
+  extraHeaders?: CommitExtraHeadersList | null | undefined;
+  mergeTags?: CommitMergeTagsList | null | undefined;
   message: string;
   parents: CommitParentsList | null;
   sha: string;
-  signature?: string;
-  stats?: CommitStats;
+  signature?: string | undefined;
+  stats?: CommitStats | undefined;
   /** Ordered git trailers; populated only when parseTrailers is true. */
-  trailers?: CommitTrailersList | null;
+  trailers?: CommitTrailersList | null | undefined;
   [key: string]: unknown;
 }
 export type BatchCommitsResponseBodyMap = { [key: string]: Commit | undefined };
@@ -107,25 +107,25 @@ export interface CompareCommitsRequest {
   base: string;
   /** Branch, tag, or commit SHA, optionally with a ^/~N revision suffix (e.g. main~2). */
   head: string;
-  path?: string;
+  path?: string | undefined;
   /** Include per-file additions, deletions, and binary detection. Set false to return paths and change status only. */
-  includeStats?: boolean;
+  includeStats?: boolean | undefined;
 }
 export type ChangedFileStatus = "added" | "modified" | "removed" | "renamed";
 export interface ChangedFile {
-  additions?: number;
-  binary?: boolean;
-  deletions?: number;
+  additions?: number | undefined;
+  binary?: boolean | undefined;
+  deletions?: number | undefined;
   path: string;
-  previousPath?: string;
+  previousPath?: string | undefined;
   status: ChangedFileStatus;
-  tooLarge?: boolean;
+  tooLarge?: boolean | undefined;
   [key: string]: unknown;
 }
 export type CompareResponseFilesList = Array<ChangedFile>;
 export interface CompareResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   files: CompareResponseFilesList | null;
   truncated: boolean;
   [key: string]: unknown;
@@ -139,7 +139,7 @@ export interface CreateBranchRequest {
 }
 export interface CreateBranchResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Fully qualified name of the created branch. */
   branch: string;
   /** Commit the branch was created at. */
@@ -150,9 +150,9 @@ export type CreateMergeRequestStrategy = "merge" | "noFastForward" | "fastForwar
 export interface CreateMergeRequest {
   repoId: string;
   baseRef: string;
-  commitMessage?: string;
+  commitMessage?: string | undefined;
   expectedBaseSHA: string;
-  expectedHeadSHA?: string;
+  expectedHeadSHA?: string | undefined;
   headRef: string;
   strategy: CreateMergeRequestStrategy | (string & {});
 }
@@ -166,28 +166,30 @@ export type MergeResponseOutcome =
   | "conflict";
 export interface MergeResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  conflictReason?: MergeResponseConflictReason;
+  _schema?: string | undefined;
+  conflictReason?: MergeResponseConflictReason | undefined;
   conflictedPaths: MergeResponseConflictedPathsList | null;
-  mergeCommitSHA?: string;
-  newBaseSHA?: string;
+  /** True when conflictedPaths holds only the first conflicts, in merge order: depth first, names in byte order. */
+  conflictsTruncated?: boolean | undefined;
+  mergeCommitSHA?: string | undefined;
+  newBaseSHA?: string | undefined;
   outcome: MergeResponseOutcome;
   [key: string]: unknown;
 }
 export interface CreateRebaseRequest {
   repoId: string;
   branch: string;
-  expectedBranchSHA?: string;
-  expectedOntoSHA?: string;
+  expectedBranchSHA?: string | undefined;
+  expectedOntoSHA?: string | undefined;
   onto: string;
-  upstream?: string;
+  upstream?: string | undefined;
 }
 export interface CreateRebaseResponse {}
 export interface CreateRevertRequest {
   repoId: string;
   commitSHA: string;
-  expectedTargetSHA?: string;
-  mainline?: number;
+  expectedTargetSHA?: string | undefined;
+  mainline?: number | undefined;
   targetRef: string;
 }
 export type RevertResponseConflictReason = "treeType" | "treeMode" | "blobOverlap" | "blobBinary";
@@ -195,12 +197,14 @@ export type RevertResponseConflictedPathsList = Array<string>;
 export type RevertResponseOutcome = "reverted" | "alreadyUpToDate" | "conflict";
 export interface RevertResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  conflictReason?: RevertResponseConflictReason;
+  _schema?: string | undefined;
+  conflictReason?: RevertResponseConflictReason | undefined;
   conflictedPaths: RevertResponseConflictedPathsList | null;
-  newTipSHA?: string;
+  /** True when conflictedPaths holds only the first conflicts, in merge order: depth first, names in byte order. */
+  conflictsTruncated?: boolean | undefined;
+  newTipSHA?: string | undefined;
   outcome: RevertResponseOutcome;
-  revertCommitSHA?: string;
+  revertCommitSHA?: string | undefined;
   [key: string]: unknown;
 }
 export interface DeleteBranchRequest {
@@ -212,7 +216,7 @@ export interface DeleteBranchRequest {
 export interface DeleteBranchResponse {}
 export interface GetBranchProtectionRequest {
   repoId: string;
-  ref?: string;
+  ref?: string | undefined;
 }
 export interface BranchRule {
   ref: string;
@@ -222,10 +226,10 @@ export interface BranchRule {
 export type BranchProtectionResponseRulesList = Array<BranchRule>;
 export interface BranchProtectionResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  ref?: string;
-  refProtected?: boolean;
-  refServerSideMergeOnly?: boolean;
+  _schema?: string | undefined;
+  ref?: string | undefined;
+  refProtected?: boolean | undefined;
+  refServerSideMergeOnly?: boolean | undefined;
   rules: BranchProtectionResponseRulesList | null;
   [key: string]: unknown;
 }
@@ -236,17 +240,17 @@ export interface GetCompareStatusRequest {
 }
 export interface CompareStatusResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Commits reachable from head but not base. */
   commitsAhead: number;
   /** Commits reachable from base but not head. */
   commitsBehind: number;
   /** Merge base of base and head; empty for disjoint histories. */
-  mergeBaseSHA?: string;
+  mergeBaseSHA?: string | undefined;
   /** Commit SHA the base ref resolved to. */
-  resolvedBaseSHA?: string;
+  resolvedBaseSHA?: string | undefined;
   /** Commit SHA the head ref resolved to. */
-  resolvedHeadSHA?: string;
+  resolvedHeadSHA?: string | undefined;
   truncated: boolean;
   [key: string]: unknown;
 }
@@ -256,7 +260,7 @@ export interface GetDiffRequest {
   base: string;
   /** Branch, tag, or commit SHA, optionally with a ^/~N revision suffix (e.g. main~2). */
   head: string;
-  path?: string;
+  path?: string | undefined;
 }
 export interface GetDiffResponse {}
 export interface GetFileRequest {
@@ -293,9 +297,9 @@ export interface GetMergeBaseRequest {
 export type MergeBaseResponseResolvedSHAsList = Array<string>;
 export interface MergeBaseResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Commit SHA of the merge base. */
-  mergeBaseSHA?: string;
+  mergeBaseSHA?: string | undefined;
   /** Resolved input ref SHAs in request order. */
   resolvedSHAs: MergeBaseResponseResolvedSHAsList | null;
   [key: string]: unknown;
@@ -304,8 +308,8 @@ export interface GetTreeRequest {
   repoId: string;
   /** Branch, tag, or commit SHA, optionally with a ^/~N revision suffix (e.g. main~2, <sha>^). */
   ref: string;
-  path?: string;
-  recursive?: boolean;
+  path?: string | undefined;
+  recursive?: boolean | undefined;
 }
 export type TreeEntryType = "blob" | "tree" | "commit";
 export interface TreeEntry {
@@ -319,7 +323,7 @@ export interface TreeEntry {
 export type GetTreeResponseEntriesList = Array<TreeEntry>;
 export interface GetTreeResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   entries: GetTreeResponseEntriesList | null;
   sha: string;
   truncated: boolean;
@@ -328,9 +332,9 @@ export interface GetTreeResponse {
 export interface ListAuthorsRequest {
   repoId: string;
   /** Commit-scan budget for this request segment: the walk consumes up to this many commits before returning, regardless of how many distinct authors it found (default 10000, max 25000). It does not bound the number of authors returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque continuation token from a prior response's nextPageToken. Carried in the request body, not the query string: it encodes the walk frontier, which on a wide-ref history can exceed URL/request-line limits. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface CommitAuthor {
   /** Author email from the commit header, unnormalized, subject to the standard commit-string sanitization (1024-byte cap, invalid UTF-8 replaced). */
@@ -344,17 +348,17 @@ export interface CommitAuthor {
 export type ListAuthorsResponseAuthorsList = Array<CommitAuthor>;
 export interface ListAuthorsResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   authors: ListAuthorsResponseAuthorsList | null;
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   [key: string]: unknown;
 }
 export interface ListBranchesRequest {
   repoId: string;
-  search?: string;
-  regex?: string;
-  pageSize?: number;
-  pageToken?: string;
+  search?: string | undefined;
+  regex?: string | undefined;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
 }
 export interface Ref {
   commitSHA: string;
@@ -364,9 +368,9 @@ export interface Ref {
 export type ListBranchesResponseBranchesList = Array<Ref>;
 export interface ListBranchesResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   branches: ListBranchesResponseBranchesList | null;
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   [key: string]: unknown;
 }
 /** Commit SHAs (full hex) to list containing branches for. */
@@ -382,29 +386,31 @@ export type ListBranchesContainingResponseBodyMap = {
   [key: string]: ListBranchesContainingResponseBodyValueList | null | undefined;
 };
 export type ListBranchesContainingResponse = ListBranchesContainingResponseBodyMap;
+/** Exclude commits reachable from these revisions (repeatable); accepts the same ^/~N suffix as ref. */
+export type ListCommitsRequestNotRefList = Array<string>;
 export interface ListCommitsRequest {
   repoId: string;
   /** Branch, tag, or commit SHA, optionally with a ^/~N revision suffix (e.g. main~2, <sha>^). */
   ref: string;
-  /** Exclude commits reachable from this revision; accepts the same ^/~N suffix as ref. */
-  notRef?: string;
-  since?: string;
-  until?: string;
-  path?: string;
-  author?: string;
-  firstParent?: boolean;
-  parseTrailers?: boolean;
+  /** Exclude commits reachable from these revisions (repeatable); accepts the same ^/~N suffix as ref. */
+  notRef?: ListCommitsRequestNotRefList | undefined;
+  since?: string | undefined;
+  until?: string | undefined;
+  path?: string | undefined;
+  author?: string | undefined;
+  firstParent?: boolean | undefined;
+  parseTrailers?: boolean | undefined;
   /** Include diff stats (additions, deletions, filesChanged) per commit. Stats that exceed the per-commit timeout are omitted (null). */
-  includeStats?: boolean;
-  pageSize?: number;
-  pageToken?: string;
+  includeStats?: boolean | undefined;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
 }
 export type ListCommitsResponseCommitsList = Array<Commit>;
 export interface ListCommitsResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   commits: ListCommitsResponseCommitsList | null;
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   [key: string]: unknown;
 }
 /** Slash-separated tree paths -- a file or a directory -- to resolve. Exact duplicates collapse. Paths are taken verbatim: a non-canonical path is rejected rather than rewritten, so every response key is byte-identical to what was asked for. */
@@ -413,7 +419,7 @@ export interface ListLastChangedCommitsRequest {
   /** Repository ULID. */
   repoId: string;
   /** Parse git trailers from each returned commit message into the trailers field. */
-  parseTrailers?: boolean;
+  parseTrailers?: boolean | undefined;
   /** Slash-separated tree paths -- a file or a directory -- to resolve. Exact duplicates collapse. Paths are taken verbatim: a non-canonical path is rejected rather than rewritten, so every response key is byte-identical to what was asked for. */
   paths: ListLastChangedCommitsRequestPathsList | null;
   /** Branch, tag, or commit SHA, optionally with a ^/~N revision suffix (e.g. main~2, <sha>^). Every verdict is relative to the commit this resolves to. */
@@ -425,7 +431,7 @@ export type LastChangedCommitsResponseCommitsMap = { [key: string]: Commit | und
 export type PathCommitStatus = "ok" | "notFound" | "unresolved";
 export interface PathCommit {
   /** Commit that last changed this path, and a key of the commits map. Set only when status is ok. */
-  sha?: string;
+  sha?: string | undefined;
   /** ok: SHA names the commit that last changed this path. notFound: the path is absent at the resolved ref. unresolved: the walk stopped before reaching an answer. */
   status: PathCommitStatus;
   [key: string]: unknown;
@@ -434,7 +440,7 @@ export interface PathCommit {
 export type LastChangedCommitsResponsePathsMap = { [key: string]: PathCommit | undefined };
 export interface LastChangedCommitsResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Each distinct commit named by an ok verdict, keyed by canonical SHA. */
   commits: LastChangedCommitsResponseCommitsMap;
   /** Verdict per requested path. Every requested path is present. */
@@ -449,50 +455,50 @@ export interface ListRefsRequest {
   /** Repository ULID. */
   repoId: string;
   /** Ref-name prefixes to filter by (repeatable), e.g. "refs/heads/", "refs/tags/", "HEAD". Empty returns all visible refs. */
-  prefix?: ListRefsRequestPrefixList;
+  prefix?: ListRefsRequestPrefixList | undefined;
   /** Include the symref target for symbolic refs. */
-  symrefs?: boolean;
+  symrefs?: boolean | undefined;
   /** Include the peeled commit for annotated tags. */
-  peel?: boolean;
+  peel?: boolean | undefined;
   /** Emit an unborn HEAD (a symbolic HEAD whose branch has no commits yet). */
-  unborn?: boolean;
+  unborn?: boolean | undefined;
   /** Max refs to return (default 100, max 500). */
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
 }
 export interface RefEntry {
   /** Fully-qualified ref name (e.g. "HEAD", "refs/heads/main", "refs/tags/v1"). */
   name: string;
   /** Object the ref points at: a commit for a branch, the tag object for an annotated tag, or HEAD's resolved tip. Omitted for an unborn HEAD. */
-  oid?: string;
+  oid?: string | undefined;
   /** The first non-tag object an annotated tag dereferences to (usually a commit). Present only when peel=true and the ref is an annotated tag. */
-  peeled?: string;
+  peeled?: string | undefined;
   /** Fully-qualified target of a symbolic ref (e.g. HEAD -> refs/heads/main). Present only when symrefs=true. */
-  symrefTarget?: string;
+  symrefTarget?: string | undefined;
   /** True for a HEAD whose symref target has no commit yet (oid omitted). Only emitted when unborn=true. */
-  unborn?: boolean;
+  unborn?: boolean | undefined;
   [key: string]: unknown;
 }
 export type ListRefsResponseRefsList = Array<RefEntry>;
 export interface ListRefsResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  nextPageToken?: string;
+  _schema?: string | undefined;
+  nextPageToken?: string | undefined;
   refs: ListRefsResponseRefsList | null;
   [key: string]: unknown;
 }
 export interface ListTagsRequest {
   repoId: string;
-  search?: string;
-  regex?: string;
-  pageSize?: number;
-  pageToken?: string;
+  search?: string | undefined;
+  regex?: string | undefined;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
 }
 export type ListTagsResponseTagsList = Array<Ref>;
 export interface ListTagsResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  nextPageToken?: string;
+  _schema?: string | undefined;
+  nextPageToken?: string | undefined;
   tags: ListTagsResponseTagsList | null;
   [key: string]: unknown;
 }
@@ -500,8 +506,8 @@ export type PreviewMergeRequestStrategy = "merge" | "noFastForward" | "fastForwa
 export interface PreviewMergeRequest {
   repoId: string;
   baseRef: string;
-  expectedBaseSHA?: string;
-  expectedHeadSHA?: string;
+  expectedBaseSHA?: string | undefined;
+  expectedHeadSHA?: string | undefined;
   headRef: string;
   strategy: PreviewMergeRequestStrategy | (string & {});
 }
@@ -519,21 +525,23 @@ export type DryRunMergeResponseOutcome =
   | "conflict";
 export interface DryRunMergeResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   commitsAhead: number;
-  conflictReason?: DryRunMergeResponseConflictReason;
+  conflictReason?: DryRunMergeResponseConflictReason | undefined;
   conflictedPaths: DryRunMergeResponseConflictedPathsList | null;
-  mergeBaseSHA?: string;
+  /** True when conflictedPaths holds only the first conflicts, in merge order: depth first, names in byte order. */
+  conflictsTruncated?: boolean | undefined;
+  mergeBaseSHA?: string | undefined;
   outcome: DryRunMergeResponseOutcome;
-  resolvedBaseSHA?: string;
-  resolvedHeadSHA?: string;
+  resolvedBaseSHA?: string | undefined;
+  resolvedHeadSHA?: string | undefined;
   [key: string]: unknown;
 }
 export interface PreviewRebaseRequest {
   repoId: string;
   branch: string;
   onto: string;
-  upstream?: string;
+  upstream?: string | undefined;
 }
 export type DryRunRebaseResponseCommitsToApplyList = Array<string>;
 export type RebaseCommitPreviewConflictReason =
@@ -543,8 +551,10 @@ export type RebaseCommitPreviewConflictReason =
   | "blobBinary";
 export type RebaseCommitPreviewConflictedPathsList = Array<string>;
 export interface RebaseCommitPreview {
-  conflictReason?: RebaseCommitPreviewConflictReason;
+  conflictReason?: RebaseCommitPreviewConflictReason | undefined;
   conflictedPaths: RebaseCommitPreviewConflictedPathsList | null;
+  /** True when conflictedPaths holds only the first conflicts, in merge order: depth first, names in byte order. */
+  conflictsTruncated?: boolean | undefined;
   originalSHA: string;
   wouldBeDropped: boolean;
   wouldConflict: boolean;
@@ -553,19 +563,19 @@ export interface RebaseCommitPreview {
 export type DryRunRebaseResponsePreviewsList = Array<RebaseCommitPreview>;
 export interface DryRunRebaseResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   commitsToApply: DryRunRebaseResponseCommitsToApplyList | null;
-  mergeBaseSHA?: string;
+  mergeBaseSHA?: string | undefined;
   previews: DryRunRebaseResponsePreviewsList | null;
-  resolvedBranchSHA?: string;
-  resolvedOntoSHA?: string;
+  resolvedBranchSHA?: string | undefined;
+  resolvedOntoSHA?: string | undefined;
   wouldSucceed: boolean;
   [key: string]: unknown;
 }
 export interface PreviewRevertRequest {
   repoId: string;
   commitSHA: string;
-  mainline?: number;
+  mainline?: number | undefined;
   targetRef: string;
 }
 export type DryRunRevertResponseConflictReason =
@@ -577,24 +587,26 @@ export type DryRunRevertResponseConflictedPathsList = Array<string>;
 export type DryRunRevertResponseOutcome = "reverted" | "alreadyUpToDate" | "conflict";
 export interface DryRunRevertResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  conflictReason?: DryRunRevertResponseConflictReason;
+  _schema?: string | undefined;
+  conflictReason?: DryRunRevertResponseConflictReason | undefined;
   conflictedPaths: DryRunRevertResponseConflictedPathsList | null;
+  /** True when conflictedPaths holds only the first conflicts, in merge order: depth first, names in byte order. */
+  conflictsTruncated?: boolean | undefined;
   outcome: DryRunRevertResponseOutcome;
-  resolvedTargetSHA?: string;
+  resolvedTargetSHA?: string | undefined;
   [key: string]: unknown;
 }
 export interface ResolveRepoRequest {
-  /** Prefixed repository path (et/project/repo, git/owner/repo, or gh/owner/repo); the surface prefix is required. A trailing ".git" is an optional alias on et/ and gh/ paths. */
+  /** Prefixed repository path (et/project/repo or gh/owner/repo); the surface prefix is required. A trailing ".git" is an optional alias on et/ and gh/ paths. */
   repoPath: string;
   /** Include hosting-node base URIs. */
-  includeReplicas?: boolean;
+  includeReplicas?: boolean | undefined;
 }
 /** Hosting-node base URIs for the repository. */
 export type ResolveResponseReplicasList = Array<string>;
 export interface ResolveResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Hosting-node base URIs for the repository. */
   replicas: ResolveResponseReplicasList | null;
   /** Repository ULID. */
@@ -952,7 +964,7 @@ export const listBranchesContaining: API.OperationMethod<
 }));
 
 export type ListCommitsError = EntireOpError;
-/** List commits Read the problem type, not only the status. - 404 `https://entire.com/errors/git-read/ref-not-found`: a requested ref does not resolve on this placement. A new repository answers this until its first push. - 404 `https://entire.com/errors/git-read/object-missing`: an object is absent on this placement. Retry. - 404 `https://entire.com/errors/git-read/repo-gone`: the repository has no refs and the object is absent. - 404 with no type: the token cannot read the repository, or the cause is none of the above. On a GitHub mirror or a ref forwarded to its owner, a 404 reflects this placement's view, which can lag the owner. A caller that acts on a mirror must not treat that 404 as final. */
+/** List commits The response lists commits newest first by committer date, not by author date. The order is deterministic: the same request over the same history returns the same sequence. Each page continues that sequence. In rare histories with clock skew, a later page can repeat a commit from an earlier page. Skip a commit SHA that an earlier page returned. The order is not topological. Under clock skew across a merge, a commit can appear before one of its children. Read the problem type, not only the status. - 404 `https://entire.com/errors/git-read/ref-not-found`: a requested ref does not resolve on this placement. A new repository answers this until its first push. - 404 `https://entire.com/errors/git-read/object-missing`: an object is absent on this placement. Retry. - 404 `https://entire.com/errors/git-read/repo-gone`: the repository has no refs and the object is absent. - 404 with no type: the token cannot read the repository, or the cause is none of the above. On a GitHub mirror or a ref forwarded to its owner, a 404 reflects this placement's view, which can lag the owner. A caller that acts on a mirror must not treat that 404 as final. */
 export const listCommits: API.PaginatedOperationMethod<
   ListCommitsRequest,
   ListCommitsResponse,
@@ -1508,7 +1520,7 @@ function __c18(j: number): any {
         S.Struct({
           repoId: S.String.pipe(T.Label()),
           ref: S.String.pipe(T.Query()),
-          notRef: S.optional(S.String.pipe(T.Query())),
+          notRef: S.optional(__S(8, __c1, 0).pipe(T.Query())),
           since: S.optional(S.String.pipe(T.Query())),
           until: S.optional(S.String.pipe(T.Query())),
           path: S.optional(S.String.pipe(T.Query())),
@@ -1668,6 +1680,7 @@ function __c22(j: number): any {
             commitsAhead: S.Number,
             conflictReason: S.optional(S.String),
             conflictedPaths: S.NullOr(__S(8, __c1, 0)),
+            conflictsTruncated: S.optional(S.Boolean),
             mergeBaseSHA: S.optional(S.String),
             outcome: S.String,
             resolvedBaseSHA: S.optional(S.String),
@@ -1697,6 +1710,7 @@ function __c23(j: number): any {
           S.Struct({
             conflictReason: S.optional(S.String),
             conflictedPaths: S.NullOr(__S(8, __c1, 0)),
+            conflictsTruncated: S.optional(S.Boolean),
             originalSHA: S.String,
             wouldBeDropped: S.Boolean,
             wouldConflict: S.Boolean,
@@ -1743,6 +1757,7 @@ function __c24(j: number): any {
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             conflictReason: S.optional(S.String),
             conflictedPaths: S.NullOr(__S(8, __c1, 0)),
+            conflictsTruncated: S.optional(S.Boolean),
             outcome: S.String,
             resolvedTargetSHA: S.optional(S.String),
           }),
@@ -1859,6 +1874,7 @@ function __c28(j: number): any {
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             conflictReason: S.optional(S.String),
             conflictedPaths: S.NullOr(__S(8, __c1, 0)),
+            conflictsTruncated: S.optional(S.Boolean),
             mergeCommitSHA: S.optional(S.String),
             newBaseSHA: S.optional(S.String),
             outcome: S.String,
@@ -1902,6 +1918,7 @@ function __c30(j: number): any {
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             conflictReason: S.optional(S.String),
             conflictedPaths: S.NullOr(__S(8, __c1, 0)),
+            conflictsTruncated: S.optional(S.Boolean),
             newTipSHA: S.optional(S.String),
             outcome: S.String,
             revertCommitSHA: S.optional(S.String),

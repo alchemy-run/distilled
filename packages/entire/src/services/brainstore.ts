@@ -35,41 +35,41 @@ export type MemoryItemPathsList = Array<string>;
 export type MemoryItemLocusList = Array<string>;
 /** One provenance anchor (camelCase read-model projection). */
 export interface Anchor {
-  sessionId?: string;
-  commit?: string;
-  checkpointId?: string;
-  turnId?: string;
-  verified?: boolean;
+  sessionId?: string | undefined;
+  commit?: string | undefined;
+  checkpointId?: string | undefined;
+  turnId?: string | undefined;
+  verified?: boolean | undefined;
 }
 /** Source anchors; the UI shows the commit a memory came from. */
 export type MemoryItemProvenanceList = Array<Anchor>;
 /** One memories read-model row, shared by listMemories and queryMemories. */
 export interface MemoryItem {
-  factId?: string;
-  text?: string;
-  kind?: string;
-  status?: string;
+  factId?: string | undefined;
+  text?: string | undefined;
+  kind?: string | undefined;
+  status?: string | undefined;
   /** Fact id of the superseding fact; empty unless status is superseded. */
-  supersededBy?: string;
+  supersededBy?: string | undefined;
   /** Merged trail this fact belongs to; empty until its trail merges. */
-  trailId?: string;
-  paths?: MemoryItemPathsList;
+  trailId?: string | undefined;
+  paths?: MemoryItemPathsList | undefined;
   /** Code identifiers/paths the fact is about. */
-  locus?: MemoryItemLocusList;
+  locus?: MemoryItemLocusList | undefined;
   /** Source anchors; the UI shows the commit a memory came from. */
-  provenance?: MemoryItemProvenanceList;
-  createdBy?: string;
+  provenance?: MemoryItemProvenanceList | undefined;
+  createdBy?: string | undefined;
   /** Server-stamped display handle; attribution only, never an authz input. */
-  createdByHandle?: string;
-  lastActionBy?: string;
+  createdByHandle?: string | undefined;
+  lastActionBy?: string | undefined;
   /** Server stamp (ISO 8601, milliseconds). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Server stamp (ISO 8601, milliseconds). */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Client-side creation time of the record (ISO 8601, milliseconds); can precede upload. */
-  recordCreatedAt?: string;
+  recordCreatedAt?: string | undefined;
   /** A reviewer kept this fact (see :accept). Review state, not a lifecycle status; never synced. */
-  accepted?: boolean;
+  accepted?: boolean | undefined;
 }
 export type CreateTrailMergeRecordRequestSessionsList = Array<string>;
 export type CreateTrailMergeRecordRequestCheckpointsList = Array<string>;
@@ -77,13 +77,13 @@ export type CreateTrailMergeRecordRequestCommitsList = Array<string>;
 export interface CreateTrailMergeRecordRequest {
   repo_id: string;
   trailId: string;
-  sessions?: CreateTrailMergeRecordRequestSessionsList;
-  checkpoints?: CreateTrailMergeRecordRequestCheckpointsList;
-  commits?: CreateTrailMergeRecordRequestCommitsList;
+  sessions?: CreateTrailMergeRecordRequestSessionsList | undefined;
+  checkpoints?: CreateTrailMergeRecordRequestCheckpointsList | undefined;
+  commits?: CreateTrailMergeRecordRequestCommitsList | undefined;
 }
 export interface CreateTrailMergeRecordResponse {
   /** Facts newly stamped with this trail id. */
-  stamped?: number;
+  stamped?: number | undefined;
 }
 export interface EditMemoryRequest {
   repo_id: string;
@@ -94,16 +94,16 @@ export interface EditMemoryRequest {
 }
 export interface GetBrainstoreHealthRequest {}
 export interface GetBrainstoreHealthResponse {
-  status?: string;
-  service?: string;
-  timestamp?: string;
+  status?: string | undefined;
+  service?: string | undefined;
+  timestamp?: string | undefined;
 }
 export interface ListFactChangesRequest {
   repo_id: string;
   /** Out-of-range values are clamped (below 1 to 50, above 100 to 100), never rejected. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a prior nextPageToken. An unparseable or stale token is a 400 (restart without a token), never a silent first page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type FactRecordPathsList = Array<string>;
 export type FactRecordLocusList = Array<string>;
@@ -111,78 +111,78 @@ export type FactRecordOrigin = "distilled" | "authored";
 export type FactRecordStatus = "active" | "superseded" | "retracted";
 export type FactRecordRelatedIdsList = Array<string>;
 export interface FactRecordProvenanceItem {
-  session_id?: string;
-  commit?: string;
-  checkpoint_id?: string;
-  turn_id?: string;
-  verified?: boolean;
+  session_id?: string | undefined;
+  commit?: string | undefined;
+  checkpoint_id?: string | undefined;
+  turn_id?: string | undefined;
+  verified?: boolean | undefined;
 }
 export type FactRecordProvenanceList = Array<FactRecordProvenanceItem>;
 /** entire-brain factmerge wire record, embedded whole (snake_case; a foreign wire contract, never flattened into the camelCase envelope). created_at/updated_at are the client's own wire values. */
 export interface FactRecord {
   /** Content-derived fact id ("fact:" + sha256 of normalized text + sorted paths). */
-  id?: string;
-  paths?: FactRecordPathsList;
-  kind?: string;
-  locus?: FactRecordLocusList;
-  text?: string;
+  id?: string | undefined;
+  paths?: FactRecordPathsList | undefined;
+  kind?: string | undefined;
+  locus?: FactRecordLocusList | undefined;
+  text?: string | undefined;
   /** Display metadata only; never a storage key. */
-  branch?: string;
-  origin?: FactRecordOrigin;
+  branch?: string | undefined;
+  origin?: FactRecordOrigin | undefined;
   /** Extraction agent that distilled the fact; empty for authored facts. */
-  agent?: string;
+  agent?: string | undefined;
   /** Extraction model that generated the fact; empty for authored facts. */
-  model?: string;
+  model?: string | undefined;
   /** Extraction effort setting; empty for authored facts. */
-  effort?: string;
-  status?: FactRecordStatus;
-  confidence?: string;
-  related_ids?: FactRecordRelatedIdsList;
-  superseded_by?: string;
-  provenance?: FactRecordProvenanceList;
-  created_at?: string;
-  updated_at?: string;
+  effort?: string | undefined;
+  status?: FactRecordStatus | undefined;
+  confidence?: string | undefined;
+  related_ids?: FactRecordRelatedIdsList | undefined;
+  superseded_by?: string | undefined;
+  provenance?: FactRecordProvenanceList | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface ListFactChangesResponseItemsItem {
-  record?: FactRecord;
+  record?: FactRecord | undefined;
   /** Merged trail this fact belongs to; empty until its trail merges. */
-  trailId?: string;
-  createdBy?: string;
+  trailId?: string | undefined;
+  createdBy?: string | undefined;
   /** Server-stamped display handle; attribution only, never an authz input. */
-  createdByHandle?: string;
+  createdByHandle?: string | undefined;
   /** Server change stamp (ISO 8601, milliseconds). */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export type ListFactChangesResponseItemsList = Array<ListFactChangesResponseItemsItem>;
 export interface ListFactChangesResponse {
   items: ListFactChangesResponseItemsList;
   /** Resume cursor; null only when the page is empty (caught up). */
-  nextPageToken?: string | null;
+  nextPageToken?: string | null | undefined;
 }
 export interface ListMemoriesRequest {
   repo_id: string;
   /** Optional display-branch filter. maxLength is 512 BYTES, not characters. */
-  branch?: string;
+  branch?: string | undefined;
   /** Full-text search query, parsed via websearch_to_tsquery (web search syntax; never raises on malformed input). */
-  q?: string;
+  q?: string | undefined;
   /** Comma-separated or repeated Trail IDs. Use no-trail for unlinked memories. Applied before pagination. */
-  trail?: string;
+  trail?: string | undefined;
   /** Comma-separated or repeated values, OR within this field and AND across fields. Applied before pagination. */
-  kind?: string;
+  kind?: string | undefined;
   /** Comma-separated or repeated values, OR within this field and AND across fields. Applied before pagination. */
-  status?: string;
+  status?: string | undefined;
   /** Comma-separated or repeated values, OR within this field and AND across fields. Applied before pagination. */
-  author?: string;
+  author?: string | undefined;
   /** Out-of-range values are clamped (below 1 to 50, above 100 to 100), never rejected. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a prior nextPageToken. An unparseable or stale token is a 400 (restart without a token), never a silent first page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ListMemoriesResponseItemsList = Array<MemoryItem>;
 export interface ListMemoriesResponse {
   items: ListMemoriesResponseItemsList;
   /** Set when the page was full; null on the last page. */
-  nextPageToken?: string | null;
+  nextPageToken?: string | null | undefined;
 }
 export interface ListMemoryFacetCandidatesRequest {
   repo_id: string;
@@ -204,20 +204,20 @@ export type QueryMemoriesRequestCommitsList = Array<string>;
 export type QueryMemoriesRequestTrailIdsList = Array<string>;
 export interface QueryMemoriesRequest {
   repo_id: string;
-  sessionIds?: QueryMemoriesRequestSessionIdsList;
-  checkpointIds?: QueryMemoriesRequestCheckpointIdsList;
-  commits?: QueryMemoriesRequestCommitsList;
-  trailIds?: QueryMemoriesRequestTrailIdsList;
+  sessionIds?: QueryMemoriesRequestSessionIdsList | undefined;
+  checkpointIds?: QueryMemoriesRequestCheckpointIdsList | undefined;
+  commits?: QueryMemoriesRequestCommitsList | undefined;
+  trailIds?: QueryMemoriesRequestTrailIdsList | undefined;
   /** Out-of-range values are clamped (below 1 to 50, above 100 to 100), never rejected. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a prior nextPageToken. An unparseable or stale token is a 400 (restart without a token), never a silent first page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type QueryMemoriesResponseItemsList = Array<MemoryItem>;
 export interface QueryMemoriesResponse {
-  items?: QueryMemoriesResponseItemsList;
+  items?: QueryMemoriesResponseItemsList | undefined;
   /** Set when the page was full; null on the last page. */
-  nextPageToken?: string | null;
+  nextPageToken?: string | null | undefined;
 }
 export interface RetractMemoryRequest {
   repo_id: string;
@@ -228,9 +228,9 @@ export interface UpsertFactsRequest {
   repo_id: string;
 }
 export interface UpsertFactsResponse {
-  added?: number;
-  changed?: number;
-  unchanged?: number;
+  added?: number | undefined;
+  changed?: number | undefined;
+  unchanged?: number | undefined;
 }
 export type AcceptMemoryError = EntireOpError;
 /** Accept a memory in review Records that the caller reviewed and kept an active fact (trail review's Accept). Acceptance is a fact attribute, not a lifecycle status: the fact stays active, nothing reaches the sync feed, and the read model reports accepted=true from then on. Idempotent. Requires repo write access. */

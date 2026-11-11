@@ -39,17 +39,17 @@ export type GenerateDispatchRequestOrgsList = Array<string>;
 export type GenerateDispatchRequestReposList = Array<string>;
 export interface GenerateDispatchRequest {
   /** Branch names (max 5); omitted selects each repo's default branch. The legacy "all" sentinel is rejected. */
-  branches?: unknown;
+  branches?: unknown | undefined;
   /** Org scopes; not currently supported (400). */
-  orgs?: GenerateDispatchRequestOrgsList | null;
+  orgs?: GenerateDispatchRequestOrgsList | null | undefined;
   /** Repos to cover (1-5), each gh/owner/repo or et/owner/repo. */
-  repos?: GenerateDispatchRequestReposList | null;
+  repos?: GenerateDispatchRequestReposList | null | undefined;
   /** ISO-8601 timestamp or relative token (e.g. "7d"). */
-  since?: string;
+  since?: string | undefined;
   /** ISO-8601 timestamp or relative token. */
-  until?: string;
+  until?: string | undefined;
   /** Voice preference text (max 1000 chars), or a preset name (neutral, marvin). */
-  voice?: string;
+  voice?: string | undefined;
 }
 export type DispatchDetailWireBranchesList = Array<string>;
 export type DispatchDetailWireCoveredRepoGithubIdsList = Array<number>;
@@ -90,7 +90,7 @@ export interface DispatchWindowWire {
 }
 export interface DispatchDetailWire {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   branches: DispatchDetailWireBranchesList | null;
   completedAt: string | null;
   coveredRepoGithubIds: DispatchDetailWireCoveredRepoGithubIdsList | null;
@@ -142,7 +142,7 @@ export interface DispatchSummaryWire {
 export type DispatchSetupWireRecentDispatchesList = Array<DispatchSummaryWire>;
 export interface DispatchSetupWire {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   config: DispatchSetupWireConfigMap;
   createdAt: string;
   id: string;
@@ -156,11 +156,11 @@ export interface DispatchSetupWire {
 export type GetMyActivityRequestTimeframe = "last-month" | "last-3-months" | "last-6-months";
 export interface GetMyActivityRequest {
   /** IANA timezone identifier (e.g. Europe/Berlin). Required. */
-  timezone?: string;
+  timezone?: string | undefined;
   /** Window to aggregate */
-  timeframe?: GetMyActivityRequestTimeframe | (string & {});
+  timeframe?: GetMyActivityRequestTimeframe | (string & {}) | undefined;
   /** Deprecated and ignored: the aggregates cover the whole timeframe */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface AgentContributions {
   amp: number;
@@ -209,7 +209,7 @@ export interface MeActivityStats {
 }
 export interface MeActivityOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   daily_contributions: MeActivityOutputBodyDailyContributionsList | null;
   hourly_commit_contributions: MeActivityOutputBodyHourlyCommitContributionsList | null;
   hourly_contributions: MeActivityOutputBodyHourlyContributionsList | null;
@@ -220,15 +220,15 @@ export interface MeActivityOutputBody {
 export type GetMyRecapRequestTimeframe = "last-month" | "last-3-months" | "last-6-months";
 export interface GetMyRecapRequest {
   /** Window to aggregate */
-  timeframe?: GetMyRecapRequestTimeframe | (string & {});
+  timeframe?: GetMyRecapRequestTimeframe | (string & {}) | undefined;
   /** Restrict to one repo_id; enables the contributors side */
-  repo?: string;
+  repo?: string | undefined;
   /** Optional max checkpoints (omit for uncapped) */
-  limit?: number;
+  limit?: number | undefined;
   /** ISO-8601 lower bound; with until, overrides timeframe */
-  since?: string;
+  since?: string | undefined;
   /** ISO-8601 upper bound; with since, overrides timeframe */
-  until?: string;
+  until?: string | undefined;
 }
 export interface MeLabelCount {
   count: number;
@@ -311,7 +311,7 @@ export interface MeRecapSummary {
 }
 export interface MeRecapOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   agents: MeRecapOutputBodyAgentsMap;
   contributors: MeContributorsSummary;
   daily: MeRecapOutputBodyDailyList | null;
@@ -326,27 +326,27 @@ export interface MeRecapOutputBody {
 export interface ListDispatchSetupRunsRequest {
   setupId: string;
   /** Page size, clamped to 1..100 */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a prior nextPageToken */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type DispatchRunListOutputBodyItemsList = Array<DispatchSummaryWire>;
 export interface DispatchRunListOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   items: DispatchRunListOutputBodyItemsList | null;
   nextPageToken: string | null;
 }
 export interface ListDispatchSetupsRequest {
   /** Page size, clamped to 1..100 */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque cursor from a prior nextPageToken */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type DispatchSetupListOutputBodyItemsList = Array<DispatchSetupWire>;
 export interface DispatchSetupListOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   items: DispatchSetupListOutputBodyItemsList | null;
   nextPageToken: string | null;
 }
@@ -354,9 +354,9 @@ export interface DispatchSetupListOutputBody {
 export type ListMyCheckpointsRequestTimeframe = "last-month" | "last-3-months" | "last-6-months";
 export interface ListMyCheckpointsRequest {
   /** Window to return */
-  timeframe?: ListMyCheckpointsRequestTimeframe | (string & {});
+  timeframe?: ListMyCheckpointsRequestTimeframe | (string & {}) | undefined;
   /** Max rows to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type MeUserCheckpointDeadSessionIndicesList = Array<number>;
 export type MeUserCheckpointSessionIdsList = Array<string>;
@@ -376,7 +376,7 @@ export interface MeUserCheckpoint {
   input_tokens: number;
   is_private: boolean;
   output_tokens: number;
-  payload_hydration_state?: string;
+  payload_hydration_state?: string | undefined;
   prompt: string | null;
   repo_full_name: string;
   repo_id: string;
@@ -388,7 +388,7 @@ export interface MeUserCheckpoint {
 export type MeCheckpointsOutputBodyCheckpointsList = Array<MeUserCheckpoint>;
 export interface MeCheckpointsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   checkpoints: MeCheckpointsOutputBodyCheckpointsList | null;
   cliRepoEnablePendingAccess: boolean;
   cliRepoEnabled: boolean;
@@ -401,9 +401,9 @@ export interface MeCheckpointsOutputBody {
 export type ListMyCommitsRequestTimeframe = "last-month" | "last-3-months" | "last-6-months";
 export interface ListMyCommitsRequest {
   /** Window to return */
-  timeframe?: ListMyCommitsRequestTimeframe | (string & {});
+  timeframe?: ListMyCommitsRequestTimeframe | (string & {}) | undefined;
   /** Max rows to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type MeCommitCheckpointAgentsList = Array<string>;
 export interface MeCommitCheckpoint {
@@ -415,11 +415,13 @@ export interface MeCommitCheckpoint {
   total_steps: number;
 }
 export type MeCommitCheckpointsList = Array<MeCommitCheckpoint>;
+/** Route identity of the commit's repo: which product surface links to it. Omitted when no provider can be resolved for the repo. */
+export type MeCommitProvider = "github" | "entire";
 export interface MeCommit {
   additions: number;
   checkpoint_repo_full_name: string | null;
   checkpoints: MeCommitCheckpointsList | null;
-  commit_author_avatar_url?: string;
+  commit_author_avatar_url?: string | undefined;
   commit_author_username: string | null;
   commit_body: string | null;
   commit_date: string | null;
@@ -429,12 +431,14 @@ export interface MeCommit {
   deletions: number;
   files_changed: number;
   is_private: boolean;
+  /** Route identity of the commit's repo: which product surface links to it. Omitted when no provider can be resolved for the repo. */
+  provider?: MeCommitProvider | undefined;
   repo_full_name: string;
 }
 export type MeCommitsOutputBodyCommitsList = Array<MeCommit>;
 export interface MeCommitsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   commits: MeCommitsOutputBodyCommitsList | null;
   timeframe: string;
   updated_at: string;
@@ -474,70 +478,79 @@ export type ListMyProjectTrailsRequestSort =
   | "assignee";
 export interface ListMyProjectTrailsRequest {
   /** Match these accessible project ULIDs (repeatable or comma-separated) */
-  project_id?: ListMyProjectTrailsRequestProjectIdList;
+  project_id?: ListMyProjectTrailsRequestProjectIdList | undefined;
   /** Match any of these statuses (repeatable or comma-separated) */
-  status?: ListMyProjectTrailsRequestStatusList;
+  status?: ListMyProjectTrailsRequestStatusList | undefined;
   /** Exclude these statuses (repeatable or comma-separated) */
-  status_not?: ListMyProjectTrailsRequestStatusNotList;
+  status_not?: ListMyProjectTrailsRequestStatusNotList | undefined;
   /** Match any of these derived phases (repeatable or comma-separated) */
-  phase?: ListMyProjectTrailsRequestPhaseList;
+  phase?: ListMyProjectTrailsRequestPhaseList | undefined;
   /** Exclude these derived phases (repeatable or comma-separated) */
-  phase_not?: ListMyProjectTrailsRequestPhaseNotList;
+  phase_not?: ListMyProjectTrailsRequestPhaseNotList | undefined;
   /** Match any of these priorities (repeatable or comma-separated) */
-  priority?: ListMyProjectTrailsRequestPriorityList;
+  priority?: ListMyProjectTrailsRequestPriorityList | undefined;
   /** Exclude these priorities (repeatable or comma-separated) */
-  priority_not?: ListMyProjectTrailsRequestPriorityNotList;
+  priority_not?: ListMyProjectTrailsRequestPriorityNotList | undefined;
   /** Match any of these types (repeatable or comma-separated) */
-  type?: ListMyProjectTrailsRequestTypeList;
+  type?: ListMyProjectTrailsRequestTypeList | undefined;
   /** Exclude these types (repeatable or comma-separated) */
-  type_not?: ListMyProjectTrailsRequestTypeNotList;
+  type_not?: ListMyProjectTrailsRequestTypeNotList | undefined;
   /** Narrow your Trails to these author account ULIDs (repeatable or comma-separated) */
-  author?: ListMyProjectTrailsRequestAuthorList;
+  author?: ListMyProjectTrailsRequestAuthorList | undefined;
   /** Exclude these author account ULIDs (repeatable or comma-separated) */
-  author_not?: ListMyProjectTrailsRequestAuthorNotList;
+  author_not?: ListMyProjectTrailsRequestAuthorNotList | undefined;
   /** Narrow your Trails to these assignee account ULIDs (repeatable or comma-separated) */
-  assignee?: ListMyProjectTrailsRequestAssigneeList;
+  assignee?: ListMyProjectTrailsRequestAssigneeList | undefined;
   /** Exclude these assignee account ULIDs (repeatable or comma-separated) */
-  assignee_not?: ListMyProjectTrailsRequestAssigneeNotList;
+  assignee_not?: ListMyProjectTrailsRequestAssigneeNotList | undefined;
   /** Case-insensitive search over Trail title, #number, and project identity */
-  search?: string;
-  sort?: ListMyProjectTrailsRequestSort | (string & {});
-  per_page?: number;
+  search?: string | undefined;
+  sort?: ListMyProjectTrailsRequestSort | (string & {}) | undefined;
+  per_page?: number | undefined;
   /** Opaque continuation cursor from next_cursor; repeat the same filters and sort */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** Account IDs aligned with assignees */
 export type MeProjectTrailAssigneeAccountIdsList = Array<string | null>;
+export interface ContributorIdentityAgent {
+  /** Agent id (GET .../agents/{id}). */
+  id: string;
+  /** The agent's current name. */
+  name: string;
+}
 export interface AutomationIdentity {
   /** The automation's aut_<ULID> subject, for an automation that is not a plugin installation. */
-  automation_id?: string;
+  automation_id?: string | undefined;
   /** The plugin installation's ins_<ULID> id. */
-  installation_id?: string;
+  installation_id?: string | undefined;
   /** The plugin's slug. */
-  plugin?: string;
+  plugin?: string | undefined;
 }
 export interface IdentityHandle {
   handle: string;
-  is_primary?: boolean;
+  is_primary?: boolean | undefined;
   provider: string;
 }
 export type ContributorIdentityHandlesList = Array<IdentityHandle>;
 export interface ContributorIdentity {
   account_id: string | null;
-  automation?: AutomationIdentity;
+  agent?: ContributorIdentityAgent | undefined;
+  automation?: AutomationIdentity | undefined;
   avatar_url: string | null;
   display_name: string | null;
   handles: ContributorIdentityHandlesList | null;
   kind: string;
-  username?: string;
+  /** The agent run that acted (GET .../runs/{id}). */
+  run_id?: string | undefined;
+  username?: string | undefined;
 }
 export interface MeTrailPerson {
-  account_id?: string;
-  avatar_url?: string;
+  account_id?: string | undefined;
+  avatar_url?: string | undefined;
   display_name: string;
   identity: ContributorIdentity;
   login: string;
-  username?: string;
+  username?: string | undefined;
 }
 export type MeProjectTrailAssigneeProfilesList = Array<MeTrailPerson>;
 export type MeProjectTrailAssigneesList = Array<string>;
@@ -602,7 +615,7 @@ export interface MeProjectTrail {
   assignee_account_ids: MeProjectTrailAssigneeAccountIdsList | null;
   assignee_profiles: MeProjectTrailAssigneeProfilesList | null;
   assignees: MeProjectTrailAssigneesList | null;
-  author?: MeTrailPerson;
+  author?: MeTrailPerson | undefined;
   author_account_id: string;
   body: string;
   capabilities: MeProjectTrailCapabilities;
@@ -627,21 +640,21 @@ export interface MeProjectTrail {
   title: string;
   type: MeProjectTrailType;
   /** Web app page for this Trail; absent when this deployment has no frontend origin */
-  url?: string;
+  url?: string | undefined;
 }
 export type MeProjectTrailsResponseItemsList = Array<MeProjectTrail>;
 /** Codes for partial-result conditions: team_stats_foreign_region, unroutable_repos, unroutable_projects, unresolved_caller_login, change_readiness_unavailable */
 export type MetaPartialList = Array<string>;
 export interface Meta {
   /** Code for degraded behaviour */
-  degraded?: string;
+  degraded?: string | undefined;
   /** Codes for partial-result conditions: team_stats_foreign_region, unroutable_repos, unroutable_projects, unresolved_caller_login, change_readiness_unavailable */
-  partial?: MetaPartialList | null;
+  partial?: MetaPartialList | null | undefined;
   server_time: string;
 }
 export interface MeProjectTrailsResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   items: MeProjectTrailsResponseItemsList | null;
   /** Region whose project Trails this page covers */
   jurisdiction: string;
@@ -654,14 +667,14 @@ export type ListMySessionsRequestTimeframe = "last-month" | "last-3-months" | "l
 export type ListMySessionsRequestKindNeList = Array<string>;
 export interface ListMySessionsRequest {
   /** Relative window */
-  timeframe?: ListMySessionsRequestTimeframe | (string & {});
+  timeframe?: ListMySessionsRequestTimeframe | (string & {}) | undefined;
   /** RFC 3339; overrides timeframe start */
-  since?: string;
+  since?: string | undefined;
   /** RFC 3339; overrides timeframe end */
-  until?: string;
-  limit?: number;
+  until?: string | undefined;
+  limit?: number | undefined;
   /** Exclude sessions of these kinds, for example agent_review; repeatable or comma-separated. */
-  kind_ne_?: ListMySessionsRequestKindNeList;
+  kind_ne_?: ListMySessionsRequestKindNeList | undefined;
 }
 /** Route identity of the repo the session lives in: which product surface links to it */
 export type MeUserSessionProvider = "github" | "entire";
@@ -678,7 +691,7 @@ export interface MeUserSession {
   checkpointCount: number;
   customName: string | null;
   displayName: string;
-  firstCommitAuthorAvatarUrl?: string;
+  firstCommitAuthorAvatarUrl?: string | undefined;
   firstCommitAuthorUsername: string | null;
   inputTokens: number | null;
   isPublic: boolean;
@@ -699,109 +712,17 @@ export interface MeUserSession {
 export type MeSessionsOutputBodySessionsList = Array<MeUserSession>;
 export interface MeSessionsOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   meta: Meta;
   sessions: MeSessionsOutputBodySessionsList | null;
   timeframe: string;
   updated_at: string;
 }
-/** Relative window */
-export type ListMyTrailsRequestTimeframe = "last-month" | "last-3-months" | "last-6-months";
-export interface ListMyTrailsRequest {
-  /** Relative window */
-  timeframe?: ListMyTrailsRequestTimeframe | (string & {});
-  /** RFC 3339; overrides timeframe start */
-  since?: string;
-  /** RFC 3339; overrides timeframe end */
-  until?: string;
-  limit?: number;
-}
-export interface TrailAssigneeIdentity {
-  identity: ContributorIdentity;
-  login: string | null;
-}
-export type MeTrailAssigneeIdentitiesList = Array<TrailAssigneeIdentity>;
-export type MeTrailAssigneesList = Array<string>;
-export interface TrailAuthor {
-  id: string;
-  identity: ContributorIdentity;
-  login: string | null;
-}
-export type MeTrailParentHost = "gh" | "et";
-export interface MeTrailParent {
-  host: MeTrailParentHost;
-  id: string;
-  /** Project jurisdiction from Core; empty when unresolved */
-  jurisdiction: string;
-  /** Project-local Trail number, not the repository Trail number */
-  number: number;
-  /** API-relative parent detail path in the project's cell */
-  path: string;
-  /** Project cell ID from Core; empty when unassigned (do not infer from the repository) */
-  primary_processing_cell: string;
-  /** Canonical public project name, never its internal storage name */
-  project: string;
-  project_id: string;
-  /** Web app page for the parent Trail; absent when this deployment has no frontend origin */
-  url?: string;
-}
-/** Route identity of the repo the trail lives in: which product surface links to it */
-export type MeTrailProvider = "github" | "entire";
-export interface TrailReviewer {
-  actor_account_id?: string;
-  identity: ContributorIdentity;
-  is_approval_stale?: boolean;
-  login: string;
-  status: string;
-}
-export type MeTrailReviewersList = Array<TrailReviewer>;
-export interface MeTrail {
-  assignee_identities: MeTrailAssigneeIdentitiesList | null;
-  assignees: MeTrailAssigneesList | null;
-  author: TrailAuthor;
-  base: string;
-  branch: string | null;
-  comment_count: number;
-  created_at: string;
-  has_code_changes: boolean;
-  id: string;
-  is_private: boolean;
-  /** Latest meaningful activity on the Change; excludes background bookkeeping and falls back to created_at until activity is recorded. */
-  last_activity_at: string;
-  merged_at: string | null;
-  number: number;
-  original_branch: string | null;
-  parent?: MeTrailParent;
-  phase: string | null;
-  priority: string;
-  /** Route identity of the repo the trail lives in: which product surface links to it */
-  provider: MeTrailProvider;
-  ready_for_review: boolean;
-  repo_full_name: string;
-  repo_id: string;
-  reviewers: MeTrailReviewersList | null;
-  status: string;
-  title: string;
-  type: string;
-  unresolved_count: number;
-  updated_at: string;
-  /** Web app page for this code work; absent when this deployment has no frontend origin */
-  url?: string;
-}
-export type MeTrailsOutputBodyTrailsList = Array<MeTrail>;
-export interface MeTrailsOutputBody {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  meta: Meta;
-  timeframe: string;
-  trails: MeTrailsOutputBodyTrailsList | null;
-  updated_at: string;
-}
 export interface UpdateDispatchSetupRequest {
   setupId: string;
-  isPinned?: boolean;
+  isPinned?: boolean | undefined;
   /** New display name (max 120 chars); null clears it. */
-  name?: string;
+  name?: string | undefined;
 }
 export type DeleteDispatchError = EntireOpError;
 /** Delete a dispatch run Soft-deletes a dispatch run. Deleting it again returns not found, not a repeat 204 -- same as one that was never yours or whose covered repos you've since lost access to. */
@@ -845,8 +766,8 @@ export const generateDispatch: API.OperationMethod<
   GenerateDispatchError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GenerateDispatchRequest>,
-  output: __S(360, __c11, 8) as any as S.Schema<DispatchDetailWire>,
+  input: __S(256, __c8, 0) as any as S.Schema<GenerateDispatchRequest>,
+  output: __S(296, __c9, 8) as any as S.Schema<DispatchDetailWire>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -862,8 +783,8 @@ export const getDispatch: API.OperationMethod<
   GetDispatchError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetDispatchRequest>,
-  output: __S(360, __c11, 8) as any as S.Schema<DispatchDetailWire>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetDispatchRequest>,
+  output: __S(296, __c9, 8) as any as S.Schema<DispatchDetailWire>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -879,8 +800,8 @@ export const getDispatchSetup: API.OperationMethod<
   GetDispatchSetupError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetDispatchSetupRequest>,
-  output: __S(576, __c18, 0) as any as S.Schema<DispatchSetupWire>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetDispatchSetupRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<DispatchSetupWire>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -896,8 +817,8 @@ export const getMyActivity: API.OperationMethod<
   GetMyActivityError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetMyActivityRequest>,
-  output: __S(617, __c19, 9) as any as S.Schema<MeActivityOutputBody>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetMyActivityRequest>,
+  output: __S(553, __c17, 9) as any as S.Schema<MeActivityOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -913,8 +834,8 @@ export const getMyRecap: API.OperationMethod<
   GetMyRecapError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<GetMyRecapRequest>,
-  output: __S(659, __c20, 19) as any as S.Schema<MeRecapOutputBody>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetMyRecapRequest>,
+  output: __S(595, __c18, 19) as any as S.Schema<MeRecapOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -932,8 +853,8 @@ export const listDispatchSetupRuns: API.PaginatedOperationMethod<
   DispatchSummaryWire
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(672, __c21, 0) as any as S.Schema<ListDispatchSetupRunsRequest>,
-    output: __S(673, __c21, 1) as any as S.Schema<DispatchRunListOutputBody>,
+    input: __S(608, __c19, 0) as any as S.Schema<ListDispatchSetupRunsRequest>,
+    output: __S(609, __c19, 1) as any as S.Schema<DispatchRunListOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -959,8 +880,8 @@ export const listDispatchSetups: API.PaginatedOperationMethod<
   DispatchSetupWire
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(704, __c22, 0) as any as S.Schema<ListDispatchSetupsRequest>,
-    output: __S(706, __c22, 2) as any as S.Schema<DispatchSetupListOutputBody>,
+    input: __S(640, __c20, 0) as any as S.Schema<ListDispatchSetupsRequest>,
+    output: __S(642, __c20, 2) as any as S.Schema<DispatchSetupListOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -984,8 +905,8 @@ export const listMyCheckpoints: API.OperationMethod<
   ListMyCheckpointsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<ListMyCheckpointsRequest>,
-  output: __S(739, __c23, 3) as any as S.Schema<MeCheckpointsOutputBody>,
+  input: __S(672, __c21, 0) as any as S.Schema<ListMyCheckpointsRequest>,
+  output: __S(675, __c21, 3) as any as S.Schema<MeCheckpointsOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -994,7 +915,7 @@ export const listMyCheckpoints: API.OperationMethod<
 }));
 
 export type ListMyCommitsError = EntireOpError;
-/** Your recent commits, each with its checkpoints Your recent commits, each grouped with the checkpoints linked to it. The author shown is each commit's own git author, not you as the viewer. */
+/** Your recent commits, each with its checkpoints Your recent commits, each grouped with the checkpoints linked to it. The author shown is each commit's own git author, not you as the viewer. Each commit carries its repository's route provider (github/entire), resolved as on /me/sessions; it is omitted when the repository has no resolvable provider. */
 export const listMyCommits: API.OperationMethod<
   ListMyCommitsRequest,
   MeCommitsOutputBody,
@@ -1011,7 +932,7 @@ export const listMyCommits: API.OperationMethod<
 }));
 
 export type ListMyProjectTrailsError = EntireOpError;
-/** Your authored or assigned project Trails Project Trails you authored or that are assigned to you and may read through project authority or a repository in their stored scope, most recently updated first by default. Discovery, authorship, and assignment alone never grant access. An assignment matches your account ID, or your linked GitHub login for legacy assignments; each Trail appears once. Takes the same filters as a project's Trail list (status, phase, type, priority, author, assignee, their _not exclusions, and search), which only narrow your Trails, plus project_id and sort, with cursor/per_page pagination. A cursor is bound to your account and to the filters and sort that produced it. If Core cannot resolve your GitHub login, authored and account-assigned Trails are still listed and meta.partial carries unresolved_caller_login. If the stored Change readiness read fails, building Trails return `changes: []` and meta.partial carries change_readiness_unavailable; a project catalog failure returns 503. Repository Trails are listed by GET /me/trails. */
+/** Your authored or assigned project Trails Project Trails you authored or that are assigned to you and may read through project authority or a repository in their stored scope, most recently updated first by default. Discovery, authorship, and assignment alone never grant access. An assignment matches your account ID, or your linked GitHub login for legacy assignments; each Trail appears once. Takes the same filters as a project's Trail list (status, phase, type, priority, author, assignee, their _not exclusions, and search), which only narrow your Trails, plus project_id and sort, with cursor/per_page pagination. A cursor is bound to your account and to the filters and sort that produced it. If Core cannot resolve your GitHub login, authored and account-assigned Trails are still listed and meta.partial carries unresolved_caller_login. If the stored Change readiness read fails, building Trails return `changes: []` and meta.partial carries change_readiness_unavailable; a project catalog failure returns 503. */
 export const listMyProjectTrails: API.PaginatedOperationMethod<
   ListMyProjectTrailsRequest,
   MeProjectTrailsResponse,
@@ -1021,7 +942,7 @@ export const listMyProjectTrails: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(128, __c4, 0) as any as S.Schema<ListMyProjectTrailsRequest>,
-    output: __S(140, __c4, 12) as any as S.Schema<MeProjectTrailsResponse>,
+    output: __S(145, __c4, 17) as any as S.Schema<MeProjectTrailsResponse>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -1038,37 +959,20 @@ export const listMyProjectTrails: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListMySessionsError = EntireOpError;
-/** Your sessions across all repositories Your sessions from every repository, gathered from your checkpoint activity and merged into one list ordered globally across repositories. Each row carries its repository's route provider (github/entire); a repository with no resolvable provider is dropped and reported via meta.partial rather than linked to a guessed surface. This list has no cursor: it returns up to `limit` rows inside the timeframe and no `next_cursor`; narrow the timeframe or raise `limit` to see more. `kind[ne]` excludes sessions of the given kinds before the limit is applied, so a page is not displaced by rows the caller would hide; sessions with no kind are always included. */
+/** Your sessions across all repositories **Accepted credentials:** User token. Your sessions from every repository, gathered from your checkpoint activity and merged into one list ordered globally across repositories. Each row carries its repository's route provider (github/entire); a repository with no resolvable provider is dropped and reported via meta.partial rather than linked to a guessed surface. This list has no cursor: it returns up to `limit` rows inside the timeframe and no `next_cursor`; narrow the timeframe or raise `limit` to see more. `kind[ne]` excludes sessions of the given kinds before the limit is applied, so a page is not displaced by rows the caller would hide; sessions with no kind are always included. Use an own-account bearer token (including supported service accounts). Plugin installation tokens are not accepted for this action. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires an account subject; automation principals are rejected. Results are limited to the caller and filtered by repository access. */
 export const listMySessions: API.OperationMethod<
   ListMySessionsRequest,
   MeSessionsOutputBody,
   ListMySessionsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<ListMySessionsRequest>,
-  output: __S(227, __c7, 3) as any as S.Schema<MeSessionsOutputBody>,
+  input: __S(192, __c6, 0) as any as S.Schema<ListMySessionsRequest>,
+  output: __S(195, __c6, 3) as any as S.Schema<MeSessionsOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMySessions",
-}));
-
-export type ListMyTrailsError = EntireOpError;
-/** Your trails across all repositories Trails you authored or that are assigned to you across every repository you belong to, newest first. A trail that you authored and that is assigned to you appears once. The timeframe bounds when a trail was last updated, not when it was opened, and repositories with trails turned off are left out. This list has no cursor: it returns up to `limit` rows inside the timeframe and no `next_cursor`; narrow the timeframe or raise `limit` to see more. */
-export const listMyTrails: API.OperationMethod<
-  ListMyTrailsRequest,
-  MeTrailsOutputBody,
-  ListMyTrailsError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<ListMyTrailsRequest>,
-  output: __S(265, __c8, 9) as any as S.Schema<MeTrailsOutputBody>,
-  errors: [UnknownEntireError],
-  protocol: EntireCellProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListMyTrails",
 }));
 
 export type UpdateDispatchSetupError = EntireOpError;
@@ -1079,8 +983,8 @@ export const updateDispatchSetup: API.OperationMethod<
   UpdateDispatchSetupError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<UpdateDispatchSetupRequest>,
-  output: __S(576, __c18, 0) as any as S.Schema<DispatchSetupWire>,
+  input: __S(224, __c7, 0) as any as S.Schema<UpdateDispatchSetupRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<DispatchSetupWire>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -1130,7 +1034,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           agent: S.String,
-          agents: S.NullOr(__S(384, __c12, 0)),
+          agents: S.NullOr(__S(320, __c10, 0)),
           checkpoint_id: S.String,
           prompt: S.NullOr(S.String),
           session_count: S.Number,
@@ -1155,6 +1059,7 @@ function __c3(j: number): any {
           deletions: S.Number,
           files_changed: S.Number,
           is_private: S.Boolean,
+          provider: S.optional(S.String),
           repo_full_name: S.String,
         }),
       ).annotate({ identifier: "MeCommit" });
@@ -1176,19 +1081,19 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.optional(__S(384, __c12, 0).pipe(T.Query())),
-          status: S.optional(__S(384, __c12, 0).pipe(T.Query())),
-          status_not: S.optional(__S(384, __c12, 0).pipe(T.Query())),
-          phase: S.optional(__S(384, __c12, 0).pipe(T.Query())),
-          phase_not: S.optional(__S(384, __c12, 0).pipe(T.Query())),
-          priority: S.optional(__S(384, __c12, 0).pipe(T.Query())),
-          priority_not: S.optional(__S(384, __c12, 0).pipe(T.Query())),
-          type: S.optional(__S(384, __c12, 0).pipe(T.Query())),
-          type_not: S.optional(__S(384, __c12, 0).pipe(T.Query())),
-          author: S.optional(__S(384, __c12, 0).pipe(T.Query())),
-          author_not: S.optional(__S(384, __c12, 0).pipe(T.Query())),
-          assignee: S.optional(__S(384, __c12, 0).pipe(T.Query())),
-          assignee_not: S.optional(__S(384, __c12, 0).pipe(T.Query())),
+          project_id: S.optional(__S(320, __c10, 0).pipe(T.Query())),
+          status: S.optional(__S(320, __c10, 0).pipe(T.Query())),
+          status_not: S.optional(__S(320, __c10, 0).pipe(T.Query())),
+          phase: S.optional(__S(320, __c10, 0).pipe(T.Query())),
+          phase_not: S.optional(__S(320, __c10, 0).pipe(T.Query())),
+          priority: S.optional(__S(320, __c10, 0).pipe(T.Query())),
+          priority_not: S.optional(__S(320, __c10, 0).pipe(T.Query())),
+          type: S.optional(__S(320, __c10, 0).pipe(T.Query())),
+          type_not: S.optional(__S(320, __c10, 0).pipe(T.Query())),
+          author: S.optional(__S(320, __c10, 0).pipe(T.Query())),
+          author_not: S.optional(__S(320, __c10, 0).pipe(T.Query())),
+          assignee: S.optional(__S(320, __c10, 0).pipe(T.Query())),
+          assignee_not: S.optional(__S(320, __c10, 0).pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
@@ -1200,24 +1105,63 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "ContributorIdentityAgent" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          automation_id: S.optional(S.String),
+          installation_id: S.optional(S.String),
+          plugin: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutomationIdentity" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          handle: S.String,
+          is_primary: S.optional(S.Boolean),
+          provider: S.String,
+        }),
+      ).annotate({ identifier: "IdentityHandle" });
+    case 5:
+      return S.Array(__S(132, __c4, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          account_id: S.NullOr(S.String),
+          agent: S.optional(__S(130, __c4, 2)),
+          automation: S.optional(__S(131, __c4, 3)),
+          avatar_url: S.NullOr(S.String),
+          display_name: S.NullOr(S.String),
+          handles: S.NullOr(__S(133, __c4, 5)),
+          kind: S.String,
+          run_id: S.optional(S.String),
+          username: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContributorIdentity" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           account_id: S.optional(S.String),
           avatar_url: S.optional(S.String),
           display_name: S.String,
-          identity: __S(195, __c6, 3),
+          identity: __S(134, __c4, 6),
           login: S.String,
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "MeTrailPerson" });
-    case 3:
-      return S.Array(__S(130, __c4, 2));
-    case 4:
+    case 8:
+      return S.Array(__S(135, __c4, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           can_edit: S.Boolean,
           can_manage_scope: S.Boolean,
         }),
       ).annotate({ identifier: "MeProjectTrailCapabilities" });
-    case 5:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           conflict_status: S.String,
@@ -1227,7 +1171,7 @@ function __c4(j: number): any {
           refreshed_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "MeProjectTrailChangeMergeability" });
-    case 6:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           branch: S.String,
@@ -1235,7 +1179,7 @@ function __c4(j: number): any {
           has_code_changes: S.Boolean,
           id: S.String,
           last_activity_at: S.String,
-          mergeability: __S(133, __c4, 5),
+          mergeability: __S(138, __c4, 10),
           number: S.Number,
           readiness: S.String,
           ready_for_review: S.Boolean,
@@ -1246,16 +1190,16 @@ function __c4(j: number): any {
           updated_at: S.String,
         }),
       ).annotate({ identifier: "MeProjectTrailChange" });
-    case 7:
-      return S.Array(__S(134, __c4, 6));
-    case 8:
+    case 12:
+      return S.Array(__S(139, __c4, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           forge: S.String,
           project: S.String,
         }),
       ).annotate({ identifier: "MeTrailProjectReference" });
-    case 9:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           can_manage_trails: S.Boolean,
@@ -1263,46 +1207,46 @@ function __c4(j: number): any {
           jurisdiction: S.String,
           name: S.String,
           provider: S.String,
-          reference: __S(136, __c4, 8),
+          reference: __S(141, __c4, 13),
         }),
       ).annotate({ identifier: "MeTrailProject" });
-    case 10:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           assignee_account_ids: S.NullOr(__S(129, __c4, 1)),
-          assignee_profiles: S.NullOr(__S(131, __c4, 3)),
-          assignees: S.NullOr(__S(384, __c12, 0)),
-          author: S.optional(__S(130, __c4, 2)),
+          assignee_profiles: S.NullOr(__S(136, __c4, 8)),
+          assignees: S.NullOr(__S(320, __c10, 0)),
+          author: S.optional(__S(135, __c4, 7)),
           author_account_id: S.String,
           body: S.String,
-          capabilities: __S(132, __c4, 4),
-          changes: S.NullOr(__S(135, __c4, 7)),
+          capabilities: __S(137, __c4, 9),
+          changes: S.NullOr(__S(140, __c4, 12)),
           closed_at: S.NullOr(S.String),
           created_at: S.String,
           id: S.String,
           is_possibly_partial: S.Boolean,
           last_activity_at: S.String,
           last_visited_at: S.NullOr(S.String),
-          metadata: __S(544, __c17, 0),
+          metadata: __S(480, __c15, 0),
           metadata_updated_at: S.String,
           number: S.Number,
           phase: S.String,
           priority: S.String,
-          project: __S(137, __c4, 9),
-          repository_ids: S.NullOr(__S(384, __c12, 0)),
+          project: __S(142, __c4, 14),
+          repository_ids: S.NullOr(__S(320, __c10, 0)),
           status: S.String,
           title: S.String,
           type: S.String,
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "MeProjectTrail" });
-    case 11:
-      return S.Array(__S(138, __c4, 10));
-    case 12:
+    case 16:
+      return S.Array(__S(143, __c4, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          items: S.NullOr(__S(139, __c4, 11)),
+          items: S.NullOr(__S(144, __c4, 16)),
           jurisdiction: S.String,
           meta: __S(160, __c5, 0),
           next_cursor: S.NullOr(S.String),
@@ -1316,7 +1260,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           degraded: S.optional(S.String),
-          partial: S.optional(S.NullOr(__S(384, __c12, 0))),
+          partial: S.optional(S.NullOr(__S(320, __c10, 0))),
           server_time: S.String,
         }),
       ).annotate({ identifier: "Meta" });
@@ -1327,45 +1271,11 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          automation_id: S.optional(S.String),
-          installation_id: S.optional(S.String),
-          plugin: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AutomationIdentity" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          handle: S.String,
-          is_primary: S.optional(S.Boolean),
-          provider: S.String,
-        }),
-      ).annotate({ identifier: "IdentityHandle" });
-    case 2:
-      return S.Array(__S(193, __c6, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          account_id: S.NullOr(S.String),
-          automation: S.optional(__S(192, __c6, 0)),
-          avatar_url: S.NullOr(S.String),
-          display_name: S.NullOr(S.String),
-          handles: S.NullOr(__S(194, __c6, 2)),
-          kind: S.String,
-          username: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ContributorIdentity" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           timeframe: S.optional(S.String.pipe(T.Query())),
           since: S.optional(S.String.pipe(T.Query())),
           until: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          kind_ne_: S.optional(__S(384, __c12, 0).pipe(T.Query("kind[ne]"))),
+          kind_ne_: S.optional(__S(320, __c10, 0).pipe(T.Query("kind[ne]"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/me/sessions", code: 200 })),
       ).annotate({ identifier: "ListMySessionsRequest" });
     case 1:
@@ -1402,121 +1312,20 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "MeUserSession" });
     case 2:
-      return S.Array(__S(225, __c7, 1));
+      return S.Array(__S(193, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           meta: __S(160, __c5, 0),
-          sessions: S.NullOr(__S(226, __c7, 2)),
+          sessions: S.NullOr(__S(194, __c6, 2)),
           timeframe: S.String,
           updated_at: S.String,
         }),
       ).annotate({ identifier: "MeSessionsOutputBody" });
   }
 }
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          timeframe: S.optional(S.String.pipe(T.Query())),
-          since: S.optional(S.String.pipe(T.Query())),
-          until: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/me/trails", code: 200 })),
-      ).annotate({ identifier: "ListMyTrailsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          identity: __S(195, __c6, 3),
-          login: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "TrailAssigneeIdentity" });
-    case 2:
-      return S.Array(__S(257, __c8, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          identity: __S(195, __c6, 3),
-          login: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "TrailAuthor" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String,
-          id: S.String,
-          jurisdiction: S.String,
-          number: S.Number,
-          path: S.String,
-          primary_processing_cell: S.String,
-          project: S.String,
-          project_id: S.String,
-          url: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MeTrailParent" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          actor_account_id: S.optional(S.String),
-          identity: __S(195, __c6, 3),
-          is_approval_stale: S.optional(S.Boolean),
-          login: S.String,
-          status: S.String,
-        }),
-      ).annotate({ identifier: "TrailReviewer" });
-    case 6:
-      return S.Array(__S(261, __c8, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          assignee_identities: S.NullOr(__S(258, __c8, 2)),
-          assignees: S.NullOr(__S(384, __c12, 0)),
-          author: __S(259, __c8, 3),
-          base: S.String,
-          branch: S.NullOr(S.String),
-          comment_count: S.Number,
-          created_at: S.String,
-          has_code_changes: S.Boolean,
-          id: S.String,
-          is_private: S.Boolean,
-          last_activity_at: S.String,
-          merged_at: S.NullOr(S.String),
-          number: S.Number,
-          original_branch: S.NullOr(S.String),
-          parent: S.optional(__S(260, __c8, 4)),
-          phase: S.NullOr(S.String),
-          priority: S.String,
-          provider: S.String,
-          ready_for_review: S.Boolean,
-          repo_full_name: S.String,
-          repo_id: S.String,
-          reviewers: S.NullOr(__S(262, __c8, 6)),
-          status: S.String,
-          title: S.String,
-          type: S.String,
-          unresolved_count: S.Number,
-          updated_at: S.String,
-          url: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MeTrail" });
-    case 8:
-      return S.Array(__S(263, __c8, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          meta: __S(160, __c5, 0),
-          timeframe: S.String,
-          trails: S.NullOr(__S(264, __c8, 8)),
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "MeTrailsOutputBody" });
-  }
-}
-function __c9(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1530,14 +1339,14 @@ function __c9(j: number): any {
       ).annotate({ identifier: "UpdateDispatchSetupRequest" });
   }
 }
-function __c10(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           branches: S.optional(S.Unknown),
-          orgs: S.optional(S.NullOr(__S(384, __c12, 0))),
-          repos: S.optional(S.NullOr(__S(384, __c12, 0))),
+          orgs: S.optional(S.NullOr(__S(320, __c10, 0))),
+          repos: S.optional(S.NullOr(__S(320, __c10, 0))),
           since: S.optional(S.String),
           until: S.optional(S.String),
           voice: S.optional(S.String),
@@ -1545,7 +1354,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GenerateDispatchRequest" });
   }
 }
-function __c11(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1553,31 +1362,31 @@ function __c11(j: number): any {
           branch: S.String,
           checkpointId: S.String,
           createdAt: S.String,
-          labels: S.NullOr(__S(384, __c12, 0)),
+          labels: S.NullOr(__S(320, __c10, 0)),
           source: S.String,
           text: S.String,
         }),
       ).annotate({ identifier: "DispatchBulletWire" });
     case 1:
-      return S.Array(__S(352, __c11, 0));
+      return S.Array(__S(288, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          bullets: S.NullOr(__S(353, __c11, 1)),
+          bullets: S.NullOr(__S(289, __c9, 1)),
           label: S.String,
         }),
       ).annotate({ identifier: "DispatchSectionWire" });
     case 3:
-      return S.Array(__S(354, __c11, 2));
+      return S.Array(__S(290, __c9, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           fullName: S.String,
-          sections: S.NullOr(__S(355, __c11, 3)),
+          sections: S.NullOr(__S(291, __c9, 3)),
         }),
       ).annotate({ identifier: "DispatchRepoGroupWire" });
     case 5:
-      return S.Array(__S(356, __c11, 4));
+      return S.Array(__S(292, __c9, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -1600,42 +1409,42 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          branches: S.NullOr(__S(384, __c12, 0)),
+          branches: S.NullOr(__S(320, __c10, 0)),
           completedAt: S.NullOr(S.String),
-          coveredRepoGithubIds: S.NullOr(__S(416, __c13, 0)),
-          coveredRepoOrigins: S.NullOr(__S(384, __c12, 0)),
-          coveredRepoUlids: S.NullOr(__S(384, __c12, 0)),
-          coveredRepos: S.NullOr(__S(384, __c12, 0)),
+          coveredRepoGithubIds: S.NullOr(__S(352, __c11, 0)),
+          coveredRepoOrigins: S.NullOr(__S(320, __c10, 0)),
+          coveredRepoUlids: S.NullOr(__S(320, __c10, 0)),
+          coveredRepos: S.NullOr(__S(320, __c10, 0)),
           createdAt: S.String,
           errorMessage: S.NullOr(S.String),
           generatedMarkdown: S.String,
           id: S.String,
           isPersisted: S.Boolean,
-          repos: S.NullOr(__S(357, __c11, 5)),
+          repos: S.NullOr(__S(293, __c9, 5)),
           setupId: S.String,
           status: S.String,
           title: S.NullOr(S.String),
-          totals: __S(358, __c11, 6),
+          totals: __S(294, __c9, 6),
           updatedAt: S.String,
           voice: S.NullOr(S.String),
-          window: __S(359, __c11, 7),
+          window: __S(295, __c9, 7),
         }),
       ).annotate({ identifier: "DispatchDetailWire" });
   }
 }
-function __c12(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c13(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c14(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1645,7 +1454,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetDispatchRequest" });
   }
 }
-function __c15(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1655,16 +1464,16 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetDispatchSetupRequest" });
   }
 }
-function __c16(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           completedAt: S.NullOr(S.String),
-          coveredRepoGithubIds: S.NullOr(__S(416, __c13, 0)),
-          coveredRepoOrigins: S.NullOr(__S(384, __c12, 0)),
-          coveredRepoUlids: S.NullOr(__S(384, __c12, 0)),
-          coveredRepos: S.NullOr(__S(384, __c12, 0)),
+          coveredRepoGithubIds: S.NullOr(__S(352, __c11, 0)),
+          coveredRepoOrigins: S.NullOr(__S(320, __c10, 0)),
+          coveredRepoUlids: S.NullOr(__S(320, __c10, 0)),
+          coveredRepos: S.NullOr(__S(320, __c10, 0)),
           createdAt: S.String,
           id: S.String,
           setupId: S.String,
@@ -1678,34 +1487,34 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "DispatchSummaryWire" });
     case 1:
-      return S.Array(__S(512, __c16, 0));
+      return S.Array(__S(448, __c14, 0));
   }
 }
-function __c17(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c18(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          config: __S(544, __c17, 0),
+          config: __S(480, __c15, 0),
           createdAt: S.String,
           id: S.String,
           isPinned: S.Boolean,
           lastDispatchedAt: S.NullOr(S.String),
           name: S.NullOr(S.String),
-          recentDispatches: S.NullOr(__S(513, __c16, 1)),
+          recentDispatches: S.NullOr(__S(449, __c14, 1)),
           updatedAt: S.String,
         }),
       ).annotate({ identifier: "DispatchSetupWire" });
   }
 }
-function __c19(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1736,12 +1545,12 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          agents: __S(609, __c19, 1),
+          agents: __S(545, __c17, 1),
           date: S.String,
         }),
       ).annotate({ identifier: "MeDailyContribution" });
     case 3:
-      return S.Array(__S(610, __c19, 2));
+      return S.Array(__S(546, __c17, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1752,17 +1561,17 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "MeHourlyContribution" });
     case 5:
-      return S.Array(__S(612, __c19, 4));
+      return S.Array(__S(548, __c17, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          agents: __S(609, __c19, 1),
+          agents: __S(545, __c17, 1),
           repo: S.String,
           total: S.Number,
         }),
       ).annotate({ identifier: "MeRepoContribution" });
     case 7:
-      return S.Array(__S(614, __c19, 6));
+      return S.Array(__S(550, __c17, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -1781,16 +1590,16 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          daily_contributions: S.NullOr(__S(611, __c19, 3)),
-          hourly_commit_contributions: S.NullOr(__S(613, __c19, 5)),
-          hourly_contributions: S.NullOr(__S(613, __c19, 5)),
-          repos: S.NullOr(__S(615, __c19, 7)),
-          stats: __S(616, __c19, 8),
+          daily_contributions: S.NullOr(__S(547, __c17, 3)),
+          hourly_commit_contributions: S.NullOr(__S(549, __c17, 5)),
+          hourly_contributions: S.NullOr(__S(549, __c17, 5)),
+          repos: S.NullOr(__S(551, __c17, 7)),
+          stats: __S(552, __c17, 8),
         }),
       ).annotate({ identifier: "MeActivityOutputBody" });
   }
 }
-function __c20(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1810,7 +1619,7 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "MeLabelCount" });
     case 2:
-      return S.Array(__S(641, __c20, 1));
+      return S.Array(__S(577, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1819,7 +1628,7 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "MeMcpCount" });
     case 4:
-      return S.Array(__S(643, __c20, 3));
+      return S.Array(__S(579, __c18, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1828,7 +1637,7 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "MeSkillCount" });
     case 6:
-      return S.Array(__S(645, __c20, 5));
+      return S.Array(__S(581, __c18, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -1845,12 +1654,12 @@ function __c20(j: number): any {
         S.Struct({
           checkpoints: S.Number,
           filesChanged: S.Number,
-          labels: S.NullOr(__S(642, __c20, 2)),
-          mcpServers: S.NullOr(__S(644, __c20, 4)),
+          labels: S.NullOr(__S(578, __c18, 2)),
+          mcpServers: S.NullOr(__S(580, __c18, 4)),
           sessions: S.Number,
-          skills: S.NullOr(__S(646, __c20, 6)),
+          skills: S.NullOr(__S(582, __c18, 6)),
           tokens: S.Number,
-          toolMix: __S(647, __c20, 7),
+          toolMix: __S(583, __c18, 7),
           transcriptTokens: S.Number,
         }),
       ).annotate({ identifier: "MeAgentAggregate" });
@@ -1859,12 +1668,12 @@ function __c20(j: number): any {
         S.Struct({
           agentId: S.String,
           agentLabel: S.String,
-          contributors: __S(648, __c20, 8),
-          me: __S(648, __c20, 8),
+          contributors: __S(584, __c18, 8),
+          me: __S(584, __c18, 8),
         }),
       ).annotate({ identifier: "MeRecapAgentEntry" });
     case 10:
-      return S.Record(S.String, __S(649, __c20, 9));
+      return S.Record(S.String, __S(585, __c18, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -1881,7 +1690,7 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "MeDailyCount" });
     case 13:
-      return S.Array(__S(652, __c20, 12));
+      return S.Array(__S(588, __c18, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -1909,32 +1718,32 @@ function __c20(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          me: __S(656, __c20, 16),
-          team: __S(656, __c20, 16),
+          me: __S(592, __c18, 16),
+          team: __S(592, __c18, 16),
         }),
       ).annotate({ identifier: "MeRecapSummaryTranscriptsStruct" });
     case 18:
       return S.suspend(() =>
         S.Struct({
           activeDays: S.Number,
-          analysis: __S(654, __c20, 14),
-          me: __S(655, __c20, 15),
+          analysis: __S(590, __c18, 14),
+          me: __S(591, __c18, 15),
           repoCount: S.Number,
-          team: __S(655, __c20, 15),
-          transcripts: __S(657, __c20, 17),
+          team: __S(591, __c18, 15),
+          transcripts: __S(593, __c18, 17),
         }),
       ).annotate({ identifier: "MeRecapSummary" });
     case 19:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          agents: __S(650, __c20, 10),
-          contributors: __S(651, __c20, 11),
-          daily: S.NullOr(__S(653, __c20, 13)),
+          agents: __S(586, __c18, 10),
+          contributors: __S(587, __c18, 11),
+          daily: S.NullOr(__S(589, __c18, 13)),
           repo: S.NullOr(S.String),
-          repos: S.NullOr(__S(384, __c12, 0)),
+          repos: S.NullOr(__S(320, __c10, 0)),
           since: S.String,
-          summary: __S(658, __c20, 18),
+          summary: __S(594, __c18, 18),
           timeframe: S.String,
           until: S.String,
           updated_at: S.String,
@@ -1942,7 +1751,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "MeRecapOutputBody" });
   }
 }
-function __c21(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1962,13 +1771,13 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          items: S.NullOr(__S(513, __c16, 1)),
+          items: S.NullOr(__S(449, __c14, 1)),
           nextPageToken: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "DispatchRunListOutputBody" });
   }
 }
-function __c22(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1978,18 +1787,18 @@ function __c22(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/me/dispatch-setups", code: 200 })),
       ).annotate({ identifier: "ListDispatchSetupsRequest" });
     case 1:
-      return S.Array(__S(576, __c18, 0));
+      return S.Array(__S(512, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          items: S.NullOr(__S(705, __c22, 1)),
+          items: S.NullOr(__S(641, __c20, 1)),
           nextPageToken: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "DispatchSetupListOutputBody" });
   }
 }
-function __c23(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2010,7 +1819,7 @@ function __c23(j: number): any {
           commit_message: S.NullOr(S.String),
           commit_sha: S.String,
           commit_subject: S.NullOr(S.String),
-          dead_session_indices: S.NullOr(__S(416, __c13, 0)),
+          dead_session_indices: S.NullOr(__S(352, __c11, 0)),
           deletions: S.Number,
           files_changed: S.Number,
           input_tokens: S.Number,
@@ -2021,18 +1830,18 @@ function __c23(j: number): any {
           repo_full_name: S.String,
           repo_id: S.String,
           session_count: S.Number,
-          session_ids: S.NullOr(__S(384, __c12, 0)),
+          session_ids: S.NullOr(__S(320, __c10, 0)),
           sessions: S.Unknown,
           steps: S.Number,
         }),
       ).annotate({ identifier: "MeUserCheckpoint" });
     case 2:
-      return S.Array(__S(737, __c23, 1));
+      return S.Array(__S(673, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          checkpoints: S.NullOr(__S(738, __c23, 2)),
+          checkpoints: S.NullOr(__S(674, __c21, 2)),
           cliRepoEnablePendingAccess: S.Boolean,
           cliRepoEnabled: S.Boolean,
           hasCheckpoints: S.Boolean,

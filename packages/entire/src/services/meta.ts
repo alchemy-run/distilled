@@ -28,9 +28,9 @@ export interface GetVersionRequest {}
 export type GetVersionOutputBodyMode = "global" | "regional";
 export interface GetVersionOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Server mode. */
-  mode?: GetVersionOutputBodyMode;
+  mode?: GetVersionOutputBodyMode | undefined;
   /** Git commit SHA of the running entire-core binary, or "dev" for an untagged local build. */
   version: string;
   [key: string]: unknown;

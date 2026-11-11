@@ -52,7 +52,7 @@ export interface RunBillingSubject {
   id: string;
   type: RunBillingSubjectType;
 }
-export type RunDispatchState = "pending" | "published" | "refused" | "abandoned";
+export type RunDispatchState = "pending" | "published" | "refused" | "abandoned" | "parked";
 export interface RunDispatch {
   attempts: number;
   /** When a pending dispatch is next attempted. */
@@ -65,7 +65,7 @@ export interface RunVersionRef {
   version: number;
 }
 export interface RunError {
-  /** Set when the run was refused for billing: billing_trial_ended, billing_credit_exhausted, billing_over_limit, billing_blocked or billing_not_enrolled; null otherwise. */
+  /** Set when the run was refused for billing: billing_trial_ended, billing_credit_exhausted, billing_over_limit, billing_blocked, billing_not_enrolled or billing_no_paid_balance; null otherwise. */
   code: string | null;
   message: string;
 }
@@ -77,7 +77,7 @@ export interface RunEvent {
 }
 export type RunEventsList = Array<RunEvent>;
 export type RunModeKind = "review";
-export type RunModeOutputMode = "claude_json_schema" | "codex_output_schema";
+export type RunModeOutputMode = "claude_json_schema" | "codex_output_schema" | "pi_prompted_json";
 export interface RunModeCommits {
   /** The base branch's commit at admission. */
   base_sha: string;
@@ -184,9 +184,17 @@ export interface RunRuntime {
   harness: string;
   model: string | null;
   /** Sandbox provider recorded on older runs; absent on new ones. Runners ignore it. */
-  provider?: string;
+  provider?: string | undefined;
   reasoning_effort: string | null;
   timeout_ms: number;
+}
+export interface RunSelfHosted {
+  /** The harness the runner reported using; null until it reports. */
+  harness: string | null;
+  /** The model the runner reported using; null until it reports. */
+  model: string | null;
+  /** The service account that claimed the run; null until claimed. */
+  runner: string | null;
 }
 /** The run's status: queued (waiting for a sandbox), running, succeeded, failed, timed_out or canceled. */
 export type RunStatus = "queued" | "running" | "succeeded" | "failed" | "timed_out" | "canceled";
@@ -219,9 +227,11 @@ export interface RunModelUsage {
 }
 /** Token usage the agent reported, as usageByModel on the runner runs' routes; null until the first report. One entry with the run's unsplit total until runs record a per-model split. Price an entry at its model's rate only when model is set; a null model means an unsplit total across several models or unavailable model attribution. */
 export type RunUsageByModelList = Array<RunModelUsage>;
+/** What a queued run waits on besides a sandbox: self_hosted_runner while a self-hosted run waits for a runner to claim it. Omitted otherwise. */
+export type RunWaitingFor = "self_hosted_runner";
 export interface Run {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   actor: ConfigActor;
   agent: RunAgent;
   attempt: number;
@@ -239,12 +249,13 @@ export interface Run {
   preset: RunPreset;
   project_id: string;
   /** On a start or retry: true when the Idempotency-Key named an earlier identical request, whose run is returned. */
-  replayed?: boolean;
+  replayed?: boolean | undefined;
   repository_id: string;
   result: RunResult;
   retry_of: string | null;
   review_changes_result: RunReviewChangesResult;
   runtime: RunRuntime;
+  self_hosted?: RunSelfHosted | undefined;
   /** The run's status: queued (waiting for a sandbox), running, succeeded, failed, timed_out or canceled. */
   status: RunStatus;
   target: RunTarget;
@@ -252,6 +263,8 @@ export interface Run {
   updated_at: string;
   /** Token usage the agent reported, as usageByModel on the runner runs' routes; null until the first report. One entry with the run's unsplit total until runs record a per-model split. Price an entry at its model's rate only when model is set; a null model means an unsplit total across several models or unavailable model attribution. */
   usage_by_model: RunUsageByModelList | null;
+  /** What a queued run waits on besides a sandbox: self_hosted_runner while a self-hosted run waits for a runner to claim it. Omitted otherwise. */
+  waiting_for?: RunWaitingFor | undefined;
 }
 export interface CancelRepoRunRequest {
   /** Repository id (placement ULID or public repo_<group ULID>). */
@@ -275,7 +288,7 @@ export interface CreateProjectAgentRunRequest {
   /** Required. Repeating the identical request returns the run it first started, even after the agent was edited or archived; a different request under the key is 409. */
   idempotencyKey: string;
   /** Optional commit pin: the run is refused (409) if the Change's head is no longer this commit. */
-  head_sha?: string;
+  head_sha?: string | undefined;
   target: RunTargetInput;
 }
 export interface CreateRepoRunRequest {
@@ -286,7 +299,7 @@ export interface CreateRepoRunRequest {
   /** An unarchived agent of the project that owns the repository (ULID). */
   agent_id: string;
   /** Optional commit pin: the run is refused (409) if the Change's head is no longer this commit. */
-  head_sha?: string;
+  head_sha?: string | undefined;
   target: RunTargetInput;
 }
 export interface GetProjectRunRequest {
@@ -333,19 +346,21 @@ export interface ListProjectRunsRequest {
   /** Canonical public project name. */
   project: string;
   /** Only runs of this agent. */
-  agent_id?: string;
+  agent_id?: string | undefined;
   /** Only runs in this repository (ULID). Without pull on it the page is empty. */
-  repository_id?: string;
+  repository_id?: string | undefined;
   /** Only runs on a Change of this product Trail. */
-  trail_id?: string;
+  trail_id?: string | undefined;
   /** Only runs on this Change. */
-  change_id?: string;
+  change_id?: string | undefined;
+  /** Only runs on this branch (the Change's head ref the run pinned); matches across every repository. */
+  branch?: string | undefined;
   /** Only runs in this status. */
-  status?: ListProjectRunsRequestStatus | (string & {});
+  status?: ListProjectRunsRequestStatus | (string & {}) | undefined;
   /** Items per page (default 50, maximum 100). */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Opaque continuation cursor from next_cursor. Send it with the filters of the page that returned it; other filters are refused (400). */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type RunSummaryBillingSubjectType = "org" | "account";
 export interface RunSummaryBillingSubject {
@@ -353,6 +368,7 @@ export interface RunSummaryBillingSubject {
   type: RunSummaryBillingSubjectType;
 }
 export type RunSummaryError = RunError;
+export type RunSummarySelfHosted = RunSelfHosted;
 /** The run's status: queued (waiting for a sandbox), running, succeeded, failed, timed_out or canceled. */
 export type RunSummaryStatus =
   | "queued"
@@ -363,11 +379,15 @@ export type RunSummaryStatus =
   | "canceled";
 /** Token usage the agent reported, as usageByModel on the runner runs' routes; null until the first report. One entry with the run's unsplit total until runs record a per-model split. Price an entry at its model's rate only when model is set; a null model means an unsplit total across several models or unavailable model attribution. */
 export type RunSummaryUsageByModelList = Array<RunModelUsage>;
+/** What a queued run waits on besides a sandbox: self_hosted_runner while a self-hosted run waits for a runner to claim it. Omitted otherwise. */
+export type RunSummaryWaitingFor = "self_hosted_runner";
 export interface RunSummary {
   actor: ConfigActor;
   agent: RunAgent;
   attempt: number;
   billing_subject: RunSummaryBillingSubject;
+  /** The Change's head ref the run pinned (its branch). */
+  branch: string;
   change_id: string;
   created_at: string;
   dispatch_state: string | null;
@@ -377,6 +397,7 @@ export interface RunSummary {
   project_id: string;
   repository_id: string;
   retry_of: string | null;
+  self_hosted?: RunSelfHosted | undefined;
   /** The run's status: queued (waiting for a sandbox), running, succeeded, failed, timed_out or canceled. */
   status: RunSummaryStatus;
   trail_id: string;
@@ -384,14 +405,16 @@ export interface RunSummary {
   updated_at: string;
   /** Token usage the agent reported, as usageByModel on the runner runs' routes; null until the first report. One entry with the run's unsplit total until runs record a per-model split. Price an entry at its model's rate only when model is set; a null model means an unsplit total across several models or unavailable model attribution. */
   usage_by_model: RunSummaryUsageByModelList | null;
+  /** What a queued run waits on besides a sandbox: self_hosted_runner while a self-hosted run waits for a runner to claim it. Omitted otherwise. */
+  waiting_for?: RunSummaryWaitingFor | undefined;
 }
 export type ConfigPageRunSummaryItemsList = Array<RunSummary>;
 export interface ConfigPageRunSummary {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   items: ConfigPageRunSummaryItemsList | null;
   /** Pass as cursor to fetch the next page; omitted on the last page. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 /** Only runs in this status. */
 export type ListRepoRunsRequestStatus =
@@ -405,20 +428,23 @@ export interface ListRepoRunsRequest {
   /** Repository id (placement ULID or public repo_<group ULID>). */
   repo_id: string;
   /** Only runs of this agent. */
-  agent_id?: string;
+  agent_id?: string | undefined;
   /** Only runs on Changes of this product Trail. */
-  trail_id?: string;
+  trail_id?: string | undefined;
   /** Only runs on this Change. */
-  change_id?: string;
+  change_id?: string | undefined;
+  /** Only runs on this branch. Matches the branch each run captured at admission. */
+  branch?: string | undefined;
   /** Only runs in this status. */
-  status?: ListRepoRunsRequestStatus | (string & {});
+  status?: ListRepoRunsRequestStatus | (string & {}) | undefined;
   /** Items per page (default 50, maximum 100). */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Opaque continuation cursor from next_cursor. Send it with the filters of the page that returned it; other filters are refused (400). */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type RepositoryRunAgent = RunAgent;
 export type RepositoryRunError = RunError;
+export type RepositoryRunSelfHosted = RunSelfHosted;
 /** The run's status: queued (waiting for a sandbox), running, succeeded, failed, timed_out or canceled. */
 export type RepositoryRunStatus =
   | "queued"
@@ -429,9 +455,13 @@ export type RepositoryRunStatus =
   | "canceled";
 /** Token usage the agent reported, as usageByModel on the runner runs' routes; null until the first report. One entry with the run's unsplit total until runs record a per-model split. Price an entry at its model's rate only when model is set; a null model means an unsplit total across several models or unavailable model attribution. */
 export type RepositoryRunUsageByModelList = Array<RunModelUsage>;
+/** What a queued run waits on besides a sandbox: self_hosted_runner while a self-hosted run waits for a runner to claim it. Omitted otherwise. */
+export type RepositoryRunWaitingFor = "self_hosted_runner";
 export interface RepositoryRun {
   agent: RunAgent;
   attempt: number;
+  /** The branch the run reviewed, captured from the Change's head ref at admission. */
+  branch: string;
   /** The Change it reviewed. */
   change_id: string;
   created_at: string;
@@ -439,6 +469,7 @@ export interface RepositoryRun {
   /** The run (GET /repos/{repo_id}/runs/{id}). */
   id: string;
   retry_of: string | null;
+  self_hosted?: RunSelfHosted | undefined;
   /** The run's status: queued (waiting for a sandbox), running, succeeded, failed, timed_out or canceled. */
   status: RepositoryRunStatus;
   /** The product Trail of the Change it reviewed. */
@@ -447,14 +478,16 @@ export interface RepositoryRun {
   updated_at: string;
   /** Token usage the agent reported, as usageByModel on the runner runs' routes; null until the first report. One entry with the run's unsplit total until runs record a per-model split. Price an entry at its model's rate only when model is set; a null model means an unsplit total across several models or unavailable model attribution. */
   usage_by_model: RepositoryRunUsageByModelList | null;
+  /** What a queued run waits on besides a sandbox: self_hosted_runner while a self-hosted run waits for a runner to claim it. Omitted otherwise. */
+  waiting_for?: RepositoryRunWaitingFor | undefined;
 }
 export type ConfigPageRepositoryRunItemsList = Array<RepositoryRun>;
 export interface ConfigPageRepositoryRun {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   items: ConfigPageRepositoryRunItemsList | null;
   /** Pass as cursor to fetch the next page; omitted on the last page. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface RetryProjectRunRequest {
   /** Project host slug (gh or et). */
@@ -464,7 +497,7 @@ export interface RetryProjectRunRequest {
   /** Run id (ULID). */
   id: string;
   /** Optional. Shares the run starts' key space: the same key cannot name both. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
 }
 export interface RetryRepoRunRequest {
   /** Repository id (placement ULID or public repo_<group ULID>). */
@@ -472,7 +505,7 @@ export interface RetryRepoRunRequest {
   /** Run id (ULID). */
   id: string;
   /** Optional. Shares the run starts' key space: the same key cannot name both. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
 }
 export type CancelProjectRunError = EntireOpError;
 /** Cancel a run Cancels a run that has not finished -- queued or running -- and returns it. Canceling a finished run changes nothing and returns it as it ended. The runner releases any sandbox the run allocated, including one whose provisioning was in flight. Project read access admits the caller; anyone else reads the project as not found. A repository's readers act through its own run routes (/repos/{repo_id}/runs). Requires push on the repository (automation principals also project write or manage), and canManageAgents to cancel a run someone else started or a push started. Served only by the project's primary processing cell. */
@@ -560,7 +593,7 @@ export const getProjectRun: API.OperationMethod<
 }));
 
 export type GetProjectRunSnapshotError = EntireOpError;
-/** Get a run's snapshot Returns the immutable snapshot the run was admitted with: every pinned spec verbatim, the resolved target, rendered prompt, runtime and provenance. It is never re-derived from current configuration, and holds no credential. For a caller without configuration access it holds what the run records of itself, not the agent's configuration: the pinned agent's repository_ids hold only the run's repository, its instructions and the rendered prompt are left out, and the Environment is its id and version alone. Project read access, or pull on any repository the project owns, admits the caller; anyone else reads the project as not found. Requires pull on the run's repository; events and diagnostic are returned only with push on it or canManageAgents, and billing_subject only to project readers. Served only by the project's primary processing cell. */
+/** Get a run's snapshot Returns the immutable snapshot the run was admitted with: every pinned spec verbatim, the resolved target, rendered prompt, runtime and provenance. It is never re-derived from current configuration, and holds no credential. For a caller without configuration access it holds what the run records of itself, not the agent's configuration: a pinned agent's repository_ids, if present, hold only the run's repository, its instructions and the rendered prompt are left out, and the Environment is its id and version alone. Project read access, or pull on any repository the project owns, admits the caller; anyone else reads the project as not found. Requires pull on the run's repository; events and diagnostic are returned only with push on it or canManageAgents, and billing_subject only to project readers. Served only by the project's primary processing cell. */
 export const getProjectRunSnapshot: API.OperationMethod<
   GetProjectRunSnapshotRequest,
   GetProjectRunSnapshotResponse,
@@ -884,11 +917,13 @@ function __c1(j: number): any {
           retry_of: S.NullOr(S.String),
           review_changes_result: __S(47, __c1, 15),
           runtime: __S(48, __c1, 16),
+          self_hosted: S.optional(__S(98, __c3, 2)),
           status: S.String,
           target: __S(49, __c1, 17),
-          trigger: __S(98, __c3, 2),
+          trigger: __S(99, __c3, 3),
           updated_at: S.String,
-          usage_by_model: S.NullOr(__S(100, __c3, 4)),
+          usage_by_model: S.NullOr(__S(101, __c3, 5)),
+          waiting_for: S.optional(S.String),
         }),
       ).annotate({ identifier: "Run" });
   }
@@ -938,11 +973,19 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          harness: S.NullOr(S.String),
+          model: S.NullOr(S.String),
+          runner: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "RunSelfHosted" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           id: S.NullOr(S.String),
           kind: S.String,
         }),
       ).annotate({ identifier: "RunTrigger" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           cache_creation_tokens: S.Number,
@@ -952,8 +995,8 @@ function __c3(j: number): any {
           output_tokens: S.Number,
         }),
       ).annotate({ identifier: "RunModelUsage" });
-    case 4:
-      return S.Array(__S(99, __c3, 3));
+    case 5:
+      return S.Array(__S(100, __c3, 4));
   }
 }
 function __c4(j: number): any {
@@ -1109,6 +1152,7 @@ function __c15(j: number): any {
           repository_id: S.optional(S.String.pipe(T.Query())),
           trail_id: S.optional(S.String.pipe(T.Query())),
           change_id: S.optional(S.String.pipe(T.Query())),
+          branch: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
@@ -1121,6 +1165,7 @@ function __c15(j: number): any {
           agent: __S(96, __c3, 0),
           attempt: S.Number,
           billing_subject: __S(65, __c2, 1),
+          branch: S.String,
           change_id: S.String,
           created_at: S.String,
           dispatch_state: S.NullOr(S.String),
@@ -1130,11 +1175,13 @@ function __c15(j: number): any {
           project_id: S.String,
           repository_id: S.String,
           retry_of: S.NullOr(S.String),
+          self_hosted: S.optional(__S(98, __c3, 2)),
           status: S.String,
           trail_id: S.String,
-          trigger: __S(98, __c3, 2),
+          trigger: __S(99, __c3, 3),
           updated_at: S.String,
-          usage_by_model: S.NullOr(__S(100, __c3, 4)),
+          usage_by_model: S.NullOr(__S(101, __c3, 5)),
+          waiting_for: S.optional(S.String),
         }),
       ).annotate({ identifier: "RunSummary" });
     case 2:
@@ -1158,6 +1205,7 @@ function __c16(j: number): any {
           agent_id: S.optional(S.String.pipe(T.Query())),
           trail_id: S.optional(S.String.pipe(T.Query())),
           change_id: S.optional(S.String.pipe(T.Query())),
+          branch: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
@@ -1168,16 +1216,19 @@ function __c16(j: number): any {
         S.Struct({
           agent: __S(96, __c3, 0),
           attempt: S.Number,
+          branch: S.String,
           change_id: S.String,
           created_at: S.String,
           error: __S(97, __c3, 1),
           id: S.String,
           retry_of: S.NullOr(S.String),
+          self_hosted: S.optional(__S(98, __c3, 2)),
           status: S.String,
           trail_id: S.String,
-          trigger: __S(98, __c3, 2),
+          trigger: __S(99, __c3, 3),
           updated_at: S.String,
-          usage_by_model: S.NullOr(__S(100, __c3, 4)),
+          usage_by_model: S.NullOr(__S(101, __c3, 5)),
+          waiting_for: S.optional(S.String),
         }),
       ).annotate({ identifier: "RepositoryRun" });
     case 2:

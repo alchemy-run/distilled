@@ -53,13 +53,13 @@ export interface TopologyJurisdiction {
 export type GetTopologyOutputBodyJurisdictionsList = Array<TopologyJurisdiction>;
 export interface GetTopologyOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   jurisdictions: GetTopologyOutputBodyJurisdictionsList;
   [key: string]: unknown;
 }
 export interface ListClustersRequest {}
 export interface Cluster {
-  apiUrl?: string;
+  apiUrl?: string | undefined;
   isDefault: boolean;
   jurisdiction: string;
   publicUrl: string;
@@ -69,7 +69,7 @@ export interface Cluster {
 export type ListClustersOutputBodyClustersList = Array<Cluster>;
 export interface ListClustersOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   clusters: ListClustersOutputBodyClustersList;
   [key: string]: unknown;
 }
@@ -91,7 +91,7 @@ export const getTopology: API.OperationMethod<
 }));
 
 export type ListClustersError = EntireOpError;
-/** List data-plane clusters attached to this control plane */
+/** List data-plane clusters attached to this control plane **Accepted credentials:** User token. */
 export const listClusters: API.OperationMethod<
   ListClustersRequest,
   ListClustersOutputBody,

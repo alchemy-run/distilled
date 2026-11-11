@@ -26,18 +26,20 @@ const TELEMETRY = {
 
 export interface AddRecentRepoRequest {
   /** Forge full_name lives on (github or entire); required with full_name. */
-  forge?: string;
-  full_name?: string;
-  repo_id?: string;
+  forge?: string | undefined;
+  full_name?: string | undefined;
+  repo_id?: string | undefined;
 }
 /** Forge the repo lives on. Omitted when neither this region nor Core knows it. */
 export type RepoPreferenceItemProvider = "github" | "entire";
 export interface RepoPreferenceItem {
+  /** When you favorited the repository. Set on pinned items only, and missing on pins saved before this was recorded. */
+  favorited_at?: string | undefined;
   full_name: string;
   /** Timestamp from this caller's retained recent list, including unpin/import recency. Null when unavailable. */
   last_used_at: string | null;
   /** Forge the repo lives on. Omitted when neither this region nor Core knows it. */
-  provider?: RepoPreferenceItemProvider;
+  provider?: RepoPreferenceItemProvider | undefined;
   repo_id: string;
   runners_enabled: boolean;
   trails_enabled: boolean;
@@ -46,7 +48,7 @@ export type RepoPreferencesOutputBodyPinnedList = Array<RepoPreferenceItem>;
 export type RepoPreferencesOutputBodyRecentList = Array<RepoPreferenceItem>;
 export interface RepoPreferencesOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   pinned: RepoPreferencesOutputBodyPinnedList | null;
   recent: RepoPreferencesOutputBodyRecentList | null;
 }
@@ -62,25 +64,49 @@ export interface Dismissal {
 export type DismissalPreferencesDismissalsList = Array<Dismissal>;
 export interface DismissalPreferences {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Dismissed notices, oldest first. */
   dismissals: DismissalPreferencesDismissalsList | null;
 }
 export interface FavoriteProjectRequest {
   project_id: string;
 }
-/** Favorite project IDs. This preference does not grant project access. */
+/** Every saved favorite ID, in the order you added them. Favorites you lose access to are removed; one that can't be named right now stays saved. Storing an ID grants no project access. */
 export type ProjectPreferencesFavoriteProjectIdsList = Array<string>;
+export type ProjectPreferenceItemProvider = "github" | "entire";
+export type GlobalTrailProjectReferenceResponseForge = "gh" | "et";
+export interface GlobalTrailProjectReferenceResponse {
+  forge: GlobalTrailProjectReferenceResponseForge;
+  project: string;
+}
+export interface ProjectPreferenceItem {
+  /** When you favorited the project. Set on favorites only, and missing on favorites saved before this was recorded. */
+  favorited_at?: string | undefined;
+  id: string;
+  /** When you last opened the project. Set on recent items only. */
+  last_used_at?: string | undefined;
+  name: string;
+  provider: ProjectPreferenceItemProvider;
+  reference: GlobalTrailProjectReferenceResponse;
+}
+/** Your favorite projects that you can view, in the order you added them. */
+export type ProjectPreferencesFavoritesList = Array<ProjectPreferenceItem>;
+/** Projects you opened recently and can still view, newest first. */
+export type ProjectPreferencesRecentList = Array<ProjectPreferenceItem>;
 export interface ProjectPreferences {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  /** Favorite project IDs. This preference does not grant project access. */
+  _schema?: string | undefined;
+  /** Every saved favorite ID, in the order you added them. Favorites you lose access to are removed; one that can't be named right now stays saved. Storing an ID grants no project access. */
   favorite_project_ids: ProjectPreferencesFavoriteProjectIdsList | null;
+  /** Your favorite projects that you can view, in the order you added them. */
+  favorites: ProjectPreferencesFavoritesList | null;
+  /** Projects you opened recently and can still view, newest first. */
+  recent: ProjectPreferencesRecentList | null;
 }
 export interface GetDiffViewRequest {}
 export interface DiffViewResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   fileTreeOpen: boolean | null;
   viewMode: string | null;
   wrapLines: boolean | null;
@@ -91,7 +117,7 @@ export type AllFilterTabDisplaySettingsMap = { [key: string]: string | undefined
 export type AllFilterTabFilterOrderList = Array<string>;
 export type AllFilterTabFiltersMap = { [key: string]: unknown | undefined };
 export interface AllFilterTab {
-  displaySettings?: AllFilterTabDisplaySettingsMap;
+  displaySettings?: AllFilterTabDisplaySettingsMap | undefined;
   filterOrder: AllFilterTabFilterOrderList | null;
   filters: AllFilterTabFiltersMap;
   name: string;
@@ -100,7 +126,7 @@ export type SavedFilterTabDisplaySettingsMap = { [key: string]: string | undefin
 export type SavedFilterTabFilterOrderList = Array<string>;
 export type SavedFilterTabFiltersMap = { [key: string]: unknown | undefined };
 export interface SavedFilterTab {
-  displaySettings?: SavedFilterTabDisplaySettingsMap;
+  displaySettings?: SavedFilterTabDisplaySettingsMap | undefined;
   filterOrder: SavedFilterTabFilterOrderList | null;
   filters: SavedFilterTabFiltersMap;
   id: string;
@@ -114,7 +140,7 @@ export interface FilterTabsSlice {
 export type FilterTabsResponseTabsMap = { [key: string]: FilterTabsSlice | undefined };
 export interface FilterTabsResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   tabs: FilterTabsResponseTabsMap;
 }
 export interface GetProjectPreferencesRequest {}
@@ -131,7 +157,7 @@ export interface SessionDetailFilters {
 }
 export interface SessionDetailFiltersResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   filters: SessionDetailFilters;
   showHiddenIndicators: boolean | null;
 }
@@ -139,18 +165,11 @@ export type MigrateProjectPreferencesRequestFavoriteProjectIdsList = Array<strin
 export interface MigrateProjectPreferencesRequest {
   favorite_project_ids: MigrateProjectPreferencesRequestFavoriteProjectIdsList | null;
 }
-export interface RepoPreferenceMigrationEntry {
-  full_name: string;
-  github_id: number;
-}
-export type MigrateRepoPreferencesRequestPinnedList = Array<RepoPreferenceMigrationEntry>;
-export type MigrateRepoPreferencesRequestRecentList = Array<RepoPreferenceMigrationEntry>;
-export interface MigrateRepoPreferencesRequest {
-  pinned?: MigrateRepoPreferencesRequestPinnedList | null;
-  recent?: MigrateRepoPreferencesRequestRecentList | null;
-}
 export interface PinRepoRequest {
-  repo_id?: string;
+  repo_id?: string | undefined;
+}
+export interface RecordRecentProjectRequest {
+  project_id: string;
 }
 export interface RemoveRecentRepoRequest {
   repo_id: string;
@@ -163,8 +182,8 @@ export interface SetDiffViewRequest {
 }
 export type SetFilterTabsRequestSavedTabsList = Array<SavedFilterTab>;
 export interface SetFilterTabsRequest {
-  all_tab?: AllFilterTab;
-  saved_tabs?: SetFilterTabsRequestSavedTabsList;
+  all_tab?: AllFilterTab | undefined;
+  saved_tabs?: SetFilterTabsRequestSavedTabsList | undefined;
   storage_key: string;
 }
 export interface SetSessionDetailFiltersRequest {
@@ -213,7 +232,7 @@ export const dismissNotice: API.OperationMethod<
 }));
 
 export type FavoriteProjectError = EntireOpError;
-/** Favorite a project Adds a project to your favorites. Favoriting a project you already favorite is a no-op; the list is capped, and a full list returns a conflict. */
+/** Favorite a project Adds a project to your favorites and returns your favorite and recent projects. A project you cannot view returns not found. Favoriting a project you already favorite is a no-op. You can keep 10 favorite repositories and projects combined; past that, this returns a conflict. */
 export const favoriteProject: API.OperationMethod<
   FavoriteProjectRequest,
   ProjectPreferences,
@@ -221,7 +240,7 @@ export const favoriteProject: API.OperationMethod<
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<FavoriteProjectRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<ProjectPreferences>,
+  output: __S(115, __c14, 3) as any as S.Schema<ProjectPreferences>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -281,7 +300,7 @@ export const getFilterTabs: API.OperationMethod<
 }));
 
 export type GetProjectPreferencesError = EntireOpError;
-/** Your favorite projects Your favorite project IDs, in the order you added them. A favorite is only a pointer: it carries no project metadata and grants no access, so intersect the list with the projects you can independently see. */
+/** Your favorite and recent projects Your favorite and recently opened projects, each with its name and public reference. Only projects you can still view are listed, and favorites or recents you have lost access to are removed. A favorite or recent entry grants no access. */
 export const getProjectPreferences: API.OperationMethod<
   GetProjectPreferencesRequest,
   ProjectPreferences,
@@ -289,7 +308,7 @@ export const getProjectPreferences: API.OperationMethod<
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<GetProjectPreferencesRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<ProjectPreferences>,
+  output: __S(115, __c14, 3) as any as S.Schema<ProjectPreferences>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -340,29 +359,12 @@ export const migrateProjectPreferences: API.OperationMethod<
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<MigrateProjectPreferencesRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<ProjectPreferences>,
+  output: __S(115, __c14, 3) as any as S.Schema<ProjectPreferences>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MigrateProjectPreferences",
-}));
-
-export type MigrateRepoPreferencesError = EntireOpError;
-/** Import your locally-stored repository preferences Imports your browser-local pinned and recent repositories into your account. It migrates once per list -- each is imported only while you have no saved entries of that type -- so it never overwrites preferences you already keep server-side. */
-export const migrateRepoPreferences: API.OperationMethod<
-  MigrateRepoPreferencesRequest,
-  RepoPreferencesOutputBody,
-  MigrateRepoPreferencesError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(34, __c4, 2) as any as S.Schema<MigrateRepoPreferencesRequest>,
-  output: __S(10, __c1, 2) as any as S.Schema<RepoPreferencesOutputBody>,
-  errors: [UnknownEntireError],
-  protocol: EntireCellProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "MigrateRepoPreferences",
 }));
 
 export type PinRepoError = EntireOpError;
@@ -373,13 +375,30 @@ export const pinRepo: API.OperationMethod<
   PinRepoError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<PinRepoRequest>,
+  input: __S(32, __c4, 0) as any as S.Schema<PinRepoRequest>,
   output: __S(10, __c1, 2) as any as S.Schema<RepoPreferencesOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PinRepo",
+}));
+
+export type RecordRecentProjectError = EntireOpError;
+/** Record a project visit Records that you opened a project, moving it to the front of your recent projects, and returns your favorite and recent projects. You keep your 10 newest recent repositories and projects combined. A project you cannot view leaves the list unchanged. */
+export const recordRecentProject: API.OperationMethod<
+  RecordRecentProjectRequest,
+  ProjectPreferences,
+  RecordRecentProjectError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(40, __c5, 0) as any as S.Schema<RecordRecentProjectRequest>,
+  output: __S(115, __c14, 3) as any as S.Schema<ProjectPreferences>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecordRecentProject",
 }));
 
 export type RemoveRecentRepoError = EntireOpError;
@@ -502,6 +521,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          favorited_at: S.optional(S.String),
           full_name: S.String,
           last_used_at: S.NullOr(S.String),
           provider: S.optional(S.String),
@@ -557,19 +577,9 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          full_name: S.String,
-          github_id: S.Number,
-        }),
-      ).annotate({ identifier: "RepoPreferenceMigrationEntry" });
-    case 1:
-      return S.Array(__S(32, __c4, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          pinned: S.optional(S.NullOr(__S(33, __c4, 1))),
-          recent: S.optional(S.NullOr(__S(33, __c4, 1))),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/preferences/repos/migrate", code: 200 })),
-      ).annotate({ identifier: "MigrateRepoPreferencesRequest" });
+          repo_id: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/preferences/repos/pinned", code: 200 })),
+      ).annotate({ identifier: "PinRepoRequest" });
   }
 }
 function __c5(j: number): any {
@@ -577,9 +587,9 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          repo_id: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/preferences/repos/pinned", code: 200 })),
-      ).annotate({ identifier: "PinRepoRequest" });
+          project_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/preferences/projects/recent", code: 200 })),
+      ).annotate({ identifier: "RecordRecentProjectRequest" });
   }
 }
 function __c6(j: number): any {
@@ -692,8 +702,30 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          forge: S.String,
+          project: S.String,
+        }),
+      ).annotate({ identifier: "GlobalTrailProjectReferenceResponse" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          favorited_at: S.optional(S.String),
+          id: S.String,
+          last_used_at: S.optional(S.String),
+          name: S.String,
+          provider: S.String,
+          reference: __S(112, __c14, 0),
+        }),
+      ).annotate({ identifier: "ProjectPreferenceItem" });
+    case 2:
+      return S.Array(__S(113, __c14, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           favorite_project_ids: S.NullOr(__S(104, __c13, 0)),
+          favorites: S.NullOr(__S(114, __c14, 2)),
+          recent: S.NullOr(__S(114, __c14, 2)),
         }),
       ).annotate({ identifier: "ProjectPreferences" });
   }

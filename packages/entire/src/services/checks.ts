@@ -28,9 +28,9 @@ export interface GetBranchChecksRequest {
   /** Repository ULID */
   id: string;
   /** Bare repository group ULID; entire-api workload only */
-  repo_group_id?: string;
+  repo_group_id?: string | undefined;
   /** Branch name, or a refs/heads/... ref */
-  branch?: string;
+  branch?: string | undefined;
 }
 export interface BranchCheckView {
   /** The build's number within its pipeline */
@@ -55,7 +55,7 @@ export interface BranchCheckView {
 export type BranchChecksSnapshotChecksList = Array<BranchCheckView>;
 export interface BranchChecksSnapshot {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Branch name, without refs/heads/ */
   branch: string;
   /** The newest finished build for each check that has one */
@@ -63,30 +63,30 @@ export interface BranchChecksSnapshot {
   /** The repo has a producer that reports checks */
   configured: boolean;
   /** Resolved repository group ULID, when supplied */
-  repo_group_id?: string;
+  repo_group_id?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetChecksRequest {
   /** Repository ULID */
   id: string;
   /** Bare repository group ULID; entire-api workload only */
-  repo_group_id?: string;
+  repo_group_id?: string | undefined;
   /** Commit SHA the checks report on */
-  commit?: string;
+  commit?: string | undefined;
   /** Branch name, or a refs/heads/... ref */
-  branch?: string;
+  branch?: string | undefined;
 }
 export interface JobView {
   /** Provider job identifier */
   bk_job_id: string;
   /** Command exit status once finished */
-  exit_status?: number;
+  exit_status?: number | undefined;
   /** When the job finished (UTC) */
-  finished_at?: string;
+  finished_at?: string | undefined;
   /** Step label */
   name: string;
   /** When the job started (UTC) */
-  started_at?: string;
+  started_at?: string | undefined;
   /** Job state */
   state: string;
   /** Pipeline step key, if the step set one */
@@ -103,23 +103,23 @@ export interface CheckView {
   /** Provider web URL for the reported attempt */
   details_url: string | null;
   /** Suite name to show; Name stays the gate key */
-  display_name?: string;
+  display_name?: string | undefined;
   /** When the selected build finished */
-  finished_at?: string;
+  finished_at?: string | undefined;
   /** Steps/jobs under the selected build */
-  jobs?: CheckViewJobsList | null;
+  jobs?: CheckViewJobsList | null | undefined;
   /** Check name, stable across retries */
   name: string;
   /** CI provider registry name */
-  provider?: string;
+  provider?: string | undefined;
   /** Provider account or organization */
-  provider_account?: string;
+  provider_account?: string | undefined;
   /** Plugin slug */
-  source?: string;
+  source?: string | undefined;
   /** Non-terminal and not advanced past the threshold */
   stale: boolean;
   /** When the selected build started */
-  started_at?: string;
+  started_at?: string | undefined;
   /** queued, in_progress, or completed */
   status: string;
   [key: string]: unknown;
@@ -132,7 +132,7 @@ export type ChecksSnapshotPluginsList = Array<string>;
 export type ChecksSnapshotPluginsConnectedSinceMap = { [key: string]: string | undefined };
 export interface ChecksSnapshot {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Branch name, without refs/heads/ */
   branch: string;
   /** The newest attempt for each check that has run */
@@ -144,9 +144,9 @@ export interface ChecksSnapshot {
   /** Plugin slugs that may write checks; never null */
   plugins: ChecksSnapshotPluginsList | null;
   /** Per plugin slug, when its active installation covering the repo was installed (RFC 3339, UTC); {} when none does */
-  plugins_connected_since?: ChecksSnapshotPluginsConnectedSinceMap;
+  plugins_connected_since?: ChecksSnapshotPluginsConnectedSinceMap | undefined;
   /** Resolved repository group ULID, when supplied */
-  repo_group_id?: string;
+  repo_group_id?: string | undefined;
   [key: string]: unknown;
 }
 export type GetBranchChecksError = EntireOpError;

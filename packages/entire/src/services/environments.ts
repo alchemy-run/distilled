@@ -33,7 +33,7 @@ export interface ArchiveProjectEnvironmentRequest {
   /** Agent or Environment id (ULID). */
   id: string;
   /** Required: copy the JSON etag write token from the last read or write of this configuration. Missing returns 428; stale returns 412. */
-  ifMatch?: string;
+  ifMatch?: string | undefined;
 }
 export interface EnvironmentArchivedBy {
   /** Full principal id: an account ULID, svc_<ULID> for a service account, or aut_<ULID> for an automation. */
@@ -42,14 +42,18 @@ export interface EnvironmentArchivedBy {
   kind: string;
 }
 export type EnvironmentCreatedBy = EnvironmentArchivedBy;
+/** Whose machines run the environment's agents: entire (a sandbox Entire provides) or self_hosted (a runner the project operates claims each run). Fixed at creation. More values will be added. */
+export type EnvironmentRunsOn = "entire" | "self_hosted";
 export interface Environment {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   /** When the environment was archived; null while active. */
   archived_at: string | null;
-  archived_by?: EnvironmentArchivedBy;
-  /** Sandbox lifetime in minutes, as the provider interprets it; null uses the cell default for the provider. */
+  archived_by?: EnvironmentArchivedBy | undefined;
+  /** Sandbox lifetime in minutes, as the provider interprets it; null uses the cell default for the provider, and always for a self_hosted environment. */
   auto_stop_minutes: number | null;
+  /** self_hosted environments only: how long a run waits for a runner to claim it, in milliseconds. Absent when unset, which waits 60 minutes. */
+  claim_timeout_ms?: number | undefined;
   /** When version 1 was saved. */
   created_at: string;
   created_by: EnvironmentArchivedBy;
@@ -59,15 +63,46 @@ export interface Environment {
   etag: string;
   /** Environment id (ULID); stable across versions. */
   id: string;
+  /** True for the self-hosted Environment Entire keeps for the project, created the first time an agent sends runs_on self_hosted. It cannot be replaced or archived; runners are bound to it as to any self_hosted environment. */
+  managed: boolean;
   /** Display name. */
   name: string;
   /** Owning project id (ULID). The environment is reusable across the project's repositories. */
   project_id: string;
+  /** Whose machines run the environment's agents: entire (a sandbox Entire provides) or self_hosted (a runner the project operates claims each run). Fixed at creation. More values will be added. */
+  runs_on: EnvironmentRunsOn;
   /** When the last version was saved or the environment was archived. */
   updated_at: string;
   /** Current version. */
   version: number;
 }
+export interface BindProjectEnvironmentRunnerRequest {
+  /** Project host slug (gh or et). */
+  host: string;
+  /** Canonical public project name. */
+  project: string;
+  /** Environment id (ULID). */
+  id: string;
+  /** The runner's Core service account, svc_<ULID>. */
+  service_account_id: string;
+}
+export type EnvironmentRunnerBindingBoundBy = EnvironmentArchivedBy;
+export type EnvironmentRunnerBindingUnboundBy = EnvironmentArchivedBy;
+export interface EnvironmentRunnerBinding {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  bound_at: string;
+  bound_by: EnvironmentArchivedBy;
+  /** The self-hosted Environment (ULID). */
+  environment_id: string;
+  /** The runner's Core service account, svc_<ULID>. */
+  service_account_id: string;
+  /** When it was unbound; null while the binding is active. */
+  unbound_at: string | null;
+  unbound_by?: EnvironmentArchivedBy | undefined;
+}
+/** Whose machines run the environment's agents: entire (default). Fixed at creation: a replace that changes it returns 422 environment_runs_on_fixed. self_hosted is Entire's to manage: an environment create or a replace to it returns 422 environment_runs_on_managed; create an agent with runs_on self_hosted instead. More values will be added; any other value returns 422. */
+export type CreateProjectEnvironmentRequestRunsOn = "entire" | "self_hosted";
 export interface CreateProjectEnvironmentRequest {
   /** Project host slug (gh or et). */
   host: string;
@@ -75,12 +110,16 @@ export interface CreateProjectEnvironmentRequest {
   project: string;
   /** Required. Reuse it, with the same body, to retry this create: the retry returns the configuration the first attempt saved instead of saving another. The same key with a different body returns 409. Scoped to the caller, project and resource; it does not expire. */
   idempotencyKey: string;
-  /** Sandbox lifetime in minutes (Daytona: idle time; E2B: initial wall-clock lifetime, renewed while in use). Omit or send null for the cell default. */
-  auto_stop_minutes?: number | null;
+  /** Sandbox lifetime in minutes (Daytona: idle time; E2B: initial wall-clock lifetime, renewed while in use). Omit or send null for the cell default. 422 on a self_hosted environment, which has no sandbox. */
+  auto_stop_minutes?: number | null | undefined;
+  /** self_hosted only (422 otherwise): how long a run waits for a runner to claim it before it times out, in milliseconds. Omit for 60 minutes. The agent's timeout_ms bounds the review once claimed. */
+  claim_timeout_ms?: number | undefined;
   /** Free-form description. */
-  description?: string;
+  description?: string | undefined;
   /** Display name, without surrounding whitespace. */
   name: string;
+  /** Whose machines run the environment's agents: entire (default). Fixed at creation: a replace that changes it returns 422 environment_runs_on_fixed. self_hosted is Entire's to manage: an environment create or a replace to it returns 422 environment_runs_on_managed; create an agent with runs_on self_hosted instead. More values will be added; any other value returns 422. */
+  runs_on?: CreateProjectEnvironmentRequestRunsOn | (string & {}) | undefined;
 }
 export interface GetProjectEnvironmentRequest {
   /** Project host slug (gh or et). */
@@ -101,11 +140,15 @@ export interface GetProjectEnvironmentVersionRequest {
   version: number;
 }
 export type EnvironmentVersionCreatedBy = EnvironmentArchivedBy;
+/** Whose machines run the environment's agents: entire (a sandbox Entire provides) or self_hosted (a runner the project operates claims each run). Fixed at creation. More values will be added. */
+export type EnvironmentVersionRunsOn = "entire" | "self_hosted";
 export interface EnvironmentVersion {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  /** Sandbox lifetime in minutes, as the provider interprets it; null uses the cell default for the provider. */
+  _schema?: string | undefined;
+  /** Sandbox lifetime in minutes, as the provider interprets it; null uses the cell default for the provider, and always for a self_hosted environment. */
   auto_stop_minutes: number | null;
+  /** self_hosted environments only: how long a run waits for a runner to claim it, in milliseconds. Absent when unset, which waits 60 minutes. */
+  claim_timeout_ms?: number | undefined;
   /** When this version was saved. */
   created_at: string;
   created_by: EnvironmentArchivedBy;
@@ -115,8 +158,28 @@ export interface EnvironmentVersion {
   environment_id: string;
   /** Display name. */
   name: string;
+  /** Whose machines run the environment's agents: entire (a sandbox Entire provides) or self_hosted (a runner the project operates claims each run). Fixed at creation. More values will be added. */
+  runs_on: EnvironmentVersionRunsOn;
   /** Version number. */
   version: number;
+}
+export interface ListProjectEnvironmentRunnersRequest {
+  /** Project host slug (gh or et). */
+  host: string;
+  /** Canonical public project name. */
+  project: string;
+  /** Environment id (ULID). */
+  id: string;
+  /** Also list bindings that were unbound: the history. A service account bound again after an unbind appears once per binding. */
+  include_unbound?: boolean | undefined;
+}
+export type ConfigPageEnvironmentRunnerBindingItemsList = Array<EnvironmentRunnerBinding>;
+export interface ConfigPageEnvironmentRunnerBinding {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  items: ConfigPageEnvironmentRunnerBindingItemsList | null;
+  /** Pass as cursor to fetch the next page; omitted on the last page. */
+  next_cursor?: string | undefined;
 }
 export interface ListProjectEnvironmentsRequest {
   /** Project host slug (gh or et). */
@@ -124,19 +187,19 @@ export interface ListProjectEnvironmentsRequest {
   /** Canonical public project name. */
   project: string;
   /** Items per page (default 50, maximum 100). */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Opaque continuation cursor from next_cursor. Restores include_archived; repeating include_archived with another value is refused. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Also return archived configurations. Off by default: the default list answers what can be selected for new use. */
-  include_archived?: boolean;
+  include_archived?: boolean | undefined;
 }
 export type ConfigPageEnvironmentItemsList = Array<Environment>;
 export interface ConfigPageEnvironment {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   items: ConfigPageEnvironmentItemsList | null;
   /** Pass as cursor to fetch the next page; omitted on the last page. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface ListProjectEnvironmentVersionsRequest {
   /** Project host slug (gh or et). */
@@ -146,18 +209,20 @@ export interface ListProjectEnvironmentVersionsRequest {
   /** Agent or Environment id (ULID). */
   id: string;
   /** Items per page (default 50, maximum 100). */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Opaque continuation cursor from next_cursor. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ConfigPageEnvironmentVersionItemsList = Array<EnvironmentVersion>;
 export interface ConfigPageEnvironmentVersion {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   items: ConfigPageEnvironmentVersionItemsList | null;
   /** Pass as cursor to fetch the next page; omitted on the last page. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
+/** Whose machines run the environment's agents: entire (default). Fixed at creation: a replace that changes it returns 422 environment_runs_on_fixed. self_hosted is Entire's to manage: an environment create or a replace to it returns 422 environment_runs_on_managed; create an agent with runs_on self_hosted instead. More values will be added; any other value returns 422. */
+export type ReplaceProjectEnvironmentRequestRunsOn = "entire" | "self_hosted";
 export interface ReplaceProjectEnvironmentRequest {
   /** Project host slug (gh or et). */
   host: string;
@@ -166,14 +231,29 @@ export interface ReplaceProjectEnvironmentRequest {
   /** Agent or Environment id (ULID). */
   id: string;
   /** Required: copy the JSON etag write token from the last read or write of this configuration. Missing returns 428; stale returns 412. */
-  ifMatch?: string;
-  /** Sandbox lifetime in minutes (Daytona: idle time; E2B: initial wall-clock lifetime, renewed while in use). Omit or send null for the cell default. */
-  auto_stop_minutes?: number | null;
+  ifMatch?: string | undefined;
+  /** Sandbox lifetime in minutes (Daytona: idle time; E2B: initial wall-clock lifetime, renewed while in use). Omit or send null for the cell default. 422 on a self_hosted environment, which has no sandbox. */
+  auto_stop_minutes?: number | null | undefined;
+  /** self_hosted only (422 otherwise): how long a run waits for a runner to claim it before it times out, in milliseconds. Omit for 60 minutes. The agent's timeout_ms bounds the review once claimed. */
+  claim_timeout_ms?: number | undefined;
   /** Free-form description. */
-  description?: string;
+  description?: string | undefined;
   /** Display name, without surrounding whitespace. */
   name: string;
+  /** Whose machines run the environment's agents: entire (default). Fixed at creation: a replace that changes it returns 422 environment_runs_on_fixed. self_hosted is Entire's to manage: an environment create or a replace to it returns 422 environment_runs_on_managed; create an agent with runs_on self_hosted instead. More values will be added; any other value returns 422. */
+  runs_on?: ReplaceProjectEnvironmentRequestRunsOn | (string & {}) | undefined;
 }
+export interface UnbindProjectEnvironmentRunnerRequest {
+  /** Project host slug (gh or et). */
+  host: string;
+  /** Canonical public project name. */
+  project: string;
+  /** Environment id (ULID). */
+  id: string;
+  /** The runner's Core service account, svc_<ULID>. */
+  service_account_id: string;
+}
+export interface UnbindProjectEnvironmentRunnerResponse {}
 export type ArchiveProjectEnvironmentError = EntireOpError;
 /** Archive an environment Archives the environment under the same If-Match precondition as a replace (428 missing, 412 stale). Send no body, or an empty object. The version does not change but the ETag does; history stays readable, the record leaves the default list, and further writes, including a second archive, return 409. Archiving an environment that an unarchived agent references, enabled or not, returns 409. Requires canManageAgents (automation principals require project write or manage). Route requests to the project's API URL returned by Core. */
 export const archiveProjectEnvironment: API.OperationMethod<
@@ -191,6 +271,23 @@ export const archiveProjectEnvironment: API.OperationMethod<
   span: "ArchiveProjectEnvironment",
 }));
 
+export type BindProjectEnvironmentRunnerError = EntireOpError;
+/** Bind a runner to a self-hosted Environment Lets the service account claim the runs of every agent in the Environment, and the managed Environment holds every self-hosted agent of the project, so this reaches the whole project. Idempotent: binding an active binding again changes nothing. The account's scope is its Core grants; entire-api does not inspect them. 409 when the Environment is archived. 422 when the Environment is not self_hosted (environment_not_self_hosted) or the account does not belong to the Environment's project. Requires project admin (403 otherwise). Route requests to the project's API URL returned by Core. */
+export const bindProjectEnvironmentRunner: API.OperationMethod<
+  BindProjectEnvironmentRunnerRequest,
+  EnvironmentRunnerBinding,
+  BindProjectEnvironmentRunnerError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(12, __c3, 0) as any as S.Schema<BindProjectEnvironmentRunnerRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<EnvironmentRunnerBinding>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BindProjectEnvironmentRunner",
+}));
+
 export type CreateProjectEnvironmentError = EntireOpError;
 /** Create an environment Saves a new environment in the project at version 1 and returns it with its JSON etag write token, HTTP ETag and Location. Saving runs nothing. It belongs to the project and can be reused across its repositories and agents. Idempotency-Key is required: a retry with the same key and body saves nothing and returns the environment the first attempt saved, at its current version, with Idempotency-Replayed: true; the same key with a different body returns 409. A key is scoped to the caller, the project and environments, and does not expire. Bodies use the typed request schema; unknown fields, including spec wrappers and server-owned fields, are refused. Requires canManageAgents (automation principals require project write or manage). Route requests to the project's API URL returned by Core. */
 export const createProjectEnvironment: API.OperationMethod<
@@ -199,7 +296,7 @@ export const createProjectEnvironment: API.OperationMethod<
   CreateProjectEnvironmentError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<CreateProjectEnvironmentRequest>,
+  input: __S(20, __c5, 0) as any as S.Schema<CreateProjectEnvironmentRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<Environment>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
@@ -216,7 +313,7 @@ export const getProjectEnvironment: API.OperationMethod<
   GetProjectEnvironmentError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<GetProjectEnvironmentRequest>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetProjectEnvironmentRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<Environment>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
@@ -233,13 +330,30 @@ export const getProjectEnvironmentVersion: API.OperationMethod<
   GetProjectEnvironmentVersionError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<GetProjectEnvironmentVersionRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<EnvironmentVersion>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetProjectEnvironmentVersionRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<EnvironmentVersion>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectEnvironmentVersion",
+}));
+
+export type ListProjectEnvironmentRunnersError = EntireOpError;
+/** List a self-hosted Environment's runners The service accounts bound to the Environment, by id. With include_unbound, also the bindings that ended, each with who unbound it and when. Requires canManageAgents. Route requests to the project's API URL returned by Core. */
+export const listProjectEnvironmentRunners: API.OperationMethod<
+  ListProjectEnvironmentRunnersRequest,
+  ConfigPageEnvironmentRunnerBinding,
+  ListProjectEnvironmentRunnersError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(36, __c9, 0) as any as S.Schema<ListProjectEnvironmentRunnersRequest>,
+  output: __S(38, __c9, 2) as any as S.Schema<ConfigPageEnvironmentRunnerBinding>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectEnvironmentRunners",
 }));
 
 export type ListProjectEnvironmentsError = EntireOpError;
@@ -252,8 +366,8 @@ export const listProjectEnvironments: API.PaginatedOperationMethod<
   Environment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(28, __c7, 0) as any as S.Schema<ListProjectEnvironmentsRequest>,
-    output: __S(30, __c7, 2) as any as S.Schema<ConfigPageEnvironment>,
+    input: __S(40, __c10, 0) as any as S.Schema<ListProjectEnvironmentsRequest>,
+    output: __S(42, __c10, 2) as any as S.Schema<ConfigPageEnvironment>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -279,8 +393,8 @@ export const listProjectEnvironmentVersions: API.PaginatedOperationMethod<
   EnvironmentVersion
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32, __c8, 0) as any as S.Schema<ListProjectEnvironmentVersionsRequest>,
-    output: __S(34, __c8, 2) as any as S.Schema<ConfigPageEnvironmentVersion>,
+    input: __S(44, __c11, 0) as any as S.Schema<ListProjectEnvironmentVersionsRequest>,
+    output: __S(46, __c11, 2) as any as S.Schema<ConfigPageEnvironmentVersion>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -304,13 +418,30 @@ export const replaceProjectEnvironment: API.OperationMethod<
   ReplaceProjectEnvironmentError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<ReplaceProjectEnvironmentRequest>,
+  input: __S(48, __c12, 0) as any as S.Schema<ReplaceProjectEnvironmentRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<Environment>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReplaceProjectEnvironment",
+}));
+
+export type UnbindProjectEnvironmentRunnerError = EntireOpError;
+/** Unbind a runner from a self-hosted Environment Stops the service account claiming the Environment's runs. The binding stays in the history with who unbound it and when. Idempotent: 204 whether or not it was bound. Works on archived Environments. Requires project admin (403 otherwise). Route requests to the project's API URL returned by Core. */
+export const unbindProjectEnvironmentRunner: API.OperationMethod<
+  UnbindProjectEnvironmentRunnerRequest,
+  UnbindProjectEnvironmentRunnerResponse,
+  UnbindProjectEnvironmentRunnerError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(52, __c13, 0) as any as S.Schema<UnbindProjectEnvironmentRunnerRequest>,
+  output: __S(53, __c13, 1) as any as S.Schema<UnbindProjectEnvironmentRunnerResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnbindProjectEnvironmentRunner",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -353,13 +484,16 @@ function __c2(j: number): any {
           archived_at: S.NullOr(S.String),
           archived_by: S.optional(__S(4, __c1, 0)),
           auto_stop_minutes: S.NullOr(S.Number),
+          claim_timeout_ms: S.optional(S.Number),
           created_at: S.String,
           created_by: __S(4, __c1, 0),
           description: S.String,
           etag: S.String,
           id: S.String,
+          managed: S.Boolean,
           name: S.String,
           project_id: S.String,
+          runs_on: S.String,
           updated_at: S.String,
           version: S.Number,
         }),
@@ -373,17 +507,54 @@ function __c3(j: number): any {
         S.Struct({
           host: S.String.pipe(T.Label()),
           project: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          service_account_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/{host}/{project}/environments/{id}/runners/{service_account_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "BindProjectEnvironmentRunnerRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          bound_at: S.String,
+          bound_by: __S(4, __c1, 0),
+          environment_id: S.String,
+          service_account_id: S.String,
+          unbound_at: S.NullOr(S.String),
+          unbound_by: S.optional(__S(4, __c1, 0)),
+        }),
+      ).annotate({ identifier: "EnvironmentRunnerBinding" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
           idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
           auto_stop_minutes: S.optional(S.NullOr(S.Number)),
+          claim_timeout_ms: S.optional(S.Number),
           description: S.optional(S.String),
           name: S.String,
+          runs_on: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/{host}/{project}/environments", code: 200 }),
         ),
       ).annotate({ identifier: "CreateProjectEnvironmentRequest" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -397,7 +568,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetProjectEnvironmentRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -416,24 +587,55 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetProjectEnvironmentVersionRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           auto_stop_minutes: S.NullOr(S.Number),
+          claim_timeout_ms: S.optional(S.Number),
           created_at: S.String,
           created_by: __S(4, __c1, 0),
           description: S.String,
           environment_id: S.String,
           name: S.String,
+          runs_on: S.String,
           version: S.Number,
         }),
       ).annotate({ identifier: "EnvironmentVersion" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          include_unbound: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/{host}/{project}/environments/{id}/runners",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectEnvironmentRunnersRequest" });
+    case 1:
+      return S.Array(__S(16, __c4, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          items: S.NullOr(__S(37, __c9, 1)),
+          next_cursor: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConfigPageEnvironmentRunnerBinding" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -451,13 +653,13 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          items: S.NullOr(__S(29, __c7, 1)),
+          items: S.NullOr(__S(41, __c10, 1)),
           next_cursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigPageEnvironment" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -476,18 +678,18 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectEnvironmentVersionsRequest" });
     case 1:
-      return S.Array(__S(24, __c6, 0));
+      return S.Array(__S(32, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          items: S.NullOr(__S(33, __c8, 1)),
+          items: S.NullOr(__S(45, __c11, 1)),
           next_cursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigPageEnvironmentVersion" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -497,12 +699,37 @@ function __c9(j: number): any {
           id: S.String.pipe(T.Label()),
           ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
           auto_stop_minutes: S.optional(S.NullOr(S.Number)),
+          claim_timeout_ms: S.optional(S.Number),
           description: S.optional(S.String),
           name: S.String,
+          runs_on: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v1/{host}/{project}/environments/{id}", code: 200 }),
         ),
       ).annotate({ identifier: "ReplaceProjectEnvironmentRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          service_account_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v1/{host}/{project}/environments/{id}/runners/{service_account_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UnbindProjectEnvironmentRunnerRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "UnbindProjectEnvironmentRunnerResponse",
+      });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

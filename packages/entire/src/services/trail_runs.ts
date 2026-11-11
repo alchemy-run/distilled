@@ -43,13 +43,41 @@ export interface CancelRunnerRunBySlugRequest {
   runId: string;
 }
 export interface CancelRunnerRunBySlugResponse {}
+export interface GetChangeRunRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  /** Trail number */
+  number: string;
+  /** Configured runner id (e.g. trail-semantic-diff) */
+  runnerId: string;
+}
+export interface RunnerResultJSON {
+  adapter: string;
+  data: unknown;
+  type: string;
+}
+export interface RunnerRunJSON {
+  createdAt: string;
+  errorMessage: string | null;
+  headSha: string | null;
+  id: string;
+  promptStatus: string | null;
+  status: string;
+  updatedAt: string;
+}
+export interface TrailRunResponse {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  result: RunnerResultJSON;
+  run: RunnerRunJSON;
+}
 export interface GetProjectRunnerStatusRequest {
   /** Project host slug (gh or et). */
   host: string;
   /** Canonical public project name. */
   project: string;
   /** Known target project ULID; verified against the canonical project reference */
-  project_id?: string;
+  project_id?: string | undefined;
 }
 export type RepoRunnerAdmissionBillingSubjectType = "org" | "account";
 export interface RepoRunnerAdmissionBillingSubject {
@@ -58,7 +86,7 @@ export interface RepoRunnerAdmissionBillingSubject {
 }
 export interface RepoRunnerAdmission {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   billing_subject: RepoRunnerAdmissionBillingSubject;
   /** Who paused runs: billing, or operator for an operator, customer-denied or internal-only refusal. An open enum; null when runs are not paused. */
   paused_by: string | null;
@@ -104,7 +132,7 @@ export interface RunDetailRunJSON {
 }
 export interface RunDetailResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   automationResult: RunAutomationResultJSON;
   events: RunDetailResponseEventsList | null;
   prompts: RunDetailResponsePromptsList | null;
@@ -128,27 +156,7 @@ export interface GetTrailRunRequest {
   /** Configured runner id (e.g. trail-semantic-diff) */
   runnerId: string;
 }
-export interface RunnerResultJSON {
-  adapter: string;
-  data: unknown;
-  type: string;
-}
-export interface RunnerRunJSON {
-  createdAt: string;
-  errorMessage: string | null;
-  headSha: string | null;
-  id: string;
-  promptStatus: string | null;
-  status: string;
-  updatedAt: string;
-}
-export interface TrailRunResponse {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  result: RunnerResultJSON;
-  run: RunnerRunJSON;
-}
-export interface LaunchTrailRunnerRequest {
+export interface LaunchChangeRunnerRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
   /** Trail number */
@@ -158,89 +166,19 @@ export interface LaunchTrailRunnerRequest {
 }
 export interface ManualTrailRunnerLaunchBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   outcome: string;
   runId: string;
 }
-export interface ListRunnerRunsRequest {
+export interface LaunchTrailRunnerRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
-  /** Page size, clamped to 1..100 */
-  pageSize?: number;
-  /** Opaque cursor from a prior nextPageToken */
-  pageToken?: string;
-  /** Only runs attached to this Trail (Trail id, ULID). A pageToken must be reused with the same trail_id. */
-  trail_id?: string;
+  /** Trail number */
+  number: string;
+  /** Repo-authored runner id */
+  runnerId: string;
 }
-export type RunListItemJSONBillingSubjectType = "org" | "account";
-export interface RunListItemJSONBillingSubject {
-  id: string;
-  type: RunListItemJSONBillingSubjectType;
-}
-/** Every model the run billed, including subagent and background models; null when the stream named none. */
-export type RunListItemJSONModelsUsedList = Array<string>;
-export interface RunListTrailJSON {
-  branch: string;
-  id: string;
-  number: number;
-  title: string;
-}
-export interface RunModelUsageJSON {
-  /** Cache writes, all TTLs combined. */
-  cacheCreationTokens: number;
-  cacheReadTokens: number;
-  inputTokens: number;
-  /** Model these tokens are attributed to; null for an unsplit total across several models or when model attribution is unavailable. */
-  model: string | null;
-  outputTokens: number;
-}
-/** Token usage the agent reported; null until the first report. Runs do not record a per-model split yet, so the list currently holds one entry with the run's unsplit total. Price an entry at its model's rate only when model is set; a null model means an unsplit total across several models or unavailable model attribution. */
-export type RunListItemJSONUsageByModelList = Array<RunModelUsageJSON>;
-export interface RunListItemJSON {
-  agent: string | null;
-  automation: string | null;
-  billingSubject: RunListItemJSONBillingSubject;
-  createdAt: string;
-  credentialSource?: string;
-  /** Set when the run was refused for billing: billing_trial_ended, billing_credit_exhausted, billing_over_limit, billing_blocked or billing_not_enrolled. */
-  errorCode: string | null;
-  errorMessage: string | null;
-  headSha: string | null;
-  id: string;
-  /** Every model the run billed, including subagent and background models; null when the stream named none. */
-  modelsUsed: RunListItemJSONModelsUsedList | null;
-  promptStartedAt: string | null;
-  provisionStartedAt: string | null;
-  queuedAt: string | null;
-  ref: string | null;
-  status: string;
-  trail: RunListTrailJSON;
-  updatedAt: string;
-  /** Token usage the agent reported; null until the first report. Runs do not record a per-model split yet, so the list currently holds one entry with the run's unsplit total. Price an entry at its model's rate only when model is set; a null model means an unsplit total across several models or unavailable model attribution. */
-  usageByModel: RunListItemJSONUsageByModelList | null;
-}
-export type RunsListResponseItemsList = Array<RunListItemJSON>;
-export interface RunsListResponse {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  items: RunsListResponseItemsList | null;
-  nextPageToken: string | null;
-}
-export interface ListRunnerRunsBySlugRequest {
-  /** Forge host slug (gh or et) */
-  host: string;
-  /** Repo owner */
-  owner: string;
-  /** Repo name */
-  repo: string;
-  /** Page size, clamped to 1..100 */
-  pageSize?: number;
-  /** Opaque cursor from a prior nextPageToken */
-  pageToken?: string;
-  /** Only runs attached to this Trail (Trail id, ULID). A pageToken must be reused with the same trail_id. */
-  trail_id?: string;
-}
-export interface ListTrailMonitorsRequest {
+export interface ListChangeMonitorsRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
   /** Trail number */
@@ -248,7 +186,7 @@ export interface ListTrailMonitorsRequest {
 }
 export interface TrailMonitorHistoryItemJSON {
   boolean_value: boolean | null;
-  evaluating?: boolean;
+  evaluating?: boolean | undefined;
   head_sha: string | null;
   percent_value: number | null;
   rationale: string | null;
@@ -286,9 +224,93 @@ export interface TrailMonitorItemJSON {
 export type TrailMonitorsResponseMonitorsList = Array<TrailMonitorItemJSON>;
 export interface TrailMonitorsResponse {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   configSource: string;
   monitors: TrailMonitorsResponseMonitorsList | null;
+}
+export interface ListRunnerRunsRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  /** Page size, clamped to 1..100 */
+  pageSize?: number | undefined;
+  /** Opaque cursor from a prior nextPageToken */
+  pageToken?: string | undefined;
+  /** Only runs attached to this Trail (Trail id, ULID). A pageToken must be reused with the same trail_id. */
+  trail_id?: string | undefined;
+}
+export type RunListItemJSONBillingSubjectType = "org" | "account";
+export interface RunListItemJSONBillingSubject {
+  id: string;
+  type: RunListItemJSONBillingSubjectType;
+}
+/** Every model the run billed, including subagent and background models; null when the stream named none. */
+export type RunListItemJSONModelsUsedList = Array<string>;
+export interface RunListTrailJSON {
+  branch: string;
+  id: string;
+  number: number;
+  title: string;
+}
+export interface RunModelUsageJSON {
+  /** Cache writes, all TTLs combined. */
+  cacheCreationTokens: number;
+  cacheReadTokens: number;
+  inputTokens: number;
+  /** Model these tokens are attributed to; null for an unsplit total across several models or when model attribution is unavailable. */
+  model: string | null;
+  outputTokens: number;
+}
+/** Token usage the agent reported; null until the first report. Runs do not record a per-model split yet, so the list currently holds one entry with the run's unsplit total. Price an entry at its model's rate only when model is set; a null model means an unsplit total across several models or unavailable model attribution. */
+export type RunListItemJSONUsageByModelList = Array<RunModelUsageJSON>;
+export interface RunListItemJSON {
+  agent: string | null;
+  automation: string | null;
+  billingSubject: RunListItemJSONBillingSubject;
+  createdAt: string;
+  credentialSource?: string | undefined;
+  /** Set when the run was refused for billing: billing_trial_ended, billing_credit_exhausted, billing_over_limit, billing_blocked, billing_not_enrolled or billing_no_paid_balance. */
+  errorCode: string | null;
+  errorMessage: string | null;
+  headSha: string | null;
+  id: string;
+  /** Every model the run billed, including subagent and background models; null when the stream named none. */
+  modelsUsed: RunListItemJSONModelsUsedList | null;
+  promptStartedAt: string | null;
+  provisionStartedAt: string | null;
+  queuedAt: string | null;
+  ref: string | null;
+  status: string;
+  trail: RunListTrailJSON;
+  updatedAt: string;
+  /** Token usage the agent reported; null until the first report. Runs do not record a per-model split yet, so the list currently holds one entry with the run's unsplit total. Price an entry at its model's rate only when model is set; a null model means an unsplit total across several models or unavailable model attribution. */
+  usageByModel: RunListItemJSONUsageByModelList | null;
+}
+export type RunsListResponseItemsList = Array<RunListItemJSON>;
+export interface RunsListResponse {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  items: RunsListResponseItemsList | null;
+  nextPageToken: string | null;
+}
+export interface ListRunnerRunsBySlugRequest {
+  /** Forge host slug (gh or et) */
+  host: string;
+  /** Repo owner */
+  owner: string;
+  /** Repo name */
+  repo: string;
+  /** Page size, clamped to 1..100 */
+  pageSize?: number | undefined;
+  /** Opaque cursor from a prior nextPageToken */
+  pageToken?: string | undefined;
+  /** Only runs attached to this Trail (Trail id, ULID). A pageToken must be reused with the same trail_id. */
+  trail_id?: string | undefined;
+}
+export interface ListTrailMonitorsRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  /** Trail number */
+  number: string;
 }
 export type CancelRunnerRunError = EntireOpError;
 /** Cancel a repo's runner run (repo_id addressing) Cancels a run, addressed by opaque repo id. Same admission rules, 409 and repo-scoping 404 as the wire-parity path. */
@@ -324,6 +346,23 @@ export const cancelRunnerRunBySlug: API.OperationMethod<
   span: "CancelRunnerRunBySlug",
 }));
 
+export type GetChangeRunError = EntireOpError;
+/** Latest configured change runner result (repo_id addressing) */
+export const getChangeRun: API.OperationMethod<
+  GetChangeRunRequest,
+  TrailRunResponse,
+  GetChangeRunError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(72, __c9, 0) as any as S.Schema<GetChangeRunRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<TrailRunResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChangeRun",
+}));
+
 export type GetProjectRunnerStatusError = EntireOpError;
 /** Get whether a project's runs are paused Whether runs in the project are currently refused, as core's runner admission would decide for the project. Reading it changes nothing, so it is safe to poll. Billing refusals report paused_by billing without the reason; billing_subject is who pays for the project's runs. A stop scoped to one repo group does not pause the project. */
 export const getProjectRunnerStatus: API.OperationMethod<
@@ -332,8 +371,8 @@ export const getProjectRunnerStatus: API.OperationMethod<
   GetProjectRunnerStatusError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetProjectRunnerStatusRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<RepoRunnerAdmission>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetProjectRunnerStatusRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<RepoRunnerAdmission>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -349,8 +388,8 @@ export const getRepoRunnerAdmission: API.OperationMethod<
   GetRepoRunnerAdmissionError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetRepoRunnerAdmissionRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<RepoRunnerAdmission>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetRepoRunnerAdmissionRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<RepoRunnerAdmission>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -366,8 +405,8 @@ export const getRunnerRun: API.OperationMethod<
   GetRunnerRunError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetRunnerRunRequest>,
-  output: __S(78, __c9, 6) as any as S.Schema<RunDetailResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetRunnerRunRequest>,
+  output: __S(134, __c16, 6) as any as S.Schema<RunDetailResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -383,8 +422,8 @@ export const getRunnerRunBySlug: API.OperationMethod<
   GetRunnerRunBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetRunnerRunBySlugRequest>,
-  output: __S(78, __c9, 6) as any as S.Schema<RunDetailResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetRunnerRunBySlugRequest>,
+  output: __S(134, __c16, 6) as any as S.Schema<RunDetailResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -400,8 +439,8 @@ export const getTrailRun: API.OperationMethod<
   GetTrailRunError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetTrailRunRequest>,
-  output: __S(99, __c12, 3) as any as S.Schema<TrailRunResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetTrailRunRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<TrailRunResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -409,21 +448,55 @@ export const getTrailRun: API.OperationMethod<
   span: "GetTrailRun",
 }));
 
+export type LaunchChangeRunnerError = EntireOpError;
+/** Launch a configured change runner Starts the requested configured trail runner against the trail's current head. Repeating a request while that runner is active returns the existing run with outcome already_in_progress; outcome already_complete means a completed review already covers this head and nothing new launched. A run recorded failed at launch because its prompt is over the 64 KiB launch limit answers 422 with the message the run records. A launch refused for billing (the free trial is used up, a monthly spend limit was reached, or billing is suspended) also answers 422, with a message saying what to do next and a code naming the reason, and records no run. A runner that only declares the push trigger (not api) is refused with 409 unless its own latest run for this trail already failed, timed out, or was canceled -- this route only ever retries a real prior failure for that runner, it never grants it unconditional manual launching -- and that retry is scoped to native review runners (trails_review-enabled); a merged/closed trail or one with no valid head is refused with 422, matching review-rerun's own admission. */
+export const launchChangeRunner: API.OperationMethod<
+  LaunchChangeRunnerRequest,
+  ManualTrailRunnerLaunchBody,
+  LaunchChangeRunnerError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(160, __c20, 0) as any as S.Schema<LaunchChangeRunnerRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<ManualTrailRunnerLaunchBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LaunchChangeRunner",
+}));
+
 export type LaunchTrailRunnerError = EntireOpError;
-/** Launch a configured trail runner Starts the requested configured trail runner against the trail's current head. Repeating a request while that runner is active returns the existing run with outcome already_in_progress; outcome already_complete means a completed review already covers this head and nothing new launched. A run recorded failed at launch without a sandbox answers 422 with the message the run records. That happens when its prompt is over the 64 KiB launch limit, or when the repository's owner has spent Entire's model-key budget and the repository has no key of its own for that agent. A launch refused for billing (the free trial is used up, a monthly spend limit was reached, or billing is suspended) also answers 422, with a message saying what to do next and a code naming the reason, and records no run. A runner that only declares the push trigger (not api) is refused with 409 unless its own latest run for this trail already failed, timed out, or was canceled -- this route only ever retries a real prior failure for that runner, it never grants it unconditional manual launching -- and that retry is scoped to native review runners (trails_review-enabled); a merged/closed trail or one with no valid head is refused with 422, matching review-rerun's own admission. */
+/** Launch a configured trail runner Starts the requested configured trail runner against the trail's current head. Repeating a request while that runner is active returns the existing run with outcome already_in_progress; outcome already_complete means a completed review already covers this head and nothing new launched. A run recorded failed at launch because its prompt is over the 64 KiB launch limit answers 422 with the message the run records. A launch refused for billing (the free trial is used up, a monthly spend limit was reached, or billing is suspended) also answers 422, with a message saying what to do next and a code naming the reason, and records no run. A runner that only declares the push trigger (not api) is refused with 409 unless its own latest run for this trail already failed, timed out, or was canceled -- this route only ever retries a real prior failure for that runner, it never grants it unconditional manual launching -- and that retry is scoped to native review runners (trails_review-enabled); a merged/closed trail or one with no valid head is refused with 422, matching review-rerun's own admission. */
 export const launchTrailRunner: API.OperationMethod<
   LaunchTrailRunnerRequest,
   ManualTrailRunnerLaunchBody,
   LaunchTrailRunnerError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<LaunchTrailRunnerRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<ManualTrailRunnerLaunchBody>,
+  input: __S(176, __c22, 0) as any as S.Schema<LaunchTrailRunnerRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<ManualTrailRunnerLaunchBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LaunchTrailRunner",
+}));
+
+export type ListChangeMonitorsError = EntireOpError;
+/** Change monitor results (repo_id addressing) */
+export const listChangeMonitors: API.OperationMethod<
+  ListChangeMonitorsRequest,
+  TrailMonitorsResponse,
+  ListChangeMonitorsError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(24, __c3, 0) as any as S.Schema<ListChangeMonitorsRequest>,
+  output: __S(37, __c4, 5) as any as S.Schema<TrailMonitorsResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChangeMonitors",
 }));
 
 export type ListRunnerRunsError = EntireOpError;
@@ -436,8 +509,8 @@ export const listRunnerRuns: API.PaginatedOperationMethod<
   RunListItemJSON
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(112, __c14, 0) as any as S.Schema<ListRunnerRunsRequest>,
-    output: __S(125, __c15, 5) as any as S.Schema<RunsListResponse>,
+    input: __S(40, __c5, 0) as any as S.Schema<ListRunnerRunsRequest>,
+    output: __S(53, __c6, 5) as any as S.Schema<RunsListResponse>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -463,8 +536,8 @@ export const listRunnerRunsBySlug: API.PaginatedOperationMethod<
   RunListItemJSON
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(128, __c16, 0) as any as S.Schema<ListRunnerRunsBySlugRequest>,
-    output: __S(125, __c15, 5) as any as S.Schema<RunsListResponse>,
+    input: __S(56, __c7, 0) as any as S.Schema<ListRunnerRunsBySlugRequest>,
+    output: __S(53, __c6, 5) as any as S.Schema<RunsListResponse>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -488,8 +561,8 @@ export const listTrailMonitors: API.OperationMethod<
   ListTrailMonitorsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ListTrailMonitorsRequest>,
-  output: __S(30, __c3, 6) as any as S.Schema<TrailMonitorsResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<ListTrailMonitorsRequest>,
+  output: __S(37, __c4, 5) as any as S.Schema<TrailMonitorsResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -550,12 +623,16 @@ function __c3(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/monitors",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/monitors",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "ListTrailMonitorsRequest" });
-    case 1:
+      ).annotate({ identifier: "ListChangeMonitorsRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           boolean_value: S.NullOr(S.Boolean),
@@ -568,9 +645,9 @@ function __c3(j: number): any {
           updated_at: S.String,
         }),
       ).annotate({ identifier: "TrailMonitorHistoryItemJSON" });
+    case 1:
+      return S.Array(__S(32, __c4, 0));
     case 2:
-      return S.Array(__S(25, __c3, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           failed_at: S.String,
@@ -578,17 +655,17 @@ function __c3(j: number): any {
           run_id: S.String,
         }),
       ).annotate({ identifier: "TrailMonitorFailedAttemptJSON" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           boolean_value: S.NullOr(S.Boolean),
           evaluated_at_sha: S.NullOr(S.String),
           evaluating: S.Boolean,
           head_sha: S.NullOr(S.String),
-          history: S.NullOr(__S(26, __c3, 2)),
+          history: S.NullOr(__S(33, __c4, 1)),
           key: S.String,
           label: S.String,
-          last_failed_attempt: __S(27, __c3, 3),
+          last_failed_attempt: __S(34, __c4, 2),
           outcome: S.NullOr(S.String),
           percent_value: S.NullOr(S.Number),
           polarity: S.NullOr(S.String),
@@ -602,233 +679,19 @@ function __c3(j: number): any {
           value_type: S.String,
         }),
       ).annotate({ identifier: "TrailMonitorItemJSON" });
+    case 4:
+      return S.Array(__S(35, __c4, 3));
     case 5:
-      return S.Array(__S(28, __c3, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           configSource: S.String,
-          monitors: S.NullOr(__S(29, __c3, 5)),
+          monitors: S.NullOr(__S(36, __c4, 4)),
         }),
       ).annotate({ identifier: "TrailMonitorsResponse" });
   }
 }
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          project_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/{host}/{project}/runner-status", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetProjectRunnerStatusRequest" });
-  }
-}
 function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          billing_subject: __S(48, __c6, 0),
-          paused_by: S.NullOr(S.String),
-          runs_paused: S.Boolean,
-        }),
-      ).annotate({ identifier: "RepoRunnerAdmission" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "RepoRunnerAdmissionBillingSubject" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/runner-admission", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetRepoRunnerAdmissionRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          runId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/runner-runs/{runId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetRunnerRunRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          automation: S.String,
-          createdAt: S.String,
-          data: S.Unknown,
-          resultType: S.String,
-        }),
-      ).annotate({ identifier: "RunAutomationResultJSON" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          createdAt: S.String,
-          cursor: S.Number,
-          detail: S.String,
-          kind: S.String,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "RunEventJSON" });
-    case 2:
-      return S.Array(__S(73, __c9, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          prompt: S.NullOr(S.String),
-          queuedAt: S.String,
-          status: S.String,
-        }),
-      ).annotate({ identifier: "RunPromptJSON" });
-    case 4:
-      return S.Array(__S(75, __c9, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          extraArgs: S.NullOr(__S(80, __c10, 0)),
-          model: S.NullOr(S.String),
-          scopeJson: S.Unknown,
-        }),
-      ).annotate({ identifier: "RunDetailRunJSON" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          automationResult: __S(72, __c9, 0),
-          events: S.NullOr(__S(74, __c9, 2)),
-          prompts: S.NullOr(__S(76, __c9, 4)),
-          run: __S(77, __c9, 5),
-        }),
-      ).annotate({ identifier: "RunDetailResponse" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String.pipe(T.Label()),
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          runId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/runner-runs/{host}/{owner}/{repo}/{runId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetRunnerRunBySlugRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-          runnerId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/runs/{runnerId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetTrailRunRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          adapter: S.String,
-          data: S.Unknown,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "RunnerResultJSON" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          createdAt: S.String,
-          errorMessage: S.NullOr(S.String),
-          headSha: S.NullOr(S.String),
-          id: S.String,
-          promptStatus: S.NullOr(S.String),
-          status: S.String,
-          updatedAt: S.String,
-        }),
-      ).annotate({ identifier: "RunnerRunJSON" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          result: __S(97, __c12, 1),
-          run: __S(98, __c12, 2),
-        }),
-      ).annotate({ identifier: "TrailRunResponse" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-          runnerId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/runs/{runnerId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "LaunchTrailRunnerRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          outcome: S.String,
-          runId: S.String,
-        }),
-      ).annotate({ identifier: "ManualTrailRunnerLaunchBody" });
-  }
-}
-function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -841,7 +704,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ListRunnerRunsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -863,43 +726,43 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "RunModelUsageJSON" });
     case 2:
-      return S.Array(__S(121, __c15, 1));
+      return S.Array(__S(49, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           agent: S.NullOr(S.String),
           automation: S.NullOr(S.String),
-          billingSubject: __S(48, __c6, 0),
+          billingSubject: __S(104, __c13, 0),
           createdAt: S.String,
           credentialSource: S.optional(S.String),
           errorCode: S.NullOr(S.String),
           errorMessage: S.NullOr(S.String),
           headSha: S.NullOr(S.String),
           id: S.String,
-          modelsUsed: S.NullOr(__S(80, __c10, 0)),
+          modelsUsed: S.NullOr(__S(136, __c17, 0)),
           promptStartedAt: S.NullOr(S.String),
           provisionStartedAt: S.NullOr(S.String),
           queuedAt: S.NullOr(S.String),
           ref: S.NullOr(S.String),
           status: S.String,
-          trail: __S(120, __c15, 0),
+          trail: __S(48, __c6, 0),
           updatedAt: S.String,
-          usageByModel: S.NullOr(__S(122, __c15, 2)),
+          usageByModel: S.NullOr(__S(50, __c6, 2)),
         }),
       ).annotate({ identifier: "RunListItemJSON" });
     case 4:
-      return S.Array(__S(123, __c15, 3));
+      return S.Array(__S(51, __c6, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          items: S.NullOr(__S(124, __c15, 4)),
+          items: S.NullOr(__S(52, __c6, 4)),
           nextPageToken: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "RunsListResponse" });
   }
 }
-function __c16(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -914,6 +777,281 @@ function __c16(j: number): any {
           T.Http({ method: "GET", uri: "/api/v1/runner-runs/{host}/{owner}/{repo}", code: 200 }),
         ),
       ).annotate({ identifier: "ListRunnerRunsBySlugRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/trails/{number}/monitors",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListTrailMonitorsRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          runnerId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/runs/{runnerId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetChangeRunRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          adapter: S.String,
+          data: S.Unknown,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "RunnerResultJSON" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.String,
+          errorMessage: S.NullOr(S.String),
+          headSha: S.NullOr(S.String),
+          id: S.String,
+          promptStatus: S.NullOr(S.String),
+          status: S.String,
+          updatedAt: S.String,
+        }),
+      ).annotate({ identifier: "RunnerRunJSON" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          result: __S(80, __c10, 0),
+          run: __S(81, __c10, 1),
+        }),
+      ).annotate({ identifier: "TrailRunResponse" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
+          project_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/v1/{host}/{project}/runner-status", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetProjectRunnerStatusRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          billing_subject: __S(104, __c13, 0),
+          paused_by: S.NullOr(S.String),
+          runs_paused: S.Boolean,
+        }),
+      ).annotate({ identifier: "RepoRunnerAdmission" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "RepoRunnerAdmissionBillingSubject" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/runner-admission", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetRepoRunnerAdmissionRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          runId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/runner-runs/{runId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetRunnerRunRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          automation: S.String,
+          createdAt: S.String,
+          data: S.Unknown,
+          resultType: S.String,
+        }),
+      ).annotate({ identifier: "RunAutomationResultJSON" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.String,
+          cursor: S.Number,
+          detail: S.String,
+          kind: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "RunEventJSON" });
+    case 2:
+      return S.Array(__S(129, __c16, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          prompt: S.NullOr(S.String),
+          queuedAt: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "RunPromptJSON" });
+    case 4:
+      return S.Array(__S(131, __c16, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          extraArgs: S.NullOr(__S(136, __c17, 0)),
+          model: S.NullOr(S.String),
+          scopeJson: S.Unknown,
+        }),
+      ).annotate({ identifier: "RunDetailRunJSON" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          automationResult: __S(128, __c16, 0),
+          events: S.NullOr(__S(130, __c16, 2)),
+          prompts: S.NullOr(__S(132, __c16, 4)),
+          run: __S(133, __c16, 5),
+        }),
+      ).annotate({ identifier: "RunDetailResponse" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String.pipe(T.Label()),
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          runId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/runner-runs/{host}/{owner}/{repo}/{runId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetRunnerRunBySlugRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          runnerId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/trails/{number}/runs/{runnerId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetTrailRunRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          runnerId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/runs/{runnerId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "LaunchChangeRunnerRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          outcome: S.String,
+          runId: S.String,
+        }),
+      ).annotate({ identifier: "ManualTrailRunnerLaunchBody" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          runnerId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/repos/{repo_id}/trails/{number}/runs/{runnerId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "LaunchTrailRunnerRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

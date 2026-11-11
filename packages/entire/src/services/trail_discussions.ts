@@ -25,34 +25,43 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export interface CreateTrailDiscussionRequest {
+export interface CreateChangeDiscussionRequest {
   repo_id: string;
   number: string;
   body: string;
-  title?: string;
+  title?: string | undefined;
+}
+export interface ContributorIdentityAgent {
+  /** Agent id (GET .../agents/{id}). */
+  id: string;
+  /** The agent's current name. */
+  name: string;
 }
 export interface AutomationIdentity {
   /** The automation's aut_<ULID> subject, for an automation that is not a plugin installation. */
-  automation_id?: string;
+  automation_id?: string | undefined;
   /** The plugin installation's ins_<ULID> id. */
-  installation_id?: string;
+  installation_id?: string | undefined;
   /** The plugin's slug. */
-  plugin?: string;
+  plugin?: string | undefined;
 }
 export interface IdentityHandle {
   handle: string;
-  is_primary?: boolean;
+  is_primary?: boolean | undefined;
   provider: string;
 }
 export type ContributorIdentityHandlesList = Array<IdentityHandle>;
 export interface ContributorIdentity {
   account_id: string | null;
-  automation?: AutomationIdentity;
+  agent?: ContributorIdentityAgent | undefined;
+  automation?: AutomationIdentity | undefined;
   avatar_url: string | null;
   display_name: string | null;
   handles: ContributorIdentityHandlesList | null;
   kind: string;
-  username?: string;
+  /** The agent run that acted (GET .../runs/{id}). */
+  run_id?: string | undefined;
+  username?: string | undefined;
 }
 export interface TrailDiscussionMessageReplyJSON {
   author: string;
@@ -66,7 +75,7 @@ export interface TrailDiscussionMessageJSON {
   author: string;
   body: string;
   created_at: string;
-  etag?: string;
+  etag?: string | undefined;
   id: string;
   identity: ContributorIdentity;
   replies: TrailDiscussionMessageJSONRepliesList | null;
@@ -74,11 +83,25 @@ export interface TrailDiscussionMessageJSON {
 /** Only on the list route with include_messages=true */
 export type TrailDiscussionSummaryJSONMessagesList = Array<TrailDiscussionMessageJSON>;
 export interface TrailDiscussionParticipantJSON {
-  actor_account_id?: string;
+  actor_account_id?: string | undefined;
   identity: ContributorIdentity;
   login: string;
 }
 export type TrailDiscussionSummaryJSONParticipantsList = Array<TrailDiscussionParticipantJSON>;
+export type ReviewCommentJSONActorIdentityAgent = ContributorIdentityAgent;
+export type ReviewCommentJSONActorIdentityHandlesList = Array<IdentityHandle>;
+export interface ReviewCommentJSONActorIdentity {
+  account_id: string | null;
+  agent?: ContributorIdentityAgent | undefined;
+  automation?: AutomationIdentity | undefined;
+  avatar_url: string | null;
+  display_name: string | null;
+  handles: ReviewCommentJSONActorIdentityHandlesList | null;
+  kind: string;
+  /** The agent run that acted (GET .../runs/{id}). */
+  run_id?: string | undefined;
+  username?: string | undefined;
+}
 /** resolved or dismissed: the agent closed the finding; awaiting_confirmation: a high severity finding stays open until a person closes it; reopened_by_person, already_closed: a person's decision stood; kept: still present. */
 export type ReviewCommentJSONAgentVerdictOutcome =
   | "resolved"
@@ -112,24 +135,33 @@ export interface CommentLocationJSON {
   start_column: number | null;
   start_line: number | null;
 }
-export interface ReviewCommentJSONSourceAgent {
-  /** Agent id (GET .../agents/{id}). */
-  id: string;
-  /** The agent's current name. */
-  name: string;
-}
+export type ReviewCommentJSONSourceAgent = ContributorIdentityAgent;
 export interface ReviewCommentJSONSource {
-  agent: ReviewCommentJSONSourceAgent;
+  agent: ContributorIdentityAgent;
   /** The run that published it (GET .../runs/{id}). */
   run_id: string;
 }
+export type ReviewCommentJSONStatusActorIdentityAgent = ContributorIdentityAgent;
+export type ReviewCommentJSONStatusActorIdentityHandlesList = Array<IdentityHandle>;
+export interface ReviewCommentJSONStatusActorIdentity {
+  account_id: string | null;
+  agent?: ContributorIdentityAgent | undefined;
+  automation?: AutomationIdentity | undefined;
+  avatar_url: string | null;
+  display_name: string | null;
+  handles: ReviewCommentJSONStatusActorIdentityHandlesList | null;
+  kind: string;
+  /** The agent run that acted (GET .../runs/{id}). */
+  run_id?: string | undefined;
+  username?: string | undefined;
+}
 export interface ReviewCommentJSON {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   actor_display_name: string | null;
   actor_id: string | null;
-  actor_identity: ContributorIdentity;
-  agent_verdict?: ReviewCommentJSONAgentVerdict;
+  actor_identity: ReviewCommentJSONActorIdentity;
+  agent_verdict?: ReviewCommentJSONAgentVerdict | undefined;
   body: string | null;
   client_id: string | null;
   client_id_hash: string | null;
@@ -143,14 +175,14 @@ export interface ReviewCommentJSON {
   repo_id: string;
   review_id: string;
   severity: string | null;
-  source?: ReviewCommentJSONSource;
+  source?: ReviewCommentJSONSource | undefined;
   stale_checked_at: string | null;
   stale_checked_code_version_id: string | null;
   stale_outcome: string;
   status: string;
   status_actor_display_name: string | null;
   status_actor_id: string | null;
-  status_actor_identity: ContributorIdentity;
+  status_actor_identity: ReviewCommentJSONStatusActorIdentity;
   status_actor_kind: string | null;
   status_changed_at: string | null;
   status_reason: string | null;
@@ -162,14 +194,14 @@ export interface TrailDiscussionSummaryJSON {
   created_at: string;
   created_by: string | null;
   created_by_identity: ContributorIdentity;
-  etag?: string;
+  etag?: string | undefined;
   id: string;
   kind: string;
   last_message_at: string | null;
   last_message_author: string | null;
   message_count: number;
   /** Only on the list route with include_messages=true */
-  messages?: TrailDiscussionSummaryJSONMessagesList;
+  messages?: TrailDiscussionSummaryJSONMessagesList | undefined;
   participants: TrailDiscussionSummaryJSONParticipantsList | null;
   resolved: boolean;
   resolved_at: string | null;
@@ -183,19 +215,11 @@ export interface TrailDiscussionSummaryJSON {
 }
 export interface TrailDiscussionCreateResponseBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   discussion: TrailDiscussionSummaryJSON;
   message: TrailDiscussionMessageJSON;
 }
-export interface CreateTrailDiscussionBySlugRequest {
-  host: string;
-  owner: string;
-  repo: string;
-  number: string;
-  body: string;
-  title?: string;
-}
-export interface CreateTrailDiscussionMessageRequest {
+export interface CreateChangeDiscussionMessageRequest {
   repo_id: string;
   number: string;
   discussion_id: string;
@@ -203,8 +227,28 @@ export interface CreateTrailDiscussionMessageRequest {
 }
 export interface TrailDiscussionMessageResponseBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   message: TrailDiscussionMessageJSON;
+}
+export interface CreateTrailDiscussionRequest {
+  repo_id: string;
+  number: string;
+  body: string;
+  title?: string | undefined;
+}
+export interface CreateTrailDiscussionBySlugRequest {
+  host: string;
+  owner: string;
+  repo: string;
+  number: string;
+  body: string;
+  title?: string | undefined;
+}
+export interface CreateTrailDiscussionMessageRequest {
+  repo_id: string;
+  number: string;
+  discussion_id: string;
+  body: string;
 }
 export interface CreateTrailDiscussionMessageBySlugRequest {
   host: string;
@@ -214,6 +258,13 @@ export interface CreateTrailDiscussionMessageBySlugRequest {
   discussion_id: string;
   body: string;
 }
+export interface DeleteChangeDiscussionMessageRequest {
+  repo_id: string;
+  number: string;
+  discussion_id: string;
+  message_id: string;
+}
+export interface DeleteChangeDiscussionMessageResponse {}
 export interface DeleteTrailDiscussionMessageRequest {
   repo_id: string;
   number: string;
@@ -230,7 +281,7 @@ export interface DeleteTrailDiscussionMessageBySlugRequest {
   message_id: string;
 }
 export interface DeleteTrailDiscussionMessageBySlugResponse {}
-export interface GetTrailDiscussionRequest {
+export interface GetChangeDiscussionRequest {
   repo_id: string;
   number: string;
   discussion_id: string;
@@ -238,10 +289,15 @@ export interface GetTrailDiscussionRequest {
 export type TrailDiscussionDetailResponseBodyMessagesList = Array<TrailDiscussionMessageJSON>;
 export interface TrailDiscussionDetailResponseBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   discussion: TrailDiscussionSummaryJSON;
   event_cursor: string;
   messages: TrailDiscussionDetailResponseBodyMessagesList | null;
+}
+export interface GetTrailDiscussionRequest {
+  repo_id: string;
+  number: string;
+  discussion_id: string;
 }
 export interface GetTrailDiscussionBySlugRequest {
   host: string;
@@ -250,17 +306,17 @@ export interface GetTrailDiscussionBySlugRequest {
   number: string;
   discussion_id: string;
 }
-export interface ListTrailDiscussionEventsRequest {
+export interface ListChangeDiscussionEventsRequest {
   repo_id: string;
   number: string;
   /** Return events with id strictly greater than this (non-negative integer). */
-  after?: string;
+  after?: string | undefined;
   /** Page size (default 200, capped at 1000). */
-  per_page?: string;
+  per_page?: string | undefined;
   /** text/event-stream streams events as SSE; otherwise a JSON page is returned. */
-  accept?: string;
+  accept?: string | undefined;
   /** SSE resume cursor (falls back to ?after=); non-negative integer. */
-  lastEventID?: string;
+  lastEventID?: string | undefined;
 }
 export interface TrailDiscussionEventJSON {
   actor_id: string;
@@ -275,8 +331,40 @@ export interface TrailDiscussionEventJSON {
 export type TrailDiscussionEventsResponseBodyEventsList = Array<TrailDiscussionEventJSON>;
 export interface TrailDiscussionEventsResponseBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   events: TrailDiscussionEventsResponseBodyEventsList | null;
+}
+export interface ListChangeDiscussionsRequest {
+  /** Repo id: placement ULID or public repo_<group ULID> */
+  repo_id: string;
+  /** Trail number */
+  number: string;
+  /** Page size, clamped to 1..100 */
+  per_page?: number | undefined;
+  /** Opaque cursor from a prior next_cursor */
+  cursor?: string | undefined;
+  /** Embed each discussion's messages, as the detail route returns them */
+  include_messages?: boolean | undefined;
+}
+export type TrailDiscussionsListResponseBodyItemsList = Array<TrailDiscussionSummaryJSON>;
+export interface TrailDiscussionsListResponseBody {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  event_cursor: string;
+  items: TrailDiscussionsListResponseBodyItemsList | null;
+  next_cursor?: string | undefined;
+}
+export interface ListTrailDiscussionEventsRequest {
+  repo_id: string;
+  number: string;
+  /** Return events with id strictly greater than this (non-negative integer). */
+  after?: string | undefined;
+  /** Page size (default 200, capped at 1000). */
+  per_page?: string | undefined;
+  /** text/event-stream streams events as SSE; otherwise a JSON page is returned. */
+  accept?: string | undefined;
+  /** SSE resume cursor (falls back to ?after=); non-negative integer. */
+  lastEventID?: string | undefined;
 }
 export interface ListTrailDiscussionsRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
@@ -284,19 +372,11 @@ export interface ListTrailDiscussionsRequest {
   /** Trail number */
   number: string;
   /** Page size, clamped to 1..100 */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Opaque cursor from a prior next_cursor */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Embed each discussion's messages, as the detail route returns them */
-  include_messages?: boolean;
-}
-export type TrailDiscussionsListResponseBodyItemsList = Array<TrailDiscussionSummaryJSON>;
-export interface TrailDiscussionsListResponseBody {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  event_cursor: string;
-  items: TrailDiscussionsListResponseBodyItemsList | null;
-  next_cursor?: string;
+  include_messages?: boolean | undefined;
 }
 export interface ListTrailDiscussionsBySlugRequest {
   /** Forge host slug (gh or et) */
@@ -308,23 +388,37 @@ export interface ListTrailDiscussionsBySlugRequest {
   /** Trail number */
   number: string;
   /** Page size, clamped to 1..100 */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Opaque cursor from a prior next_cursor */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Embed each discussion's messages, as the detail route returns them */
-  include_messages?: boolean;
+  include_messages?: boolean | undefined;
+}
+export interface UpdateChangeDiscussionRequest {
+  repo_id: string;
+  number: string;
+  discussion_id: string;
+  resolved?: boolean | undefined;
+  title?: string | undefined;
+}
+export interface TrailDiscussionUpdateResponseBody {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  discussion: TrailDiscussionSummaryJSON;
+}
+export interface UpdateChangeDiscussionMessageRequest {
+  repo_id: string;
+  number: string;
+  discussion_id: string;
+  message_id: string;
+  body?: string | undefined;
 }
 export interface UpdateTrailDiscussionRequest {
   repo_id: string;
   number: string;
   discussion_id: string;
-  resolved?: boolean;
-  title?: string;
-}
-export interface TrailDiscussionUpdateResponseBody {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string;
-  discussion: TrailDiscussionSummaryJSON;
+  resolved?: boolean | undefined;
+  title?: string | undefined;
 }
 export interface UpdateTrailDiscussionBySlugRequest {
   host: string;
@@ -332,15 +426,15 @@ export interface UpdateTrailDiscussionBySlugRequest {
   repo: string;
   number: string;
   discussion_id: string;
-  resolved?: boolean;
-  title?: string;
+  resolved?: boolean | undefined;
+  title?: string | undefined;
 }
 export interface UpdateTrailDiscussionMessageRequest {
   repo_id: string;
   number: string;
   discussion_id: string;
   message_id: string;
-  body?: string;
+  body?: string | undefined;
 }
 export interface UpdateTrailDiscussionMessageBySlugRequest {
   host: string;
@@ -349,18 +443,52 @@ export interface UpdateTrailDiscussionMessageBySlugRequest {
   number: string;
   discussion_id: string;
   message_id: string;
-  body?: string;
+  body?: string | undefined;
 }
+export type CreateChangeDiscussionError = EntireOpError;
+/** Change: Start a new discussion (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push OR write_discussions permission (discussions:write for plugin installations). Trails must be enabled. Send requests to the repository's primary API region. Repository discussion authors may be accounts or automations; plugin authors are identified by installation so refreshed tokens retain authorship. Project discussions are account-only. */
+export const createChangeDiscussion: API.OperationMethod<
+  CreateChangeDiscussionRequest,
+  TrailDiscussionCreateResponseBody,
+  CreateChangeDiscussionError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<CreateChangeDiscussionRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<TrailDiscussionCreateResponseBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChangeDiscussion",
+}));
+
+export type CreateChangeDiscussionMessageError = EntireOpError;
+/** Change: Add a message to a discussion (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push OR write_discussions permission (discussions:write for plugin installations). Trails must be enabled. Send requests to the repository's primary API region. Repository discussion authors may be accounts or automations; plugin authors are identified by installation so refreshed tokens retain authorship. Project discussions are account-only. */
+export const createChangeDiscussionMessage: API.OperationMethod<
+  CreateChangeDiscussionMessageRequest,
+  TrailDiscussionMessageResponseBody,
+  CreateChangeDiscussionMessageError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(32, __c4, 0) as any as S.Schema<CreateChangeDiscussionMessageRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<TrailDiscussionMessageResponseBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChangeDiscussionMessage",
+}));
+
 export type CreateTrailDiscussionError = EntireOpError;
-/** Start a new discussion (repo_id addressing) */
+/** Start a new discussion (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push OR write_discussions permission (discussions:write for plugin installations). Trails must be enabled. Send requests to the repository's primary API region. Repository discussion authors may be accounts or automations; plugin authors are identified by installation so refreshed tokens retain authorship. Project discussions are account-only. */
 export const createTrailDiscussion: API.OperationMethod<
   CreateTrailDiscussionRequest,
   TrailDiscussionCreateResponseBody,
   CreateTrailDiscussionError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateTrailDiscussionRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<TrailDiscussionCreateResponseBody>,
+  input: __S(152, __c19, 0) as any as S.Schema<CreateTrailDiscussionRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<TrailDiscussionCreateResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -376,8 +504,8 @@ export const createTrailDiscussionBySlug: API.OperationMethod<
   CreateTrailDiscussionBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<CreateTrailDiscussionBySlugRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<TrailDiscussionCreateResponseBody>,
+  input: __S(184, __c23, 0) as any as S.Schema<CreateTrailDiscussionBySlugRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<TrailDiscussionCreateResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -386,15 +514,15 @@ export const createTrailDiscussionBySlug: API.OperationMethod<
 }));
 
 export type CreateTrailDiscussionMessageError = EntireOpError;
-/** Add a message to a discussion (repo_id addressing) */
+/** Add a message to a discussion (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push OR write_discussions permission (discussions:write for plugin installations). Trails must be enabled. Send requests to the repository's primary API region. Repository discussion authors may be accounts or automations; plugin authors are identified by installation so refreshed tokens retain authorship. Project discussions are account-only. */
 export const createTrailDiscussionMessage: API.OperationMethod<
   CreateTrailDiscussionMessageRequest,
   TrailDiscussionMessageResponseBody,
   CreateTrailDiscussionMessageError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<CreateTrailDiscussionMessageRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<TrailDiscussionMessageResponseBody>,
+  input: __S(192, __c24, 0) as any as S.Schema<CreateTrailDiscussionMessageRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<TrailDiscussionMessageResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -410,8 +538,8 @@ export const createTrailDiscussionMessageBySlug: API.OperationMethod<
   CreateTrailDiscussionMessageBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CreateTrailDiscussionMessageBySlugRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<TrailDiscussionMessageResponseBody>,
+  input: __S(200, __c25, 0) as any as S.Schema<CreateTrailDiscussionMessageBySlugRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<TrailDiscussionMessageResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -419,16 +547,33 @@ export const createTrailDiscussionMessageBySlug: API.OperationMethod<
   span: "CreateTrailDiscussionMessageBySlug",
 }));
 
+export type DeleteChangeDiscussionMessageError = EntireOpError;
+/** Change: Delete a message (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push OR write_discussions permission (discussions:write for plugin installations). Trails must be enabled. Send requests to the repository's primary API region. Repository discussion authors may be accounts or automations; plugin authors are identified by installation so refreshed tokens retain authorship. Project discussions are account-only. Only the author may edit or delete a message; another installation cannot edit it. */
+export const deleteChangeDiscussionMessage: API.OperationMethod<
+  DeleteChangeDiscussionMessageRequest,
+  DeleteChangeDiscussionMessageResponse,
+  DeleteChangeDiscussionMessageError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(208, __c26, 0) as any as S.Schema<DeleteChangeDiscussionMessageRequest>,
+  output: __S(216, __c27, 0) as any as S.Schema<DeleteChangeDiscussionMessageResponse>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChangeDiscussionMessage",
+}));
+
 export type DeleteTrailDiscussionMessageError = EntireOpError;
-/** Delete a message (repo_id addressing) */
+/** Delete a message (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push OR write_discussions permission (discussions:write for plugin installations). Trails must be enabled. Send requests to the repository's primary API region. Repository discussion authors may be accounts or automations; plugin authors are identified by installation so refreshed tokens retain authorship. Project discussions are account-only. Only the author may edit or delete a message; another installation cannot edit it. */
 export const deleteTrailDiscussionMessage: API.OperationMethod<
   DeleteTrailDiscussionMessageRequest,
   DeleteTrailDiscussionMessageResponse,
   DeleteTrailDiscussionMessageError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<DeleteTrailDiscussionMessageRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<DeleteTrailDiscussionMessageResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<DeleteTrailDiscussionMessageRequest>,
+  output: __S(216, __c27, 0) as any as S.Schema<DeleteTrailDiscussionMessageResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -444,8 +589,8 @@ export const deleteTrailDiscussionMessageBySlug: API.OperationMethod<
   DeleteTrailDiscussionMessageBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<DeleteTrailDiscussionMessageBySlugRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<DeleteTrailDiscussionMessageBySlugResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<DeleteTrailDiscussionMessageBySlugRequest>,
+  output: __S(216, __c27, 0) as any as S.Schema<DeleteTrailDiscussionMessageBySlugResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -453,16 +598,33 @@ export const deleteTrailDiscussionMessageBySlug: API.OperationMethod<
   span: "DeleteTrailDiscussionMessageBySlug",
 }));
 
+export type GetChangeDiscussionError = EntireOpError;
+/** Change: Get a discussion and its messages (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. */
+export const getChangeDiscussion: API.OperationMethod<
+  GetChangeDiscussionRequest,
+  TrailDiscussionDetailResponseBody,
+  GetChangeDiscussionError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(240, __c30, 0) as any as S.Schema<GetChangeDiscussionRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<TrailDiscussionDetailResponseBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChangeDiscussion",
+}));
+
 export type GetTrailDiscussionError = EntireOpError;
-/** Get a discussion and its messages (repo_id addressing) */
+/** Get a discussion and its messages (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. */
 export const getTrailDiscussion: API.OperationMethod<
   GetTrailDiscussionRequest,
   TrailDiscussionDetailResponseBody,
   GetTrailDiscussionError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetTrailDiscussionRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<TrailDiscussionDetailResponseBody>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetTrailDiscussionRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<TrailDiscussionDetailResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -478,14 +640,58 @@ export const getTrailDiscussionBySlug: API.OperationMethod<
   GetTrailDiscussionBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetTrailDiscussionBySlugRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<TrailDiscussionDetailResponseBody>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetTrailDiscussionBySlugRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<TrailDiscussionDetailResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTrailDiscussionBySlug",
 }));
+
+export type ListChangeDiscussionEventsError = EntireOpError;
+/** List or stream a change's discussion events (repo_id addressing) */
+export const listChangeDiscussionEvents: API.OperationMethod<
+  ListChangeDiscussionEventsRequest,
+  TrailDiscussionEventsResponseBody,
+  ListChangeDiscussionEventsError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c8, 0) as any as S.Schema<ListChangeDiscussionEventsRequest>,
+  output: __S(74, __c9, 2) as any as S.Schema<TrailDiscussionEventsResponseBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChangeDiscussionEvents",
+}));
+
+export type ListChangeDiscussionsError = EntireOpError;
+/** List a change's discussions (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. */
+export const listChangeDiscussions: API.PaginatedOperationMethod<
+  ListChangeDiscussionsRequest,
+  TrailDiscussionsListResponseBody,
+  ListChangeDiscussionsError,
+  EntireOpContext,
+  TrailDiscussionSummaryJSON
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(80, __c10, 0) as any as S.Schema<ListChangeDiscussionsRequest>,
+    output: __S(89, __c11, 1) as any as S.Schema<TrailDiscussionsListResponseBody>,
+    errors: [UnknownEntireError],
+    protocol: EntireCellProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListChangeDiscussions",
+    pagination: {
+      inputToken: "cursor",
+      outputToken: "next_cursor",
+      items: "items",
+      pageSize: "per_page",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
 
 export type ListTrailDiscussionEventsError = EntireOpError;
 /** List or stream a trail's discussion events (repo_id addressing) */
@@ -495,8 +701,8 @@ export const listTrailDiscussionEvents: API.OperationMethod<
   ListTrailDiscussionEventsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ListTrailDiscussionEventsRequest>,
-  output: __S(323, __c20, 3) as any as S.Schema<TrailDiscussionEventsResponseBody>,
+  input: __S(96, __c12, 0) as any as S.Schema<ListTrailDiscussionEventsRequest>,
+  output: __S(74, __c9, 2) as any as S.Schema<TrailDiscussionEventsResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -505,7 +711,7 @@ export const listTrailDiscussionEvents: API.OperationMethod<
 }));
 
 export type ListTrailDiscussionsError = EntireOpError;
-/** List a trail's discussions (repo_id addressing) */
+/** List a trail's discussions (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. */
 export const listTrailDiscussions: API.PaginatedOperationMethod<
   ListTrailDiscussionsRequest,
   TrailDiscussionsListResponseBody,
@@ -514,8 +720,8 @@ export const listTrailDiscussions: API.PaginatedOperationMethod<
   TrailDiscussionSummaryJSON
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(336, __c21, 0) as any as S.Schema<ListTrailDiscussionsRequest>,
-    output: __S(353, __c22, 1) as any as S.Schema<TrailDiscussionsListResponseBody>,
+    input: __S(104, __c13, 0) as any as S.Schema<ListTrailDiscussionsRequest>,
+    output: __S(89, __c11, 1) as any as S.Schema<TrailDiscussionsListResponseBody>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -541,8 +747,8 @@ export const listTrailDiscussionsBySlug: API.PaginatedOperationMethod<
   TrailDiscussionSummaryJSON
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(80, __c5, 0) as any as S.Schema<ListTrailDiscussionsBySlugRequest>,
-    output: __S(353, __c22, 1) as any as S.Schema<TrailDiscussionsListResponseBody>,
+    input: __S(112, __c14, 0) as any as S.Schema<ListTrailDiscussionsBySlugRequest>,
+    output: __S(89, __c11, 1) as any as S.Schema<TrailDiscussionsListResponseBody>,
     errors: [UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -558,16 +764,50 @@ export const listTrailDiscussionsBySlug: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
+export type UpdateChangeDiscussionError = EntireOpError;
+/** Change: Update a discussion's title/resolved state (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission (contents:write for plugin installations); discussions:write alone is insufficient. Account subjects may retitle or resolve ordinary discussions. Automations may change resolution only for a discussion linked to a code-review comment; ordinary discussion mutations reject automations and code-review titles are read-only. Trails must be enabled. Send requests to the repository's primary API region. */
+export const updateChangeDiscussion: API.OperationMethod<
+  UpdateChangeDiscussionRequest,
+  TrailDiscussionUpdateResponseBody,
+  UpdateChangeDiscussionError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(120, __c15, 0) as any as S.Schema<UpdateChangeDiscussionRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<TrailDiscussionUpdateResponseBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChangeDiscussion",
+}));
+
+export type UpdateChangeDiscussionMessageError = EntireOpError;
+/** Change: Edit a message (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push OR write_discussions permission (discussions:write for plugin installations). Trails must be enabled. Send requests to the repository's primary API region. Repository discussion authors may be accounts or automations; plugin authors are identified by installation so refreshed tokens retain authorship. Project discussions are account-only. Only the author may edit or delete a message; another installation cannot edit it. */
+export const updateChangeDiscussionMessage: API.OperationMethod<
+  UpdateChangeDiscussionMessageRequest,
+  TrailDiscussionMessageResponseBody,
+  UpdateChangeDiscussionMessageError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(136, __c17, 0) as any as S.Schema<UpdateChangeDiscussionMessageRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<TrailDiscussionMessageResponseBody>,
+  errors: [UnknownEntireError],
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChangeDiscussionMessage",
+}));
+
 export type UpdateTrailDiscussionError = EntireOpError;
-/** Update a discussion's title/resolved state (repo_id addressing) */
+/** Update a discussion's title/resolved state (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission (contents:write for plugin installations); discussions:write alone is insufficient. Account subjects may retitle or resolve ordinary discussions. Automations may change resolution only for a discussion linked to a code-review comment; ordinary discussion mutations reject automations and code-review titles are read-only. Trails must be enabled. Send requests to the repository's primary API region. */
 export const updateTrailDiscussion: API.OperationMethod<
   UpdateTrailDiscussionRequest,
   TrailDiscussionUpdateResponseBody,
   UpdateTrailDiscussionError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<UpdateTrailDiscussionRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<TrailDiscussionUpdateResponseBody>,
+  input: __S(144, __c18, 0) as any as S.Schema<UpdateTrailDiscussionRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<TrailDiscussionUpdateResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -583,8 +823,8 @@ export const updateTrailDiscussionBySlug: API.OperationMethod<
   UpdateTrailDiscussionBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<UpdateTrailDiscussionBySlugRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<TrailDiscussionUpdateResponseBody>,
+  input: __S(160, __c20, 0) as any as S.Schema<UpdateTrailDiscussionBySlugRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<TrailDiscussionUpdateResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -593,15 +833,15 @@ export const updateTrailDiscussionBySlug: API.OperationMethod<
 }));
 
 export type UpdateTrailDiscussionMessageError = EntireOpError;
-/** Edit a message (repo_id addressing) */
+/** Edit a message (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push OR write_discussions permission (discussions:write for plugin installations). Trails must be enabled. Send requests to the repository's primary API region. Repository discussion authors may be accounts or automations; plugin authors are identified by installation so refreshed tokens retain authorship. Project discussions are account-only. Only the author may edit or delete a message; another installation cannot edit it. */
 export const updateTrailDiscussionMessage: API.OperationMethod<
   UpdateTrailDiscussionMessageRequest,
   TrailDiscussionMessageResponseBody,
   UpdateTrailDiscussionMessageError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<UpdateTrailDiscussionMessageRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<TrailDiscussionMessageResponseBody>,
+  input: __S(168, __c21, 0) as any as S.Schema<UpdateTrailDiscussionMessageRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<TrailDiscussionMessageResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -617,8 +857,8 @@ export const updateTrailDiscussionMessageBySlug: API.OperationMethod<
   UpdateTrailDiscussionMessageBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<UpdateTrailDiscussionMessageBySlugRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<TrailDiscussionMessageResponseBody>,
+  input: __S(176, __c22, 0) as any as S.Schema<UpdateTrailDiscussionMessageBySlugRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<TrailDiscussionMessageResponseBody>,
   errors: [UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -639,11 +879,11 @@ function __c0(j: number): any {
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/discussions",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/discussions",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreateTrailDiscussionRequest" });
+      ).annotate({ identifier: "CreateChangeDiscussionRequest" });
   }
 }
 function __c1(j: number): any {
@@ -651,16 +891,11 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          discussion: __S(56, __c3, 8),
-          message: __S(38, __c2, 6),
+          id: S.String,
+          name: S.String,
         }),
-      ).annotate({ identifier: "TrailDiscussionCreateResponseBody" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
+      ).annotate({ identifier: "ContributorIdentityAgent" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           automation_id: S.optional(S.String),
@@ -668,7 +903,7 @@ function __c2(j: number): any {
           plugin: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutomationIdentity" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           handle: S.String,
@@ -676,33 +911,35 @@ function __c2(j: number): any {
           provider: S.String,
         }),
       ).annotate({ identifier: "IdentityHandle" });
-    case 2:
-      return S.Array(__S(33, __c2, 1));
     case 3:
+      return S.Array(__S(10, __c1, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           account_id: S.NullOr(S.String),
-          automation: S.optional(__S(32, __c2, 0)),
+          agent: S.optional(__S(8, __c1, 0)),
+          automation: S.optional(__S(9, __c1, 1)),
           avatar_url: S.NullOr(S.String),
           display_name: S.NullOr(S.String),
-          handles: S.NullOr(__S(34, __c2, 2)),
+          handles: S.NullOr(__S(11, __c1, 3)),
           kind: S.String,
+          run_id: S.optional(S.String),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContributorIdentity" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           author: S.String,
           body: S.String,
           created_at: S.String,
           id: S.String,
-          identity: __S(35, __c2, 3),
+          identity: __S(12, __c1, 4),
         }),
       ).annotate({ identifier: "TrailDiscussionMessageReplyJSON" });
-    case 5:
-      return S.Array(__S(36, __c2, 4));
     case 6:
+      return S.Array(__S(13, __c1, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           author: S.String,
@@ -710,26 +947,38 @@ function __c2(j: number): any {
           created_at: S.String,
           etag: S.optional(S.String),
           id: S.String,
-          identity: __S(35, __c2, 3),
-          replies: S.NullOr(__S(37, __c2, 5)),
+          identity: __S(12, __c1, 4),
+          replies: S.NullOr(__S(14, __c1, 6)),
         }),
       ).annotate({ identifier: "TrailDiscussionMessageJSON" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          discussion: __S(31, __c3, 7),
+          message: __S(15, __c1, 7),
+        }),
+      ).annotate({ identifier: "TrailDiscussionCreateResponseBody" });
   }
 }
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(38, __c2, 6));
+      return S.Array(__S(15, __c1, 7));
     case 1:
       return S.suspend(() =>
         S.Struct({
           actor_account_id: S.optional(S.String),
-          identity: __S(35, __c2, 3),
+          identity: __S(12, __c1, 4),
           login: S.String,
         }),
       ).annotate({ identifier: "TrailDiscussionParticipantJSON" });
     case 2:
-      return S.Array(__S(49, __c3, 1));
+      return S.Array(__S(25, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -760,25 +1009,18 @@ function __c3(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          id: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "ReviewCommentJSONSourceAgent" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          agent: __S(53, __c3, 5),
+          agent: __S(8, __c1, 0),
           run_id: S.String,
         }),
       ).annotate({ identifier: "ReviewCommentJSONSource" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           actor_display_name: S.NullOr(S.String),
           actor_id: S.NullOr(S.String),
-          actor_identity: __S(35, __c2, 3),
-          agent_verdict: S.optional(__S(51, __c3, 3)),
+          actor_identity: __S(12, __c1, 4),
+          agent_verdict: S.optional(__S(27, __c3, 3)),
           body: S.NullOr(S.String),
           client_id: S.NullOr(S.String),
           client_id_hash: S.NullOr(S.String),
@@ -788,18 +1030,18 @@ function __c3(j: number): any {
           discussion_id: S.NullOr(S.String),
           discussion_message_count: S.Number,
           id: S.String,
-          location: __S(52, __c3, 4),
+          location: __S(28, __c3, 4),
           repo_id: S.String,
           review_id: S.String,
           severity: S.NullOr(S.String),
-          source: S.optional(__S(54, __c3, 6)),
+          source: S.optional(__S(29, __c3, 5)),
           stale_checked_at: S.NullOr(S.String),
           stale_checked_code_version_id: S.NullOr(S.String),
           stale_outcome: S.String,
           status: S.String,
           status_actor_display_name: S.NullOr(S.String),
           status_actor_id: S.NullOr(S.String),
-          status_actor_identity: __S(35, __c2, 3),
+          status_actor_identity: __S(12, __c1, 4),
           status_actor_kind: S.NullOr(S.String),
           status_changed_at: S.NullOr(S.String),
           status_reason: S.NullOr(S.String),
@@ -808,25 +1050,25 @@ function __c3(j: number): any {
           updated_at: S.String,
         }),
       ).annotate({ identifier: "ReviewCommentJSON" });
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           created_at: S.String,
           created_by: S.NullOr(S.String),
-          created_by_identity: __S(35, __c2, 3),
+          created_by_identity: __S(12, __c1, 4),
           etag: S.optional(S.String),
           id: S.String,
           kind: S.String,
           last_message_at: S.NullOr(S.String),
           last_message_author: S.NullOr(S.String),
           message_count: S.Number,
-          messages: S.optional(__S(48, __c3, 0)),
-          participants: S.NullOr(__S(50, __c3, 2)),
+          messages: S.optional(__S(24, __c3, 0)),
+          participants: S.NullOr(__S(26, __c3, 2)),
           resolved: S.Boolean,
           resolved_at: S.NullOr(S.String),
           resolved_by: S.NullOr(S.String),
-          resolved_by_identity: __S(35, __c2, 3),
-          review_comment: __S(55, __c3, 7),
+          resolved_by_identity: __S(12, __c1, 4),
+          review_comment: __S(30, __c3, 6),
           review_comment_id: S.NullOr(S.String),
           title: S.String,
           trail_id: S.String,
@@ -840,23 +1082,193 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          discussion_id: S.String.pipe(T.Label()),
+          body: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/discussions/{discussion_id}/messages",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateChangeDiscussionMessageRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          message: __S(15, __c1, 7),
+        }),
+      ).annotate({ identifier: "TrailDiscussionMessageResponseBody" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          discussion_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/trails/{number}/discussions/{discussion_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetTrailDiscussionRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           host: S.String.pipe(T.Label()),
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           number: S.String.pipe(T.Label()),
-          body: S.String,
-          title: S.optional(S.String),
+          discussion_id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "POST",
-            uri: "/api/v1/trails/{host}/{owner}/{repo}/{number}/discussions",
+            method: "GET",
+            uri: "/api/v1/trails/{host}/{owner}/{repo}/{number}/discussions/{discussion_id}",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreateTrailDiscussionBySlugRequest" });
+      ).annotate({ identifier: "GetTrailDiscussionBySlugRequest" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          after: S.optional(S.String.pipe(T.Query())),
+          per_page: S.optional(S.String.pipe(T.Query())),
+          accept: S.optional(S.String.pipe(T.Header("Accept"))),
+          lastEventID: S.optional(S.String.pipe(T.Header("Last-Event-ID"))),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/discussions/stream",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListChangeDiscussionEventsRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          actor_id: S.String,
+          created_at: S.String,
+          discussion_id: S.NullOr(S.String),
+          event_type: S.String,
+          id: S.String,
+          payload: S.Unknown,
+          target_id: S.String,
+          trail_id: S.String,
+        }),
+      ).annotate({ identifier: "TrailDiscussionEventJSON" });
+    case 1:
+      return S.Array(__S(72, __c9, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          events: S.NullOr(__S(73, __c9, 1)),
+        }),
+      ).annotate({ identifier: "TrailDiscussionEventsResponseBody" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          per_page: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          include_messages: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/discussions",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListChangeDiscussionsRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(31, __c3, 7));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          event_cursor: S.String,
+          items: S.NullOr(__S(88, __c11, 0)),
+          next_cursor: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TrailDiscussionsListResponseBody" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          after: S.optional(S.String.pipe(T.Query())),
+          per_page: S.optional(S.String.pipe(T.Query())),
+          accept: S.optional(S.String.pipe(T.Header("Accept"))),
+          lastEventID: S.optional(S.String.pipe(T.Header("Last-Event-ID"))),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/trails/{number}/discussions/stream",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListTrailDiscussionEventsRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          per_page: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          include_messages: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/trails/{number}/discussions",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListTrailDiscussionsRequest" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -878,7 +1290,58 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ListTrailDiscussionsBySlugRequest" });
   }
 }
-function __c6(j: number): any {
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          discussion_id: S.String.pipe(T.Label()),
+          resolved: S.optional(S.Boolean),
+          title: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/discussions/{discussion_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateChangeDiscussionRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          discussion: __S(31, __c3, 7),
+        }),
+      ).annotate({ identifier: "TrailDiscussionUpdateResponseBody" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          discussion_id: S.String.pipe(T.Label()),
+          message_id: S.String.pipe(T.Label()),
+          body: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/discussions/{discussion_id}/messages/{message_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateChangeDiscussionMessageRequest" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -898,18 +1361,26 @@ function __c6(j: number): any {
       ).annotate({ identifier: "UpdateTrailDiscussionRequest" });
   }
 }
-function __c7(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          discussion: __S(56, __c3, 8),
-        }),
-      ).annotate({ identifier: "TrailDiscussionUpdateResponseBody" });
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          body: S.String,
+          title: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/repos/{repo_id}/trails/{number}/discussions",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateTrailDiscussionRequest" });
   }
 }
-function __c8(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -931,7 +1402,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "UpdateTrailDiscussionBySlugRequest" });
   }
 }
-function __c9(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -951,7 +1422,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "UpdateTrailDiscussionMessageRequest" });
   }
 }
-function __c10(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -973,7 +1444,28 @@ function __c10(j: number): any {
       ).annotate({ identifier: "UpdateTrailDiscussionMessageBySlugRequest" });
   }
 }
-function __c11(j: number): any {
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String.pipe(T.Label()),
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          body: S.String,
+          title: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/trails/{host}/{owner}/{repo}/{number}/discussions",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateTrailDiscussionBySlugRequest" });
+  }
+}
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -992,18 +1484,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateTrailDiscussionMessageRequest" });
   }
 }
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          message: __S(38, __c2, 6),
-        }),
-      ).annotate({ identifier: "TrailDiscussionMessageResponseBody" });
-  }
-}
-function __c13(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1024,7 +1505,34 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateTrailDiscussionMessageBySlugRequest" });
   }
 }
-function __c14(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          discussion_id: S.String.pipe(T.Label()),
+          message_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/discussions/{discussion_id}/messages/{message_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteChangeDiscussionMessageRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "DeleteChangeDiscussionMessageResponse",
+      });
+  }
+}
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1043,15 +1551,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteTrailDiscussionMessageRequest" });
   }
 }
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "DeleteTrailDiscussionMessageResponse",
-      });
-  }
-}
-function __c16(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1072,7 +1572,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteTrailDiscussionMessageBySlugRequest" });
   }
 }
-function __c17(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1083,122 +1583,24 @@ function __c17(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/discussions/{discussion_id}",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/discussions/{discussion_id}",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "GetTrailDiscussionRequest" });
+      ).annotate({ identifier: "GetChangeDiscussionRequest" });
   }
 }
-function __c18(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          discussion: __S(56, __c3, 8),
+          discussion: __S(31, __c3, 7),
           event_cursor: S.String,
-          messages: S.NullOr(__S(48, __c3, 0)),
+          messages: S.NullOr(__S(24, __c3, 0)),
         }),
       ).annotate({ identifier: "TrailDiscussionDetailResponseBody" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String.pipe(T.Label()),
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-          discussion_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/trails/{host}/{owner}/{repo}/{number}/discussions/{discussion_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetTrailDiscussionBySlugRequest" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-          after: S.optional(S.String.pipe(T.Query())),
-          per_page: S.optional(S.String.pipe(T.Query())),
-          accept: S.optional(S.String.pipe(T.Header("Accept"))),
-          lastEventID: S.optional(S.String.pipe(T.Header("Last-Event-ID"))),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/discussions/stream",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListTrailDiscussionEventsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          actor_id: S.String,
-          created_at: S.String,
-          discussion_id: S.NullOr(S.String),
-          event_type: S.String,
-          id: S.String,
-          payload: S.Unknown,
-          target_id: S.String,
-          trail_id: S.String,
-        }),
-      ).annotate({ identifier: "TrailDiscussionEventJSON" });
-    case 2:
-      return S.Array(__S(321, __c20, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          events: S.NullOr(__S(322, __c20, 2)),
-        }),
-      ).annotate({ identifier: "TrailDiscussionEventsResponseBody" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-          per_page: S.optional(S.Number.pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          include_messages: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/discussions",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListTrailDiscussionsRequest" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(56, __c3, 8));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          event_cursor: S.String,
-          items: S.NullOr(__S(352, __c22, 0)),
-          next_cursor: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TrailDiscussionsListResponseBody" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

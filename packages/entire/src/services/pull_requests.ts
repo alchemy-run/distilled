@@ -30,7 +30,7 @@ export type ListCachedOpenPRsRequestIncludeList = Array<
 >;
 export interface ListCachedOpenPRsRequest {
   /** Extra computed fields to include; supported: activity */
-  include?: ListCachedOpenPRsRequestIncludeList;
+  include?: ListCachedOpenPRsRequestIncludeList | undefined;
 }
 export interface PRListItem {
   created_at: string;
@@ -46,7 +46,7 @@ export interface PRListItem {
 export type PRsListOutputBodyPrsList = Array<PRListItem>;
 export interface PRsListOutputBody {
   /** A URL to the JSON Schema for this object. */
-  _schema?: string;
+  _schema?: string | undefined;
   from_db: boolean;
   prs: PRsListOutputBodyPrsList | null;
   updated_at: string;
