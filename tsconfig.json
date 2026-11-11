@@ -141,6 +141,13 @@
       "path": "./packages/neon/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/netbird/tsconfig.json"
+    },
+    { "path": "./packages/netbird/tsconfig.test.json" },
+    {
+      "path": "./packages/netbird/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/planetscale/tsconfig.json"
     },
     {
@@ -300,6 +307,12 @@
     },
     {
       "path": "./packages/resend/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/revenuecat/tsconfig.json"
+    },
+    {
+      "path": "./packages/revenuecat/tsconfig.scripts.json"
     },
     {
       "path": "./packages/surrealdb/tsconfig.json"
@@ -604,6 +617,12 @@
       "path": "./packages/e2b/tsconfig.scripts.json"
     },
     { "path": "./packages/e2b/tsconfig.test.json" },
+    {
+      "path": "./packages/steel/tsconfig.json"
+    },
+    {
+      "path": "./packages/steel/tsconfig.scripts.json"
+    },
     {
       "path": "./packages/boat-dev/tsconfig.json"
     },
