@@ -309,6 +309,12 @@
       "path": "./packages/resend/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/revenuecat/tsconfig.json"
+    },
+    {
+      "path": "./packages/revenuecat/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/surrealdb/tsconfig.json"
     },
     {
