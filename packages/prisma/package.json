@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/prisma",
-  "version": "1.0.0-rc.17",
+  "version": "1.0.0-rc.18",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -78,7 +78,8 @@
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-prisma-postgres"
   },
   "dependencies": {
-    "@distilled.cloud/core": "workspace:*"
+    "@distilled.cloud/core": "workspace:*",
+    "@distilled.cloud/s3": "workspace:*"
   },
   "devDependencies": {
     "@distilled.cloud/dev": "workspace:*",
@@ -88,7 +89,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-29",
-    "specUpdatedAt": "2026-10-29"
+    "generatedAt": "2026-11-10",
+    "specUpdatedAt": "2026-11-07"
   }
 }

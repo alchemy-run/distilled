@@ -74,7 +74,7 @@ export interface ActivatePromoCodeRequest {
   /** Promo code ID (`promo_` tag). */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface AccountSummary {
   /** Account ID, prefixed `biz_`. */
@@ -327,26 +327,26 @@ export interface CreatePromoCodeRequest {
   account_id: string;
   amount_off: number;
   base_currency: CreatePromoCodeRequestBaseCurrency | (string & {});
-  churned_users_only?: boolean;
+  churned_users_only?: boolean | undefined;
   code: string;
-  existing_memberships_only?: boolean;
-  expires_at?: string | null;
+  existing_memberships_only?: boolean | undefined;
+  expires_at?: string | null | undefined;
   new_users_only: boolean;
-  one_per_customer?: boolean;
-  plan_ids?: CreatePromoCodeRequestPlanIdsList;
-  product_id?: string | null;
+  one_per_customer?: boolean | undefined;
+  plan_ids?: CreatePromoCodeRequestPlanIdsList | undefined;
+  product_id?: string | null | undefined;
   promo_duration_months: number;
   promo_type: CreatePromoCodeRequestPromoType | (string & {});
-  stock?: number | null;
-  unlimited_stock?: boolean;
+  stock?: number | null | undefined;
+  unlimited_stock?: boolean | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface DeactivatePromoCodeRequest {
   /** Promo code ID (`promo_` tag). */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface DeletePromoCodeRequest {
   /** Promo code ID (`promo_` tag). */
@@ -369,27 +369,27 @@ export interface ListPromoCodesRequest {
   /** Account whose promo codes are listed (`biz_` tag). */
   account_id: string;
   /** Promo-code status. `expired` groups inactive and archived codes. */
-  status?: ListPromoCodesRequestStatus | (string & {});
+  status?: ListPromoCodesRequestStatus | (string & {}) | undefined;
   /** Only promo codes scoped to these product IDs. */
-  product_ids?: ListPromoCodesRequestProductIdsList;
+  product_ids?: ListPromoCodesRequestProductIdsList | undefined;
   /** Only promo codes scoped to these plan IDs. */
-  plan_ids?: ListPromoCodesRequestPlanIdsList;
+  plan_ids?: ListPromoCodesRequestPlanIdsList | undefined;
   /** Only promo codes created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only promo codes created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Sort field. */
-  order?: ListPromoCodesRequestOrder | (string & {});
+  order?: ListPromoCodesRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListPromoCodesRequestDirection | (string & {});
+  direction?: ListPromoCodesRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 /** Currency used for a fixed-amount discount. */
 export type PromoCodeListItemCurrency =

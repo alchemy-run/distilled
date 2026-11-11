@@ -41,13 +41,18 @@ export interface CreateNetworkConfigurationForOrgRequest {
   /** Name of the network configuration. Must be between 1 and 100 characters and may only contain upper and lowercase letters a-z, numbers 0-9, '.', '-', and '_'. */
   name: string;
   /** The hosted compute service to use for the network configuration. */
-  compute_service?: CreateNetworkConfigurationForOrgRequestComputeService | (string & {});
+  compute_service?:
+    | CreateNetworkConfigurationForOrgRequestComputeService
+    | (string & {})
+    | undefined;
   /** A list of identifiers of the network settings resources to use for the network configuration. Exactly one resource identifier must be specified in the list. */
   network_settings_ids: CreateNetworkConfigurationForOrgRequestNetworkSettingsIdsList;
   /** A list of identifiers of the failover network settings resources to use for the network configuration. Exactly one resource identifier must be specified in the list. */
-  failover_network_settings_ids?: CreateNetworkConfigurationForOrgRequestFailoverNetworkSettingsIdsList;
+  failover_network_settings_ids?:
+    | CreateNetworkConfigurationForOrgRequestFailoverNetworkSettingsIdsList
+    | undefined;
   /** Indicates whether the failover network resource is enabled. */
-  failover_network_enabled?: boolean;
+  failover_network_enabled?: boolean | undefined;
 }
 /** The hosted compute service the network configuration supports. */
 export type NetworkConfigurationComputeService = "none" | "actions" | "codespaces";
@@ -62,13 +67,13 @@ export interface NetworkConfiguration {
   /** The name of the network configuration. */
   name: string;
   /** The hosted compute service the network configuration supports. */
-  compute_service?: NetworkConfigurationComputeService;
+  compute_service?: NetworkConfigurationComputeService | undefined;
   /** The unique identifier of each network settings in the configuration. */
-  network_settings_ids?: NetworkConfigurationNetworkSettingsIdsList;
+  network_settings_ids?: NetworkConfigurationNetworkSettingsIdsList | undefined;
   /** The unique identifier of each failover network settings in the configuration. */
-  failover_network_settings_ids?: NetworkConfigurationFailoverNetworkSettingsIdsList;
+  failover_network_settings_ids?: NetworkConfigurationFailoverNetworkSettingsIdsList | undefined;
   /** Indicates whether the failover network resource is enabled. */
-  failover_network_enabled?: boolean;
+  failover_network_enabled?: boolean | undefined;
   /** The time at which the network configuration was created, in ISO 8601 format. */
   created_on: string | null;
 }
@@ -96,7 +101,7 @@ export interface NetworkSettings {
   /** The unique identifier of the network settings resource. */
   id: string;
   /** The identifier of the network configuration that is using this settings resource. */
-  network_configuration_id?: string;
+  network_configuration_id?: string | undefined;
   /** The name of the network settings resource. */
   name: string;
   /** The subnet this network settings resource is configured for. */
@@ -108,9 +113,9 @@ export interface ListNetworkConfigurationsForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListNetworkConfigurationsForOrgResponseNetworkConfigurationsList =
   Array<NetworkConfiguration>;
@@ -130,15 +135,20 @@ export interface UpdateNetworkConfigurationForOrgRequest {
   /** Unique identifier of the hosted compute network configuration. */
   network_configuration_id: string;
   /** Name of the network configuration. Must be between 1 and 100 characters and may only contain upper and lowercase letters a-z, numbers 0-9, '.', '-', and '_'. */
-  name?: string;
+  name?: string | undefined;
   /** The hosted compute service to use for the network configuration. */
-  compute_service?: UpdateNetworkConfigurationForOrgRequestComputeService | (string & {});
+  compute_service?:
+    | UpdateNetworkConfigurationForOrgRequestComputeService
+    | (string & {})
+    | undefined;
   /** A list of identifiers of the network settings resources to use for the network configuration. Exactly one resource identifier must be specified in the list. */
-  network_settings_ids?: UpdateNetworkConfigurationForOrgRequestNetworkSettingsIdsList;
+  network_settings_ids?: UpdateNetworkConfigurationForOrgRequestNetworkSettingsIdsList | undefined;
   /** A list of identifiers of the failover network settings resources to use for the network configuration. Exactly one resource identifier must be specified in the list. */
-  failover_network_settings_ids?: UpdateNetworkConfigurationForOrgRequestFailoverNetworkSettingsIdsList;
+  failover_network_settings_ids?:
+    | UpdateNetworkConfigurationForOrgRequestFailoverNetworkSettingsIdsList
+    | undefined;
   /** Indicates whether the failover network resource is enabled. */
-  failover_network_enabled?: boolean;
+  failover_network_enabled?: boolean | undefined;
 }
 export type CreateNetworkConfigurationForOrgError = GithubOpError;
 /** Create a hosted compute network configuration for an organization Creates a hosted compute network configuration for an organization. OAuth app tokens and personal access tokens (classic) need the `write:network_configurations` scope to use this endpoint. */

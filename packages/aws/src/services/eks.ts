@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -238,7 +239,7 @@ export class UnsupportedAvailabilityZoneException
 export interface ActivateCertificateAuthorityRequest {
   clusterName: string;
   certificateAuthorityId: string;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
 }
 export type UpdateStatus = "InProgress" | "Failed" | "Cancelled" | "Successful" | (string & {});
 export type UpdateType =
@@ -311,6 +312,8 @@ export type UpdateParamType =
   | "VendedLogs"
   | "UpdatedTier"
   | "PreviousTier"
+  | "EnableCrossNamespace"
+  | "DisabledServices"
   | "WarmPoolEnabled"
   | "WarmPoolMaxGroupPreparedCapacity"
   | "WarmPoolMinSize"
@@ -326,8 +329,8 @@ export type UpdateParamType =
   | "SigningStatus"
   | (string & {});
 export interface UpdateParam {
-  type?: UpdateParamType;
-  value?: string;
+  type?: UpdateParamType | undefined;
+  value?: string | undefined;
 }
 export type UpdateParams = UpdateParam[];
 export type ErrorCode =
@@ -351,24 +354,24 @@ export type ErrorCode =
   | (string & {});
 export type StringList = string[];
 export interface ErrorDetail {
-  errorCode?: ErrorCode;
-  errorMessage?: string;
-  resourceIds?: string[];
+  errorCode?: ErrorCode | undefined;
+  errorMessage?: string | undefined;
+  resourceIds?: string[] | undefined;
 }
 export type ErrorDetails = ErrorDetail[];
 export type CancellationStatus = "InProgress" | "Failed" | "Successful" | (string & {});
 export interface Cancellation {
-  status?: CancellationStatus;
-  reason?: string;
+  status?: CancellationStatus | undefined;
+  reason?: string | undefined;
 }
 export interface Update {
-  id?: string;
-  status?: UpdateStatus;
-  type?: UpdateType;
-  params?: UpdateParam[];
-  createdAt?: Date;
-  errors?: ErrorDetail[];
-  cancellation?: Cancellation;
+  id?: string | undefined;
+  status?: UpdateStatus | undefined;
+  type?: UpdateType | undefined;
+  params?: UpdateParam[] | undefined;
+  createdAt?: Date | undefined;
+  errors?: ErrorDetail[] | undefined;
+  cancellation?: Cancellation | undefined;
 }
 export type CertificateAuthorityCreatedBy = "EKS" | "CUSTOMER" | (string & {});
 export type CertificateAuthorityActivatedBy = "EKS" | "CUSTOMER" | (string & {});
@@ -384,22 +387,22 @@ export type CertificateAuthorityDistributionStatus =
   | "DELETING"
   | (string & {});
 export interface CertificateAuthoritySummary {
-  id?: string;
-  createdAt?: Date;
-  createdBy?: CertificateAuthorityCreatedBy;
-  activatedAt?: Date;
-  activatedBy?: CertificateAuthorityActivatedBy;
-  signingStatus?: CertificateAuthoritySigningStatus;
-  distributionStatus?: CertificateAuthorityDistributionStatus;
+  id?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: CertificateAuthorityCreatedBy | undefined;
+  activatedAt?: Date | undefined;
+  activatedBy?: CertificateAuthorityActivatedBy | undefined;
+  signingStatus?: CertificateAuthoritySigningStatus | undefined;
+  distributionStatus?: CertificateAuthorityDistributionStatus | undefined;
 }
 export interface ActivateCertificateAuthorityResponse {
-  update?: Update;
-  certificateAuthority?: CertificateAuthoritySummary;
+  update?: Update | undefined;
+  certificateAuthority?: CertificateAuthoritySummary | undefined;
 }
 export type AccessScopeType = "cluster" | "namespace" | (string & {});
 export interface AccessScope {
-  type?: AccessScopeType;
-  namespaces?: string[];
+  type?: AccessScopeType | undefined;
+  namespaces?: string[] | undefined;
 }
 export interface AssociateAccessPolicyRequest {
   clusterName: string;
@@ -408,31 +411,31 @@ export interface AssociateAccessPolicyRequest {
   accessScope: AccessScope;
 }
 export interface AssociatedAccessPolicy {
-  policyArn?: string;
-  accessScope?: AccessScope;
-  associatedAt?: Date;
-  modifiedAt?: Date;
+  policyArn?: string | undefined;
+  accessScope?: AccessScope | undefined;
+  associatedAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
 }
 export interface AssociateAccessPolicyResponse {
-  clusterName?: string;
-  principalArn?: string;
-  associatedAccessPolicy?: AssociatedAccessPolicy;
+  clusterName?: string | undefined;
+  principalArn?: string | undefined;
+  associatedAccessPolicy?: AssociatedAccessPolicy | undefined;
 }
 export interface Provider {
-  keyArn?: string;
+  keyArn?: string | undefined;
 }
 export interface EncryptionConfig {
-  resources?: string[];
-  provider?: Provider;
+  resources?: string[] | undefined;
+  provider?: Provider | undefined;
 }
 export type EncryptionConfigList = EncryptionConfig[];
 export interface AssociateEncryptionConfigRequest {
   clusterName: string;
   encryptionConfig: EncryptionConfig[];
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
 }
 export interface AssociateEncryptionConfigResponse {
-  update?: Update;
+  update?: Update | undefined;
 }
 export type RequiredClaimsKey = string;
 export type RequiredClaimsValue = string;
@@ -441,11 +444,11 @@ export interface OidcIdentityProviderConfigRequest {
   identityProviderConfigName: string;
   issuerUrl: string;
   clientId: string;
-  usernameClaim?: string;
-  usernamePrefix?: string;
-  groupsClaim?: string;
-  groupsPrefix?: string;
-  requiredClaims?: { [key: string]: string | undefined };
+  usernameClaim?: string | undefined;
+  usernamePrefix?: string | undefined;
+  groupsClaim?: string | undefined;
+  groupsPrefix?: string | undefined;
+  requiredClaims?: { [key: string]: string | undefined } | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -453,43 +456,43 @@ export type TagMap = { [key: string]: string | undefined };
 export interface AssociateIdentityProviderConfigRequest {
   clusterName: string;
   oidc: OidcIdentityProviderConfigRequest;
-  tags?: { [key: string]: string | undefined };
-  clientRequestToken?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientRequestToken?: string | undefined;
 }
 export interface AssociateIdentityProviderConfigResponse {
-  update?: Update;
-  tags?: { [key: string]: string | undefined };
+  update?: Update | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CancelUpdateRequest {
   name: string;
   updateId: string;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
 }
 export interface CancelUpdateResponse {
-  update?: Update;
+  update?: Update | undefined;
 }
 export interface CreateAccessEntryRequest {
   clusterName: string;
   principalArn: string;
-  kubernetesGroups?: string[];
-  tags?: { [key: string]: string | undefined };
-  clientRequestToken?: string;
-  username?: string;
-  type?: string;
+  kubernetesGroups?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientRequestToken?: string | undefined;
+  username?: string | undefined;
+  type?: string | undefined;
 }
 export interface AccessEntry {
-  clusterName?: string;
-  principalArn?: string;
-  kubernetesGroups?: string[];
-  accessEntryArn?: string;
-  createdAt?: Date;
-  modifiedAt?: Date;
-  tags?: { [key: string]: string | undefined };
-  username?: string;
-  type?: string;
+  clusterName?: string | undefined;
+  principalArn?: string | undefined;
+  kubernetesGroups?: string[] | undefined;
+  accessEntryArn?: string | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  username?: string | undefined;
+  type?: string | undefined;
 }
 export interface CreateAccessEntryResponse {
-  accessEntry?: AccessEntry;
+  accessEntry?: AccessEntry | undefined;
 }
 export type ClusterName = string;
 export type RoleArn = string;
@@ -501,19 +504,19 @@ export interface AddonPodIdentityAssociations {
 export type AddonPodIdentityAssociationsList = AddonPodIdentityAssociations[];
 export type Namespace = string;
 export interface AddonNamespaceConfigRequest {
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export interface CreateAddonRequest {
   clusterName: string;
   addonName: string;
-  addonVersion?: string;
-  serviceAccountRoleArn?: string;
-  resolveConflicts?: ResolveConflicts;
-  clientRequestToken?: string;
-  tags?: { [key: string]: string | undefined };
-  configurationValues?: string;
-  podIdentityAssociations?: AddonPodIdentityAssociations[];
-  namespaceConfig?: AddonNamespaceConfigRequest;
+  addonVersion?: string | undefined;
+  serviceAccountRoleArn?: string | undefined;
+  resolveConflicts?: ResolveConflicts | undefined;
+  clientRequestToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  configurationValues?: string | undefined;
+  podIdentityAssociations?: AddonPodIdentityAssociations[] | undefined;
+  namespaceConfig?: AddonNamespaceConfigRequest | undefined;
 }
 export type AddonStatus =
   | "CREATING"
@@ -538,46 +541,46 @@ export type AddonIssueCode =
   | "AddonPermissionFailure"
   | (string & {});
 export interface AddonIssue {
-  code?: AddonIssueCode;
-  message?: string;
-  resourceIds?: string[];
+  code?: AddonIssueCode | undefined;
+  message?: string | undefined;
+  resourceIds?: string[] | undefined;
 }
 export type AddonIssueList = AddonIssue[];
 export interface AddonHealth {
-  issues?: AddonIssue[];
+  issues?: AddonIssue[] | undefined;
 }
 export interface MarketplaceInformation {
-  productId?: string;
-  productUrl?: string;
+  productId?: string | undefined;
+  productUrl?: string | undefined;
 }
 export interface AddonNamespaceConfigResponse {
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export interface Addon {
-  addonName?: string;
-  clusterName?: string;
-  status?: AddonStatus;
-  addonVersion?: string;
-  health?: AddonHealth;
-  addonArn?: string;
-  createdAt?: Date;
-  modifiedAt?: Date;
-  serviceAccountRoleArn?: string;
-  tags?: { [key: string]: string | undefined };
-  publisher?: string;
-  owner?: string;
-  marketplaceInformation?: MarketplaceInformation;
-  configurationValues?: string;
-  podIdentityAssociations?: string[];
-  namespaceConfig?: AddonNamespaceConfigResponse;
+  addonName?: string | undefined;
+  clusterName?: string | undefined;
+  status?: AddonStatus | undefined;
+  addonVersion?: string | undefined;
+  health?: AddonHealth | undefined;
+  addonArn?: string | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
+  serviceAccountRoleArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  publisher?: string | undefined;
+  owner?: string | undefined;
+  marketplaceInformation?: MarketplaceInformation | undefined;
+  configurationValues?: string | undefined;
+  podIdentityAssociations?: string[] | undefined;
+  namespaceConfig?: AddonNamespaceConfigResponse | undefined;
 }
 export interface CreateAddonResponse {
-  addon?: Addon;
+  addon?: Addon | undefined;
 }
 export type CapabilityType = "ACK" | "KRO" | "ARGOCD" | (string & {});
 export interface ArgoCdAwsIdcConfigRequest {
   idcInstanceArn: string;
-  idcRegion?: string;
+  idcRegion?: string | undefined;
 }
 export type ArgoCdRole = "ADMIN" | "EDITOR" | "VIEWER" | (string & {});
 export type SsoIdentityType = "SSO_USER" | "SSO_GROUP" | (string & {});
@@ -592,28 +595,36 @@ export interface ArgoCdRoleMapping {
 }
 export type ArgoCdRoleMappingList = ArgoCdRoleMapping[];
 export interface ArgoCdNetworkAccessConfigRequest {
-  vpceIds?: string[];
+  vpceIds?: string[] | undefined;
 }
 export type ArgoCdEndpointPrefix = string;
 export interface ArgoCdConfigRequest {
-  namespace?: string;
+  namespace?: string | undefined;
   awsIdc: ArgoCdAwsIdcConfigRequest;
-  rbacRoleMappings?: ArgoCdRoleMapping[];
-  networkAccess?: ArgoCdNetworkAccessConfigRequest;
-  endpointPrefix?: string;
+  rbacRoleMappings?: ArgoCdRoleMapping[] | undefined;
+  networkAccess?: ArgoCdNetworkAccessConfigRequest | undefined;
+  endpointPrefix?: string | undefined;
+}
+export type BoxedBoolean = boolean;
+export type AckServiceName = string;
+export type AckDisabledServicesList = string[];
+export interface AckConfigRequest {
+  enableCrossNamespace?: boolean | undefined;
+  disabledServices?: string[] | undefined;
 }
 export interface CapabilityConfigurationRequest {
-  argoCd?: ArgoCdConfigRequest;
+  argoCd?: ArgoCdConfigRequest | undefined;
+  ack?: AckConfigRequest | undefined;
 }
 export type CapabilityDeletePropagationPolicy = "RETAIN" | (string & {});
 export interface CreateCapabilityRequest {
   capabilityName: string;
   clusterName: string;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
   type: CapabilityType;
   roleArn: string;
-  configuration?: CapabilityConfigurationRequest;
-  tags?: { [key: string]: string | undefined };
+  configuration?: CapabilityConfigurationRequest | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   deletePropagationPolicy: CapabilityDeletePropagationPolicy;
 }
 export type CapabilityStatus =
@@ -626,81 +637,92 @@ export type CapabilityStatus =
   | "DEGRADED"
   | (string & {});
 export interface ArgoCdAwsIdcConfigResponse {
-  idcInstanceArn?: string;
-  idcRegion?: string;
-  idcManagedApplicationArn?: string;
+  idcInstanceArn?: string | undefined;
+  idcRegion?: string | undefined;
+  idcManagedApplicationArn?: string | undefined;
 }
 export interface ArgoCdNetworkAccessConfigResponse {
-  vpceIds?: string[];
+  vpceIds?: string[] | undefined;
 }
 export interface ArgoCdConfigResponse {
-  namespace?: string;
-  awsIdc?: ArgoCdAwsIdcConfigResponse;
-  rbacRoleMappings?: ArgoCdRoleMapping[];
-  networkAccess?: ArgoCdNetworkAccessConfigResponse;
-  serverUrl?: string;
-  endpointPrefix?: string;
+  namespace?: string | undefined;
+  awsIdc?: ArgoCdAwsIdcConfigResponse | undefined;
+  rbacRoleMappings?: ArgoCdRoleMapping[] | undefined;
+  networkAccess?: ArgoCdNetworkAccessConfigResponse | undefined;
+  serverUrl?: string | undefined;
+  endpointPrefix?: string | undefined;
+}
+export interface AckConfigResponse {
+  enableCrossNamespace?: boolean | undefined;
+  disabledServices?: string[] | undefined;
 }
 export interface CapabilityConfigurationResponse {
-  argoCd?: ArgoCdConfigResponse;
+  argoCd?: ArgoCdConfigResponse | undefined;
+  ack?: AckConfigResponse | undefined;
 }
 export type CapabilityIssueCode = "AccessDenied" | "ClusterUnreachable" | (string & {});
 export interface CapabilityIssue {
-  code?: CapabilityIssueCode;
-  message?: string;
+  code?: CapabilityIssueCode | undefined;
+  message?: string | undefined;
 }
 export type CapabilityIssueList = CapabilityIssue[];
 export interface CapabilityHealth {
-  issues?: CapabilityIssue[];
+  issues?: CapabilityIssue[] | undefined;
 }
 export interface Capability {
-  capabilityName?: string;
-  arn?: string;
-  clusterName?: string;
-  type?: CapabilityType;
-  roleArn?: string;
-  status?: CapabilityStatus;
-  version?: string;
-  configuration?: CapabilityConfigurationResponse;
-  tags?: { [key: string]: string | undefined };
-  health?: CapabilityHealth;
-  createdAt?: Date;
-  modifiedAt?: Date;
-  deletePropagationPolicy?: CapabilityDeletePropagationPolicy;
+  capabilityName?: string | undefined;
+  arn?: string | undefined;
+  clusterName?: string | undefined;
+  type?: CapabilityType | undefined;
+  roleArn?: string | undefined;
+  status?: CapabilityStatus | undefined;
+  version?: string | undefined;
+  configuration?: CapabilityConfigurationResponse | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  health?: CapabilityHealth | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
+  deletePropagationPolicy?: CapabilityDeletePropagationPolicy | undefined;
 }
 export interface CreateCapabilityResponse {
-  capability?: Capability;
+  capability?: Capability | undefined;
 }
 export interface CreateCertificateAuthorityRequest {
   clusterName: string;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
 }
 export interface CreateCertificateAuthorityResponse {
-  update?: Update;
-  certificateAuthority?: CertificateAuthoritySummary;
+  update?: Update | undefined;
+  certificateAuthority?: CertificateAuthoritySummary | undefined;
 }
-export type BoxedBoolean = boolean;
 export type ControlPlaneEgressModeType =
   | "AWS_MANAGED"
   | "CUSTOMER_ROUTED"
   | "CUSTOMER_ISOLATED"
   | (string & {});
 export interface VpcConfigRequest {
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  endpointPublicAccess?: boolean;
-  endpointPrivateAccess?: boolean;
-  publicAccessCidrs?: string[];
-  controlPlaneEgressMode?: ControlPlaneEgressModeType;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  endpointPublicAccess?: boolean | undefined;
+  endpointPrivateAccess?: boolean | undefined;
+  publicAccessCidrs?: string[] | undefined;
+  controlPlaneEgressMode?: ControlPlaneEgressModeType | undefined;
 }
 export type IpFamily = "ipv4" | "ipv6" | (string & {});
+export interface CrdManagementConfiguration {
+  managed?: boolean | undefined;
+}
+export interface GatewayApiConfiguration {
+  crds?: CrdManagementConfiguration | undefined;
+}
 export interface ElasticLoadBalancing {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
+  gatewayApi?: GatewayApiConfiguration | undefined;
 }
 export interface KubernetesNetworkConfigRequest {
-  serviceIpv4Cidr?: string;
-  ipFamily?: IpFamily;
-  elasticLoadBalancing?: ElasticLoadBalancing;
+  serviceIpv4Cidr?: string | undefined;
+  ipFamily?: IpFamily | undefined;
+  elasticLoadBalancing?: ElasticLoadBalancing | undefined;
 }
 export type LogType =
   | "api"
@@ -711,62 +733,62 @@ export type LogType =
   | (string & {});
 export type LogTypes = LogType[];
 export interface LogSetup {
-  types?: LogType[];
-  enabled?: boolean;
+  types?: LogType[] | undefined;
+  enabled?: boolean | undefined;
 }
 export type LogSetups = LogSetup[];
 export interface Logging {
-  clusterLogging?: LogSetup[];
+  clusterLogging?: LogSetup[] | undefined;
 }
 export type SpreadLevel = "host" | "rack" | (string & {});
 export interface ControlPlanePlacementRequest {
-  groupName?: string;
-  spreadLevel?: SpreadLevel;
+  groupName?: string | undefined;
+  spreadLevel?: SpreadLevel | undefined;
 }
 export interface EtcdPlacementRequest {
-  spreadLevel?: SpreadLevel;
+  spreadLevel?: SpreadLevel | undefined;
 }
 export interface OutpostConfigRequest {
   outpostArns: string[];
   controlPlaneInstanceType: string;
-  controlPlanePlacement?: ControlPlanePlacementRequest;
-  etcdInstanceType?: string;
-  etcdPlacement?: EtcdPlacementRequest;
+  controlPlanePlacement?: ControlPlanePlacementRequest | undefined;
+  etcdInstanceType?: string | undefined;
+  etcdPlacement?: EtcdPlacementRequest | undefined;
 }
 export type AuthenticationMode = "API" | "API_AND_CONFIG_MAP" | "CONFIG_MAP" | (string & {});
 export interface CreateAccessConfigRequest {
-  bootstrapClusterCreatorAdminPermissions?: boolean;
-  authenticationMode?: AuthenticationMode;
+  bootstrapClusterCreatorAdminPermissions?: boolean | undefined;
+  authenticationMode?: AuthenticationMode | undefined;
 }
 export type SupportType = "STANDARD" | "EXTENDED" | (string & {});
 export interface UpgradePolicyRequest {
-  supportType?: SupportType;
+  supportType?: SupportType | undefined;
 }
 export interface ZonalShiftConfigRequest {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface RemoteNodeNetwork {
-  cidrs?: string[];
+  cidrs?: string[] | undefined;
 }
 export type RemoteNodeNetworkList = RemoteNodeNetwork[];
 export interface RemotePodNetwork {
-  cidrs?: string[];
+  cidrs?: string[] | undefined;
 }
 export type RemotePodNetworkList = RemotePodNetwork[];
 export interface RemoteNetworkConfigRequest {
-  remoteNodeNetworks?: RemoteNodeNetwork[];
-  remotePodNetworks?: RemotePodNetwork[];
+  remoteNodeNetworks?: RemoteNodeNetwork[] | undefined;
+  remotePodNetworks?: RemotePodNetwork[] | undefined;
 }
 export interface ComputeConfigRequest {
-  enabled?: boolean;
-  nodePools?: string[];
-  nodeRoleArn?: string;
+  enabled?: boolean | undefined;
+  nodePools?: string[] | undefined;
+  nodeRoleArn?: string | undefined;
 }
 export interface BlockStorage {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface StorageConfigRequest {
-  blockStorage?: BlockStorage;
+  blockStorage?: BlockStorage | undefined;
 }
 export type ProvisionedControlPlaneTier =
   | "standard"
@@ -776,90 +798,92 @@ export type ProvisionedControlPlaneTier =
   | "tier-8xl"
   | (string & {});
 export interface ControlPlaneScalingConfig {
-  tier?: ProvisionedControlPlaneTier;
+  tier?: ProvisionedControlPlaneTier | undefined;
 }
 export interface ServiceNodePortRange {
-  minPort?: number;
-  maxPort?: number;
+  minPort?: number | undefined;
+  maxPort?: number | undefined;
 }
 export interface KubeApiServerConfigRequest {
-  eventTtl?: string;
-  serviceNodePortRange?: ServiceNodePortRange;
+  eventTtl?: string | undefined;
+  serviceNodePortRange?: ServiceNodePortRange | undefined;
 }
 export type ScoringStrategyType = "LeastAllocated" | "MostAllocated" | (string & {});
 export type ResourceWeightName = string;
 export type ResourceWeightValue = number;
 export interface ResourceWeight {
-  name?: string;
-  weight?: number;
+  name?: string | undefined;
+  weight?: number | undefined;
 }
 export type ResourceWeightList = ResourceWeight[];
 export interface ScoringStrategy {
-  type?: ScoringStrategyType;
-  resources?: ResourceWeight[];
+  type?: ScoringStrategyType | undefined;
+  resources?: ResourceWeight[] | undefined;
 }
 export interface NodeResourcesFitConfig {
-  scoringStrategy?: ScoringStrategy;
+  scoringStrategy?: ScoringStrategy | undefined;
 }
 export interface KubeSchedulerConfigRequest {
-  nodeResourcesFit?: NodeResourcesFitConfig;
+  nodeResourcesFit?: NodeResourcesFitConfig | undefined;
 }
 export type TerminatedPodGcThresholdValue = number;
 export interface PodGcControllerConfigRequest {
-  terminatedPodGcThreshold?: number;
+  terminatedPodGcThreshold?: number | undefined;
 }
 export interface HorizontalPodAutoscalerControllerConfigRequest {
-  horizontalPodAutoscalerSyncPeriod?: string;
+  horizontalPodAutoscalerSyncPeriod?: string | undefined;
 }
 export interface KubeControllerManagerConfigRequest {
-  podGcControllerConfig?: PodGcControllerConfigRequest;
-  horizontalPodAutoscalerControllerConfig?: HorizontalPodAutoscalerControllerConfigRequest;
+  podGcControllerConfig?: PodGcControllerConfigRequest | undefined;
+  horizontalPodAutoscalerControllerConfig?:
+    | HorizontalPodAutoscalerControllerConfigRequest
+    | undefined;
 }
 export interface CreateClusterRequest {
   name: string;
-  version?: string;
+  version?: string | undefined;
   roleArn: string;
   resourcesVpcConfig: VpcConfigRequest;
-  kubernetesNetworkConfig?: KubernetesNetworkConfigRequest;
-  logging?: Logging;
-  clientRequestToken?: string;
-  tags?: { [key: string]: string | undefined };
-  encryptionConfig?: EncryptionConfig[];
-  outpostConfig?: OutpostConfigRequest;
-  accessConfig?: CreateAccessConfigRequest;
-  bootstrapSelfManagedAddons?: boolean;
-  upgradePolicy?: UpgradePolicyRequest;
-  zonalShiftConfig?: ZonalShiftConfigRequest;
-  remoteNetworkConfig?: RemoteNetworkConfigRequest;
-  computeConfig?: ComputeConfigRequest;
-  storageConfig?: StorageConfigRequest;
-  deletionProtection?: boolean;
-  controlPlaneScalingConfig?: ControlPlaneScalingConfig;
-  kubeApiServerConfig?: KubeApiServerConfigRequest;
-  kubeSchedulerConfig?: KubeSchedulerConfigRequest;
-  kubeControllerManagerConfig?: KubeControllerManagerConfigRequest;
+  kubernetesNetworkConfig?: KubernetesNetworkConfigRequest | undefined;
+  logging?: Logging | undefined;
+  clientRequestToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  encryptionConfig?: EncryptionConfig[] | undefined;
+  outpostConfig?: OutpostConfigRequest | undefined;
+  accessConfig?: CreateAccessConfigRequest | undefined;
+  bootstrapSelfManagedAddons?: boolean | undefined;
+  upgradePolicy?: UpgradePolicyRequest | undefined;
+  zonalShiftConfig?: ZonalShiftConfigRequest | undefined;
+  remoteNetworkConfig?: RemoteNetworkConfigRequest | undefined;
+  computeConfig?: ComputeConfigRequest | undefined;
+  storageConfig?: StorageConfigRequest | undefined;
+  deletionProtection?: boolean | undefined;
+  controlPlaneScalingConfig?: ControlPlaneScalingConfig | undefined;
+  kubeApiServerConfig?: KubeApiServerConfigRequest | undefined;
+  kubeSchedulerConfig?: KubeSchedulerConfigRequest | undefined;
+  kubeControllerManagerConfig?: KubeControllerManagerConfigRequest | undefined;
 }
 export interface VpcConfigResponse {
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  clusterSecurityGroupId?: string;
-  vpcId?: string;
-  endpointPublicAccess?: boolean;
-  endpointPrivateAccess?: boolean;
-  publicAccessCidrs?: string[];
-  controlPlaneEgressMode?: ControlPlaneEgressModeType;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  clusterSecurityGroupId?: string | undefined;
+  vpcId?: string | undefined;
+  endpointPublicAccess?: boolean | undefined;
+  endpointPrivateAccess?: boolean | undefined;
+  publicAccessCidrs?: string[] | undefined;
+  controlPlaneEgressMode?: ControlPlaneEgressModeType | undefined;
 }
 export interface KubernetesNetworkConfigResponse {
-  serviceIpv4Cidr?: string;
-  serviceIpv6Cidr?: string;
-  ipFamily?: IpFamily;
-  elasticLoadBalancing?: ElasticLoadBalancing;
+  serviceIpv4Cidr?: string | undefined;
+  serviceIpv6Cidr?: string | undefined;
+  ipFamily?: IpFamily | undefined;
+  elasticLoadBalancing?: ElasticLoadBalancing | undefined;
 }
 export interface OIDC {
-  issuer?: string;
+  issuer?: string | undefined;
 }
 export interface Identity {
-  oidc?: OIDC;
+  oidc?: OIDC | undefined;
 }
 export type ClusterStatus =
   | "CREATING"
@@ -870,19 +894,19 @@ export type ClusterStatus =
   | "PENDING"
   | (string & {});
 export interface ActiveCertificateAuthority {
-  id?: string;
-  activatedBy?: CertificateAuthorityActivatedBy;
+  id?: string | undefined;
+  activatedBy?: CertificateAuthorityActivatedBy | undefined;
 }
 export interface Certificate {
-  data?: string;
-  active?: ActiveCertificateAuthority;
+  data?: string | undefined;
+  active?: ActiveCertificateAuthority | undefined;
 }
 export interface ConnectorConfigResponse {
-  activationId?: string;
-  activationCode?: string;
-  activationExpiry?: Date;
-  provider?: string;
-  roleArn?: string;
+  activationId?: string | undefined;
+  activationCode?: string | undefined;
+  activationExpiry?: Date | undefined;
+  provider?: string | undefined;
+  roleArn?: string | undefined;
 }
 export type ClusterIssueCode =
   | "AccessDenied"
@@ -906,156 +930,158 @@ export type ClusterIssueCode =
   | "Other"
   | (string & {});
 export interface ClusterIssue {
-  code?: ClusterIssueCode;
-  message?: string;
-  resourceIds?: string[];
+  code?: ClusterIssueCode | undefined;
+  message?: string | undefined;
+  resourceIds?: string[] | undefined;
 }
 export type ClusterIssueList = ClusterIssue[];
 export interface ClusterHealth {
-  issues?: ClusterIssue[];
+  issues?: ClusterIssue[] | undefined;
 }
 export interface ControlPlanePlacementResponse {
-  groupName?: string;
-  spreadLevel?: SpreadLevel;
+  groupName?: string | undefined;
+  spreadLevel?: SpreadLevel | undefined;
 }
 export interface EtcdPlacementResponse {
-  spreadLevel?: SpreadLevel;
+  spreadLevel?: SpreadLevel | undefined;
 }
 export interface OutpostConfigResponse {
   outpostArns: string[];
   controlPlaneInstanceType: string;
-  controlPlanePlacement?: ControlPlanePlacementResponse;
-  etcdInstanceType?: string;
-  etcdPlacement?: EtcdPlacementResponse;
+  controlPlanePlacement?: ControlPlanePlacementResponse | undefined;
+  etcdInstanceType?: string | undefined;
+  etcdPlacement?: EtcdPlacementResponse | undefined;
 }
 export interface AccessConfigResponse {
-  bootstrapClusterCreatorAdminPermissions?: boolean;
-  authenticationMode?: AuthenticationMode;
+  bootstrapClusterCreatorAdminPermissions?: boolean | undefined;
+  authenticationMode?: AuthenticationMode | undefined;
 }
 export interface UpgradePolicyResponse {
-  supportType?: SupportType;
+  supportType?: SupportType | undefined;
 }
 export interface ZonalShiftConfigResponse {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface RemoteNetworkConfigResponse {
-  remoteNodeNetworks?: RemoteNodeNetwork[];
-  remotePodNetworks?: RemotePodNetwork[];
+  remoteNodeNetworks?: RemoteNodeNetwork[] | undefined;
+  remotePodNetworks?: RemotePodNetwork[] | undefined;
 }
 export interface ComputeConfigResponse {
-  enabled?: boolean;
-  nodePools?: string[];
-  nodeRoleArn?: string;
+  enabled?: boolean | undefined;
+  nodePools?: string[] | undefined;
+  nodeRoleArn?: string | undefined;
 }
 export interface StorageConfigResponse {
-  blockStorage?: BlockStorage;
+  blockStorage?: BlockStorage | undefined;
 }
 export interface KubeApiServerConfigResponse {
-  eventTtl?: string;
-  serviceNodePortRange?: ServiceNodePortRange;
+  eventTtl?: string | undefined;
+  serviceNodePortRange?: ServiceNodePortRange | undefined;
 }
 export interface KubeSchedulerConfigResponse {
-  nodeResourcesFit?: NodeResourcesFitConfig;
+  nodeResourcesFit?: NodeResourcesFitConfig | undefined;
 }
 export interface PodGcControllerConfigResponse {
-  terminatedPodGcThreshold?: number;
+  terminatedPodGcThreshold?: number | undefined;
 }
 export interface HorizontalPodAutoscalerControllerConfigResponse {
-  horizontalPodAutoscalerSyncPeriod?: string;
+  horizontalPodAutoscalerSyncPeriod?: string | undefined;
 }
 export interface KubeControllerManagerConfigResponse {
-  podGcControllerConfig?: PodGcControllerConfigResponse;
-  horizontalPodAutoscalerControllerConfig?: HorizontalPodAutoscalerControllerConfigResponse;
+  podGcControllerConfig?: PodGcControllerConfigResponse | undefined;
+  horizontalPodAutoscalerControllerConfig?:
+    | HorizontalPodAutoscalerControllerConfigResponse
+    | undefined;
 }
 export interface Cluster {
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  version?: string;
-  endpoint?: string;
-  roleArn?: string;
-  resourcesVpcConfig?: VpcConfigResponse;
-  kubernetesNetworkConfig?: KubernetesNetworkConfigResponse;
-  logging?: Logging;
-  identity?: Identity;
-  status?: ClusterStatus;
-  certificateAuthority?: Certificate;
-  clientRequestToken?: string;
-  platformVersion?: string;
-  tags?: { [key: string]: string | undefined };
-  encryptionConfig?: EncryptionConfig[];
-  connectorConfig?: ConnectorConfigResponse;
-  id?: string;
-  health?: ClusterHealth;
-  outpostConfig?: OutpostConfigResponse;
-  accessConfig?: AccessConfigResponse;
-  upgradePolicy?: UpgradePolicyResponse;
-  zonalShiftConfig?: ZonalShiftConfigResponse;
-  remoteNetworkConfig?: RemoteNetworkConfigResponse;
-  computeConfig?: ComputeConfigResponse;
-  storageConfig?: StorageConfigResponse;
-  deletionProtection?: boolean;
-  controlPlaneScalingConfig?: ControlPlaneScalingConfig;
-  kubeApiServerConfig?: KubeApiServerConfigResponse;
-  kubeSchedulerConfig?: KubeSchedulerConfigResponse;
-  kubeControllerManagerConfig?: KubeControllerManagerConfigResponse;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  version?: string | undefined;
+  endpoint?: string | undefined;
+  roleArn?: string | undefined;
+  resourcesVpcConfig?: VpcConfigResponse | undefined;
+  kubernetesNetworkConfig?: KubernetesNetworkConfigResponse | undefined;
+  logging?: Logging | undefined;
+  identity?: Identity | undefined;
+  status?: ClusterStatus | undefined;
+  certificateAuthority?: Certificate | undefined;
+  clientRequestToken?: string | undefined;
+  platformVersion?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  encryptionConfig?: EncryptionConfig[] | undefined;
+  connectorConfig?: ConnectorConfigResponse | undefined;
+  id?: string | undefined;
+  health?: ClusterHealth | undefined;
+  outpostConfig?: OutpostConfigResponse | undefined;
+  accessConfig?: AccessConfigResponse | undefined;
+  upgradePolicy?: UpgradePolicyResponse | undefined;
+  zonalShiftConfig?: ZonalShiftConfigResponse | undefined;
+  remoteNetworkConfig?: RemoteNetworkConfigResponse | undefined;
+  computeConfig?: ComputeConfigResponse | undefined;
+  storageConfig?: StorageConfigResponse | undefined;
+  deletionProtection?: boolean | undefined;
+  controlPlaneScalingConfig?: ControlPlaneScalingConfig | undefined;
+  kubeApiServerConfig?: KubeApiServerConfigResponse | undefined;
+  kubeSchedulerConfig?: KubeSchedulerConfigResponse | undefined;
+  kubeControllerManagerConfig?: KubeControllerManagerConfigResponse | undefined;
 }
 export interface CreateClusterResponse {
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
 }
 export type EksAnywhereSubscriptionName = string;
 export type EksAnywhereSubscriptionTermUnit = "MONTHS" | (string & {});
 export interface EksAnywhereSubscriptionTerm {
-  duration?: number;
-  unit?: EksAnywhereSubscriptionTermUnit;
+  duration?: number | undefined;
+  unit?: EksAnywhereSubscriptionTermUnit | undefined;
 }
 export type EksAnywhereSubscriptionLicenseType = "Cluster" | (string & {});
 export interface CreateEksAnywhereSubscriptionRequest {
   name: string;
   term: EksAnywhereSubscriptionTerm;
-  licenseQuantity?: number;
-  licenseType?: EksAnywhereSubscriptionLicenseType;
-  autoRenew?: boolean;
-  clientRequestToken?: string;
-  tags?: { [key: string]: string | undefined };
+  licenseQuantity?: number | undefined;
+  licenseType?: EksAnywhereSubscriptionLicenseType | undefined;
+  autoRenew?: boolean | undefined;
+  clientRequestToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface License {
-  id?: string;
-  token?: string;
+  id?: string | undefined;
+  token?: string | undefined;
 }
 export type LicenseList = License[];
 export interface EksAnywhereSubscription {
-  id?: string;
-  arn?: string;
-  createdAt?: Date;
-  effectiveDate?: Date;
-  expirationDate?: Date;
-  licenseQuantity?: number;
-  licenseType?: EksAnywhereSubscriptionLicenseType;
-  term?: EksAnywhereSubscriptionTerm;
-  status?: string;
-  autoRenew?: boolean;
-  licenseArns?: string[];
-  licenses?: License[];
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  effectiveDate?: Date | undefined;
+  expirationDate?: Date | undefined;
+  licenseQuantity?: number | undefined;
+  licenseType?: EksAnywhereSubscriptionLicenseType | undefined;
+  term?: EksAnywhereSubscriptionTerm | undefined;
+  status?: string | undefined;
+  autoRenew?: boolean | undefined;
+  licenseArns?: string[] | undefined;
+  licenses?: License[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateEksAnywhereSubscriptionResponse {
-  subscription?: EksAnywhereSubscription;
+  subscription?: EksAnywhereSubscription | undefined;
 }
 export type FargateProfileLabel = { [key: string]: string | undefined };
 export interface FargateProfileSelector {
-  namespace?: string;
-  labels?: { [key: string]: string | undefined };
+  namespace?: string | undefined;
+  labels?: { [key: string]: string | undefined } | undefined;
 }
 export type FargateProfileSelectors = FargateProfileSelector[];
 export interface CreateFargateProfileRequest {
   fargateProfileName: string;
   clusterName: string;
   podExecutionRoleArn: string;
-  subnets?: string[];
-  selectors?: FargateProfileSelector[];
-  clientRequestToken?: string;
-  tags?: { [key: string]: string | undefined };
+  subnets?: string[] | undefined;
+  selectors?: FargateProfileSelector[] | undefined;
+  clientRequestToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type FargateProfileStatus =
   | "CREATING"
@@ -1071,35 +1097,35 @@ export type FargateProfileIssueCode =
   | "InternalFailure"
   | (string & {});
 export interface FargateProfileIssue {
-  code?: FargateProfileIssueCode;
-  message?: string;
-  resourceIds?: string[];
+  code?: FargateProfileIssueCode | undefined;
+  message?: string | undefined;
+  resourceIds?: string[] | undefined;
 }
 export type FargateProfileIssueList = FargateProfileIssue[];
 export interface FargateProfileHealth {
-  issues?: FargateProfileIssue[];
+  issues?: FargateProfileIssue[] | undefined;
 }
 export interface FargateProfile {
-  fargateProfileName?: string;
-  fargateProfileArn?: string;
-  clusterName?: string;
-  createdAt?: Date;
-  podExecutionRoleArn?: string;
-  subnets?: string[];
-  selectors?: FargateProfileSelector[];
-  status?: FargateProfileStatus;
-  tags?: { [key: string]: string | undefined };
-  health?: FargateProfileHealth;
+  fargateProfileName?: string | undefined;
+  fargateProfileArn?: string | undefined;
+  clusterName?: string | undefined;
+  createdAt?: Date | undefined;
+  podExecutionRoleArn?: string | undefined;
+  subnets?: string[] | undefined;
+  selectors?: FargateProfileSelector[] | undefined;
+  status?: FargateProfileStatus | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  health?: FargateProfileHealth | undefined;
 }
 export interface CreateFargateProfileResponse {
-  fargateProfile?: FargateProfile;
+  fargateProfile?: FargateProfile | undefined;
 }
 export type ZeroCapacity = number;
 export type Capacity = number;
 export interface NodegroupScalingConfig {
-  minSize?: number;
-  maxSize?: number;
-  desiredSize?: number;
+  minSize?: number | undefined;
+  maxSize?: number | undefined;
+  desiredSize?: number | undefined;
 }
 export type BoxedInteger = number;
 export type AMITypes =
@@ -1128,8 +1154,8 @@ export type AMITypes =
   | "AL2023_ARM_64_NVIDIA"
   | (string & {});
 export interface RemoteAccessConfig {
-  ec2SshKey?: string;
-  sourceSecurityGroups?: string[];
+  ec2SshKey?: string | undefined;
+  sourceSecurityGroups?: string[] | undefined;
 }
 export type LabelKey = string;
 export type LabelValue = string;
@@ -1138,70 +1164,70 @@ export type TaintKey = string;
 export type TaintValue = string;
 export type TaintEffect = "NO_SCHEDULE" | "NO_EXECUTE" | "PREFER_NO_SCHEDULE" | (string & {});
 export interface Taint {
-  key?: string;
-  value?: string;
-  effect?: TaintEffect;
+  key?: string | undefined;
+  value?: string | undefined;
+  effect?: TaintEffect | undefined;
 }
 export type TaintsList = Taint[];
 export interface LaunchTemplateSpecification {
-  name?: string;
-  version?: string;
-  id?: string;
+  name?: string | undefined;
+  version?: string | undefined;
+  id?: string | undefined;
 }
 export type NonZeroInteger = number;
 export type PercentCapacity = number;
 export type NodegroupUpdateStrategies = "DEFAULT" | "MINIMAL" | (string & {});
 export interface NodegroupUpdateConfig {
-  maxUnavailable?: number;
-  maxUnavailablePercentage?: number;
-  updateStrategy?: NodegroupUpdateStrategies;
+  maxUnavailable?: number | undefined;
+  maxUnavailablePercentage?: number | undefined;
+  updateStrategy?: NodegroupUpdateStrategies | undefined;
 }
 export type RepairAction = "Replace" | "Reboot" | "NoAction" | (string & {});
 export interface NodeRepairConfigOverrides {
-  nodeMonitoringCondition?: string;
-  nodeUnhealthyReason?: string;
-  minRepairWaitTimeMins?: number;
-  repairAction?: RepairAction;
+  nodeMonitoringCondition?: string | undefined;
+  nodeUnhealthyReason?: string | undefined;
+  minRepairWaitTimeMins?: number | undefined;
+  repairAction?: RepairAction | undefined;
 }
 export type NodeRepairConfigOverridesList = NodeRepairConfigOverrides[];
 export interface NodeRepairConfig {
-  enabled?: boolean;
-  maxUnhealthyNodeThresholdCount?: number;
-  maxUnhealthyNodeThresholdPercentage?: number;
-  maxParallelNodesRepairedCount?: number;
-  maxParallelNodesRepairedPercentage?: number;
-  nodeRepairConfigOverrides?: NodeRepairConfigOverrides[];
+  enabled?: boolean | undefined;
+  maxUnhealthyNodeThresholdCount?: number | undefined;
+  maxUnhealthyNodeThresholdPercentage?: number | undefined;
+  maxParallelNodesRepairedCount?: number | undefined;
+  maxParallelNodesRepairedPercentage?: number | undefined;
+  nodeRepairConfigOverrides?: NodeRepairConfigOverrides[] | undefined;
 }
 export type CapacityTypes = "ON_DEMAND" | "SPOT" | "CAPACITY_BLOCK" | (string & {});
 export type WarmPoolState = "STOPPED" | "RUNNING" | "HIBERNATED" | (string & {});
 export interface WarmPoolConfig {
-  enabled?: boolean;
-  minSize?: number;
-  maxGroupPreparedCapacity?: number;
-  poolState?: WarmPoolState;
-  reuseOnScaleIn?: boolean;
+  enabled?: boolean | undefined;
+  minSize?: number | undefined;
+  maxGroupPreparedCapacity?: number | undefined;
+  poolState?: WarmPoolState | undefined;
+  reuseOnScaleIn?: boolean | undefined;
 }
 export interface CreateNodegroupRequest {
   clusterName: string;
   nodegroupName: string;
-  scalingConfig?: NodegroupScalingConfig;
-  diskSize?: number;
+  scalingConfig?: NodegroupScalingConfig | undefined;
+  diskSize?: number | undefined;
   subnets: string[];
-  instanceTypes?: string[];
-  amiType?: AMITypes;
-  remoteAccess?: RemoteAccessConfig;
+  instanceTypes?: string[] | undefined;
+  amiType?: AMITypes | undefined;
+  remoteAccess?: RemoteAccessConfig | undefined;
   nodeRole: string;
-  labels?: { [key: string]: string | undefined };
-  taints?: Taint[];
-  tags?: { [key: string]: string | undefined };
-  clientRequestToken?: string;
-  launchTemplate?: LaunchTemplateSpecification;
-  updateConfig?: NodegroupUpdateConfig;
-  nodeRepairConfig?: NodeRepairConfig;
-  capacityType?: CapacityTypes;
-  version?: string;
-  releaseVersion?: string;
-  warmPoolConfig?: WarmPoolConfig;
+  labels?: { [key: string]: string | undefined } | undefined;
+  taints?: Taint[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientRequestToken?: string | undefined;
+  launchTemplate?: LaunchTemplateSpecification | undefined;
+  updateConfig?: NodegroupUpdateConfig | undefined;
+  nodeRepairConfig?: NodeRepairConfig | undefined;
+  capacityType?: CapacityTypes | undefined;
+  version?: string | undefined;
+  releaseVersion?: string | undefined;
+  warmPoolConfig?: WarmPoolConfig | undefined;
 }
 export type NodegroupStatus =
   | "CREATING"
@@ -1213,12 +1239,12 @@ export type NodegroupStatus =
   | "DEGRADED"
   | (string & {});
 export interface AutoScalingGroup {
-  name?: string;
+  name?: string | undefined;
 }
 export type AutoScalingGroupList = AutoScalingGroup[];
 export interface NodegroupResources {
-  autoScalingGroups?: AutoScalingGroup[];
-  remoteAccessSecurityGroup?: string;
+  autoScalingGroups?: AutoScalingGroup[] | undefined;
+  remoteAccessSecurityGroup?: string | undefined;
 }
 export type NodegroupIssueCode =
   | "AutoScalingGroupNotFound"
@@ -1259,73 +1285,73 @@ export type NodegroupIssueCode =
   | "Ec2InstanceTypeDoesNotExist"
   | (string & {});
 export interface Issue {
-  code?: NodegroupIssueCode;
-  message?: string;
-  resourceIds?: string[];
+  code?: NodegroupIssueCode | undefined;
+  message?: string | undefined;
+  resourceIds?: string[] | undefined;
 }
 export type IssueList = Issue[];
 export interface NodegroupHealth {
-  issues?: Issue[];
+  issues?: Issue[] | undefined;
 }
 export interface Nodegroup {
-  nodegroupName?: string;
-  nodegroupArn?: string;
-  clusterName?: string;
-  version?: string;
-  releaseVersion?: string;
-  createdAt?: Date;
-  modifiedAt?: Date;
-  status?: NodegroupStatus;
-  capacityType?: CapacityTypes;
-  scalingConfig?: NodegroupScalingConfig;
-  instanceTypes?: string[];
-  subnets?: string[];
-  remoteAccess?: RemoteAccessConfig;
-  amiType?: AMITypes;
-  nodeRole?: string;
-  labels?: { [key: string]: string | undefined };
-  taints?: Taint[];
-  resources?: NodegroupResources;
-  diskSize?: number;
-  health?: NodegroupHealth;
-  updateConfig?: NodegroupUpdateConfig;
-  nodeRepairConfig?: NodeRepairConfig;
-  launchTemplate?: LaunchTemplateSpecification;
-  tags?: { [key: string]: string | undefined };
-  warmPoolConfig?: WarmPoolConfig;
+  nodegroupName?: string | undefined;
+  nodegroupArn?: string | undefined;
+  clusterName?: string | undefined;
+  version?: string | undefined;
+  releaseVersion?: string | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
+  status?: NodegroupStatus | undefined;
+  capacityType?: CapacityTypes | undefined;
+  scalingConfig?: NodegroupScalingConfig | undefined;
+  instanceTypes?: string[] | undefined;
+  subnets?: string[] | undefined;
+  remoteAccess?: RemoteAccessConfig | undefined;
+  amiType?: AMITypes | undefined;
+  nodeRole?: string | undefined;
+  labels?: { [key: string]: string | undefined } | undefined;
+  taints?: Taint[] | undefined;
+  resources?: NodegroupResources | undefined;
+  diskSize?: number | undefined;
+  health?: NodegroupHealth | undefined;
+  updateConfig?: NodegroupUpdateConfig | undefined;
+  nodeRepairConfig?: NodeRepairConfig | undefined;
+  launchTemplate?: LaunchTemplateSpecification | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  warmPoolConfig?: WarmPoolConfig | undefined;
 }
 export interface CreateNodegroupResponse {
-  nodegroup?: Nodegroup;
+  nodegroup?: Nodegroup | undefined;
 }
 export interface CreatePodIdentityAssociationRequest {
   clusterName: string;
   namespace: string;
   serviceAccount: string;
   roleArn: string;
-  clientRequestToken?: string;
-  tags?: { [key: string]: string | undefined };
-  disableSessionTags?: boolean;
-  targetRoleArn?: string;
-  policy?: string;
+  clientRequestToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  disableSessionTags?: boolean | undefined;
+  targetRoleArn?: string | undefined;
+  policy?: string | undefined;
 }
 export interface PodIdentityAssociation {
-  clusterName?: string;
-  namespace?: string;
-  serviceAccount?: string;
-  roleArn?: string;
-  associationArn?: string;
-  associationId?: string;
-  tags?: { [key: string]: string | undefined };
-  createdAt?: Date;
-  modifiedAt?: Date;
-  ownerArn?: string;
-  disableSessionTags?: boolean;
-  targetRoleArn?: string;
-  externalId?: string;
-  policy?: string;
+  clusterName?: string | undefined;
+  namespace?: string | undefined;
+  serviceAccount?: string | undefined;
+  roleArn?: string | undefined;
+  associationArn?: string | undefined;
+  associationId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
+  ownerArn?: string | undefined;
+  disableSessionTags?: boolean | undefined;
+  targetRoleArn?: string | undefined;
+  externalId?: string | undefined;
+  policy?: string | undefined;
 }
 export interface CreatePodIdentityAssociationResponse {
-  association?: PodIdentityAssociation;
+  association?: PodIdentityAssociation | undefined;
 }
 export interface DeleteAccessEntryRequest {
   clusterName: string;
@@ -1335,174 +1361,174 @@ export interface DeleteAccessEntryResponse {}
 export interface DeleteAddonRequest {
   clusterName: string;
   addonName: string;
-  preserve?: boolean;
+  preserve?: boolean | undefined;
 }
 export interface DeleteAddonResponse {
-  addon?: Addon;
+  addon?: Addon | undefined;
 }
 export interface DeleteCapabilityRequest {
   clusterName: string;
   capabilityName: string;
 }
 export interface DeleteCapabilityResponse {
-  capability?: Capability;
+  capability?: Capability | undefined;
 }
 export interface DeleteCertificateAuthorityRequest {
   clusterName: string;
   certificateAuthorityId: string;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
 }
 export interface DeleteCertificateAuthorityResponse {
-  update?: Update;
-  certificateAuthority?: CertificateAuthoritySummary;
+  update?: Update | undefined;
+  certificateAuthority?: CertificateAuthoritySummary | undefined;
 }
 export interface DeleteClusterRequest {
   name: string;
 }
 export interface DeleteClusterResponse {
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
 }
 export interface DeleteEksAnywhereSubscriptionRequest {
   id: string;
 }
 export interface DeleteEksAnywhereSubscriptionResponse {
-  subscription?: EksAnywhereSubscription;
+  subscription?: EksAnywhereSubscription | undefined;
 }
 export interface DeleteFargateProfileRequest {
   clusterName: string;
   fargateProfileName: string;
 }
 export interface DeleteFargateProfileResponse {
-  fargateProfile?: FargateProfile;
+  fargateProfile?: FargateProfile | undefined;
 }
 export interface DeleteNodegroupRequest {
   clusterName: string;
   nodegroupName: string;
 }
 export interface DeleteNodegroupResponse {
-  nodegroup?: Nodegroup;
+  nodegroup?: Nodegroup | undefined;
 }
 export interface DeletePodIdentityAssociationRequest {
   clusterName: string;
   associationId: string;
 }
 export interface DeletePodIdentityAssociationResponse {
-  association?: PodIdentityAssociation;
+  association?: PodIdentityAssociation | undefined;
 }
 export interface DeregisterClusterRequest {
   name: string;
 }
 export interface DeregisterClusterResponse {
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
 }
 export interface DescribeAccessEntryRequest {
   clusterName: string;
   principalArn: string;
 }
 export interface DescribeAccessEntryResponse {
-  accessEntry?: AccessEntry;
+  accessEntry?: AccessEntry | undefined;
 }
 export interface DescribeAddonRequest {
   clusterName: string;
   addonName: string;
 }
 export interface DescribeAddonResponse {
-  addon?: Addon;
+  addon?: Addon | undefined;
 }
 export interface DescribeAddonConfigurationRequest {
   addonName: string;
   addonVersion: string;
 }
 export interface AddonPodIdentityConfiguration {
-  serviceAccount?: string;
-  recommendedManagedPolicies?: string[];
+  serviceAccount?: string | undefined;
+  recommendedManagedPolicies?: string[] | undefined;
 }
 export type AddonPodIdentityConfigurationList = AddonPodIdentityConfiguration[];
 export interface DescribeAddonConfigurationResponse {
-  addonName?: string;
-  addonVersion?: string;
-  configurationSchema?: string;
-  podIdentityConfiguration?: AddonPodIdentityConfiguration[];
+  addonName?: string | undefined;
+  addonVersion?: string | undefined;
+  configurationSchema?: string | undefined;
+  podIdentityConfiguration?: AddonPodIdentityConfiguration[] | undefined;
 }
 export type DescribeAddonVersionsRequestMaxResults = number;
 export interface DescribeAddonVersionsRequest {
-  kubernetesVersion?: string;
-  maxResults?: number;
-  nextToken?: string;
-  addonName?: string;
-  types?: string[];
-  publishers?: string[];
-  owners?: string[];
+  kubernetesVersion?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  addonName?: string | undefined;
+  types?: string[] | undefined;
+  publishers?: string[] | undefined;
+  owners?: string[] | undefined;
 }
 export interface Compatibility {
-  clusterVersion?: string;
-  platformVersions?: string[];
-  defaultVersion?: boolean;
+  clusterVersion?: string | undefined;
+  platformVersions?: string[] | undefined;
+  defaultVersion?: boolean | undefined;
 }
 export type Compatibilities = Compatibility[];
 export interface AddonVersionInfo {
-  addonVersion?: string;
-  architecture?: string[];
-  computeTypes?: string[];
-  compatibilities?: Compatibility[];
-  requiresConfiguration?: boolean;
-  requiresIamPermissions?: boolean;
+  addonVersion?: string | undefined;
+  architecture?: string[] | undefined;
+  computeTypes?: string[] | undefined;
+  compatibilities?: Compatibility[] | undefined;
+  requiresConfiguration?: boolean | undefined;
+  requiresIamPermissions?: boolean | undefined;
 }
 export type AddonVersionInfoList = AddonVersionInfo[];
 export interface AddonInfo {
-  addonName?: string;
-  type?: string;
-  addonVersions?: AddonVersionInfo[];
-  publisher?: string;
-  owner?: string;
-  marketplaceInformation?: MarketplaceInformation;
-  defaultNamespace?: string;
+  addonName?: string | undefined;
+  type?: string | undefined;
+  addonVersions?: AddonVersionInfo[] | undefined;
+  publisher?: string | undefined;
+  owner?: string | undefined;
+  marketplaceInformation?: MarketplaceInformation | undefined;
+  defaultNamespace?: string | undefined;
 }
 export type Addons = AddonInfo[];
 export interface DescribeAddonVersionsResponse {
-  addons?: AddonInfo[];
-  nextToken?: string;
+  addons?: AddonInfo[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeCapabilityRequest {
   clusterName: string;
   capabilityName: string;
 }
 export interface DescribeCapabilityResponse {
-  capability?: Capability;
+  capability?: Capability | undefined;
 }
 export interface DescribeCertificateAuthorityRequest {
   clusterName: string;
   certificateAuthorityId: string;
 }
 export interface CertificateAuthorityValidity {
-  notBefore?: Date;
-  notAfter?: Date;
+  notBefore?: Date | undefined;
+  notAfter?: Date | undefined;
 }
 export interface CertificateAuthorityScheduledEvents {
-  firstAutoActivation?: Date;
-  finalAutoActivation?: Date;
+  firstAutoActivation?: Date | undefined;
+  finalAutoActivation?: Date | undefined;
 }
 export interface CertificateAuthority {
-  id?: string;
-  createdAt?: Date;
-  createdBy?: CertificateAuthorityCreatedBy;
-  activatedAt?: Date;
-  activatedBy?: CertificateAuthorityActivatedBy;
-  signingStatus?: CertificateAuthoritySigningStatus;
-  distributionStatus?: CertificateAuthorityDistributionStatus;
-  validity?: CertificateAuthorityValidity;
-  scheduledEvents?: CertificateAuthorityScheduledEvents;
-  rollbackAvailable?: boolean;
-  data?: string;
+  id?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: CertificateAuthorityCreatedBy | undefined;
+  activatedAt?: Date | undefined;
+  activatedBy?: CertificateAuthorityActivatedBy | undefined;
+  signingStatus?: CertificateAuthoritySigningStatus | undefined;
+  distributionStatus?: CertificateAuthorityDistributionStatus | undefined;
+  validity?: CertificateAuthorityValidity | undefined;
+  scheduledEvents?: CertificateAuthorityScheduledEvents | undefined;
+  rollbackAvailable?: boolean | undefined;
+  data?: string | undefined;
 }
 export interface DescribeCertificateAuthorityResponse {
-  certificateAuthority?: CertificateAuthority;
+  certificateAuthority?: CertificateAuthority | undefined;
 }
 export interface DescribeClusterRequest {
   name: string;
 }
 export interface DescribeClusterResponse {
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
 }
 export type DescribeClusterVersionMaxResults = number;
 export type ClusterVersionStatus =
@@ -1512,123 +1538,125 @@ export type ClusterVersionStatus =
   | (string & {});
 export type VersionStatus = "UNSUPPORTED" | "STANDARD_SUPPORT" | "EXTENDED_SUPPORT" | (string & {});
 export interface DescribeClusterVersionsRequest {
-  clusterType?: string;
-  maxResults?: number;
-  nextToken?: string;
-  defaultOnly?: boolean;
-  includeAll?: boolean;
-  clusterVersions?: string[];
-  status?: ClusterVersionStatus;
-  versionStatus?: VersionStatus;
+  clusterType?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  defaultOnly?: boolean | undefined;
+  includeAll?: boolean | undefined;
+  clusterVersions?: string[] | undefined;
+  status?: ClusterVersionStatus | undefined;
+  versionStatus?: VersionStatus | undefined;
 }
 export interface DurationConstraints {
-  min?: string;
-  max?: string;
+  min?: string | undefined;
+  max?: string | undefined;
 }
 export interface DurationParameterConfig {
-  defaultValue?: string;
-  constraints?: DurationConstraints;
+  defaultValue?: string | undefined;
+  constraints?: DurationConstraints | undefined;
 }
 export interface IntegerRangeConstraint {
-  min?: number;
-  max?: number;
+  min?: number | undefined;
+  max?: number | undefined;
 }
 export interface PortRangeConstraints {
-  minPort?: IntegerRangeConstraint;
-  maxPort?: IntegerRangeConstraint;
+  minPort?: IntegerRangeConstraint | undefined;
+  maxPort?: IntegerRangeConstraint | undefined;
 }
 export interface PortRangeParameterConfig {
-  defaultValue?: ServiceNodePortRange;
-  constraints?: PortRangeConstraints;
+  defaultValue?: ServiceNodePortRange | undefined;
+  constraints?: PortRangeConstraints | undefined;
 }
 export interface KubeApiServerVersionConfig {
-  eventTtl?: DurationParameterConfig;
-  serviceNodePortRange?: PortRangeParameterConfig;
+  eventTtl?: DurationParameterConfig | undefined;
+  serviceNodePortRange?: PortRangeParameterConfig | undefined;
 }
 export type AllowedValuesList = string[];
 export interface AllowedValuesConstraint {
-  allowedValues?: string[];
+  allowedValues?: string[] | undefined;
 }
 export interface ResourceConstraints {
-  name?: AllowedValuesConstraint;
-  weight?: IntegerRangeConstraint;
+  name?: AllowedValuesConstraint | undefined;
+  weight?: IntegerRangeConstraint | undefined;
 }
 export interface ScoringStrategyConstraints {
-  scoringStrategy?: AllowedValuesConstraint;
-  resources?: ResourceConstraints;
+  scoringStrategy?: AllowedValuesConstraint | undefined;
+  resources?: ResourceConstraints | undefined;
 }
 export interface ScoringStrategyConfig {
-  defaultValue?: ScoringStrategy;
-  constraints?: ScoringStrategyConstraints;
+  defaultValue?: ScoringStrategy | undefined;
+  constraints?: ScoringStrategyConstraints | undefined;
 }
 export interface NodeResourcesFitVersionConfig {
-  scoringStrategy?: ScoringStrategyConfig;
+  scoringStrategy?: ScoringStrategyConfig | undefined;
 }
 export interface KubeSchedulerVersionConfig {
-  nodeResourcesFit?: NodeResourcesFitVersionConfig;
+  nodeResourcesFit?: NodeResourcesFitVersionConfig | undefined;
 }
 export interface IntegerConstraints {
-  min?: number;
-  max?: number;
+  min?: number | undefined;
+  max?: number | undefined;
 }
 export interface IntegerParameterConfig {
-  defaultValue?: number;
-  constraints?: IntegerConstraints;
+  defaultValue?: number | undefined;
+  constraints?: IntegerConstraints | undefined;
 }
 export interface PodGcControllerVersionConfig {
-  terminatedPodGcThreshold?: IntegerParameterConfig;
+  terminatedPodGcThreshold?: IntegerParameterConfig | undefined;
 }
 export interface HorizontalPodAutoscalerControllerVersionConfig {
-  horizontalPodAutoscalerSyncPeriod?: DurationParameterConfig;
+  horizontalPodAutoscalerSyncPeriod?: DurationParameterConfig | undefined;
 }
 export interface KubeControllerManagerVersionConfig {
-  podGcControllerConfig?: PodGcControllerVersionConfig;
-  horizontalPodAutoscalerControllerConfig?: HorizontalPodAutoscalerControllerVersionConfig;
+  podGcControllerConfig?: PodGcControllerVersionConfig | undefined;
+  horizontalPodAutoscalerControllerConfig?:
+    | HorizontalPodAutoscalerControllerVersionConfig
+    | undefined;
 }
 export interface ControlPlaneConfigInfo {
-  kubeApiServerConfig?: KubeApiServerVersionConfig;
-  kubeSchedulerConfig?: KubeSchedulerVersionConfig;
-  kubeControllerManagerConfig?: KubeControllerManagerVersionConfig;
+  kubeApiServerConfig?: KubeApiServerVersionConfig | undefined;
+  kubeSchedulerConfig?: KubeSchedulerVersionConfig | undefined;
+  kubeControllerManagerConfig?: KubeControllerManagerVersionConfig | undefined;
 }
 export interface ControlPlaneScalingTierInfo {
-  tierName?: string;
-  apiRequestConcurrency?: number;
-  podSchedulingRatePerSecond?: number;
-  clusterDatabaseSizeGb?: number;
-  controlPlaneComponentConfigOverrides?: ControlPlaneConfigInfo;
+  tierName?: string | undefined;
+  apiRequestConcurrency?: number | undefined;
+  podSchedulingRatePerSecond?: number | undefined;
+  clusterDatabaseSizeGb?: number | undefined;
+  controlPlaneComponentConfigOverrides?: ControlPlaneConfigInfo | undefined;
 }
 export type ControlPlaneScalingTierList = ControlPlaneScalingTierInfo[];
 export interface ClusterVersionInformation {
-  clusterVersion?: string;
-  clusterType?: string;
-  defaultPlatformVersion?: string;
-  defaultVersion?: boolean;
-  releaseDate?: Date;
-  endOfStandardSupportDate?: Date;
-  endOfExtendedSupportDate?: Date;
-  status?: ClusterVersionStatus;
-  versionStatus?: VersionStatus;
-  kubernetesPatchVersion?: string;
-  controlPlaneScalingTiers?: ControlPlaneScalingTierInfo[];
-  controlPlaneComponentConfig?: ControlPlaneConfigInfo;
+  clusterVersion?: string | undefined;
+  clusterType?: string | undefined;
+  defaultPlatformVersion?: string | undefined;
+  defaultVersion?: boolean | undefined;
+  releaseDate?: Date | undefined;
+  endOfStandardSupportDate?: Date | undefined;
+  endOfExtendedSupportDate?: Date | undefined;
+  status?: ClusterVersionStatus | undefined;
+  versionStatus?: VersionStatus | undefined;
+  kubernetesPatchVersion?: string | undefined;
+  controlPlaneScalingTiers?: ControlPlaneScalingTierInfo[] | undefined;
+  controlPlaneComponentConfig?: ControlPlaneConfigInfo | undefined;
 }
 export type ClusterVersionList = ClusterVersionInformation[];
 export interface DescribeClusterVersionsResponse {
-  nextToken?: string;
-  clusterVersions?: ClusterVersionInformation[];
+  nextToken?: string | undefined;
+  clusterVersions?: ClusterVersionInformation[] | undefined;
 }
 export interface DescribeEksAnywhereSubscriptionRequest {
   id: string;
 }
 export interface DescribeEksAnywhereSubscriptionResponse {
-  subscription?: EksAnywhereSubscription;
+  subscription?: EksAnywhereSubscription | undefined;
 }
 export interface DescribeFargateProfileRequest {
   clusterName: string;
   fargateProfileName: string;
 }
 export interface DescribeFargateProfileResponse {
-  fargateProfile?: FargateProfile;
+  fargateProfile?: FargateProfile | undefined;
 }
 export interface IdentityProviderConfig {
   type: string;
@@ -1640,24 +1668,24 @@ export interface DescribeIdentityProviderConfigRequest {
 }
 export type ConfigStatus = "CREATING" | "DELETING" | "ACTIVE" | (string & {});
 export interface OidcIdentityProviderConfig {
-  identityProviderConfigName?: string;
-  identityProviderConfigArn?: string;
-  clusterName?: string;
-  issuerUrl?: string;
-  clientId?: string;
-  usernameClaim?: string;
-  usernamePrefix?: string;
-  groupsClaim?: string;
-  groupsPrefix?: string;
-  requiredClaims?: { [key: string]: string | undefined };
-  tags?: { [key: string]: string | undefined };
-  status?: ConfigStatus;
+  identityProviderConfigName?: string | undefined;
+  identityProviderConfigArn?: string | undefined;
+  clusterName?: string | undefined;
+  issuerUrl?: string | undefined;
+  clientId?: string | undefined;
+  usernameClaim?: string | undefined;
+  usernamePrefix?: string | undefined;
+  groupsClaim?: string | undefined;
+  groupsPrefix?: string | undefined;
+  requiredClaims?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  status?: ConfigStatus | undefined;
 }
 export interface IdentityProviderConfigResponse {
-  oidc?: OidcIdentityProviderConfig;
+  oidc?: OidcIdentityProviderConfig | undefined;
 }
 export interface DescribeIdentityProviderConfigResponse {
-  identityProviderConfig?: IdentityProviderConfigResponse;
+  identityProviderConfig?: IdentityProviderConfigResponse | undefined;
 }
 export interface DescribeInsightRequest {
   clusterName: string;
@@ -1670,89 +1698,89 @@ export type Category =
   | (string & {});
 export type InsightStatusValue = "PASSING" | "WARNING" | "ERROR" | "UNKNOWN" | (string & {});
 export interface InsightStatus {
-  status?: InsightStatusValue;
-  reason?: string;
+  status?: InsightStatusValue | undefined;
+  reason?: string | undefined;
 }
 export type AdditionalInfoMap = { [key: string]: string | undefined };
 export interface InsightResourceDetail {
-  insightStatus?: InsightStatus;
-  kubernetesResourceUri?: string;
-  arn?: string;
+  insightStatus?: InsightStatus | undefined;
+  kubernetesResourceUri?: string | undefined;
+  arn?: string | undefined;
 }
 export type InsightResourceDetails = InsightResourceDetail[];
 export interface ClientStat {
-  userAgent?: string;
-  numberOfRequestsLast30Days?: number;
-  lastRequestTime?: Date;
+  userAgent?: string | undefined;
+  numberOfRequestsLast30Days?: number | undefined;
+  lastRequestTime?: Date | undefined;
 }
 export type ClientStats = ClientStat[];
 export interface DeprecationDetail {
-  usage?: string;
-  replacedWith?: string;
-  stopServingVersion?: string;
-  startServingReplacementVersion?: string;
-  clientStats?: ClientStat[];
+  usage?: string | undefined;
+  replacedWith?: string | undefined;
+  stopServingVersion?: string | undefined;
+  startServingReplacementVersion?: string | undefined;
+  clientStats?: ClientStat[] | undefined;
 }
 export type DeprecationDetails = DeprecationDetail[];
 export interface AddonCompatibilityDetail {
-  name?: string;
-  compatibleVersions?: string[];
+  name?: string | undefined;
+  compatibleVersions?: string[] | undefined;
 }
 export type AddonCompatibilityDetails = AddonCompatibilityDetail[];
 export interface InsightCategorySpecificSummary {
-  deprecationDetails?: DeprecationDetail[];
-  addonCompatibilityDetails?: AddonCompatibilityDetail[];
+  deprecationDetails?: DeprecationDetail[] | undefined;
+  addonCompatibilityDetails?: AddonCompatibilityDetail[] | undefined;
 }
 export interface Insight {
-  id?: string;
-  name?: string;
-  category?: Category;
-  kubernetesVersion?: string;
-  lastRefreshTime?: Date;
-  lastTransitionTime?: Date;
-  description?: string;
-  insightStatus?: InsightStatus;
-  recommendation?: string;
-  additionalInfo?: { [key: string]: string | undefined };
-  resources?: InsightResourceDetail[];
-  categorySpecificSummary?: InsightCategorySpecificSummary;
+  id?: string | undefined;
+  name?: string | undefined;
+  category?: Category | undefined;
+  kubernetesVersion?: string | undefined;
+  lastRefreshTime?: Date | undefined;
+  lastTransitionTime?: Date | undefined;
+  description?: string | undefined;
+  insightStatus?: InsightStatus | undefined;
+  recommendation?: string | undefined;
+  additionalInfo?: { [key: string]: string | undefined } | undefined;
+  resources?: InsightResourceDetail[] | undefined;
+  categorySpecificSummary?: InsightCategorySpecificSummary | undefined;
 }
 export interface DescribeInsightResponse {
-  insight?: Insight;
+  insight?: Insight | undefined;
 }
 export interface DescribeInsightsRefreshRequest {
   clusterName: string;
 }
 export type InsightsRefreshStatus = "IN_PROGRESS" | "FAILED" | "COMPLETED" | (string & {});
 export interface DescribeInsightsRefreshResponse {
-  message?: string;
-  status?: InsightsRefreshStatus;
-  startedAt?: Date;
-  endedAt?: Date;
+  message?: string | undefined;
+  status?: InsightsRefreshStatus | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
 }
 export interface DescribeNodegroupRequest {
   clusterName: string;
   nodegroupName: string;
 }
 export interface DescribeNodegroupResponse {
-  nodegroup?: Nodegroup;
+  nodegroup?: Nodegroup | undefined;
 }
 export interface DescribePodIdentityAssociationRequest {
   clusterName: string;
   associationId: string;
 }
 export interface DescribePodIdentityAssociationResponse {
-  association?: PodIdentityAssociation;
+  association?: PodIdentityAssociation | undefined;
 }
 export interface DescribeUpdateRequest {
   name: string;
   updateId: string;
-  nodegroupName?: string;
-  addonName?: string;
-  capabilityName?: string;
+  nodegroupName?: string | undefined;
+  addonName?: string | undefined;
+  capabilityName?: string | undefined;
 }
 export interface DescribeUpdateResponse {
-  update?: Update;
+  update?: Update | undefined;
 }
 export interface DisassociateAccessPolicyRequest {
   clusterName: string;
@@ -1763,101 +1791,101 @@ export interface DisassociateAccessPolicyResponse {}
 export interface DisassociateIdentityProviderConfigRequest {
   clusterName: string;
   identityProviderConfig: IdentityProviderConfig;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
 }
 export interface DisassociateIdentityProviderConfigResponse {
-  update?: Update;
+  update?: Update | undefined;
 }
 export type ListAccessEntriesRequestMaxResults = number;
 export interface ListAccessEntriesRequest {
   clusterName: string;
-  associatedPolicyArn?: string;
-  maxResults?: number;
-  nextToken?: string;
+  associatedPolicyArn?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAccessEntriesResponse {
-  accessEntries?: string[];
-  nextToken?: string;
+  accessEntries?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListAccessPoliciesRequestMaxResults = number;
 export interface ListAccessPoliciesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AccessPolicy {
-  name?: string;
-  arn?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
 }
 export type AccessPoliciesList = AccessPolicy[];
 export interface ListAccessPoliciesResponse {
-  accessPolicies?: AccessPolicy[];
-  nextToken?: string;
+  accessPolicies?: AccessPolicy[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListAddonsRequestMaxResults = number;
 export interface ListAddonsRequest {
   clusterName: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAddonsResponse {
-  addons?: string[];
-  nextToken?: string;
+  addons?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListAssociatedAccessPoliciesRequestMaxResults = number;
 export interface ListAssociatedAccessPoliciesRequest {
   clusterName: string;
   principalArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AssociatedAccessPoliciesList = AssociatedAccessPolicy[];
 export interface ListAssociatedAccessPoliciesResponse {
-  clusterName?: string;
-  principalArn?: string;
-  nextToken?: string;
-  associatedAccessPolicies?: AssociatedAccessPolicy[];
+  clusterName?: string | undefined;
+  principalArn?: string | undefined;
+  nextToken?: string | undefined;
+  associatedAccessPolicies?: AssociatedAccessPolicy[] | undefined;
 }
 export type ListCapabilitiesRequestMaxResults = number;
 export interface ListCapabilitiesRequest {
   clusterName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CapabilitySummary {
-  capabilityName?: string;
-  arn?: string;
-  type?: CapabilityType;
-  status?: CapabilityStatus;
-  version?: string;
-  createdAt?: Date;
-  modifiedAt?: Date;
+  capabilityName?: string | undefined;
+  arn?: string | undefined;
+  type?: CapabilityType | undefined;
+  status?: CapabilityStatus | undefined;
+  version?: string | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
 }
 export type CapabilitySummaryList = CapabilitySummary[];
 export interface ListCapabilitiesResponse {
-  capabilities?: CapabilitySummary[];
-  nextToken?: string;
+  capabilities?: CapabilitySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type CertificateAuthorityMaxResults = number;
 export interface ListCertificateAuthoritiesRequest {
   clusterName: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type CertificateAuthoritySummaryList = CertificateAuthoritySummary[];
 export interface ListCertificateAuthoritiesResponse {
-  certificateAuthorities?: CertificateAuthoritySummary[];
-  nextToken?: string;
+  certificateAuthorities?: CertificateAuthoritySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListClustersRequestMaxResults = number;
 export type IncludeClustersList = string[];
 export interface ListClustersRequest {
-  maxResults?: number;
-  nextToken?: string;
-  include?: string[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  include?: string[] | undefined;
 }
 export interface ListClustersResponse {
-  clusters?: string[];
-  nextToken?: string;
+  clusters?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListEksAnywhereSubscriptionsRequestMaxResults = number;
 export type EksAnywhereSubscriptionStatus =
@@ -1870,114 +1898,114 @@ export type EksAnywhereSubscriptionStatus =
   | (string & {});
 export type EksAnywhereSubscriptionStatusValues = EksAnywhereSubscriptionStatus[];
 export interface ListEksAnywhereSubscriptionsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  includeStatus?: EksAnywhereSubscriptionStatus[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  includeStatus?: EksAnywhereSubscriptionStatus[] | undefined;
 }
 export type EksAnywhereSubscriptionList = EksAnywhereSubscription[];
 export interface ListEksAnywhereSubscriptionsResponse {
-  subscriptions?: EksAnywhereSubscription[];
-  nextToken?: string;
+  subscriptions?: EksAnywhereSubscription[] | undefined;
+  nextToken?: string | undefined;
 }
 export type FargateProfilesRequestMaxResults = number;
 export interface ListFargateProfilesRequest {
   clusterName: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListFargateProfilesResponse {
-  fargateProfileNames?: string[];
-  nextToken?: string;
+  fargateProfileNames?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListIdentityProviderConfigsRequestMaxResults = number;
 export interface ListIdentityProviderConfigsRequest {
   clusterName: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type IdentityProviderConfigs = IdentityProviderConfig[];
 export interface ListIdentityProviderConfigsResponse {
-  identityProviderConfigs?: IdentityProviderConfig[];
-  nextToken?: string;
+  identityProviderConfigs?: IdentityProviderConfig[] | undefined;
+  nextToken?: string | undefined;
 }
 export type CategoryList = Category[];
 export type InsightStatusValueList = InsightStatusValue[];
 export interface InsightsFilter {
-  categories?: Category[];
-  kubernetesVersions?: string[];
-  statuses?: InsightStatusValue[];
+  categories?: Category[] | undefined;
+  kubernetesVersions?: string[] | undefined;
+  statuses?: InsightStatusValue[] | undefined;
 }
 export type ListInsightsMaxResults = number;
 export interface ListInsightsRequest {
   clusterName: string;
-  filter?: InsightsFilter;
-  maxResults?: number;
-  nextToken?: string;
+  filter?: InsightsFilter | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface InsightSummary {
-  id?: string;
-  name?: string;
-  category?: Category;
-  kubernetesVersion?: string;
-  lastRefreshTime?: Date;
-  lastTransitionTime?: Date;
-  description?: string;
-  insightStatus?: InsightStatus;
+  id?: string | undefined;
+  name?: string | undefined;
+  category?: Category | undefined;
+  kubernetesVersion?: string | undefined;
+  lastRefreshTime?: Date | undefined;
+  lastTransitionTime?: Date | undefined;
+  description?: string | undefined;
+  insightStatus?: InsightStatus | undefined;
 }
 export type InsightSummaries = InsightSummary[];
 export interface ListInsightsResponse {
-  insights?: InsightSummary[];
-  nextToken?: string;
+  insights?: InsightSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListNodegroupsRequestMaxResults = number;
 export interface ListNodegroupsRequest {
   clusterName: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListNodegroupsResponse {
-  nodegroups?: string[];
-  nextToken?: string;
+  nodegroups?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListPodIdentityAssociationsMaxResults = number;
 export interface ListPodIdentityAssociationsRequest {
   clusterName: string;
-  namespace?: string;
-  serviceAccount?: string;
-  maxResults?: number;
-  nextToken?: string;
+  namespace?: string | undefined;
+  serviceAccount?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface PodIdentityAssociationSummary {
-  clusterName?: string;
-  namespace?: string;
-  serviceAccount?: string;
-  associationArn?: string;
-  associationId?: string;
-  ownerArn?: string;
+  clusterName?: string | undefined;
+  namespace?: string | undefined;
+  serviceAccount?: string | undefined;
+  associationArn?: string | undefined;
+  associationId?: string | undefined;
+  ownerArn?: string | undefined;
 }
 export type PodIdentityAssociationSummaries = PodIdentityAssociationSummary[];
 export interface ListPodIdentityAssociationsResponse {
-  associations?: PodIdentityAssociationSummary[];
-  nextToken?: string;
+  associations?: PodIdentityAssociationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ListUpdatesRequestMaxResults = number;
 export interface ListUpdatesRequest {
   name: string;
-  nodegroupName?: string;
-  addonName?: string;
-  capabilityName?: string;
-  nextToken?: string;
-  maxResults?: number;
+  nodegroupName?: string | undefined;
+  addonName?: string | undefined;
+  capabilityName?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListUpdatesResponse {
-  updateIds?: string[];
-  nextToken?: string;
+  updateIds?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ConnectorConfigProvider =
   | "EKS_ANYWHERE"
@@ -1997,18 +2025,18 @@ export interface ConnectorConfigRequest {
 export interface RegisterClusterRequest {
   name: string;
   connectorConfig: ConnectorConfigRequest;
-  clientRequestToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientRequestToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegisterClusterResponse {
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
 }
 export interface StartInsightsRefreshRequest {
   clusterName: string;
 }
 export interface StartInsightsRefreshResponse {
-  message?: string;
-  status?: InsightsRefreshStatus;
+  message?: string | undefined;
+  status?: InsightsRefreshStatus | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -2024,139 +2052,144 @@ export interface UntagResourceResponse {}
 export interface UpdateAccessEntryRequest {
   clusterName: string;
   principalArn: string;
-  kubernetesGroups?: string[];
-  clientRequestToken?: string;
-  username?: string;
+  kubernetesGroups?: string[] | undefined;
+  clientRequestToken?: string | undefined;
+  username?: string | undefined;
 }
 export interface UpdateAccessEntryResponse {
-  accessEntry?: AccessEntry;
+  accessEntry?: AccessEntry | undefined;
 }
 export interface UpdateAddonRequest {
   clusterName: string;
   addonName: string;
-  addonVersion?: string;
-  serviceAccountRoleArn?: string;
-  resolveConflicts?: ResolveConflicts;
-  clientRequestToken?: string;
-  configurationValues?: string;
-  podIdentityAssociations?: AddonPodIdentityAssociations[];
+  addonVersion?: string | undefined;
+  serviceAccountRoleArn?: string | undefined;
+  resolveConflicts?: ResolveConflicts | undefined;
+  clientRequestToken?: string | undefined;
+  configurationValues?: string | undefined;
+  podIdentityAssociations?: AddonPodIdentityAssociations[] | undefined;
 }
 export interface UpdateAddonResponse {
-  update?: Update;
+  update?: Update | undefined;
 }
 export interface UpdateRoleMappings {
-  addOrUpdateRoleMappings?: ArgoCdRoleMapping[];
-  removeRoleMappings?: ArgoCdRoleMapping[];
+  addOrUpdateRoleMappings?: ArgoCdRoleMapping[] | undefined;
+  removeRoleMappings?: ArgoCdRoleMapping[] | undefined;
 }
 export interface UpdateArgoCdConfig {
-  rbacRoleMappings?: UpdateRoleMappings;
-  networkAccess?: ArgoCdNetworkAccessConfigRequest;
+  rbacRoleMappings?: UpdateRoleMappings | undefined;
+  networkAccess?: ArgoCdNetworkAccessConfigRequest | undefined;
+}
+export interface UpdateAckConfig {
+  enableCrossNamespace?: boolean | undefined;
+  disabledServices?: string[] | undefined;
 }
 export interface UpdateCapabilityConfiguration {
-  argoCd?: UpdateArgoCdConfig;
+  argoCd?: UpdateArgoCdConfig | undefined;
+  ack?: UpdateAckConfig | undefined;
 }
 export interface UpdateCapabilityRequest {
   clusterName: string;
   capabilityName: string;
-  roleArn?: string;
-  configuration?: UpdateCapabilityConfiguration;
-  clientRequestToken?: string;
-  deletePropagationPolicy?: CapabilityDeletePropagationPolicy;
+  roleArn?: string | undefined;
+  configuration?: UpdateCapabilityConfiguration | undefined;
+  clientRequestToken?: string | undefined;
+  deletePropagationPolicy?: CapabilityDeletePropagationPolicy | undefined;
 }
 export interface UpdateCapabilityResponse {
-  update?: Update;
+  update?: Update | undefined;
 }
 export interface UpdateAccessConfigRequest {
-  authenticationMode?: AuthenticationMode;
+  authenticationMode?: AuthenticationMode | undefined;
 }
 export interface UpdateClusterConfigRequest {
   name: string;
-  resourcesVpcConfig?: VpcConfigRequest;
-  logging?: Logging;
-  clientRequestToken?: string;
-  accessConfig?: UpdateAccessConfigRequest;
-  upgradePolicy?: UpgradePolicyRequest;
-  zonalShiftConfig?: ZonalShiftConfigRequest;
-  computeConfig?: ComputeConfigRequest;
-  kubernetesNetworkConfig?: KubernetesNetworkConfigRequest;
-  storageConfig?: StorageConfigRequest;
-  remoteNetworkConfig?: RemoteNetworkConfigRequest;
-  deletionProtection?: boolean;
-  controlPlaneScalingConfig?: ControlPlaneScalingConfig;
-  kubeApiServerConfig?: KubeApiServerConfigRequest;
-  kubeSchedulerConfig?: KubeSchedulerConfigRequest;
-  kubeControllerManagerConfig?: KubeControllerManagerConfigRequest;
+  resourcesVpcConfig?: VpcConfigRequest | undefined;
+  logging?: Logging | undefined;
+  clientRequestToken?: string | undefined;
+  accessConfig?: UpdateAccessConfigRequest | undefined;
+  upgradePolicy?: UpgradePolicyRequest | undefined;
+  zonalShiftConfig?: ZonalShiftConfigRequest | undefined;
+  computeConfig?: ComputeConfigRequest | undefined;
+  kubernetesNetworkConfig?: KubernetesNetworkConfigRequest | undefined;
+  storageConfig?: StorageConfigRequest | undefined;
+  remoteNetworkConfig?: RemoteNetworkConfigRequest | undefined;
+  deletionProtection?: boolean | undefined;
+  controlPlaneScalingConfig?: ControlPlaneScalingConfig | undefined;
+  kubeApiServerConfig?: KubeApiServerConfigRequest | undefined;
+  kubeSchedulerConfig?: KubeSchedulerConfigRequest | undefined;
+  kubeControllerManagerConfig?: KubeControllerManagerConfigRequest | undefined;
 }
 export interface UpdateClusterConfigResponse {
-  update?: Update;
+  update?: Update | undefined;
 }
 export interface RollbackConfig {
-  timeoutMinutes?: number;
+  timeoutMinutes?: number | undefined;
 }
 export interface UpdateClusterVersionRequest {
   name: string;
   version: string;
-  clientRequestToken?: string;
-  force?: boolean;
-  rollbackConfig?: RollbackConfig;
+  clientRequestToken?: string | undefined;
+  force?: boolean | undefined;
+  rollbackConfig?: RollbackConfig | undefined;
 }
 export interface UpdateClusterVersionResponse {
-  update?: Update;
+  update?: Update | undefined;
 }
 export interface UpdateEksAnywhereSubscriptionRequest {
   id: string;
   autoRenew: boolean;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
 }
 export interface UpdateEksAnywhereSubscriptionResponse {
-  subscription?: EksAnywhereSubscription;
+  subscription?: EksAnywhereSubscription | undefined;
 }
 export type LabelsKeyList = string[];
 export interface UpdateLabelsPayload {
-  addOrUpdateLabels?: { [key: string]: string | undefined };
-  removeLabels?: string[];
+  addOrUpdateLabels?: { [key: string]: string | undefined } | undefined;
+  removeLabels?: string[] | undefined;
 }
 export interface UpdateTaintsPayload {
-  addOrUpdateTaints?: Taint[];
-  removeTaints?: Taint[];
+  addOrUpdateTaints?: Taint[] | undefined;
+  removeTaints?: Taint[] | undefined;
 }
 export interface UpdateNodegroupConfigRequest {
   clusterName: string;
   nodegroupName: string;
-  labels?: UpdateLabelsPayload;
-  taints?: UpdateTaintsPayload;
-  scalingConfig?: NodegroupScalingConfig;
-  updateConfig?: NodegroupUpdateConfig;
-  nodeRepairConfig?: NodeRepairConfig;
-  warmPoolConfig?: WarmPoolConfig;
-  clientRequestToken?: string;
+  labels?: UpdateLabelsPayload | undefined;
+  taints?: UpdateTaintsPayload | undefined;
+  scalingConfig?: NodegroupScalingConfig | undefined;
+  updateConfig?: NodegroupUpdateConfig | undefined;
+  nodeRepairConfig?: NodeRepairConfig | undefined;
+  warmPoolConfig?: WarmPoolConfig | undefined;
+  clientRequestToken?: string | undefined;
 }
 export interface UpdateNodegroupConfigResponse {
-  update?: Update;
+  update?: Update | undefined;
 }
 export interface UpdateNodegroupVersionRequest {
   clusterName: string;
   nodegroupName: string;
-  version?: string;
-  releaseVersion?: string;
-  launchTemplate?: LaunchTemplateSpecification;
-  force?: boolean;
-  clientRequestToken?: string;
+  version?: string | undefined;
+  releaseVersion?: string | undefined;
+  launchTemplate?: LaunchTemplateSpecification | undefined;
+  force?: boolean | undefined;
+  clientRequestToken?: string | undefined;
 }
 export interface UpdateNodegroupVersionResponse {
-  update?: Update;
+  update?: Update | undefined;
 }
 export interface UpdatePodIdentityAssociationRequest {
   clusterName: string;
   associationId: string;
-  roleArn?: string;
-  clientRequestToken?: string;
-  disableSessionTags?: boolean;
-  targetRoleArn?: string;
-  policy?: string;
+  roleArn?: string | undefined;
+  clientRequestToken?: string | undefined;
+  disableSessionTags?: boolean | undefined;
+  targetRoleArn?: string | undefined;
+  policy?: string | undefined;
 }
 export interface UpdatePodIdentityAssociationResponse {
-  association?: PodIdentityAssociation;
+  association?: PodIdentityAssociation | undefined;
 }
 export type ActivateCertificateAuthorityError =
   | InvalidParameterException
@@ -2187,7 +2220,7 @@ export type ActivateCertificateAuthorityError =
  * cluster certificate authority in the *Amazon EKS User Guide*.
  */
 export const activateCertificateAuthority: API.OperationMethod<
-  ActivateCertificateAuthorityRequest,
+  ActivateCertificateAuthorityRequest & RegionInput,
   ActivateCertificateAuthorityResponse,
   ActivateCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -2219,7 +2252,7 @@ export type AssociateAccessPolicyError =
  * access policies to and from access entries in the *Amazon EKS User Guide*.
  */
 export const associateAccessPolicy: API.OperationMethod<
-  AssociateAccessPolicyRequest,
+  AssociateAccessPolicyRequest & RegionInput,
   AssociateAccessPolicyResponse,
   AssociateAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2256,7 +2289,7 @@ export type AssociateEncryptionConfigError =
  * without migrating applications to new Amazon EKS clusters.
  */
 export const associateEncryptionConfig: API.OperationMethod<
-  AssociateEncryptionConfigRequest,
+  AssociateEncryptionConfigRequest & RegionInput,
   AssociateEncryptionConfigResponse,
   AssociateEncryptionConfigError,
   Credentials | HttpClient.HttpClient
@@ -2300,7 +2333,7 @@ export type AssociateIdentityProviderConfigError =
  * Authorization in the Kubernetes documentation.
  */
 export const associateIdentityProviderConfig: API.OperationMethod<
-  AssociateIdentityProviderConfigRequest,
+  AssociateIdentityProviderConfigRequest & RegionInput,
   AssociateIdentityProviderConfigResponse,
   AssociateIdentityProviderConfigError,
   Credentials | HttpClient.HttpClient
@@ -2344,7 +2377,7 @@ export type CancelUpdateError =
  * plane rollback has already begun, the cancellation request fails.
  */
 export const cancelUpdate: API.OperationMethod<
-  CancelUpdateRequest,
+  CancelUpdateRequest & RegionInput,
   CancelUpdateResponse,
   CancelUpdateError,
   Credentials | HttpClient.HttpClient
@@ -2394,7 +2427,7 @@ export type CreateAccessEntryError =
  * *Amazon EKS User Guide*.
  */
 export const createAccessEntry: API.OperationMethod<
-  CreateAccessEntryRequest,
+  CreateAccessEntryRequest & RegionInput,
   CreateAccessEntryResponse,
   CreateAccessEntryError,
   Credentials | HttpClient.HttpClient
@@ -2432,7 +2465,7 @@ export type CreateAddonError =
  * add-ons in the *Amazon EKS User Guide*.
  */
 export const createAddon: API.OperationMethod<
-  CreateAddonRequest,
+  CreateAddonRequest & RegionInput,
   CreateAddonResponse,
   CreateAddonError,
   Credentials | HttpClient.HttpClient
@@ -2473,7 +2506,7 @@ export type CreateCapabilityError =
  * For more information, see EKS Capabilities in the *Amazon EKS User Guide*.
  */
 export const createCapability: API.OperationMethod<
-  CreateCapabilityRequest,
+  CreateCapabilityRequest & RegionInput,
   CreateCapabilityResponse,
   CreateCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -2533,7 +2566,7 @@ export type CreateCertificateAuthorityError =
  * cluster certificate authority in the *Amazon EKS User Guide*.
  */
 export const createCertificateAuthority: API.OperationMethod<
-  CreateCertificateAuthorityRequest,
+  CreateCertificateAuthorityRequest & RegionInput,
   CreateCertificateAuthorityResponse,
   CreateCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -2611,7 +2644,7 @@ export type CreateClusterError =
  * nodes in the *Amazon EKS User Guide*.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResponse,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -2648,7 +2681,7 @@ export type CreateEksAnywhereSubscriptionError =
  * granted access to EKS Anywhere Curated Packages.
  */
 export const createEksAnywhereSubscription: API.OperationMethod<
-  CreateEksAnywhereSubscriptionRequest,
+  CreateEksAnywhereSubscriptionRequest & RegionInput,
   CreateEksAnywhereSubscriptionResponse,
   CreateEksAnywhereSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2711,7 +2744,7 @@ export type CreateFargateProfileError =
  * For more information, see Fargate profile in the *Amazon EKS User Guide*.
  */
 export const createFargateProfile: API.OperationMethod<
-  CreateFargateProfileRequest,
+  CreateFargateProfileRequest & RegionInput,
   CreateFargateProfileResponse,
   CreateFargateProfileError,
   Credentials | HttpClient.HttpClient
@@ -2766,7 +2799,7 @@ export type CreateNodegroupError =
  * Windows on Amazon EKS.
  */
 export const createNodegroup: API.OperationMethod<
-  CreateNodegroupRequest,
+  CreateNodegroupRequest & RegionInput,
   CreateNodegroupResponse,
   CreateNodegroupError,
   Credentials | HttpClient.HttpClient
@@ -2828,7 +2861,7 @@ export type CreatePodIdentityAssociationError =
  * target role, allowing secure access to resources in another Amazon Web Services account.
  */
 export const createPodIdentityAssociation: API.OperationMethod<
-  CreatePodIdentityAssociationRequest,
+  CreatePodIdentityAssociationRequest & RegionInput,
   CreatePodIdentityAssociationResponse,
   CreatePodIdentityAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2863,7 +2896,7 @@ export type DeleteAccessEntryError =
  * it.
  */
 export const deleteAccessEntry: API.OperationMethod<
-  DeleteAccessEntryRequest,
+  DeleteAccessEntryRequest & RegionInput,
   DeleteAccessEntryResponse,
   DeleteAccessEntryError,
   Credentials | HttpClient.HttpClient
@@ -2892,7 +2925,7 @@ export type DeleteAddonError =
  * start an add-on on the cluster using the Kubernetes API.
  */
 export const deleteAddon: API.OperationMethod<
-  DeleteAddonRequest,
+  DeleteAddonRequest & RegionInput,
   DeleteAddonResponse,
   DeleteAddonError,
   Credentials | HttpClient.HttpClient
@@ -2926,7 +2959,7 @@ export type DeleteCapabilityError =
  * Before deleting a capability, you should delete all Kubernetes resources that were created by the capability. After the capability is deleted, these resources become difficult to manage because the controller that managed them is no longer available. To delete resources before removing the capability, use `kubectl delete` or remove them through your GitOps workflow.
  */
 export const deleteCapability: API.OperationMethod<
-  DeleteCapabilityRequest,
+  DeleteCapabilityRequest & RegionInput,
   DeleteCapabilityResponse,
   DeleteCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -2968,7 +3001,7 @@ export type DeleteCertificateAuthorityError =
  * an asynchronous operation that returns an `update` object.
  */
 export const deleteCertificateAuthority: API.OperationMethod<
-  DeleteCertificateAuthorityRequest,
+  DeleteCertificateAuthorityRequest & RegionInput,
   DeleteCertificateAuthorityResponse,
   DeleteCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -3011,7 +3044,7 @@ export type DeleteClusterError =
  * `DeleteFargateProfile`.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
+  DeleteClusterRequest & RegionInput,
   DeleteClusterResponse,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -3046,7 +3079,7 @@ export type DeleteEksAnywhereSubscriptionError =
  * the Amazon Web Services Support Center.
  */
 export const deleteEksAnywhereSubscription: API.OperationMethod<
-  DeleteEksAnywhereSubscriptionRequest,
+  DeleteEksAnywhereSubscriptionRequest & RegionInput,
   DeleteEksAnywhereSubscriptionResponse,
   DeleteEksAnywhereSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -3082,7 +3115,7 @@ export type DeleteFargateProfileError =
  * any other profiles in that cluster.
  */
 export const deleteFargateProfile: API.OperationMethod<
-  DeleteFargateProfileRequest,
+  DeleteFargateProfileRequest & RegionInput,
   DeleteFargateProfileResponse,
   DeleteFargateProfileError,
   Credentials | HttpClient.HttpClient
@@ -3115,7 +3148,7 @@ export type DeleteNodegroupError =
  * Deletes a managed node group.
  */
 export const deleteNodegroup: API.OperationMethod<
-  DeleteNodegroupRequest,
+  DeleteNodegroupRequest & RegionInput,
   DeleteNodegroupResponse,
   DeleteNodegroupError,
   Credentials | HttpClient.HttpClient
@@ -3149,7 +3182,7 @@ export type DeletePodIdentityAssociationError =
  * The temporary Amazon Web Services credentials from the previous IAM role session might still be valid until the session expiry. If you need to immediately revoke the temporary session credentials, then go to the role in the IAM console.
  */
 export const deletePodIdentityAssociation: API.OperationMethod<
-  DeletePodIdentityAssociationRequest,
+  DeletePodIdentityAssociationRequest & RegionInput,
   DeletePodIdentityAssociationResponse,
   DeletePodIdentityAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3184,7 +3217,7 @@ export type DeregisterClusterError =
  * using the Amazon EKS Connector.
  */
 export const deregisterCluster: API.OperationMethod<
-  DeregisterClusterRequest,
+  DeregisterClusterRequest & RegionInput,
   DeregisterClusterResponse,
   DeregisterClusterError,
   Credentials | HttpClient.HttpClient
@@ -3215,7 +3248,7 @@ export type DescribeAccessEntryError =
  * Describes an access entry.
  */
 export const describeAccessEntry: API.OperationMethod<
-  DescribeAccessEntryRequest,
+  DescribeAccessEntryRequest & RegionInput,
   DescribeAccessEntryResponse,
   DescribeAccessEntryError,
   Credentials | HttpClient.HttpClient
@@ -3241,7 +3274,7 @@ export type DescribeAddonError =
  * Describes an Amazon EKS add-on.
  */
 export const describeAddon: API.OperationMethod<
-  DescribeAddonRequest,
+  DescribeAddonRequest & RegionInput,
   DescribeAddonResponse,
   DescribeAddonError,
   Credentials | HttpClient.HttpClient
@@ -3271,7 +3304,7 @@ export type DescribeAddonConfigurationError =
  * Returns configuration options.
  */
 export const describeAddonConfiguration: API.OperationMethod<
-  DescribeAddonConfigurationRequest,
+  DescribeAddonConfigurationRequest & RegionInput,
   DescribeAddonConfigurationResponse,
   DescribeAddonConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3299,7 +3332,7 @@ export type DescribeAddonVersionsError =
  * are returned.
  */
 export const describeAddonVersions: API.PaginatedOperationMethod<
-  DescribeAddonVersionsRequest,
+  DescribeAddonVersionsRequest & RegionInput,
   DescribeAddonVersionsResponse,
   DescribeAddonVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3331,7 +3364,7 @@ export type DescribeCapabilityError =
  * Returns detailed information about a specific managed capability in your Amazon EKS cluster, including its current status, configuration, health information, and any issues that may be affecting its operation.
  */
 export const describeCapability: API.OperationMethod<
-  DescribeCapabilityRequest,
+  DescribeCapabilityRequest & RegionInput,
   DescribeCapabilityResponse,
   DescribeCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -3362,7 +3395,7 @@ export type DescribeCertificateAuthorityError =
  * auto-activation events, and public certificate data.
  */
 export const describeCertificateAuthority: API.OperationMethod<
-  DescribeCertificateAuthorityRequest,
+  DescribeCertificateAuthorityRequest & RegionInput,
   DescribeCertificateAuthorityResponse,
   DescribeCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -3395,7 +3428,7 @@ export type DescribeClusterError =
  * cluster reaches the `ACTIVE` state.
  */
 export const describeCluster: API.OperationMethod<
-  DescribeClusterRequest,
+  DescribeClusterRequest & RegionInput,
   DescribeClusterResponse,
   DescribeClusterError,
   Credentials | HttpClient.HttpClient
@@ -3424,7 +3457,7 @@ export type DescribeClusterVersionsError =
  * Lists available Kubernetes versions for Amazon EKS clusters.
  */
 export const describeClusterVersions: API.PaginatedOperationMethod<
-  DescribeClusterVersionsRequest,
+  DescribeClusterVersionsRequest & RegionInput,
   DescribeClusterVersionsResponse,
   DescribeClusterVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3456,7 +3489,7 @@ export type DescribeEksAnywhereSubscriptionError =
  * Returns descriptive information about a subscription.
  */
 export const describeEksAnywhereSubscription: API.OperationMethod<
-  DescribeEksAnywhereSubscriptionRequest,
+  DescribeEksAnywhereSubscriptionRequest & RegionInput,
   DescribeEksAnywhereSubscriptionResponse,
   DescribeEksAnywhereSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -3486,7 +3519,7 @@ export type DescribeFargateProfileError =
  * Describes an Fargate profile.
  */
 export const describeFargateProfile: API.OperationMethod<
-  DescribeFargateProfileRequest,
+  DescribeFargateProfileRequest & RegionInput,
   DescribeFargateProfileResponse,
   DescribeFargateProfileError,
   Credentials | HttpClient.HttpClient
@@ -3512,7 +3545,7 @@ export type DescribeIdentityProviderConfigError =
  * Describes an identity provider configuration.
  */
 export const describeIdentityProviderConfig: API.OperationMethod<
-  DescribeIdentityProviderConfigRequest,
+  DescribeIdentityProviderConfigRequest & RegionInput,
   DescribeIdentityProviderConfigResponse,
   DescribeIdentityProviderConfigError,
   Credentials | HttpClient.HttpClient
@@ -3543,7 +3576,7 @@ export type DescribeInsightError =
  * Returns details about an insight that you specify using its ID.
  */
 export const describeInsight: API.OperationMethod<
-  DescribeInsightRequest,
+  DescribeInsightRequest & RegionInput,
   DescribeInsightResponse,
   DescribeInsightError,
   Credentials | HttpClient.HttpClient
@@ -3573,7 +3606,7 @@ export type DescribeInsightsRefreshError =
  * Returns the status of the latest on-demand cluster insights refresh operation.
  */
 export const describeInsightsRefresh: API.OperationMethod<
-  DescribeInsightsRefreshRequest,
+  DescribeInsightsRefreshRequest & RegionInput,
   DescribeInsightsRefreshResponse,
   DescribeInsightsRefreshError,
   Credentials | HttpClient.HttpClient
@@ -3604,7 +3637,7 @@ export type DescribeNodegroupError =
  * Describes a managed node group.
  */
 export const describeNodegroup: API.OperationMethod<
-  DescribeNodegroupRequest,
+  DescribeNodegroupRequest & RegionInput,
   DescribeNodegroupResponse,
   DescribeNodegroupError,
   Credentials | HttpClient.HttpClient
@@ -3640,7 +3673,7 @@ export type DescribePodIdentityAssociationError =
  * list by namespace or service account.
  */
 export const describePodIdentityAssociation: API.OperationMethod<
-  DescribePodIdentityAssociationRequest,
+  DescribePodIdentityAssociationRequest & RegionInput,
   DescribePodIdentityAssociationResponse,
   DescribePodIdentityAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3674,7 +3707,7 @@ export type DescribeUpdateError =
  * reason for the failure.
  */
 export const describeUpdate: API.OperationMethod<
-  DescribeUpdateRequest,
+  DescribeUpdateRequest & RegionInput,
   DescribeUpdateResponse,
   DescribeUpdateError,
   Credentials | HttpClient.HttpClient
@@ -3698,7 +3731,7 @@ export type DisassociateAccessPolicyError =
  * Disassociates an access policy from an access entry.
  */
 export const disassociateAccessPolicy: API.OperationMethod<
-  DisassociateAccessPolicyRequest,
+  DisassociateAccessPolicyRequest & RegionInput,
   DisassociateAccessPolicyResponse,
   DisassociateAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3730,7 +3763,7 @@ export type DisassociateIdentityProviderConfigError =
  * with IAM principals.
  */
 export const disassociateIdentityProviderConfig: API.OperationMethod<
-  DisassociateIdentityProviderConfigRequest,
+  DisassociateIdentityProviderConfigRequest & RegionInput,
   DisassociateIdentityProviderConfigResponse,
   DisassociateIdentityProviderConfigError,
   Credentials | HttpClient.HttpClient
@@ -3763,7 +3796,7 @@ export type ListAccessEntriesError =
  * Lists the access entries for your cluster.
  */
 export const listAccessEntries: API.PaginatedOperationMethod<
-  ListAccessEntriesRequest,
+  ListAccessEntriesRequest & RegionInput,
   ListAccessEntriesResponse,
   ListAccessEntriesError,
   Credentials | HttpClient.HttpClient,
@@ -3795,7 +3828,7 @@ export type ListAccessPoliciesError = ServerException | CommonErrors;
  * Lists the available access policies.
  */
 export const listAccessPolicies: API.PaginatedOperationMethod<
-  ListAccessPoliciesRequest,
+  ListAccessPoliciesRequest & RegionInput,
   ListAccessPoliciesResponse,
   ListAccessPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -3828,7 +3861,7 @@ export type ListAddonsError =
  * Lists the installed add-ons.
  */
 export const listAddons: API.PaginatedOperationMethod<
-  ListAddonsRequest,
+  ListAddonsRequest & RegionInput,
   ListAddonsResponse,
   ListAddonsError,
   Credentials | HttpClient.HttpClient,
@@ -3865,7 +3898,7 @@ export type ListAssociatedAccessPoliciesError =
  * Lists the access policies associated with an access entry.
  */
 export const listAssociatedAccessPolicies: API.PaginatedOperationMethod<
-  ListAssociatedAccessPoliciesRequest,
+  ListAssociatedAccessPoliciesRequest & RegionInput,
   ListAssociatedAccessPoliciesResponse,
   ListAssociatedAccessPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -3892,7 +3925,7 @@ export type ListCapabilitiesError = InvalidParameterException | ServerException 
  * Lists all managed capabilities in your Amazon EKS cluster. You can use this operation to get an overview of all capabilities and their current status.
  */
 export const listCapabilities: API.PaginatedOperationMethod<
-  ListCapabilitiesRequest,
+  ListCapabilitiesRequest & RegionInput,
   ListCapabilitiesResponse,
   ListCapabilitiesError,
   Credentials | HttpClient.HttpClient,
@@ -3926,7 +3959,7 @@ export type ListCertificateAuthoritiesError =
  * one successor CA.
  */
 export const listCertificateAuthorities: API.PaginatedOperationMethod<
-  ListCertificateAuthoritiesRequest,
+  ListCertificateAuthoritiesRequest & RegionInput,
   ListCertificateAuthoritiesResponse,
   ListCertificateAuthoritiesError,
   Credentials | HttpClient.HttpClient,
@@ -3963,7 +3996,7 @@ export type ListClustersError =
  * Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Amazon Web Services Region.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersRequest,
+  ListClustersRequest & RegionInput,
   ListClustersResponse,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
@@ -4000,7 +4033,7 @@ export type ListEksAnywhereSubscriptionsError =
  * Displays the full description of the subscription.
  */
 export const listEksAnywhereSubscriptions: API.PaginatedOperationMethod<
-  ListEksAnywhereSubscriptionsRequest,
+  ListEksAnywhereSubscriptionsRequest & RegionInput,
   ListEksAnywhereSubscriptionsResponse,
   ListEksAnywhereSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -4038,7 +4071,7 @@ export type ListFargateProfilesError =
  * account in the specified Amazon Web Services Region.
  */
 export const listFargateProfiles: API.PaginatedOperationMethod<
-  ListFargateProfilesRequest,
+  ListFargateProfilesRequest & RegionInput,
   ListFargateProfilesResponse,
   ListFargateProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -4071,7 +4104,7 @@ export type ListIdentityProviderConfigsError =
  * Lists the identity provider configurations for your cluster.
  */
 export const listIdentityProviderConfigs: API.PaginatedOperationMethod<
-  ListIdentityProviderConfigsRequest,
+  ListIdentityProviderConfigsRequest & RegionInput,
   ListIdentityProviderConfigsResponse,
   ListIdentityProviderConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -4120,7 +4153,7 @@ export type ListInsightsError =
  * workloads. These are called configuration insights.
  */
 export const listInsights: API.PaginatedOperationMethod<
-  ListInsightsRequest,
+  ListInsightsRequest & RegionInput,
   ListInsightsResponse,
   ListInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -4159,7 +4192,7 @@ export type ListNodegroupsError =
  * account in the specified Amazon Web Services Region. Self-managed node groups aren't listed.
  */
 export const listNodegroups: API.PaginatedOperationMethod<
-  ListNodegroupsRequest,
+  ListNodegroupsRequest & RegionInput,
   ListNodegroupsResponse,
   ListNodegroupsError,
   Credentials | HttpClient.HttpClient,
@@ -4198,7 +4231,7 @@ export type ListPodIdentityAssociationsError =
  * association is in or the service account that the association uses.
  */
 export const listPodIdentityAssociations: API.PaginatedOperationMethod<
-  ListPodIdentityAssociationsRequest,
+  ListPodIdentityAssociationsRequest & RegionInput,
   ListPodIdentityAssociationsResponse,
   ListPodIdentityAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4230,7 +4263,7 @@ export type ListTagsForResourceError = BadRequestException | NotFoundException |
  * List the tags for an Amazon EKS resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4256,7 +4289,7 @@ export type ListUpdatesError =
  * specified Amazon Web Services Region.
  */
 export const listUpdates: API.PaginatedOperationMethod<
-  ListUpdatesRequest,
+  ListUpdatesRequest & RegionInput,
   ListUpdatesResponse,
   ListUpdatesError,
   Credentials | HttpClient.HttpClient,
@@ -4309,7 +4342,7 @@ export type RegisterClusterError =
  * `DeregisterCluster`.
  */
 export const registerCluster: API.OperationMethod<
-  RegisterClusterRequest,
+  RegisterClusterRequest & RegionInput,
   RegisterClusterResponse,
   RegisterClusterError,
   Credentials | HttpClient.HttpClient
@@ -4343,7 +4376,7 @@ export type StartInsightsRefreshError =
  * Initiates an on-demand refresh operation for cluster insights, getting the latest analysis outside of the standard refresh schedule.
  */
 export const startInsightsRefresh: API.OperationMethod<
-  StartInsightsRefreshRequest,
+  StartInsightsRefreshRequest & RegionInput,
   StartInsightsRefreshResponse,
   StartInsightsRefreshError,
   Credentials | HttpClient.HttpClient
@@ -4374,7 +4407,7 @@ export type TagResourceError = BadRequestException | NotFoundException | CommonE
  * nodes associated with the cluster.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4394,7 +4427,7 @@ export type UntagResourceError = BadRequestException | NotFoundException | Commo
  * Deletes specified tags from an Amazon EKS resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4419,7 +4452,7 @@ export type UpdateAccessEntryError =
  * Updates an access entry.
  */
 export const updateAccessEntry: API.OperationMethod<
-  UpdateAccessEntryRequest,
+  UpdateAccessEntryRequest & RegionInput,
   UpdateAccessEntryResponse,
   UpdateAccessEntryError,
   Credentials | HttpClient.HttpClient
@@ -4451,7 +4484,7 @@ export type UpdateAddonError =
  * Updates an Amazon EKS add-on.
  */
 export const updateAddon: API.OperationMethod<
-  UpdateAddonRequest,
+  UpdateAddonRequest & RegionInput,
   UpdateAddonResponse,
   UpdateAddonError,
   Credentials | HttpClient.HttpClient
@@ -4486,7 +4519,7 @@ export type UpdateCapabilityError =
  * When you update a capability, Amazon EKS applies the changes and may restart capability components as needed. The capability remains available during the update process, but some operations may be temporarily unavailable.
  */
 export const updateCapability: API.OperationMethod<
-  UpdateCapabilityRequest,
+  UpdateCapabilityRequest & RegionInput,
   UpdateCapabilityResponse,
   UpdateCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -4566,7 +4599,7 @@ export type UpdateClusterConfigError =
  * `Successful`), the cluster status moves to `Active`.
  */
 export const updateClusterConfig: API.OperationMethod<
-  UpdateClusterConfigRequest,
+  UpdateClusterConfigRequest & RegionInput,
   UpdateClusterConfigResponse,
   UpdateClusterConfigError,
   Credentials | HttpClient.HttpClient
@@ -4616,7 +4649,7 @@ export type UpdateClusterVersionError =
  * Kubernetes version.
  */
 export const updateClusterVersion: API.OperationMethod<
-  UpdateClusterVersionRequest,
+  UpdateClusterVersionRequest & RegionInput,
   UpdateClusterVersionResponse,
   UpdateClusterVersionError,
   Credentials | HttpClient.HttpClient
@@ -4652,7 +4685,7 @@ export type UpdateEksAnywhereSubscriptionError =
  * subscription creation.
  */
 export const updateEksAnywhereSubscription: API.OperationMethod<
-  UpdateEksAnywhereSubscriptionRequest,
+  UpdateEksAnywhereSubscriptionRequest & RegionInput,
   UpdateEksAnywhereSubscriptionResponse,
   UpdateEksAnywhereSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -4690,7 +4723,7 @@ export type UpdateNodegroupConfigError =
  * and taints for a node group and the scaling and version update configuration.
  */
 export const updateNodegroupConfig: API.OperationMethod<
-  UpdateNodegroupConfigRequest,
+  UpdateNodegroupConfigRequest & RegionInput,
   UpdateNodegroupConfigResponse,
   UpdateNodegroupConfigError,
   Credentials | HttpClient.HttpClient
@@ -4750,7 +4783,7 @@ export type UpdateNodegroupVersionError =
  * budget issue.
  */
 export const updateNodegroupVersion: API.OperationMethod<
-  UpdateNodegroupVersionRequest,
+  UpdateNodegroupVersionRequest & RegionInput,
   UpdateNodegroupVersionResponse,
   UpdateNodegroupVersionError,
   Credentials | HttpClient.HttpClient
@@ -4800,7 +4833,7 @@ export type UpdatePodIdentityAssociationError =
  * target role, allowing secure access to resources in another Amazon Web Services account.
  */
 export const updatePodIdentityAssociation: API.OperationMethod<
-  UpdatePodIdentityAssociationRequest,
+  UpdatePodIdentityAssociationRequest & RegionInput,
   UpdatePodIdentityAssociationResponse,
   UpdatePodIdentityAssociationError,
   Credentials | HttpClient.HttpClient
@@ -5244,9 +5277,9 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "ArgoCdConfigRequest" });
     case 2:
-      return S.suspend(() => S.Struct({ argoCd: S.optional(__S(673, __c21, 1)) })).annotate({
-        identifier: "CapabilityConfigurationRequest",
-      });
+      return S.suspend(() =>
+        S.Struct({ argoCd: S.optional(__S(673, __c21, 1)), ack: S.optional(__S(741, __c23, 5)) }),
+      ).annotate({ identifier: "CapabilityConfigurationRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5293,9 +5326,9 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "ArgoCdConfigResponse" });
     case 2:
-      return S.suspend(() => S.Struct({ argoCd: S.optional(__S(705, __c22, 1)) })).annotate({
-        identifier: "CapabilityConfigurationResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({ argoCd: S.optional(__S(705, __c22, 1)), ack: S.optional(__S(741, __c23, 5)) }),
+      ).annotate({ identifier: "CapabilityConfigurationResponse" });
     case 3:
       return S.suspend(() =>
         S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
@@ -5348,6 +5381,13 @@ function __c23(j: number): any {
       return S.suspend(() => S.Struct({ vpceIds: S.optional(__S(0, __c0, 0)) })).annotate({
         identifier: "ArgoCdNetworkAccessConfigRequest",
       });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          enableCrossNamespace: S.optional(S.Boolean),
+          disabledServices: S.optional(__S(0, __c0, 0)),
+        }),
+      ).annotate({ identifier: "AckConfigRequest" });
   }
 }
 function __c24(j: number): any {
@@ -5380,23 +5420,23 @@ function __c25(j: number): any {
           roleArn: S.String,
           resourcesVpcConfig: __S(960, __c30, 0),
           kubernetesNetworkConfig: S.optional(__S(961, __c30, 1)),
-          logging: S.optional(__S(931, __c29, 3)),
+          logging: S.optional(__S(933, __c29, 5)),
           clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(384, __c12, 0)),
           encryptionConfig: S.optional(__S(322, __c10, 2)),
           outpostConfig: S.optional(__S(898, __c28, 2)),
           accessConfig: S.optional(__S(899, __c28, 3)),
           bootstrapSelfManagedAddons: S.optional(S.Boolean),
-          upgradePolicy: S.optional(__S(932, __c29, 4)),
-          zonalShiftConfig: S.optional(__S(928, __c29, 0)),
-          remoteNetworkConfig: S.optional(__S(935, __c29, 7)),
-          computeConfig: S.optional(__S(936, __c29, 8)),
-          storageConfig: S.optional(__S(937, __c29, 9)),
+          upgradePolicy: S.optional(__S(934, __c29, 6)),
+          zonalShiftConfig: S.optional(__S(935, __c29, 7)),
+          remoteNetworkConfig: S.optional(__S(938, __c29, 10)),
+          computeConfig: S.optional(__S(939, __c29, 11)),
+          storageConfig: S.optional(__S(940, __c29, 12)),
           deletionProtection: S.optional(S.Boolean),
-          controlPlaneScalingConfig: S.optional(__S(938, __c29, 10)),
-          kubeApiServerConfig: S.optional(__S(939, __c29, 11)),
-          kubeSchedulerConfig: S.optional(__S(941, __c29, 13)),
-          kubeControllerManagerConfig: S.optional(__S(944, __c29, 16)),
+          controlPlaneScalingConfig: S.optional(__S(941, __c29, 13)),
+          kubeApiServerConfig: S.optional(__S(942, __c29, 14)),
+          kubeSchedulerConfig: S.optional(__S(944, __c29, 16)),
+          kubeControllerManagerConfig: S.optional(__S(947, __c29, 19)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/clusters" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateClusterRequest" });
   }
@@ -5471,7 +5511,7 @@ function __c28(j: number): any {
           serviceIpv4Cidr: S.optional(S.String),
           serviceIpv6Cidr: S.optional(S.String),
           ipFamily: S.optional(S.String),
-          elasticLoadBalancing: S.optional(__S(928, __c29, 0)),
+          elasticLoadBalancing: S.optional(__S(930, __c29, 2)),
         }),
       ).annotate({ identifier: "KubernetesNetworkConfigResponse" });
     case 6:
@@ -5511,7 +5551,7 @@ function __c28(j: number): any {
           roleArn: S.optional(S.String),
           resourcesVpcConfig: S.optional(__S(900, __c28, 4)),
           kubernetesNetworkConfig: S.optional(__S(901, __c28, 5)),
-          logging: S.optional(__S(931, __c29, 3)),
+          logging: S.optional(__S(933, __c29, 5)),
           identity: S.optional(__S(903, __c28, 7)),
           status: S.optional(S.String),
           certificateAuthority: S.optional(__S(905, __c28, 9)),
@@ -5524,16 +5564,16 @@ function __c28(j: number): any {
           health: S.optional(__S(546, __c17, 2)),
           outpostConfig: S.optional(__S(898, __c28, 2)),
           accessConfig: S.optional(__S(899, __c28, 3)),
-          upgradePolicy: S.optional(__S(932, __c29, 4)),
-          zonalShiftConfig: S.optional(__S(928, __c29, 0)),
-          remoteNetworkConfig: S.optional(__S(935, __c29, 7)),
-          computeConfig: S.optional(__S(936, __c29, 8)),
-          storageConfig: S.optional(__S(937, __c29, 9)),
+          upgradePolicy: S.optional(__S(934, __c29, 6)),
+          zonalShiftConfig: S.optional(__S(935, __c29, 7)),
+          remoteNetworkConfig: S.optional(__S(938, __c29, 10)),
+          computeConfig: S.optional(__S(939, __c29, 11)),
+          storageConfig: S.optional(__S(940, __c29, 12)),
           deletionProtection: S.optional(S.Boolean),
-          controlPlaneScalingConfig: S.optional(__S(938, __c29, 10)),
-          kubeApiServerConfig: S.optional(__S(939, __c29, 11)),
-          kubeSchedulerConfig: S.optional(__S(941, __c29, 13)),
-          kubeControllerManagerConfig: S.optional(__S(944, __c29, 16)),
+          controlPlaneScalingConfig: S.optional(__S(941, __c29, 13)),
+          kubeApiServerConfig: S.optional(__S(942, __c29, 14)),
+          kubeSchedulerConfig: S.optional(__S(944, __c29, 16)),
+          kubeControllerManagerConfig: S.optional(__S(947, __c29, 19)),
         }),
       ).annotate({ identifier: "Cluster" });
     case 12:
@@ -5545,37 +5585,49 @@ function __c28(j: number): any {
 function __c29(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ enabled: S.optional(S.Boolean) })).annotate({
-        identifier: "ElasticLoadBalancing",
+      return S.suspend(() => S.Struct({ managed: S.optional(S.Boolean) })).annotate({
+        identifier: "CrdManagementConfiguration",
       });
     case 1:
+      return S.suspend(() => S.Struct({ crds: S.optional(__S(928, __c29, 0)) })).annotate({
+        identifier: "GatewayApiConfiguration",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ enabled: S.optional(S.Boolean), gatewayApi: S.optional(__S(929, __c29, 1)) }),
+      ).annotate({ identifier: "ElasticLoadBalancing" });
+    case 3:
       return S.suspend(() =>
         S.Struct({ types: S.optional(__S(864, __c27, 0)), enabled: S.optional(S.Boolean) }),
       ).annotate({ identifier: "LogSetup" });
-    case 2:
-      return S.Array(__S(929, __c29, 1));
-    case 3:
-      return S.suspend(() => S.Struct({ clusterLogging: S.optional(__S(930, __c29, 2)) })).annotate(
+    case 4:
+      return S.Array(__S(931, __c29, 3));
+    case 5:
+      return S.suspend(() => S.Struct({ clusterLogging: S.optional(__S(932, __c29, 4)) })).annotate(
         { identifier: "Logging" },
       );
-    case 4:
+    case 6:
       return S.suspend(() => S.Struct({ supportType: S.optional(S.String) })).annotate({
         identifier: "UpgradePolicyRequest",
       });
-    case 5:
+    case 7:
+      return S.suspend(() => S.Struct({ enabled: S.optional(S.Boolean) })).annotate({
+        identifier: "ZonalShiftConfigRequest",
+      });
+    case 8:
       return S.suspend(() => S.Struct({ cidrs: S.optional(__S(0, __c0, 0)) })).annotate({
         identifier: "RemoteNodeNetwork",
       });
-    case 6:
-      return S.Array(__S(933, __c29, 5));
-    case 7:
+    case 9:
+      return S.Array(__S(936, __c29, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          remoteNodeNetworks: S.optional(__S(934, __c29, 6)),
-          remotePodNetworks: S.optional(__S(934, __c29, 6)),
+          remoteNodeNetworks: S.optional(__S(937, __c29, 9)),
+          remotePodNetworks: S.optional(__S(937, __c29, 9)),
         }),
       ).annotate({ identifier: "RemoteNetworkConfigRequest" });
-    case 8:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
@@ -5583,42 +5635,42 @@ function __c29(j: number): any {
           nodeRoleArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "ComputeConfigRequest" });
-    case 9:
-      return S.suspend(() => S.Struct({ blockStorage: S.optional(__S(928, __c29, 0)) })).annotate({
+    case 12:
+      return S.suspend(() => S.Struct({ blockStorage: S.optional(__S(935, __c29, 7)) })).annotate({
         identifier: "StorageConfigRequest",
       });
-    case 10:
+    case 13:
       return S.suspend(() => S.Struct({ tier: S.optional(S.String) })).annotate({
         identifier: "ControlPlaneScalingConfig",
       });
-    case 11:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           eventTtl: S.optional(S.String),
           serviceNodePortRange: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "KubeApiServerConfigRequest" });
-    case 12:
+    case 15:
       return S.suspend(() =>
         S.Struct({ scoringStrategy: S.optional(__S(835, __c26, 3)) }),
       ).annotate({ identifier: "NodeResourcesFitConfig" });
-    case 13:
+    case 16:
       return S.suspend(() =>
-        S.Struct({ nodeResourcesFit: S.optional(__S(940, __c29, 12)) }),
+        S.Struct({ nodeResourcesFit: S.optional(__S(943, __c29, 15)) }),
       ).annotate({ identifier: "KubeSchedulerConfigRequest" });
-    case 14:
+    case 17:
       return S.suspend(() => S.Struct({ terminatedPodGcThreshold: S.optional(S.Number) })).annotate(
         { identifier: "PodGcControllerConfigRequest" },
       );
-    case 15:
+    case 18:
       return S.suspend(() =>
         S.Struct({ horizontalPodAutoscalerSyncPeriod: S.optional(S.String) }),
       ).annotate({ identifier: "HorizontalPodAutoscalerControllerConfigRequest" });
-    case 16:
+    case 19:
       return S.suspend(() =>
         S.Struct({
-          podGcControllerConfig: S.optional(__S(942, __c29, 14)),
-          horizontalPodAutoscalerControllerConfig: S.optional(__S(943, __c29, 15)),
+          podGcControllerConfig: S.optional(__S(945, __c29, 17)),
+          horizontalPodAutoscalerControllerConfig: S.optional(__S(946, __c29, 18)),
         }),
       ).annotate({ identifier: "KubeControllerManagerConfigRequest" });
   }
@@ -5641,7 +5693,7 @@ function __c30(j: number): any {
         S.Struct({
           serviceIpv4Cidr: S.optional(S.String),
           ipFamily: S.optional(S.String),
-          elasticLoadBalancing: S.optional(__S(928, __c29, 0)),
+          elasticLoadBalancing: S.optional(__S(930, __c29, 2)),
         }),
       ).annotate({ identifier: "KubernetesNetworkConfigRequest" });
   }
@@ -7529,9 +7581,9 @@ function __c93(j: number): any {
         }),
       ).annotate({ identifier: "UpdateArgoCdConfig" });
     case 2:
-      return S.suspend(() => S.Struct({ argoCd: S.optional(__S(2977, __c93, 1)) })).annotate({
-        identifier: "UpdateCapabilityConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ argoCd: S.optional(__S(2977, __c93, 1)), ack: S.optional(__S(741, __c23, 5)) }),
+      ).annotate({ identifier: "UpdateCapabilityConfiguration" });
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7568,20 +7620,20 @@ function __c94(j: number): any {
         S.Struct({
           name: S.String.pipe(T.HttpLabel("name")),
           resourcesVpcConfig: S.optional(__S(960, __c30, 0)),
-          logging: S.optional(__S(931, __c29, 3)),
+          logging: S.optional(__S(933, __c29, 5)),
           clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           accessConfig: S.optional(__S(3008, __c94, 0)),
-          upgradePolicy: S.optional(__S(932, __c29, 4)),
-          zonalShiftConfig: S.optional(__S(928, __c29, 0)),
-          computeConfig: S.optional(__S(936, __c29, 8)),
+          upgradePolicy: S.optional(__S(934, __c29, 6)),
+          zonalShiftConfig: S.optional(__S(935, __c29, 7)),
+          computeConfig: S.optional(__S(939, __c29, 11)),
           kubernetesNetworkConfig: S.optional(__S(961, __c30, 1)),
-          storageConfig: S.optional(__S(937, __c29, 9)),
-          remoteNetworkConfig: S.optional(__S(935, __c29, 7)),
+          storageConfig: S.optional(__S(940, __c29, 12)),
+          remoteNetworkConfig: S.optional(__S(938, __c29, 10)),
           deletionProtection: S.optional(S.Boolean),
-          controlPlaneScalingConfig: S.optional(__S(938, __c29, 10)),
-          kubeApiServerConfig: S.optional(__S(939, __c29, 11)),
-          kubeSchedulerConfig: S.optional(__S(941, __c29, 13)),
-          kubeControllerManagerConfig: S.optional(__S(944, __c29, 16)),
+          controlPlaneScalingConfig: S.optional(__S(941, __c29, 13)),
+          kubeApiServerConfig: S.optional(__S(942, __c29, 14)),
+          kubeSchedulerConfig: S.optional(__S(944, __c29, 16)),
+          kubeControllerManagerConfig: S.optional(__S(947, __c29, 19)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/clusters/{name}/update-config" }),

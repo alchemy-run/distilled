@@ -11,20 +11,15 @@
  * - HTTP binding traits are ignored
  */
 
-import * as Effect from "effect/Effect";
-import type * as S from "effect/Schema";
-import type * as AST from "effect/SchemaAST";
-import type { Operation } from "../client/operation.ts";
+import type { Operation } from "@distilled.cloud/s3/client/operation";
 import {
   Unreadable,
   type ProtocolImpl,
   type ProtocolHandler,
   type TextResponse,
-} from "../client/protocol.ts";
-import type { Request } from "../client/request.ts";
-import type { Response } from "../client/response.ts";
-import { ParseError } from "../errors.ts";
-import { getEc2QueryName, getServiceVersion, getXmlNameProp, hasXmlAttribute } from "../traits.ts";
+} from "@distilled.cloud/s3/client/protocol";
+import type { Request } from "@distilled.cloud/s3/client/request";
+import type { Response } from "@distilled.cloud/s3/client/response";
 import {
   getArrayElementAST,
   getEncodedPropertySignatures,
@@ -32,11 +27,16 @@ import {
   isArrayAST,
   isBooleanAST,
   isNumberAST,
-} from "../util/ast.ts";
-import { errorBody, inputEncoderSync } from "../util/codec.ts";
-import { sanitizeErrorCode } from "../util/error.ts";
-import { readStreamAsText } from "../util/stream.ts";
-import { extractXmlRoot, parseXml, readXml, unwrapArrayValue } from "../util/xml.ts";
+} from "@distilled.cloud/s3/util/ast";
+import { errorBody, inputEncoderSync } from "@distilled.cloud/s3/util/codec";
+import { sanitizeErrorCode } from "@distilled.cloud/s3/util/error";
+import { readStreamAsText } from "@distilled.cloud/s3/util/stream";
+import { extractXmlRoot, parseXml, readXml, unwrapArrayValue } from "@distilled.cloud/s3/util/xml";
+import * as Effect from "effect/Effect";
+import type * as S from "effect/Schema";
+import type * as AST from "effect/SchemaAST";
+import { ParseError } from "../errors.ts";
+import { getEc2QueryName, getServiceVersion, getXmlNameProp, hasXmlAttribute } from "../traits.ts";
 
 // =============================================================================
 // Protocol Export

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1017,9 +1018,9 @@ export interface BatchAssociateApprovalRuleTemplateWithRepositoriesInput {
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface BatchAssociateApprovalRuleTemplateWithRepositoriesError_ {
-  repositoryName?: string;
-  errorCode?: string;
-  errorMessage?: string;
+  repositoryName?: string | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type BatchAssociateApprovalRuleTemplateWithRepositoriesErrorsList =
   BatchAssociateApprovalRuleTemplateWithRepositoriesError_[];
@@ -1049,76 +1050,76 @@ export interface BatchDescribeMergeConflictsInput {
   destinationCommitSpecifier: string;
   sourceCommitSpecifier: string;
   mergeOption: MergeOptionTypeEnum;
-  maxMergeHunks?: number;
-  maxConflictFiles?: number;
-  filePaths?: string[];
-  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
-  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
-  nextToken?: string;
+  maxMergeHunks?: number | undefined;
+  maxConflictFiles?: number | undefined;
+  filePaths?: string[] | undefined;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum | undefined;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum | undefined;
+  nextToken?: string | undefined;
 }
 export type FileSize = number;
 export interface FileSizes {
-  source?: number;
-  destination?: number;
-  base?: number;
+  source?: number | undefined;
+  destination?: number | undefined;
+  base?: number | undefined;
 }
 export type FileModeTypeEnum = "EXECUTABLE" | "NORMAL" | "SYMLINK" | (string & {});
 export interface FileModes {
-  source?: FileModeTypeEnum;
-  destination?: FileModeTypeEnum;
-  base?: FileModeTypeEnum;
+  source?: FileModeTypeEnum | undefined;
+  destination?: FileModeTypeEnum | undefined;
+  base?: FileModeTypeEnum | undefined;
 }
 export type ObjectTypeEnum = "FILE" | "DIRECTORY" | "GIT_LINK" | "SYMBOLIC_LINK" | (string & {});
 export interface ObjectTypes {
-  source?: ObjectTypeEnum;
-  destination?: ObjectTypeEnum;
-  base?: ObjectTypeEnum;
+  source?: ObjectTypeEnum | undefined;
+  destination?: ObjectTypeEnum | undefined;
+  base?: ObjectTypeEnum | undefined;
 }
 export type NumberOfConflicts = number;
 export type CapitalBoolean = boolean;
 export interface IsBinaryFile {
-  source?: boolean;
-  destination?: boolean;
-  base?: boolean;
+  source?: boolean | undefined;
+  destination?: boolean | undefined;
+  base?: boolean | undefined;
 }
 export type IsContentConflict = boolean;
 export type IsFileModeConflict = boolean;
 export type IsObjectTypeConflict = boolean;
 export type ChangeTypeEnum = "A" | "M" | "D" | (string & {});
 export interface MergeOperations {
-  source?: ChangeTypeEnum;
-  destination?: ChangeTypeEnum;
+  source?: ChangeTypeEnum | undefined;
+  destination?: ChangeTypeEnum | undefined;
 }
 export interface ConflictMetadata {
-  filePath?: string;
-  fileSizes?: FileSizes;
-  fileModes?: FileModes;
-  objectTypes?: ObjectTypes;
-  numberOfConflicts?: number;
-  isBinaryFile?: IsBinaryFile;
-  contentConflict?: boolean;
-  fileModeConflict?: boolean;
-  objectTypeConflict?: boolean;
-  mergeOperations?: MergeOperations;
+  filePath?: string | undefined;
+  fileSizes?: FileSizes | undefined;
+  fileModes?: FileModes | undefined;
+  objectTypes?: ObjectTypes | undefined;
+  numberOfConflicts?: number | undefined;
+  isBinaryFile?: IsBinaryFile | undefined;
+  contentConflict?: boolean | undefined;
+  fileModeConflict?: boolean | undefined;
+  objectTypeConflict?: boolean | undefined;
+  mergeOperations?: MergeOperations | undefined;
 }
 export type IsHunkConflict = boolean;
 export type LineNumber = number;
 export type HunkContent = string;
 export interface MergeHunkDetail {
-  startLine?: number;
-  endLine?: number;
-  hunkContent?: string;
+  startLine?: number | undefined;
+  endLine?: number | undefined;
+  hunkContent?: string | undefined;
 }
 export interface MergeHunk {
-  isConflict?: boolean;
-  source?: MergeHunkDetail;
-  destination?: MergeHunkDetail;
-  base?: MergeHunkDetail;
+  isConflict?: boolean | undefined;
+  source?: MergeHunkDetail | undefined;
+  destination?: MergeHunkDetail | undefined;
+  base?: MergeHunkDetail | undefined;
 }
 export type MergeHunks = MergeHunk[];
 export interface Conflict {
-  conflictMetadata?: ConflictMetadata;
-  mergeHunks?: MergeHunk[];
+  conflictMetadata?: ConflictMetadata | undefined;
+  mergeHunks?: MergeHunk[] | undefined;
 }
 export type Conflicts = Conflict[];
 export type ExceptionName = string;
@@ -1132,20 +1133,20 @@ export type BatchDescribeMergeConflictsErrors = BatchDescribeMergeConflictsError
 export type ObjectId = string;
 export interface BatchDescribeMergeConflictsOutput {
   conflicts: Conflict[];
-  nextToken?: string;
-  errors?: BatchDescribeMergeConflictsError_[];
+  nextToken?: string | undefined;
+  errors?: BatchDescribeMergeConflictsError_[] | undefined;
   destinationCommitId: string;
   sourceCommitId: string;
-  baseCommitId?: string;
+  baseCommitId?: string | undefined;
 }
 export interface BatchDisassociateApprovalRuleTemplateFromRepositoriesInput {
   approvalRuleTemplateName: string;
   repositoryNames: string[];
 }
 export interface BatchDisassociateApprovalRuleTemplateFromRepositoriesError_ {
-  repositoryName?: string;
-  errorCode?: string;
-  errorMessage?: string;
+  repositoryName?: string | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type BatchDisassociateApprovalRuleTemplateFromRepositoriesErrorsList =
   BatchDisassociateApprovalRuleTemplateFromRepositoriesError_[];
@@ -1162,30 +1163,30 @@ export type ParentList = string[];
 export type Name = string;
 export type Email = string;
 export interface UserInfo {
-  name?: string;
-  email?: string;
-  date?: string;
+  name?: string | undefined;
+  email?: string | undefined;
+  date?: string | undefined;
 }
 export type AdditionalData = string;
 export interface Commit {
-  commitId?: string;
-  treeId?: string;
-  parents?: string[];
-  message?: string;
-  author?: UserInfo;
-  committer?: UserInfo;
-  additionalData?: string;
+  commitId?: string | undefined;
+  treeId?: string | undefined;
+  parents?: string[] | undefined;
+  message?: string | undefined;
+  author?: UserInfo | undefined;
+  committer?: UserInfo | undefined;
+  additionalData?: string | undefined;
 }
 export type CommitObjectsList = Commit[];
 export interface BatchGetCommitsError_ {
-  commitId?: string;
-  errorCode?: string;
-  errorMessage?: string;
+  commitId?: string | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type BatchGetCommitsErrorsList = BatchGetCommitsError_[];
 export interface BatchGetCommitsOutput {
-  commits?: Commit[];
-  errors?: BatchGetCommitsError_[];
+  commits?: Commit[] | undefined;
+  errors?: BatchGetCommitsError_[] | undefined;
 }
 export interface BatchGetRepositoriesInput {
   repositoryNames: string[];
@@ -1201,17 +1202,17 @@ export type CloneUrlSsh = string;
 export type Arn = string;
 export type KmsKeyId = string;
 export interface RepositoryMetadata {
-  accountId?: string;
-  repositoryId?: string;
-  repositoryName?: string;
-  repositoryDescription?: string;
-  defaultBranch?: string;
-  lastModifiedDate?: Date;
-  creationDate?: Date;
-  cloneUrlHttp?: string;
-  cloneUrlSsh?: string;
-  Arn?: string;
-  kmsKeyId?: string;
+  accountId?: string | undefined;
+  repositoryId?: string | undefined;
+  repositoryName?: string | undefined;
+  repositoryDescription?: string | undefined;
+  defaultBranch?: string | undefined;
+  lastModifiedDate?: Date | undefined;
+  creationDate?: Date | undefined;
+  cloneUrlHttp?: string | undefined;
+  cloneUrlSsh?: string | undefined;
+  Arn?: string | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type RepositoryMetadataList = RepositoryMetadata[];
 export type RepositoryNotFoundList = string[];
@@ -1224,35 +1225,35 @@ export type BatchGetRepositoriesErrorCodeEnum =
   | "RepositoryDoesNotExistException"
   | (string & {});
 export interface BatchGetRepositoriesError_ {
-  repositoryId?: string;
-  repositoryName?: string;
-  errorCode?: BatchGetRepositoriesErrorCodeEnum;
-  errorMessage?: string;
+  repositoryId?: string | undefined;
+  repositoryName?: string | undefined;
+  errorCode?: BatchGetRepositoriesErrorCodeEnum | undefined;
+  errorMessage?: string | undefined;
 }
 export type BatchGetRepositoriesErrorsList = BatchGetRepositoriesError_[];
 export interface BatchGetRepositoriesOutput {
-  repositories?: RepositoryMetadata[];
-  repositoriesNotFound?: string[];
-  errors?: BatchGetRepositoriesError_[];
+  repositories?: RepositoryMetadata[] | undefined;
+  repositoriesNotFound?: string[] | undefined;
+  errors?: BatchGetRepositoriesError_[] | undefined;
 }
 export type ApprovalRuleTemplateContent = string;
 export type ApprovalRuleTemplateDescription = string;
 export interface CreateApprovalRuleTemplateInput {
   approvalRuleTemplateName: string;
   approvalRuleTemplateContent: string;
-  approvalRuleTemplateDescription?: string;
+  approvalRuleTemplateDescription?: string | undefined;
 }
 export type ApprovalRuleTemplateId = string;
 export type RuleContentSha256 = string;
 export interface ApprovalRuleTemplate {
-  approvalRuleTemplateId?: string;
-  approvalRuleTemplateName?: string;
-  approvalRuleTemplateDescription?: string;
-  approvalRuleTemplateContent?: string;
-  ruleContentSha256?: string;
-  lastModifiedDate?: Date;
-  creationDate?: Date;
-  lastModifiedUser?: string;
+  approvalRuleTemplateId?: string | undefined;
+  approvalRuleTemplateName?: string | undefined;
+  approvalRuleTemplateDescription?: string | undefined;
+  approvalRuleTemplateContent?: string | undefined;
+  ruleContentSha256?: string | undefined;
+  lastModifiedDate?: Date | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedUser?: string | undefined;
 }
 export interface CreateApprovalRuleTemplateOutput {
   approvalRuleTemplate: ApprovalRuleTemplate;
@@ -1269,13 +1270,13 @@ export type FileContent = Uint8Array;
 export type IsMove = boolean;
 export interface SourceFileSpecifier {
   filePath: string;
-  isMove?: boolean;
+  isMove?: boolean | undefined;
 }
 export interface PutFileEntry {
   filePath: string;
-  fileMode?: FileModeTypeEnum;
-  fileContent?: Uint8Array;
-  sourceFile?: SourceFileSpecifier;
+  fileMode?: FileModeTypeEnum | undefined;
+  fileContent?: Uint8Array | undefined;
+  sourceFile?: SourceFileSpecifier | undefined;
 }
 export type PutFileEntries = PutFileEntry[];
 export interface DeleteFileEntry {
@@ -1290,27 +1291,27 @@ export type SetFileModeEntries = SetFileModeEntry[];
 export interface CreateCommitInput {
   repositoryName: string;
   branchName: string;
-  parentCommitId?: string;
-  authorName?: string;
-  email?: string;
-  commitMessage?: string;
-  keepEmptyFolders?: boolean;
-  putFiles?: PutFileEntry[];
-  deleteFiles?: DeleteFileEntry[];
-  setFileModes?: SetFileModeEntry[];
+  parentCommitId?: string | undefined;
+  authorName?: string | undefined;
+  email?: string | undefined;
+  commitMessage?: string | undefined;
+  keepEmptyFolders?: boolean | undefined;
+  putFiles?: PutFileEntry[] | undefined;
+  deleteFiles?: DeleteFileEntry[] | undefined;
+  setFileModes?: SetFileModeEntry[] | undefined;
 }
 export interface FileMetadata {
-  absolutePath?: string;
-  blobId?: string;
-  fileMode?: FileModeTypeEnum;
+  absolutePath?: string | undefined;
+  blobId?: string | undefined;
+  fileMode?: FileModeTypeEnum | undefined;
 }
 export type FilesMetadata = FileMetadata[];
 export interface CreateCommitOutput {
-  commitId?: string;
-  treeId?: string;
-  filesAdded?: FileMetadata[];
-  filesUpdated?: FileMetadata[];
-  filesDeleted?: FileMetadata[];
+  commitId?: string | undefined;
+  treeId?: string | undefined;
+  filesAdded?: FileMetadata[] | undefined;
+  filesUpdated?: FileMetadata[] | undefined;
+  filesDeleted?: FileMetadata[] | undefined;
 }
 export type Title = string;
 export type Description = string;
@@ -1318,33 +1319,33 @@ export type ReferenceName = string;
 export interface Target {
   repositoryName: string;
   sourceReference: string;
-  destinationReference?: string;
+  destinationReference?: string | undefined;
 }
 export type TargetList = Target[];
 export type ClientRequestToken = string;
 export interface CreatePullRequestInput {
   title: string;
-  description?: string;
+  description?: string | undefined;
   targets: Target[];
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
 }
 export type PullRequestId = string;
 export type PullRequestStatusEnum = "OPEN" | "CLOSED" | (string & {});
 export type IsMerged = boolean;
 export interface MergeMetadata {
-  isMerged?: boolean;
-  mergedBy?: string;
-  mergeCommitId?: string;
-  mergeOption?: MergeOptionTypeEnum;
+  isMerged?: boolean | undefined;
+  mergedBy?: string | undefined;
+  mergeCommitId?: string | undefined;
+  mergeOption?: MergeOptionTypeEnum | undefined;
 }
 export interface PullRequestTarget {
-  repositoryName?: string;
-  sourceReference?: string;
-  destinationReference?: string;
-  destinationCommit?: string;
-  sourceCommit?: string;
-  mergeBase?: string;
-  mergeMetadata?: MergeMetadata;
+  repositoryName?: string | undefined;
+  sourceReference?: string | undefined;
+  destinationReference?: string | undefined;
+  destinationCommit?: string | undefined;
+  sourceCommit?: string | undefined;
+  mergeBase?: string | undefined;
+  mergeMetadata?: MergeMetadata | undefined;
 }
 export type PullRequestTargetList = PullRequestTarget[];
 export type RevisionId = string;
@@ -1352,32 +1353,32 @@ export type ApprovalRuleId = string;
 export type ApprovalRuleName = string;
 export type ApprovalRuleContent = string;
 export interface OriginApprovalRuleTemplate {
-  approvalRuleTemplateId?: string;
-  approvalRuleTemplateName?: string;
+  approvalRuleTemplateId?: string | undefined;
+  approvalRuleTemplateName?: string | undefined;
 }
 export interface ApprovalRule {
-  approvalRuleId?: string;
-  approvalRuleName?: string;
-  approvalRuleContent?: string;
-  ruleContentSha256?: string;
-  lastModifiedDate?: Date;
-  creationDate?: Date;
-  lastModifiedUser?: string;
-  originApprovalRuleTemplate?: OriginApprovalRuleTemplate;
+  approvalRuleId?: string | undefined;
+  approvalRuleName?: string | undefined;
+  approvalRuleContent?: string | undefined;
+  ruleContentSha256?: string | undefined;
+  lastModifiedDate?: Date | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedUser?: string | undefined;
+  originApprovalRuleTemplate?: OriginApprovalRuleTemplate | undefined;
 }
 export type ApprovalRulesList = ApprovalRule[];
 export interface PullRequest {
-  pullRequestId?: string;
-  title?: string;
-  description?: string;
-  lastActivityDate?: Date;
-  creationDate?: Date;
-  pullRequestStatus?: PullRequestStatusEnum;
-  authorArn?: string;
-  pullRequestTargets?: PullRequestTarget[];
-  clientRequestToken?: string;
-  revisionId?: string;
-  approvalRules?: ApprovalRule[];
+  pullRequestId?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  lastActivityDate?: Date | undefined;
+  creationDate?: Date | undefined;
+  pullRequestStatus?: PullRequestStatusEnum | undefined;
+  authorArn?: string | undefined;
+  pullRequestTargets?: PullRequestTarget[] | undefined;
+  clientRequestToken?: string | undefined;
+  revisionId?: string | undefined;
+  approvalRules?: ApprovalRule[] | undefined;
 }
 export interface CreatePullRequestOutput {
   pullRequest: PullRequest;
@@ -1395,12 +1396,12 @@ export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
 export interface CreateRepositoryInput {
   repositoryName: string;
-  repositoryDescription?: string;
-  tags?: { [key: string]: string | undefined };
-  kmsKeyId?: string;
+  repositoryDescription?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyId?: string | undefined;
 }
 export interface CreateRepositoryOutput {
-  repositoryMetadata?: RepositoryMetadata;
+  repositoryMetadata?: RepositoryMetadata | undefined;
 }
 export type ReplacementTypeEnum =
   | "KEEP_BASE"
@@ -1411,31 +1412,31 @@ export type ReplacementTypeEnum =
 export interface ReplaceContentEntry {
   filePath: string;
   replacementType: ReplacementTypeEnum;
-  content?: Uint8Array;
-  fileMode?: FileModeTypeEnum;
+  content?: Uint8Array | undefined;
+  fileMode?: FileModeTypeEnum | undefined;
 }
 export type ReplaceContentEntries = ReplaceContentEntry[];
 export interface ConflictResolution {
-  replaceContents?: ReplaceContentEntry[];
-  deleteFiles?: DeleteFileEntry[];
-  setFileModes?: SetFileModeEntry[];
+  replaceContents?: ReplaceContentEntry[] | undefined;
+  deleteFiles?: DeleteFileEntry[] | undefined;
+  setFileModes?: SetFileModeEntry[] | undefined;
 }
 export interface CreateUnreferencedMergeCommitInput {
   repositoryName: string;
   sourceCommitSpecifier: string;
   destinationCommitSpecifier: string;
   mergeOption: MergeOptionTypeEnum;
-  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
-  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
-  authorName?: string;
-  email?: string;
-  commitMessage?: string;
-  keepEmptyFolders?: boolean;
-  conflictResolution?: ConflictResolution;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum | undefined;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum | undefined;
+  authorName?: string | undefined;
+  email?: string | undefined;
+  commitMessage?: string | undefined;
+  keepEmptyFolders?: boolean | undefined;
+  conflictResolution?: ConflictResolution | undefined;
 }
 export interface CreateUnreferencedMergeCommitOutput {
-  commitId?: string;
-  treeId?: string;
+  commitId?: string | undefined;
+  treeId?: string | undefined;
 }
 export interface DeleteApprovalRuleTemplateInput {
   approvalRuleTemplateName: string;
@@ -1448,11 +1449,11 @@ export interface DeleteBranchInput {
   branchName: string;
 }
 export interface BranchInfo {
-  branchName?: string;
-  commitId?: string;
+  branchName?: string | undefined;
+  commitId?: string | undefined;
 }
 export interface DeleteBranchOutput {
-  deletedBranch?: BranchInfo;
+  deletedBranch?: BranchInfo | undefined;
 }
 export type CommentId = string;
 export interface DeleteCommentContentInput {
@@ -1465,29 +1466,29 @@ export type CallerReactions = string[];
 export type Count = number;
 export type ReactionCountsMap = { [key: string]: number | undefined };
 export interface Comment {
-  commentId?: string;
-  content?: string;
-  inReplyTo?: string;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
-  authorArn?: string;
-  deleted?: boolean;
-  clientRequestToken?: string;
-  callerReactions?: string[];
-  reactionCounts?: { [key: string]: number | undefined };
+  commentId?: string | undefined;
+  content?: string | undefined;
+  inReplyTo?: string | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
+  authorArn?: string | undefined;
+  deleted?: boolean | undefined;
+  clientRequestToken?: string | undefined;
+  callerReactions?: string[] | undefined;
+  reactionCounts?: { [key: string]: number | undefined } | undefined;
 }
 export interface DeleteCommentContentOutput {
-  comment?: Comment;
+  comment?: Comment | undefined;
 }
 export interface DeleteFileInput {
   repositoryName: string;
   branchName: string;
   filePath: string;
   parentCommitId: string;
-  keepEmptyFolders?: boolean;
-  commitMessage?: string;
-  name?: string;
-  email?: string;
+  keepEmptyFolders?: boolean | undefined;
+  commitMessage?: string | undefined;
+  name?: string | undefined;
+  email?: string | undefined;
 }
 export interface DeleteFileOutput {
   commitId: string;
@@ -1506,26 +1507,26 @@ export interface DeleteRepositoryInput {
   repositoryName: string;
 }
 export interface DeleteRepositoryOutput {
-  repositoryId?: string;
+  repositoryId?: string | undefined;
 }
 export interface DescribeMergeConflictsInput {
   repositoryName: string;
   destinationCommitSpecifier: string;
   sourceCommitSpecifier: string;
   mergeOption: MergeOptionTypeEnum;
-  maxMergeHunks?: number;
+  maxMergeHunks?: number | undefined;
   filePath: string;
-  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
-  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
-  nextToken?: string;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum | undefined;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeMergeConflictsOutput {
   conflictMetadata: ConflictMetadata;
   mergeHunks: MergeHunk[];
-  nextToken?: string;
+  nextToken?: string | undefined;
   destinationCommitId: string;
   sourceCommitId: string;
-  baseCommitId?: string;
+  baseCommitId?: string | undefined;
 }
 export type PullRequestEventType =
   | "PULL_REQUEST_CREATED"
@@ -1540,64 +1541,68 @@ export type PullRequestEventType =
   | (string & {});
 export interface DescribePullRequestEventsInput {
   pullRequestId: string;
-  pullRequestEventType?: PullRequestEventType;
-  actorArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  pullRequestEventType?: PullRequestEventType | undefined;
+  actorArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type EventDate = Date;
 export interface PullRequestCreatedEventMetadata {
-  repositoryName?: string;
-  sourceCommitId?: string;
-  destinationCommitId?: string;
-  mergeBase?: string;
+  repositoryName?: string | undefined;
+  sourceCommitId?: string | undefined;
+  destinationCommitId?: string | undefined;
+  mergeBase?: string | undefined;
 }
 export interface PullRequestStatusChangedEventMetadata {
-  pullRequestStatus?: PullRequestStatusEnum;
+  pullRequestStatus?: PullRequestStatusEnum | undefined;
 }
 export interface PullRequestSourceReferenceUpdatedEventMetadata {
-  repositoryName?: string;
-  beforeCommitId?: string;
-  afterCommitId?: string;
-  mergeBase?: string;
+  repositoryName?: string | undefined;
+  beforeCommitId?: string | undefined;
+  afterCommitId?: string | undefined;
+  mergeBase?: string | undefined;
 }
 export interface PullRequestMergedStateChangedEventMetadata {
-  repositoryName?: string;
-  destinationReference?: string;
-  mergeMetadata?: MergeMetadata;
+  repositoryName?: string | undefined;
+  destinationReference?: string | undefined;
+  mergeMetadata?: MergeMetadata | undefined;
 }
 export interface ApprovalRuleEventMetadata {
-  approvalRuleName?: string;
-  approvalRuleId?: string;
-  approvalRuleContent?: string;
+  approvalRuleName?: string | undefined;
+  approvalRuleId?: string | undefined;
+  approvalRuleContent?: string | undefined;
 }
 export type ApprovalState = "APPROVE" | "REVOKE" | (string & {});
 export interface ApprovalStateChangedEventMetadata {
-  revisionId?: string;
-  approvalStatus?: ApprovalState;
+  revisionId?: string | undefined;
+  approvalStatus?: ApprovalState | undefined;
 }
 export type OverrideStatus = "OVERRIDE" | "REVOKE" | (string & {});
 export interface ApprovalRuleOverriddenEventMetadata {
-  revisionId?: string;
-  overrideStatus?: OverrideStatus;
+  revisionId?: string | undefined;
+  overrideStatus?: OverrideStatus | undefined;
 }
 export interface PullRequestEvent {
-  pullRequestId?: string;
-  eventDate?: Date;
-  pullRequestEventType?: PullRequestEventType;
-  actorArn?: string;
-  pullRequestCreatedEventMetadata?: PullRequestCreatedEventMetadata;
-  pullRequestStatusChangedEventMetadata?: PullRequestStatusChangedEventMetadata;
-  pullRequestSourceReferenceUpdatedEventMetadata?: PullRequestSourceReferenceUpdatedEventMetadata;
-  pullRequestMergedStateChangedEventMetadata?: PullRequestMergedStateChangedEventMetadata;
-  approvalRuleEventMetadata?: ApprovalRuleEventMetadata;
-  approvalStateChangedEventMetadata?: ApprovalStateChangedEventMetadata;
-  approvalRuleOverriddenEventMetadata?: ApprovalRuleOverriddenEventMetadata;
+  pullRequestId?: string | undefined;
+  eventDate?: Date | undefined;
+  pullRequestEventType?: PullRequestEventType | undefined;
+  actorArn?: string | undefined;
+  pullRequestCreatedEventMetadata?: PullRequestCreatedEventMetadata | undefined;
+  pullRequestStatusChangedEventMetadata?: PullRequestStatusChangedEventMetadata | undefined;
+  pullRequestSourceReferenceUpdatedEventMetadata?:
+    | PullRequestSourceReferenceUpdatedEventMetadata
+    | undefined;
+  pullRequestMergedStateChangedEventMetadata?:
+    | PullRequestMergedStateChangedEventMetadata
+    | undefined;
+  approvalRuleEventMetadata?: ApprovalRuleEventMetadata | undefined;
+  approvalStateChangedEventMetadata?: ApprovalStateChangedEventMetadata | undefined;
+  approvalRuleOverriddenEventMetadata?: ApprovalRuleOverriddenEventMetadata | undefined;
 }
 export type PullRequestEventList = PullRequestEvent[];
 export interface DescribePullRequestEventsOutput {
   pullRequestEvents: PullRequestEvent[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface DisassociateApprovalRuleTemplateFromRepositoryInput {
   approvalRuleTemplateName: string;
@@ -1613,10 +1618,10 @@ export type Overridden = boolean;
 export type ApprovalRulesSatisfiedList = string[];
 export type ApprovalRulesNotSatisfiedList = string[];
 export interface Evaluation {
-  approved?: boolean;
-  overridden?: boolean;
-  approvalRulesSatisfied?: string[];
-  approvalRulesNotSatisfied?: string[];
+  approved?: boolean | undefined;
+  overridden?: boolean | undefined;
+  approvalRulesSatisfied?: string[] | undefined;
+  approvalRulesNotSatisfied?: string[] | undefined;
 }
 export interface EvaluatePullRequestApprovalRulesOutput {
   evaluation: Evaluation;
@@ -1640,126 +1645,126 @@ export type Limit = number;
 export interface GetBlobDifferencesInput {
   repositoryName: string;
   afterBlobId: string;
-  beforeBlobId?: string;
-  contextLines?: number;
-  ignoreWhitespace?: boolean;
-  MaxResults?: number;
-  NextToken?: string;
+  beforeBlobId?: string | undefined;
+  contextLines?: number | undefined;
+  ignoreWhitespace?: boolean | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DiffChangeType = "CONTEXT" | "ADD" | "DELETE" | (string & {});
 export type LineContent = string;
 export interface DiffChange {
-  type?: DiffChangeType;
-  beforeLineNumber?: number;
-  afterLineNumber?: number;
-  content?: string;
+  type?: DiffChangeType | undefined;
+  beforeLineNumber?: number | undefined;
+  afterLineNumber?: number | undefined;
+  content?: string | undefined;
 }
 export type DiffChangeList = DiffChange[];
 export interface DiffHunk {
-  beforeStartLine?: number;
-  beforeLineCount?: number;
-  afterStartLine?: number;
-  afterLineCount?: number;
-  changes?: DiffChange[];
+  beforeStartLine?: number | undefined;
+  beforeLineCount?: number | undefined;
+  afterStartLine?: number | undefined;
+  afterLineCount?: number | undefined;
+  changes?: DiffChange[] | undefined;
 }
 export type DiffHunkList = DiffHunk[];
 export type ObjectSize = number;
 export interface GetBlobDifferencesOutput {
   hunks: DiffHunk[];
   isBinary: boolean;
-  beforeBlobSize?: number;
+  beforeBlobSize?: number | undefined;
   afterBlobSize: number;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetBranchInput {
-  repositoryName?: string;
-  branchName?: string;
+  repositoryName?: string | undefined;
+  branchName?: string | undefined;
 }
 export interface GetBranchOutput {
-  branch?: BranchInfo;
+  branch?: BranchInfo | undefined;
 }
 export interface GetCommentInput {
   commentId: string;
 }
 export interface GetCommentOutput {
-  comment?: Comment;
+  comment?: Comment | undefined;
 }
 export interface GetCommentReactionsInput {
   commentId: string;
-  reactionUserArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  reactionUserArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ReactionEmoji = string;
 export type ReactionShortCode = string;
 export type ReactionUnicode = string;
 export interface ReactionValueFormats {
-  emoji?: string;
-  shortCode?: string;
-  unicode?: string;
+  emoji?: string | undefined;
+  shortCode?: string | undefined;
+  unicode?: string | undefined;
 }
 export type ReactionUsersList = string[];
 export interface ReactionForComment {
-  reaction?: ReactionValueFormats;
-  reactionUsers?: string[];
-  reactionsFromDeletedUsersCount?: number;
+  reaction?: ReactionValueFormats | undefined;
+  reactionUsers?: string[] | undefined;
+  reactionsFromDeletedUsersCount?: number | undefined;
 }
 export type ReactionsForCommentList = ReactionForComment[];
 export interface GetCommentReactionsOutput {
   reactionsForComment: ReactionForComment[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface GetCommentsForComparedCommitInput {
   repositoryName: string;
-  beforeCommitId?: string;
+  beforeCommitId?: string | undefined;
   afterCommitId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type Position = number;
 export type RelativeFileVersionEnum = "BEFORE" | "AFTER" | (string & {});
 export interface Location {
-  filePath?: string;
-  filePosition?: number;
-  relativeFileVersion?: RelativeFileVersionEnum;
+  filePath?: string | undefined;
+  filePosition?: number | undefined;
+  relativeFileVersion?: RelativeFileVersionEnum | undefined;
 }
 export type Comments = Comment[];
 export interface CommentsForComparedCommit {
-  repositoryName?: string;
-  beforeCommitId?: string;
-  afterCommitId?: string;
-  beforeBlobId?: string;
-  afterBlobId?: string;
-  location?: Location;
-  comments?: Comment[];
+  repositoryName?: string | undefined;
+  beforeCommitId?: string | undefined;
+  afterCommitId?: string | undefined;
+  beforeBlobId?: string | undefined;
+  afterBlobId?: string | undefined;
+  location?: Location | undefined;
+  comments?: Comment[] | undefined;
 }
 export type CommentsForComparedCommitData = CommentsForComparedCommit[];
 export interface GetCommentsForComparedCommitOutput {
-  commentsForComparedCommitData?: CommentsForComparedCommit[];
-  nextToken?: string;
+  commentsForComparedCommitData?: CommentsForComparedCommit[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetCommentsForPullRequestInput {
   pullRequestId: string;
-  repositoryName?: string;
-  beforeCommitId?: string;
-  afterCommitId?: string;
-  nextToken?: string;
-  maxResults?: number;
+  repositoryName?: string | undefined;
+  beforeCommitId?: string | undefined;
+  afterCommitId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CommentsForPullRequest {
-  pullRequestId?: string;
-  repositoryName?: string;
-  beforeCommitId?: string;
-  afterCommitId?: string;
-  beforeBlobId?: string;
-  afterBlobId?: string;
-  location?: Location;
-  comments?: Comment[];
+  pullRequestId?: string | undefined;
+  repositoryName?: string | undefined;
+  beforeCommitId?: string | undefined;
+  afterCommitId?: string | undefined;
+  beforeBlobId?: string | undefined;
+  afterBlobId?: string | undefined;
+  location?: Location | undefined;
+  comments?: Comment[] | undefined;
 }
 export type CommentsForPullRequestData = CommentsForPullRequest[];
 export interface GetCommentsForPullRequestOutput {
-  commentsForPullRequestData?: CommentsForPullRequest[];
-  nextToken?: string;
+  commentsForPullRequestData?: CommentsForPullRequest[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetCommitInput {
   repositoryName: string;
@@ -1770,32 +1775,32 @@ export interface GetCommitOutput {
 }
 export interface GetDifferencesInput {
   repositoryName: string;
-  beforeCommitSpecifier?: string;
+  beforeCommitSpecifier?: string | undefined;
   afterCommitSpecifier: string;
-  beforePath?: string;
-  afterPath?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  beforePath?: string | undefined;
+  afterPath?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type Mode = string;
 export interface BlobMetadata {
-  blobId?: string;
-  path?: string;
-  mode?: string;
+  blobId?: string | undefined;
+  path?: string | undefined;
+  mode?: string | undefined;
 }
 export interface Difference {
-  beforeBlob?: BlobMetadata;
-  afterBlob?: BlobMetadata;
-  changeType?: ChangeTypeEnum;
+  beforeBlob?: BlobMetadata | undefined;
+  afterBlob?: BlobMetadata | undefined;
+  changeType?: ChangeTypeEnum | undefined;
 }
 export type DifferenceList = Difference[];
 export interface GetDifferencesOutput {
-  differences?: Difference[];
-  NextToken?: string;
+  differences?: Difference[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetFileInput {
   repositoryName: string;
-  commitSpecifier?: string;
+  commitSpecifier?: string | undefined;
   filePath: string;
 }
 export interface GetFileOutput {
@@ -1808,66 +1813,66 @@ export interface GetFileOutput {
 }
 export interface GetFolderInput {
   repositoryName: string;
-  commitSpecifier?: string;
+  commitSpecifier?: string | undefined;
   folderPath: string;
 }
 export interface Folder {
-  treeId?: string;
-  absolutePath?: string;
-  relativePath?: string;
+  treeId?: string | undefined;
+  absolutePath?: string | undefined;
+  relativePath?: string | undefined;
 }
 export type FolderList = Folder[];
 export interface File {
-  blobId?: string;
-  absolutePath?: string;
-  relativePath?: string;
-  fileMode?: FileModeTypeEnum;
+  blobId?: string | undefined;
+  absolutePath?: string | undefined;
+  relativePath?: string | undefined;
+  fileMode?: FileModeTypeEnum | undefined;
 }
 export type FileList = File[];
 export interface SymbolicLink {
-  blobId?: string;
-  absolutePath?: string;
-  relativePath?: string;
-  fileMode?: FileModeTypeEnum;
+  blobId?: string | undefined;
+  absolutePath?: string | undefined;
+  relativePath?: string | undefined;
+  fileMode?: FileModeTypeEnum | undefined;
 }
 export type SymbolicLinkList = SymbolicLink[];
 export interface SubModule {
-  commitId?: string;
-  absolutePath?: string;
-  relativePath?: string;
+  commitId?: string | undefined;
+  absolutePath?: string | undefined;
+  relativePath?: string | undefined;
 }
 export type SubModuleList = SubModule[];
 export interface GetFolderOutput {
   commitId: string;
   folderPath: string;
-  treeId?: string;
-  subFolders?: Folder[];
-  files?: File[];
-  symbolicLinks?: SymbolicLink[];
-  subModules?: SubModule[];
+  treeId?: string | undefined;
+  subFolders?: Folder[] | undefined;
+  files?: File[] | undefined;
+  symbolicLinks?: SymbolicLink[] | undefined;
+  subModules?: SubModule[] | undefined;
 }
 export interface GetMergeCommitInput {
   repositoryName: string;
   sourceCommitSpecifier: string;
   destinationCommitSpecifier: string;
-  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
-  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum | undefined;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum | undefined;
 }
 export interface GetMergeCommitOutput {
-  sourceCommitId?: string;
-  destinationCommitId?: string;
-  baseCommitId?: string;
-  mergedCommitId?: string;
+  sourceCommitId?: string | undefined;
+  destinationCommitId?: string | undefined;
+  baseCommitId?: string | undefined;
+  mergedCommitId?: string | undefined;
 }
 export interface GetMergeConflictsInput {
   repositoryName: string;
   destinationCommitSpecifier: string;
   sourceCommitSpecifier: string;
   mergeOption: MergeOptionTypeEnum;
-  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
-  maxConflictFiles?: number;
-  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
-  nextToken?: string;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum | undefined;
+  maxConflictFiles?: number | undefined;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum | undefined;
+  nextToken?: string | undefined;
 }
 export type IsMergeable = boolean;
 export type ConflictMetadataList = ConflictMetadata[];
@@ -1875,16 +1880,16 @@ export interface GetMergeConflictsOutput {
   mergeable: boolean;
   destinationCommitId: string;
   sourceCommitId: string;
-  baseCommitId?: string;
+  baseCommitId?: string | undefined;
   conflictMetadataList: ConflictMetadata[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface GetMergeOptionsInput {
   repositoryName: string;
   sourceCommitSpecifier: string;
   destinationCommitSpecifier: string;
-  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
-  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum | undefined;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum | undefined;
 }
 export type MergeOptions = MergeOptionTypeEnum[];
 export interface GetMergeOptionsOutput {
@@ -1904,26 +1909,26 @@ export interface GetPullRequestApprovalStatesInput {
   revisionId: string;
 }
 export interface Approval {
-  userArn?: string;
-  approvalState?: ApprovalState;
+  userArn?: string | undefined;
+  approvalState?: ApprovalState | undefined;
 }
 export type ApprovalList = Approval[];
 export interface GetPullRequestApprovalStatesOutput {
-  approvals?: Approval[];
+  approvals?: Approval[] | undefined;
 }
 export interface GetPullRequestOverrideStateInput {
   pullRequestId: string;
   revisionId: string;
 }
 export interface GetPullRequestOverrideStateOutput {
-  overridden?: boolean;
-  overrider?: string;
+  overridden?: boolean | undefined;
+  overrider?: string | undefined;
 }
 export interface GetRepositoryInput {
   repositoryName: string;
 }
 export interface GetRepositoryOutput {
-  repositoryMetadata?: RepositoryMetadata;
+  repositoryMetadata?: RepositoryMetadata | undefined;
 }
 export interface GetRepositoryTriggersInput {
   repositoryName: string;
@@ -1942,187 +1947,187 @@ export type RepositoryTriggerEventList = RepositoryTriggerEventEnum[];
 export interface RepositoryTrigger {
   name: string;
   destinationArn: string;
-  customData?: string;
-  branches?: string[];
+  customData?: string | undefined;
+  branches?: string[] | undefined;
   events: RepositoryTriggerEventEnum[];
 }
 export type RepositoryTriggersList = RepositoryTrigger[];
 export interface GetRepositoryTriggersOutput {
-  configurationId?: string;
-  triggers?: RepositoryTrigger[];
+  configurationId?: string | undefined;
+  triggers?: RepositoryTrigger[] | undefined;
 }
 export interface ListApprovalRuleTemplatesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ApprovalRuleTemplateNameList = string[];
 export interface ListApprovalRuleTemplatesOutput {
-  approvalRuleTemplateNames?: string[];
-  nextToken?: string;
+  approvalRuleTemplateNames?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAssociatedApprovalRuleTemplatesForRepositoryInput {
   repositoryName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListAssociatedApprovalRuleTemplatesForRepositoryOutput {
-  approvalRuleTemplateNames?: string[];
-  nextToken?: string;
+  approvalRuleTemplateNames?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBranchesInput {
   repositoryName: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListBranchesOutput {
-  branches?: string[];
-  nextToken?: string;
+  branches?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListFileCommitHistoryRequest {
   repositoryName: string;
-  commitSpecifier?: string;
+  commitSpecifier?: string | undefined;
   filePath: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type RevisionChildren = string[];
 export interface FileVersion {
-  commit?: Commit;
-  blobId?: string;
-  path?: string;
-  revisionChildren?: string[];
+  commit?: Commit | undefined;
+  blobId?: string | undefined;
+  path?: string | undefined;
+  revisionChildren?: string[] | undefined;
 }
 export type RevisionDag = FileVersion[];
 export interface ListFileCommitHistoryResponse {
   revisionDag: FileVersion[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListPullRequestsInput {
   repositoryName: string;
-  authorArn?: string;
-  pullRequestStatus?: PullRequestStatusEnum;
-  nextToken?: string;
-  maxResults?: number;
+  authorArn?: string | undefined;
+  pullRequestStatus?: PullRequestStatusEnum | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type PullRequestIdList = string[];
 export interface ListPullRequestsOutput {
   pullRequestIds: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type SortByEnum = "repositoryName" | "lastModifiedDate" | (string & {});
 export type OrderEnum = "ascending" | "descending" | (string & {});
 export interface ListRepositoriesInput {
-  nextToken?: string;
-  sortBy?: SortByEnum;
-  order?: OrderEnum;
+  nextToken?: string | undefined;
+  sortBy?: SortByEnum | undefined;
+  order?: OrderEnum | undefined;
 }
 export interface RepositoryNameIdPair {
-  repositoryName?: string;
-  repositoryId?: string;
+  repositoryName?: string | undefined;
+  repositoryId?: string | undefined;
 }
 export type RepositoryNameIdPairList = RepositoryNameIdPair[];
 export interface ListRepositoriesOutput {
-  repositories?: RepositoryNameIdPair[];
-  nextToken?: string;
+  repositories?: RepositoryNameIdPair[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListRepositoriesForApprovalRuleTemplateInput {
   approvalRuleTemplateName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListRepositoriesForApprovalRuleTemplateOutput {
-  repositoryNames?: string[];
-  nextToken?: string;
+  repositoryNames?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceInput {
   resourceArn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string | undefined };
-  nextToken?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  nextToken?: string | undefined;
 }
 export interface MergeBranchesByFastForwardInput {
   repositoryName: string;
   sourceCommitSpecifier: string;
   destinationCommitSpecifier: string;
-  targetBranch?: string;
+  targetBranch?: string | undefined;
 }
 export interface MergeBranchesByFastForwardOutput {
-  commitId?: string;
-  treeId?: string;
+  commitId?: string | undefined;
+  treeId?: string | undefined;
 }
 export interface MergeBranchesBySquashInput {
   repositoryName: string;
   sourceCommitSpecifier: string;
   destinationCommitSpecifier: string;
-  targetBranch?: string;
-  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
-  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
-  authorName?: string;
-  email?: string;
-  commitMessage?: string;
-  keepEmptyFolders?: boolean;
-  conflictResolution?: ConflictResolution;
+  targetBranch?: string | undefined;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum | undefined;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum | undefined;
+  authorName?: string | undefined;
+  email?: string | undefined;
+  commitMessage?: string | undefined;
+  keepEmptyFolders?: boolean | undefined;
+  conflictResolution?: ConflictResolution | undefined;
 }
 export interface MergeBranchesBySquashOutput {
-  commitId?: string;
-  treeId?: string;
+  commitId?: string | undefined;
+  treeId?: string | undefined;
 }
 export interface MergeBranchesByThreeWayInput {
   repositoryName: string;
   sourceCommitSpecifier: string;
   destinationCommitSpecifier: string;
-  targetBranch?: string;
-  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
-  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
-  authorName?: string;
-  email?: string;
-  commitMessage?: string;
-  keepEmptyFolders?: boolean;
-  conflictResolution?: ConflictResolution;
+  targetBranch?: string | undefined;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum | undefined;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum | undefined;
+  authorName?: string | undefined;
+  email?: string | undefined;
+  commitMessage?: string | undefined;
+  keepEmptyFolders?: boolean | undefined;
+  conflictResolution?: ConflictResolution | undefined;
 }
 export interface MergeBranchesByThreeWayOutput {
-  commitId?: string;
-  treeId?: string;
+  commitId?: string | undefined;
+  treeId?: string | undefined;
 }
 export interface MergePullRequestByFastForwardInput {
   pullRequestId: string;
   repositoryName: string;
-  sourceCommitId?: string;
+  sourceCommitId?: string | undefined;
 }
 export interface MergePullRequestByFastForwardOutput {
-  pullRequest?: PullRequest;
+  pullRequest?: PullRequest | undefined;
 }
 export interface MergePullRequestBySquashInput {
   pullRequestId: string;
   repositoryName: string;
-  sourceCommitId?: string;
-  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
-  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
-  commitMessage?: string;
-  authorName?: string;
-  email?: string;
-  keepEmptyFolders?: boolean;
-  conflictResolution?: ConflictResolution;
+  sourceCommitId?: string | undefined;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum | undefined;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum | undefined;
+  commitMessage?: string | undefined;
+  authorName?: string | undefined;
+  email?: string | undefined;
+  keepEmptyFolders?: boolean | undefined;
+  conflictResolution?: ConflictResolution | undefined;
 }
 export interface MergePullRequestBySquashOutput {
-  pullRequest?: PullRequest;
+  pullRequest?: PullRequest | undefined;
 }
 export interface MergePullRequestByThreeWayInput {
   pullRequestId: string;
   repositoryName: string;
-  sourceCommitId?: string;
-  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
-  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
-  commitMessage?: string;
-  authorName?: string;
-  email?: string;
-  keepEmptyFolders?: boolean;
-  conflictResolution?: ConflictResolution;
+  sourceCommitId?: string | undefined;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum | undefined;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum | undefined;
+  commitMessage?: string | undefined;
+  authorName?: string | undefined;
+  email?: string | undefined;
+  keepEmptyFolders?: boolean | undefined;
+  conflictResolution?: ConflictResolution | undefined;
 }
 export interface MergePullRequestByThreeWayOutput {
-  pullRequest?: PullRequest;
+  pullRequest?: PullRequest | undefined;
 }
 export interface OverridePullRequestApprovalRulesInput {
   pullRequestId: string;
@@ -2132,47 +2137,47 @@ export interface OverridePullRequestApprovalRulesInput {
 export interface OverridePullRequestApprovalRulesResponse {}
 export interface PostCommentForComparedCommitInput {
   repositoryName: string;
-  beforeCommitId?: string;
+  beforeCommitId?: string | undefined;
   afterCommitId: string;
-  location?: Location;
+  location?: Location | undefined;
   content: string;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
 }
 export interface PostCommentForComparedCommitOutput {
-  repositoryName?: string;
-  beforeCommitId?: string;
-  afterCommitId?: string;
-  beforeBlobId?: string;
-  afterBlobId?: string;
-  location?: Location;
-  comment?: Comment;
+  repositoryName?: string | undefined;
+  beforeCommitId?: string | undefined;
+  afterCommitId?: string | undefined;
+  beforeBlobId?: string | undefined;
+  afterBlobId?: string | undefined;
+  location?: Location | undefined;
+  comment?: Comment | undefined;
 }
 export interface PostCommentForPullRequestInput {
   pullRequestId: string;
   repositoryName: string;
   beforeCommitId: string;
   afterCommitId: string;
-  location?: Location;
+  location?: Location | undefined;
   content: string;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
 }
 export interface PostCommentForPullRequestOutput {
-  repositoryName?: string;
-  pullRequestId?: string;
-  beforeCommitId?: string;
-  afterCommitId?: string;
-  beforeBlobId?: string;
-  afterBlobId?: string;
-  location?: Location;
-  comment?: Comment;
+  repositoryName?: string | undefined;
+  pullRequestId?: string | undefined;
+  beforeCommitId?: string | undefined;
+  afterCommitId?: string | undefined;
+  beforeBlobId?: string | undefined;
+  afterBlobId?: string | undefined;
+  location?: Location | undefined;
+  comment?: Comment | undefined;
 }
 export interface PostCommentReplyInput {
   inReplyTo: string;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
   content: string;
 }
 export interface PostCommentReplyOutput {
-  comment?: Comment;
+  comment?: Comment | undefined;
 }
 export interface PutCommentReactionInput {
   commentId: string;
@@ -2184,11 +2189,11 @@ export interface PutFileInput {
   branchName: string;
   fileContent: Uint8Array;
   filePath: string;
-  fileMode?: FileModeTypeEnum;
-  parentCommitId?: string;
-  commitMessage?: string;
-  name?: string;
-  email?: string;
+  fileMode?: FileModeTypeEnum | undefined;
+  parentCommitId?: string | undefined;
+  commitMessage?: string | undefined;
+  name?: string | undefined;
+  email?: string | undefined;
 }
 export interface PutFileOutput {
   commitId: string;
@@ -2200,7 +2205,7 @@ export interface PutRepositoryTriggersInput {
   triggers: RepositoryTrigger[];
 }
 export interface PutRepositoryTriggersOutput {
-  configurationId?: string;
+  configurationId?: string | undefined;
 }
 export interface TagResourceInput {
   resourceArn: string;
@@ -2214,13 +2219,13 @@ export interface TestRepositoryTriggersInput {
 export type RepositoryTriggerNameList = string[];
 export type RepositoryTriggerExecutionFailureMessage = string;
 export interface RepositoryTriggerExecutionFailure {
-  trigger?: string;
-  failureMessage?: string;
+  trigger?: string | undefined;
+  failureMessage?: string | undefined;
 }
 export type RepositoryTriggerExecutionFailureList = RepositoryTriggerExecutionFailure[];
 export interface TestRepositoryTriggersOutput {
-  successfulExecutions?: string[];
-  failedExecutions?: RepositoryTriggerExecutionFailure[];
+  successfulExecutions?: string[] | undefined;
+  failedExecutions?: RepositoryTriggerExecutionFailure[] | undefined;
 }
 export type TagKeysList = string[];
 export interface UntagResourceInput {
@@ -2231,7 +2236,7 @@ export interface UntagResourceResponse {}
 export interface UpdateApprovalRuleTemplateContentInput {
   approvalRuleTemplateName: string;
   newRuleContent: string;
-  existingRuleContentSha256?: string;
+  existingRuleContentSha256?: string | undefined;
 }
 export interface UpdateApprovalRuleTemplateContentOutput {
   approvalRuleTemplate: ApprovalRuleTemplate;
@@ -2255,7 +2260,7 @@ export interface UpdateCommentInput {
   content: string;
 }
 export interface UpdateCommentOutput {
-  comment?: Comment;
+  comment?: Comment | undefined;
 }
 export interface UpdateDefaultBranchInput {
   repositoryName: string;
@@ -2265,7 +2270,7 @@ export interface UpdateDefaultBranchResponse {}
 export interface UpdatePullRequestApprovalRuleContentInput {
   pullRequestId: string;
   approvalRuleName: string;
-  existingRuleContentSha256?: string;
+  existingRuleContentSha256?: string | undefined;
   newRuleContent: string;
 }
 export interface UpdatePullRequestApprovalRuleContentOutput {
@@ -2300,7 +2305,7 @@ export interface UpdatePullRequestTitleOutput {
 }
 export interface UpdateRepositoryDescriptionInput {
   repositoryName: string;
-  repositoryDescription?: string;
+  repositoryDescription?: string | undefined;
 }
 export interface UpdateRepositoryDescriptionResponse {}
 export interface UpdateRepositoryEncryptionKeyInput {
@@ -2308,9 +2313,9 @@ export interface UpdateRepositoryEncryptionKeyInput {
   kmsKeyId: string;
 }
 export interface UpdateRepositoryEncryptionKeyOutput {
-  repositoryId?: string;
-  kmsKeyId?: string;
-  originalKmsKeyId?: string;
+  repositoryId?: string | undefined;
+  kmsKeyId?: string | undefined;
+  originalKmsKeyId?: string | undefined;
 }
 export interface UpdateRepositoryNameInput {
   oldName: string;
@@ -2341,7 +2346,7 @@ export type AssociateApprovalRuleTemplateWithRepositoryError =
  * that repository.
  */
 export const associateApprovalRuleTemplateWithRepository: API.OperationMethod<
-  AssociateApprovalRuleTemplateWithRepositoryInput,
+  AssociateApprovalRuleTemplateWithRepositoryInput & RegionInput,
   AssociateApprovalRuleTemplateWithRepositoryResponse,
   AssociateApprovalRuleTemplateWithRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -2385,7 +2390,7 @@ export type BatchAssociateApprovalRuleTemplateWithRepositoriesError =
  * Creates an association between an approval rule template and one or more specified repositories.
  */
 export const batchAssociateApprovalRuleTemplateWithRepositories: API.OperationMethod<
-  BatchAssociateApprovalRuleTemplateWithRepositoriesInput,
+  BatchAssociateApprovalRuleTemplateWithRepositoriesInput & RegionInput,
   BatchAssociateApprovalRuleTemplateWithRepositoriesOutput,
   BatchAssociateApprovalRuleTemplateWithRepositoriesError,
   Credentials | HttpClient.HttpClient
@@ -2446,7 +2451,7 @@ export type BatchDescribeMergeConflictsError =
  * Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy.
  */
 export const batchDescribeMergeConflicts: API.OperationMethod<
-  BatchDescribeMergeConflictsInput,
+  BatchDescribeMergeConflictsInput & RegionInput,
   BatchDescribeMergeConflictsOutput,
   BatchDescribeMergeConflictsError,
   Credentials | HttpClient.HttpClient
@@ -2499,7 +2504,7 @@ export type BatchDisassociateApprovalRuleTemplateFromRepositoriesError =
  * Removes the association between an approval rule template and one or more specified repositories.
  */
 export const batchDisassociateApprovalRuleTemplateFromRepositories: API.OperationMethod<
-  BatchDisassociateApprovalRuleTemplateFromRepositoriesInput,
+  BatchDisassociateApprovalRuleTemplateFromRepositoriesInput & RegionInput,
   BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput,
   BatchDisassociateApprovalRuleTemplateFromRepositoriesError,
   Credentials | HttpClient.HttpClient
@@ -2549,7 +2554,7 @@ export type BatchGetCommitsError =
  * Returns information about the contents of one or more commits in a repository.
  */
 export const batchGetCommits: API.OperationMethod<
-  BatchGetCommitsInput,
+  BatchGetCommitsInput & RegionInput,
   BatchGetCommitsOutput,
   BatchGetCommitsError,
   Credentials | HttpClient.HttpClient
@@ -2595,7 +2600,7 @@ export type BatchGetRepositoriesError =
  * the repository description on a webpage.
  */
 export const batchGetRepositories: API.OperationMethod<
-  BatchGetRepositoriesInput,
+  BatchGetRepositoriesInput & RegionInput,
   BatchGetRepositoriesOutput,
   BatchGetRepositoriesError,
   Credentials | HttpClient.HttpClient
@@ -2636,7 +2641,7 @@ export type CreateApprovalRuleTemplateError =
  * AssociateApprovalRuleTemplateWithRepository.
  */
 export const createApprovalRuleTemplate: API.OperationMethod<
-  CreateApprovalRuleTemplateInput,
+  CreateApprovalRuleTemplateInput & RegionInput,
   CreateApprovalRuleTemplateOutput,
   CreateApprovalRuleTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2681,7 +2686,7 @@ export type CreateBranchError =
  * Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation.
  */
 export const createBranch: API.OperationMethod<
-  CreateBranchInput,
+  CreateBranchInput & RegionInput,
   CreateBranchResponse,
   CreateBranchError,
   Credentials | HttpClient.HttpClient
@@ -2755,7 +2760,7 @@ export type CreateCommitError =
  * Creates a commit for a repository on the tip of a specified branch.
  */
 export const createCommit: API.OperationMethod<
-  CreateCommitInput,
+  CreateCommitInput & RegionInput,
   CreateCommitOutput,
   CreateCommitError,
   Credentials | HttpClient.HttpClient
@@ -2840,7 +2845,7 @@ export type CreatePullRequestError =
  * Creates a pull request in the specified repository.
  */
 export const createPullRequest: API.OperationMethod<
-  CreatePullRequestInput,
+  CreatePullRequestInput & RegionInput,
   CreatePullRequestOutput,
   CreatePullRequestError,
   Credentials | HttpClient.HttpClient
@@ -2902,7 +2907,7 @@ export type CreatePullRequestApprovalRuleError =
  * Creates an approval rule for a pull request.
  */
 export const createPullRequestApprovalRule: API.OperationMethod<
-  CreatePullRequestApprovalRuleInput,
+  CreatePullRequestApprovalRuleInput & RegionInput,
   CreatePullRequestApprovalRuleOutput,
   CreatePullRequestApprovalRuleError,
   Credentials | HttpClient.HttpClient
@@ -2956,7 +2961,7 @@ export type CreateRepositoryError =
  * Creates a new, empty repository.
  */
 export const createRepository: API.OperationMethod<
-  CreateRepositoryInput,
+  CreateRepositoryInput & RegionInput,
   CreateRepositoryOutput,
   CreateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -3037,7 +3042,7 @@ export type CreateUnreferencedMergeCommitError =
  * can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it.
  */
 export const createUnreferencedMergeCommit: API.OperationMethod<
-  CreateUnreferencedMergeCommitInput,
+  CreateUnreferencedMergeCommitInput & RegionInput,
   CreateUnreferencedMergeCommitOutput,
   CreateUnreferencedMergeCommitError,
   Credentials | HttpClient.HttpClient
@@ -3098,7 +3103,7 @@ export type DeleteApprovalRuleTemplateError =
  * Deletes a specified approval rule template. Deleting a template does not remove approval rules on pull requests already created with the template.
  */
 export const deleteApprovalRuleTemplate: API.OperationMethod<
-  DeleteApprovalRuleTemplateInput,
+  DeleteApprovalRuleTemplateInput & RegionInput,
   DeleteApprovalRuleTemplateOutput,
   DeleteApprovalRuleTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3134,7 +3139,7 @@ export type DeleteBranchError =
  * Deletes a branch from a repository, unless that branch is the default branch for the repository.
  */
 export const deleteBranch: API.OperationMethod<
-  DeleteBranchInput,
+  DeleteBranchInput & RegionInput,
   DeleteBranchOutput,
   DeleteBranchError,
   Credentials | HttpClient.HttpClient
@@ -3171,7 +3176,7 @@ export type DeleteCommentContentError =
  * Deletes the content of a comment made on a change, file, or commit in a repository.
  */
 export const deleteCommentContent: API.OperationMethod<
-  DeleteCommentContentInput,
+  DeleteCommentContentInput & RegionInput,
   DeleteCommentContentOutput,
   DeleteCommentContentError,
   Credentials | HttpClient.HttpClient
@@ -3221,7 +3226,7 @@ export type DeleteFileError =
  * that contains the deletion.
  */
 export const deleteFile: API.OperationMethod<
-  DeleteFileInput,
+  DeleteFileInput & RegionInput,
   DeleteFileOutput,
   DeleteFileError,
   Credentials | HttpClient.HttpClient
@@ -3279,7 +3284,7 @@ export type DeletePullRequestApprovalRuleError =
  * pull request was created. You cannot delete an approval rule from a merged or closed pull request.
  */
 export const deletePullRequestApprovalRule: API.OperationMethod<
-  DeletePullRequestApprovalRuleInput,
+  DeletePullRequestApprovalRuleInput & RegionInput,
   DeletePullRequestApprovalRuleOutput,
   DeletePullRequestApprovalRuleError,
   Credentials | HttpClient.HttpClient
@@ -3324,7 +3329,7 @@ export type DeleteRepositoryError =
  * deleted, all future push calls to the deleted repository fail.
  */
 export const deleteRepository: API.OperationMethod<
-  DeleteRepositoryInput,
+  DeleteRepositoryInput & RegionInput,
   DeleteRepositoryOutput,
   DeleteRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -3378,7 +3383,7 @@ export type DescribeMergeConflictsError =
  * the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
  */
 export const describeMergeConflicts: API.PaginatedOperationMethod<
-  DescribeMergeConflictsInput,
+  DescribeMergeConflictsInput & RegionInput,
   DescribeMergeConflictsOutput,
   DescribeMergeConflictsError,
   Credentials | HttpClient.HttpClient,
@@ -3442,7 +3447,7 @@ export type DescribePullRequestEventsError =
  * Returns information about one or more pull request events.
  */
 export const describePullRequestEvents: API.PaginatedOperationMethod<
-  DescribePullRequestEventsInput,
+  DescribePullRequestEventsInput & RegionInput,
   DescribePullRequestEventsOutput,
   DescribePullRequestEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3497,7 +3502,7 @@ export type DisassociateApprovalRuleTemplateFromRepositoryError =
  * pull requests through the template association.
  */
 export const disassociateApprovalRuleTemplateFromRepository: API.OperationMethod<
-  DisassociateApprovalRuleTemplateFromRepositoryInput,
+  DisassociateApprovalRuleTemplateFromRepositoryInput & RegionInput,
   DisassociateApprovalRuleTemplateFromRepositoryResponse,
   DisassociateApprovalRuleTemplateFromRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -3545,7 +3550,7 @@ export type EvaluatePullRequestApprovalRulesError =
  * Evaluates whether a pull request has met all the conditions specified in its associated approval rules.
  */
 export const evaluatePullRequestApprovalRules: API.OperationMethod<
-  EvaluatePullRequestApprovalRulesInput,
+  EvaluatePullRequestApprovalRulesInput & RegionInput,
   EvaluatePullRequestApprovalRulesOutput,
   EvaluatePullRequestApprovalRulesError,
   Credentials | HttpClient.HttpClient
@@ -3581,7 +3586,7 @@ export type GetApprovalRuleTemplateError =
  * Returns information about a specified approval rule template.
  */
 export const getApprovalRuleTemplate: API.OperationMethod<
-  GetApprovalRuleTemplateInput,
+  GetApprovalRuleTemplateInput & RegionInput,
   GetApprovalRuleTemplateOutput,
   GetApprovalRuleTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3618,7 +3623,7 @@ export type GetBlobError =
  * Returns the base-64 encoded content of an individual blob in a repository.
  */
 export const getBlob: API.OperationMethod<
-  GetBlobInput,
+  GetBlobInput & RegionInput,
   GetBlobOutput,
   GetBlobError,
   Credentials | HttpClient.HttpClient
@@ -3674,7 +3679,7 @@ export type GetBlobDifferencesError =
  * For the typical usage workflow, see GetDifferences.
  */
 export const getBlobDifferences: API.PaginatedOperationMethod<
-  GetBlobDifferencesInput,
+  GetBlobDifferencesInput & RegionInput,
   GetBlobDifferencesOutput,
   GetBlobDifferencesError,
   Credentials | HttpClient.HttpClient,
@@ -3729,7 +3734,7 @@ export type GetBranchError =
  * Returns information about a repository branch, including its name and the last commit ID.
  */
 export const getBranch: API.OperationMethod<
-  GetBranchInput,
+  GetBranchInput & RegionInput,
   GetBranchOutput,
   GetBranchError,
   Credentials | HttpClient.HttpClient
@@ -3774,7 +3779,7 @@ export type GetCommentError =
  * reactions from active identities, use GetCommentReactions.
  */
 export const getComment: API.OperationMethod<
-  GetCommentInput,
+  GetCommentInput & RegionInput,
   GetCommentOutput,
   GetCommentError,
   Credentials | HttpClient.HttpClient
@@ -3812,7 +3817,7 @@ export type GetCommentReactionsError =
  * Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
  */
 export const getCommentReactions: API.PaginatedOperationMethod<
-  GetCommentReactionsInput,
+  GetCommentReactionsInput & RegionInput,
   GetCommentReactionsOutput,
   GetCommentReactionsError,
   Credentials | HttpClient.HttpClient,
@@ -3863,7 +3868,7 @@ export type GetCommentsForComparedCommitError =
  * reactions from active identities, use GetCommentReactions.
  */
 export const getCommentsForComparedCommit: API.PaginatedOperationMethod<
-  GetCommentsForComparedCommitInput,
+  GetCommentsForComparedCommitInput & RegionInput,
   GetCommentsForComparedCommitOutput,
   GetCommentsForComparedCommitError,
   Credentials | HttpClient.HttpClient,
@@ -3924,7 +3929,7 @@ export type GetCommentsForPullRequestError =
  * reactions from active identities, use GetCommentReactions.
  */
 export const getCommentsForPullRequest: API.PaginatedOperationMethod<
-  GetCommentsForPullRequestInput,
+  GetCommentsForPullRequestInput & RegionInput,
   GetCommentsForPullRequestOutput,
   GetCommentsForPullRequestError,
   Credentials | HttpClient.HttpClient,
@@ -3980,7 +3985,7 @@ export type GetCommitError =
  * Returns information about a commit, including commit message and committer information.
  */
 export const getCommit: API.OperationMethod<
-  GetCommitInput,
+  GetCommitInput & RegionInput,
   GetCommitOutput,
   GetCommitError,
   Credentials | HttpClient.HttpClient
@@ -4034,7 +4039,7 @@ export type GetDifferencesError =
  * `afterBlob.blobId` values from a `Difference` object to GetBlobDifferences.
  */
 export const getDifferences: API.PaginatedOperationMethod<
-  GetDifferencesInput,
+  GetDifferencesInput & RegionInput,
   GetDifferencesOutput,
   GetDifferencesError,
   Credentials | HttpClient.HttpClient,
@@ -4092,7 +4097,7 @@ export type GetFileError =
  * Returns the base-64 encoded contents of a specified file and its metadata.
  */
 export const getFile: API.OperationMethod<
-  GetFileInput,
+  GetFileInput & RegionInput,
   GetFileOutput,
   GetFileError,
   Credentials | HttpClient.HttpClient
@@ -4141,7 +4146,7 @@ export type GetFolderError =
  * Returns the contents of a specified folder in a repository.
  */
 export const getFolder: API.OperationMethod<
-  GetFolderInput,
+  GetFolderInput & RegionInput,
   GetFolderOutput,
   GetFolderError,
   Credentials | HttpClient.HttpClient
@@ -4189,7 +4194,7 @@ export type GetMergeCommitError =
  * Returns information about a specified merge commit.
  */
 export const getMergeCommit: API.OperationMethod<
-  GetMergeCommitInput,
+  GetMergeCommitInput & RegionInput,
   GetMergeCommitOutput,
   GetMergeCommitError,
   Credentials | HttpClient.HttpClient
@@ -4246,7 +4251,7 @@ export type GetMergeConflictsError =
  * Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
  */
 export const getMergeConflicts: API.PaginatedOperationMethod<
-  GetMergeConflictsInput,
+  GetMergeConflictsInput & RegionInput,
   GetMergeConflictsOutput,
   GetMergeConflictsError,
   Credentials | HttpClient.HttpClient,
@@ -4314,7 +4319,7 @@ export type GetMergeOptionsError =
  * or DescribeMergeConflicts.
  */
 export const getMergeOptions: API.OperationMethod<
-  GetMergeOptionsInput,
+  GetMergeOptionsInput & RegionInput,
   GetMergeOptionsOutput,
   GetMergeOptionsError,
   Credentials | HttpClient.HttpClient
@@ -4360,7 +4365,7 @@ export type GetPullRequestError =
  * Gets information about a pull request in a specified repository.
  */
 export const getPullRequest: API.OperationMethod<
-  GetPullRequestInput,
+  GetPullRequestInput & RegionInput,
   GetPullRequestOutput,
   GetPullRequestError,
   Credentials | HttpClient.HttpClient
@@ -4401,7 +4406,7 @@ export type GetPullRequestApprovalStatesError =
  * approval rules applied to them.
  */
 export const getPullRequestApprovalStates: API.OperationMethod<
-  GetPullRequestApprovalStatesInput,
+  GetPullRequestApprovalStatesInput & RegionInput,
   GetPullRequestApprovalStatesOutput,
   GetPullRequestApprovalStatesError,
   Credentials | HttpClient.HttpClient
@@ -4444,7 +4449,7 @@ export type GetPullRequestOverrideStateError =
  * pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
  */
 export const getPullRequestOverrideState: API.OperationMethod<
-  GetPullRequestOverrideStateInput,
+  GetPullRequestOverrideStateInput & RegionInput,
   GetPullRequestOverrideStateOutput,
   GetPullRequestOverrideStateError,
   Credentials | HttpClient.HttpClient
@@ -4490,7 +4495,7 @@ export type GetRepositoryError =
  * the repository description on a webpage.
  */
 export const getRepository: API.OperationMethod<
-  GetRepositoryInput,
+  GetRepositoryInput & RegionInput,
   GetRepositoryOutput,
   GetRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -4528,7 +4533,7 @@ export type GetRepositoryTriggersError =
  * Gets information about triggers configured for a repository.
  */
 export const getRepositoryTriggers: API.OperationMethod<
-  GetRepositoryTriggersInput,
+  GetRepositoryTriggersInput & RegionInput,
   GetRepositoryTriggersOutput,
   GetRepositoryTriggersError,
   Credentials | HttpClient.HttpClient
@@ -4561,7 +4566,7 @@ export type ListApprovalRuleTemplatesError =
  * an Amazon Web Services Region is not specified, the Amazon Web Services Region where you are signed in is used.
  */
 export const listApprovalRuleTemplates: API.PaginatedOperationMethod<
-  ListApprovalRuleTemplatesInput,
+  ListApprovalRuleTemplatesInput & RegionInput,
   ListApprovalRuleTemplatesOutput,
   ListApprovalRuleTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4598,7 +4603,7 @@ export type ListAssociatedApprovalRuleTemplatesForRepositoryError =
  * Lists all approval rule templates that are associated with a specified repository.
  */
 export const listAssociatedApprovalRuleTemplatesForRepository: API.PaginatedOperationMethod<
-  ListAssociatedApprovalRuleTemplatesForRepositoryInput,
+  ListAssociatedApprovalRuleTemplatesForRepositoryInput & RegionInput,
   ListAssociatedApprovalRuleTemplatesForRepositoryOutput,
   ListAssociatedApprovalRuleTemplatesForRepositoryError,
   Credentials | HttpClient.HttpClient,
@@ -4653,7 +4658,7 @@ export type ListBranchesError =
  * Gets information about one or more branches in a repository.
  */
 export const listBranches: API.PaginatedOperationMethod<
-  ListBranchesInput,
+  ListBranchesInput & RegionInput,
   ListBranchesOutput,
   ListBranchesError,
   Credentials | HttpClient.HttpClient,
@@ -4700,7 +4705,7 @@ export type ListFileCommitHistoryError =
  * Retrieves a list of commits and changes to a specified file.
  */
 export const listFileCommitHistory: API.PaginatedOperationMethod<
-  ListFileCommitHistoryRequest,
+  ListFileCommitHistoryRequest & RegionInput,
   ListFileCommitHistoryResponse,
   ListFileCommitHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -4756,7 +4761,7 @@ export type ListPullRequestsError =
  * status or pull request author ARN.
  */
 export const listPullRequests: API.PaginatedOperationMethod<
-  ListPullRequestsInput,
+  ListPullRequestsInput & RegionInput,
   ListPullRequestsOutput,
   ListPullRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -4800,7 +4805,7 @@ export type ListRepositoriesError =
  * Gets information about one or more repositories.
  */
 export const listRepositories: API.PaginatedOperationMethod<
-  ListRepositoriesInput,
+  ListRepositoriesInput & RegionInput,
   ListRepositoriesOutput,
   ListRepositoriesError,
   Credentials | HttpClient.HttpClient,
@@ -4833,7 +4838,7 @@ export type ListRepositoriesForApprovalRuleTemplateError =
  * Lists all repositories associated with the specified approval rule template.
  */
 export const listRepositoriesForApprovalRuleTemplate: API.PaginatedOperationMethod<
-  ListRepositoriesForApprovalRuleTemplateInput,
+  ListRepositoriesForApprovalRuleTemplateInput & RegionInput,
   ListRepositoriesForApprovalRuleTemplateOutput,
   ListRepositoriesForApprovalRuleTemplateError,
   Credentials | HttpClient.HttpClient,
@@ -4872,11 +4877,13 @@ export type ListTagsForResourceError =
   | ResourceArnRequiredException
   | CommonErrors;
 /**
- * Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN) in CodeCommit. For a list of valid resources in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
+ * Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN) in CodeCommit. For a list of valid resources in CodeCommit, see
+ * CodeCommit Resources and Operations in the
+ * CodeCommit User
  * Guide.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4921,7 +4928,7 @@ export type MergeBranchesByFastForwardError =
  * Merges two branches using the fast-forward merge strategy.
  */
 export const mergeBranchesByFastForward: API.OperationMethod<
-  MergeBranchesByFastForwardInput,
+  MergeBranchesByFastForwardInput & RegionInput,
   MergeBranchesByFastForwardOutput,
   MergeBranchesByFastForwardError,
   Credentials | HttpClient.HttpClient
@@ -5001,7 +5008,7 @@ export type MergeBranchesBySquashError =
  * Merges two branches using the squash merge strategy.
  */
 export const mergeBranchesBySquash: API.OperationMethod<
-  MergeBranchesBySquashInput,
+  MergeBranchesBySquashInput & RegionInput,
   MergeBranchesBySquashOutput,
   MergeBranchesBySquashError,
   Credentials | HttpClient.HttpClient
@@ -5101,7 +5108,7 @@ export type MergeBranchesByThreeWayError =
  * Merges two specified branches using the three-way merge strategy.
  */
 export const mergeBranchesByThreeWay: API.OperationMethod<
-  MergeBranchesByThreeWayInput,
+  MergeBranchesByThreeWayInput & RegionInput,
   MergeBranchesByThreeWayOutput,
   MergeBranchesByThreeWayError,
   Credentials | HttpClient.HttpClient
@@ -5182,7 +5189,7 @@ export type MergePullRequestByFastForwardError =
  * branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
  */
 export const mergePullRequestByFastForward: API.OperationMethod<
-  MergePullRequestByFastForwardInput,
+  MergePullRequestByFastForwardInput & RegionInput,
   MergePullRequestByFastForwardOutput,
   MergePullRequestByFastForwardError,
   Credentials | HttpClient.HttpClient
@@ -5262,7 +5269,7 @@ export type MergePullRequestBySquashError =
  * branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request.
  */
 export const mergePullRequestBySquash: API.OperationMethod<
-  MergePullRequestBySquashInput,
+  MergePullRequestBySquashInput & RegionInput,
   MergePullRequestBySquashOutput,
   MergePullRequestBySquashError,
   Credentials | HttpClient.HttpClient
@@ -5361,7 +5368,7 @@ export type MergePullRequestByThreeWayError =
  * branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request.
  */
 export const mergePullRequestByThreeWay: API.OperationMethod<
-  MergePullRequestByThreeWayInput,
+  MergePullRequestByThreeWayInput & RegionInput,
   MergePullRequestByThreeWayOutput,
   MergePullRequestByThreeWayError,
   Credentials | HttpClient.HttpClient
@@ -5436,7 +5443,7 @@ export type OverridePullRequestApprovalRulesError =
  * Sets aside (overrides) all approval rule requirements for a specified pull request.
  */
 export const overridePullRequestApprovalRules: API.OperationMethod<
-  OverridePullRequestApprovalRulesInput,
+  OverridePullRequestApprovalRulesInput & RegionInput,
   OverridePullRequestApprovalRulesResponse,
   OverridePullRequestApprovalRulesError,
   Credentials | HttpClient.HttpClient
@@ -5496,7 +5503,7 @@ export type PostCommentForComparedCommitError =
  * Posts a comment on the comparison between two commits.
  */
 export const postCommentForComparedCommit: API.OperationMethod<
-  PostCommentForComparedCommitInput,
+  PostCommentForComparedCommitInput & RegionInput,
   PostCommentForComparedCommitOutput,
   PostCommentForComparedCommitError,
   Credentials | HttpClient.HttpClient
@@ -5568,7 +5575,7 @@ export type PostCommentForPullRequestError =
  * Posts a comment on a pull request.
  */
 export const postCommentForPullRequest: API.OperationMethod<
-  PostCommentForPullRequestInput,
+  PostCommentForPullRequestInput & RegionInput,
   PostCommentForPullRequestOutput,
   PostCommentForPullRequestError,
   Credentials | HttpClient.HttpClient
@@ -5625,7 +5632,7 @@ export type PostCommentReplyError =
  * Posts a comment in reply to an existing comment on a comparison between commits or a pull request.
  */
 export const postCommentReply: API.OperationMethod<
-  PostCommentReplyInput,
+  PostCommentReplyInput & RegionInput,
   PostCommentReplyOutput,
   PostCommentReplyError,
   Credentials | HttpClient.HttpClient
@@ -5663,7 +5670,7 @@ export type PutCommentReactionError =
  * update a reaction for yourself. You cannot add, modify, or delete a reaction for another user.
  */
 export const putCommentReaction: API.OperationMethod<
-  PutCommentReactionInput,
+  PutCommentReactionInput & RegionInput,
   PutCommentReactionResponse,
   PutCommentReactionError,
   Credentials | HttpClient.HttpClient
@@ -5722,7 +5729,7 @@ export type PutFileError =
  * Adds or updates a file in a branch in an CodeCommit repository, and generates a commit for the addition in the specified branch.
  */
 export const putFile: API.OperationMethod<
-  PutFileInput,
+  PutFileInput & RegionInput,
   PutFileOutput,
   PutFileError,
   Credentials | HttpClient.HttpClient
@@ -5795,7 +5802,7 @@ export type PutRepositoryTriggersError =
  * Replaces all triggers for a repository. Used to create or delete triggers.
  */
 export const putRepositoryTriggers: API.OperationMethod<
-  PutRepositoryTriggersInput,
+  PutRepositoryTriggersInput & RegionInput,
   PutRepositoryTriggersOutput,
   PutRepositoryTriggersError,
   Credentials | HttpClient.HttpClient
@@ -5845,11 +5852,13 @@ export type TagResourceError =
   | CommonErrors;
 /**
  * Adds or updates tags for a resource in CodeCommit. For a list of valid resources
- * in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
+ * in CodeCommit, see
+ * CodeCommit Resources and Operations in the
+ * CodeCommit User
  * Guide.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5903,7 +5912,7 @@ export type TestRepositoryTriggersError =
  * commit. If no data is available, sample data is generated.
  */
 export const testRepositoryTriggers: API.OperationMethod<
-  TestRepositoryTriggersInput,
+  TestRepositoryTriggersInput & RegionInput,
   TestRepositoryTriggersOutput,
   TestRepositoryTriggersError,
   Credentials | HttpClient.HttpClient
@@ -5952,11 +5961,13 @@ export type UntagResourceError =
   | TooManyTagsException
   | CommonErrors;
 /**
- * Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
+ * Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see
+ * CodeCommit Resources and Operations in the
+ * CodeCommit User
  * Guide.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5995,7 +6006,7 @@ export type UpdateApprovalRuleTemplateContentError =
  * defined.
  */
 export const updateApprovalRuleTemplateContent: API.OperationMethod<
-  UpdateApprovalRuleTemplateContentInput,
+  UpdateApprovalRuleTemplateContentInput & RegionInput,
   UpdateApprovalRuleTemplateContentOutput,
   UpdateApprovalRuleTemplateContentError,
   Credentials | HttpClient.HttpClient
@@ -6027,7 +6038,7 @@ export type UpdateApprovalRuleTemplateDescriptionError =
  * Updates the description for a specified approval rule template.
  */
 export const updateApprovalRuleTemplateDescription: API.OperationMethod<
-  UpdateApprovalRuleTemplateDescriptionInput,
+  UpdateApprovalRuleTemplateDescriptionInput & RegionInput,
   UpdateApprovalRuleTemplateDescriptionOutput,
   UpdateApprovalRuleTemplateDescriptionError,
   Credentials | HttpClient.HttpClient
@@ -6057,7 +6068,7 @@ export type UpdateApprovalRuleTemplateNameError =
  * Updates the name of a specified approval rule template.
  */
 export const updateApprovalRuleTemplateName: API.OperationMethod<
-  UpdateApprovalRuleTemplateNameInput,
+  UpdateApprovalRuleTemplateNameInput & RegionInput,
   UpdateApprovalRuleTemplateNameOutput,
   UpdateApprovalRuleTemplateNameError,
   Credentials | HttpClient.HttpClient
@@ -6090,7 +6101,7 @@ export type UpdateCommentError =
  * Replaces the contents of a comment.
  */
 export const updateComment: API.OperationMethod<
-  UpdateCommentInput,
+  UpdateCommentInput & RegionInput,
   UpdateCommentOutput,
   UpdateCommentError,
   Credentials | HttpClient.HttpClient
@@ -6132,7 +6143,7 @@ export type UpdateDefaultBranchError =
  * If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change.
  */
 export const updateDefaultBranch: API.OperationMethod<
-  UpdateDefaultBranchInput,
+  UpdateDefaultBranchInput & RegionInput,
   UpdateDefaultBranchResponse,
   UpdateDefaultBranchError,
   Credentials | HttpClient.HttpClient
@@ -6182,7 +6193,7 @@ export type UpdatePullRequestApprovalRuleContentError =
  * the approval pool for approvers.
  */
 export const updatePullRequestApprovalRuleContent: API.OperationMethod<
-  UpdatePullRequestApprovalRuleContentInput,
+  UpdatePullRequestApprovalRuleContentInput & RegionInput,
   UpdatePullRequestApprovalRuleContentOutput,
   UpdatePullRequestApprovalRuleContentError,
   Credentials | HttpClient.HttpClient
@@ -6236,7 +6247,7 @@ export type UpdatePullRequestApprovalStateError =
  * Updates the state of a user's approval on a pull request. The user is derived from the signed-in account when the request is made.
  */
 export const updatePullRequestApprovalState: API.OperationMethod<
-  UpdatePullRequestApprovalStateInput,
+  UpdatePullRequestApprovalStateInput & RegionInput,
   UpdatePullRequestApprovalStateResponse,
   UpdatePullRequestApprovalStateError,
   Credentials | HttpClient.HttpClient
@@ -6279,7 +6290,7 @@ export type UpdatePullRequestDescriptionError =
  * Replaces the contents of the description of a pull request.
  */
 export const updatePullRequestDescription: API.OperationMethod<
-  UpdatePullRequestDescriptionInput,
+  UpdatePullRequestDescriptionInput & RegionInput,
   UpdatePullRequestDescriptionOutput,
   UpdatePullRequestDescriptionError,
   Credentials | HttpClient.HttpClient
@@ -6317,7 +6328,7 @@ export type UpdatePullRequestStatusError =
  * Updates the status of a pull request.
  */
 export const updatePullRequestStatus: API.OperationMethod<
-  UpdatePullRequestStatusInput,
+  UpdatePullRequestStatusInput & RegionInput,
   UpdatePullRequestStatusOutput,
   UpdatePullRequestStatusError,
   Credentials | HttpClient.HttpClient
@@ -6356,7 +6367,7 @@ export type UpdatePullRequestTitleError =
  * Replaces the title of a pull request.
  */
 export const updatePullRequestTitle: API.OperationMethod<
-  UpdatePullRequestTitleInput,
+  UpdatePullRequestTitleInput & RegionInput,
   UpdatePullRequestTitleOutput,
   UpdatePullRequestTitleError,
   Credentials | HttpClient.HttpClient
@@ -6399,7 +6410,7 @@ export type UpdateRepositoryDescriptionError =
  * the repository description on a webpage.
  */
 export const updateRepositoryDescription: API.OperationMethod<
-  UpdateRepositoryDescriptionInput,
+  UpdateRepositoryDescriptionInput & RegionInput,
   UpdateRepositoryDescriptionResponse,
   UpdateRepositoryDescriptionError,
   Credentials | HttpClient.HttpClient
@@ -6441,7 +6452,7 @@ export type UpdateRepositoryEncryptionKeyError =
  * Updates the Key Management Service encryption key used to encrypt and decrypt a CodeCommit repository.
  */
 export const updateRepositoryEncryptionKey: API.OperationMethod<
-  UpdateRepositoryEncryptionKeyInput,
+  UpdateRepositoryEncryptionKeyInput & RegionInput,
   UpdateRepositoryEncryptionKeyOutput,
   UpdateRepositoryEncryptionKeyError,
   Credentials | HttpClient.HttpClient
@@ -6482,7 +6493,7 @@ export type UpdateRepositoryNameError =
  * User Guide.
  */
 export const updateRepositoryName: API.OperationMethod<
-  UpdateRepositoryNameInput,
+  UpdateRepositoryNameInput & RegionInput,
   UpdateRepositoryNameResponse,
   UpdateRepositoryNameError,
   Credentials | HttpClient.HttpClient

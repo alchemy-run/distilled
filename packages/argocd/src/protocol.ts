@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ArgocdProtocol -- hand-written.
  *
@@ -37,7 +38,8 @@ export type ArgocdOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | ArgocdParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Argo CD operation. */
 export type ArgocdOpContext = Credentials | HttpClient.HttpClient;

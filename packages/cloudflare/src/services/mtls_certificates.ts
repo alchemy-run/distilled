@@ -84,35 +84,35 @@ export interface CreateMtlsCertificateRequest {
   /** The uploaded root CA certificate. */
   certificates: string;
   /** Optional unique name for the certificate. Only used for human readability. */
-  name?: string;
+  name?: string | undefined;
   /** The private key for the certificate. This field is only needed for specific use cases such as using a custom certificate with Zero Trust's block page. */
-  privateKey?: string;
+  privateKey?: string | undefined;
 }
 export type CreateResponseType = "custom" | "gateway_managed" | "access_managed";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateMtlsCertificateResponse {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Indicates whether the certificate is a CA or leaf certificate. */
-  ca?: boolean | null;
+  ca?: boolean | null | undefined;
   /** The uploaded root CA certificate. */
-  certificates?: string | null;
+  certificates?: string | null | undefined;
   /** When the certificate expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** Optional unique name for the certificate. Only used for human readability. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The certificate serial number. */
-  serialNumber?: string | null;
+  serialNumber?: string | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** The type of the certificate, indicating how it was created and who manages it. */
-  type?: CreateResponseType | null;
+  type?: CreateResponseType | null | undefined;
   /** This is the time the certificate was updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** This is the time the certificate was uploaded. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
 }
 export interface DeleteMtlsCertificateRequest {
   /** Identifier. */
@@ -124,25 +124,25 @@ export type DeleteResponseType = "custom" | "gateway_managed" | "access_managed"
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteMtlsCertificateResponse {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Indicates whether the certificate is a CA or leaf certificate. */
-  ca?: boolean | null;
+  ca?: boolean | null | undefined;
   /** The uploaded root CA certificate. */
-  certificates?: string | null;
+  certificates?: string | null | undefined;
   /** When the certificate expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** Optional unique name for the certificate. Only used for human readability. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The certificate serial number. */
-  serialNumber?: string | null;
+  serialNumber?: string | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** The type of the certificate, indicating how it was created and who manages it. */
-  type?: DeleteResponseType | null;
+  type?: DeleteResponseType | null | undefined;
   /** This is the time the certificate was uploaded. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
 }
 export interface GetAssociationRequest {
   /** Identifier. */
@@ -152,16 +152,16 @@ export interface GetAssociationRequest {
 }
 export interface AssociationsGetResultItem {
   /** The service using the certificate. */
-  service?: string | null;
+  service?: string | null | undefined;
   /** Certificate deployment status for the given service. */
-  status?: string | null;
+  status?: string | null | undefined;
 }
 export type AssociationsGetResultList = Array<AssociationsGetResultItem>;
 export interface GetAssociationResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AssociationsGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetMtlsCertificateRequest {
   /** Identifier. */
@@ -173,25 +173,25 @@ export type GetResponseType = "custom" | "gateway_managed" | "access_managed";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetMtlsCertificateResponse {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Indicates whether the certificate is a CA or leaf certificate. */
-  ca?: boolean | null;
+  ca?: boolean | null | undefined;
   /** The uploaded root CA certificate. */
-  certificates?: string | null;
+  certificates?: string | null | undefined;
   /** When the certificate expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** Optional unique name for the certificate. Only used for human readability. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The certificate serial number. */
-  serialNumber?: string | null;
+  serialNumber?: string | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** The type of the certificate, indicating how it was created and who manages it. */
-  type?: GetResponseType | null;
+  type?: GetResponseType | null | undefined;
   /** This is the time the certificate was uploaded. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
 }
 export type ListRequestType = "custom" | "gateway_managed" | "access_managed";
 export type ListRequestTypeList = Array<ListRequestType | (string & {})>;
@@ -199,37 +199,37 @@ export interface ListMtlsCertificatesRequest {
   /** Identifier. */
   accountId: string;
   /** Filters results by certificate type. Multiple types can be comma-separated. */
-  type?: ListRequestTypeList;
+  type?: ListRequestTypeList | undefined;
 }
 export type ListResultItemType = "custom" | "gateway_managed" | "access_managed";
 export interface ListResultItem {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Indicates whether the certificate is a CA or leaf certificate. */
-  ca?: boolean | null;
+  ca?: boolean | null | undefined;
   /** The uploaded root CA certificate. */
-  certificates?: string | null;
+  certificates?: string | null | undefined;
   /** When the certificate expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** Optional unique name for the certificate. Only used for human readability. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The certificate serial number. */
-  serialNumber?: string | null;
+  serialNumber?: string | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** The type of the certificate, indicating how it was created and who manages it. */
-  type?: ListResultItemType | null;
+  type?: ListResultItemType | null | undefined;
   /** This is the time the certificate was uploaded. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListMtlsCertificatesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CreateMtlsCertificateError = CertificateAlreadyExists | CloudflareOpError;
 /** Upload a certificate that you want to use with mTLS-enabled Cloudflare services, such as Bring Your Own CA (BYO-CA) for mTLS. To create certificates issued by the Cloudflare managed CA, use the [Create Client Certificate endpoint](https://developers.cloudflare.com/api/resources/client_certificates/methods/create/). */

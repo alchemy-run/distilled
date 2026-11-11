@@ -31,7 +31,11 @@ import { errorCategories, type SdkSpec } from "@distilled.cloud/dev/codegen/gene
  *   rules via compile-rules) and conditional-import placeholder pruning.
  */
 import { cyclicShapeIds } from "@distilled.cloud/dev/codegen/graph";
-import { mergePaginated } from "@distilled.cloud/dev/codegen/pagination";
+import {
+  assertPaginationFields,
+  defaultStrategyFields,
+  mergePaginated,
+} from "@distilled.cloud/dev/codegen/pagination";
 import { endpointTemplate, generateRuleSetCode, type RuleSetObject } from "./compile-rules.ts";
 import type { SmithyModel, ServiceShape } from "./model-schema.ts";
 import type { ServiceSpec, SyntheticError } from "./spec-schema.ts";
@@ -306,8 +310,8 @@ export const applyAwsSpecPatches = (
 };
 
 /**
- * Discriminated union variant with `?: never` props for easier narrowing:
- * `{ S: string; N?: never; B?: never }` instead of just `{ S: string }`.
+ * Discriminated union variant with `?: undefined` props for easier narrowing:
+ * `{ S: string; N?: undefined; B?: undefined }` instead of just `{ S: string }`.
  */
 function generateUnionVariant(
   allMemberNames: string[],
@@ -315,7 +319,7 @@ function generateUnionVariant(
   activeMemberType: string,
 ): string {
   const props = allMemberNames.map((name) =>
-    name === activeMemberName ? `${name}: ${activeMemberType}` : `${name}?: never`,
+    name === activeMemberName ? `${name}: ${activeMemberType}` : `${name}?: undefined`,
   );
   return `{ ${props.join("; ")} }`;
 }
@@ -726,6 +730,16 @@ function collectOperationOutputTraits(model: SmithyModel): Map<string, Operation
   return outputTraits;
 }
 
+/** The wire protocols the runtime implements, by service trait, and their annotation. */
+const PROTOCOL_ANNOTATIONS = {
+  "aws.protocols#restXml": "T.AwsProtocolsRestXml()",
+  "aws.protocols#restJson1": "T.AwsProtocolsRestJson1()",
+  "aws.protocols#awsJson1_0": "T.AwsProtocolsAwsJson1_0()",
+  "aws.protocols#awsJson1_1": "T.AwsProtocolsAwsJson1_1()",
+  "aws.protocols#awsQuery": "T.AwsProtocolsAwsQuery()",
+  "aws.protocols#ec2Query": "T.AwsProtocolsEc2Query()",
+} as const;
+
 /** Event-stream (streaming union) shape ids used as operation INPUT members. */
 function collectInputEventStreamShapeIds(model: SmithyModel): Set<string> {
   const inputEventStreams = new Set<string>();
@@ -1059,10 +1073,18 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
   const serviceEntry = Object.entries(shapes).find(([, s]) => s.type === "service");
   if (!serviceEntry) throw new Error("service shape not found");
   const [serviceShapeId, serviceShape] = serviceEntry as [string, any];
-  const protocol: string | undefined = Object.keys(serviceShape.traits ?? {}).find((key) =>
-    key.startsWith("aws.protocols#"),
+  // A protocol the runtime implements; any other `aws.protocols#` trait
+  // (`awsQueryCompatible`, ...) is not a wire protocol.
+  const protocol = Object.keys(serviceShape.traits ?? {}).find(
+    (key): key is keyof typeof PROTOCOL_ANNOTATIONS => key in PROTOCOL_ANNOTATIONS,
   );
-  if (protocol == null) throw new Error("protocol not found");
+  if (protocol == null) {
+    throw new Error(
+      `${serviceShapeId}: no supported protocol in ${JSON.stringify(
+        Object.keys(serviceShape.traits ?? {}).filter((k) => k.includes("protocols#")),
+      )}`,
+    );
+  }
 
   const serviceShapeName = serviceShapeId.split("#")[1] ?? "";
   const sdkId: string = serviceShape.traits["aws.api#service"].sdkId;
@@ -1148,6 +1170,7 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
   // Import refs aliased only where a generated schema name conflicts.
   const credsRef = allSchemaNames.has("Credentials") ? "Creds" : "Credentials";
   const commonErrorsRef = allSchemaNames.has("CommonErrors") ? "CommonErr" : "CommonErrors";
+  const regionInputRef = allSchemaNames.has("RegionInput") ? "CallRegion" : "RegionInput";
 
   const errorShapeIds = collectErrorShapeIds(model);
 
@@ -1869,7 +1892,7 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
           const recordExpr = `S.Record(${wrappedKey}, ${wrappedValue}.pipe(S.optional))${sparsePipe}`;
           // Enum-key maps map over the (open) alias directly.
           const typeAlias = isKeyEnum
-            ? `export type ${name} = { [key in ${keyTargetName}]?: ${valueTsType} };`
+            ? `export type ${name} = { [key in ${keyTargetName}]?: ${valueTsType} | undefined };`
             : `export type ${name} = { [key: string]: ${valueTsType} | undefined };`;
           return [
             typeAlias,
@@ -1968,7 +1991,7 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
           const interfaceFields = members
             .map((m) => {
               const showOptional = m.isOptional && !(isOperationOutput && m.isSoftRequired);
-              return `${m.name}${showOptional ? "?" : ""}: ${m.tsType}`;
+              return `${m.name}${showOptional ? "?" : ""}: ${m.tsType}${showOptional ? " | undefined" : ""}`;
             })
             .join("; ");
           const schemaFields = members.map((m) => `${m.name}: ${m.schemaExpr}`).join(", ");
@@ -2240,6 +2263,14 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
         opShape.traits?.["smithy.api#paginated"] as any,
         servicePaginatedTrait as any,
       );
+      if (paginatedTrait) {
+        assertPaginationFields(
+          ctx.op.id,
+          "paginateWithDefaults",
+          defaultStrategyFields(paginatedTrait),
+          paginatedTrait,
+        );
+      }
 
       // smithy.api#endpoint hostPrefix: operations like SFN's
       // StartSyncExecution must target a prefixed host (sync-states.{region})
@@ -2275,6 +2306,12 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
       // `Region` is NOT listed: it's an override resolved with
       // `Effect.serviceOption`, falling back to AWS_REGION (see region.ts).
       const depsType = `${credsRef} | HttpClient.HttpClient`;
+      // Every call takes an optional `region` (see region.ts), unless the
+      // input already models a member with that name.
+      const callInput =
+        shapes[opShape.__input]?.members?.region === undefined
+          ? `${input} & ${regionInputRef}`
+          : input;
       let typeAnnotation: string;
       if (paginatedTrait) {
         const itemType = resolvePaginatedItemType(
@@ -2287,9 +2324,9 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
         // as a bare call function with no streaming methods (distilled#145).
         // The item type still has to be passed explicitly — makePaginated
         // resolves it from a runtime path string (distilled#404).
-        typeAnnotation = `API.PaginatedOperationMethod<${input}, ${output}, ${errorTypeName}, ${depsType}, ${itemType}>`;
+        typeAnnotation = `API.PaginatedOperationMethod<${callInput}, ${output}, ${errorTypeName}, ${depsType}, ${itemType}>`;
       } else {
-        typeAnnotation = `API.OperationMethod<${input}, ${output}, ${errorTypeName}, ${depsType}>`;
+        typeAnnotation = `API.OperationMethod<${callInput}, ${output}, ${errorTypeName}, ${depsType}>`;
       }
 
       const opConst = operationConst({
@@ -2332,6 +2369,9 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
         'import * as T from "../traits.ts";',
         "__CATEGORY_IMPORT__",
         credentialsImport,
+        regionInputRef === "CallRegion"
+          ? 'import type { RegionInput as CallRegion } from "../region.ts";'
+          : 'import type { RegionInput } from "../region.ts";',
         commonErrorsImport,
         "__SENSITIVE_IMPORT__",
       ].join("\n");
@@ -2350,16 +2390,7 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
       );
       serviceConstants.push(`const ver = T.ServiceVersion("${version}");`);
 
-      const protoAnnotation =
-        {
-          "aws.protocols#restXml": "T.AwsProtocolsRestXml()",
-          "aws.protocols#restJson1": "T.AwsProtocolsRestJson1()",
-          "aws.protocols#awsJson1_0": "T.AwsProtocolsAwsJson1_0()",
-          "aws.protocols#awsJson1_1": "T.AwsProtocolsAwsJson1_1()",
-          "aws.protocols#awsQuery": "T.AwsProtocolsAwsQuery()",
-          "aws.protocols#ec2Query": "T.AwsProtocolsEc2Query()",
-        }[protocol] ?? "T.AwsProtocolsRestXml()";
-      serviceConstants.push(`const proto = ${protoAnnotation};`);
+      serviceConstants.push(`const proto = ${PROTOCOL_ANNOTATIONS[protocol]};`);
 
       // Compiled endpoint resolver function (if a rule set is available)
       if (endpointRuleSet) {

@@ -1,18 +1,18 @@
-import { describe, expect, it } from "vitest";
 import {
   isVirtualHostableS3Bucket,
   parseArn,
   partition,
-} from "../../src/rules-engine/aws-functions.ts";
-import { makeEndpointResolver } from "../../src/rules-engine/endpoint-resolver.ts";
-import partitionsData from "../../src/rules-engine/partitions.json" with { type: "json" };
+  partitionsData,
+} from "@distilled.cloud/s3/rules-engine/aws-functions";
+import { makeEndpointResolver } from "@distilled.cloud/s3/rules-engine/endpoint-resolver";
 import {
   getAttr,
   isValidHostLabel,
   parseURL,
   substring,
   uriEncode,
-} from "../../src/rules-engine/standard-functions.ts";
+} from "@distilled.cloud/s3/rules-engine/standard-functions";
+import { describe, expect, it } from "vitest";
 import * as IAM from "../../src/services/iam.ts";
 import * as KMS from "../../src/services/kms.ts";
 import * as S3 from "../../src/services/s3.ts";

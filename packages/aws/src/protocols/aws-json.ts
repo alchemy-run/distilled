@@ -17,18 +17,26 @@
  *   (clients must accept either format for both protocols)
  */
 
-import * as Effect from "effect/Effect";
-import type * as Schema from "effect/Schema";
-import type * as AST from "effect/SchemaAST";
-import type { Operation } from "../client/operation.ts";
+import type { Operation } from "@distilled.cloud/s3/client/operation";
 import {
   Unreadable,
   type ProtocolImpl,
   type ProtocolHandler,
   type TextResponse,
-} from "../client/protocol.ts";
-import type { Request } from "../client/request.ts";
-import type { Response } from "../client/response.ts";
+} from "@distilled.cloud/s3/client/protocol";
+import type { Request } from "@distilled.cloud/s3/client/request";
+import type { Response } from "@distilled.cloud/s3/client/response";
+import { getEncodedPropertySignatures, getIdentifier } from "@distilled.cloud/s3/util/ast";
+import { errorBody, inputEncoderSync, outputBody } from "@distilled.cloud/s3/util/codec";
+import {
+  extractJsonErrorCode,
+  extractJsonErrorData,
+  sanitizeErrorCode,
+} from "@distilled.cloud/s3/util/error";
+import { readStreamAsText } from "@distilled.cloud/s3/util/stream";
+import * as Effect from "effect/Effect";
+import type * as Schema from "effect/Schema";
+import type * as AST from "effect/SchemaAST";
 import { ParseError } from "../errors.ts";
 import {
   getAwsApiService,
@@ -37,10 +45,6 @@ import {
   isStreamingType,
   eventStreamWith,
 } from "../traits.ts";
-import { getEncodedPropertySignatures, getIdentifier } from "../util/ast.ts";
-import { errorBody, inputEncoderSync, outputBody } from "../util/codec.ts";
-import { extractJsonErrorCode, extractJsonErrorData, sanitizeErrorCode } from "../util/error.ts";
-import { readStreamAsText } from "../util/stream.ts";
 
 /** AWS JSON 1.0 Protocol */
 export const awsJson1_0Protocol = /*@__PURE__*/ createAwsJsonProtocol("1.0");

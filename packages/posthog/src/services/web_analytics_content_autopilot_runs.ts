@@ -47,15 +47,15 @@ export type ContentAutopilotSnapshotContentBoundariesList = Array<string>;
 export type ContentAutopilotSnapshotBrandRulesList = Array<string>;
 export interface ContentAutopilotSnapshot {
   /** Site domain used for the run. */
-  domain?: string;
+  domain?: string | undefined;
   /** Confidence level based on the available data sources. * `standard` - Standard * `lower` - Lower */
-  confidence?: ContentAutopilotSnapshotConfidenceEnum;
+  confidence?: ContentAutopilotSnapshotConfidenceEnum | undefined;
   /** Public sources authorized for this run. */
-  source_urls?: ContentAutopilotSnapshotSourceUrlsList;
+  source_urls?: ContentAutopilotSnapshotSourceUrlsList | undefined;
   /** Site paths authorized for this run. */
-  content_boundaries?: ContentAutopilotSnapshotContentBoundariesList;
+  content_boundaries?: ContentAutopilotSnapshotContentBoundariesList | undefined;
   /** Editorial rules captured for this run. */
-  brand_rules?: ContentAutopilotSnapshotBrandRulesList;
+  brand_rules?: ContentAutopilotSnapshotBrandRulesList | undefined;
 }
 export interface ContentAutopilotError {
   /** Stable machine-readable error code. */
@@ -83,17 +83,17 @@ export interface ListWebAnalyticsContentAutopilotRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Only return runs for this site profile. */
-  profile_id?: string;
+  profile_id?: string | undefined;
 }
 export type PaginatedContentAutopilotRunListResultsList = Array<ContentAutopilotRun>;
 export interface PaginatedContentAutopilotRunList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedContentAutopilotRunListResultsList;
 }
 export type GetWebAnalyticsContentAutopilotRunError = PosthogOpError;

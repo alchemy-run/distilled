@@ -42,9 +42,9 @@ export interface DeletePrivateZoneRequest {
 }
 export interface DeletePrivateZoneResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DeleteRecordSetRequestRecordType =
   | "A"
@@ -80,9 +80,9 @@ export interface DeleteVirtualNetworkLinkRequest {
 }
 export interface DeleteVirtualNetworkLinkResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetPrivateZoneRequest {
   /** The ID of the target subscription. */
@@ -99,17 +99,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored. */
 export type ProvisioningState =
@@ -122,41 +122,41 @@ export type ProvisioningState =
 /** Represents the properties of the Private DNS zone. */
 export interface PrivateZoneProperties {
   /** The maximum number of record sets that can be created in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. */
-  maxNumberOfRecordSets?: number;
+  maxNumberOfRecordSets?: number | undefined;
   /** The current number of record sets in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. */
-  numberOfRecordSets?: number;
+  numberOfRecordSets?: number | undefined;
   /** The maximum number of virtual networks that can be linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. */
-  maxNumberOfVirtualNetworkLinks?: number;
+  maxNumberOfVirtualNetworkLinks?: number | undefined;
   /** The current number of virtual networks that are linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored. */
-  numberOfVirtualNetworkLinks?: number;
+  numberOfVirtualNetworkLinks?: number | undefined;
   /** The maximum number of virtual networks that can be linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. */
-  maxNumberOfVirtualNetworkLinksWithRegistration?: number;
+  maxNumberOfVirtualNetworkLinksWithRegistration?: number | undefined;
   /** The current number of virtual networks that are linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored. */
-  numberOfVirtualNetworkLinksWithRegistration?: number;
+  numberOfVirtualNetworkLinksWithRegistration?: number | undefined;
   /** The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Private zone internal Id */
-  internalId?: string;
+  internalId?: string | undefined;
 }
 /** Resource tags. */
 export type GetPrivateZoneResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPrivateZoneResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the Private DNS zone. */
-  properties?: PrivateZoneProperties;
+  properties?: PrivateZoneProperties | undefined;
   /** Resource tags. */
-  tags?: GetPrivateZoneResponseTagsMap;
+  tags?: GetPrivateZoneResponseTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The ETag of the zone. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export type GetRecordSetRequestRecordType =
   | "A"
@@ -184,65 +184,65 @@ export type RecordSetPropertiesMetadataMap = { [key: string]: string | undefined
 /** An A record. */
 export interface ARecord {
   /** The IPv4 address of this A record. */
-  ipv4Address?: string;
+  ipv4Address?: string | undefined;
 }
 /** The list of A records in the record set. */
 export type RecordSetPropertiesARecordsList = Array<ARecord>;
 /** An AAAA record. */
 export interface AaaaRecord {
   /** The IPv6 address of this AAAA record. */
-  ipv6Address?: string;
+  ipv6Address?: string | undefined;
 }
 /** The list of AAAA records in the record set. */
 export type RecordSetPropertiesAaaaRecordsList = Array<AaaaRecord>;
 /** A CNAME record. */
 export interface CnameRecord {
   /** The canonical name for this CNAME record. */
-  cname?: string;
+  cname?: string | undefined;
 }
 /** An MX record. */
 export interface MxRecord {
   /** The preference value for this MX record. */
-  preference?: number;
+  preference?: number | undefined;
   /** The domain name of the mail host for this MX record. */
-  exchange?: string;
+  exchange?: string | undefined;
 }
 /** The list of MX records in the record set. */
 export type RecordSetPropertiesMxRecordsList = Array<MxRecord>;
 /** A PTR record. */
 export interface PtrRecord {
   /** The PTR target domain name for this PTR record. */
-  ptrdname?: string;
+  ptrdname?: string | undefined;
 }
 /** The list of PTR records in the record set. */
 export type RecordSetPropertiesPtrRecordsList = Array<PtrRecord>;
 /** An SOA record. */
 export interface SoaRecord {
   /** The domain name of the authoritative name server for this SOA record. */
-  host?: string;
+  host?: string | undefined;
   /** The email contact for this SOA record. */
-  email?: string;
+  email?: string | undefined;
   /** The serial number for this SOA record. */
-  serialNumber?: number;
+  serialNumber?: number | undefined;
   /** The refresh value for this SOA record. */
-  refreshTime?: number;
+  refreshTime?: number | undefined;
   /** The retry time for this SOA record. */
-  retryTime?: number;
+  retryTime?: number | undefined;
   /** The expire time for this SOA record. */
-  expireTime?: number;
+  expireTime?: number | undefined;
   /** The minimum value for this SOA record. By convention this is used to determine the negative caching duration. */
-  minimumTtl?: number;
+  minimumTtl?: number | undefined;
 }
 /** An SRV record. */
 export interface SrvRecord {
   /** The priority value for this SRV record. */
-  priority?: number;
+  priority?: number | undefined;
   /** The weight value for this SRV record. */
-  weight?: number;
+  weight?: number | undefined;
   /** The port value for this SRV record. */
-  port?: number;
+  port?: number | undefined;
   /** The target domain name for this SRV record. */
-  target?: string;
+  target?: string | undefined;
 }
 /** The list of SRV records in the record set. */
 export type RecordSetPropertiesSrvRecordsList = Array<SrvRecord>;
@@ -251,50 +251,50 @@ export type TxtRecordValueList = Array<string>;
 /** A TXT record. */
 export interface TxtRecord {
   /** The text value of this TXT record. */
-  value?: TxtRecordValueList;
+  value?: TxtRecordValueList | undefined;
 }
 /** The list of TXT records in the record set. */
 export type RecordSetPropertiesTxtRecordsList = Array<TxtRecord>;
 /** Represents the properties of the records in the record set. */
 export interface RecordSetProperties {
   /** The metadata attached to the record set. */
-  metadata?: RecordSetPropertiesMetadataMap;
+  metadata?: RecordSetPropertiesMetadataMap | undefined;
   /** The TTL (time-to-live) of the records in the record set. */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Fully qualified domain name of the record set. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** Is the record set auto-registered in the Private DNS zone through a virtual network link? */
-  isAutoRegistered?: boolean;
+  isAutoRegistered?: boolean | undefined;
   /** The list of A records in the record set. */
-  aRecords?: RecordSetPropertiesARecordsList;
+  aRecords?: RecordSetPropertiesARecordsList | undefined;
   /** The list of AAAA records in the record set. */
-  aaaaRecords?: RecordSetPropertiesAaaaRecordsList;
+  aaaaRecords?: RecordSetPropertiesAaaaRecordsList | undefined;
   /** The CNAME record in the record set. */
-  cnameRecord?: CnameRecord;
+  cnameRecord?: CnameRecord | undefined;
   /** The list of MX records in the record set. */
-  mxRecords?: RecordSetPropertiesMxRecordsList;
+  mxRecords?: RecordSetPropertiesMxRecordsList | undefined;
   /** The list of PTR records in the record set. */
-  ptrRecords?: RecordSetPropertiesPtrRecordsList;
+  ptrRecords?: RecordSetPropertiesPtrRecordsList | undefined;
   /** The SOA record in the record set. */
-  soaRecord?: SoaRecord;
+  soaRecord?: SoaRecord | undefined;
   /** The list of SRV records in the record set. */
-  srvRecords?: RecordSetPropertiesSrvRecordsList;
+  srvRecords?: RecordSetPropertiesSrvRecordsList | undefined;
   /** The list of TXT records in the record set. */
-  txtRecords?: RecordSetPropertiesTxtRecordsList;
+  txtRecords?: RecordSetPropertiesTxtRecordsList | undefined;
 }
 export interface GetRecordSetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the record set. */
-  properties?: RecordSetProperties;
+  properties?: RecordSetProperties | undefined;
   /** The ETag of the record set. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetVirtualNetworkLinkRequest {
   /** The ID of the target subscription. */
@@ -309,7 +309,7 @@ export interface GetVirtualNetworkLinkRequest {
 /** Reference to another subresource. */
 export interface SubResource {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to 'NxDomainRedirect', Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response. */
 export type ResolutionPolicy = "Default" | "NxDomainRedirect";
@@ -318,35 +318,35 @@ export type VirtualNetworkLinkState = "InProgress" | "Completed";
 /** Represents the properties of the Private DNS zone. */
 export interface VirtualNetworkLinkProperties {
   /** The reference of the virtual network. */
-  virtualNetwork?: SubResource;
+  virtualNetwork?: SubResource | undefined;
   /** Is auto-registration of virtual machine records in the virtual network in the Private DNS zone enabled? */
-  registrationEnabled?: boolean;
+  registrationEnabled?: boolean | undefined;
   /** The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to 'NxDomainRedirect', Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response. */
-  resolutionPolicy?: ResolutionPolicy;
+  resolutionPolicy?: ResolutionPolicy | undefined;
   /** The status of the virtual network link to the Private DNS zone. Possible values are 'InProgress' and 'Done'. This is a read-only property and any attempt to set this value will be ignored. */
-  virtualNetworkLinkState?: VirtualNetworkLinkState;
+  virtualNetworkLinkState?: VirtualNetworkLinkState | undefined;
   /** The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** Resource tags. */
 export type GetVirtualNetworkLinkResponseTagsMap = { [key: string]: string | undefined };
 export interface GetVirtualNetworkLinkResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the virtual network link to the Private DNS zone. */
-  properties?: VirtualNetworkLinkProperties;
+  properties?: VirtualNetworkLinkProperties | undefined;
   /** Resource tags. */
-  tags?: GetVirtualNetworkLinkResponseTagsMap;
+  tags?: GetVirtualNetworkLinkResponseTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The ETag of the virtual network link. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface ListPrivateZoneByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -354,28 +354,28 @@ export interface ListPrivateZoneByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type PrivateZoneTagsMap = { [key: string]: string | undefined };
 /** Describes a Private DNS zone. */
 export interface PrivateZone {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the Private DNS zone. */
-  properties?: PrivateZoneProperties;
+  properties?: PrivateZoneProperties | undefined;
   /** Resource tags. */
-  tags?: PrivateZoneTagsMap;
+  tags?: PrivateZoneTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The ETag of the zone. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The PrivateZone items on this page */
 export type PrivateZoneListResultValueList = Array<PrivateZone>;
@@ -384,13 +384,13 @@ export interface PrivateZoneListResult {
   /** The PrivateZone items on this page */
   value: PrivateZoneListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateZonesRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The maximum number of Private DNS zones to return. If not specified, returns up to 100 zones. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export type ListRecordSetByTypeRequestRecordType =
   | "A"
@@ -411,24 +411,24 @@ export interface ListRecordSetByTypeRequest {
   /** The type of DNS record in this record set. */
   recordType: ListRecordSetByTypeRequestRecordType | (string & {});
   /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  _top?: number;
+  _top?: number | undefined;
   /** The suffix label of the record set name to be used to filter the record set enumeration. If this parameter is specified, the returned enumeration will only contain records that end with ".<recordsetnamesuffix>". */
-  _recordsetnamesuffix?: string;
+  _recordsetnamesuffix?: string | undefined;
 }
 /** Describes a DNS record set (a collection of DNS records with the same name and type) in a Private DNS zone. */
 export interface RecordSet {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the record set. */
-  properties?: RecordSetProperties;
+  properties?: RecordSetProperties | undefined;
   /** The ETag of the record set. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The RecordSet items on this page */
 export type RecordSetListResultValueList = Array<RecordSet>;
@@ -437,7 +437,7 @@ export interface RecordSetListResult {
   /** The RecordSet items on this page */
   value: RecordSetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRecordSetsRequest {
   /** The ID of the target subscription. */
@@ -447,9 +447,9 @@ export interface ListRecordSetsRequest {
   /** The name of the Private DNS zone (without a terminating dot). */
   privateZoneName: string;
   /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  _top?: number;
+  _top?: number | undefined;
   /** The suffix label of the record set name to be used to filter the record set enumeration. If this parameter is specified, the returned enumeration will only contain records that end with ".<recordsetnamesuffix>". */
-  _recordsetnamesuffix?: string;
+  _recordsetnamesuffix?: string | undefined;
 }
 export interface ListVirtualNetworkLinksRequest {
   /** The ID of the target subscription. */
@@ -459,28 +459,28 @@ export interface ListVirtualNetworkLinksRequest {
   /** The name of the Private DNS zone (without a terminating dot). */
   privateZoneName: string;
   /** The maximum number of virtual network links to return. If not specified, returns up to 100 virtual network links. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type VirtualNetworkLinkTagsMap = { [key: string]: string | undefined };
 /** Describes a link to virtual network for a Private DNS zone. */
 export interface VirtualNetworkLink {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the virtual network link to the Private DNS zone. */
-  properties?: VirtualNetworkLinkProperties;
+  properties?: VirtualNetworkLinkProperties | undefined;
   /** Resource tags. */
-  tags?: VirtualNetworkLinkTagsMap;
+  tags?: VirtualNetworkLinkTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The ETag of the virtual network link. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The VirtualNetworkLink items on this page */
 export type VirtualNetworkLinkListResultValueList = Array<VirtualNetworkLink>;
@@ -489,7 +489,7 @@ export interface VirtualNetworkLinkListResult {
   /** The VirtualNetworkLink items on this page */
   value: VirtualNetworkLinkListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Represents the properties of the Private DNS zone. */
 export interface PrivateZonePropertiesInput {}
@@ -503,37 +503,37 @@ export interface PrivateZonesCreateOrUpdateRequest {
   /** The name of the Private DNS zone (without a terminating dot). */
   privateZoneName: string;
   /** Properties of the Private DNS zone. */
-  properties?: PrivateZonePropertiesInput;
+  properties?: PrivateZonePropertiesInput | undefined;
   /** Resource tags. */
-  tags?: PrivateZonesCreateOrUpdateRequestTagsMap;
+  tags?: PrivateZonesCreateOrUpdateRequestTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The ETag of the zone. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type PrivateZonesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface PrivateZonesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the Private DNS zone. */
-  properties?: PrivateZoneProperties;
+  properties?: PrivateZoneProperties | undefined;
   /** Resource tags. */
-  tags?: PrivateZonesCreateOrUpdateResponseTagsMap;
+  tags?: PrivateZonesCreateOrUpdateResponseTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The ETag of the zone. */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type RecordSetsCreateOrUpdateRequestRecordType =
   | "A"
@@ -561,25 +561,25 @@ export type RecordSetPropertiesInputTxtRecordsList = Array<TxtRecord>;
 /** Represents the properties of the records in the record set. */
 export interface RecordSetPropertiesInput {
   /** The metadata attached to the record set. */
-  metadata?: RecordSetPropertiesInputMetadataMap;
+  metadata?: RecordSetPropertiesInputMetadataMap | undefined;
   /** The TTL (time-to-live) of the records in the record set. */
-  ttl?: number;
+  ttl?: number | undefined;
   /** The list of A records in the record set. */
-  aRecords?: RecordSetPropertiesInputARecordsList;
+  aRecords?: RecordSetPropertiesInputARecordsList | undefined;
   /** The list of AAAA records in the record set. */
-  aaaaRecords?: RecordSetPropertiesInputAaaaRecordsList;
+  aaaaRecords?: RecordSetPropertiesInputAaaaRecordsList | undefined;
   /** The CNAME record in the record set. */
-  cnameRecord?: CnameRecord;
+  cnameRecord?: CnameRecord | undefined;
   /** The list of MX records in the record set. */
-  mxRecords?: RecordSetPropertiesInputMxRecordsList;
+  mxRecords?: RecordSetPropertiesInputMxRecordsList | undefined;
   /** The list of PTR records in the record set. */
-  ptrRecords?: RecordSetPropertiesInputPtrRecordsList;
+  ptrRecords?: RecordSetPropertiesInputPtrRecordsList | undefined;
   /** The SOA record in the record set. */
-  soaRecord?: SoaRecord;
+  soaRecord?: SoaRecord | undefined;
   /** The list of SRV records in the record set. */
-  srvRecords?: RecordSetPropertiesInputSrvRecordsList;
+  srvRecords?: RecordSetPropertiesInputSrvRecordsList | undefined;
   /** The list of TXT records in the record set. */
-  txtRecords?: RecordSetPropertiesInputTxtRecordsList;
+  txtRecords?: RecordSetPropertiesInputTxtRecordsList | undefined;
 }
 export interface RecordSetsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -593,23 +593,23 @@ export interface RecordSetsCreateOrUpdateRequest {
   /** The name of the record set, relative to the name of the zone. */
   relativeRecordSetName: string;
   /** The properties of the record set. */
-  properties?: RecordSetPropertiesInput;
+  properties?: RecordSetPropertiesInput | undefined;
   /** The ETag of the record set. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface RecordSetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the record set. */
-  properties?: RecordSetProperties;
+  properties?: RecordSetProperties | undefined;
   /** The ETag of the record set. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type UpdatePrivateZoneRequestTagsMap = { [key: string]: string | undefined };
@@ -621,37 +621,37 @@ export interface UpdatePrivateZoneRequest {
   /** The name of the Private DNS zone (without a terminating dot). */
   privateZoneName: string;
   /** Properties of the Private DNS zone. */
-  properties?: PrivateZonePropertiesInput;
+  properties?: PrivateZonePropertiesInput | undefined;
   /** Resource tags. */
-  tags?: UpdatePrivateZoneRequestTagsMap;
+  tags?: UpdatePrivateZoneRequestTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The ETag of the zone. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type UpdatePrivateZoneResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePrivateZoneResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the Private DNS zone. */
-  properties?: PrivateZoneProperties;
+  properties?: PrivateZoneProperties | undefined;
   /** Resource tags. */
-  tags?: UpdatePrivateZoneResponseTagsMap;
+  tags?: UpdatePrivateZoneResponseTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The ETag of the zone. */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type UpdateRecordSetRequestRecordType =
   | "A"
@@ -674,32 +674,32 @@ export interface UpdateRecordSetRequest {
   /** The name of the record set, relative to the name of the zone. */
   relativeRecordSetName: string;
   /** The properties of the record set. */
-  properties?: RecordSetPropertiesInput;
+  properties?: RecordSetPropertiesInput | undefined;
   /** The ETag of the record set. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface UpdateRecordSetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the record set. */
-  properties?: RecordSetProperties;
+  properties?: RecordSetProperties | undefined;
   /** The ETag of the record set. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Represents the properties of the Private DNS zone. */
 export interface VirtualNetworkLinkPropertiesInput {
   /** The reference of the virtual network. */
-  virtualNetwork?: SubResource;
+  virtualNetwork?: SubResource | undefined;
   /** Is auto-registration of virtual machine records in the virtual network in the Private DNS zone enabled? */
-  registrationEnabled?: boolean;
+  registrationEnabled?: boolean | undefined;
   /** The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to 'NxDomainRedirect', Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response. */
-  resolutionPolicy?: ResolutionPolicy | (string & {});
+  resolutionPolicy?: ResolutionPolicy | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualNetworkLinkRequestTagsMap = { [key: string]: string | undefined };
@@ -713,37 +713,37 @@ export interface UpdateVirtualNetworkLinkRequest {
   /** The name of the virtual network link. */
   virtualNetworkLinkName: string;
   /** Properties of the virtual network link to the Private DNS zone. */
-  properties?: VirtualNetworkLinkPropertiesInput;
+  properties?: VirtualNetworkLinkPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: UpdateVirtualNetworkLinkRequestTagsMap;
+  tags?: UpdateVirtualNetworkLinkRequestTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The ETag of the virtual network link. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualNetworkLinkResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateVirtualNetworkLinkResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the virtual network link to the Private DNS zone. */
-  properties?: VirtualNetworkLinkProperties;
+  properties?: VirtualNetworkLinkProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateVirtualNetworkLinkResponseTagsMap;
+  tags?: UpdateVirtualNetworkLinkResponseTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The ETag of the virtual network link. */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type VirtualNetworkLinksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -757,13 +757,13 @@ export interface VirtualNetworkLinksCreateOrUpdateRequest {
   /** The name of the virtual network link. */
   virtualNetworkLinkName: string;
   /** Properties of the virtual network link to the Private DNS zone. */
-  properties?: VirtualNetworkLinkPropertiesInput;
+  properties?: VirtualNetworkLinkPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: VirtualNetworkLinksCreateOrUpdateRequestTagsMap;
+  tags?: VirtualNetworkLinksCreateOrUpdateRequestTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The ETag of the virtual network link. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type VirtualNetworkLinksCreateOrUpdateResponseTagsMap = {
@@ -771,25 +771,25 @@ export type VirtualNetworkLinksCreateOrUpdateResponseTagsMap = {
 };
 export interface VirtualNetworkLinksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the virtual network link to the Private DNS zone. */
-  properties?: VirtualNetworkLinkProperties;
+  properties?: VirtualNetworkLinkProperties | undefined;
   /** Resource tags. */
-  tags?: VirtualNetworkLinksCreateOrUpdateResponseTagsMap;
+  tags?: VirtualNetworkLinksCreateOrUpdateResponseTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The ETag of the virtual network link. */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DeletePrivateZoneError = AzureOpError;
 /** Deletes a Private DNS zone. WARNING: All DNS records in the zone will also be deleted. This operation cannot be undone. Private DNS zone cannot be deleted unless all virtual network links to it are removed. */

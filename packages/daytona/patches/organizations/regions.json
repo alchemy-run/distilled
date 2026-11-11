@@ -1,0 +1,37 @@
+{
+  "description": "Type the missing custom-region route. Daytona Cloud does not serve POST /regions (custom regions are a self-hosted / enterprise deployment feature even though the open-source spec declares it): the NestJS router answers HTTP 404 \"Cannot POST /api/regions\" (observed live 2026-11-03, API v0.229.2).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#CustomRegionsUnavailable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "This Daytona deployment does not offer custom regions (HTTP 404 on POST /regions).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "includes": "Cannot POST"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#CreateRegion/errors/-",
+      "value": {
+        "target": "com.daytona.organizations#CustomRegionsUnavailable"
+      }
+    }
+  ]
+}

@@ -25,6 +25,15 @@
       "op": "replace",
       "path": "/shapes/com.cloudflare.zero_trust#GetAccessPolicy/output/target",
       "value": "com.cloudflare.zero_trust#GetAccessPolicyResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#GetAccessPolicy/errors",
+      "value": [
+        {
+          "target": "com.cloudflare.zero_trust#AccessPolicyNotFound"
+        }
+      ]
     }
   ]
 }

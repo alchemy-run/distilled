@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -140,93 +141,93 @@ export class InternalServerErrorException
   ).pipe(C.withServerError) {}
 export interface AssociateRoleToGroupRequest {
   GroupId: string;
-  RoleArn?: string;
+  RoleArn?: string | undefined;
 }
 export interface AssociateRoleToGroupResponse {
-  AssociatedAt?: string;
+  AssociatedAt?: string | undefined;
 }
 export interface AssociateServiceRoleToAccountRequest {
-  RoleArn?: string;
+  RoleArn?: string | undefined;
 }
 export interface AssociateServiceRoleToAccountResponse {
-  AssociatedAt?: string;
+  AssociatedAt?: string | undefined;
 }
 export type __mapOf__string = { [key: string]: string | undefined };
 const __mapOf__string = /*@__PURE__*/ __L.at(__c52, 0);
 export interface Connector {
-  ConnectorArn?: string;
-  Id?: string;
-  Parameters?: { [key: string]: string | undefined };
+  ConnectorArn?: string | undefined;
+  Id?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfConnector = Connector[];
 const __listOfConnector = /*@__PURE__*/ __L.at(__c51, 1);
 export interface ConnectorDefinitionVersion {
-  Connectors?: Connector[];
+  Connectors?: Connector[] | undefined;
 }
 export type Tags = { [key: string]: string | undefined };
 const Tags = __mapOf__string as any as S.Schema<Tags>;
 export interface CreateConnectorDefinitionRequest {
-  AmznClientToken?: string;
-  InitialVersion?: ConnectorDefinitionVersion;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  InitialVersion?: ConnectorDefinitionVersion | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateConnectorDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateConnectorDefinitionVersionRequest {
-  AmznClientToken?: string;
+  AmznClientToken?: string | undefined;
   ConnectorDefinitionId: string;
-  Connectors?: Connector[];
+  Connectors?: Connector[] | undefined;
 }
 export interface CreateConnectorDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export interface Core {
-  CertificateArn?: string;
-  Id?: string;
-  SyncShadow?: boolean;
-  ThingArn?: string;
+  CertificateArn?: string | undefined;
+  Id?: string | undefined;
+  SyncShadow?: boolean | undefined;
+  ThingArn?: string | undefined;
 }
 export type __listOfCore = Core[];
 const __listOfCore = /*@__PURE__*/ __L.at(__c80, 1);
 export interface CoreDefinitionVersion {
-  Cores?: Core[];
+  Cores?: Core[] | undefined;
 }
 export interface CreateCoreDefinitionRequest {
-  AmznClientToken?: string;
-  InitialVersion?: CoreDefinitionVersion;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  InitialVersion?: CoreDefinitionVersion | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateCoreDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateCoreDefinitionVersionRequest {
-  AmznClientToken?: string;
+  AmznClientToken?: string | undefined;
   CoreDefinitionId: string;
-  Cores?: Core[];
+  Cores?: Core[] | undefined;
 }
 export interface CreateCoreDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export type DeploymentType =
   | "NewDeployment"
@@ -235,295 +236,295 @@ export type DeploymentType =
   | "ForceResetDeployment"
   | (string & {});
 export interface CreateDeploymentRequest {
-  AmznClientToken?: string;
-  DeploymentId?: string;
-  DeploymentType?: DeploymentType;
+  AmznClientToken?: string | undefined;
+  DeploymentId?: string | undefined;
+  DeploymentType?: DeploymentType | undefined;
   GroupId: string;
-  GroupVersionId?: string;
+  GroupVersionId?: string | undefined;
 }
 export interface CreateDeploymentResponse {
-  DeploymentArn?: string;
-  DeploymentId?: string;
+  DeploymentArn?: string | undefined;
+  DeploymentId?: string | undefined;
 }
 export interface Device {
-  CertificateArn?: string;
-  Id?: string;
-  SyncShadow?: boolean;
-  ThingArn?: string;
+  CertificateArn?: string | undefined;
+  Id?: string | undefined;
+  SyncShadow?: boolean | undefined;
+  ThingArn?: string | undefined;
 }
 export type __listOfDevice = Device[];
 const __listOfDevice = __listOfCore as any as S.Schema<__listOfDevice>;
 export interface DeviceDefinitionVersion {
-  Devices?: Device[];
+  Devices?: Device[] | undefined;
 }
 export interface CreateDeviceDefinitionRequest {
-  AmznClientToken?: string;
-  InitialVersion?: DeviceDefinitionVersion;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  InitialVersion?: DeviceDefinitionVersion | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDeviceDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateDeviceDefinitionVersionRequest {
-  AmznClientToken?: string;
+  AmznClientToken?: string | undefined;
   DeviceDefinitionId: string;
-  Devices?: Device[];
+  Devices?: Device[] | undefined;
 }
 export interface CreateDeviceDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export type FunctionIsolationMode = "GreengrassContainer" | "NoContainer" | (string & {});
 export interface FunctionRunAsConfig {
-  Gid?: number;
-  Uid?: number;
+  Gid?: number | undefined;
+  Uid?: number | undefined;
 }
 export interface FunctionDefaultExecutionConfig {
-  IsolationMode?: FunctionIsolationMode;
-  RunAs?: FunctionRunAsConfig;
+  IsolationMode?: FunctionIsolationMode | undefined;
+  RunAs?: FunctionRunAsConfig | undefined;
 }
 export interface FunctionDefaultConfig {
-  Execution?: FunctionDefaultExecutionConfig;
+  Execution?: FunctionDefaultExecutionConfig | undefined;
 }
 export type EncodingType = "binary" | "json" | (string & {});
 export interface FunctionExecutionConfig {
-  IsolationMode?: FunctionIsolationMode;
-  RunAs?: FunctionRunAsConfig;
+  IsolationMode?: FunctionIsolationMode | undefined;
+  RunAs?: FunctionRunAsConfig | undefined;
 }
 export type Permission = "ro" | "rw" | (string & {});
 export interface ResourceAccessPolicy {
-  Permission?: Permission;
-  ResourceId?: string;
+  Permission?: Permission | undefined;
+  ResourceId?: string | undefined;
 }
 export type __listOfResourceAccessPolicy = ResourceAccessPolicy[];
 const __listOfResourceAccessPolicy = /*@__PURE__*/ __L.at(__c3, 4);
 export interface FunctionConfigurationEnvironment {
-  AccessSysfs?: boolean;
-  Execution?: FunctionExecutionConfig;
-  ResourceAccessPolicies?: ResourceAccessPolicy[];
-  Variables?: { [key: string]: string | undefined };
+  AccessSysfs?: boolean | undefined;
+  Execution?: FunctionExecutionConfig | undefined;
+  ResourceAccessPolicies?: ResourceAccessPolicy[] | undefined;
+  Variables?: { [key: string]: string | undefined } | undefined;
 }
 export interface FunctionConfiguration {
-  EncodingType?: EncodingType;
-  Environment?: FunctionConfigurationEnvironment;
-  ExecArgs?: string;
-  Executable?: string;
-  MemorySize?: number;
-  Pinned?: boolean;
-  Timeout?: number;
-  FunctionRuntimeOverride?: string;
+  EncodingType?: EncodingType | undefined;
+  Environment?: FunctionConfigurationEnvironment | undefined;
+  ExecArgs?: string | undefined;
+  Executable?: string | undefined;
+  MemorySize?: number | undefined;
+  Pinned?: boolean | undefined;
+  Timeout?: number | undefined;
+  FunctionRuntimeOverride?: string | undefined;
 }
 export interface Function {
-  FunctionArn?: string;
-  FunctionConfiguration?: FunctionConfiguration;
-  Id?: string;
+  FunctionArn?: string | undefined;
+  FunctionConfiguration?: FunctionConfiguration | undefined;
+  Id?: string | undefined;
 }
 export type __listOfFunction = Function[];
 const __listOfFunction = /*@__PURE__*/ __L.at(__c3, 8);
 export interface FunctionDefinitionVersion {
-  DefaultConfig?: FunctionDefaultConfig;
-  Functions?: Function[];
+  DefaultConfig?: FunctionDefaultConfig | undefined;
+  Functions?: Function[] | undefined;
 }
 export interface CreateFunctionDefinitionRequest {
-  AmznClientToken?: string;
-  InitialVersion?: FunctionDefinitionVersion;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  InitialVersion?: FunctionDefinitionVersion | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateFunctionDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateFunctionDefinitionVersionRequest {
-  AmznClientToken?: string;
-  DefaultConfig?: FunctionDefaultConfig;
+  AmznClientToken?: string | undefined;
+  DefaultConfig?: FunctionDefaultConfig | undefined;
   FunctionDefinitionId: string;
-  Functions?: Function[];
+  Functions?: Function[] | undefined;
 }
 export interface CreateFunctionDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GroupVersion {
-  ConnectorDefinitionVersionArn?: string;
-  CoreDefinitionVersionArn?: string;
-  DeviceDefinitionVersionArn?: string;
-  FunctionDefinitionVersionArn?: string;
-  LoggerDefinitionVersionArn?: string;
-  ResourceDefinitionVersionArn?: string;
-  SubscriptionDefinitionVersionArn?: string;
+  ConnectorDefinitionVersionArn?: string | undefined;
+  CoreDefinitionVersionArn?: string | undefined;
+  DeviceDefinitionVersionArn?: string | undefined;
+  FunctionDefinitionVersionArn?: string | undefined;
+  LoggerDefinitionVersionArn?: string | undefined;
+  ResourceDefinitionVersionArn?: string | undefined;
+  SubscriptionDefinitionVersionArn?: string | undefined;
 }
 export interface CreateGroupRequest {
-  AmznClientToken?: string;
-  InitialVersion?: GroupVersion;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  InitialVersion?: GroupVersion | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateGroupResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateGroupCertificateAuthorityRequest {
-  AmznClientToken?: string;
+  AmznClientToken?: string | undefined;
   GroupId: string;
 }
 export interface CreateGroupCertificateAuthorityResponse {
-  GroupCertificateAuthorityArn?: string;
+  GroupCertificateAuthorityArn?: string | undefined;
 }
 export interface CreateGroupVersionRequest {
-  AmznClientToken?: string;
-  ConnectorDefinitionVersionArn?: string;
-  CoreDefinitionVersionArn?: string;
-  DeviceDefinitionVersionArn?: string;
-  FunctionDefinitionVersionArn?: string;
+  AmznClientToken?: string | undefined;
+  ConnectorDefinitionVersionArn?: string | undefined;
+  CoreDefinitionVersionArn?: string | undefined;
+  DeviceDefinitionVersionArn?: string | undefined;
+  FunctionDefinitionVersionArn?: string | undefined;
   GroupId: string;
-  LoggerDefinitionVersionArn?: string;
-  ResourceDefinitionVersionArn?: string;
-  SubscriptionDefinitionVersionArn?: string;
+  LoggerDefinitionVersionArn?: string | undefined;
+  ResourceDefinitionVersionArn?: string | undefined;
+  SubscriptionDefinitionVersionArn?: string | undefined;
 }
 export interface CreateGroupVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export type LoggerComponent = "GreengrassSystem" | "Lambda" | (string & {});
 export type LoggerLevel = "DEBUG" | "INFO" | "WARN" | "ERROR" | "FATAL" | (string & {});
 export type LoggerType = "FileSystem" | "AWSCloudWatch" | (string & {});
 export interface Logger {
-  Component?: LoggerComponent;
-  Id?: string;
-  Level?: LoggerLevel;
-  Space?: number;
-  Type?: LoggerType;
+  Component?: LoggerComponent | undefined;
+  Id?: string | undefined;
+  Level?: LoggerLevel | undefined;
+  Space?: number | undefined;
+  Type?: LoggerType | undefined;
 }
 export type __listOfLogger = Logger[];
 const __listOfLogger = /*@__PURE__*/ __L.at(__c11, 1);
 export interface LoggerDefinitionVersion {
-  Loggers?: Logger[];
+  Loggers?: Logger[] | undefined;
 }
 export interface CreateLoggerDefinitionRequest {
-  AmznClientToken?: string;
-  InitialVersion?: LoggerDefinitionVersion;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  InitialVersion?: LoggerDefinitionVersion | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateLoggerDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateLoggerDefinitionVersionRequest {
-  AmznClientToken?: string;
+  AmznClientToken?: string | undefined;
   LoggerDefinitionId: string;
-  Loggers?: Logger[];
+  Loggers?: Logger[] | undefined;
 }
 export interface CreateLoggerDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GroupOwnerSetting {
-  AutoAddGroupOwner?: boolean;
-  GroupOwner?: string;
+  AutoAddGroupOwner?: boolean | undefined;
+  GroupOwner?: string | undefined;
 }
 export interface LocalDeviceResourceData {
-  GroupOwnerSetting?: GroupOwnerSetting;
-  SourcePath?: string;
+  GroupOwnerSetting?: GroupOwnerSetting | undefined;
+  SourcePath?: string | undefined;
 }
 export interface LocalVolumeResourceData {
-  DestinationPath?: string;
-  GroupOwnerSetting?: GroupOwnerSetting;
-  SourcePath?: string;
+  DestinationPath?: string | undefined;
+  GroupOwnerSetting?: GroupOwnerSetting | undefined;
+  SourcePath?: string | undefined;
 }
 export interface ResourceDownloadOwnerSetting {
-  GroupOwner?: string;
-  GroupPermission?: Permission;
+  GroupOwner?: string | undefined;
+  GroupPermission?: Permission | undefined;
 }
 export interface S3MachineLearningModelResourceData {
-  DestinationPath?: string;
-  OwnerSetting?: ResourceDownloadOwnerSetting;
-  S3Uri?: string;
+  DestinationPath?: string | undefined;
+  OwnerSetting?: ResourceDownloadOwnerSetting | undefined;
+  S3Uri?: string | undefined;
 }
 export interface SageMakerMachineLearningModelResourceData {
-  DestinationPath?: string;
-  OwnerSetting?: ResourceDownloadOwnerSetting;
-  SageMakerJobArn?: string;
+  DestinationPath?: string | undefined;
+  OwnerSetting?: ResourceDownloadOwnerSetting | undefined;
+  SageMakerJobArn?: string | undefined;
 }
 export type __listOf__string = string[];
 const __listOf__string = /*@__PURE__*/ __L.at(__c15, 0);
 export interface SecretsManagerSecretResourceData {
-  ARN?: string;
-  AdditionalStagingLabelsToDownload?: string[];
+  ARN?: string | undefined;
+  AdditionalStagingLabelsToDownload?: string[] | undefined;
 }
 export interface ResourceDataContainer {
-  LocalDeviceResourceData?: LocalDeviceResourceData;
-  LocalVolumeResourceData?: LocalVolumeResourceData;
-  S3MachineLearningModelResourceData?: S3MachineLearningModelResourceData;
-  SageMakerMachineLearningModelResourceData?: SageMakerMachineLearningModelResourceData;
-  SecretsManagerSecretResourceData?: SecretsManagerSecretResourceData;
+  LocalDeviceResourceData?: LocalDeviceResourceData | undefined;
+  LocalVolumeResourceData?: LocalVolumeResourceData | undefined;
+  S3MachineLearningModelResourceData?: S3MachineLearningModelResourceData | undefined;
+  SageMakerMachineLearningModelResourceData?: SageMakerMachineLearningModelResourceData | undefined;
+  SecretsManagerSecretResourceData?: SecretsManagerSecretResourceData | undefined;
 }
 export interface Resource {
-  Id?: string;
-  Name?: string;
-  ResourceDataContainer?: ResourceDataContainer;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  ResourceDataContainer?: ResourceDataContainer | undefined;
 }
 export type __listOfResource = Resource[];
 const __listOfResource = /*@__PURE__*/ __L.at(__c16, 9);
 export interface ResourceDefinitionVersion {
-  Resources?: Resource[];
+  Resources?: Resource[] | undefined;
 }
 export interface CreateResourceDefinitionRequest {
-  AmznClientToken?: string;
-  InitialVersion?: ResourceDefinitionVersion;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  InitialVersion?: ResourceDefinitionVersion | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateResourceDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateResourceDefinitionVersionRequest {
-  AmznClientToken?: string;
+  AmznClientToken?: string | undefined;
   ResourceDefinitionId: string;
-  Resources?: Resource[];
+  Resources?: Resource[] | undefined;
 }
 export interface CreateResourceDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export type S3UrlSignerRole = string;
 export type SoftwareToUpdate = "core" | "ota_agent" | (string & {});
@@ -547,55 +548,55 @@ export type UpdateTargetsOperatingSystem =
   | "openwrt"
   | (string & {});
 export interface CreateSoftwareUpdateJobRequest {
-  AmznClientToken?: string;
-  S3UrlSignerRole?: string;
-  SoftwareToUpdate?: SoftwareToUpdate;
-  UpdateAgentLogLevel?: UpdateAgentLogLevel;
-  UpdateTargets?: string[];
-  UpdateTargetsArchitecture?: UpdateTargetsArchitecture;
-  UpdateTargetsOperatingSystem?: UpdateTargetsOperatingSystem;
+  AmznClientToken?: string | undefined;
+  S3UrlSignerRole?: string | undefined;
+  SoftwareToUpdate?: SoftwareToUpdate | undefined;
+  UpdateAgentLogLevel?: UpdateAgentLogLevel | undefined;
+  UpdateTargets?: string[] | undefined;
+  UpdateTargetsArchitecture?: UpdateTargetsArchitecture | undefined;
+  UpdateTargetsOperatingSystem?: UpdateTargetsOperatingSystem | undefined;
 }
 export interface CreateSoftwareUpdateJobResponse {
-  IotJobArn?: string;
-  IotJobId?: string;
-  PlatformSoftwareVersion?: string;
+  IotJobArn?: string | undefined;
+  IotJobId?: string | undefined;
+  PlatformSoftwareVersion?: string | undefined;
 }
 export interface Subscription {
-  Id?: string;
-  Source?: string;
-  Subject?: string;
-  Target?: string;
+  Id?: string | undefined;
+  Source?: string | undefined;
+  Subject?: string | undefined;
+  Target?: string | undefined;
 }
 export type __listOfSubscription = Subscription[];
 const __listOfSubscription = /*@__PURE__*/ __L.at(__c23, 1);
 export interface SubscriptionDefinitionVersion {
-  Subscriptions?: Subscription[];
+  Subscriptions?: Subscription[] | undefined;
 }
 export interface CreateSubscriptionDefinitionRequest {
-  AmznClientToken?: string;
-  InitialVersion?: SubscriptionDefinitionVersion;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  InitialVersion?: SubscriptionDefinitionVersion | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateSubscriptionDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateSubscriptionDefinitionVersionRequest {
-  AmznClientToken?: string;
+  AmznClientToken?: string | undefined;
   SubscriptionDefinitionId: string;
-  Subscriptions?: Subscription[];
+  Subscriptions?: Subscription[] | undefined;
 }
 export interface CreateSubscriptionDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export interface DeleteConnectorDefinitionRequest {
   ConnectorDefinitionId: string;
@@ -633,26 +634,26 @@ export interface DisassociateRoleFromGroupRequest {
   GroupId: string;
 }
 export interface DisassociateRoleFromGroupResponse {
-  DisassociatedAt?: string;
+  DisassociatedAt?: string | undefined;
 }
 export interface DisassociateServiceRoleFromAccountRequest {}
 export interface DisassociateServiceRoleFromAccountResponse {
-  DisassociatedAt?: string;
+  DisassociatedAt?: string | undefined;
 }
 export interface GetAssociatedRoleRequest {
   GroupId: string;
 }
 export interface GetAssociatedRoleResponse {
-  AssociatedAt?: string;
-  RoleArn?: string;
+  AssociatedAt?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export interface GetBulkDeploymentStatusRequest {
   BulkDeploymentId: string;
 }
 export interface BulkDeploymentMetrics {
-  InvalidInputRecords?: number;
-  RecordsProcessed?: number;
-  RetryAttempts?: number;
+  InvalidInputRecords?: number | undefined;
+  RecordsProcessed?: number | undefined;
+  RetryAttempts?: number | undefined;
 }
 export type BulkDeploymentStatus =
   | "Initializing"
@@ -663,315 +664,329 @@ export type BulkDeploymentStatus =
   | "Failed"
   | (string & {});
 export interface ErrorDetail {
-  DetailedErrorCode?: string;
-  DetailedErrorMessage?: string;
+  DetailedErrorCode?: string | undefined;
+  DetailedErrorMessage?: string | undefined;
 }
 export type ErrorDetails = ErrorDetail[];
 export interface GetBulkDeploymentStatusResponse {
-  BulkDeploymentMetrics?: BulkDeploymentMetrics;
-  BulkDeploymentStatus?: BulkDeploymentStatus;
-  CreatedAt?: string;
-  ErrorDetails?: ErrorDetail[];
-  ErrorMessage?: string;
-  tags?: { [key: string]: string | undefined };
+  BulkDeploymentMetrics?: BulkDeploymentMetrics | undefined;
+  BulkDeploymentStatus?: BulkDeploymentStatus | undefined;
+  CreatedAt?: string | undefined;
+  ErrorDetails?: ErrorDetail[] | undefined;
+  ErrorMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetConnectivityInfoRequest {
   ThingName: string;
 }
 export interface ConnectivityInfo {
-  HostAddress?: string;
-  Id?: string;
-  Metadata?: string;
-  PortNumber?: number;
+  HostAddress?: string | undefined;
+  Id?: string | undefined;
+  Metadata?: string | undefined;
+  PortNumber?: number | undefined;
 }
 export type __listOfConnectivityInfo = ConnectivityInfo[];
 const __listOfConnectivityInfo = /*@__PURE__*/ __L.at(__c43, 1);
 export interface GetConnectivityInfoResponse {
-  ConnectivityInfo?: ConnectivityInfo[];
-  Message?: string;
+  ConnectivityInfo?: ConnectivityInfo[] | undefined;
+  Message?: string | undefined;
 }
 export interface GetConnectorDefinitionRequest {
   ConnectorDefinitionId: string;
 }
 export interface GetConnectorDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetConnectorDefinitionVersionRequest {
   ConnectorDefinitionId: string;
   ConnectorDefinitionVersionId: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetConnectorDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Definition?: ConnectorDefinitionVersion & {
-    Connectors: (Connector & { ConnectorArn: string; Id: string })[];
-  };
-  Id?: string;
-  NextToken?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Definition?:
+    | (ConnectorDefinitionVersion & {
+        Connectors: (Connector & { ConnectorArn: string; Id: string })[];
+      })
+    | undefined;
+  Id?: string | undefined;
+  NextToken?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetCoreDefinitionRequest {
   CoreDefinitionId: string;
 }
 export interface GetCoreDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetCoreDefinitionVersionRequest {
   CoreDefinitionId: string;
   CoreDefinitionVersionId: string;
 }
 export interface GetCoreDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Definition?: CoreDefinitionVersion & {
-    Cores: (Core & { CertificateArn: string; Id: string; ThingArn: string })[];
-  };
-  Id?: string;
-  NextToken?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Definition?:
+    | (CoreDefinitionVersion & {
+        Cores: (Core & { CertificateArn: string; Id: string; ThingArn: string })[];
+      })
+    | undefined;
+  Id?: string | undefined;
+  NextToken?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetDeploymentStatusRequest {
   DeploymentId: string;
   GroupId: string;
 }
 export interface GetDeploymentStatusResponse {
-  DeploymentStatus?: string;
-  DeploymentType?: DeploymentType;
-  ErrorDetails?: ErrorDetail[];
-  ErrorMessage?: string;
-  UpdatedAt?: string;
+  DeploymentStatus?: string | undefined;
+  DeploymentType?: DeploymentType | undefined;
+  ErrorDetails?: ErrorDetail[] | undefined;
+  ErrorMessage?: string | undefined;
+  UpdatedAt?: string | undefined;
 }
 export interface GetDeviceDefinitionRequest {
   DeviceDefinitionId: string;
 }
 export interface GetDeviceDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetDeviceDefinitionVersionRequest {
   DeviceDefinitionId: string;
   DeviceDefinitionVersionId: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetDeviceDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Definition?: DeviceDefinitionVersion & {
-    Devices: (Device & { CertificateArn: string; Id: string; ThingArn: string })[];
-  };
-  Id?: string;
-  NextToken?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Definition?:
+    | (DeviceDefinitionVersion & {
+        Devices: (Device & { CertificateArn: string; Id: string; ThingArn: string })[];
+      })
+    | undefined;
+  Id?: string | undefined;
+  NextToken?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetFunctionDefinitionRequest {
   FunctionDefinitionId: string;
 }
 export interface GetFunctionDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetFunctionDefinitionVersionRequest {
   FunctionDefinitionId: string;
   FunctionDefinitionVersionId: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetFunctionDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Definition?: FunctionDefinitionVersion & {
-    Functions: (Function & {
-      Id: string;
-      FunctionConfiguration: FunctionConfiguration & {
-        Environment: FunctionConfigurationEnvironment & {
-          ResourceAccessPolicies: (ResourceAccessPolicy & { ResourceId: string })[];
-        };
-      };
-    })[];
-  };
-  Id?: string;
-  NextToken?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Definition?:
+    | (FunctionDefinitionVersion & {
+        Functions: (Function & {
+          Id: string;
+          FunctionConfiguration: FunctionConfiguration & {
+            Environment: FunctionConfigurationEnvironment & {
+              ResourceAccessPolicies: (ResourceAccessPolicy & { ResourceId: string })[];
+            };
+          };
+        })[];
+      })
+    | undefined;
+  Id?: string | undefined;
+  NextToken?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetGroupRequest {
   GroupId: string;
 }
 export interface GetGroupResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetGroupCertificateAuthorityRequest {
   CertificateAuthorityId: string;
   GroupId: string;
 }
 export interface GetGroupCertificateAuthorityResponse {
-  GroupCertificateAuthorityArn?: string;
-  GroupCertificateAuthorityId?: string;
-  PemEncodedCertificate?: string;
+  GroupCertificateAuthorityArn?: string | undefined;
+  GroupCertificateAuthorityId?: string | undefined;
+  PemEncodedCertificate?: string | undefined;
 }
 export interface GetGroupCertificateConfigurationRequest {
   GroupId: string;
 }
 export interface GetGroupCertificateConfigurationResponse {
-  CertificateAuthorityExpiryInMilliseconds?: string;
-  CertificateExpiryInMilliseconds?: string;
-  GroupId?: string;
+  CertificateAuthorityExpiryInMilliseconds?: string | undefined;
+  CertificateExpiryInMilliseconds?: string | undefined;
+  GroupId?: string | undefined;
 }
 export interface GetGroupVersionRequest {
   GroupId: string;
   GroupVersionId: string;
 }
 export interface GetGroupVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Definition?: GroupVersion;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Definition?: GroupVersion | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetLoggerDefinitionRequest {
   LoggerDefinitionId: string;
 }
 export interface GetLoggerDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetLoggerDefinitionVersionRequest {
   LoggerDefinitionId: string;
   LoggerDefinitionVersionId: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetLoggerDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Definition?: LoggerDefinitionVersion & {
-    Loggers: (Logger & {
-      Component: LoggerComponent;
-      Id: string;
-      Level: LoggerLevel;
-      Type: LoggerType;
-    })[];
-  };
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Definition?:
+    | (LoggerDefinitionVersion & {
+        Loggers: (Logger & {
+          Component: LoggerComponent;
+          Id: string;
+          Level: LoggerLevel;
+          Type: LoggerType;
+        })[];
+      })
+    | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetResourceDefinitionRequest {
   ResourceDefinitionId: string;
 }
 export interface GetResourceDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetResourceDefinitionVersionRequest {
   ResourceDefinitionId: string;
   ResourceDefinitionVersionId: string;
 }
 export interface GetResourceDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Definition?: ResourceDefinitionVersion & {
-    Resources: (Resource & {
-      Id: string;
-      Name: string;
-      ResourceDataContainer: ResourceDataContainer & {
-        S3MachineLearningModelResourceData: S3MachineLearningModelResourceData & {
-          OwnerSetting: ResourceDownloadOwnerSetting & {
-            GroupOwner: string;
-            GroupPermission: Permission;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Definition?:
+    | (ResourceDefinitionVersion & {
+        Resources: (Resource & {
+          Id: string;
+          Name: string;
+          ResourceDataContainer: ResourceDataContainer & {
+            S3MachineLearningModelResourceData: S3MachineLearningModelResourceData & {
+              OwnerSetting: ResourceDownloadOwnerSetting & {
+                GroupOwner: string;
+                GroupPermission: Permission;
+              };
+            };
+            SageMakerMachineLearningModelResourceData: SageMakerMachineLearningModelResourceData & {
+              OwnerSetting: ResourceDownloadOwnerSetting & {
+                GroupOwner: string;
+                GroupPermission: Permission;
+              };
+            };
           };
-        };
-        SageMakerMachineLearningModelResourceData: SageMakerMachineLearningModelResourceData & {
-          OwnerSetting: ResourceDownloadOwnerSetting & {
-            GroupOwner: string;
-            GroupPermission: Permission;
-          };
-        };
-      };
-    })[];
-  };
-  Id?: string;
-  Version?: string;
+        })[];
+      })
+    | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetServiceRoleForAccountRequest {}
 export interface GetServiceRoleForAccountResponse {
-  AssociatedAt?: string;
-  RoleArn?: string;
+  AssociatedAt?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export interface GetSubscriptionDefinitionRequest {
   SubscriptionDefinitionId: string;
 }
 export interface GetSubscriptionDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetSubscriptionDefinitionVersionRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
   SubscriptionDefinitionId: string;
   SubscriptionDefinitionVersionId: string;
 }
 export interface GetSubscriptionDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Definition?: SubscriptionDefinitionVersion & {
-    Subscriptions: (Subscription & {
-      Id: string;
-      Source: string;
-      Subject: string;
-      Target: string;
-    })[];
-  };
-  Id?: string;
-  NextToken?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Definition?:
+    | (SubscriptionDefinitionVersion & {
+        Subscriptions: (Subscription & {
+          Id: string;
+          Source: string;
+          Subject: string;
+          Target: string;
+        })[];
+      })
+    | undefined;
+  Id?: string | undefined;
+  NextToken?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetThingRuntimeConfigurationRequest {
   ThingName: string;
@@ -979,271 +994,273 @@ export interface GetThingRuntimeConfigurationRequest {
 export type ConfigurationSyncStatus = "InSync" | "OutOfSync" | (string & {});
 export type Telemetry = "On" | "Off" | (string & {});
 export interface TelemetryConfiguration {
-  ConfigurationSyncStatus?: ConfigurationSyncStatus;
-  Telemetry?: Telemetry;
+  ConfigurationSyncStatus?: ConfigurationSyncStatus | undefined;
+  Telemetry?: Telemetry | undefined;
 }
 export interface RuntimeConfiguration {
-  TelemetryConfiguration?: TelemetryConfiguration;
+  TelemetryConfiguration?: TelemetryConfiguration | undefined;
 }
 export interface GetThingRuntimeConfigurationResponse {
-  RuntimeConfiguration?: RuntimeConfiguration & {
-    TelemetryConfiguration: TelemetryConfiguration & { Telemetry: Telemetry };
-  };
+  RuntimeConfiguration?:
+    | (RuntimeConfiguration & {
+        TelemetryConfiguration: TelemetryConfiguration & { Telemetry: Telemetry };
+      })
+    | undefined;
 }
 export interface ListBulkDeploymentDetailedReportsRequest {
   BulkDeploymentId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface BulkDeploymentResult {
-  CreatedAt?: string;
-  DeploymentArn?: string;
-  DeploymentId?: string;
-  DeploymentStatus?: string;
-  DeploymentType?: DeploymentType;
-  ErrorDetails?: ErrorDetail[];
-  ErrorMessage?: string;
-  GroupArn?: string;
+  CreatedAt?: string | undefined;
+  DeploymentArn?: string | undefined;
+  DeploymentId?: string | undefined;
+  DeploymentStatus?: string | undefined;
+  DeploymentType?: DeploymentType | undefined;
+  ErrorDetails?: ErrorDetail[] | undefined;
+  ErrorMessage?: string | undefined;
+  GroupArn?: string | undefined;
 }
 export type BulkDeploymentResults = BulkDeploymentResult[];
 export interface ListBulkDeploymentDetailedReportsResponse {
-  Deployments?: BulkDeploymentResult[];
-  NextToken?: string;
+  Deployments?: BulkDeploymentResult[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListBulkDeploymentsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface BulkDeployment {
-  BulkDeploymentArn?: string;
-  BulkDeploymentId?: string;
-  CreatedAt?: string;
+  BulkDeploymentArn?: string | undefined;
+  BulkDeploymentId?: string | undefined;
+  CreatedAt?: string | undefined;
 }
 export type BulkDeployments = BulkDeployment[];
 export interface ListBulkDeploymentsResponse {
-  BulkDeployments?: BulkDeployment[];
-  NextToken?: string;
+  BulkDeployments?: BulkDeployment[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListConnectorDefinitionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface DefinitionInformation {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfDefinitionInformation = DefinitionInformation[];
 const __listOfDefinitionInformation = /*@__PURE__*/ __L.at(__c77, 1);
 export interface ListConnectorDefinitionsResponse {
-  Definitions?: DefinitionInformation[];
-  NextToken?: string;
+  Definitions?: DefinitionInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListConnectorDefinitionVersionsRequest {
   ConnectorDefinitionId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface VersionInformation {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export type __listOfVersionInformation = VersionInformation[];
 const __listOfVersionInformation = /*@__PURE__*/ __L.at(__c82, 0);
 export interface ListConnectorDefinitionVersionsResponse {
-  NextToken?: string;
-  Versions?: VersionInformation[];
+  NextToken?: string | undefined;
+  Versions?: VersionInformation[] | undefined;
 }
 export interface ListCoreDefinitionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCoreDefinitionsResponse {
-  Definitions?: DefinitionInformation[];
-  NextToken?: string;
+  Definitions?: DefinitionInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCoreDefinitionVersionsRequest {
   CoreDefinitionId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCoreDefinitionVersionsResponse {
-  NextToken?: string;
-  Versions?: VersionInformation[];
+  NextToken?: string | undefined;
+  Versions?: VersionInformation[] | undefined;
 }
 export interface ListDeploymentsRequest {
   GroupId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface Deployment {
-  CreatedAt?: string;
-  DeploymentArn?: string;
-  DeploymentId?: string;
-  DeploymentType?: DeploymentType;
-  GroupArn?: string;
+  CreatedAt?: string | undefined;
+  DeploymentArn?: string | undefined;
+  DeploymentId?: string | undefined;
+  DeploymentType?: DeploymentType | undefined;
+  GroupArn?: string | undefined;
 }
 export type Deployments = Deployment[];
 export interface ListDeploymentsResponse {
-  Deployments?: Deployment[];
-  NextToken?: string;
+  Deployments?: Deployment[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDeviceDefinitionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDeviceDefinitionsResponse {
-  Definitions?: DefinitionInformation[];
-  NextToken?: string;
+  Definitions?: DefinitionInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDeviceDefinitionVersionsRequest {
   DeviceDefinitionId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDeviceDefinitionVersionsResponse {
-  NextToken?: string;
-  Versions?: VersionInformation[];
+  NextToken?: string | undefined;
+  Versions?: VersionInformation[] | undefined;
 }
 export interface ListFunctionDefinitionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFunctionDefinitionsResponse {
-  Definitions?: DefinitionInformation[];
-  NextToken?: string;
+  Definitions?: DefinitionInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFunctionDefinitionVersionsRequest {
   FunctionDefinitionId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFunctionDefinitionVersionsResponse {
-  NextToken?: string;
-  Versions?: VersionInformation[];
+  NextToken?: string | undefined;
+  Versions?: VersionInformation[] | undefined;
 }
 export interface ListGroupCertificateAuthoritiesRequest {
   GroupId: string;
 }
 export interface GroupCertificateAuthorityProperties {
-  GroupCertificateAuthorityArn?: string;
-  GroupCertificateAuthorityId?: string;
+  GroupCertificateAuthorityArn?: string | undefined;
+  GroupCertificateAuthorityId?: string | undefined;
 }
 export type __listOfGroupCertificateAuthorityProperties = GroupCertificateAuthorityProperties[];
 const __listOfGroupCertificateAuthorityProperties = /*@__PURE__*/ __L.at(__c90, 2);
 export interface ListGroupCertificateAuthoritiesResponse {
-  GroupCertificateAuthorities?: GroupCertificateAuthorityProperties[];
+  GroupCertificateAuthorities?: GroupCertificateAuthorityProperties[] | undefined;
 }
 export interface ListGroupsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface GroupInformation {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export type __listOfGroupInformation = GroupInformation[];
 const __listOfGroupInformation = /*@__PURE__*/ __L.at(__c91, 1);
 export interface ListGroupsResponse {
-  Groups?: GroupInformation[];
-  NextToken?: string;
+  Groups?: GroupInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGroupVersionsRequest {
   GroupId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGroupVersionsResponse {
-  NextToken?: string;
-  Versions?: VersionInformation[];
+  NextToken?: string | undefined;
+  Versions?: VersionInformation[] | undefined;
 }
 export interface ListLoggerDefinitionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLoggerDefinitionsResponse {
-  Definitions?: DefinitionInformation[];
-  NextToken?: string;
+  Definitions?: DefinitionInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLoggerDefinitionVersionsRequest {
   LoggerDefinitionId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLoggerDefinitionVersionsResponse {
-  NextToken?: string;
-  Versions?: VersionInformation[];
+  NextToken?: string | undefined;
+  Versions?: VersionInformation[] | undefined;
 }
 export interface ListResourceDefinitionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListResourceDefinitionsResponse {
-  Definitions?: DefinitionInformation[];
-  NextToken?: string;
+  Definitions?: DefinitionInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListResourceDefinitionVersionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
   ResourceDefinitionId: string;
 }
 export interface ListResourceDefinitionVersionsResponse {
-  NextToken?: string;
-  Versions?: VersionInformation[];
+  NextToken?: string | undefined;
+  Versions?: VersionInformation[] | undefined;
 }
 export interface ListSubscriptionDefinitionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSubscriptionDefinitionsResponse {
-  Definitions?: DefinitionInformation[];
-  NextToken?: string;
+  Definitions?: DefinitionInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSubscriptionDefinitionVersionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
   SubscriptionDefinitionId: string;
 }
 export interface ListSubscriptionDefinitionVersionsResponse {
-  NextToken?: string;
-  Versions?: VersionInformation[];
+  NextToken?: string | undefined;
+  Versions?: VersionInformation[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ResetDeploymentsRequest {
-  AmznClientToken?: string;
-  Force?: boolean;
+  AmznClientToken?: string | undefined;
+  Force?: boolean | undefined;
   GroupId: string;
 }
 export interface ResetDeploymentsResponse {
-  DeploymentArn?: string;
-  DeploymentId?: string;
+  DeploymentArn?: string | undefined;
+  DeploymentId?: string | undefined;
 }
 export interface StartBulkDeploymentRequest {
-  AmznClientToken?: string;
-  ExecutionRoleArn?: string;
-  InputFileUri?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  ExecutionRoleArn?: string | undefined;
+  InputFileUri?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartBulkDeploymentResponse {
-  BulkDeploymentArn?: string;
-  BulkDeploymentId?: string;
+  BulkDeploymentArn?: string | undefined;
+  BulkDeploymentId?: string | undefined;
 }
 export interface StopBulkDeploymentRequest {
   BulkDeploymentId: string;
@@ -1251,76 +1268,76 @@ export interface StopBulkDeploymentRequest {
 export interface StopBulkDeploymentResponse {}
 export interface TagResourceRequest {
   ResourceArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateConnectivityInfoRequest {
-  ConnectivityInfo?: ConnectivityInfo[];
+  ConnectivityInfo?: ConnectivityInfo[] | undefined;
   ThingName: string;
 }
 export interface UpdateConnectivityInfoResponse {
-  Message?: string;
-  Version?: string;
+  Message?: string | undefined;
+  Version?: string | undefined;
 }
 export interface UpdateConnectorDefinitionRequest {
   ConnectorDefinitionId: string;
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateConnectorDefinitionResponse {}
 export interface UpdateCoreDefinitionRequest {
   CoreDefinitionId: string;
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateCoreDefinitionResponse {}
 export interface UpdateDeviceDefinitionRequest {
   DeviceDefinitionId: string;
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateDeviceDefinitionResponse {}
 export interface UpdateFunctionDefinitionRequest {
   FunctionDefinitionId: string;
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateFunctionDefinitionResponse {}
 export interface UpdateGroupRequest {
   GroupId: string;
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateGroupResponse {}
 export interface UpdateGroupCertificateConfigurationRequest {
-  CertificateExpiryInMilliseconds?: string;
+  CertificateExpiryInMilliseconds?: string | undefined;
   GroupId: string;
 }
 export interface UpdateGroupCertificateConfigurationResponse {
-  CertificateAuthorityExpiryInMilliseconds?: string;
-  CertificateExpiryInMilliseconds?: string;
-  GroupId?: string;
+  CertificateAuthorityExpiryInMilliseconds?: string | undefined;
+  CertificateExpiryInMilliseconds?: string | undefined;
+  GroupId?: string | undefined;
 }
 export interface UpdateLoggerDefinitionRequest {
   LoggerDefinitionId: string;
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateLoggerDefinitionResponse {}
 export interface UpdateResourceDefinitionRequest {
-  Name?: string;
+  Name?: string | undefined;
   ResourceDefinitionId: string;
 }
 export interface UpdateResourceDefinitionResponse {}
 export interface UpdateSubscriptionDefinitionRequest {
-  Name?: string;
+  Name?: string | undefined;
   SubscriptionDefinitionId: string;
 }
 export interface UpdateSubscriptionDefinitionResponse {}
 export interface TelemetryConfigurationUpdate {
-  Telemetry?: Telemetry;
+  Telemetry?: Telemetry | undefined;
 }
 export interface UpdateThingRuntimeConfigurationRequest {
-  TelemetryConfiguration?: TelemetryConfigurationUpdate;
+  TelemetryConfiguration?: TelemetryConfigurationUpdate | undefined;
   ThingName: string;
 }
 export interface UpdateThingRuntimeConfigurationResponse {}
@@ -1332,7 +1349,7 @@ export type AssociateRoleToGroupError =
  * Associates a role with a group. Your Greengrass core will use the role to access AWS cloud services. The role's permissions should allow Greengrass core Lambda functions to perform actions against the cloud.
  */
 export const associateRoleToGroup: API.OperationMethod<
-  AssociateRoleToGroupRequest,
+  AssociateRoleToGroupRequest & RegionInput,
   AssociateRoleToGroupResponse,
   AssociateRoleToGroupError,
   Credentials | HttpClient.HttpClient
@@ -1355,7 +1372,7 @@ export type AssociateServiceRoleToAccountError =
  * Associates a role with your account. AWS IoT Greengrass will use the role to access your Lambda functions and AWS IoT resources. This is necessary for deployments to succeed. The role must have at least minimum permissions in the policy ''AWSGreengrassResourceAccessRolePolicy''.
  */
 export const associateServiceRoleToAccount: API.OperationMethod<
-  AssociateServiceRoleToAccountRequest,
+  AssociateServiceRoleToAccountRequest & RegionInput,
   AssociateServiceRoleToAccountResponse,
   AssociateServiceRoleToAccountError,
   Credentials | HttpClient.HttpClient
@@ -1375,7 +1392,7 @@ export type CreateConnectorDefinitionError = BadRequestException | CommonErrors;
  * Creates a connector definition. You may provide the initial version of the connector definition now or use ''CreateConnectorDefinitionVersion'' at a later time.
  */
 export const createConnectorDefinition: API.OperationMethod<
-  CreateConnectorDefinitionRequest,
+  CreateConnectorDefinitionRequest & RegionInput,
   CreateConnectorDefinitionResponse,
   CreateConnectorDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1395,7 +1412,7 @@ export type CreateConnectorDefinitionVersionError = BadRequestException | Common
  * Creates a version of a connector definition which has already been defined.
  */
 export const createConnectorDefinitionVersion: API.OperationMethod<
-  CreateConnectorDefinitionVersionRequest,
+  CreateConnectorDefinitionVersionRequest & RegionInput,
   CreateConnectorDefinitionVersionResponse,
   CreateConnectorDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1415,7 +1432,7 @@ export type CreateCoreDefinitionError = BadRequestException | CommonErrors;
  * Creates a core definition. You may provide the initial version of the core definition now or use ''CreateCoreDefinitionVersion'' at a later time. Greengrass groups must each contain exactly one Greengrass core.
  */
 export const createCoreDefinition: API.OperationMethod<
-  CreateCoreDefinitionRequest,
+  CreateCoreDefinitionRequest & RegionInput,
   CreateCoreDefinitionResponse,
   CreateCoreDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1435,7 +1452,7 @@ export type CreateCoreDefinitionVersionError = BadRequestException | CommonError
  * Creates a version of a core definition that has already been defined. Greengrass groups must each contain exactly one Greengrass core.
  */
 export const createCoreDefinitionVersion: API.OperationMethod<
-  CreateCoreDefinitionVersionRequest,
+  CreateCoreDefinitionVersionRequest & RegionInput,
   CreateCoreDefinitionVersionResponse,
   CreateCoreDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1455,7 +1472,7 @@ export type CreateDeploymentError = BadRequestException | CommonErrors;
  * Creates a deployment. ''CreateDeployment'' requests are idempotent with respect to the ''X-Amzn-Client-Token'' token and the request parameters.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
+  CreateDeploymentRequest & RegionInput,
   CreateDeploymentResponse,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1475,7 +1492,7 @@ export type CreateDeviceDefinitionError = BadRequestException | CommonErrors;
  * Creates a device definition. You may provide the initial version of the device definition now or use ''CreateDeviceDefinitionVersion'' at a later time.
  */
 export const createDeviceDefinition: API.OperationMethod<
-  CreateDeviceDefinitionRequest,
+  CreateDeviceDefinitionRequest & RegionInput,
   CreateDeviceDefinitionResponse,
   CreateDeviceDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1495,7 +1512,7 @@ export type CreateDeviceDefinitionVersionError = BadRequestException | CommonErr
  * Creates a version of a device definition that has already been defined.
  */
 export const createDeviceDefinitionVersion: API.OperationMethod<
-  CreateDeviceDefinitionVersionRequest,
+  CreateDeviceDefinitionVersionRequest & RegionInput,
   CreateDeviceDefinitionVersionResponse,
   CreateDeviceDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1515,7 +1532,7 @@ export type CreateFunctionDefinitionError = BadRequestException | CommonErrors;
  * Creates a Lambda function definition which contains a list of Lambda functions and their configurations to be used in a group. You can create an initial version of the definition by providing a list of Lambda functions and their configurations now, or use ''CreateFunctionDefinitionVersion'' later.
  */
 export const createFunctionDefinition: API.OperationMethod<
-  CreateFunctionDefinitionRequest,
+  CreateFunctionDefinitionRequest & RegionInput,
   CreateFunctionDefinitionResponse,
   CreateFunctionDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1535,7 +1552,7 @@ export type CreateFunctionDefinitionVersionError = BadRequestException | CommonE
  * Creates a version of a Lambda function definition that has already been defined.
  */
 export const createFunctionDefinitionVersion: API.OperationMethod<
-  CreateFunctionDefinitionVersionRequest,
+  CreateFunctionDefinitionVersionRequest & RegionInput,
   CreateFunctionDefinitionVersionResponse,
   CreateFunctionDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1555,7 +1572,7 @@ export type CreateGroupError = BadRequestException | CommonErrors;
  * Creates a group. You may provide the initial version of the group or use ''CreateGroupVersion'' at a later time. Tip: You can use the ''gg_group_setup'' package (https://github.com/awslabs/aws-greengrass-group-setup) as a library or command-line application to create and deploy Greengrass groups.
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
+  CreateGroupRequest & RegionInput,
   CreateGroupResponse,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -1578,7 +1595,7 @@ export type CreateGroupCertificateAuthorityError =
  * Creates a CA for the group. If a CA already exists, it will rotate the existing CA.
  */
 export const createGroupCertificateAuthority: API.OperationMethod<
-  CreateGroupCertificateAuthorityRequest,
+  CreateGroupCertificateAuthorityRequest & RegionInput,
   CreateGroupCertificateAuthorityResponse,
   CreateGroupCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -1598,7 +1615,7 @@ export type CreateGroupVersionError = BadRequestException | CommonErrors;
  * Creates a version of a group which has already been defined.
  */
 export const createGroupVersion: API.OperationMethod<
-  CreateGroupVersionRequest,
+  CreateGroupVersionRequest & RegionInput,
   CreateGroupVersionResponse,
   CreateGroupVersionError,
   Credentials | HttpClient.HttpClient
@@ -1618,7 +1635,7 @@ export type CreateLoggerDefinitionError = BadRequestException | CommonErrors;
  * Creates a logger definition. You may provide the initial version of the logger definition now or use ''CreateLoggerDefinitionVersion'' at a later time.
  */
 export const createLoggerDefinition: API.OperationMethod<
-  CreateLoggerDefinitionRequest,
+  CreateLoggerDefinitionRequest & RegionInput,
   CreateLoggerDefinitionResponse,
   CreateLoggerDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1638,7 +1655,7 @@ export type CreateLoggerDefinitionVersionError = BadRequestException | CommonErr
  * Creates a version of a logger definition that has already been defined.
  */
 export const createLoggerDefinitionVersion: API.OperationMethod<
-  CreateLoggerDefinitionVersionRequest,
+  CreateLoggerDefinitionVersionRequest & RegionInput,
   CreateLoggerDefinitionVersionResponse,
   CreateLoggerDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1658,7 +1675,7 @@ export type CreateResourceDefinitionError = BadRequestException | CommonErrors;
  * Creates a resource definition which contains a list of resources to be used in a group. You can create an initial version of the definition by providing a list of resources now, or use ''CreateResourceDefinitionVersion'' later.
  */
 export const createResourceDefinition: API.OperationMethod<
-  CreateResourceDefinitionRequest,
+  CreateResourceDefinitionRequest & RegionInput,
   CreateResourceDefinitionResponse,
   CreateResourceDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1678,7 +1695,7 @@ export type CreateResourceDefinitionVersionError = BadRequestException | CommonE
  * Creates a version of a resource definition that has already been defined.
  */
 export const createResourceDefinitionVersion: API.OperationMethod<
-  CreateResourceDefinitionVersionRequest,
+  CreateResourceDefinitionVersionRequest & RegionInput,
   CreateResourceDefinitionVersionResponse,
   CreateResourceDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1701,7 +1718,7 @@ export type CreateSoftwareUpdateJobError =
  * Creates a software update for a core or group of cores (specified as an IoT thing group.) Use this to update the OTA Agent as well as the Greengrass core software. It makes use of the IoT Jobs feature which provides additional commands to manage a Greengrass core software update job.
  */
 export const createSoftwareUpdateJob: API.OperationMethod<
-  CreateSoftwareUpdateJobRequest,
+  CreateSoftwareUpdateJobRequest & RegionInput,
   CreateSoftwareUpdateJobResponse,
   CreateSoftwareUpdateJobError,
   Credentials | HttpClient.HttpClient
@@ -1721,7 +1738,7 @@ export type CreateSubscriptionDefinitionError = BadRequestException | CommonErro
  * Creates a subscription definition. You may provide the initial version of the subscription definition now or use ''CreateSubscriptionDefinitionVersion'' at a later time.
  */
 export const createSubscriptionDefinition: API.OperationMethod<
-  CreateSubscriptionDefinitionRequest,
+  CreateSubscriptionDefinitionRequest & RegionInput,
   CreateSubscriptionDefinitionResponse,
   CreateSubscriptionDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1741,7 +1758,7 @@ export type CreateSubscriptionDefinitionVersionError = BadRequestException | Com
  * Creates a version of a subscription definition which has already been defined.
  */
 export const createSubscriptionDefinitionVersion: API.OperationMethod<
-  CreateSubscriptionDefinitionVersionRequest,
+  CreateSubscriptionDefinitionVersionRequest & RegionInput,
   CreateSubscriptionDefinitionVersionResponse,
   CreateSubscriptionDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1761,7 +1778,7 @@ export type DeleteConnectorDefinitionError = BadRequestException | CommonErrors;
  * Deletes a connector definition.
  */
 export const deleteConnectorDefinition: API.OperationMethod<
-  DeleteConnectorDefinitionRequest,
+  DeleteConnectorDefinitionRequest & RegionInput,
   DeleteConnectorDefinitionResponse,
   DeleteConnectorDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1781,7 +1798,7 @@ export type DeleteCoreDefinitionError = BadRequestException | CommonErrors;
  * Deletes a core definition.
  */
 export const deleteCoreDefinition: API.OperationMethod<
-  DeleteCoreDefinitionRequest,
+  DeleteCoreDefinitionRequest & RegionInput,
   DeleteCoreDefinitionResponse,
   DeleteCoreDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1801,7 +1818,7 @@ export type DeleteDeviceDefinitionError = BadRequestException | CommonErrors;
  * Deletes a device definition.
  */
 export const deleteDeviceDefinition: API.OperationMethod<
-  DeleteDeviceDefinitionRequest,
+  DeleteDeviceDefinitionRequest & RegionInput,
   DeleteDeviceDefinitionResponse,
   DeleteDeviceDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1821,7 +1838,7 @@ export type DeleteFunctionDefinitionError = BadRequestException | CommonErrors;
  * Deletes a Lambda function definition.
  */
 export const deleteFunctionDefinition: API.OperationMethod<
-  DeleteFunctionDefinitionRequest,
+  DeleteFunctionDefinitionRequest & RegionInput,
   DeleteFunctionDefinitionResponse,
   DeleteFunctionDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1841,7 +1858,7 @@ export type DeleteGroupError = BadRequestException | CommonErrors;
  * Deletes a group.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResponse,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -1861,7 +1878,7 @@ export type DeleteLoggerDefinitionError = BadRequestException | CommonErrors;
  * Deletes a logger definition.
  */
 export const deleteLoggerDefinition: API.OperationMethod<
-  DeleteLoggerDefinitionRequest,
+  DeleteLoggerDefinitionRequest & RegionInput,
   DeleteLoggerDefinitionResponse,
   DeleteLoggerDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1881,7 +1898,7 @@ export type DeleteResourceDefinitionError = BadRequestException | CommonErrors;
  * Deletes a resource definition.
  */
 export const deleteResourceDefinition: API.OperationMethod<
-  DeleteResourceDefinitionRequest,
+  DeleteResourceDefinitionRequest & RegionInput,
   DeleteResourceDefinitionResponse,
   DeleteResourceDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1901,7 +1918,7 @@ export type DeleteSubscriptionDefinitionError = BadRequestException | CommonErro
  * Deletes a subscription definition.
  */
 export const deleteSubscriptionDefinition: API.OperationMethod<
-  DeleteSubscriptionDefinitionRequest,
+  DeleteSubscriptionDefinitionRequest & RegionInput,
   DeleteSubscriptionDefinitionResponse,
   DeleteSubscriptionDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1924,7 +1941,7 @@ export type DisassociateRoleFromGroupError =
  * Disassociates the role from a group.
  */
 export const disassociateRoleFromGroup: API.OperationMethod<
-  DisassociateRoleFromGroupRequest,
+  DisassociateRoleFromGroupRequest & RegionInput,
   DisassociateRoleFromGroupResponse,
   DisassociateRoleFromGroupError,
   Credentials | HttpClient.HttpClient
@@ -1944,7 +1961,7 @@ export type DisassociateServiceRoleFromAccountError = InternalServerErrorExcepti
  * Disassociates the service role from your account. Without a service role, deployments will not work.
  */
 export const disassociateServiceRoleFromAccount: API.OperationMethod<
-  DisassociateServiceRoleFromAccountRequest,
+  DisassociateServiceRoleFromAccountRequest & RegionInput,
   DisassociateServiceRoleFromAccountResponse,
   DisassociateServiceRoleFromAccountError,
   Credentials | HttpClient.HttpClient
@@ -1967,7 +1984,7 @@ export type GetAssociatedRoleError =
  * Retrieves the role associated with a particular group.
  */
 export const getAssociatedRole: API.OperationMethod<
-  GetAssociatedRoleRequest,
+  GetAssociatedRoleRequest & RegionInput,
   GetAssociatedRoleResponse,
   GetAssociatedRoleError,
   Credentials | HttpClient.HttpClient
@@ -1987,7 +2004,7 @@ export type GetBulkDeploymentStatusError = BadRequestException | CommonErrors;
  * Returns the status of a bulk deployment.
  */
 export const getBulkDeploymentStatus: API.OperationMethod<
-  GetBulkDeploymentStatusRequest,
+  GetBulkDeploymentStatusRequest & RegionInput,
   GetBulkDeploymentStatusResponse,
   GetBulkDeploymentStatusError,
   Credentials | HttpClient.HttpClient
@@ -2010,7 +2027,7 @@ export type GetConnectivityInfoError =
  * Retrieves the connectivity information for a core.
  */
 export const getConnectivityInfo: API.OperationMethod<
-  GetConnectivityInfoRequest,
+  GetConnectivityInfoRequest & RegionInput,
   GetConnectivityInfoResponse,
   GetConnectivityInfoError,
   Credentials | HttpClient.HttpClient
@@ -2030,7 +2047,7 @@ export type GetConnectorDefinitionError = BadRequestException | CommonErrors;
  * Retrieves information about a connector definition.
  */
 export const getConnectorDefinition: API.OperationMethod<
-  GetConnectorDefinitionRequest,
+  GetConnectorDefinitionRequest & RegionInput,
   GetConnectorDefinitionResponse,
   GetConnectorDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2050,7 +2067,7 @@ export type GetConnectorDefinitionVersionError = BadRequestException | CommonErr
  * Retrieves information about a connector definition version, including the connectors that the version contains. Connectors are prebuilt modules that interact with local infrastructure, device protocols, AWS, and other cloud services.
  */
 export const getConnectorDefinitionVersion: API.OperationMethod<
-  GetConnectorDefinitionVersionRequest,
+  GetConnectorDefinitionVersionRequest & RegionInput,
   GetConnectorDefinitionVersionResponse,
   GetConnectorDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2070,7 +2087,7 @@ export type GetCoreDefinitionError = BadRequestException | CommonErrors;
  * Retrieves information about a core definition version.
  */
 export const getCoreDefinition: API.OperationMethod<
-  GetCoreDefinitionRequest,
+  GetCoreDefinitionRequest & RegionInput,
   GetCoreDefinitionResponse,
   GetCoreDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2090,7 +2107,7 @@ export type GetCoreDefinitionVersionError = BadRequestException | CommonErrors;
  * Retrieves information about a core definition version.
  */
 export const getCoreDefinitionVersion: API.OperationMethod<
-  GetCoreDefinitionVersionRequest,
+  GetCoreDefinitionVersionRequest & RegionInput,
   GetCoreDefinitionVersionResponse,
   GetCoreDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2110,7 +2127,7 @@ export type GetDeploymentStatusError = BadRequestException | CommonErrors;
  * Returns the status of a deployment.
  */
 export const getDeploymentStatus: API.OperationMethod<
-  GetDeploymentStatusRequest,
+  GetDeploymentStatusRequest & RegionInput,
   GetDeploymentStatusResponse,
   GetDeploymentStatusError,
   Credentials | HttpClient.HttpClient
@@ -2130,7 +2147,7 @@ export type GetDeviceDefinitionError = BadRequestException | CommonErrors;
  * Retrieves information about a device definition.
  */
 export const getDeviceDefinition: API.OperationMethod<
-  GetDeviceDefinitionRequest,
+  GetDeviceDefinitionRequest & RegionInput,
   GetDeviceDefinitionResponse,
   GetDeviceDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2150,7 +2167,7 @@ export type GetDeviceDefinitionVersionError = BadRequestException | CommonErrors
  * Retrieves information about a device definition version.
  */
 export const getDeviceDefinitionVersion: API.OperationMethod<
-  GetDeviceDefinitionVersionRequest,
+  GetDeviceDefinitionVersionRequest & RegionInput,
   GetDeviceDefinitionVersionResponse,
   GetDeviceDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2170,7 +2187,7 @@ export type GetFunctionDefinitionError = BadRequestException | CommonErrors;
  * Retrieves information about a Lambda function definition, including its creation time and latest version.
  */
 export const getFunctionDefinition: API.OperationMethod<
-  GetFunctionDefinitionRequest,
+  GetFunctionDefinitionRequest & RegionInput,
   GetFunctionDefinitionResponse,
   GetFunctionDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2190,7 +2207,7 @@ export type GetFunctionDefinitionVersionError = BadRequestException | CommonErro
  * Retrieves information about a Lambda function definition version, including which Lambda functions are included in the version and their configurations.
  */
 export const getFunctionDefinitionVersion: API.OperationMethod<
-  GetFunctionDefinitionVersionRequest,
+  GetFunctionDefinitionVersionRequest & RegionInput,
   GetFunctionDefinitionVersionResponse,
   GetFunctionDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2210,7 +2227,7 @@ export type GetGroupError = BadRequestException | CommonErrors;
  * Retrieves information about a group.
  */
 export const getGroup: API.OperationMethod<
-  GetGroupRequest,
+  GetGroupRequest & RegionInput,
   GetGroupResponse,
   GetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2233,7 +2250,7 @@ export type GetGroupCertificateAuthorityError =
  * Retreives the CA associated with a group. Returns the public key of the CA.
  */
 export const getGroupCertificateAuthority: API.OperationMethod<
-  GetGroupCertificateAuthorityRequest,
+  GetGroupCertificateAuthorityRequest & RegionInput,
   GetGroupCertificateAuthorityResponse,
   GetGroupCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
@@ -2256,7 +2273,7 @@ export type GetGroupCertificateConfigurationError =
  * Retrieves the current configuration for the CA used by the group.
  */
 export const getGroupCertificateConfiguration: API.OperationMethod<
-  GetGroupCertificateConfigurationRequest,
+  GetGroupCertificateConfigurationRequest & RegionInput,
   GetGroupCertificateConfigurationResponse,
   GetGroupCertificateConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2276,7 +2293,7 @@ export type GetGroupVersionError = BadRequestException | CommonErrors;
  * Retrieves information about a group version.
  */
 export const getGroupVersion: API.OperationMethod<
-  GetGroupVersionRequest,
+  GetGroupVersionRequest & RegionInput,
   GetGroupVersionResponse,
   GetGroupVersionError,
   Credentials | HttpClient.HttpClient
@@ -2296,7 +2313,7 @@ export type GetLoggerDefinitionError = BadRequestException | CommonErrors;
  * Retrieves information about a logger definition.
  */
 export const getLoggerDefinition: API.OperationMethod<
-  GetLoggerDefinitionRequest,
+  GetLoggerDefinitionRequest & RegionInput,
   GetLoggerDefinitionResponse,
   GetLoggerDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2316,7 +2333,7 @@ export type GetLoggerDefinitionVersionError = BadRequestException | CommonErrors
  * Retrieves information about a logger definition version.
  */
 export const getLoggerDefinitionVersion: API.OperationMethod<
-  GetLoggerDefinitionVersionRequest,
+  GetLoggerDefinitionVersionRequest & RegionInput,
   GetLoggerDefinitionVersionResponse,
   GetLoggerDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2336,7 +2353,7 @@ export type GetResourceDefinitionError = BadRequestException | CommonErrors;
  * Retrieves information about a resource definition, including its creation time and latest version.
  */
 export const getResourceDefinition: API.OperationMethod<
-  GetResourceDefinitionRequest,
+  GetResourceDefinitionRequest & RegionInput,
   GetResourceDefinitionResponse,
   GetResourceDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2356,7 +2373,7 @@ export type GetResourceDefinitionVersionError = BadRequestException | CommonErro
  * Retrieves information about a resource definition version, including which resources are included in the version.
  */
 export const getResourceDefinitionVersion: API.OperationMethod<
-  GetResourceDefinitionVersionRequest,
+  GetResourceDefinitionVersionRequest & RegionInput,
   GetResourceDefinitionVersionResponse,
   GetResourceDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2376,7 +2393,7 @@ export type GetServiceRoleForAccountError = InternalServerErrorException | Commo
  * Retrieves the service role that is attached to your account.
  */
 export const getServiceRoleForAccount: API.OperationMethod<
-  GetServiceRoleForAccountRequest,
+  GetServiceRoleForAccountRequest & RegionInput,
   GetServiceRoleForAccountResponse,
   GetServiceRoleForAccountError,
   Credentials | HttpClient.HttpClient
@@ -2396,7 +2413,7 @@ export type GetSubscriptionDefinitionError = BadRequestException | CommonErrors;
  * Retrieves information about a subscription definition.
  */
 export const getSubscriptionDefinition: API.OperationMethod<
-  GetSubscriptionDefinitionRequest,
+  GetSubscriptionDefinitionRequest & RegionInput,
   GetSubscriptionDefinitionResponse,
   GetSubscriptionDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2416,7 +2433,7 @@ export type GetSubscriptionDefinitionVersionError = BadRequestException | Common
  * Retrieves information about a subscription definition version.
  */
 export const getSubscriptionDefinitionVersion: API.OperationMethod<
-  GetSubscriptionDefinitionVersionRequest,
+  GetSubscriptionDefinitionVersionRequest & RegionInput,
   GetSubscriptionDefinitionVersionResponse,
   GetSubscriptionDefinitionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2439,7 +2456,7 @@ export type GetThingRuntimeConfigurationError =
  * Get the runtime configuration of a thing.
  */
 export const getThingRuntimeConfiguration: API.OperationMethod<
-  GetThingRuntimeConfigurationRequest,
+  GetThingRuntimeConfigurationRequest & RegionInput,
   GetThingRuntimeConfigurationResponse,
   GetThingRuntimeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2459,7 +2476,7 @@ export type ListBulkDeploymentDetailedReportsError = BadRequestException | Commo
  * Gets a paginated list of the deployments that have been started in a bulk deployment operation, and their current deployment status.
  */
 export const listBulkDeploymentDetailedReports: API.OperationMethod<
-  ListBulkDeploymentDetailedReportsRequest,
+  ListBulkDeploymentDetailedReportsRequest & RegionInput,
   ListBulkDeploymentDetailedReportsResponse,
   ListBulkDeploymentDetailedReportsError,
   Credentials | HttpClient.HttpClient
@@ -2479,7 +2496,7 @@ export type ListBulkDeploymentsError = BadRequestException | CommonErrors;
  * Returns a list of bulk deployments.
  */
 export const listBulkDeployments: API.OperationMethod<
-  ListBulkDeploymentsRequest,
+  ListBulkDeploymentsRequest & RegionInput,
   ListBulkDeploymentsResponse,
   ListBulkDeploymentsError,
   Credentials | HttpClient.HttpClient
@@ -2499,7 +2516,7 @@ export type ListConnectorDefinitionsError = CommonErrors;
  * Retrieves a list of connector definitions.
  */
 export const listConnectorDefinitions: API.OperationMethod<
-  ListConnectorDefinitionsRequest,
+  ListConnectorDefinitionsRequest & RegionInput,
   ListConnectorDefinitionsResponse,
   ListConnectorDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -2519,7 +2536,7 @@ export type ListConnectorDefinitionVersionsError = BadRequestException | CommonE
  * Lists the versions of a connector definition, which are containers for connectors. Connectors run on the Greengrass core and contain built-in integration with local infrastructure, device protocols, AWS, and other cloud services.
  */
 export const listConnectorDefinitionVersions: API.OperationMethod<
-  ListConnectorDefinitionVersionsRequest,
+  ListConnectorDefinitionVersionsRequest & RegionInput,
   ListConnectorDefinitionVersionsResponse,
   ListConnectorDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2539,7 +2556,7 @@ export type ListCoreDefinitionsError = CommonErrors;
  * Retrieves a list of core definitions.
  */
 export const listCoreDefinitions: API.OperationMethod<
-  ListCoreDefinitionsRequest,
+  ListCoreDefinitionsRequest & RegionInput,
   ListCoreDefinitionsResponse,
   ListCoreDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -2559,7 +2576,7 @@ export type ListCoreDefinitionVersionsError = BadRequestException | CommonErrors
  * Lists the versions of a core definition.
  */
 export const listCoreDefinitionVersions: API.OperationMethod<
-  ListCoreDefinitionVersionsRequest,
+  ListCoreDefinitionVersionsRequest & RegionInput,
   ListCoreDefinitionVersionsResponse,
   ListCoreDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2579,7 +2596,7 @@ export type ListDeploymentsError = BadRequestException | CommonErrors;
  * Returns a history of deployments for the group.
  */
 export const listDeployments: API.OperationMethod<
-  ListDeploymentsRequest,
+  ListDeploymentsRequest & RegionInput,
   ListDeploymentsResponse,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient
@@ -2599,7 +2616,7 @@ export type ListDeviceDefinitionsError = CommonErrors;
  * Retrieves a list of device definitions.
  */
 export const listDeviceDefinitions: API.OperationMethod<
-  ListDeviceDefinitionsRequest,
+  ListDeviceDefinitionsRequest & RegionInput,
   ListDeviceDefinitionsResponse,
   ListDeviceDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -2619,7 +2636,7 @@ export type ListDeviceDefinitionVersionsError = BadRequestException | CommonErro
  * Lists the versions of a device definition.
  */
 export const listDeviceDefinitionVersions: API.OperationMethod<
-  ListDeviceDefinitionVersionsRequest,
+  ListDeviceDefinitionVersionsRequest & RegionInput,
   ListDeviceDefinitionVersionsResponse,
   ListDeviceDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2639,7 +2656,7 @@ export type ListFunctionDefinitionsError = CommonErrors;
  * Retrieves a list of Lambda function definitions.
  */
 export const listFunctionDefinitions: API.OperationMethod<
-  ListFunctionDefinitionsRequest,
+  ListFunctionDefinitionsRequest & RegionInput,
   ListFunctionDefinitionsResponse,
   ListFunctionDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -2659,7 +2676,7 @@ export type ListFunctionDefinitionVersionsError = BadRequestException | CommonEr
  * Lists the versions of a Lambda function definition.
  */
 export const listFunctionDefinitionVersions: API.OperationMethod<
-  ListFunctionDefinitionVersionsRequest,
+  ListFunctionDefinitionVersionsRequest & RegionInput,
   ListFunctionDefinitionVersionsResponse,
   ListFunctionDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2682,7 +2699,7 @@ export type ListGroupCertificateAuthoritiesError =
  * Retrieves the current CAs for a group.
  */
 export const listGroupCertificateAuthorities: API.OperationMethod<
-  ListGroupCertificateAuthoritiesRequest,
+  ListGroupCertificateAuthoritiesRequest & RegionInput,
   ListGroupCertificateAuthoritiesResponse,
   ListGroupCertificateAuthoritiesError,
   Credentials | HttpClient.HttpClient
@@ -2702,7 +2719,7 @@ export type ListGroupsError = CommonErrors;
  * Retrieves a list of groups.
  */
 export const listGroups: API.OperationMethod<
-  ListGroupsRequest,
+  ListGroupsRequest & RegionInput,
   ListGroupsResponse,
   ListGroupsError,
   Credentials | HttpClient.HttpClient
@@ -2722,7 +2739,7 @@ export type ListGroupVersionsError = BadRequestException | CommonErrors;
  * Lists the versions of a group.
  */
 export const listGroupVersions: API.OperationMethod<
-  ListGroupVersionsRequest,
+  ListGroupVersionsRequest & RegionInput,
   ListGroupVersionsResponse,
   ListGroupVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2742,7 +2759,7 @@ export type ListLoggerDefinitionsError = CommonErrors;
  * Retrieves a list of logger definitions.
  */
 export const listLoggerDefinitions: API.OperationMethod<
-  ListLoggerDefinitionsRequest,
+  ListLoggerDefinitionsRequest & RegionInput,
   ListLoggerDefinitionsResponse,
   ListLoggerDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -2762,7 +2779,7 @@ export type ListLoggerDefinitionVersionsError = BadRequestException | CommonErro
  * Lists the versions of a logger definition.
  */
 export const listLoggerDefinitionVersions: API.OperationMethod<
-  ListLoggerDefinitionVersionsRequest,
+  ListLoggerDefinitionVersionsRequest & RegionInput,
   ListLoggerDefinitionVersionsResponse,
   ListLoggerDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2782,7 +2799,7 @@ export type ListResourceDefinitionsError = CommonErrors;
  * Retrieves a list of resource definitions.
  */
 export const listResourceDefinitions: API.OperationMethod<
-  ListResourceDefinitionsRequest,
+  ListResourceDefinitionsRequest & RegionInput,
   ListResourceDefinitionsResponse,
   ListResourceDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -2802,7 +2819,7 @@ export type ListResourceDefinitionVersionsError = BadRequestException | CommonEr
  * Lists the versions of a resource definition.
  */
 export const listResourceDefinitionVersions: API.OperationMethod<
-  ListResourceDefinitionVersionsRequest,
+  ListResourceDefinitionVersionsRequest & RegionInput,
   ListResourceDefinitionVersionsResponse,
   ListResourceDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2822,7 +2839,7 @@ export type ListSubscriptionDefinitionsError = CommonErrors;
  * Retrieves a list of subscription definitions.
  */
 export const listSubscriptionDefinitions: API.OperationMethod<
-  ListSubscriptionDefinitionsRequest,
+  ListSubscriptionDefinitionsRequest & RegionInput,
   ListSubscriptionDefinitionsResponse,
   ListSubscriptionDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -2842,7 +2859,7 @@ export type ListSubscriptionDefinitionVersionsError = BadRequestException | Comm
  * Lists the versions of a subscription definition.
  */
 export const listSubscriptionDefinitionVersions: API.OperationMethod<
-  ListSubscriptionDefinitionVersionsRequest,
+  ListSubscriptionDefinitionVersionsRequest & RegionInput,
   ListSubscriptionDefinitionVersionsResponse,
   ListSubscriptionDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2862,7 +2879,7 @@ export type ListTagsForResourceError = BadRequestException | CommonErrors;
  * Retrieves a list of resource tags for a resource arn.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2882,7 +2899,7 @@ export type ResetDeploymentsError = BadRequestException | CommonErrors;
  * Resets a group's deployments.
  */
 export const resetDeployments: API.OperationMethod<
-  ResetDeploymentsRequest,
+  ResetDeploymentsRequest & RegionInput,
   ResetDeploymentsResponse,
   ResetDeploymentsError,
   Credentials | HttpClient.HttpClient
@@ -2902,7 +2919,7 @@ export type StartBulkDeploymentError = BadRequestException | CommonErrors;
  * Deploys multiple groups in one operation. This action starts the bulk deployment of a specified set of group versions. Each group version deployment will be triggered with an adaptive rate that has a fixed upper limit. We recommend that you include an ''X-Amzn-Client-Token'' token in every ''StartBulkDeployment'' request. These requests are idempotent with respect to the token and the request parameters.
  */
 export const startBulkDeployment: API.OperationMethod<
-  StartBulkDeploymentRequest,
+  StartBulkDeploymentRequest & RegionInput,
   StartBulkDeploymentResponse,
   StartBulkDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2922,7 +2939,7 @@ export type StopBulkDeploymentError = BadRequestException | CommonErrors;
  * Stops the execution of a bulk deployment. This action returns a status of ''Stopping'' until the deployment is stopped. You cannot start a new bulk deployment while a previous deployment is in the ''Stopping'' state. This action doesn't rollback completed deployments or cancel pending deployments.
  */
 export const stopBulkDeployment: API.OperationMethod<
-  StopBulkDeploymentRequest,
+  StopBulkDeploymentRequest & RegionInput,
   StopBulkDeploymentResponse,
   StopBulkDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2942,7 +2959,7 @@ export type TagResourceError = BadRequestException | CommonErrors;
  * Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefinition', 'CoreDefinition', 'DeviceDefinition', 'FunctionDefinition', 'LoggerDefinition', 'SubscriptionDefinition', 'ResourceDefinition', and 'BulkDeployment'.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2962,7 +2979,7 @@ export type UntagResourceError = BadRequestException | CommonErrors;
  * Remove resource tags from a Greengrass Resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2985,7 +3002,7 @@ export type UpdateConnectivityInfoError =
  * Updates the connectivity information for the core. Any devices that belong to the group which has this core will receive this information in order to find the location of the core and connect to it.
  */
 export const updateConnectivityInfo: API.OperationMethod<
-  UpdateConnectivityInfoRequest,
+  UpdateConnectivityInfoRequest & RegionInput,
   UpdateConnectivityInfoResponse,
   UpdateConnectivityInfoError,
   Credentials | HttpClient.HttpClient
@@ -3005,7 +3022,7 @@ export type UpdateConnectorDefinitionError = BadRequestException | CommonErrors;
  * Updates a connector definition.
  */
 export const updateConnectorDefinition: API.OperationMethod<
-  UpdateConnectorDefinitionRequest,
+  UpdateConnectorDefinitionRequest & RegionInput,
   UpdateConnectorDefinitionResponse,
   UpdateConnectorDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3025,7 +3042,7 @@ export type UpdateCoreDefinitionError = BadRequestException | CommonErrors;
  * Updates a core definition.
  */
 export const updateCoreDefinition: API.OperationMethod<
-  UpdateCoreDefinitionRequest,
+  UpdateCoreDefinitionRequest & RegionInput,
   UpdateCoreDefinitionResponse,
   UpdateCoreDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3045,7 +3062,7 @@ export type UpdateDeviceDefinitionError = BadRequestException | CommonErrors;
  * Updates a device definition.
  */
 export const updateDeviceDefinition: API.OperationMethod<
-  UpdateDeviceDefinitionRequest,
+  UpdateDeviceDefinitionRequest & RegionInput,
   UpdateDeviceDefinitionResponse,
   UpdateDeviceDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3065,7 +3082,7 @@ export type UpdateFunctionDefinitionError = BadRequestException | CommonErrors;
  * Updates a Lambda function definition.
  */
 export const updateFunctionDefinition: API.OperationMethod<
-  UpdateFunctionDefinitionRequest,
+  UpdateFunctionDefinitionRequest & RegionInput,
   UpdateFunctionDefinitionResponse,
   UpdateFunctionDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3085,7 +3102,7 @@ export type UpdateGroupError = BadRequestException | CommonErrors;
  * Updates a group.
  */
 export const updateGroup: API.OperationMethod<
-  UpdateGroupRequest,
+  UpdateGroupRequest & RegionInput,
   UpdateGroupResponse,
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
@@ -3108,7 +3125,7 @@ export type UpdateGroupCertificateConfigurationError =
  * Updates the Certificate expiry time for a group.
  */
 export const updateGroupCertificateConfiguration: API.OperationMethod<
-  UpdateGroupCertificateConfigurationRequest,
+  UpdateGroupCertificateConfigurationRequest & RegionInput,
   UpdateGroupCertificateConfigurationResponse,
   UpdateGroupCertificateConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3128,7 +3145,7 @@ export type UpdateLoggerDefinitionError = BadRequestException | CommonErrors;
  * Updates a logger definition.
  */
 export const updateLoggerDefinition: API.OperationMethod<
-  UpdateLoggerDefinitionRequest,
+  UpdateLoggerDefinitionRequest & RegionInput,
   UpdateLoggerDefinitionResponse,
   UpdateLoggerDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3148,7 +3165,7 @@ export type UpdateResourceDefinitionError = BadRequestException | CommonErrors;
  * Updates a resource definition.
  */
 export const updateResourceDefinition: API.OperationMethod<
-  UpdateResourceDefinitionRequest,
+  UpdateResourceDefinitionRequest & RegionInput,
   UpdateResourceDefinitionResponse,
   UpdateResourceDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3168,7 +3185,7 @@ export type UpdateSubscriptionDefinitionError = BadRequestException | CommonErro
  * Updates a subscription definition.
  */
 export const updateSubscriptionDefinition: API.OperationMethod<
-  UpdateSubscriptionDefinitionRequest,
+  UpdateSubscriptionDefinitionRequest & RegionInput,
   UpdateSubscriptionDefinitionResponse,
   UpdateSubscriptionDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3191,7 +3208,7 @@ export type UpdateThingRuntimeConfigurationError =
  * Updates the runtime configuration of a thing.
  */
 export const updateThingRuntimeConfiguration: API.OperationMethod<
-  UpdateThingRuntimeConfigurationRequest,
+  UpdateThingRuntimeConfigurationRequest & RegionInput,
   UpdateThingRuntimeConfigurationResponse,
   UpdateThingRuntimeConfigurationError,
   Credentials | HttpClient.HttpClient

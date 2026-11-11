@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -132,10 +133,10 @@ export type RoleArn = string;
 export interface CreateSlackChannelConfigurationRequest {
   teamId: string;
   channelId: string;
-  channelName?: string;
-  notifyOnCreateOrReopenCase?: boolean;
-  notifyOnAddCorrespondenceToCase?: boolean;
-  notifyOnResolveCase?: boolean;
+  channelName?: string | undefined;
+  notifyOnCreateOrReopenCase?: boolean | undefined;
+  notifyOnAddCorrespondenceToCase?: boolean | undefined;
+  notifyOnResolveCase?: boolean | undefined;
   notifyOnCaseSeverity: string;
   channelRoleArn: string;
 }
@@ -154,40 +155,40 @@ export interface DeleteSlackWorkspaceConfigurationResult {}
 export interface GetAccountAliasRequest {}
 export type AwsAccountAlias = string;
 export interface GetAccountAliasResult {
-  accountAlias?: string;
+  accountAlias?: string | undefined;
 }
 export type PaginationToken = string;
 export interface ListSlackChannelConfigurationsRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface SlackChannelConfiguration {
   teamId: string;
   channelId: string;
-  channelName?: string;
-  notifyOnCreateOrReopenCase?: boolean;
-  notifyOnAddCorrespondenceToCase?: boolean;
-  notifyOnResolveCase?: boolean;
-  notifyOnCaseSeverity?: string;
-  channelRoleArn?: string;
+  channelName?: string | undefined;
+  notifyOnCreateOrReopenCase?: boolean | undefined;
+  notifyOnAddCorrespondenceToCase?: boolean | undefined;
+  notifyOnResolveCase?: boolean | undefined;
+  notifyOnCaseSeverity?: string | undefined;
+  channelRoleArn?: string | undefined;
 }
 export type SlackChannelConfigurationList = SlackChannelConfiguration[];
 export interface ListSlackChannelConfigurationsResult {
-  nextToken?: string;
+  nextToken?: string | undefined;
   slackChannelConfigurations: SlackChannelConfiguration[];
 }
 export interface ListSlackWorkspaceConfigurationsRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type TeamName = string;
 export interface SlackWorkspaceConfiguration {
   teamId: string;
-  teamName?: string;
-  allowOrganizationMemberAccount?: boolean;
+  teamName?: string | undefined;
+  allowOrganizationMemberAccount?: boolean | undefined;
 }
 export type SlackWorkspaceConfigurationList = SlackWorkspaceConfiguration[];
 export interface ListSlackWorkspaceConfigurationsResult {
-  nextToken?: string;
-  slackWorkspaceConfigurations?: SlackWorkspaceConfiguration[];
+  nextToken?: string | undefined;
+  slackWorkspaceConfigurations?: SlackWorkspaceConfiguration[] | undefined;
 }
 export interface PutAccountAliasRequest {
   accountAlias: string;
@@ -198,29 +199,29 @@ export interface RegisterSlackWorkspaceForOrganizationRequest {
 }
 export type AccountType = string;
 export interface RegisterSlackWorkspaceForOrganizationResult {
-  teamId?: string;
-  teamName?: string;
-  accountType?: string;
+  teamId?: string | undefined;
+  teamName?: string | undefined;
+  accountType?: string | undefined;
 }
 export interface UpdateSlackChannelConfigurationRequest {
   teamId: string;
   channelId: string;
-  channelName?: string;
-  notifyOnCreateOrReopenCase?: boolean;
-  notifyOnAddCorrespondenceToCase?: boolean;
-  notifyOnResolveCase?: boolean;
-  notifyOnCaseSeverity?: string;
-  channelRoleArn?: string;
+  channelName?: string | undefined;
+  notifyOnCreateOrReopenCase?: boolean | undefined;
+  notifyOnAddCorrespondenceToCase?: boolean | undefined;
+  notifyOnResolveCase?: boolean | undefined;
+  notifyOnCaseSeverity?: string | undefined;
+  channelRoleArn?: string | undefined;
 }
 export interface UpdateSlackChannelConfigurationResult {
-  teamId?: string;
-  channelId?: string;
-  channelName?: string;
-  notifyOnCreateOrReopenCase?: boolean;
-  notifyOnAddCorrespondenceToCase?: boolean;
-  notifyOnResolveCase?: boolean;
-  notifyOnCaseSeverity?: string;
-  channelRoleArn?: string;
+  teamId?: string | undefined;
+  channelId?: string | undefined;
+  channelName?: string | undefined;
+  notifyOnCreateOrReopenCase?: boolean | undefined;
+  notifyOnAddCorrespondenceToCase?: boolean | undefined;
+  notifyOnResolveCase?: boolean | undefined;
+  notifyOnCaseSeverity?: string | undefined;
+  channelRoleArn?: string | undefined;
 }
 export type ErrorMessage = string;
 export type CreateSlackChannelConfigurationError =
@@ -248,7 +249,7 @@ export type CreateSlackChannelConfigurationError =
  * join private channels.
  */
 export const createSlackChannelConfiguration: API.OperationMethod<
-  CreateSlackChannelConfigurationRequest,
+  CreateSlackChannelConfigurationRequest & RegionInput,
   CreateSlackChannelConfigurationResult,
   CreateSlackChannelConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -279,7 +280,7 @@ export type DeleteAccountAliasError =
  * Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
  */
 export const deleteAccountAlias: API.OperationMethod<
-  DeleteAccountAliasRequest,
+  DeleteAccountAliasRequest & RegionInput,
   DeleteAccountAliasResult,
   DeleteAccountAliasError,
   Credentials | HttpClient.HttpClient
@@ -306,7 +307,7 @@ export type DeleteSlackChannelConfigurationError =
  * delete your Slack channel.
  */
 export const deleteSlackChannelConfiguration: API.OperationMethod<
-  DeleteSlackChannelConfigurationRequest,
+  DeleteSlackChannelConfigurationRequest & RegionInput,
   DeleteSlackChannelConfigurationResult,
   DeleteSlackChannelConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -339,7 +340,7 @@ export type DeleteSlackWorkspaceConfigurationError =
  * delete your Slack workspace.
  */
 export const deleteSlackWorkspaceConfiguration: API.OperationMethod<
-  DeleteSlackWorkspaceConfigurationRequest,
+  DeleteSlackWorkspaceConfigurationRequest & RegionInput,
   DeleteSlackWorkspaceConfigurationResult,
   DeleteSlackWorkspaceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -366,7 +367,7 @@ export type GetAccountAliasError = InternalServerException | CommonErrors;
  * the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
  */
 export const getAccountAlias: API.OperationMethod<
-  GetAccountAliasRequest,
+  GetAccountAliasRequest & RegionInput,
   GetAccountAliasResult,
   GetAccountAliasError,
   Credentials | HttpClient.HttpClient
@@ -389,7 +390,7 @@ export type ListSlackChannelConfigurationsError =
  * Lists the Slack channel configurations for an Amazon Web Services account.
  */
 export const listSlackChannelConfigurations: API.PaginatedOperationMethod<
-  ListSlackChannelConfigurationsRequest,
+  ListSlackChannelConfigurationsRequest & RegionInput,
   ListSlackChannelConfigurationsResult,
   ListSlackChannelConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -414,7 +415,7 @@ export type ListSlackWorkspaceConfigurationsError =
  * Lists the Slack workspace configurations for an Amazon Web Services account.
  */
 export const listSlackWorkspaceConfigurations: API.PaginatedOperationMethod<
-  ListSlackWorkspaceConfigurationsRequest,
+  ListSlackWorkspaceConfigurationsRequest & RegionInput,
   ListSlackWorkspaceConfigurationsResult,
   ListSlackWorkspaceConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -442,7 +443,7 @@ export type PutAccountAliasError =
  * Amazon Web Services Support App.
  */
 export const putAccountAlias: API.OperationMethod<
-  PutAccountAliasRequest,
+  PutAccountAliasRequest & RegionInput,
   PutAccountAliasResult,
   PutAccountAliasError,
   Credentials | HttpClient.HttpClient
@@ -492,7 +493,7 @@ export type RegisterSlackWorkspaceForOrganizationError =
  * more information, see Configuring a Slack channel.
  */
 export const registerSlackWorkspaceForOrganization: API.OperationMethod<
-  RegisterSlackWorkspaceForOrganizationRequest,
+  RegisterSlackWorkspaceForOrganizationRequest & RegionInput,
   RegisterSlackWorkspaceForOrganizationResult,
   RegisterSlackWorkspaceForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -524,7 +525,7 @@ export type UpdateSlackChannelConfigurationError =
  * Updates the configuration for a Slack channel, such as case update notifications.
  */
 export const updateSlackChannelConfiguration: API.OperationMethod<
-  UpdateSlackChannelConfigurationRequest,
+  UpdateSlackChannelConfigurationRequest & RegionInput,
   UpdateSlackChannelConfigurationResult,
   UpdateSlackChannelConfigurationError,
   Credentials | HttpClient.HttpClient

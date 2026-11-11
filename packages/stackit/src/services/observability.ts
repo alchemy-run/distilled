@@ -55,47 +55,47 @@ export class NotFound
 
 export interface CreateAlertConfigReceiverRequestEmailConfigsItem {
   /** SMTP authentication information. `Additional Validators:` * must be a syntactically valid email address */
-  authIdentity?: string;
+  authIdentity?: string | undefined;
   /** SMTP authentication information. */
-  authPassword?: string | Redacted.Redacted<string>;
+  authPassword?: string | Redacted.Redacted<string> | undefined;
   /** SMTP authentication information. */
-  authUsername?: string;
+  authUsername?: string | undefined;
   /** The sender address. `Additional Validators:` * must be a syntactically valid email address */
-  from?: string;
+  from?: string | undefined;
   /** Whether to notify about resolved alerts. */
-  sendResolved?: boolean;
+  sendResolved?: boolean | undefined;
   /** The SMTP host through which emails are sent. `Additional Validators:` * should only include the characters: a-zA-Z0-9_./@&?:- */
-  smarthost?: string;
+  smarthost?: string | undefined;
   /** The email address to send notifications to. `Additional Validators:` * must be a syntactically valid email address */
-  to?: string;
+  to?: string | undefined;
 }
 /** Email configurations */
 export type CreateAlertConfigReceiverRequestEmailConfigsList =
   Array<CreateAlertConfigReceiverRequestEmailConfigsItem>;
 export interface CreateAlertConfigReceiverRequestOpsgenieConfigsItem {
   /** The API key to use when talking to the OpsGenie API. `Additional Validators:` * should only include the characters: a-zA-Z0-9- */
-  apiKey?: string | Redacted.Redacted<string>;
+  apiKey?: string | Redacted.Redacted<string> | undefined;
   /** The host to send OpsGenie API requests to. `Additional Validators:` * must be a syntactically valid url address */
-  apiUrl?: string;
+  apiUrl?: string | undefined;
   /** Priority level of alert. Possible values are P1, P2, P3, P4, and P5. */
-  priority?: string;
+  priority?: string | undefined;
   /** Whether to notify about resolved alerts. */
-  sendResolved?: boolean;
+  sendResolved?: boolean | undefined;
   /** Comma separated list of tags attached to the notifications. */
-  tags?: string;
+  tags?: string | undefined;
 }
 /** Configuration for ops genie. */
 export type CreateAlertConfigReceiverRequestOpsgenieConfigsList =
   Array<CreateAlertConfigReceiverRequestOpsgenieConfigsItem>;
 export interface CreateAlertConfigReceiverRequestWebHookConfigsItem {
   /** Google Chat webhooks require special handling. If you set this property to true, it is treated as such. `Additional Validators:` * When set to true, msTeams must be false. */
-  googleChat?: boolean;
+  googleChat?: boolean | undefined;
   /** Microsoft Teams webhooks require special handling. If you set this property to true, it is treated as such. `Additional Validators:` * When set to true, googleChat must be false. */
-  msTeams?: boolean;
+  msTeams?: boolean | undefined;
   /** Whether to notify about resolved alerts. */
-  sendResolved?: boolean;
+  sendResolved?: boolean | undefined;
   /** The endpoint to send HTTP POST requests to. `Additional Validators:` * must be a syntactically valid url address */
-  url?: string;
+  url?: string | undefined;
 }
 export type CreateAlertConfigReceiverRequestWebHookConfigsList =
   Array<CreateAlertConfigReceiverRequestWebHookConfigsItem>;
@@ -103,43 +103,43 @@ export interface CreateAlertConfigReceiverRequest {
   projectId: string;
   instanceId: string;
   /** Email configurations */
-  emailConfigs?: CreateAlertConfigReceiverRequestEmailConfigsList;
+  emailConfigs?: CreateAlertConfigReceiverRequestEmailConfigsList | undefined;
   /** `Additional Validators:` * must be unique * should only include the characters: a-zA-Z0-9- */
   name: string;
   /** Configuration for ops genie. */
-  opsgenieConfigs?: CreateAlertConfigReceiverRequestOpsgenieConfigsList;
-  webHookConfigs?: CreateAlertConfigReceiverRequestWebHookConfigsList;
+  opsgenieConfigs?: CreateAlertConfigReceiverRequestOpsgenieConfigsList | undefined;
+  webHookConfigs?: CreateAlertConfigReceiverRequestWebHookConfigsList | undefined;
 }
 export interface EmailConfig {
-  authIdentity?: string;
-  authPassword?: string | Redacted.Redacted<string>;
-  authUsername?: string;
-  from?: string;
-  sendResolved?: boolean;
-  smarthost?: string;
+  authIdentity?: string | undefined;
+  authPassword?: string | Redacted.Redacted<string> | undefined;
+  authUsername?: string | undefined;
+  from?: string | undefined;
+  sendResolved?: boolean | undefined;
+  smarthost?: string | undefined;
   to: string;
 }
 export type ReceiversEmailConfigsList = Array<EmailConfig>;
 export interface OpsgenieConfig {
-  apiKey?: string | Redacted.Redacted<string>;
-  apiUrl?: string;
-  priority?: string;
-  sendResolved?: boolean;
-  tags?: string;
+  apiKey?: string | Redacted.Redacted<string> | undefined;
+  apiUrl?: string | undefined;
+  priority?: string | undefined;
+  sendResolved?: boolean | undefined;
+  tags?: string | undefined;
 }
 export type ReceiversOpsgenieConfigsList = Array<OpsgenieConfig>;
 export interface WebHook {
-  googleChat?: boolean;
-  msTeams?: boolean;
-  sendResolved?: boolean;
+  googleChat?: boolean | undefined;
+  msTeams?: boolean | undefined;
+  sendResolved?: boolean | undefined;
   url: string;
 }
 export type ReceiversWebHookConfigsList = Array<WebHook>;
 export interface Receivers {
-  emailConfigs?: ReceiversEmailConfigsList;
+  emailConfigs?: ReceiversEmailConfigsList | undefined;
   name: string;
-  opsgenieConfigs?: ReceiversOpsgenieConfigsList;
-  webHookConfigs?: ReceiversWebHookConfigsList;
+  opsgenieConfigs?: ReceiversOpsgenieConfigsList | undefined;
+  webHookConfigs?: ReceiversWebHookConfigsList | undefined;
 }
 export type AlertConfigReceiversResponseDataList = Array<Receivers>;
 export interface AlertConfigReceiversResponse {
@@ -158,24 +158,24 @@ export type CreateAlertConfigRouteRequestRoutesItemRoutesList = Array<unknown>;
 /** As in one level above */
 export interface CreateAlertConfigRouteRequestRoutesItem {
   /** Whether an alert should continue matching subsequent sibling nodes. */
-  continue?: boolean;
-  groupBy?: CreateAlertConfigRouteRequestRoutesItemGroupByList;
+  continue?: boolean | undefined;
+  groupBy?: CreateAlertConfigRouteRequestRoutesItemGroupByList | undefined;
   /** As in one level above */
-  groupInterval?: string;
+  groupInterval?: string | undefined;
   /** As in one level above */
-  groupWait?: string;
+  groupWait?: string | undefined;
   /** As in one level above */
-  match?: unknown;
+  match?: unknown | undefined;
   /** As in one level above */
-  matchRe?: unknown;
+  matchRe?: unknown | undefined;
   /** As in one level above */
-  matchers?: CreateAlertConfigRouteRequestRoutesItemMatchersList;
+  matchers?: CreateAlertConfigRouteRequestRoutesItemMatchersList | undefined;
   /** As in one level above */
-  receiver?: string;
+  receiver?: string | undefined;
   /** As in one level above */
-  repeatInterval?: string;
+  repeatInterval?: string | undefined;
   /** Another child routes */
-  routes?: CreateAlertConfigRouteRequestRoutesItemRoutesList;
+  routes?: CreateAlertConfigRouteRequestRoutesItemRoutesList | undefined;
 }
 /** Zero or more child routes. */
 export type CreateAlertConfigRouteRequestRoutesList =
@@ -184,25 +184,25 @@ export interface CreateAlertConfigRouteRequest {
   projectId: string;
   instanceId: string;
   /** The continue parameter cannot be set to true on the root route because there are no subsequent sibling nodes to match. It must always be false. */
-  continue?: boolean;
+  continue?: boolean | undefined;
   /** The labels by which incoming alerts are grouped together. For example, multiple alerts coming in for cluster=A and alertname=LatencyHigh would be batched into a single group. To aggregate by all possible labels use the special value '...' as the sole label name, for example: group_by: ['...']. This effectively disables aggregation entirely, passing through all alerts as-is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping. */
-  groupBy?: CreateAlertConfigRouteRequestGroupByList;
+  groupBy?: CreateAlertConfigRouteRequestGroupByList | undefined;
   /** How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.) `Additional Validators:` * must be a valid time format */
-  groupInterval?: string;
+  groupInterval?: string | undefined;
   /** How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.) `Additional Validators:` * must be a valid time format */
-  groupWait?: string;
+  groupWait?: string | undefined;
   /** map of key:value. A set of equality matchers an alert has to fulfill to match the node. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters * key and values should only include the characters: a-zA-Z0-9_./@&?:- */
-  match?: unknown;
+  match?: unknown | undefined;
   /** map of key:value. A set of regex-matchers an alert has to fulfill to match the node. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  matchRe?: unknown;
+  matchRe?: unknown | undefined;
   /** A list of matchers that an alert has to fulfill to match the node. A matcher is a string with a syntax inspired by PromQL and OpenMetrics. The syntax of a matcher consists of three tokens: * A valid Prometheus label name. * One of =, !=, =~, or !~. = means equals, != means that the strings are not equal, =~ is used for equality of regex expressions and !~ is used for un-equality of regex expressions. They have the same meaning as known from PromQL selectors. * A UTF-8 string, which may be enclosed in double quotes. Before or after each token, there may be any amount of whitespace. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  matchers?: CreateAlertConfigRouteRequestMatchersList;
+  matchers?: CreateAlertConfigRouteRequestMatchersList | undefined;
   /** Receiver that should be one item of receivers `Additional Validators:` * must be a in name of receivers */
   receiver: string;
   /** How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more). `Additional Validators:` * must be a valid time format */
-  repeatInterval?: string;
+  repeatInterval?: string | undefined;
   /** Zero or more child routes. */
-  routes?: CreateAlertConfigRouteRequestRoutesList;
+  routes?: CreateAlertConfigRouteRequestRoutesList | undefined;
 }
 export type RouteGroupByList = Array<string>;
 export type RouteMatchMap = { [key: string]: string | undefined };
@@ -215,29 +215,29 @@ export type RouteSerializerMatchersList = Array<string>;
 export type RouteSerializerRoutesItemMap = { [key: string]: string | null | undefined };
 export type RouteSerializerRoutesList = Array<RouteSerializerRoutesItemMap>;
 export interface RouteSerializer {
-  continue?: boolean;
-  groupBy?: RouteSerializerGroupByList;
-  groupInterval?: string;
-  groupWait?: string;
-  match?: RouteSerializerMatchMap;
-  matchRe?: RouteSerializerMatchReMap;
-  matchers?: RouteSerializerMatchersList;
+  continue?: boolean | undefined;
+  groupBy?: RouteSerializerGroupByList | undefined;
+  groupInterval?: string | undefined;
+  groupWait?: string | undefined;
+  match?: RouteSerializerMatchMap | undefined;
+  matchRe?: RouteSerializerMatchReMap | undefined;
+  matchers?: RouteSerializerMatchersList | undefined;
   receiver: string;
-  repeatInterval?: string;
-  routes?: RouteSerializerRoutesList;
+  repeatInterval?: string | undefined;
+  routes?: RouteSerializerRoutesList | undefined;
 }
 export type RouteRoutesList = Array<RouteSerializer>;
 export interface Route {
-  continue?: boolean;
-  groupBy?: RouteGroupByList;
-  groupInterval?: string;
-  groupWait?: string;
-  match?: RouteMatchMap;
-  matchRe?: RouteMatchReMap;
-  matchers?: RouteMatchersList;
+  continue?: boolean | undefined;
+  groupBy?: RouteGroupByList | undefined;
+  groupInterval?: string | undefined;
+  groupWait?: string | undefined;
+  match?: RouteMatchMap | undefined;
+  matchRe?: RouteMatchReMap | undefined;
+  matchers?: RouteMatchersList | undefined;
   receiver: string;
-  repeatInterval?: string;
-  routes?: RouteRoutesList;
+  repeatInterval?: string | undefined;
+  routes?: RouteRoutesList | undefined;
 }
 export interface AlertConfigRouteResponse {
   data: Route;
@@ -246,17 +246,17 @@ export interface AlertConfigRouteResponse {
 /** Rule definition. Must be either an Alerting Rule (using 'alert') or a Recording Rule (using 'record'). `Additional Validators:` * total config (all alert groups/rules) should not be bigger than 500000 characters as string since this the limitation of prometheus. */
 export interface CreateAlertgroupsRequestRulesItem {
   /** The name of the alert. When this attribute is used, an Alerting Rule will be created. `Additional Validators:` * is the identifier and so unique in the group * should only include the characters: a-zA-Z0-9- * required when 'record' is not used in this rule, otherwise not allowed */
-  alert?: string;
+  alert?: string | undefined;
   /** Map of key:value. Annotations to add to each alert. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters * is not allowed to use when 'record' is used in this rule */
-  annotations?: unknown;
+  annotations?: unknown | undefined;
   /** The PromQL expression to evaluate to create alerts when using the 'alert' attribute in this rule, or to create a metric when using the 'record' attribute. */
   expr: string;
   /** Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. `Additional Validators:` * must be a valid time string * is not allowed to use when 'record' is used in this rule */
-  for?: string;
+  for?: string | undefined;
   /** Map of key:value. Labels to add or overwrite for each alert or metric. `Additional Validators:` * should not contain more than 10 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
   /** The name of the metric. When this attribute is used, an Recording Rule will be created. `Additional Validators:` * is the identifier and so unique in the group * should only include the characters: a-zA-Z0-9:_ * required when 'alert' is not used in this rule, otherwise not allowed */
-  record?: string;
+  record?: string | undefined;
 }
 /** rules for the alert group */
 export type CreateAlertgroupsRequestRulesList = Array<CreateAlertgroupsRequestRulesItem>;
@@ -264,7 +264,7 @@ export interface CreateAlertgroupsRequest {
   projectId: string;
   instanceId: string;
   /** How often rules in the group are evaluated. `Additional Validators:` * must be a valid time string * should be >=60s */
-  interval?: string;
+  interval?: string | undefined;
   /** The name of the group. Must be unique. `Additional Validators:` * is the identifier and so unique * should only include the characters: a-zA-Z0-9- */
   name: string;
   /** rules for the alert group */
@@ -273,16 +273,16 @@ export interface CreateAlertgroupsRequest {
 export type AlertRuleRecordAnnotationsMap = { [key: string]: string | undefined };
 export type AlertRuleRecordLabelsMap = { [key: string]: string | undefined };
 export interface AlertRuleRecord {
-  alert?: string;
-  annotations?: AlertRuleRecordAnnotationsMap;
+  alert?: string | undefined;
+  annotations?: AlertRuleRecordAnnotationsMap | undefined;
   expr: string;
-  for?: string;
-  labels?: AlertRuleRecordLabelsMap;
-  record?: string;
+  for?: string | undefined;
+  labels?: AlertRuleRecordLabelsMap | undefined;
+  record?: string | undefined;
 }
 export type AlertGroupRulesList = Array<AlertRuleRecord>;
 export interface AlertGroup {
-  interval?: string;
+  interval?: string | undefined;
   name: string;
   rules: AlertGroupRulesList;
 }
@@ -298,14 +298,14 @@ export interface CreateAlertRecordRequest {
   /** The PromQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts. */
   expr: string;
   /** map of key:value. Labels to add or overwrite for each alert. `Additional Validators:` * should not contain more than 10 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
   /** The name of the record. `Additional Validators:` * is the identifier and so unique in the group */
   record: string;
 }
 export type AlertRecordLabelsMap = { [key: string]: string | undefined };
 export interface AlertRecord {
   expr: string;
-  labels?: AlertRecordLabelsMap;
+  labels?: AlertRecordLabelsMap | undefined;
   record: string;
 }
 export type AlertRecordsResponseDataList = Array<AlertRecord>;
@@ -320,22 +320,22 @@ export interface CreateAlertrulesRequest {
   /** The name of the alert. `Additional Validators:` * is the identifier and so unique in the group * should only include the characters: a-zA-Z0-9- */
   alert: string;
   /** map of key:value. Annotations to add to each alert. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  annotations?: unknown;
+  annotations?: unknown | undefined;
   /** The PromQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts. */
   expr: string;
   /** Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. `Additional Validators:` * must be a valid time string */
-  for?: string;
+  for?: string | undefined;
   /** map of key:value. Labels to add or overwrite for each alert. `Additional Validators:` * should not contain more than 10 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
 }
 export type AlertRuleAnnotationsMap = { [key: string]: string | undefined };
 export type AlertRuleLabelsMap = { [key: string]: string | undefined };
 export interface AlertRule {
   alert: string;
-  annotations?: AlertRuleAnnotationsMap;
+  annotations?: AlertRuleAnnotationsMap | undefined;
   expr: string;
-  for?: string;
-  labels?: AlertRuleLabelsMap;
+  for?: string | undefined;
+  labels?: AlertRuleLabelsMap | undefined;
 }
 export type AlertRulesResponseDataList = Array<AlertRule>;
 export interface AlertRulesResponse {
@@ -354,7 +354,7 @@ export interface CreateBackupRequest {
   projectId: string;
   instanceId: string;
   /** List of backup targets */
-  backupTarget?: CreateBackupRequestBackupTargetList;
+  backupTarget?: CreateBackupRequestBackupTargetList | undefined;
 }
 export interface Message {
   message: string;
@@ -371,7 +371,7 @@ export interface CreateBackupScheduleRequest {
   projectId: string;
   instanceId: string;
   /** List of backup targets */
-  backupTarget?: CreateBackupScheduleRequestBackupTargetList;
+  backupTarget?: CreateBackupScheduleRequestBackupTargetList | undefined;
   /** The schedule for how often to create a backup. `Additional Validators:` * must be a valid cronjob format * must run less than hourly */
   schedule: string;
 }
@@ -391,7 +391,7 @@ export interface CertCheckChildResponse {
 }
 export type CertCheckResponseCertChecksList = Array<CertCheckChildResponse>;
 export interface CertCheckResponse {
-  certCheck?: CertCheckChildResponse;
+  certCheck?: CertCheckChildResponse | undefined;
   certChecks: CertCheckResponseCertChecksList;
   message: string;
 }
@@ -399,10 +399,10 @@ export interface CreateCredentialsRequest {
   projectId: string;
   instanceId: string;
   /** description */
-  description?: string;
+  description?: string | undefined;
 }
 export interface Credentials {
-  description?: string;
+  description?: string | undefined;
   password: string | Redacted.Redacted<string>;
   username: string;
 }
@@ -414,22 +414,22 @@ export interface CreateElasticsearchCheckRequest {
   projectId: string;
   instanceId: string;
   /** password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** url to check */
   server: string;
   /** username */
-  username?: string;
+  username?: string | undefined;
 }
 export interface ElasticsearchCheckChildResponse {
   id: string;
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   server: string;
-  username?: string;
+  username?: string | undefined;
 }
 export type ElasticsearchCheckResponseElasticsearchChecksList =
   Array<ElasticsearchCheckChildResponse>;
 export interface ElasticsearchCheckResponse {
-  elasticsearchCheck?: ElasticsearchCheckChildResponse;
+  elasticsearchCheck?: ElasticsearchCheckChildResponse | undefined;
   elasticsearchChecks: ElasticsearchCheckResponseElasticsearchChecksList;
   message: string;
 }
@@ -445,18 +445,18 @@ export interface HttpCheckChildResponse {
 }
 export type HttpCheckResponseHttpChecksList = Array<HttpCheckChildResponse>;
 export interface HttpCheckResponse {
-  httpCheck?: HttpCheckChildResponse;
+  httpCheck?: HttpCheckChildResponse | undefined;
   httpChecks: HttpCheckResponseHttpChecksList;
   message: string;
 }
 export interface CreateInstanceRequest {
   projectId: string;
   /** If true, a default Grafana server admin user is created. It's recommended to set this to false and use STACKIT SSO (`Owner` or `Observability Grafana Server Admin` role) instead. It is still possible to manually create a new Grafana admin user via the Grafana UI later. */
-  grafanaAdminEnabled?: boolean;
+  grafanaAdminEnabled?: boolean | undefined;
   /** Name of the service */
-  name?: string;
+  name?: string | undefined;
   /** Additional parameters */
-  parameter?: unknown;
+  parameter?: unknown | undefined;
   /** UUID of the plan to create/update */
   planId: string;
 }
@@ -468,17 +468,17 @@ export interface CreateInstanceResponse {
 /** Rule definition. Must be either an Alerting Rule (using 'alert') or a Recording Rule (using 'record'). `Additional Validators:` * total config (all alert groups/rules) should not be bigger than 500000 characters as string since this the limitation of prometheus. */
 export interface CreateLogsAlertgroupsRequestRulesItem {
   /** The name of the alert. When this attribute is used, an Alerting Rule will be created. `Additional Validators:` * is the identifier and so unique in the group * should only include the characters: a-zA-Z0-9- * required when 'record' is not used in this rule, otherwise not allowed */
-  alert?: string;
+  alert?: string | undefined;
   /** Map of key:value. Annotations to add to each alert. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters * is not allowed to use when 'record' is used in this rule */
-  annotations?: unknown;
+  annotations?: unknown | undefined;
   /** The LogQL expression to evaluate to create alerts when using the 'alert' attribute in this rule, or to create a metric when using the 'record' attribute. */
   expr: string;
   /** Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. `Additional Validators:` * must be a valid time string * is not allowed to use when 'record' is used in this rule */
-  for?: string;
+  for?: string | undefined;
   /** Map of key:value. Labels to add or overwrite for each alert or metric. `Additional Validators:` * should not contain more than 10 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
   /** The name of the metric. When this attribute is used, an Recording Rule will be created. `Additional Validators:` * is the identifier and so unique in the group * should only include the characters: a-zA-Z0-9:_ * required when 'alert' is not used in this rule, otherwise not allowed */
-  record?: string;
+  record?: string | undefined;
 }
 /** rules for the alert group */
 export type CreateLogsAlertgroupsRequestRulesList = Array<CreateLogsAlertgroupsRequestRulesItem>;
@@ -486,7 +486,7 @@ export interface CreateLogsAlertgroupsRequest {
   projectId: string;
   instanceId: string;
   /** How often rules in the group are evaluated. `Additional Validators:` * must be a valid time string * should be >=60s */
-  interval?: string;
+  interval?: string | undefined;
   /** The name of the group. Must be unique. `Additional Validators:` * is the identifier and so unique * should only include the characters: a-zA-Z0-9- */
   name: string;
   /** rules for the alert group */
@@ -505,7 +505,7 @@ export interface MongodbCheckChildResponse {
 export type MongodbCheckResponseMongodbChecksList = Array<MongodbCheckChildResponse>;
 export interface MongodbCheckResponse {
   message: string;
-  mongodbCheck?: MongodbCheckChildResponse;
+  mongodbCheck?: MongodbCheckChildResponse | undefined;
   mongodbChecks: MongodbCheckResponseMongodbChecksList;
 }
 export interface CreateMysqlCheckRequest {
@@ -518,7 +518,7 @@ export type MysqlCheckChildResponse = MongodbCheckChildResponse;
 export type MysqlCheckResponseMysqlChecksList = Array<MongodbCheckChildResponse>;
 export interface MysqlCheckResponse {
   message: string;
-  mysqlCheck?: MongodbCheckChildResponse;
+  mysqlCheck?: MongodbCheckChildResponse | undefined;
   mysqlChecks: MysqlCheckResponseMysqlChecksList;
 }
 export interface CreateNetworkCheckRequest {
@@ -534,7 +534,7 @@ export interface NetworkCheckChildResponse {
 export type NetworkCheckResponseNetworkChecksList = Array<NetworkCheckChildResponse>;
 export interface NetworkCheckResponse {
   message: string;
-  networkCheck?: NetworkCheckChildResponse;
+  networkCheck?: NetworkCheckChildResponse | undefined;
   networkChecks: NetworkCheckResponseNetworkChecksList;
 }
 export interface CreatePingCheckRequest {
@@ -547,7 +547,7 @@ export type PingCheckChildResponse = HttpCheckChildResponse;
 export type PingCheckResponsePingChecksList = Array<HttpCheckChildResponse>;
 export interface PingCheckResponse {
   message: string;
-  pingCheck?: HttpCheckChildResponse;
+  pingCheck?: HttpCheckChildResponse | undefined;
   pingChecks: PingCheckResponsePingChecksList;
 }
 export interface CreatePostgresqlCheckRequest {
@@ -560,54 +560,54 @@ export type PostgresqlCheckChildResponse = NetworkCheckChildResponse;
 export type PostgresqlCheckResponsePostgresqlChecksList = Array<NetworkCheckChildResponse>;
 export interface PostgresqlCheckResponse {
   message: string;
-  postgresqlCheck?: NetworkCheckChildResponse;
+  postgresqlCheck?: NetworkCheckChildResponse | undefined;
   postgresqlChecks: PostgresqlCheckResponsePostgresqlChecksList;
 }
 export interface CreateRabbitmqCheckRequest {
   projectId: string;
   instanceId: string;
   /** password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** url to check */
   url: string;
   /** username */
-  username?: string;
+  username?: string | undefined;
 }
 export interface RabbitMQCheckChildResponse {
   id: string;
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   url: string;
-  username?: string;
+  username?: string | undefined;
 }
 export type RabbitmqCheckResponseRabbitmqChecksList = Array<RabbitMQCheckChildResponse>;
 export interface RabbitmqCheckResponse {
   message: string;
-  rabbitmqCheck?: RabbitMQCheckChildResponse;
+  rabbitmqCheck?: RabbitMQCheckChildResponse | undefined;
   rabbitmqChecks: RabbitmqCheckResponseRabbitmqChecksList;
 }
 export interface CreateRedisCheckRequest {
   projectId: string;
   instanceId: string;
   /** password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** url to check */
   server: string;
   /** username */
-  username?: string;
+  username?: string | undefined;
 }
 export type RedisCheckChildResponse = ElasticsearchCheckChildResponse;
 export type RedisCheckResponseRedisChecksList = Array<ElasticsearchCheckChildResponse>;
 export interface RedisCheckResponse {
   message: string;
-  redisCheck?: ElasticsearchCheckChildResponse;
+  redisCheck?: ElasticsearchCheckChildResponse | undefined;
   redisChecks: RedisCheckResponseRedisChecksList;
 }
 /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
 export interface CreateScrapeConfigRequestBasicAuth {
   /** password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** username */
-  username?: string;
+  username?: string | undefined;
 }
 /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
 export type CreateScrapeConfigRequestHttpSdConfigsItemBasicAuth =
@@ -617,7 +617,7 @@ export type CreateScrapeConfigRequestHttpSdConfigsItemOauth2ScopesList = Array<s
 /** Configures the scrape request's TLS settings. */
 export interface CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig {
   /** Disable validation of the server certificate. */
-  insecureSkipVerify?: boolean;
+  insecureSkipVerify?: boolean | undefined;
 }
 /** OAuth 2.0 authentication using the client credentials grant type. Prometheus fetches an access token from the specified endpoint with the given client access and secret keys. `Additional Validators:` * if oauth2 is in the body no other authentication method should be in the body */
 export interface CreateScrapeConfigRequestHttpSdConfigsItemOauth2 {
@@ -626,9 +626,9 @@ export interface CreateScrapeConfigRequestHttpSdConfigsItemOauth2 {
   /** clientSecret */
   clientSecret: string | Redacted.Redacted<string>;
   /** The URL to fetch the token from. */
-  scopes?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2ScopesList;
+  scopes?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2ScopesList | undefined;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
   /** The URL to fetch the token from. */
   tokenUrl: string;
 }
@@ -637,13 +637,13 @@ export type CreateScrapeConfigRequestHttpSdConfigsItemTlsConfig =
   CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
 export interface CreateScrapeConfigRequestHttpSdConfigsItem {
   /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
-  basicAuth?: CreateScrapeConfigRequestBasicAuth;
+  basicAuth?: CreateScrapeConfigRequestBasicAuth | undefined;
   /** OAuth 2.0 authentication using the client credentials grant type. Prometheus fetches an access token from the specified endpoint with the given client access and secret keys. `Additional Validators:` * if oauth2 is in the body no other authentication method should be in the body */
-  oauth2?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2;
+  oauth2?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2 | undefined;
   /** Refresh interval to re-query the endpoint. E.g. 60s `Additional Validators:` * must be a valid time format* must be >= 60s */
-  refreshInterval?: string;
+  refreshInterval?: string | undefined;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
   /** URL from which the targets are fetched. */
   url: string;
 }
@@ -663,19 +663,19 @@ export type CreateScrapeConfigRequestMetricsRelabelConfigsItemAction =
 export type CreateScrapeConfigRequestMetricsRelabelConfigsItemSourceLabelsList = Array<string>;
 export interface CreateScrapeConfigRequestMetricsRelabelConfigsItem {
   /** Action to perform based on regex matching. `Additional Validators:` * if action is replace, targetLabel needs to be in body */
-  action?: CreateScrapeConfigRequestMetricsRelabelConfigsItemAction | (string & {});
+  action?: CreateScrapeConfigRequestMetricsRelabelConfigsItemAction | (string & {}) | undefined;
   /** Modulus to take of the hash of the source label values. */
-  modulus?: number;
+  modulus?: number | undefined;
   /** Regular expression against which the extracted value is matched. */
-  regex?: string;
+  regex?: string | undefined;
   /** Replacement value against which a regex replace is performed if the regular expression matches. Regex capture groups are available. */
-  replacement?: string;
+  replacement?: string | undefined;
   /** Separator placed between concatenated source label values. */
-  separator?: string;
+  separator?: string | undefined;
   /** The source labels select values from existing labels. Their content is concatenated using the configured separator and matched against the configured regular expression for the replace, keep, and drop actions. */
-  sourceLabels?: CreateScrapeConfigRequestMetricsRelabelConfigsItemSourceLabelsList;
+  sourceLabels?: CreateScrapeConfigRequestMetricsRelabelConfigsItemSourceLabelsList | undefined;
   /** Label to which the resulting value is written in a replace action. It is mandatory for replace actions. Regex capture groups are available. */
-  targetLabel?: string;
+  targetLabel?: string | undefined;
 }
 /** List of metric relabel configurations */
 export type CreateScrapeConfigRequestMetricsRelabelConfigsList =
@@ -692,9 +692,9 @@ export interface CreateScrapeConfigRequestOauth2 {
   /** clientSecret */
   clientSecret: string | Redacted.Redacted<string>;
   /** The URL to fetch the token from. */
-  scopes?: CreateScrapeConfigRequestOauth2ScopesList;
+  scopes?: CreateScrapeConfigRequestOauth2ScopesList | undefined;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
   /** The URL to fetch the token from. */
   tokenUrl: string;
 }
@@ -704,7 +704,7 @@ export type CreateScrapeConfigRequestScheme = "http" | "https";
 export type CreateScrapeConfigRequestStaticConfigsItemTargetsList = Array<string>;
 export interface CreateScrapeConfigRequestStaticConfigsItem {
   /** Labels assigned to all metrics scraped from the targets. `Additional Validators:` * should not contain more than 10 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
   /** The targets specified by the static config. */
   targets: CreateScrapeConfigRequestStaticConfigsItemTargetsList;
 }
@@ -718,27 +718,27 @@ export interface CreateScrapeConfigRequest {
   projectId: string;
   instanceId: string;
   /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
-  basicAuth?: CreateScrapeConfigRequestBasicAuth;
+  basicAuth?: CreateScrapeConfigRequestBasicAuth | undefined;
   /** Sets the 'Authorization' header on every scrape request with the configured bearer token. It is mutually exclusive with 'bearer_token_file'. `Additional Validators:` * needs to be a valid bearer token * if bearerToken is in the body no other authentication method should be in the body */
-  bearerToken?: string;
+  bearerToken?: string | undefined;
   /** Note that any globally configured 'external_labels' are unaffected by this setting. In communication with external systems, they are always applied only when a time series does not have a given label yet and are ignored otherwise. */
-  honorLabels?: boolean;
+  honorLabels?: boolean | undefined;
   /** honor_timestamps controls whether Prometheus respects the timestamps present in scraped data. If honor_timestamps is set to 'true', the timestamps of the metrics exposed by the target will be used. */
-  honorTimeStamps?: boolean;
+  honorTimeStamps?: boolean | undefined;
   /** HTTP-based service discovery provides a more generic way to configure static targets and serves as an interface to plug in custom service discovery mechanisms. */
-  httpSdConfigs?: CreateScrapeConfigRequestHttpSdConfigsList;
+  httpSdConfigs?: CreateScrapeConfigRequestHttpSdConfigsList | undefined;
   /** The job name assigned to scraped metrics by default. `Additional Validators:` * must be unique * key and values should only include the characters: a-zA-Z0-9- */
   jobName: string;
   /** The HTTP resource path on which to fetch metrics from targets. E.g. /metrics */
-  metricsPath?: string;
+  metricsPath?: string | undefined;
   /** List of metric relabel configurations */
-  metricsRelabelConfigs?: CreateScrapeConfigRequestMetricsRelabelConfigsList;
+  metricsRelabelConfigs?: CreateScrapeConfigRequestMetricsRelabelConfigsList | undefined;
   /** OAuth 2.0 authentication using the client credentials grant type. Prometheus fetches an access token from the specified endpoint with the given client access and secret keys. `Additional Validators:` * if oauth2 is in the body no other authentication method should be in the body */
-  oauth2?: CreateScrapeConfigRequestOauth2;
+  oauth2?: CreateScrapeConfigRequestOauth2 | undefined;
   /** Optional http params `Additional Validators:` * should not contain more than 5 keys * each key and value should not have more than 200 characters */
-  params?: unknown;
+  params?: unknown | undefined;
   /** Per-scrape limit on number of scraped samples that will be accepted. If more than this number of samples are present after metric relabeling the entire scrape will be treated as failed. The total limit depends on the service plan target limits * samples */
-  sampleLimit?: number;
+  sampleLimit?: number | undefined;
   /** Configures the protocol scheme used for requests. https or http */
   scheme: CreateScrapeConfigRequestScheme | (string & {});
   /** How frequently to scrape targets from this job. E.g. 5m `Additional Validators:` * must be a valid time format* must be >= 60s */
@@ -748,7 +748,7 @@ export interface CreateScrapeConfigRequest {
   /** A list of scrape configurations. */
   staticConfigs: CreateScrapeConfigRequestStaticConfigsList;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
 }
 export interface BasicAuth {
   password: string | Redacted.Redacted<string>;
@@ -756,20 +756,20 @@ export interface BasicAuth {
 }
 export type OAuth2ScopesList = Array<string>;
 export interface TLSConfig {
-  insecureSkipVerify?: boolean;
+  insecureSkipVerify?: boolean | undefined;
 }
 export interface OAuth2 {
   clientId: string;
   clientSecret: string | Redacted.Redacted<string>;
-  scopes?: OAuth2ScopesList;
-  tlsConfig?: TLSConfig;
+  scopes?: OAuth2ScopesList | undefined;
+  tlsConfig?: TLSConfig | undefined;
   tokenUrl: string;
 }
 export interface HTTPServiceSD {
-  basicAuth?: BasicAuth;
-  oauth2?: OAuth2;
-  refreshInterval?: string;
-  tlsConfig?: TLSConfig;
+  basicAuth?: BasicAuth | undefined;
+  oauth2?: OAuth2 | undefined;
+  refreshInterval?: string | undefined;
+  tlsConfig?: TLSConfig | undefined;
   url: string;
 }
 export type JobHttpSdConfigsList = Array<HTTPServiceSD>;
@@ -783,13 +783,13 @@ export type MetricsRelabelConfigAction =
   | "labelkeep";
 export type MetricsRelabelConfigSourceLabelsList = Array<string>;
 export interface MetricsRelabelConfig {
-  action?: MetricsRelabelConfigAction;
-  modulus?: number;
-  regex?: string;
-  replacement?: string;
-  separator?: string;
+  action?: MetricsRelabelConfigAction | undefined;
+  modulus?: number | undefined;
+  regex?: string | undefined;
+  replacement?: string | undefined;
+  separator?: string | undefined;
   sourceLabels: MetricsRelabelConfigSourceLabelsList;
-  targetLabel?: string;
+  targetLabel?: string | undefined;
 }
 export type JobMetricsRelabelConfigsList = Array<MetricsRelabelConfig>;
 export type JobParamsValueList = Array<string>;
@@ -798,27 +798,27 @@ export type JobScheme = "http" | "https";
 export type StaticConfigsLabelsMap = { [key: string]: string | undefined };
 export type StaticConfigsTargetsList = Array<string>;
 export interface StaticConfigs {
-  labels?: StaticConfigsLabelsMap;
+  labels?: StaticConfigsLabelsMap | undefined;
   targets: StaticConfigsTargetsList;
 }
 export type JobStaticConfigsList = Array<StaticConfigs>;
 export interface Job {
-  basicAuth?: BasicAuth;
-  bearerToken?: string;
-  honorLabels?: boolean;
-  honorTimeStamps?: boolean;
-  httpSdConfigs?: JobHttpSdConfigsList;
+  basicAuth?: BasicAuth | undefined;
+  bearerToken?: string | undefined;
+  honorLabels?: boolean | undefined;
+  honorTimeStamps?: boolean | undefined;
+  httpSdConfigs?: JobHttpSdConfigsList | undefined;
   jobName: string;
-  metricsPath?: string;
-  metricsRelabelConfigs?: JobMetricsRelabelConfigsList;
-  oauth2?: OAuth2;
-  params?: JobParamsMap;
-  sampleLimit?: number;
-  scheme?: JobScheme;
+  metricsPath?: string | undefined;
+  metricsRelabelConfigs?: JobMetricsRelabelConfigsList | undefined;
+  oauth2?: OAuth2 | undefined;
+  params?: JobParamsMap | undefined;
+  sampleLimit?: number | undefined;
+  scheme?: JobScheme | undefined;
   scrapeInterval: string;
   scrapeTimeout: string;
   staticConfigs: JobStaticConfigsList;
-  tlsConfig?: TLSConfig;
+  tlsConfig?: TLSConfig | undefined;
 }
 export type ScrapeConfigsResponseDataList = Array<Job>;
 export interface ScrapeConfigsResponse {
@@ -987,14 +987,14 @@ export interface GetAlertConfigsRequest {
   instanceId: string;
 }
 export interface Global {
-  opsgenieApiKey?: string;
-  opsgenieApiUrl?: string;
-  resolveTimeout?: string;
-  smtpAuthIdentity?: string;
-  smtpAuthPassword?: string | Redacted.Redacted<string>;
-  smtpAuthUsername?: string;
-  smtpFrom?: string;
-  smtpSmarthost?: string;
+  opsgenieApiKey?: string | undefined;
+  opsgenieApiUrl?: string | undefined;
+  resolveTimeout?: string | undefined;
+  smtpAuthIdentity?: string | undefined;
+  smtpAuthPassword?: string | Redacted.Redacted<string> | undefined;
+  smtpAuthUsername?: string | undefined;
+  smtpFrom?: string | undefined;
+  smtpSmarthost?: string | undefined;
 }
 export type InhibitRulesEqualList = Array<string>;
 export type InhibitRulesSourceMatchMap = { [key: string]: string | undefined };
@@ -1004,19 +1004,19 @@ export type InhibitRulesTargetMatchMap = { [key: string]: string | undefined };
 export type InhibitRulesTargetMatchReMap = { [key: string]: string | undefined };
 export type InhibitRulesTargetMatchersList = Array<string>;
 export interface InhibitRules {
-  equal?: InhibitRulesEqualList;
-  sourceMatch?: InhibitRulesSourceMatchMap;
-  sourceMatchRe?: InhibitRulesSourceMatchReMap;
-  sourceMatchers?: InhibitRulesSourceMatchersList;
-  targetMatch?: InhibitRulesTargetMatchMap;
-  targetMatchRe?: InhibitRulesTargetMatchReMap;
-  targetMatchers?: InhibitRulesTargetMatchersList;
+  equal?: InhibitRulesEqualList | undefined;
+  sourceMatch?: InhibitRulesSourceMatchMap | undefined;
+  sourceMatchRe?: InhibitRulesSourceMatchReMap | undefined;
+  sourceMatchers?: InhibitRulesSourceMatchersList | undefined;
+  targetMatch?: InhibitRulesTargetMatchMap | undefined;
+  targetMatchRe?: InhibitRulesTargetMatchReMap | undefined;
+  targetMatchers?: InhibitRulesTargetMatchersList | undefined;
 }
 export type AlertInhibitRulesList = Array<InhibitRules>;
 export type AlertReceiversList = Array<Receivers>;
 export interface Alert {
-  global?: Global;
-  inhibitRules?: AlertInhibitRulesList;
+  global?: Global | undefined;
+  inhibitRules?: AlertInhibitRulesList | undefined;
   receivers: AlertReceiversList;
   route: Route;
 }
@@ -1060,7 +1060,7 @@ export interface GetCredentialsRequest {
 }
 export type GetCredentialsResponseCredentialsInfoMap = { [key: string]: string | null | undefined };
 export interface GetCredentialsResponse {
-  credentialsInfo?: GetCredentialsResponseCredentialsInfoMap;
+  credentialsInfo?: GetCredentialsResponseCredentialsInfoMap | undefined;
   id: string;
   message: string;
   name: string;
@@ -1080,24 +1080,24 @@ export interface GetGrafanaConfigsRequest {
   instanceId: string;
 }
 export interface GrafanaOauth {
-  allowAssignGrafanaAdmin?: boolean;
+  allowAssignGrafanaAdmin?: boolean | undefined;
   apiUrl: string;
   authUrl: string;
   enabled: boolean;
-  name?: string;
+  name?: string | undefined;
   oauthClientId: string;
   oauthClientSecret: string;
   roleAttributePath: string;
-  roleAttributeStrict?: boolean;
-  scopes?: string;
+  roleAttributeStrict?: boolean | undefined;
+  scopes?: string | undefined;
   tokenUrl: string;
-  usePkce?: boolean;
+  usePkce?: boolean | undefined;
 }
 export interface GrafanaConfigs {
-  genericOauth?: GrafanaOauth;
+  genericOauth?: GrafanaOauth | undefined;
   message: string;
-  publicReadAccess?: boolean;
-  useStackitSso?: boolean;
+  publicReadAccess?: boolean | undefined;
+  useStackitSso?: boolean | undefined;
 }
 export interface GetInstanceRequest {
   projectId: string;
@@ -1107,9 +1107,9 @@ export interface PlanModel {
   alertMatchers: number;
   alertReceivers: number;
   alertRules: number;
-  amount?: number;
+  amount?: number | undefined;
   bucketSize: number;
-  description?: string;
+  description?: string | undefined;
   grafanaGlobalDashboards: number;
   grafanaGlobalOrgs: number;
   grafanaGlobalSessions: number;
@@ -1117,7 +1117,7 @@ export interface PlanModel {
   id: string;
   logsAlert: number;
   logsStorage: number;
-  name?: string;
+  name?: string | undefined;
   planId: string;
   samplesPerScrape: number;
   targetNumber: number;
@@ -1128,13 +1128,13 @@ export interface InstanceSensitiveData {
   alertingUrl: string;
   cluster: string;
   grafanaAdminEnabled: boolean;
-  grafanaAdminPassword?: string | Redacted.Redacted<string>;
-  grafanaAdminUser?: string;
+  grafanaAdminPassword?: string | Redacted.Redacted<string> | undefined;
+  grafanaAdminUser?: string | undefined;
   grafanaPublicReadAccess: boolean;
   grafanaUrl: string;
   grafanaUseStackitSso: boolean;
   instance: string;
-  jaegerHttpTracesUrl?: string;
+  jaegerHttpTracesUrl?: string | undefined;
   jaegerHttpUrl: string;
   jaegerTracesUrl: string;
   jaegerUiUrl: string;
@@ -1145,7 +1145,7 @@ export interface InstanceSensitiveData {
   metricsRetentionTime5m: number;
   metricsRetentionTimeRaw: number;
   metricsUrl: string;
-  name?: string;
+  name?: string | undefined;
   otlpGrpcTracesUrl: string;
   otlpHttpLogsUrl: string;
   otlpHttpTracesUrl: string;
@@ -1168,16 +1168,16 @@ export type GetInstanceResponseStatus =
   | "UPDATE_FAILED";
 export interface GetInstanceResponse {
   dashboardUrl: string;
-  error?: string | null;
+  error?: string | null | undefined;
   id: string;
   instance: InstanceSensitiveData;
-  isUpdatable?: boolean;
+  isUpdatable?: boolean | undefined;
   message: string;
-  name?: string;
-  parameters?: GetInstanceResponseParametersMap;
+  name?: string | undefined;
+  parameters?: GetInstanceResponseParametersMap | undefined;
   planId: string;
   planName: string;
-  planSchema?: string;
+  planSchema?: string | undefined;
   serviceName: string;
   status: GetInstanceResponseStatus;
 }
@@ -1279,7 +1279,7 @@ export interface ListBackupsRequest {
   projectId: string;
   instanceId: string;
   /** List of backup targets */
-  backupTarget?: ListBackupsRequestBackupTargetList;
+  backupTarget?: ListBackupsRequestBackupTargetList | undefined;
 }
 export type BackupResponseAlertConfigBackupsList = Array<string>;
 export type BackupResponseAlertRulesBackupsList = Array<string>;
@@ -1304,7 +1304,7 @@ export interface ListBackupSchedulesRequest {
   projectId: string;
   instanceId: string;
   /** List of backup targets */
-  backupTarget?: ListBackupSchedulesRequestBackupTargetList;
+  backupTarget?: ListBackupSchedulesRequestBackupTargetList | undefined;
 }
 export interface BackupSchedule {
   schedule: string;
@@ -1315,11 +1315,11 @@ export type BackupScheduleResponseAlertRulesBackupSchedulesList = Array<BackupSc
 export type BackupScheduleResponseGrafanaBackupSchedulesList = Array<BackupSchedule>;
 export type BackupScheduleResponseScrapeConfigBackupSchedulesList = Array<BackupSchedule>;
 export interface BackupScheduleResponse {
-  alertConfigBackupSchedules?: BackupScheduleResponseAlertConfigBackupSchedulesList;
-  alertRulesBackupSchedules?: BackupScheduleResponseAlertRulesBackupSchedulesList;
-  grafanaBackupSchedules?: BackupScheduleResponseGrafanaBackupSchedulesList;
+  alertConfigBackupSchedules?: BackupScheduleResponseAlertConfigBackupSchedulesList | undefined;
+  alertRulesBackupSchedules?: BackupScheduleResponseAlertRulesBackupSchedulesList | undefined;
+  grafanaBackupSchedules?: BackupScheduleResponseGrafanaBackupSchedulesList | undefined;
   message: string;
-  scrapeConfigBackupSchedules?: BackupScheduleResponseScrapeConfigBackupSchedulesList;
+  scrapeConfigBackupSchedules?: BackupScheduleResponseScrapeConfigBackupSchedulesList | undefined;
 }
 export interface ListCertChecksRequest {
   projectId: string;
@@ -1331,8 +1331,8 @@ export interface ListCredentialsRequest {
 }
 export type ServiceKeysListCredentialsInfoMap = { [key: string]: string | null | undefined };
 export interface ServiceKeysList {
-  credentialsInfo?: ServiceKeysListCredentialsInfoMap;
-  description?: string;
+  credentialsInfo?: ServiceKeysListCredentialsInfoMap | undefined;
+  description?: string | undefined;
   id: string;
   name: string;
 }
@@ -1363,10 +1363,10 @@ export type ProjectInstanceFullStatus =
   | "UPDATE_SUCCEEDED"
   | "UPDATE_FAILED";
 export interface ProjectInstanceFull {
-  error?: string | null;
+  error?: string | null | undefined;
   id: string;
   instance: string;
-  name?: string;
+  name?: string | undefined;
   planName: string;
   serviceName: string;
   status: ProjectInstanceFullStatus;
@@ -1399,22 +1399,22 @@ export interface Plan {
   alertMatchers: number;
   alertReceivers: number;
   alertRules: number;
-  amount?: number;
+  amount?: number | undefined;
   bucketSize: number;
-  description?: string;
+  description?: string | undefined;
   grafanaGlobalDashboards: number;
   grafanaGlobalOrgs: number;
   grafanaGlobalSessions: number;
   grafanaGlobalUsers: number;
   id: string;
-  isFree?: boolean;
-  isPublic?: boolean;
+  isFree?: boolean | undefined;
+  isPublic?: boolean | undefined;
   logsAlert: number;
   logsStorage: number;
-  name?: string;
+  name?: string | undefined;
   planId: string;
   samplesPerScrape: number;
-  schema?: string;
+  schema?: string | undefined;
   targetNumber: number;
   totalMetricSamples: number;
   tracesStorage: number;
@@ -1470,7 +1470,7 @@ export type PartialUpdateAlertgroupsRequestBodyItemRulesList =
 /** Alert group that should be created or updated. `Additional Validators:` * total config should not be bigger than 500000 characters as string since this the limitation of prometheus. */
 export interface PartialUpdateAlertgroupsRequestBodyItem {
   /** How often rules in the group are evaluated. `Additional Validators:` * must be a valid time string * should be >=60s */
-  interval?: string;
+  interval?: string | undefined;
   /** The name of the group. Must be unique. `Additional Validators:` * is the identifier and so unique * should only include the characters: a-zA-Z0-9- */
   name: string;
   /** rules for the alert group */
@@ -1489,7 +1489,7 @@ export interface PartialUpdateAlertRecordsRequestBodyItem {
   /** The PromQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts. */
   expr: string;
   /** map of key:value. Labels to add or overwrite for each alert. `Additional Validators:` * should not contain more than 10 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
   /** The name of the record. `Additional Validators:` * is the identifier and so unique in the group */
   record: string;
 }
@@ -1507,13 +1507,13 @@ export interface PartialUpdateAlertrulesRequestBodyItem {
   /** The name of the alert. `Additional Validators:` * is the identifier and so unique in the group * should only include the characters: a-zA-Z0-9- */
   alert: string;
   /** map of key:value. Annotations to add to each alert. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  annotations?: unknown;
+  annotations?: unknown | undefined;
   /** The PromQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts. */
   expr: string;
   /** Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. `Additional Validators:` * must be a valid time string */
-  for?: string;
+  for?: string | undefined;
   /** map of key:value. Labels to add or overwrite for each alert. `Additional Validators:` * should not contain more than 10 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
 }
 /** Array of alert rules that should be created or updated */
 export type PartialUpdateAlertrulesRequestBodyList = Array<PartialUpdateAlertrulesRequestBodyItem>;
@@ -1541,9 +1541,9 @@ export interface PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsItemOauth
   /** clientSecret */
   clientSecret: string | Redacted.Redacted<string>;
   /** The URL to fetch the token from. */
-  scopes?: PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsItemOauth2ScopesList;
+  scopes?: PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsItemOauth2ScopesList | undefined;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
   /** The URL to fetch the token from. */
   tokenUrl: string;
 }
@@ -1552,13 +1552,13 @@ export type PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsItemTlsConfig 
   CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
 export interface PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsItem {
   /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
-  basicAuth?: CreateScrapeConfigRequestBasicAuth;
+  basicAuth?: CreateScrapeConfigRequestBasicAuth | undefined;
   /** OAuth 2.0 authentication using the client credentials grant type. Prometheus fetches an access token from the specified endpoint with the given client access and secret keys. `Additional Validators:` * if oauth2 is in the body no other authentication method should be in the body */
-  oauth2?: PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsItemOauth2;
+  oauth2?: PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsItemOauth2 | undefined;
   /** Refresh interval to re-query the endpoint. E.g. 60s `Additional Validators:` * must be a valid time format* must be >= 60s */
-  refreshInterval?: string;
+  refreshInterval?: string | undefined;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
   /** URL from which the targets are fetched. */
   url: string;
 }
@@ -1579,19 +1579,24 @@ export type PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsItemSo
   Array<string>;
 export interface PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsItem {
   /** Action to perform based on regex matching. `Additional Validators:` * if action is replace, targetLabel needs to be in body */
-  action?: PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsItemAction | (string & {});
+  action?:
+    | PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsItemAction
+    | (string & {})
+    | undefined;
   /** Modulus to take of the hash of the source label values. */
-  modulus?: number;
+  modulus?: number | undefined;
   /** Regular expression against which the extracted value is matched. */
-  regex?: string;
+  regex?: string | undefined;
   /** Replacement value against which a regex replace is performed if the regular expression matches. Regex capture groups are available. */
-  replacement?: string;
+  replacement?: string | undefined;
   /** Separator placed between concatenated source label values. */
-  separator?: string;
+  separator?: string | undefined;
   /** The source labels select values from existing labels. Their content is concatenated using the configured separator and matched against the configured regular expression for the replace, keep, and drop actions. */
-  sourceLabels?: PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsItemSourceLabelsList;
+  sourceLabels?:
+    | PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsItemSourceLabelsList
+    | undefined;
   /** Label to which the resulting value is written in a replace action. It is mandatory for replace actions. Regex capture groups are available. */
-  targetLabel?: string;
+  targetLabel?: string | undefined;
 }
 /** List of metric relabel configurations */
 export type PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsList =
@@ -1608,9 +1613,9 @@ export interface PartialUpdateScrapeConfigsRequestBodyItemOauth2 {
   /** clientSecret */
   clientSecret: string | Redacted.Redacted<string>;
   /** The URL to fetch the token from. */
-  scopes?: PartialUpdateScrapeConfigsRequestBodyItemOauth2ScopesList;
+  scopes?: PartialUpdateScrapeConfigsRequestBodyItemOauth2ScopesList | undefined;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
   /** The URL to fetch the token from. */
   tokenUrl: string;
 }
@@ -1620,7 +1625,7 @@ export type PartialUpdateScrapeConfigsRequestBodyItemScheme = "http" | "https";
 export type PartialUpdateScrapeConfigsRequestBodyItemStaticConfigsItemTargetsList = Array<string>;
 export interface PartialUpdateScrapeConfigsRequestBodyItemStaticConfigsItem {
   /** Labels assigned to all metrics scraped from the targets. `Additional Validators:` * should not contain more than 10 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
   /** The targets specified by the static config. */
   targets: PartialUpdateScrapeConfigsRequestBodyItemStaticConfigsItemTargetsList;
 }
@@ -1632,27 +1637,29 @@ export type PartialUpdateScrapeConfigsRequestBodyItemTlsConfig =
   CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
 export interface PartialUpdateScrapeConfigsRequestBodyItem {
   /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
-  basicAuth?: CreateScrapeConfigRequestBasicAuth;
+  basicAuth?: CreateScrapeConfigRequestBasicAuth | undefined;
   /** Sets the 'Authorization' header on every scrape request with the configured bearer token. It is mutually exclusive with 'bearer_token_file'. `Additional Validators:` * needs to be a valid bearer token * if bearerToken is in the body no other authentication method should be in the body */
-  bearerToken?: string;
+  bearerToken?: string | undefined;
   /** Note that any globally configured 'external_labels' are unaffected by this setting. In communication with external systems, they are always applied only when a time series does not have a given label yet and are ignored otherwise. */
-  honorLabels?: boolean;
+  honorLabels?: boolean | undefined;
   /** honor_timestamps controls whether Prometheus respects the timestamps present in scraped data. If honor_timestamps is set to 'true', the timestamps of the metrics exposed by the target will be used. */
-  honorTimeStamps?: boolean;
+  honorTimeStamps?: boolean | undefined;
   /** HTTP-based service discovery provides a more generic way to configure static targets and serves as an interface to plug in custom service discovery mechanisms. */
-  httpSdConfigs?: PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsList;
+  httpSdConfigs?: PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsList | undefined;
   /** The job name assigned to scraped metrics by default. `Additional Validators:` * must be unique * key and values should only include the characters: a-zA-Z0-9- */
   jobName: string;
   /** The HTTP resource path on which to fetch metrics from targets. E.g. /metrics */
-  metricsPath?: string;
+  metricsPath?: string | undefined;
   /** List of metric relabel configurations */
-  metricsRelabelConfigs?: PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsList;
+  metricsRelabelConfigs?:
+    | PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsList
+    | undefined;
   /** OAuth 2.0 authentication using the client credentials grant type. Prometheus fetches an access token from the specified endpoint with the given client access and secret keys. `Additional Validators:` * if oauth2 is in the body no other authentication method should be in the body */
-  oauth2?: PartialUpdateScrapeConfigsRequestBodyItemOauth2;
+  oauth2?: PartialUpdateScrapeConfigsRequestBodyItemOauth2 | undefined;
   /** Optional http params `Additional Validators:` * should not contain more than 5 keys * each key and value should not have more than 200 characters */
-  params?: unknown;
+  params?: unknown | undefined;
   /** Per-scrape limit on number of scraped samples that will be accepted. If more than this number of samples are present after metric relabeling the entire scrape will be treated as failed. The total limit depends on the service plan target limits * samples */
-  sampleLimit?: number;
+  sampleLimit?: number | undefined;
   /** Configures the protocol scheme used for requests. https or http */
   scheme: PartialUpdateScrapeConfigsRequestBodyItemScheme | (string & {});
   /** How frequently to scrape targets from this job. E.g. 5m `Additional Validators:` * must be a valid time format* must be >= 60s */
@@ -1662,7 +1669,7 @@ export interface PartialUpdateScrapeConfigsRequestBodyItem {
   /** A list of scrape configurations. */
   staticConfigs: PartialUpdateScrapeConfigsRequestBodyItemStaticConfigsList;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
 }
 /** Array of jobs that should be created or updated */
 export type PartialUpdateScrapeConfigsRequestBodyList =
@@ -1711,12 +1718,12 @@ export interface UpdateAlertConfigReceiverRequest {
   instanceId: string;
   receiver: string;
   /** Email configurations */
-  emailConfigs?: UpdateAlertConfigReceiverRequestEmailConfigsList;
+  emailConfigs?: UpdateAlertConfigReceiverRequestEmailConfigsList | undefined;
   /** `Additional Validators:` * must be unique * should only include the characters: a-zA-Z0-9- */
   name: string;
   /** Configuration for ops genie. */
-  opsgenieConfigs?: UpdateAlertConfigReceiverRequestOpsgenieConfigsList;
-  webHookConfigs?: UpdateAlertConfigReceiverRequestWebHookConfigsList;
+  opsgenieConfigs?: UpdateAlertConfigReceiverRequestOpsgenieConfigsList | undefined;
+  webHookConfigs?: UpdateAlertConfigReceiverRequestWebHookConfigsList | undefined;
 }
 /** The labels by which incoming alerts are grouped together. For example, multiple alerts coming in for cluster=A and alertname=LatencyHigh would be batched into a single group. To aggregate by all possible labels use the special value '...' as the sole label name, for example: group_by: ['...']. This effectively disables aggregation entirely, passing through all alerts as-is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping. */
 export type UpdateAlertConfigRouteRequestGroupByList = Array<string>;
@@ -1730,24 +1737,24 @@ export type UpdateAlertConfigRouteRequestRoutesItemRoutesList = Array<unknown>;
 /** As in one level above */
 export interface UpdateAlertConfigRouteRequestRoutesItem {
   /** Whether an alert should continue matching subsequent sibling nodes. */
-  continue?: boolean;
-  groupBy?: UpdateAlertConfigRouteRequestRoutesItemGroupByList;
+  continue?: boolean | undefined;
+  groupBy?: UpdateAlertConfigRouteRequestRoutesItemGroupByList | undefined;
   /** As in one level above */
-  groupInterval?: string;
+  groupInterval?: string | undefined;
   /** As in one level above */
-  groupWait?: string;
+  groupWait?: string | undefined;
   /** As in one level above */
-  match?: unknown;
+  match?: unknown | undefined;
   /** As in one level above */
-  matchRe?: unknown;
+  matchRe?: unknown | undefined;
   /** As in one level above */
-  matchers?: UpdateAlertConfigRouteRequestRoutesItemMatchersList;
+  matchers?: UpdateAlertConfigRouteRequestRoutesItemMatchersList | undefined;
   /** As in one level above */
-  receiver?: string;
+  receiver?: string | undefined;
   /** As in one level above */
-  repeatInterval?: string;
+  repeatInterval?: string | undefined;
   /** Another child routes */
-  routes?: UpdateAlertConfigRouteRequestRoutesItemRoutesList;
+  routes?: UpdateAlertConfigRouteRequestRoutesItemRoutesList | undefined;
 }
 /** Zero or more child routes. */
 export type UpdateAlertConfigRouteRequestRoutesList =
@@ -1757,57 +1764,57 @@ export interface UpdateAlertConfigRouteRequest {
   instanceId: string;
   receiver: string;
   /** The continue parameter cannot be set to true on the root route because there are no subsequent sibling nodes to match. It must always be false. */
-  continue?: boolean;
+  continue?: boolean | undefined;
   /** The labels by which incoming alerts are grouped together. For example, multiple alerts coming in for cluster=A and alertname=LatencyHigh would be batched into a single group. To aggregate by all possible labels use the special value '...' as the sole label name, for example: group_by: ['...']. This effectively disables aggregation entirely, passing through all alerts as-is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping. */
-  groupBy?: UpdateAlertConfigRouteRequestGroupByList;
+  groupBy?: UpdateAlertConfigRouteRequestGroupByList | undefined;
   /** How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.) `Additional Validators:` * must be a valid time format */
-  groupInterval?: string;
+  groupInterval?: string | undefined;
   /** How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.) `Additional Validators:` * must be a valid time format */
-  groupWait?: string;
+  groupWait?: string | undefined;
   /** map of key:value. A set of equality matchers an alert has to fulfill to match the node. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters * key and values should only include the characters: a-zA-Z0-9_./@&?:- */
-  match?: unknown;
+  match?: unknown | undefined;
   /** map of key:value. A set of regex-matchers an alert has to fulfill to match the node. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  matchRe?: unknown;
+  matchRe?: unknown | undefined;
   /** A list of matchers that an alert has to fulfill to match the node. A matcher is a string with a syntax inspired by PromQL and OpenMetrics. The syntax of a matcher consists of three tokens: * A valid Prometheus label name. * One of =, !=, =~, or !~. = means equals, != means that the strings are not equal, =~ is used for equality of regex expressions and !~ is used for un-equality of regex expressions. They have the same meaning as known from PromQL selectors. * A UTF-8 string, which may be enclosed in double quotes. Before or after each token, there may be any amount of whitespace. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  matchers?: UpdateAlertConfigRouteRequestMatchersList;
+  matchers?: UpdateAlertConfigRouteRequestMatchersList | undefined;
   /** How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more). `Additional Validators:` * must be a valid time format */
-  repeatInterval?: string;
+  repeatInterval?: string | undefined;
   /** Zero or more child routes. */
-  routes?: UpdateAlertConfigRouteRequestRoutesList;
+  routes?: UpdateAlertConfigRouteRequestRoutesList | undefined;
 }
 /** Global config. If nothing passed the default argus config will be used. It is only possible to update the entire global part, not individual attributes. */
 export interface UpdateAlertConfigsRequestGlobal {
   /** Opsgenie api key `Additional Validators:` * should only include the characters: a-zA-Z0-9- */
-  opsgenieApiKey?: string;
+  opsgenieApiKey?: string | undefined;
   /** Opsgenie api url `Additional Validators:` * must be a syntactically valid url address */
-  opsgenieApiUrl?: string;
+  opsgenieApiUrl?: string | undefined;
   /** ResolveTimeout is the default value used by alertmanager if the alert does not include EndsAt, after this time passes it can declare the alert as resolved if it has not been updated. This has no impact on alerts from Prometheus, as they always include EndsAt. `Additional Validators:` * must be a valid time format */
-  resolveTimeout?: string;
+  resolveTimeout?: string | undefined;
   /** Auth identity. `Additional Validators:` * must be a syntactically valid email address */
-  smtpAuthIdentity?: string;
+  smtpAuthIdentity?: string | undefined;
   /** SMTP Auth using LOGIN and PLAIN. */
-  smtpAuthPassword?: string | Redacted.Redacted<string>;
+  smtpAuthPassword?: string | Redacted.Redacted<string> | undefined;
   /** SMTP Auth using CRAM-MD5, LOGIN and PLAIN. If empty, Alertmanager doesn't authenticate to the SMTP server. */
-  smtpAuthUsername?: string;
+  smtpAuthUsername?: string | undefined;
   /** The default SMTP From header field. `Additional Validators:` * must be a syntactically valid email address */
-  smtpFrom?: string;
+  smtpFrom?: string | undefined;
   /** The default SMTP smarthost used for sending emails, including port number. Port number usually is 25, or 587 for SMTP over TLS (sometimes referred to as STARTTLS). Example: smtp.example.org:587 `Additional Validators:` * should only include the characters: a-zA-Z0-9_./@&?:- */
-  smtpSmarthost?: string;
+  smtpSmarthost?: string | undefined;
 }
 /** Labels that must have an equal value in the source and target alert for the inhibition to take effect. `Additional Validators:` * should only include the characters: a-zA-Z0-9_./@&?:- */
 export type UpdateAlertConfigsRequestInhibitRulesEqualList = Array<string>;
 /** A list of inhibition rules. */
 export interface UpdateAlertConfigsRequestInhibitRules {
   /** Labels that must have an equal value in the source and target alert for the inhibition to take effect. `Additional Validators:` * should only include the characters: a-zA-Z0-9_./@&?:- */
-  equal?: UpdateAlertConfigsRequestInhibitRulesEqualList;
+  equal?: UpdateAlertConfigsRequestInhibitRulesEqualList | undefined;
   /** map of key:value. Matchers for which one or more alerts have to exist for the inhibition to take effect. `Additional Validators:` * should not contain more than 5 keys * each key and value should not have more than 200 characters * each key and value should only include the characters: a-zA-Z0-9_./@&?:- */
-  sourceMatch?: unknown;
+  sourceMatch?: unknown | undefined;
   /** map of key:value. Regex match `Additional Validators:` * should not contain more than 5 keys * each key and value should not have more than 200 characters */
-  sourceMatchRe?: unknown;
+  sourceMatchRe?: unknown | undefined;
   /** map of key:value. Matchers that have to be fulfilled in the alerts to be muted. `Additional Validators:` * should not contain more than 5 keys * each key and value should not have more than 200 characters * each key and value should only include the characters: a-zA-Z0-9_./@&?:- */
-  targetMatch?: unknown;
+  targetMatch?: unknown | undefined;
   /** map of key:value. Matchers that have to be fulfilled in the alerts to be muted. Regex. `Additional Validators:` * should not contain more than 5 keys * each key and value should not have more than 200 characters */
-  targetMatchRe?: unknown;
+  targetMatchRe?: unknown | undefined;
 }
 export type UpdateAlertConfigsRequestReceiversItemEmailConfigsItem =
   CreateAlertConfigReceiverRequestEmailConfigsItem;
@@ -1826,12 +1833,12 @@ export type UpdateAlertConfigsRequestReceiversItemWebHookConfigsList =
 /** Receivers */
 export interface UpdateAlertConfigsRequestReceiversItem {
   /** Email configurations */
-  emailConfigs?: UpdateAlertConfigsRequestReceiversItemEmailConfigsList;
+  emailConfigs?: UpdateAlertConfigsRequestReceiversItemEmailConfigsList | undefined;
   /** `Additional Validators:` * must be unique * should only include the characters: a-zA-Z0-9- */
   name: string;
   /** Configuration for ops genie. */
-  opsgenieConfigs?: UpdateAlertConfigsRequestReceiversItemOpsgenieConfigsList;
-  webHookConfigs?: UpdateAlertConfigsRequestReceiversItemWebHookConfigsList;
+  opsgenieConfigs?: UpdateAlertConfigsRequestReceiversItemOpsgenieConfigsList | undefined;
+  webHookConfigs?: UpdateAlertConfigsRequestReceiversItemWebHookConfigsList | undefined;
 }
 /** A list of notification receivers. */
 export type UpdateAlertConfigsRequestReceiversList = Array<UpdateAlertConfigsRequestReceiversItem>;
@@ -1845,24 +1852,24 @@ export type UpdateAlertConfigsRequestRouteRoutesItemRoutesList = Array<unknown>;
 /** As in one level above */
 export interface UpdateAlertConfigsRequestRouteRoutesItem {
   /** Whether an alert should continue matching subsequent sibling nodes. */
-  continue?: boolean;
-  groupBy?: UpdateAlertConfigsRequestRouteRoutesItemGroupByList;
+  continue?: boolean | undefined;
+  groupBy?: UpdateAlertConfigsRequestRouteRoutesItemGroupByList | undefined;
   /** As in one level above */
-  groupInterval?: string;
+  groupInterval?: string | undefined;
   /** As in one level above */
-  groupWait?: string;
+  groupWait?: string | undefined;
   /** As in one level above */
-  match?: unknown;
+  match?: unknown | undefined;
   /** As in one level above */
-  matchRe?: unknown;
+  matchRe?: unknown | undefined;
   /** A list of matchers that an alert has to fulfill to match the node. A matcher is a string with a syntax inspired by PromQL and OpenMetrics. The syntax of a matcher consists of three tokens: * A valid Prometheus label name. * One of =, !=, =~, or !~. = means equals, != means that the strings are not equal, =~ is used for equality of regex expressions and !~ is used for un-equality of regex expressions. They have the same meaning as known from PromQL selectors. * A UTF-8 string, which may be enclosed in double quotes. Before or after each token, there may be any amount of whitespace. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  matchers?: UpdateAlertConfigsRequestRouteRoutesItemMatchersList;
+  matchers?: UpdateAlertConfigsRequestRouteRoutesItemMatchersList | undefined;
   /** As in one level above */
-  receiver?: string;
+  receiver?: string | undefined;
   /** As in one level above */
-  repeatInterval?: string;
+  repeatInterval?: string | undefined;
   /** Another child routes */
-  routes?: UpdateAlertConfigsRequestRouteRoutesItemRoutesList;
+  routes?: UpdateAlertConfigsRequestRouteRoutesItemRoutesList | undefined;
 }
 /** Zero or more child routes. */
 export type UpdateAlertConfigsRequestRouteRoutesList =
@@ -1870,31 +1877,31 @@ export type UpdateAlertConfigsRequestRouteRoutesList =
 /** The root node of the routing tree. */
 export interface UpdateAlertConfigsRequestRoute {
   /** The continue parameter cannot be set to true on the root route because there are no subsequent sibling nodes to match. It must always be false. */
-  continue?: boolean;
+  continue?: boolean | undefined;
   /** The labels by which incoming alerts are grouped together. For example, multiple alerts coming in for cluster=A and alertname=LatencyHigh would be batched into a single group. To aggregate by all possible labels use the special value '...' as the sole label name, for example: group_by: ['...']. This effectively disables aggregation entirely, passing through all alerts as-is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping. */
-  groupBy?: UpdateAlertConfigsRequestRouteGroupByList;
+  groupBy?: UpdateAlertConfigsRequestRouteGroupByList | undefined;
   /** How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.) `Additional Validators:` * must be a valid time format */
-  groupInterval?: string;
+  groupInterval?: string | undefined;
   /** How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.) `Additional Validators:` * must be a valid time format */
-  groupWait?: string;
+  groupWait?: string | undefined;
   /** map of key:value. A set of equality matchers an alert has to fulfill to match the node. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters * key and values should only include the characters: a-zA-Z0-9_./@&?:- */
-  match?: unknown;
+  match?: unknown | undefined;
   /** map of key:value. A set of regex-matchers an alert has to fulfill to match the node. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  matchRe?: unknown;
+  matchRe?: unknown | undefined;
   /** Receiver that should be one item of receivers `Additional Validators:` * must be a in name of receivers */
   receiver: string;
   /** How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more). `Additional Validators:` * must be a valid time format */
-  repeatInterval?: string;
+  repeatInterval?: string | undefined;
   /** Zero or more child routes. */
-  routes?: UpdateAlertConfigsRequestRouteRoutesList;
+  routes?: UpdateAlertConfigsRequestRouteRoutesList | undefined;
 }
 export interface UpdateAlertConfigsRequest {
   projectId: string;
   instanceId: string;
   /** Global config. If nothing passed the default argus config will be used. It is only possible to update the entire global part, not individual attributes. */
-  global?: UpdateAlertConfigsRequestGlobal;
+  global?: UpdateAlertConfigsRequestGlobal | undefined;
   /** A list of inhibition rules. */
-  inhibitRules?: UpdateAlertConfigsRequestInhibitRules;
+  inhibitRules?: UpdateAlertConfigsRequestInhibitRules | undefined;
   /** A list of notification receivers. */
   receivers: UpdateAlertConfigsRequestReceiversList;
   /** The root node of the routing tree. */
@@ -1913,7 +1920,7 @@ export interface UpdateAlertgroupRequest {
   instanceId: string;
   groupName: string;
   /** How often rules in the group are evaluated. `Additional Validators:` * must be a valid time string * should be >=60s */
-  interval?: string;
+  interval?: string | undefined;
   /** rules for the alert group */
   rules: UpdateAlertgroupRequestRulesList;
 }
@@ -1924,7 +1931,7 @@ export type UpdateAlertgroupsRequestBodyItemRulesList = Array<CreateAlertgroupsR
 /** Alert group that should be created or updated. `Additional Validators:` * total config should not be bigger than 500000 characters as string since this the limitation of prometheus. */
 export interface UpdateAlertgroupsRequestBodyItem {
   /** How often rules in the group are evaluated. `Additional Validators:` * must be a valid time string * should be >=60s */
-  interval?: string;
+  interval?: string | undefined;
   /** The name of the group. Must be unique. `Additional Validators:` * is the identifier and so unique * should only include the characters: a-zA-Z0-9- */
   name: string;
   /** rules for the alert group */
@@ -1945,7 +1952,7 @@ export interface UpdateAlertRecordRequest {
   /** The PromQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts. */
   expr: string;
   /** map of key:value. Labels to add or overwrite for each alert. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
 }
 export interface UpdateAlertruleRequest {
   projectId: string;
@@ -1953,24 +1960,24 @@ export interface UpdateAlertruleRequest {
   groupName: string;
   alertName: string;
   /** map of key:value. Annotations to add to each alert. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  annotations?: unknown;
+  annotations?: unknown | undefined;
   /** The PromQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts. */
   expr: string;
   /** Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. `Additional Validators:` * must be a valid time string */
-  for?: string;
+  for?: string | undefined;
   /** map of key:value. Labels to add or overwrite for each alert. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
 }
 export interface UpdateCredentialsRemoteWriteConfigRequest {
   projectId: string;
   instanceId: string;
   username: string;
   /** Remote write metric sample limit for credential to push in a single minute. */
-  maxLimit?: number;
+  maxLimit?: number | undefined;
 }
 export interface UpdateGrafanaConfigsRequestGenericOauth {
   /** Set to true to enable automatic sync of the Grafana server administrator role. If this option is set to true and the result of evaluating role_attribute_path for a user is GrafanaAdmin, Grafana grants the user the server administrator privileges and organization administrator role. If this option is set to false and the result of evaluating role_attribute_path for a user is GrafanaAdmin, Grafana grants the user only organization administrator role. */
-  allowAssignGrafanaAdmin?: boolean;
+  allowAssignGrafanaAdmin?: boolean | undefined;
   /** Set api_url to the resource that returns OpenID UserInfo compatible information. */
   apiUrl: string;
   /** Authentication endpoint of idp. */
@@ -1978,7 +1985,7 @@ export interface UpdateGrafanaConfigsRequestGenericOauth {
   /** Enable or disable generic oauth login */
   enabled: boolean;
   /** Display name for the oAuth provider */
-  name?: string;
+  name?: string | undefined;
   /** Oauth client id for auth endpoint. */
   oauthClientId: string;
   /** Oauth client secret for auth endpoint. */
@@ -1986,34 +1993,34 @@ export interface UpdateGrafanaConfigsRequestGenericOauth {
   /** Grafana checks for the presence of a role using the JMESPath specified via the role_attribute_path configuration option. The JMESPath is applied to the id_token first. If there is no match, then the UserInfo endpoint specified via the api_url configuration option is tried next. The result after evaluation of the role_attribute_path JMESPath expression should be a valid Grafana role, for example, Viewer, Editor or Admin For example: contains(roles[\*], 'grafana-admin') && 'Admin' || contains(roles[\*], 'grafana-editor') && 'Editor' || contains(roles[\*], 'grafana-viewer') && 'Viewer' */
   roleAttributePath: string;
   /** If the role_attribute_path property does not return a role, then the user is assigned the Viewer role by default. You can disable the role assignment by setting role_attribute_strict = true. It denies user access if no role or an invalid role is returned. */
-  roleAttributeStrict?: boolean;
+  roleAttributeStrict?: boolean | undefined;
   /** Space seperated list of scopes of the token */
-  scopes?: string;
+  scopes?: string | undefined;
   /** Token endpoint of the idp. */
   tokenUrl: string;
   /** Enable or disable Proof Key for Code Exchange */
-  usePkce?: boolean;
+  usePkce?: boolean | undefined;
 }
 export interface UpdateGrafanaConfigsRequest {
   projectId: string;
   instanceId: string;
-  genericOauth?: UpdateGrafanaConfigsRequestGenericOauth;
+  genericOauth?: UpdateGrafanaConfigsRequestGenericOauth | undefined;
   /** If it's true, anyone can access the Grafana dashboards without logging in. If it is wrong, a login is required. */
-  publicReadAccess?: boolean;
+  publicReadAccess?: boolean | undefined;
   /** If it's true, it overwrites the current genericOauth config and configures STACKIT SSO for this instance. */
-  useStackitSso?: boolean;
+  useStackitSso?: boolean | undefined;
 }
 export interface UpdateInstanceRequest {
   projectId: string;
   instanceId: string;
   /** When set to false, the Grafana server admin created during provisioning will be deleted. It's recommended to set this to false and use STACKIT SSO (`Owner` or `Observability Grafana Server Admin` role) instead. It is still possible to manually create a new Grafana admin user via the Grafana UI later. Once set to false, it is not possible to set it to true again. */
-  grafanaAdminEnabled?: boolean;
+  grafanaAdminEnabled?: boolean | undefined;
   /** Name of the service */
-  name?: string;
+  name?: string | undefined;
   /** Additional parameters */
-  parameter?: unknown;
+  parameter?: unknown | undefined;
   /** UUID of the plan to update */
-  planId?: string;
+  planId?: string | undefined;
 }
 /** Rule definition. Must be either an Alerting Rule (using 'alert') or a Recording Rule (using 'record'). `Additional Validators:` * total config (all alert groups/rules) should not be bigger than 500000 characters as string since this the limitation of prometheus. */
 export type UpdateLogsAlertgroupRequestRulesItem = CreateLogsAlertgroupsRequestRulesItem;
@@ -2024,7 +2031,7 @@ export interface UpdateLogsAlertgroupRequest {
   instanceId: string;
   groupName: string;
   /** How often rules in the group are evaluated. `Additional Validators:` * must be a valid time string * should be >=60s */
-  interval?: string;
+  interval?: string | undefined;
   /** rules for the alert group */
   rules: UpdateLogsAlertgroupRequestRulesList;
 }
@@ -2059,19 +2066,19 @@ export type UpdateScrapeConfigRequestMetricsRelabelConfigsItemAction =
 export type UpdateScrapeConfigRequestMetricsRelabelConfigsItemSourceLabelsList = Array<string>;
 export interface UpdateScrapeConfigRequestMetricsRelabelConfigsItem {
   /** Action to perform based on regex matching. `Additional Validators:` * if action is replace, targetLabel needs to be in body */
-  action?: UpdateScrapeConfigRequestMetricsRelabelConfigsItemAction | (string & {});
+  action?: UpdateScrapeConfigRequestMetricsRelabelConfigsItemAction | (string & {}) | undefined;
   /** Modulus to take of the hash of the source label values. */
-  modulus?: number;
+  modulus?: number | undefined;
   /** Regular expression against which the extracted value is matched. */
-  regex?: string;
+  regex?: string | undefined;
   /** Replacement value against which a regex replace is performed if the regular expression matches. Regex capture groups are available. */
-  replacement?: string;
+  replacement?: string | undefined;
   /** Separator placed between concatenated source label values. */
-  separator?: string;
+  separator?: string | undefined;
   /** The source labels select values from existing labels. Their content is concatenated using the configured separator and matched against the configured regular expression for the replace, keep, and drop actions. */
-  sourceLabels?: UpdateScrapeConfigRequestMetricsRelabelConfigsItemSourceLabelsList;
+  sourceLabels?: UpdateScrapeConfigRequestMetricsRelabelConfigsItemSourceLabelsList | undefined;
   /** Label to which the resulting value is written in a replace action. It is mandatory for replace actions. Regex capture groups are available. */
-  targetLabel?: string;
+  targetLabel?: string | undefined;
 }
 /** List of metric relabel configurations */
 export type UpdateScrapeConfigRequestMetricsRelabelConfigsList =
@@ -2082,7 +2089,7 @@ export type UpdateScrapeConfigRequestScheme = "http" | "https";
 export type UpdateScrapeConfigRequestStaticConfigsItemTargetsList = Array<string>;
 export interface UpdateScrapeConfigRequestStaticConfigsItem {
   /** Labels assigned to all metrics scraped from the targets. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
   /** The targets specified by the static config. */
   targets: UpdateScrapeConfigRequestStaticConfigsItemTargetsList;
 }
@@ -2097,21 +2104,21 @@ export interface UpdateScrapeConfigRequest {
   instanceId: string;
   jobName: string;
   /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
-  basicAuth?: CreateScrapeConfigRequestBasicAuth;
+  basicAuth?: CreateScrapeConfigRequestBasicAuth | undefined;
   /** Sets the 'Authorization' header on every scrape request with the configured bearer token. It is mutually exclusive with 'bearer_token_file'. `Additional Validators:` * needs to be a valid bearer token * if bearerToken is in the body no other authentication method should be in the body */
-  bearerToken?: string;
+  bearerToken?: string | undefined;
   /** Note that any globally configured 'external_labels' are unaffected by this setting. In communication with external systems, they are always applied only when a time series does not have a given label yet and are ignored otherwise. */
-  honorLabels?: boolean;
+  honorLabels?: boolean | undefined;
   /** honor_timestamps controls whether Prometheus respects the timestamps present in scraped data. If honor_timestamps is set to 'true', the timestamps of the metrics exposed by the target will be used. */
-  honorTimeStamps?: boolean;
+  honorTimeStamps?: boolean | undefined;
   /** The HTTP resource path on which to fetch metrics from targets. E.g. /metrics */
   metricsPath: string;
   /** List of metric relabel configurations */
-  metricsRelabelConfigs?: UpdateScrapeConfigRequestMetricsRelabelConfigsList;
+  metricsRelabelConfigs?: UpdateScrapeConfigRequestMetricsRelabelConfigsList | undefined;
   /** Optional http params `Additional Validators:` * should not contain more than 5 keys * each key and value should not have more than 200 characters */
-  params?: unknown;
+  params?: unknown | undefined;
   /** Per-scrape limit on number of scraped samples that will be accepted. If more than this number of samples are present after metric relabeling the entire scrape will be treated as failed. The total limit depends on the service plan target limits * samples */
-  sampleLimit?: number;
+  sampleLimit?: number | undefined;
   /** Configures the protocol scheme used for requests. https or http */
   scheme: UpdateScrapeConfigRequestScheme | (string & {});
   /** How frequently to scrape targets from this job. E.g. 5m `Additional Validators:` * must be a valid time format* must be >= 60s */
@@ -2121,7 +2128,7 @@ export interface UpdateScrapeConfigRequest {
   /** A list of scrape configurations. */
   staticConfigs: UpdateScrapeConfigRequestStaticConfigsList;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
 }
 export interface UpdateTracesConfigsRequest {
   projectId: string;

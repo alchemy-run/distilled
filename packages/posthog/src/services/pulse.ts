@@ -39,25 +39,25 @@ export type BriefAnchorsDashboardsList = Array<number>;
 export type BriefAnchorsInsightsList = Array<string>;
 export interface BriefAnchors {
   /** IDs of the dashboards this brief is anchored on. */
-  dashboards?: BriefAnchorsDashboardsList;
+  dashboards?: BriefAnchorsDashboardsList | undefined;
   /** Short IDs of the insights this brief is anchored on. */
-  insights?: BriefAnchorsInsightsList;
+  insights?: BriefAnchorsInsightsList | undefined;
 }
 export interface BriefSettings {
   /** Minimum absolute percent change for a movement to count as significant. Default 20. */
-  min_abs_change_pct?: number;
+  min_abs_change_pct?: number | undefined;
   /** Minimum per-sample baseline volume before a movement is considered. Default 10. */
-  min_baseline_value?: number;
+  min_baseline_value?: number | undefined;
   /** Maximum anchor insights gathered per brief. Default 10. */
-  max_anchor_insights?: number;
+  max_anchor_insights?: number | undefined;
   /** How many recent dashboards to pull insights from when no anchors are set. Default 3. */
-  fallback_dashboard_count?: number;
+  fallback_dashboard_count?: number | undefined;
   /** Minimum confidence for a section or opportunity to survive the gate. Default 0.6. */
-  confidence_threshold?: number;
+  confidence_threshold?: number | undefined;
   /** Maximum opportunities kept per brief. Default 3. */
-  max_opportunities?: number;
+  max_opportunities?: number | undefined;
   /** Maximum annotations gathered as context per brief. Default 20. */
-  max_annotations?: number;
+  max_annotations?: number | undefined;
 }
 export interface CreatePulseBriefConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -65,15 +65,15 @@ export interface CreatePulseBriefConfigRequest {
   /** Human-readable name for this brief focus. */
   name: string;
   /** Free-text focus steering gathering and tone, e.g. "we're the feature flags team". Max 2000 characters. */
-  focus_prompt?: string;
+  focus_prompt?: string | undefined;
   /** Anchor resources the brief gathers movements from. Empty anchors fall back to the team's most recently accessed dashboards. */
-  anchors?: BriefAnchors;
+  anchors?: BriefAnchors | undefined;
   /** Per-config tunables overriding the system defaults. Omitted knobs keep their default. */
-  settings?: BriefSettings;
+  settings?: BriefSettings | undefined;
   /** Whether this config generates briefs. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soft-delete flag. Deleted configs are hidden from lists but recoverable by patching this back to false. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -90,30 +90,30 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface BriefConfig {
   id: string;
   /** Human-readable name for this brief focus. */
   name: string;
   /** Free-text focus steering gathering and tone, e.g. "we're the feature flags team". Max 2000 characters. */
-  focus_prompt?: string;
+  focus_prompt?: string | undefined;
   /** Anchor resources the brief gathers movements from. Empty anchors fall back to the team's most recently accessed dashboards. */
-  anchors?: BriefAnchors;
+  anchors?: BriefAnchors | undefined;
   /** Per-config tunables overriding the system defaults. Omitted knobs keep their default. */
-  settings?: BriefSettings;
+  settings?: BriefSettings | undefined;
   /** Whether this config generates briefs. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soft-delete flag. Deleted configs are hidden from lists but recoverable by patching this back to false. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   created_at: string;
   /** User who created the config. */
   created_by: UserBasic | null;
@@ -135,7 +135,7 @@ export interface Period {
   /** How the brief window is chosen: a fixed lookback (last_n_days) or since the last ready brief. * `last_n_days` - last_n_days * `since_last_run` - since_last_run */
   period_type: PeriodTypeEnum | (string & {});
   /** Lookback length in days. Required and used only when period_type is last_n_days. */
-  days?: number;
+  days?: number | undefined;
 }
 export interface BriefSectionCitation {
   /** Cited resource type, e.g. insight or dashboard. */
@@ -196,24 +196,24 @@ export interface ListPulseBriefConfigsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedBriefConfigListResultsList = Array<BriefConfig>;
 export interface PaginatedBriefConfigList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedBriefConfigListResultsList;
 }
 export interface ListPulseBriefsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** Names of the brief sources that contributed items. */
 export type ProductBriefListSourcesUsedList = Array<string>;
@@ -239,8 +239,8 @@ export interface ProductBriefList {
 export type PaginatedProductBriefListListResultsList = Array<ProductBriefList>;
 export interface PaginatedProductBriefListList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedProductBriefListListResultsList;
 }
 export interface PulseBriefConfigsDestroyRequest {
@@ -254,9 +254,9 @@ export interface PulseBriefsGenerateCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional brief config to generate for. Omit for the zero-config default brief. */
-  config_id?: string | null;
+  config_id?: string | null | undefined;
   /** Period the brief should cover. Defaults to the last 7 days. */
-  period?: Period;
+  period?: Period | undefined;
 }
 export interface UpdatePulseBriefConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -266,15 +266,15 @@ export interface UpdatePulseBriefConfigRequest {
   /** Human-readable name for this brief focus. */
   name: string;
   /** Free-text focus steering gathering and tone, e.g. "we're the feature flags team". Max 2000 characters. */
-  focus_prompt?: string;
+  focus_prompt?: string | undefined;
   /** Anchor resources the brief gathers movements from. Empty anchors fall back to the team's most recently accessed dashboards. */
-  anchors?: BriefAnchors;
+  anchors?: BriefAnchors | undefined;
   /** Per-config tunables overriding the system defaults. Omitted knobs keep their default. */
-  settings?: BriefSettings;
+  settings?: BriefSettings | undefined;
   /** Whether this config generates briefs. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soft-delete flag. Deleted configs are hidden from lists but recoverable by patching this back to false. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface UpdatePulseBriefConfigsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -282,17 +282,17 @@ export interface UpdatePulseBriefConfigsPartialRequest {
   /** A UUID string identifying this brief config. */
   id: string;
   /** Human-readable name for this brief focus. */
-  name?: string;
+  name?: string | undefined;
   /** Free-text focus steering gathering and tone, e.g. "we're the feature flags team". Max 2000 characters. */
-  focus_prompt?: string;
+  focus_prompt?: string | undefined;
   /** Anchor resources the brief gathers movements from. Empty anchors fall back to the team's most recently accessed dashboards. */
-  anchors?: BriefAnchors;
+  anchors?: BriefAnchors | undefined;
   /** Per-config tunables overriding the system defaults. Omitted knobs keep their default. */
-  settings?: BriefSettings;
+  settings?: BriefSettings | undefined;
   /** Whether this config generates briefs. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soft-delete flag. Deleted configs are hidden from lists but recoverable by patching this back to false. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export type CreatePulseBriefConfigError = PosthogOpError;
 export const createPulseBriefConfig: API.OperationMethod<

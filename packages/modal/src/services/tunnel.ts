@@ -25,21 +25,21 @@ const TELEMETRY = {
 
 export type TunnelType = "TUNNEL_TYPE_UNSPECIFIED" | "TUNNEL_TYPE_H2";
 export interface StartTunnelRequest {
-  port?: number;
-  unencrypted?: boolean;
-  tunnelType?: TunnelType | (string & {});
+  port?: number | undefined;
+  unencrypted?: boolean | undefined;
+  tunnelType?: TunnelType | (string & {}) | undefined;
 }
 export interface StartTunnelResponse {
-  host?: string;
-  port?: number;
-  unencryptedHost?: string;
-  unencryptedPort?: number;
+  host: string;
+  port: number;
+  unencryptedHost?: string | undefined;
+  unencryptedPort?: number | undefined;
 }
 export interface StopTunnelRequest {
-  port?: number;
+  port?: number | undefined;
 }
 export interface StopTunnelResponse {
-  exists?: boolean;
+  exists: boolean;
 }
 export type StartTunnelError = ModalOpError;
 /** Tunnels */
@@ -90,8 +90,8 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          host: S.optional(S.String),
-          port: S.optional(S.Number),
+          host: S.String,
+          port: S.Number,
           unencryptedHost: S.optional(S.String),
           unencryptedPort: S.optional(S.Number),
         }),
@@ -109,7 +109,7 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          exists: S.optional(S.Boolean),
+          exists: S.Boolean,
         }),
       ).annotate({ identifier: "StopTunnelResponse" });
   }

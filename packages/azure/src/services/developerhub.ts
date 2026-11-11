@@ -43,7 +43,7 @@ export interface DeleteWorkflowRequest {
 /** delete response if content must be provided on delete operation */
 export interface DeleteWorkflowResponse {
   /** delete status message */
-  status?: string;
+  status?: string | undefined;
 }
 /** The programming language used. */
 export type GenerationLanguage =
@@ -71,28 +71,28 @@ export interface GeneratePreviewArtifactsRequest {
   subscriptionId: string;
   /** The name of Azure region. */
   location: string;
-  generationLanguage?: GenerationLanguage | (string & {});
+  generationLanguage?: GenerationLanguage | (string & {}) | undefined;
   /** The version of the language image used for execution in the generated dockerfile. */
-  languageVersion?: string;
+  languageVersion?: string | undefined;
   /** The version of the language image used for building the code in the generated dockerfile. */
-  builderVersion?: string;
+  builderVersion?: string | undefined;
   /** The port the application is exposed on. */
-  port?: string;
+  port?: string | undefined;
   /** The name of the app. */
-  appName?: string;
+  appName?: string | undefined;
   /** The directory to output the generated Dockerfile to. */
-  dockerfileOutputDirectory?: string;
+  dockerfileOutputDirectory?: string | undefined;
   /** The directory to output the generated manifests to. */
-  manifestOutputDirectory?: string;
-  dockerfileGenerationMode?: DockerfileGenerationMode | (string & {});
-  manifestGenerationMode?: ManifestGenerationMode | (string & {});
-  manifestType?: GenerationManifestType | (string & {});
+  manifestOutputDirectory?: string | undefined;
+  dockerfileGenerationMode?: DockerfileGenerationMode | (string & {}) | undefined;
+  manifestGenerationMode?: ManifestGenerationMode | (string & {}) | undefined;
+  manifestType?: GenerationManifestType | (string & {}) | undefined;
   /** The name of the image to be generated. */
-  imageName?: string;
+  imageName?: string | undefined;
   /** The namespace to deploy the application to. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** The tag to apply to the generated image. */
-  imageTag?: string;
+  imageTag?: string | undefined;
 }
 /** Dockerfile and manifest artifacts generated as a preview are returned as a map<path string,content string> */
 export type GeneratePreviewArtifactsResponse = { [key: string]: string | undefined };
@@ -112,17 +112,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type GetWorkflowResponseTagsMap = { [key: string]: string | undefined };
@@ -132,32 +132,32 @@ export type DeploymentPropertiesKubeManifestLocationsList = Array<string>;
 /** Manifest override values. */
 export type DeploymentPropertiesOverridesMap = { [key: string]: string | undefined };
 export interface DeploymentProperties {
-  manifestType?: ManifestType | (string & {});
-  kubeManifestLocations?: DeploymentPropertiesKubeManifestLocationsList;
+  manifestType?: ManifestType | (string & {}) | undefined;
+  kubeManifestLocations?: DeploymentPropertiesKubeManifestLocationsList | undefined;
   /** Helm chart directory path in repository. */
-  helmChartPath?: string;
+  helmChartPath?: string | undefined;
   /** Helm Values.yaml file location in repository. */
-  helmValues?: string;
+  helmValues?: string | undefined;
   /** Manifest override values. */
-  overrides?: DeploymentPropertiesOverridesMap;
+  overrides?: DeploymentPropertiesOverridesMap | undefined;
 }
 /** Information on the azure container registry */
 export interface ACR {
   /** ACR subscription id */
-  acrSubscriptionId?: string;
+  acrSubscriptionId?: string | undefined;
   /** ACR resource group */
-  acrResourceGroup?: string;
+  acrResourceGroup?: string | undefined;
   /** ACR registry */
-  acrRegistryName?: string;
+  acrRegistryName?: string | undefined;
   /** ACR repository */
-  acrRepositoryName?: string;
+  acrRepositoryName?: string | undefined;
 }
 /** The fields needed for OIDC with GitHub. */
 export interface GitHubWorkflowProfileOidcCredentials {
   /** Azure Application Client ID */
-  azureClientId?: string;
+  azureClientId?: string | undefined;
   /** Azure Directory (tenant) ID */
-  azureTenantId?: string;
+  azureTenantId?: string | undefined;
 }
 /** The status of the Pull Request submitted against the users repository. */
 export type PullRequestStatus = "unknown" | "submitted" | "merged" | "removed";
@@ -165,90 +165,90 @@ export type PullRequestStatus = "unknown" | "submitted" | "merged" | "removed";
 export type WorkflowRunStatus = "queued" | "inprogress" | "completed";
 export interface WorkflowRun {
   /** Describes if the workflow run succeeded. */
-  succeeded?: boolean;
+  succeeded?: boolean | undefined;
   /** URL to the run of the workflow. */
-  workflowRunURL?: string;
+  workflowRunURL?: string | undefined;
   /** The timestamp of the last workflow run. */
-  lastRunAt?: string;
-  workflowRunStatus?: WorkflowRunStatus;
+  lastRunAt?: string | undefined;
+  workflowRunStatus?: WorkflowRunStatus | undefined;
 }
 /** Determines the authorization status of requests. */
 export type AuthorizationStatus = "Authorized" | "NotFound" | "Error";
 /** GitHub Workflow Profile */
 export interface GitHubWorkflowProfile {
   /** Repository Owner */
-  repositoryOwner?: string;
+  repositoryOwner?: string | undefined;
   /** Repository Name */
-  repositoryName?: string;
+  repositoryName?: string | undefined;
   /** Repository Branch Name */
-  branchName?: string;
+  branchName?: string | undefined;
   /** Path to the Dockerfile within the repository. */
-  dockerfile?: string;
+  dockerfile?: string | undefined;
   /** Path to Dockerfile Build Context within the repository. */
-  dockerBuildContext?: string;
-  deploymentProperties?: DeploymentProperties;
+  dockerBuildContext?: string | undefined;
+  deploymentProperties?: DeploymentProperties | undefined;
   /** Kubernetes namespace the application is deployed to. */
-  namespace?: string;
-  acr?: ACR;
+  namespace?: string | undefined;
+  acr?: ACR | undefined;
   /** The fields needed for OIDC with GitHub. */
-  oidcCredentials?: GitHubWorkflowProfileOidcCredentials;
+  oidcCredentials?: GitHubWorkflowProfileOidcCredentials | undefined;
   /** The Azure Kubernetes Cluster Resource the application will be deployed to. */
-  aksResourceId?: string;
+  aksResourceId?: string | undefined;
   /** The URL to the Pull Request submitted against the users repository. */
-  prURL?: string;
+  prURL?: string | undefined;
   /** The number associated with the submitted pull request. */
-  pullNumber?: number;
-  prStatus?: PullRequestStatus;
-  lastWorkflowRun?: WorkflowRun;
-  authStatus?: AuthorizationStatus;
+  pullNumber?: number | undefined;
+  prStatus?: PullRequestStatus | undefined;
+  lastWorkflowRun?: WorkflowRun | undefined;
+  authStatus?: AuthorizationStatus | undefined;
 }
 /** Properties used for generating artifacts such as Dockerfiles and manifests. */
 export interface ArtifactGenerationProperties {
-  generationLanguage?: GenerationLanguage | (string & {});
+  generationLanguage?: GenerationLanguage | (string & {}) | undefined;
   /** The version of the language image used for execution in the generated dockerfile. */
-  languageVersion?: string;
+  languageVersion?: string | undefined;
   /** The version of the language image used for building the code in the generated dockerfile. */
-  builderVersion?: string;
+  builderVersion?: string | undefined;
   /** The port the application is exposed on. */
-  port?: string;
+  port?: string | undefined;
   /** The name of the app. */
-  appName?: string;
+  appName?: string | undefined;
   /** The directory to output the generated Dockerfile to. */
-  dockerfileOutputDirectory?: string;
+  dockerfileOutputDirectory?: string | undefined;
   /** The directory to output the generated manifests to. */
-  manifestOutputDirectory?: string;
-  dockerfileGenerationMode?: DockerfileGenerationMode | (string & {});
-  manifestGenerationMode?: ManifestGenerationMode | (string & {});
-  manifestType?: GenerationManifestType | (string & {});
+  manifestOutputDirectory?: string | undefined;
+  dockerfileGenerationMode?: DockerfileGenerationMode | (string & {}) | undefined;
+  manifestGenerationMode?: ManifestGenerationMode | (string & {}) | undefined;
+  manifestType?: GenerationManifestType | (string & {}) | undefined;
   /** The name of the image to be generated. */
-  imageName?: string;
+  imageName?: string | undefined;
   /** The namespace to deploy the application to. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** The tag to apply to the generated image. */
-  imageTag?: string;
+  imageTag?: string | undefined;
 }
 /** Workflow properties */
 export interface WorkflowProperties {
   /** Profile of a github workflow. */
-  githubWorkflowProfile?: GitHubWorkflowProfile;
+  githubWorkflowProfile?: GitHubWorkflowProfile | undefined;
   /** Properties for generating artifacts like dockerfile and manifests. */
-  artifactGenerationProperties?: ArtifactGenerationProperties;
+  artifactGenerationProperties?: ArtifactGenerationProperties | undefined;
 }
 export interface GetWorkflowResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetWorkflowResponseTagsMap;
+  tags?: GetWorkflowResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a workflow. */
-  properties?: WorkflowProperties;
+  properties?: WorkflowProperties | undefined;
 }
 export interface GitHubOAuthRequest {
   /** The ID of the target subscription. */
@@ -256,14 +256,14 @@ export interface GitHubOAuthRequest {
   /** The name of Azure region. */
   location: string;
   /** The URL the client will redirect to on successful authentication. If empty, no redirect will occur. */
-  redirectUrl?: string;
+  redirectUrl?: string | undefined;
 }
 /** URL used to authorize the Developer Hub GitHub App */
 export interface GitHubOAuthInfoResponse {
   /** URL for authorizing the Developer Hub GitHub App */
-  authURL?: string;
+  authURL?: string | undefined;
   /** OAuth token used to make calls to GitHub */
-  token?: string;
+  token?: string | undefined;
 }
 export interface GitHubOAuthCallbackRequest {
   /** The ID of the target subscription. */
@@ -278,19 +278,19 @@ export interface GitHubOAuthCallbackRequest {
 /** The response from List GitHubOAuth operation. */
 export interface GitHubOAuthProperties {
   /** user making request */
-  username?: string;
+  username?: string | undefined;
 }
 export interface GitHubOAuthCallbackResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a workflow. */
-  properties?: GitHubOAuthProperties;
+  properties?: GitHubOAuthProperties | undefined;
 }
 export interface ListGitHubOAuthRequest {
   /** The ID of the target subscription. */
@@ -301,34 +301,34 @@ export interface ListGitHubOAuthRequest {
 /** Singleton response of GitHubOAuth containing */
 export interface GitHubOAuthResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a workflow. */
-  properties?: GitHubOAuthProperties;
+  properties?: GitHubOAuthProperties | undefined;
 }
 /** Singleton list response containing one GitHubOAuthResponse response */
 export type GitHubOAuthListResponseValueList = Array<GitHubOAuthResponse>;
 /** The response from List GitHubOAuth operation. */
 export interface GitHubOAuthListResponse {
   /** Singleton list response containing one GitHubOAuthResponse response */
-  value?: GitHubOAuthListResponseValueList;
+  value?: GitHubOAuthListResponseValueList | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -337,23 +337,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkflowRequest {
   /** The ID of the target subscription. */
@@ -364,28 +364,28 @@ export type WorkflowTagsMap = { [key: string]: string | undefined };
 /** Resource representation of a workflow */
 export interface Workflow {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WorkflowTagsMap;
+  tags?: WorkflowTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a workflow. */
-  properties?: WorkflowProperties;
+  properties?: WorkflowProperties | undefined;
 }
 /** The list of workflows. */
 export type WorkflowListResultValueList = Array<Workflow>;
 /** The response from List Workflows operation. */
 export interface WorkflowListResult {
   /** The list of workflows. */
-  value?: WorkflowListResultValueList;
+  value?: WorkflowListResultValueList | undefined;
   /** The URL to the next set of workflow results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkflowByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -393,7 +393,7 @@ export interface ListWorkflowByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The ManagedCluster resource associated with the workflows. */
-  managedClusterResource?: string;
+  managedClusterResource?: string | undefined;
 }
 export type UpdateWorkflowTagsRequestTagsMap = { [key: string]: string | undefined };
 export interface UpdateWorkflowTagsRequest {
@@ -403,61 +403,61 @@ export interface UpdateWorkflowTagsRequest {
   resourceGroupName: string;
   /** The name of the workflow resource. */
   workflowName: string;
-  tags?: UpdateWorkflowTagsRequestTagsMap;
+  tags?: UpdateWorkflowTagsRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateWorkflowTagsResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateWorkflowTagsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateWorkflowTagsResponseTagsMap;
+  tags?: UpdateWorkflowTagsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a workflow. */
-  properties?: WorkflowProperties;
+  properties?: WorkflowProperties | undefined;
 }
 /** Resource tags. */
 export type WorkflowCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** The fields needed for OIDC with GitHub. */
 export type GitHubWorkflowProfileInputOidcCredentials = GitHubWorkflowProfileOidcCredentials;
 export interface WorkflowRunInput {
-  workflowRunStatus?: WorkflowRunStatus | (string & {});
+  workflowRunStatus?: WorkflowRunStatus | (string & {}) | undefined;
 }
 /** GitHub Workflow Profile */
 export interface GitHubWorkflowProfileInput {
   /** Repository Owner */
-  repositoryOwner?: string;
+  repositoryOwner?: string | undefined;
   /** Repository Name */
-  repositoryName?: string;
+  repositoryName?: string | undefined;
   /** Repository Branch Name */
-  branchName?: string;
+  branchName?: string | undefined;
   /** Path to the Dockerfile within the repository. */
-  dockerfile?: string;
+  dockerfile?: string | undefined;
   /** Path to Dockerfile Build Context within the repository. */
-  dockerBuildContext?: string;
-  deploymentProperties?: DeploymentProperties;
+  dockerBuildContext?: string | undefined;
+  deploymentProperties?: DeploymentProperties | undefined;
   /** Kubernetes namespace the application is deployed to. */
-  namespace?: string;
-  acr?: ACR;
+  namespace?: string | undefined;
+  acr?: ACR | undefined;
   /** The fields needed for OIDC with GitHub. */
-  oidcCredentials?: GitHubWorkflowProfileOidcCredentials;
+  oidcCredentials?: GitHubWorkflowProfileOidcCredentials | undefined;
   /** The Azure Kubernetes Cluster Resource the application will be deployed to. */
-  aksResourceId?: string;
-  lastWorkflowRun?: WorkflowRunInput;
+  aksResourceId?: string | undefined;
+  lastWorkflowRun?: WorkflowRunInput | undefined;
 }
 /** Workflow properties */
 export interface WorkflowPropertiesInput {
   /** Profile of a github workflow. */
-  githubWorkflowProfile?: GitHubWorkflowProfileInput;
+  githubWorkflowProfile?: GitHubWorkflowProfileInput | undefined;
   /** Properties for generating artifacts like dockerfile and manifests. */
-  artifactGenerationProperties?: ArtifactGenerationProperties;
+  artifactGenerationProperties?: ArtifactGenerationProperties | undefined;
 }
 export interface WorkflowCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -467,29 +467,29 @@ export interface WorkflowCreateOrUpdateRequest {
   /** The name of the workflow resource. */
   workflowName: string;
   /** Resource tags. */
-  tags?: WorkflowCreateOrUpdateRequestTagsMap;
+  tags?: WorkflowCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a workflow. */
-  properties?: WorkflowPropertiesInput;
+  properties?: WorkflowPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type WorkflowCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface WorkflowCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WorkflowCreateOrUpdateResponseTagsMap;
+  tags?: WorkflowCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a workflow. */
-  properties?: WorkflowProperties;
+  properties?: WorkflowProperties | undefined;
 }
 export type DeleteWorkflowError = AzureOpError;
 /** Deletes a workflow */

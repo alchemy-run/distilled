@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -122,59 +123,59 @@ export type RecordType = "MCP" | "AGENT" | "CUSTOM" | "SKILL" | "GATEWAY" | (str
 export type DescriptorData = string | redacted.Redacted<string>;
 export type DataSchemaVersion = string;
 export interface McpToolsDescriptor {
-  data?: string | redacted.Redacted<string>;
-  dataSchemaVersion?: string;
+  data?: string | redacted.Redacted<string> | undefined;
+  dataSchemaVersion?: string | undefined;
 }
 export interface McpServerAdditionalData {
-  tools?: McpToolsDescriptor;
+  tools?: McpToolsDescriptor | undefined;
 }
 export type DescriptorSourceUrl = string;
 export interface DescriptorSourceFromUrl {
   url: string;
 }
 export interface DescriptorSource {
-  fromUrl?: DescriptorSourceFromUrl;
+  fromUrl?: DescriptorSourceFromUrl | undefined;
 }
 export interface McpServerDescriptor {
-  data?: string | redacted.Redacted<string>;
-  dataSchemaVersion?: string;
-  additionalData?: McpServerAdditionalData;
-  source?: DescriptorSource;
+  data?: string | redacted.Redacted<string> | undefined;
+  dataSchemaVersion?: string | undefined;
+  additionalData?: McpServerAdditionalData | undefined;
+  source?: DescriptorSource | undefined;
 }
 export interface A2aAgentCardDescriptor {
-  data?: string | redacted.Redacted<string>;
-  dataSchemaVersion?: string;
-  source?: DescriptorSource;
+  data?: string | redacted.Redacted<string> | undefined;
+  dataSchemaVersion?: string | undefined;
+  source?: DescriptorSource | undefined;
 }
 export interface AgentSkillsMdDescriptor {
-  data?: string | redacted.Redacted<string>;
-  dataSchemaVersion?: string;
-  source?: DescriptorSource;
+  data?: string | redacted.Redacted<string> | undefined;
+  dataSchemaVersion?: string | undefined;
+  source?: DescriptorSource | undefined;
 }
 export interface AgentSkillsAdditionalData {
-  skillMd?: AgentSkillsMdDescriptor;
+  skillMd?: AgentSkillsMdDescriptor | undefined;
 }
 export interface AgentSkillsDefinitionDescriptor {
-  data?: string | redacted.Redacted<string>;
-  dataSchemaVersion?: string;
-  additionalData?: AgentSkillsAdditionalData;
+  data?: string | redacted.Redacted<string> | undefined;
+  dataSchemaVersion?: string | undefined;
+  additionalData?: AgentSkillsAdditionalData | undefined;
 }
 export interface CustomDescriptor {
-  data?: string | redacted.Redacted<string>;
+  data?: string | redacted.Redacted<string> | undefined;
 }
 export interface HttpDescriptor {
-  source?: DescriptorSource;
+  source?: DescriptorSource | undefined;
 }
 export interface AgUiDescriptor {
-  source?: DescriptorSource;
+  source?: DescriptorSource | undefined;
 }
 export interface Descriptors {
-  mcpServer?: McpServerDescriptor;
-  a2aAgentCard?: A2aAgentCardDescriptor;
-  agentSkillsDefinition?: AgentSkillsDefinitionDescriptor;
-  custom?: CustomDescriptor;
-  http?: HttpDescriptor;
-  agui?: AgUiDescriptor;
+  mcpServer?: McpServerDescriptor | undefined;
+  a2aAgentCard?: A2aAgentCardDescriptor | undefined;
+  agentSkillsDefinition?: AgentSkillsDefinitionDescriptor | undefined;
+  custom?: CustomDescriptor | undefined;
+  http?: HttpDescriptor | undefined;
+  agui?: AgUiDescriptor | undefined;
 }
 export type RegistryRecordVersion = string;
 export type RegistryRecordStatus =
@@ -194,15 +195,15 @@ export interface RegistryRecordSummary {
   recordArn: string;
   recordId: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
-  displayName?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  displayName?: string | undefined;
   recordType: RecordType;
   descriptors: Descriptors;
   recordVersion: string;
   status: RegistryRecordStatus;
   createdAt: Date;
   updatedAt: Date;
-  customMetadata?: any;
+  customMetadata?: any | undefined;
 }
 export type RegistryRecordSummaryList = RegistryRecordSummary[];
 export type BatchGetDiscoverableRegistryRecordErrorCode =
@@ -214,7 +215,7 @@ export interface BatchGetDiscoverableRegistryRecordError_ {
   registryId: string;
   recordId: string;
   errorCode: BatchGetDiscoverableRegistryRecordErrorCode;
-  message?: string;
+  message?: string | undefined;
 }
 export type BatchGetDiscoverableRegistryRecordErrorList =
   BatchGetDiscoverableRegistryRecordError_[];
@@ -232,9 +233,9 @@ export interface RegistryRecordFilter {
 export type RegistryRecordFilterList = RegistryRecordFilter[];
 export interface ListDiscoverableRegistryRecordsRequest {
   registryId: string;
-  maxResults?: number;
-  nextToken?: string;
-  filters?: RegistryRecordFilter[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: RegistryRecordFilter[] | undefined;
 }
 export type DescriptorTypeList = string[];
 export interface DiscoverableRegistryRecordSummary {
@@ -242,19 +243,19 @@ export interface DiscoverableRegistryRecordSummary {
   recordArn: string;
   recordId: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
-  displayName?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  displayName?: string | undefined;
   recordType: RecordType;
   recordVersion: string;
   status: RegistryRecordStatus;
   createdAt: Date;
   updatedAt: Date;
-  descriptorTypes?: string[];
+  descriptorTypes?: string[] | undefined;
 }
 export type DiscoverableRegistryRecordSummaryList = DiscoverableRegistryRecordSummary[];
 export interface ListDiscoverableRegistryRecordsResponse {
   registryRecords: DiscoverableRegistryRecordSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type SearchQuery = string | redacted.Redacted<string>;
 export type RegistryIdList = string[];
@@ -262,8 +263,8 @@ export type MetadataFilterExpression = unknown;
 export interface SearchDiscoverableRegistryRecordsRequest {
   searchQuery: string | redacted.Redacted<string>;
   registryIds: string[];
-  maxResults?: number;
-  filters?: any;
+  maxResults?: number | undefined;
+  filters?: any | undefined;
 }
 export interface SearchDiscoverableRegistryRecordsResponse {
   registryRecords: RegistryRecordSummary[];
@@ -293,7 +294,7 @@ export type BatchGetDiscoverableRegistryRecordError =
  * Retrieves multiple discoverable registry records by ID from a single registry. Records that cannot be retrieved are reported individually in the `errors` list rather than failing the entire request.
  */
 export const batchGetDiscoverableRegistryRecord: API.OperationMethod<
-  BatchGetDiscoverableRegistryRecordRequest,
+  BatchGetDiscoverableRegistryRecordRequest & RegionInput,
   BatchGetDiscoverableRegistryRecordResponse,
   BatchGetDiscoverableRegistryRecordError,
   Credentials | HttpClient.HttpClient
@@ -327,7 +328,7 @@ export type ListDiscoverableRegistryRecordsError =
  * Lists the discoverable registry records in a registry. You can optionally filter and paginate the results.
  */
 export const listDiscoverableRegistryRecords: API.PaginatedOperationMethod<
-  ListDiscoverableRegistryRecordsRequest,
+  ListDiscoverableRegistryRecordsRequest & RegionInput,
   ListDiscoverableRegistryRecordsResponse,
   ListDiscoverableRegistryRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -368,7 +369,7 @@ export type SearchDiscoverableRegistryRecordsError =
  * Searches the discoverable registry records in a registry using a natural language query. Returns metadata for the matching records ordered by relevance.
  */
 export const searchDiscoverableRegistryRecords: API.OperationMethod<
-  SearchDiscoverableRegistryRecordsRequest,
+  SearchDiscoverableRegistryRecordsRequest & RegionInput,
   SearchDiscoverableRegistryRecordsResponse,
   SearchDiscoverableRegistryRecordsError,
   Credentials | HttpClient.HttpClient

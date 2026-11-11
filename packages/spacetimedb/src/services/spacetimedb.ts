@@ -54,8 +54,8 @@ export interface AddDatabaseNameRequest {
   body: string | Uint8Array | Blob;
 }
 export interface AddDatabaseNameResponseSuccess {
-  domain?: string;
-  database_result?: string;
+  domain?: string | undefined;
+  database_result?: string | undefined;
 }
 export interface AddDatabaseNameResponse {
   Success: AddDatabaseNameResponseSuccess;
@@ -124,9 +124,9 @@ export interface GetDatabaseLogsRequest {
   /** Database name or Spacetime identity. */
   name_or_identity: string;
   /** Number of most-recent log lines to retrieve. */
-  num_lines?: number;
+  num_lines?: number | undefined;
   /** Whether to continue receiving new logs via a stream. */
-  follow?: boolean;
+  follow?: boolean | undefined;
 }
 export type GetDatabaseLogsResponse = string;
 export interface GetDatabaseNamesRequest {
@@ -141,7 +141,7 @@ export interface GetDatabaseSchemaRequest {
   /** Database name or Spacetime identity. */
   name_or_identity: string;
   /** The version of RawModuleDef to return, e.g. 9. */
-  version?: number;
+  version?: number | undefined;
 }
 export type GetDatabaseSchemaResponseBodyMap = { [key: string]: unknown | undefined };
 export type GetDatabaseSchemaResponse = GetDatabaseSchemaResponseBodyMap;
@@ -184,12 +184,12 @@ export interface UpdateDatabaseRequest {
   /** Database name or Spacetime identity. */
   name_or_identity: string;
   /** Whether to clear any existing data when updating an existing database. */
-  clear?: boolean;
+  clear?: boolean | undefined;
   body: string | Uint8Array | Blob;
 }
 export type UpdateDatabaseResponseSuccessOp = "created" | "updated";
 export interface UpdateDatabaseResponseSuccess {
-  domain?: string | null;
+  domain?: string | null | undefined;
   database_identity: string;
   op: UpdateDatabaseResponseSuccessOp;
 }

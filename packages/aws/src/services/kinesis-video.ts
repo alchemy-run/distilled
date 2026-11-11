@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -197,7 +198,7 @@ export type ChannelName = string;
 export type ChannelType = "SINGLE_MASTER" | "FULL_MESH" | (string & {});
 export type MessageTtlSeconds = number;
 export interface SingleMasterConfiguration {
-  MessageTtlSeconds?: number;
+  MessageTtlSeconds?: number | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -208,13 +209,13 @@ export interface Tag {
 export type TagOnCreateList = Tag[];
 export interface CreateSignalingChannelInput {
   ChannelName: string;
-  ChannelType?: ChannelType;
-  SingleMasterConfiguration?: SingleMasterConfiguration;
-  Tags?: Tag[];
+  ChannelType?: ChannelType | undefined;
+  SingleMasterConfiguration?: SingleMasterConfiguration | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type ResourceARN = string;
 export interface CreateSignalingChannelOutput {
-  ChannelARN?: string;
+  ChannelARN?: string | undefined;
 }
 export type DeviceName = string;
 export type StreamName = string;
@@ -227,36 +228,36 @@ export interface StreamStorageConfiguration {
   DefaultStorageTier: DefaultStorageTier;
 }
 export interface CreateStreamInput {
-  DeviceName?: string;
+  DeviceName?: string | undefined;
   StreamName: string;
-  MediaType?: string;
-  KmsKeyId?: string;
-  DataRetentionInHours?: number;
-  Tags?: { [key: string]: string | undefined };
-  StreamStorageConfiguration?: StreamStorageConfiguration;
+  MediaType?: string | undefined;
+  KmsKeyId?: string | undefined;
+  DataRetentionInHours?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  StreamStorageConfiguration?: StreamStorageConfiguration | undefined;
 }
 export interface CreateStreamOutput {
-  StreamARN?: string;
+  StreamARN?: string | undefined;
 }
 export interface DeleteEdgeConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
 }
 export interface DeleteEdgeConfigurationOutput {}
 export type Version = string;
 export interface DeleteSignalingChannelInput {
   ChannelARN: string;
-  CurrentVersion?: string;
+  CurrentVersion?: string | undefined;
 }
 export interface DeleteSignalingChannelOutput {}
 export interface DeleteStreamInput {
   StreamARN: string;
-  CurrentVersion?: string;
+  CurrentVersion?: string | undefined;
 }
 export interface DeleteStreamOutput {}
 export interface DescribeEdgeConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
 }
 export type SyncStatus =
   | "SYNCING"
@@ -283,7 +284,7 @@ export interface ScheduleConfig {
 }
 export interface RecorderConfig {
   MediaSourceConfig: MediaSourceConfig;
-  ScheduleConfig?: ScheduleConfig;
+  ScheduleConfig?: ScheduleConfig | undefined;
 }
 export interface UploaderConfig {
   ScheduleConfig: ScheduleConfig;
@@ -292,53 +293,53 @@ export type EdgeRetentionInHours = number;
 export type MaxLocalMediaSizeInMB = number;
 export type StrategyOnFullSize = "DELETE_OLDEST_MEDIA" | "DENY_NEW_MEDIA" | (string & {});
 export interface LocalSizeConfig {
-  MaxLocalMediaSizeInMB?: number;
-  StrategyOnFullSize?: StrategyOnFullSize;
+  MaxLocalMediaSizeInMB?: number | undefined;
+  StrategyOnFullSize?: StrategyOnFullSize | undefined;
 }
 export type DeleteAfterUpload = boolean;
 export interface DeletionConfig {
-  EdgeRetentionInHours?: number;
-  LocalSizeConfig?: LocalSizeConfig;
-  DeleteAfterUpload?: boolean;
+  EdgeRetentionInHours?: number | undefined;
+  LocalSizeConfig?: LocalSizeConfig | undefined;
+  DeleteAfterUpload?: boolean | undefined;
 }
 export interface EdgeConfig {
   HubDeviceArn: string;
   RecorderConfig: RecorderConfig;
-  UploaderConfig?: UploaderConfig;
-  DeletionConfig?: DeletionConfig;
+  UploaderConfig?: UploaderConfig | undefined;
+  DeletionConfig?: DeletionConfig | undefined;
 }
 export type JobStatusDetails = string;
 export type RecorderStatus = "SUCCESS" | "USER_ERROR" | "SYSTEM_ERROR" | (string & {});
 export interface LastRecorderStatus {
-  JobStatusDetails?: string;
-  LastCollectedTime?: Date;
-  LastUpdatedTime?: Date;
-  RecorderStatus?: RecorderStatus;
+  JobStatusDetails?: string | undefined;
+  LastCollectedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  RecorderStatus?: RecorderStatus | undefined;
 }
 export type UploaderStatus = "SUCCESS" | "USER_ERROR" | "SYSTEM_ERROR" | (string & {});
 export interface LastUploaderStatus {
-  JobStatusDetails?: string;
-  LastCollectedTime?: Date;
-  LastUpdatedTime?: Date;
-  UploaderStatus?: UploaderStatus;
+  JobStatusDetails?: string | undefined;
+  LastCollectedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  UploaderStatus?: UploaderStatus | undefined;
 }
 export interface EdgeAgentStatus {
-  LastRecorderStatus?: LastRecorderStatus;
-  LastUploaderStatus?: LastUploaderStatus;
+  LastRecorderStatus?: LastRecorderStatus | undefined;
+  LastUploaderStatus?: LastUploaderStatus | undefined;
 }
 export interface DescribeEdgeConfigurationOutput {
-  StreamName?: string;
-  StreamARN?: string;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
-  SyncStatus?: SyncStatus;
-  FailedStatusDetails?: string;
-  EdgeConfig?: EdgeConfig;
-  EdgeAgentStatus?: EdgeAgentStatus;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  SyncStatus?: SyncStatus | undefined;
+  FailedStatusDetails?: string | undefined;
+  EdgeConfig?: EdgeConfig | undefined;
+  EdgeAgentStatus?: EdgeAgentStatus | undefined;
 }
 export interface DescribeImageGenerationConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
 }
 export type ConfigurationStatus = "ENABLED" | "DISABLED" | (string & {});
 export type ImageSelectorType = "SERVER_TIMESTAMP" | "PRODUCER_TIMESTAMP" | (string & {});
@@ -352,7 +353,7 @@ export type SamplingInterval = number;
 export type Format = "JPEG" | "PNG" | (string & {});
 export type FormatConfigKey = "JPEGQuality" | (string & {});
 export type FormatConfigValue = string;
-export type FormatConfig = { [key in FormatConfigKey]?: string };
+export type FormatConfig = { [key in FormatConfigKey]?: string | undefined };
 export type WidthPixels = number;
 export type HeightPixels = number;
 export interface ImageGenerationConfiguration {
@@ -361,46 +362,46 @@ export interface ImageGenerationConfiguration {
   DestinationConfig: ImageGenerationDestinationConfig;
   SamplingInterval: number;
   Format: Format;
-  FormatConfig?: { [key: string]: string | undefined };
-  WidthPixels?: number;
-  HeightPixels?: number;
+  FormatConfig?: { [key: string]: string | undefined } | undefined;
+  WidthPixels?: number | undefined;
+  HeightPixels?: number | undefined;
 }
 export interface DescribeImageGenerationConfigurationOutput {
-  ImageGenerationConfiguration?: ImageGenerationConfiguration;
+  ImageGenerationConfiguration?: ImageGenerationConfiguration | undefined;
 }
 export type MappedResourceConfigurationListLimit = number;
 export type NextToken = string;
 export interface DescribeMappedResourceConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type Type = string;
 export interface MappedResourceConfigurationListItem {
-  Type?: string;
-  ARN?: string;
+  Type?: string | undefined;
+  ARN?: string | undefined;
 }
 export type MappedResourceConfigurationList = MappedResourceConfigurationListItem[];
 export interface DescribeMappedResourceConfigurationOutput {
-  MappedResourceConfigurationList?: MappedResourceConfigurationListItem[];
-  NextToken?: string;
+  MappedResourceConfigurationList?: MappedResourceConfigurationListItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeMediaStorageConfigurationInput {
-  ChannelName?: string;
-  ChannelARN?: string;
+  ChannelName?: string | undefined;
+  ChannelARN?: string | undefined;
 }
 export type MediaStorageConfigurationStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface MediaStorageConfiguration {
-  StreamARN?: string;
+  StreamARN?: string | undefined;
   Status: MediaStorageConfigurationStatus;
 }
 export interface DescribeMediaStorageConfigurationOutput {
-  MediaStorageConfiguration?: MediaStorageConfiguration;
+  MediaStorageConfiguration?: MediaStorageConfiguration | undefined;
 }
 export interface DescribeNotificationConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
 }
 export interface NotificationDestinationConfig {
   Uri: string;
@@ -410,51 +411,51 @@ export interface NotificationConfiguration {
   DestinationConfig: NotificationDestinationConfig;
 }
 export interface DescribeNotificationConfigurationOutput {
-  NotificationConfiguration?: NotificationConfiguration;
+  NotificationConfiguration?: NotificationConfiguration | undefined;
 }
 export interface DescribeSignalingChannelInput {
-  ChannelName?: string;
-  ChannelARN?: string;
+  ChannelName?: string | undefined;
+  ChannelARN?: string | undefined;
 }
 export type Status = "CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | (string & {});
 export interface ChannelInfo {
-  ChannelName?: string;
-  ChannelARN?: string;
-  ChannelType?: ChannelType;
-  ChannelStatus?: Status;
-  CreationTime?: Date;
-  SingleMasterConfiguration?: SingleMasterConfiguration;
-  Version?: string;
+  ChannelName?: string | undefined;
+  ChannelARN?: string | undefined;
+  ChannelType?: ChannelType | undefined;
+  ChannelStatus?: Status | undefined;
+  CreationTime?: Date | undefined;
+  SingleMasterConfiguration?: SingleMasterConfiguration | undefined;
+  Version?: string | undefined;
 }
 export interface DescribeSignalingChannelOutput {
-  ChannelInfo?: ChannelInfo;
+  ChannelInfo?: ChannelInfo | undefined;
 }
 export interface DescribeStreamInput {
-  StreamName?: string;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
 }
 export interface StreamInfo {
-  DeviceName?: string;
-  StreamName?: string;
-  StreamARN?: string;
-  MediaType?: string;
-  KmsKeyId?: string;
-  Version?: string;
-  Status?: Status;
-  CreationTime?: Date;
-  DataRetentionInHours?: number;
+  DeviceName?: string | undefined;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
+  MediaType?: string | undefined;
+  KmsKeyId?: string | undefined;
+  Version?: string | undefined;
+  Status?: Status | undefined;
+  CreationTime?: Date | undefined;
+  DataRetentionInHours?: number | undefined;
 }
 export interface DescribeStreamOutput {
-  StreamInfo?: StreamInfo;
+  StreamInfo?: StreamInfo | undefined;
 }
 export interface DescribeStreamStorageConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
 }
 export interface DescribeStreamStorageConfigurationOutput {
-  StreamName?: string;
-  StreamARN?: string;
-  StreamStorageConfiguration?: StreamStorageConfiguration;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
+  StreamStorageConfiguration?: StreamStorageConfiguration | undefined;
 }
 export type APIName =
   | "PUT_MEDIA"
@@ -467,114 +468,114 @@ export type APIName =
   | "GET_IMAGES"
   | (string & {});
 export interface GetDataEndpointInput {
-  StreamName?: string;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
   APIName: APIName;
 }
 export type DataEndpoint = string;
 export interface GetDataEndpointOutput {
-  DataEndpoint?: string;
+  DataEndpoint?: string | undefined;
 }
 export type ChannelProtocol = "WSS" | "HTTPS" | "WEBRTC" | (string & {});
 export type ListOfProtocols = ChannelProtocol[];
 export type ChannelRole = "MASTER" | "VIEWER" | (string & {});
 export interface SingleMasterChannelEndpointConfiguration {
-  Protocols?: ChannelProtocol[];
-  Role?: ChannelRole;
+  Protocols?: ChannelProtocol[] | undefined;
+  Role?: ChannelRole | undefined;
 }
 export interface GetSignalingChannelEndpointInput {
   ChannelARN: string;
-  SingleMasterChannelEndpointConfiguration?: SingleMasterChannelEndpointConfiguration;
+  SingleMasterChannelEndpointConfiguration?: SingleMasterChannelEndpointConfiguration | undefined;
 }
 export type ResourceEndpoint = string;
 export interface ResourceEndpointListItem {
-  Protocol?: ChannelProtocol;
-  ResourceEndpoint?: string;
+  Protocol?: ChannelProtocol | undefined;
+  ResourceEndpoint?: string | undefined;
 }
 export type ResourceEndpointList = ResourceEndpointListItem[];
 export interface GetSignalingChannelEndpointOutput {
-  ResourceEndpointList?: ResourceEndpointListItem[];
+  ResourceEndpointList?: ResourceEndpointListItem[] | undefined;
 }
 export type ListEdgeAgentConfigurationsInputLimit = number;
 export interface ListEdgeAgentConfigurationsInput {
   HubDeviceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEdgeAgentConfigurationsEdgeConfig {
-  StreamName?: string;
-  StreamARN?: string;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
-  SyncStatus?: SyncStatus;
-  FailedStatusDetails?: string;
-  EdgeConfig?: EdgeConfig;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  SyncStatus?: SyncStatus | undefined;
+  FailedStatusDetails?: string | undefined;
+  EdgeConfig?: EdgeConfig | undefined;
 }
 export type ListEdgeAgentConfigurationsEdgeConfigList = ListEdgeAgentConfigurationsEdgeConfig[];
 export interface ListEdgeAgentConfigurationsOutput {
-  EdgeConfigs?: ListEdgeAgentConfigurationsEdgeConfig[];
-  NextToken?: string;
+  EdgeConfigs?: ListEdgeAgentConfigurationsEdgeConfig[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListStreamsInputLimit = number;
 export type ComparisonOperator = "BEGINS_WITH" | (string & {});
 export interface ChannelNameCondition {
-  ComparisonOperator?: ComparisonOperator;
-  ComparisonValue?: string;
+  ComparisonOperator?: ComparisonOperator | undefined;
+  ComparisonValue?: string | undefined;
 }
 export interface ListSignalingChannelsInput {
-  MaxResults?: number;
-  NextToken?: string;
-  ChannelNameCondition?: ChannelNameCondition;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ChannelNameCondition?: ChannelNameCondition | undefined;
 }
 export type ChannelInfoList = ChannelInfo[];
 export interface ListSignalingChannelsOutput {
-  ChannelInfoList?: ChannelInfo[];
-  NextToken?: string;
+  ChannelInfoList?: ChannelInfo[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface StreamNameCondition {
-  ComparisonOperator?: ComparisonOperator;
-  ComparisonValue?: string;
+  ComparisonOperator?: ComparisonOperator | undefined;
+  ComparisonValue?: string | undefined;
 }
 export interface ListStreamsInput {
-  MaxResults?: number;
-  NextToken?: string;
-  StreamNameCondition?: StreamNameCondition;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  StreamNameCondition?: StreamNameCondition | undefined;
 }
 export type StreamInfoList = StreamInfo[];
 export interface ListStreamsOutput {
-  StreamInfoList?: StreamInfo[];
-  NextToken?: string;
+  StreamInfoList?: StreamInfo[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
-  NextToken?: string;
+  NextToken?: string | undefined;
   ResourceARN: string;
 }
 export interface ListTagsForResourceOutput {
-  NextToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  NextToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTagsForStreamInput {
-  NextToken?: string;
-  StreamARN?: string;
-  StreamName?: string;
+  NextToken?: string | undefined;
+  StreamARN?: string | undefined;
+  StreamName?: string | undefined;
 }
 export interface ListTagsForStreamOutput {
-  NextToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  NextToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartEdgeConfigurationUpdateInput {
-  StreamName?: string;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
   EdgeConfig: EdgeConfig;
 }
 export interface StartEdgeConfigurationUpdateOutput {
-  StreamName?: string;
-  StreamARN?: string;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
-  SyncStatus?: SyncStatus;
-  FailedStatusDetails?: string;
-  EdgeConfig?: EdgeConfig;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  SyncStatus?: SyncStatus | undefined;
+  FailedStatusDetails?: string | undefined;
+  EdgeConfig?: EdgeConfig | undefined;
 }
 export type TagList = Tag[];
 export interface TagResourceInput {
@@ -583,8 +584,8 @@ export interface TagResourceInput {
 }
 export interface TagResourceOutput {}
 export interface TagStreamInput {
-  StreamARN?: string;
-  StreamName?: string;
+  StreamARN?: string | undefined;
+  StreamName?: string | undefined;
   Tags: { [key: string]: string | undefined };
 }
 export interface TagStreamOutput {}
@@ -595,8 +596,8 @@ export interface UntagResourceInput {
 }
 export interface UntagResourceOutput {}
 export interface UntagStreamInput {
-  StreamARN?: string;
-  StreamName?: string;
+  StreamARN?: string | undefined;
+  StreamName?: string | undefined;
   TagKeyList: string[];
 }
 export interface UntagStreamOutput {}
@@ -606,17 +607,17 @@ export type UpdateDataRetentionOperation =
   | (string & {});
 export type DataRetentionChangeInHours = number;
 export interface UpdateDataRetentionInput {
-  StreamName?: string;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
   CurrentVersion: string;
   Operation: UpdateDataRetentionOperation;
   DataRetentionChangeInHours: number;
 }
 export interface UpdateDataRetentionOutput {}
 export interface UpdateImageGenerationConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
-  ImageGenerationConfiguration?: ImageGenerationConfiguration;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
+  ImageGenerationConfiguration?: ImageGenerationConfiguration | undefined;
 }
 export interface UpdateImageGenerationConfigurationOutput {}
 export interface UpdateMediaStorageConfigurationInput {
@@ -625,28 +626,28 @@ export interface UpdateMediaStorageConfigurationInput {
 }
 export interface UpdateMediaStorageConfigurationOutput {}
 export interface UpdateNotificationConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
-  NotificationConfiguration?: NotificationConfiguration;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
+  NotificationConfiguration?: NotificationConfiguration | undefined;
 }
 export interface UpdateNotificationConfigurationOutput {}
 export interface UpdateSignalingChannelInput {
   ChannelARN: string;
   CurrentVersion: string;
-  SingleMasterConfiguration?: SingleMasterConfiguration;
+  SingleMasterConfiguration?: SingleMasterConfiguration | undefined;
 }
 export interface UpdateSignalingChannelOutput {}
 export interface UpdateStreamInput {
-  StreamName?: string;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
   CurrentVersion: string;
-  DeviceName?: string;
-  MediaType?: string;
+  DeviceName?: string | undefined;
+  MediaType?: string | undefined;
 }
 export interface UpdateStreamOutput {}
 export interface UpdateStreamStorageConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
   CurrentVersion: string;
   StreamStorageConfiguration: StreamStorageConfiguration;
 }
@@ -666,7 +667,7 @@ export type CreateSignalingChannelError =
  * `CreateSignalingChannel` is an asynchronous operation.
  */
 export const createSignalingChannel: API.OperationMethod<
-  CreateSignalingChannelInput,
+  CreateSignalingChannelInput & RegionInput,
   CreateSignalingChannelOutput,
   CreateSignalingChannelError,
   Credentials | HttpClient.HttpClient
@@ -711,7 +712,7 @@ export type CreateStreamError =
  * action.
  */
 export const createStream: API.OperationMethod<
-  CreateStreamInput,
+  CreateStreamInput & RegionInput,
   CreateStreamOutput,
   CreateStreamError,
   Credentials | HttpClient.HttpClient
@@ -749,7 +750,7 @@ export type DeleteEdgeConfigurationError =
  * When the deletion process has completed successfully, the edge configuration is no longer accessible.
  */
 export const deleteEdgeConfiguration: API.OperationMethod<
-  DeleteEdgeConfigurationInput,
+  DeleteEdgeConfigurationInput & RegionInput,
   DeleteEdgeConfigurationOutput,
   DeleteEdgeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -784,7 +785,7 @@ export type DeleteSignalingChannelError =
  * recent version is deleted.
  */
 export const deleteSignalingChannel: API.OperationMethod<
-  DeleteSignalingChannelInput,
+  DeleteSignalingChannelInput & RegionInput,
   DeleteSignalingChannelOutput,
   DeleteSignalingChannelError,
   Credentials | HttpClient.HttpClient
@@ -829,7 +830,7 @@ export type DeleteStreamError =
  * action.
  */
 export const deleteStream: API.OperationMethod<
-  DeleteStreamInput,
+  DeleteStreamInput & RegionInput,
   DeleteStreamOutput,
   DeleteStreamError,
   Credentials | HttpClient.HttpClient
@@ -866,7 +867,7 @@ export type DescribeEdgeConfigurationError =
  * evaluate the health of the Edge Agent.
  */
 export const describeEdgeConfiguration: API.OperationMethod<
-  DescribeEdgeConfigurationInput,
+  DescribeEdgeConfigurationInput & RegionInput,
   DescribeEdgeConfigurationOutput,
   DescribeEdgeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -897,7 +898,7 @@ export type DescribeImageGenerationConfigurationError =
  * Gets the `ImageGenerationConfiguration` for a given Kinesis video stream.
  */
 export const describeImageGenerationConfiguration: API.OperationMethod<
-  DescribeImageGenerationConfigurationInput,
+  DescribeImageGenerationConfigurationInput & RegionInput,
   DescribeImageGenerationConfigurationOutput,
   DescribeImageGenerationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -928,7 +929,7 @@ export type DescribeMappedResourceConfigurationError =
  * or `streamARN` should be provided in the input.
  */
 export const describeMappedResourceConfiguration: API.PaginatedOperationMethod<
-  DescribeMappedResourceConfigurationInput,
+  DescribeMappedResourceConfigurationInput & RegionInput,
   DescribeMappedResourceConfigurationOutput,
   DescribeMappedResourceConfigurationError,
   Credentials | HttpClient.HttpClient,
@@ -966,7 +967,7 @@ export type DescribeMediaStorageConfigurationError =
  * or `ChannelARN` in the input.
  */
 export const describeMediaStorageConfiguration: API.OperationMethod<
-  DescribeMediaStorageConfigurationInput,
+  DescribeMediaStorageConfigurationInput & RegionInput,
   DescribeMediaStorageConfigurationOutput,
   DescribeMediaStorageConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -996,7 +997,7 @@ export type DescribeNotificationConfigurationError =
  * Gets the `NotificationConfiguration` for a given Kinesis video stream.
  */
 export const describeNotificationConfiguration: API.OperationMethod<
-  DescribeNotificationConfigurationInput,
+  DescribeNotificationConfigurationInput & RegionInput,
   DescribeNotificationConfigurationOutput,
   DescribeNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1028,7 +1029,7 @@ export type DescribeSignalingChannelError =
  * describe.
  */
 export const describeSignalingChannel: API.OperationMethod<
-  DescribeSignalingChannelInput,
+  DescribeSignalingChannelInput & RegionInput,
   DescribeSignalingChannelOutput,
   DescribeSignalingChannelError,
   Credentials | HttpClient.HttpClient
@@ -1059,7 +1060,7 @@ export type DescribeStreamError =
  * either the `StreamName` or the `StreamARN`.
  */
 export const describeStream: API.OperationMethod<
-  DescribeStreamInput,
+  DescribeStreamInput & RegionInput,
   DescribeStreamOutput,
   DescribeStreamError,
   Credentials | HttpClient.HttpClient
@@ -1093,7 +1094,7 @@ export type DescribeStreamStorageConfigurationError =
  * You must have permissions for the `KinesisVideo:DescribeStreamStorageConfiguration` action.
  */
 export const describeStreamStorageConfiguration: API.OperationMethod<
-  DescribeStreamStorageConfigurationInput,
+  DescribeStreamStorageConfigurationInput & RegionInput,
   DescribeStreamStorageConfigurationOutput,
   DescribeStreamStorageConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1132,7 +1133,7 @@ export type GetDataEndpointError =
  * `StreamARN`.
  */
 export const getDataEndpoint: API.OperationMethod<
-  GetDataEndpointInput,
+  GetDataEndpointInput & RegionInput,
   GetDataEndpointOutput,
   GetDataEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1177,7 +1178,7 @@ export type GetSignalingChannelEndpointError =
  * an endpoint that a client can use to communicate only with a `MASTER`.
  */
 export const getSignalingChannelEndpoint: API.OperationMethod<
-  GetSignalingChannelEndpointInput,
+  GetSignalingChannelEndpointInput & RegionInput,
   GetSignalingChannelEndpointOutput,
   GetSignalingChannelEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1209,7 +1210,7 @@ export type ListEdgeAgentConfigurationsError =
  * In the request, you must specify the Edge Agent `HubDeviceArn`.
  */
 export const listEdgeAgentConfigurations: API.PaginatedOperationMethod<
-  ListEdgeAgentConfigurationsInput,
+  ListEdgeAgentConfigurationsInput & RegionInput,
   ListEdgeAgentConfigurationsOutput,
   ListEdgeAgentConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1242,7 +1243,7 @@ export type ListSignalingChannelsError =
  * you can specify a `ChannelNameCondition`.
  */
 export const listSignalingChannels: API.PaginatedOperationMethod<
-  ListSignalingChannelsInput,
+  ListSignalingChannelsInput & RegionInput,
   ListSignalingChannelsOutput,
   ListSignalingChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -1274,7 +1275,7 @@ export type ListStreamsError =
  * `StreamNameCondition`.
  */
 export const listStreams: API.PaginatedOperationMethod<
-  ListStreamsInput,
+  ListStreamsInput & RegionInput,
   ListStreamsOutput,
   ListStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -1306,7 +1307,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags associated with the specified signaling channel.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1340,7 +1341,7 @@ export type ListTagsForStreamError =
  * `StreamARN`.
  */
 export const listTagsForStream: API.OperationMethod<
-  ListTagsForStreamInput,
+  ListTagsForStreamInput & RegionInput,
   ListTagsForStreamOutput,
   ListTagsForStreamError,
   Credentials | HttpClient.HttpClient
@@ -1388,7 +1389,7 @@ export type StartEdgeConfigurationUpdateError =
  * the current edge configuration. You can then invoke StartEdgeConfigurationUpdate with an updated Hub Device ARN.
  */
 export const startEdgeConfigurationUpdate: API.OperationMethod<
-  StartEdgeConfigurationUpdateInput,
+  StartEdgeConfigurationUpdateInput & RegionInput,
   StartEdgeConfigurationUpdateOutput,
   StartEdgeConfigurationUpdateError,
   Credentials | HttpClient.HttpClient
@@ -1427,7 +1428,7 @@ export type TagResourceError =
  * Guide.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1474,7 +1475,7 @@ export type TagStreamError =
  * A Kinesis video stream can support up to 50 tags.
  */
 export const tagStream: API.OperationMethod<
-  TagStreamInput,
+  TagStreamInput & RegionInput,
   TagStreamOutput,
   TagStreamError,
   Credentials | HttpClient.HttpClient
@@ -1510,7 +1511,7 @@ export type UntagResourceError =
  * ignored.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1548,7 +1549,7 @@ export type UntagStreamError =
  * `StreamARN`.
  */
 export const untagStream: API.OperationMethod<
-  UntagStreamInput,
+  UntagStreamInput & RegionInput,
   UntagStreamOutput,
   UntagStreamError,
   Credentials | HttpClient.HttpClient
@@ -1602,7 +1603,7 @@ export type UpdateDataRetentionError =
  * any data older than one hour is deleted immediately.
  */
 export const updateDataRetention: API.OperationMethod<
-  UpdateDataRetentionInput,
+  UpdateDataRetentionInput & RegionInput,
   UpdateDataRetentionOutput,
   UpdateDataRetentionError,
   Credentials | HttpClient.HttpClient
@@ -1637,7 +1638,7 @@ export type UpdateImageGenerationConfigurationError =
  * Updates the `StreamInfo` and `ImageProcessingConfiguration` fields.
  */
 export const updateImageGenerationConfiguration: API.OperationMethod<
-  UpdateImageGenerationConfigurationInput,
+  UpdateImageGenerationConfigurationInput & RegionInput,
   UpdateImageGenerationConfigurationOutput,
   UpdateImageGenerationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1684,7 +1685,7 @@ export type UpdateMediaStorageConfigurationError =
  * connection between a peer and the storage session.
  */
 export const updateMediaStorageConfiguration: API.OperationMethod<
-  UpdateMediaStorageConfigurationInput,
+  UpdateMediaStorageConfigurationInput & RegionInput,
   UpdateMediaStorageConfigurationOutput,
   UpdateMediaStorageConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1718,7 +1719,7 @@ export type UpdateNotificationConfigurationError =
  * Updates the notification information for a stream.
  */
 export const updateNotificationConfiguration: API.OperationMethod<
-  UpdateNotificationConfigurationInput,
+  UpdateNotificationConfigurationInput & RegionInput,
   UpdateNotificationConfigurationOutput,
   UpdateNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1759,7 +1760,7 @@ export type UpdateSignalingChannelError =
  * value.
  */
 export const updateSignalingChannel: API.OperationMethod<
-  UpdateSignalingChannelInput,
+  UpdateSignalingChannelInput & RegionInput,
   UpdateSignalingChannelOutput,
   UpdateSignalingChannelError,
   Credentials | HttpClient.HttpClient
@@ -1806,7 +1807,7 @@ export type UpdateStreamError =
  * complete.
  */
 export const updateStream: API.OperationMethod<
-  UpdateStreamInput,
+  UpdateStreamInput & RegionInput,
   UpdateStreamOutput,
   UpdateStreamError,
   Credentials | HttpClient.HttpClient
@@ -1847,7 +1848,7 @@ export type UpdateStreamStorageConfigurationError =
  * You must have permissions for the `KinesisVideo:UpdateStreamStorageConfiguration` action.
  */
 export const updateStreamStorageConfiguration: API.OperationMethod<
-  UpdateStreamStorageConfigurationInput,
+  UpdateStreamStorageConfigurationInput & RegionInput,
   UpdateStreamStorageConfigurationOutput,
   UpdateStreamStorageConfigurationError,
   Credentials | HttpClient.HttpClient

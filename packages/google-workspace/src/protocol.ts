@@ -1,10 +1,10 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
 import type { ConfigError, DefaultErrors } from "@distilled.cloud/core/errors";
 import { getAnn, getProps, hasPropAnn, nameOf } from "@distilled.cloud/core/protocol-http";
 import { validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
 import {
   bodySymbol,
   headerSymbol,
@@ -62,7 +62,8 @@ export type GoogleWorkspaceOpError =
   | UnknownGoogleWorkspaceError
   | GoogleWorkspaceParseError
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | SdkError;
 
 /** Context (requirements) shared by every generated Google Workspace operation. */
 export type GoogleWorkspaceOpContext = Credentials | HttpClient.HttpClient;
@@ -159,7 +160,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 
     const http = getAnn(inputAst, httpSymbol) as GoogleWorkspaceHttpTrait | undefined;
     if (!http) {
-      throw new Error("operation input is missing the Http() trait");
+      return yield* fail(new SdkError({ message: "operation input is missing the Http() trait" }));
     }
     const inputObj = (input ?? {}) as Record<string, unknown>;
 
@@ -199,9 +200,6 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 
     const qs = query.toString();
     const url = `${http.baseUrl}${uri}${qs ? `?${qs}` : ""}`;
-    if (debugHttp()) {
-      console.error(`[distilled] ${http.method} ${url}`);
-    }
 
     let request = HttpClientRequest.make(http.method)(url).pipe(
       HttpClientRequest.setHeaders(headers),
@@ -225,9 +223,6 @@ const decode = ({
     // Read as text and parse tolerantly -- some error responses (proxies,
     // HTML error pages) carry non-JSON bodies.
     const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {

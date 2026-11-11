@@ -35,8 +35,8 @@ export class Conflict
 
 export interface CreateDataDeletionRequestRequestVariablesValue {
   code_name: string;
-  isNull?: boolean | null;
-  value?: unknown;
+  isNull?: boolean | null | undefined;
+  value?: unknown | undefined;
   variableId: string;
 }
 /** Variables referenced by the HogQL query. */
@@ -49,7 +49,7 @@ export interface CreateDataDeletionRequestRequest {
   /** HogQL query that selects one event UUID column. */
   query: string;
   /** Variables referenced by the HogQL query. */
-  variables?: CreateDataDeletionRequestRequestVariablesMap;
+  variables?: CreateDataDeletionRequestRequestVariablesMap | undefined;
   /** Client-generated identifier that makes request submission idempotent. */
   submission_id: string;
 }
@@ -105,7 +105,7 @@ export interface CreateDataDeletionRequestsPreviewRequest {
   /** HogQL query that selects one event UUID column. */
   query: string;
   /** Variables referenced by the HogQL query. */
-  variables?: CreateDataDeletionRequestsPreviewRequestVariablesMap;
+  variables?: CreateDataDeletionRequestsPreviewRequestVariablesMap | undefined;
 }
 export interface DataDeletionPreview {
   /** Number of event UUIDs selected when the preview ran. */
@@ -121,15 +121,15 @@ export interface ListDataDeletionRequestsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedDataDeletionRequestListResultsList = Array<DataDeletionRequest>;
 export interface PaginatedDataDeletionRequestList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedDataDeletionRequestListResultsList;
 }
 export type CreateDataDeletionRequestError = Conflict | PosthogOpError;

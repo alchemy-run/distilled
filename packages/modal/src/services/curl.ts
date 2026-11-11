@@ -24,10 +24,10 @@ const TELEMETRY = {
 } as const;
 
 export interface CurlGetAuthTokenRequest {
-  url?: string;
+  url?: string | undefined;
 }
 export interface CurlGetAuthTokenResponse {
-  token?: string;
+  token: string;
 }
 export type CurlGetAuthTokenError = ModalOpError;
 /** Curl */
@@ -60,7 +60,7 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.String,
         }),
       ).annotate({ identifier: "CurlGetAuthTokenResponse" });
   }

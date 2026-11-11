@@ -98,17 +98,17 @@ export type GetImageResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetImageResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetImageResponseSystemDataCreatedByType;
+  createdByType?: GetImageResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetImageResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetImageResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Property enabled state. */
 export type ImagePropertiesEnabledState = "Enabled" | "Disabled";
@@ -133,45 +133,45 @@ export interface ImageProperties {
   /** Property enabled state. */
   enabledState: ImagePropertiesEnabledState;
   /** Resource provisioning state. */
-  provisioningState?: ImagePropertiesProvisioningState;
+  provisioningState?: ImagePropertiesProvisioningState | undefined;
   /** The image display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** A description of the image. */
-  description?: string;
+  description?: string | undefined;
   /** URL of the image icon. */
-  iconUrl?: string;
+  iconUrl?: string | undefined;
   /** The image author. */
-  author?: string;
+  author?: string | undefined;
   /** The operating system type. */
-  osType?: ImagePropertiesOsType;
+  osType?: ImagePropertiesOsType | undefined;
   /** The ID of marketplace plan associated with the image (optional). */
-  plan?: string;
+  plan?: string | undefined;
   /** Property enabled state. */
-  termsStatus?: ImagePropertiesTermsStatus;
+  termsStatus?: ImagePropertiesTermsStatus | undefined;
   /** The ID of an offer associated with the image. */
-  offer?: string;
+  offer?: string | undefined;
   /** The ID of the publisher of the image. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** The image SKU. */
-  sku?: string;
+  sku?: string | undefined;
   /** The image version. */
-  version?: string;
+  version?: string | undefined;
   /** A URL. */
-  sharedGalleryId?: string;
+  sharedGalleryId?: string | undefined;
   /** The available regions of the image in the shared gallery. */
-  availableRegions?: ImagePropertiesAvailableRegionsList;
+  availableRegions?: ImagePropertiesAvailableRegionsList | undefined;
   /** The operating system state. */
-  osState?: ImagePropertiesOsState;
+  osState?: ImagePropertiesOsState | undefined;
 }
 export interface GetImageResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetImageResponseSystemData;
+  systemData?: GetImageResponseSystemData | undefined;
   /** Image resource properties */
   properties: ImageProperties;
 }
@@ -200,17 +200,17 @@ export type GetLabResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetLabResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetLabResponseSystemDataCreatedByType;
+  createdByType?: GetLabResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetLabResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetLabResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Property enabled state. */
 export type EnableState = "Enabled" | "Disabled";
@@ -219,47 +219,47 @@ export type ShutdownOnIdleMode = "None" | "UserAbsence" | "LowUsage";
 /** Profile for how to handle shutting down virtual machines. */
 export interface LabPropertiesAutoShutdownProfile {
   /** Whether shutdown on disconnect is enabled */
-  shutdownOnDisconnect?: EnableState;
+  shutdownOnDisconnect?: EnableState | undefined;
   /** Whether a VM will get shutdown when it hasn't been connected to after a period of time. */
-  shutdownWhenNotConnected?: EnableState;
+  shutdownWhenNotConnected?: EnableState | undefined;
   /** Whether a VM will get shutdown when it has idled for a period of time. */
-  shutdownOnIdle?: ShutdownOnIdleMode;
+  shutdownOnIdle?: ShutdownOnIdleMode | undefined;
   /** The amount of time a VM will stay running after a user disconnects if this behavior is enabled. */
-  disconnectDelay?: string;
+  disconnectDelay?: string | undefined;
   /** The amount of time a VM will stay running before it is shutdown if no connection is made and this behavior is enabled. */
-  noConnectDelay?: string;
+  noConnectDelay?: string | undefined;
   /** The amount of time a VM will idle before it is shutdown if this behavior is enabled. */
-  idleDelay?: string;
+  idleDelay?: string | undefined;
 }
 /** A connection type for access labs and VMs (Public, Private or None). */
 export type ConnectionType = "Public" | "Private" | "None";
 /** Connection profile for how users connect to lab virtual machines. */
 export interface LabPropertiesConnectionProfile {
   /** The enabled access level for Web Access over SSH. */
-  webSshAccess?: ConnectionType;
+  webSshAccess?: ConnectionType | undefined;
   /** The enabled access level for Web Access over RDP. */
-  webRdpAccess?: ConnectionType;
+  webRdpAccess?: ConnectionType | undefined;
   /** The enabled access level for Client Access over SSH. */
-  clientSshAccess?: ConnectionType;
+  clientSshAccess?: ConnectionType | undefined;
   /** The enabled access level for Client Access over RDP. */
-  clientRdpAccess?: ConnectionType;
+  clientRdpAccess?: ConnectionType | undefined;
 }
 /** Indicates what lab virtual machines are created from. */
 export type VirtualMachineProfileCreateOption = "Image" | "TemplateVM";
 /** Image reference information. Used in the virtual machine profile. */
 export interface ImageReference {
   /** A URL. */
-  id?: string;
+  id?: string | undefined;
   /** The image offer if applicable. */
-  offer?: string;
+  offer?: string | undefined;
   /** The image publisher */
-  publisher?: string;
+  publisher?: string | undefined;
   /** The image SKU */
-  sku?: string;
+  sku?: string | undefined;
   /** The image version specified on creation. */
-  version?: string;
+  version?: string | undefined;
   /** The actual version of the image after use. */
-  exactVersion?: string;
+  exactVersion?: string | undefined;
 }
 /** The operating system type. */
 export type VirtualMachineProfileOsType = "Windows" | "Linux";
@@ -270,20 +270,23 @@ export interface VirtualMachineProfileSku {
   /** The name of the SKU. Ex - P3. It is typically a letter+number code */
   name: string;
   /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
-  tier?: VirtualMachineProfileSkuTier;
+  tier?: VirtualMachineProfileSkuTier | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Property enabled state. */
 export type VirtualMachineAdditionalCapabilitiesInstallGpuDrivers = "Enabled" | "Disabled";
 /** The additional capabilities for a lab VM. */
 export interface VirtualMachineAdditionalCapabilities {
   /** Property enabled state. */
-  installGpuDrivers?: VirtualMachineAdditionalCapabilitiesInstallGpuDrivers | (string & {});
+  installGpuDrivers?:
+    | VirtualMachineAdditionalCapabilitiesInstallGpuDrivers
+    | (string & {})
+    | undefined;
 }
 /** Property enabled state. */
 export type VirtualMachineProfileUseSharedPassword = "Enabled" | "Disabled";
@@ -292,7 +295,7 @@ export interface Credentials {
   /** The username to use when signing in to lab VMs. */
   username: string;
   /** The password for the user. This is required for the TemplateVM createOption. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** The base virtual machine configuration for a lab. */
 export interface VirtualMachineProfile {
@@ -301,41 +304,41 @@ export interface VirtualMachineProfile {
   /** The image configuration for lab virtual machines. */
   imageReference: ImageReference;
   /** The operating system type. */
-  osType?: VirtualMachineProfileOsType;
+  osType?: VirtualMachineProfileOsType | undefined;
   /** The resource model definition representing SKU */
   sku: VirtualMachineProfileSku;
   /** Additional VM capabilities. */
-  additionalCapabilities?: VirtualMachineAdditionalCapabilities;
+  additionalCapabilities?: VirtualMachineAdditionalCapabilities | undefined;
   /** The initial quota alloted to each lab user. Must be a time span between 0 and 9999 hours. */
   usageQuota: string;
   /** Property enabled state. */
-  useSharedPassword?: VirtualMachineProfileUseSharedPassword;
+  useSharedPassword?: VirtualMachineProfileUseSharedPassword | undefined;
   /** Credentials for the admin user on the VM. */
   adminUser: Credentials;
   /** Credentials for the non-admin user on the VM, if one exists. */
-  nonAdminUser?: Credentials;
+  nonAdminUser?: Credentials | undefined;
 }
 /** Property enabled state. */
 export type SecurityProfileOpenAccess = "Enabled" | "Disabled";
 /** The lab security profile. */
 export interface SecurityProfile {
   /** The registration code for the lab. */
-  registrationCode?: string;
+  registrationCode?: string | undefined;
   /** Property enabled state. */
-  openAccess?: SecurityProfileOpenAccess;
+  openAccess?: SecurityProfileOpenAccess | undefined;
 }
 /** The lab user list management profile. */
 export interface RosterProfile {
   /** The AAD group ID which this lab roster is populated from. Having this set enables AAD sync mode. */
-  activeDirectoryGroupId?: string;
+  activeDirectoryGroupId?: string | undefined;
   /** The unique context identifier for the lab in the lms. */
-  ltiContextId?: string;
+  ltiContextId?: string | undefined;
   /** The base URI identifying the lms instance. */
-  lmsInstance?: string;
+  lmsInstance?: string | undefined;
   /** The unique id of the azure lab services tool in the lms. */
-  ltiClientId?: string;
+  ltiClientId?: string | undefined;
   /** The uri of the names and roles service endpoint on the lms for the class attached to this lab. */
-  ltiRosterEndpoint?: string;
+  ltiRosterEndpoint?: string | undefined;
 }
 /** Resource provisioning state. */
 export type LabPropertiesProvisioningState =
@@ -348,24 +351,24 @@ export type LabPropertiesProvisioningState =
 /** Profile for how to handle networking for Labs. */
 export interface LabNetworkProfile {
   /** A URL. */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** A URL. */
-  loadBalancerId?: string;
+  loadBalancerId?: string | undefined;
   /** A URL. */
-  publicIpId?: string;
+  publicIpId?: string | undefined;
 }
 /** The state of a virtual machine. */
 export type LabState = "Draft" | "Publishing" | "Scaling" | "Syncing" | "Published";
 /** Error details of the latest operation failure on this resource */
 export interface LabPropertiesResourceOperationError {
   /** The datetime of when the error occured */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The code that corresponds to the type of operation failure */
-  code?: string;
+  code?: string | undefined;
   /** The operation failure message */
-  message?: string;
+  message?: string | undefined;
   /** The operation action that failed */
-  action?: string;
+  action?: string | undefined;
 }
 /** Properties of a lab resource. */
 export interface LabProperties {
@@ -378,35 +381,35 @@ export interface LabProperties {
   /** The lab security profile. */
   securityProfile: SecurityProfile;
   /** The lab user list management profile. */
-  rosterProfile?: RosterProfile;
+  rosterProfile?: RosterProfile | undefined;
   /** A URL. */
-  labPlanId?: string;
+  labPlanId?: string | undefined;
   /** The title of the lab. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the lab. */
-  description?: string;
+  description?: string | undefined;
   /** Resource provisioning state. */
-  provisioningState?: LabPropertiesProvisioningState;
+  provisioningState?: LabPropertiesProvisioningState | undefined;
   /** The network profile for the lab, typically applied via a lab plan. This profile cannot be modified once a lab has been created. */
-  networkProfile?: LabNetworkProfile;
+  networkProfile?: LabNetworkProfile | undefined;
   /** The lab state. */
-  state?: LabState;
+  state?: LabState | undefined;
   /** Error details of the latest operation failure on this resource */
-  resourceOperationError?: LabPropertiesResourceOperationError;
+  resourceOperationError?: LabPropertiesResourceOperationError | undefined;
 }
 export interface GetLabResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetLabResponseTagsMap;
+  tags?: GetLabResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetLabResponseSystemData;
+  systemData?: GetLabResponseSystemData | undefined;
   /** Lab resource properties */
   properties: LabProperties;
 }
@@ -435,61 +438,61 @@ export type GetLabPlanResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetLabPlanResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetLabPlanResponseSystemDataCreatedByType;
+  createdByType?: GetLabPlanResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetLabPlanResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetLabPlanResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Connection profile for how users connect to lab virtual machines. */
 export interface LabPlanPropertiesDefaultConnectionProfile {
   /** The enabled access level for Web Access over SSH. */
-  webSshAccess?: ConnectionType | (string & {});
+  webSshAccess?: ConnectionType | (string & {}) | undefined;
   /** The enabled access level for Web Access over RDP. */
-  webRdpAccess?: ConnectionType | (string & {});
+  webRdpAccess?: ConnectionType | (string & {}) | undefined;
   /** The enabled access level for Client Access over SSH. */
-  clientSshAccess?: ConnectionType | (string & {});
+  clientSshAccess?: ConnectionType | (string & {}) | undefined;
   /** The enabled access level for Client Access over RDP. */
-  clientRdpAccess?: ConnectionType | (string & {});
+  clientRdpAccess?: ConnectionType | (string & {}) | undefined;
 }
 /** Profile for how to handle shutting down virtual machines. */
 export interface LabPlanPropertiesDefaultAutoShutdownProfile {
   /** Whether shutdown on disconnect is enabled */
-  shutdownOnDisconnect?: EnableState | (string & {});
+  shutdownOnDisconnect?: EnableState | (string & {}) | undefined;
   /** Whether a VM will get shutdown when it hasn't been connected to after a period of time. */
-  shutdownWhenNotConnected?: EnableState | (string & {});
+  shutdownWhenNotConnected?: EnableState | (string & {}) | undefined;
   /** Whether a VM will get shutdown when it has idled for a period of time. */
-  shutdownOnIdle?: ShutdownOnIdleMode | (string & {});
+  shutdownOnIdle?: ShutdownOnIdleMode | (string & {}) | undefined;
   /** The amount of time a VM will stay running after a user disconnects if this behavior is enabled. */
-  disconnectDelay?: string;
+  disconnectDelay?: string | undefined;
   /** The amount of time a VM will stay running before it is shutdown if no connection is made and this behavior is enabled. */
-  noConnectDelay?: string;
+  noConnectDelay?: string | undefined;
   /** The amount of time a VM will idle before it is shutdown if this behavior is enabled. */
-  idleDelay?: string;
+  idleDelay?: string | undefined;
 }
 /** Profile for how to handle networking for Lab Plans. */
 export interface LabPlanNetworkProfile {
   /** A URL. */
-  subnetId?: string;
+  subnetId?: string | undefined;
 }
 /** The allowed regions for the lab creator to use when creating labs using this lab plan. */
 export type LabPlanPropertiesAllowedRegionsList = Array<string>;
 /** Support contact information and instructions. */
 export interface SupportInfo {
   /** A URL. */
-  url?: string;
+  url?: string | undefined;
   /** An email address. */
-  email?: string;
+  email?: string | undefined;
   /** A phone number. */
-  phone?: string;
+  phone?: string | undefined;
   /** Support instructions. */
-  instructions?: string;
+  instructions?: string | undefined;
 }
 /** Resource provisioning state. */
 export type LabPlanPropertiesProvisioningState =
@@ -504,52 +507,52 @@ export type LabPlanPropertiesResourceOperationError = LabPropertiesResourceOpera
 /** Lab plan resource properties */
 export interface LabPlanProperties {
   /** Connection profile for how users connect to lab virtual machines. */
-  defaultConnectionProfile?: LabPlanPropertiesDefaultConnectionProfile;
+  defaultConnectionProfile?: LabPlanPropertiesDefaultConnectionProfile | undefined;
   /** Profile for how to handle shutting down virtual machines. */
-  defaultAutoShutdownProfile?: LabPlanPropertiesDefaultAutoShutdownProfile;
+  defaultAutoShutdownProfile?: LabPlanPropertiesDefaultAutoShutdownProfile | undefined;
   /** The lab plan network profile. To enforce lab network policies they must be defined here and cannot be changed when there are existing labs associated with this lab plan. */
-  defaultNetworkProfile?: LabPlanNetworkProfile;
+  defaultNetworkProfile?: LabPlanNetworkProfile | undefined;
   /** The allowed regions for the lab creator to use when creating labs using this lab plan. */
-  allowedRegions?: LabPlanPropertiesAllowedRegionsList;
+  allowedRegions?: LabPlanPropertiesAllowedRegionsList | undefined;
   /** A URL. */
-  sharedGalleryId?: string;
+  sharedGalleryId?: string | undefined;
   /** Support contact information and instructions for users of the lab plan. This information is displayed to lab owners and virtual machine users for all labs in the lab plan. */
-  supportInfo?: SupportInfo;
+  supportInfo?: SupportInfo | undefined;
   /** A URL. */
-  linkedLmsInstance?: string;
+  linkedLmsInstance?: string | undefined;
   /** Resource provisioning state. */
-  provisioningState?: LabPlanPropertiesProvisioningState | (string & {});
+  provisioningState?: LabPlanPropertiesProvisioningState | (string & {}) | undefined;
   /** Error details of the latest operation failure on this resource */
-  resourceOperationError?: LabPropertiesResourceOperationError;
+  resourceOperationError?: LabPropertiesResourceOperationError | undefined;
 }
 /** The identity type. */
 export type GetLabPlanResponseIdentityType = "SystemAssigned";
 /** Identity for the resource. */
 export interface GetLabPlanResponseIdentity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: GetLabPlanResponseIdentityType;
+  type?: GetLabPlanResponseIdentityType | undefined;
 }
 export interface GetLabPlanResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetLabPlanResponseTagsMap;
+  tags?: GetLabPlanResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetLabPlanResponseSystemData;
+  systemData?: GetLabPlanResponseSystemData | undefined;
   /** Lab plan resource properties */
   properties: LabPlanProperties;
   /** Identity for the resource. */
-  identity?: GetLabPlanResponseIdentity;
+  identity?: GetLabPlanResponseIdentity | undefined;
 }
 export interface GetOperationResultRequest {
   /** The ID of the target subscription. */
@@ -569,24 +572,24 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The error details. */
 export type OperationResultErrorDetailsList = Array<ErrorDetail>;
@@ -595,32 +598,32 @@ export type OperationResultErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface OperationResultError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: OperationResultErrorDetailsList;
+  details?: OperationResultErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: OperationResultErrorAdditionalInfoList;
+  additionalInfo?: OperationResultErrorAdditionalInfoList | undefined;
 }
 /** A long running operation result */
 export interface OperationResult {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The operation status */
   status: OperationResultStatus;
   /** Start time */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Percent completion */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The error detail. */
-  error?: OperationResultError;
+  error?: OperationResultError | undefined;
 }
 export interface GetScheduleRequest {
   /** The ID of the target subscription. */
@@ -647,17 +650,17 @@ export type GetScheduleResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetScheduleResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetScheduleResponseSystemDataCreatedByType;
+  createdByType?: GetScheduleResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetScheduleResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetScheduleResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Schedule recurrence frequencies. */
 export type RecurrenceFrequency = "Daily" | "Weekly";
@@ -677,9 +680,9 @@ export interface RecurrencePattern {
   /** The frequency of the recurrence. */
   frequency: RecurrenceFrequency | (string & {});
   /** The week days the schedule runs. Used for when the Frequency is set to Weekly. */
-  weekDays?: RecurrencePatternWeekDaysList;
+  weekDays?: RecurrencePatternWeekDaysList | undefined;
   /** The interval to invoke the schedule on. For example, interval = 2 and RecurrenceFrequency.Daily will run every 2 days. When no interval is supplied, an interval of 1 is used. */
-  interval?: number;
+  interval?: number | undefined;
   /** When the recurrence will expire. This date is inclusive. */
   expirationDate: string;
 }
@@ -696,29 +699,29 @@ export type SchedulePropertiesResourceOperationError = LabPropertiesResourceOper
 /** Schedule resource properties */
 export interface ScheduleProperties {
   /** When lab user virtual machines will be started. Timestamp offsets will be ignored and timeZoneId is used instead. */
-  startAt?: string;
+  startAt?: string | undefined;
   /** When lab user virtual machines will be stopped. Timestamp offsets will be ignored and timeZoneId is used instead. */
   stopAt: string;
   /** The recurrence pattern of the scheduled actions. */
-  recurrencePattern?: RecurrencePattern;
+  recurrencePattern?: RecurrencePattern | undefined;
   /** The IANA timezone id for the schedule. */
   timeZoneId: string;
   /** Notes for this schedule. */
-  notes?: string;
+  notes?: string | undefined;
   /** Resource provisioning state. */
-  provisioningState?: SchedulePropertiesProvisioningState | (string & {});
+  provisioningState?: SchedulePropertiesProvisioningState | (string & {}) | undefined;
   /** Error details of the latest operation failure on this resource */
-  resourceOperationError?: LabPropertiesResourceOperationError;
+  resourceOperationError?: LabPropertiesResourceOperationError | undefined;
 }
 export interface GetScheduleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetScheduleResponseSystemData;
+  systemData?: GetScheduleResponseSystemData | undefined;
   /** Schedule resource properties */
   properties: ScheduleProperties;
 }
@@ -747,17 +750,17 @@ export type GetUserResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetUserResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetUserResponseSystemDataCreatedByType;
+  createdByType?: GetUserResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetUserResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetUserResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource provisioning state. */
 export type UserPropertiesProvisioningState =
@@ -776,33 +779,33 @@ export type InvitationState = "NotSent" | "Sending" | "Sent" | "Failed";
 /** User resource properties */
 export interface UserProperties {
   /** The amount of usage quota time the user gets in addition to the lab usage quota. */
-  additionalUsageQuota?: string;
+  additionalUsageQuota?: string | undefined;
   /** Resource provisioning state. */
-  provisioningState?: UserPropertiesProvisioningState;
+  provisioningState?: UserPropertiesProvisioningState | undefined;
   /** Error details of the latest operation failure on this resource */
-  resourceOperationError?: LabPropertiesResourceOperationError;
+  resourceOperationError?: LabPropertiesResourceOperationError | undefined;
   /** Display name of the user, for example user's full name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** An email address. */
   email: string;
   /** State of the user's registration within the lab. */
-  registrationState?: RegistrationState;
+  registrationState?: RegistrationState | undefined;
   /** State of the invitation message for the user. */
-  invitationState?: InvitationState;
+  invitationState?: InvitationState | undefined;
   /** Date and time when the invitation message was sent to the user. */
-  invitationSent?: string;
+  invitationSent?: string | undefined;
   /** How long the user has used their virtual machines in this lab. */
-  totalUsage?: string;
+  totalUsage?: string | undefined;
 }
 export interface GetUserResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetUserResponseSystemData;
+  systemData?: GetUserResponseSystemData | undefined;
   /** User resource properties */
   properties: UserProperties;
 }
@@ -831,17 +834,17 @@ export type GetVirtualMachineResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetVirtualMachineResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetVirtualMachineResponseSystemDataCreatedByType;
+  createdByType?: GetVirtualMachineResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetVirtualMachineResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetVirtualMachineResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource provisioning state. */
 export type VirtualMachinePropertiesProvisioningState =
@@ -865,46 +868,46 @@ export type VirtualMachinePropertiesResourceOperationError = LabPropertiesResour
 /** The connection information for the virtual machine */
 export interface VirtualMachineConnectionProfile {
   /** The private IP address of the virtual machine. */
-  privateIpAddress?: string;
+  privateIpAddress?: string | undefined;
   /** Port and host name separated by semicolon for connecting via SSH protocol to the virtual machine. */
-  sshAuthority?: string;
+  sshAuthority?: string | undefined;
   /** A URL. */
-  sshInBrowserUrl?: string;
+  sshInBrowserUrl?: string | undefined;
   /** Port and host name separated by semicolon for connecting via RDP protocol to the virtual machine. */
-  rdpAuthority?: string;
+  rdpAuthority?: string | undefined;
   /** A URL. */
-  rdpInBrowserUrl?: string;
+  rdpInBrowserUrl?: string | undefined;
   /** The username used to log on to the virtual machine as admin. */
-  adminUsername?: string;
+  adminUsername?: string | undefined;
   /** The username used to log on to the virtual machine as non-admin, if one exists. */
-  nonAdminUsername?: string;
+  nonAdminUsername?: string | undefined;
 }
 /** The type of the lab virtual machine. */
 export type VirtualMachineType = "User" | "Template";
 /** Virtual machine resource properties */
 export interface VirtualMachineProperties {
   /** Resource provisioning state. */
-  provisioningState?: VirtualMachinePropertiesProvisioningState;
+  provisioningState?: VirtualMachinePropertiesProvisioningState | undefined;
   /** The current state of the virtual machine */
-  state?: VirtualMachineState;
+  state?: VirtualMachineState | undefined;
   /** Error details of the latest operation failure on this resource */
-  resourceOperationError?: LabPropertiesResourceOperationError;
+  resourceOperationError?: LabPropertiesResourceOperationError | undefined;
   /** Profile for information about connecting to the virtual machine. */
-  connectionProfile?: VirtualMachineConnectionProfile;
+  connectionProfile?: VirtualMachineConnectionProfile | undefined;
   /** The lab user ID (not the PUID!) of who claimed the virtual machine. */
-  claimedByUserId?: string;
+  claimedByUserId?: string | undefined;
   /** The type of this VM resource */
-  vmType?: VirtualMachineType;
+  vmType?: VirtualMachineType | undefined;
 }
 export interface GetVirtualMachineResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetVirtualMachineResponseSystemData;
+  systemData?: GetVirtualMachineResponseSystemData | undefined;
   /** Virtual machine resource properties */
   properties: VirtualMachineProperties;
 }
@@ -931,17 +934,17 @@ export interface ImagePropertiesInput {
   /** Property enabled state. */
   enabledState: ImagePropertiesInputEnabledState | (string & {});
   /** Resource provisioning state. */
-  provisioningState?: ImagePropertiesInputProvisioningState | (string & {});
+  provisioningState?: ImagePropertiesInputProvisioningState | (string & {}) | undefined;
   /** The operating system type. */
-  osType?: ImagePropertiesInputOsType | (string & {});
+  osType?: ImagePropertiesInputOsType | (string & {}) | undefined;
   /** Property enabled state. */
-  termsStatus?: ImagePropertiesInputTermsStatus | (string & {});
+  termsStatus?: ImagePropertiesInputTermsStatus | (string & {}) | undefined;
   /** A URL. */
-  sharedGalleryId?: string;
+  sharedGalleryId?: string | undefined;
   /** The available regions of the image in the shared gallery. */
-  availableRegions?: ImagePropertiesInputAvailableRegionsList;
+  availableRegions?: ImagePropertiesInputAvailableRegionsList | undefined;
   /** The operating system state. */
-  osState?: ImagePropertiesInputOsState | (string & {});
+  osState?: ImagePropertiesInputOsState | (string & {}) | undefined;
 }
 export interface ImagesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -970,27 +973,27 @@ export type ImagesCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ImagesCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ImagesCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: ImagesCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ImagesCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: ImagesCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ImagesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ImagesCreateOrUpdateResponseSystemData;
+  systemData?: ImagesCreateOrUpdateResponseSystemData | undefined;
   /** Image resource properties */
   properties: ImageProperties;
 }
@@ -1004,7 +1007,7 @@ export interface InviteUserRequest {
   /** The name of the user that uniquely identifies it within containing lab. Used in resource URIs. */
   userName: string;
   /** Custom text for the invite email. */
-  text?: string;
+  text?: string | undefined;
 }
 export interface InviteUserResponse {}
 /** Resource tags. */
@@ -1014,7 +1017,7 @@ export type LabPlansCreateOrUpdateRequestIdentityType = "SystemAssigned";
 /** Identity for the resource. */
 export interface LabPlansCreateOrUpdateRequestIdentity {
   /** The identity type. */
-  type?: LabPlansCreateOrUpdateRequestIdentityType | (string & {});
+  type?: LabPlansCreateOrUpdateRequestIdentityType | (string & {}) | undefined;
 }
 export interface LabPlansCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1024,13 +1027,13 @@ export interface LabPlansCreateOrUpdateRequest {
   /** The name of the lab plan that uniquely identifies it within containing resource group. Used in resource URIs and in UI. */
   labPlanName: string;
   /** Resource tags. */
-  tags?: LabPlansCreateOrUpdateRequestTagsMap;
+  tags?: LabPlansCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Lab plan resource properties */
   properties: LabPlanProperties;
   /** Identity for the resource. */
-  identity?: LabPlansCreateOrUpdateRequestIdentity;
+  identity?: LabPlansCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type LabPlansCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1049,46 +1052,46 @@ export type LabPlansCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface LabPlansCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: LabPlansCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: LabPlansCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: LabPlansCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: LabPlansCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The identity type. */
 export type LabPlansCreateOrUpdateResponseIdentityType = "SystemAssigned";
 /** Identity for the resource. */
 export interface LabPlansCreateOrUpdateResponseIdentity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: LabPlansCreateOrUpdateResponseIdentityType;
+  type?: LabPlansCreateOrUpdateResponseIdentityType | undefined;
 }
 export interface LabPlansCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: LabPlansCreateOrUpdateResponseTagsMap;
+  tags?: LabPlansCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: LabPlansCreateOrUpdateResponseSystemData;
+  systemData?: LabPlansCreateOrUpdateResponseSystemData | undefined;
   /** Lab plan resource properties */
   properties: LabPlanProperties;
   /** Identity for the resource. */
-  identity?: LabPlansCreateOrUpdateResponseIdentity;
+  identity?: LabPlansCreateOrUpdateResponseIdentity | undefined;
 }
 export interface LabPlansSaveImageRequest {
   /** The ID of the target subscription. */
@@ -1098,9 +1101,9 @@ export interface LabPlansSaveImageRequest {
   /** The name of the lab plan that uniquely identifies it within containing resource group. Used in resource URIs and in UI. */
   labPlanName: string;
   /** The name for the image we create. */
-  name?: string;
+  name?: string | undefined;
   /** A URL. */
-  labVirtualMachineId?: string;
+  labVirtualMachineId?: string | undefined;
 }
 export interface LabPlansSaveImageResponse {}
 /** Resource tags. */
@@ -1114,15 +1117,15 @@ export type VirtualMachineProfileInputCreateOption = "Image" | "TemplateVM";
 /** Image reference information. Used in the virtual machine profile. */
 export interface ImageReferenceInput {
   /** A URL. */
-  id?: string;
+  id?: string | undefined;
   /** The image offer if applicable. */
-  offer?: string;
+  offer?: string | undefined;
   /** The image publisher */
-  publisher?: string;
+  publisher?: string | undefined;
   /** The image SKU */
-  sku?: string;
+  sku?: string | undefined;
   /** The image version specified on creation. */
-  version?: string;
+  version?: string | undefined;
 }
 /** The operating system type. */
 export type VirtualMachineProfileInputOsType = "Windows" | "Linux";
@@ -1133,13 +1136,13 @@ export interface VirtualMachineProfileInputSku {
   /** The name of the SKU. Ex - P3. It is typically a letter+number code */
   name: string;
   /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
-  tier?: VirtualMachineProfileInputSkuTier | (string & {});
+  tier?: VirtualMachineProfileInputSkuTier | (string & {}) | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Property enabled state. */
 export type VirtualMachineProfileInputUseSharedPassword = "Enabled" | "Disabled";
@@ -1150,26 +1153,26 @@ export interface VirtualMachineProfileInput {
   /** The image configuration for lab virtual machines. */
   imageReference: ImageReferenceInput;
   /** The operating system type. */
-  osType?: VirtualMachineProfileInputOsType | (string & {});
+  osType?: VirtualMachineProfileInputOsType | (string & {}) | undefined;
   /** The resource model definition representing SKU */
   sku: VirtualMachineProfileInputSku;
   /** Additional VM capabilities. */
-  additionalCapabilities?: VirtualMachineAdditionalCapabilities;
+  additionalCapabilities?: VirtualMachineAdditionalCapabilities | undefined;
   /** The initial quota alloted to each lab user. Must be a time span between 0 and 9999 hours. */
   usageQuota: string;
   /** Property enabled state. */
-  useSharedPassword?: VirtualMachineProfileInputUseSharedPassword | (string & {});
+  useSharedPassword?: VirtualMachineProfileInputUseSharedPassword | (string & {}) | undefined;
   /** Credentials for the admin user on the VM. */
   adminUser: Credentials;
   /** Credentials for the non-admin user on the VM, if one exists. */
-  nonAdminUser?: Credentials;
+  nonAdminUser?: Credentials | undefined;
 }
 /** Property enabled state. */
 export type SecurityProfileInputOpenAccess = "Enabled" | "Disabled";
 /** The lab security profile. */
 export interface SecurityProfileInput {
   /** Property enabled state. */
-  openAccess?: SecurityProfileInputOpenAccess | (string & {});
+  openAccess?: SecurityProfileInputOpenAccess | (string & {}) | undefined;
 }
 /** Resource provisioning state. */
 export type LabPropertiesInputProvisioningState =
@@ -1192,19 +1195,19 @@ export interface LabPropertiesInput {
   /** The lab security profile. */
   securityProfile: SecurityProfileInput;
   /** The lab user list management profile. */
-  rosterProfile?: RosterProfile;
+  rosterProfile?: RosterProfile | undefined;
   /** A URL. */
-  labPlanId?: string;
+  labPlanId?: string | undefined;
   /** The title of the lab. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the lab. */
-  description?: string;
+  description?: string | undefined;
   /** Resource provisioning state. */
-  provisioningState?: LabPropertiesInputProvisioningState | (string & {});
+  provisioningState?: LabPropertiesInputProvisioningState | (string & {}) | undefined;
   /** The network profile for the lab, typically applied via a lab plan. This profile cannot be modified once a lab has been created. */
-  networkProfile?: LabNetworkProfile;
+  networkProfile?: LabNetworkProfile | undefined;
   /** Error details of the latest operation failure on this resource */
-  resourceOperationError?: LabPropertiesResourceOperationError;
+  resourceOperationError?: LabPropertiesResourceOperationError | undefined;
 }
 export interface LabsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1214,7 +1217,7 @@ export interface LabsCreateOrUpdateRequest {
   /** The name of the lab that uniquely identifies it within containing lab plan. Used in resource URIs. */
   labName: string;
   /** Resource tags. */
-  tags?: LabsCreateOrUpdateRequestTagsMap;
+  tags?: LabsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Lab resource properties */
@@ -1237,31 +1240,31 @@ export type LabsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface LabsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: LabsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: LabsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: LabsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: LabsCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface LabsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: LabsCreateOrUpdateResponseTagsMap;
+  tags?: LabsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: LabsCreateOrUpdateResponseSystemData;
+  systemData?: LabsCreateOrUpdateResponseSystemData | undefined;
   /** Lab resource properties */
   properties: LabProperties;
 }
@@ -1273,7 +1276,7 @@ export interface ListImageByLabPlanRequest {
   /** The name of the lab plan that uniquely identifies it within containing resource group. Used in resource URIs and in UI. */
   labPlanName: string;
   /** The filter to apply to the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type ImageSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -1282,28 +1285,28 @@ export type ImageSystemDataLastModifiedByType = "User" | "Application" | "Manage
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ImageSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ImageSystemDataCreatedByType;
+  createdByType?: ImageSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ImageSystemDataLastModifiedByType;
+  lastModifiedByType?: ImageSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Lab services virtual machine image */
 export interface Image {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ImageSystemData;
+  systemData?: ImageSystemData | undefined;
   /** Image resource properties */
   properties: ImageProperties;
 }
@@ -1312,9 +1315,9 @@ export type PagedImagesValueList = Array<Image>;
 /** Paged list of Lab services virtual machine images. */
 export interface PagedImages {
   /** The array page of virtual machine images. */
-  value?: PagedImagesValueList;
+  value?: PagedImagesValueList | undefined;
   /** The link to get the next page of image results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLabByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1331,32 +1334,32 @@ export type LabSystemDataLastModifiedByType = "User" | "Application" | "ManagedI
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface LabSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: LabSystemDataCreatedByType;
+  createdByType?: LabSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: LabSystemDataLastModifiedByType;
+  lastModifiedByType?: LabSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The lab resource. */
 export interface Lab {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: LabTagsMap;
+  tags?: LabTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: LabSystemData;
+  systemData?: LabSystemData | undefined;
   /** Lab resource properties */
   properties: LabProperties;
 }
@@ -1365,15 +1368,15 @@ export type PagedLabsValueList = Array<Lab>;
 /** Paged list of labs. */
 export interface PagedLabs {
   /** The array page of lab results. */
-  value?: PagedLabsValueList;
+  value?: PagedLabsValueList | undefined;
   /** The link to get the next page of image results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLabBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The filter to apply to the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListLabPlanByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1394,74 +1397,74 @@ export type LabPlanSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface LabPlanSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: LabPlanSystemDataCreatedByType;
+  createdByType?: LabPlanSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: LabPlanSystemDataLastModifiedByType;
+  lastModifiedByType?: LabPlanSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The identity type. */
 export type LabPlanIdentityType = "SystemAssigned";
 /** Identity for the resource. */
 export interface LabPlanIdentity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: LabPlanIdentityType;
+  type?: LabPlanIdentityType | undefined;
 }
 /** Lab Plans act as a permission container for creating labs via labs.azure.com. Additionally, they can provide a set of default configurations that will apply at the time of creating a lab, but these defaults can still be overwritten. */
 export interface LabPlan {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: LabPlanTagsMap;
+  tags?: LabPlanTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: LabPlanSystemData;
+  systemData?: LabPlanSystemData | undefined;
   /** Lab plan resource properties */
   properties: LabPlanProperties;
   /** Identity for the resource. */
-  identity?: LabPlanIdentity;
+  identity?: LabPlanIdentity | undefined;
 }
 /** The array page of lab plans. */
 export type PagedLabPlansValueList = Array<LabPlan>;
 /** Paged list of lab plans. */
 export interface PagedLabPlans {
   /** The array page of lab plans. */
-  value?: PagedLabPlansValueList;
+  value?: PagedLabPlansValueList | undefined;
   /** The link to get the next page of lab plan results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLabPlanBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The filter to apply to the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1470,23 +1473,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListScheduleByLabRequest {
   /** The ID of the target subscription. */
@@ -1496,7 +1499,7 @@ export interface ListScheduleByLabRequest {
   /** The name of the lab that uniquely identifies it within containing lab plan. Used in resource URIs. */
   labName: string;
   /** The filter to apply to the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type ScheduleSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -1509,28 +1512,28 @@ export type ScheduleSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ScheduleSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ScheduleSystemDataCreatedByType;
+  createdByType?: ScheduleSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ScheduleSystemDataLastModifiedByType;
+  lastModifiedByType?: ScheduleSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Schedule for automatically turning virtual machines in a lab on and off at specified times. */
 export interface Schedule {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ScheduleSystemData;
+  systemData?: ScheduleSystemData | undefined;
   /** Schedule resource properties */
   properties: ScheduleProperties;
 }
@@ -1539,15 +1542,15 @@ export type PagedSchedulesValueList = Array<Schedule>;
 /** Paged list of schedules. */
 export interface PagedSchedules {
   /** The array page of schedule results. */
-  value?: PagedSchedulesValueList;
+  value?: PagedSchedulesValueList | undefined;
   /** The link to get the next page of schedule results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSkusRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The filter to apply to the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The tier of the SKU. */
 export type LabServicesSkuTier = "Standard" | "Premium";
@@ -1556,20 +1559,20 @@ export type LabServicesSkuCapacityScaleType = "None" | "Manual" | "Automatic";
 /** The scale out/in options of the SKU. */
 export interface LabServicesSkuCapacity {
   /** The default capacity for this resource. */
-  default?: number;
+  default?: number | undefined;
   /** The lowest permitted capacity for this resource. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The highest permitted capacity for this resource. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The localized name of the resource. */
-  scaleType?: LabServicesSkuCapacityScaleType;
+  scaleType?: LabServicesSkuCapacityScaleType | undefined;
 }
 /** The array of capabilities of a lab services SKU. */
 export interface LabServicesSkuCapabilities {
   /** The name of the capability for a SKU. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the capability for a SKU. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The capabilities of the SKU. */
 export type LabServicesSkuCapabilitiesList = Array<LabServicesSkuCapabilities>;
@@ -1578,11 +1581,11 @@ export type LabServicesSkuLocationsList = Array<string>;
 /** The array of costs of a lab services SKU. */
 export interface LabServicesSkuCost {
   /** The meter id. */
-  meterId?: string;
+  meterId?: string | undefined;
   /** The quantity of units charged. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The extended unit. */
-  extendedUnit?: string;
+  extendedUnit?: string | undefined;
 }
 /** Metadata for retrieving price info of a lab services SKUs. */
 export type LabServicesSkuCostsList = Array<LabServicesSkuCost>;
@@ -1595,44 +1598,44 @@ export type LabServicesSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForS
 /** The restriction details. */
 export interface LabServicesSkuRestrictions {
   /** The type of restriction. */
-  type?: LabServicesSkuRestrictionsType;
+  type?: LabServicesSkuRestrictionsType | undefined;
   /** The values of the restriction. */
-  values?: LabServicesSkuRestrictionsValuesList;
+  values?: LabServicesSkuRestrictionsValuesList | undefined;
   /** The reason for the restriction. */
-  reasonCode?: LabServicesSkuRestrictionsReasonCode;
+  reasonCode?: LabServicesSkuRestrictionsReasonCode | undefined;
 }
 /** Restrictions of a lab services SKUs. */
 export type LabServicesSkuRestrictionsList = Array<LabServicesSkuRestrictions>;
 /** Azure Lab Services resource SKUs */
 export interface LabServicesSku {
   /** The lab services resource type. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The name of the SKU. */
-  name?: string;
+  name?: string | undefined;
   /** The tier of the SKU. */
-  tier?: LabServicesSkuTier;
+  tier?: LabServicesSkuTier | undefined;
   /** The SKU size. */
-  size?: string;
+  size?: string | undefined;
   /** The family of the SKU. */
-  family?: string;
-  capacity?: LabServicesSkuCapacity;
+  family?: string | undefined;
+  capacity?: LabServicesSkuCapacity | undefined;
   /** The capabilities of the SKU. */
-  capabilities?: LabServicesSkuCapabilitiesList;
+  capabilities?: LabServicesSkuCapabilitiesList | undefined;
   /** List of locations that are available for a size. */
-  locations?: LabServicesSkuLocationsList;
+  locations?: LabServicesSkuLocationsList | undefined;
   /** Metadata for retrieving price info of a lab services SKUs. */
-  costs?: LabServicesSkuCostsList;
+  costs?: LabServicesSkuCostsList | undefined;
   /** Restrictions of a lab services SKUs. */
-  restrictions?: LabServicesSkuRestrictionsList;
+  restrictions?: LabServicesSkuRestrictionsList | undefined;
 }
 /** The array page of sku results. */
 export type PagedLabServicesSkusValueList = Array<LabServicesSku>;
 /** Paged list of lab services skus. */
 export interface PagedLabServicesSkus {
   /** The array page of sku results. */
-  value?: PagedLabServicesSkusValueList;
+  value?: PagedLabServicesSkusValueList | undefined;
   /** The link to get the next page of sku results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUsageByLocationRequest {
   /** The ID of the target subscription. */
@@ -1640,7 +1643,7 @@ export interface ListUsageByLocationRequest {
   /** The location name. */
   location: string;
   /** The filter to apply to the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The unit details. */
 export type UsageUnit = "Count";
@@ -1649,33 +1652,33 @@ export type UsageNameSkuInstancesList = Array<string>;
 /** The Usage Names. */
 export interface UsageName {
   /** The localized name of the resource. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
   /** The instances of the resource. */
-  skuInstances?: UsageNameSkuInstancesList;
+  skuInstances?: UsageNameSkuInstancesList | undefined;
   /** The name of the resource. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The core usage details. */
 export interface Usage {
   /** The current usage. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The limit integer. */
-  limit?: number;
+  limit?: number | undefined;
   /** The unit details. */
-  unit?: UsageUnit;
+  unit?: UsageUnit | undefined;
   /** The name. */
-  name?: UsageName;
+  name?: UsageName | undefined;
   /** The fully qualified arm resource id. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The array page of Usages. */
 export type ListUsagesResultValueList = Array<Usage>;
 /** List of Core Usages. */
 export interface ListUsagesResult {
   /** The array page of Usages. */
-  value?: ListUsagesResultValueList;
+  value?: ListUsagesResultValueList | undefined;
   /** The link to get the next page of Usage result. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUserByLabRequest {
   /** The ID of the target subscription. */
@@ -1685,7 +1688,7 @@ export interface ListUserByLabRequest {
   /** The name of the lab that uniquely identifies it within containing lab plan. Used in resource URIs. */
   labName: string;
   /** The filter to apply to the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type UserSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -1694,28 +1697,28 @@ export type UserSystemDataLastModifiedByType = "User" | "Application" | "Managed
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UserSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UserSystemDataCreatedByType;
+  createdByType?: UserSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UserSystemDataLastModifiedByType;
+  lastModifiedByType?: UserSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** User of a lab that can register for and use virtual machines within the lab. */
 export interface User {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UserSystemData;
+  systemData?: UserSystemData | undefined;
   /** User resource properties */
   properties: UserProperties;
 }
@@ -1724,9 +1727,9 @@ export type PagedUsersValueList = Array<User>;
 /** Paged list of users. */
 export interface PagedUsers {
   /** The array page of user results. */
-  value?: PagedUsersValueList;
+  value?: PagedUsersValueList | undefined;
   /** The link to get the next page of image results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualMachineByLabRequest {
   /** The ID of the target subscription. */
@@ -1736,7 +1739,7 @@ export interface ListVirtualMachineByLabRequest {
   /** The name of the lab that uniquely identifies it within containing lab plan. Used in resource URIs. */
   labName: string;
   /** The filter to apply to the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type VirtualMachineSystemDataCreatedByType =
@@ -1753,28 +1756,28 @@ export type VirtualMachineSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface VirtualMachineSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: VirtualMachineSystemDataCreatedByType;
+  createdByType?: VirtualMachineSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: VirtualMachineSystemDataLastModifiedByType;
+  lastModifiedByType?: VirtualMachineSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** A lab virtual machine resource. */
 export interface VirtualMachine {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: VirtualMachineSystemData;
+  systemData?: VirtualMachineSystemData | undefined;
   /** Virtual machine resource properties */
   properties: VirtualMachineProperties;
 }
@@ -1783,9 +1786,9 @@ export type PagedVirtualMachinesValueList = Array<VirtualMachine>;
 /** Paged list of lab services virtual machines. */
 export interface PagedVirtualMachines {
   /** The array page of virtual machine results. */
-  value?: PagedVirtualMachinesValueList;
+  value?: PagedVirtualMachinesValueList | undefined;
   /** The link to get the next page of virtual machine results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface PublishLabRequest {
   /** The ID of the target subscription. */
@@ -1849,27 +1852,27 @@ export type SchedulesCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SchedulesCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SchedulesCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: SchedulesCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SchedulesCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: SchedulesCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface SchedulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SchedulesCreateOrUpdateResponseSystemData;
+  systemData?: SchedulesCreateOrUpdateResponseSystemData | undefined;
   /** Schedule resource properties */
   properties: ScheduleProperties;
 }
@@ -1909,7 +1912,7 @@ export type ImageUpdatePropertiesEnabledState = "Enabled" | "Disabled";
 /** Properties of an image resource update */
 export interface ImageUpdateProperties {
   /** Property enabled state. */
-  enabledState?: ImageUpdatePropertiesEnabledState | (string & {});
+  enabledState?: ImageUpdatePropertiesEnabledState | (string & {}) | undefined;
 }
 export interface UpdateImageRequest {
   /** The ID of the target subscription. */
@@ -1921,7 +1924,7 @@ export interface UpdateImageRequest {
   /** The image name. */
   imageName: string;
   /** Image resource properties */
-  properties?: ImageUpdateProperties;
+  properties?: ImageUpdateProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateImageResponseSystemDataCreatedByType =
@@ -1938,27 +1941,27 @@ export type UpdateImageResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateImageResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateImageResponseSystemDataCreatedByType;
+  createdByType?: UpdateImageResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateImageResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateImageResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateImageResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateImageResponseSystemData;
+  systemData?: UpdateImageResponseSystemData | undefined;
   /** Image resource properties */
   properties: ImageProperties;
 }
@@ -1972,21 +1975,21 @@ export type LabUpdatePropertiesInputConnectionProfile = LabPlanPropertiesDefault
 /** Properties of a lab resource used for updates. */
 export interface LabUpdatePropertiesInput {
   /** Profile for how to handle shutting down virtual machines. */
-  autoShutdownProfile?: LabPlanPropertiesDefaultAutoShutdownProfile;
+  autoShutdownProfile?: LabPlanPropertiesDefaultAutoShutdownProfile | undefined;
   /** Connection profile for how users connect to lab virtual machines. */
-  connectionProfile?: LabPlanPropertiesDefaultConnectionProfile;
+  connectionProfile?: LabPlanPropertiesDefaultConnectionProfile | undefined;
   /** The profile used for creating lab virtual machines. */
-  virtualMachineProfile?: VirtualMachineProfileInput;
+  virtualMachineProfile?: VirtualMachineProfileInput | undefined;
   /** The lab security profile. */
-  securityProfile?: SecurityProfileInput;
+  securityProfile?: SecurityProfileInput | undefined;
   /** The lab user list management profile. */
-  rosterProfile?: RosterProfile;
+  rosterProfile?: RosterProfile | undefined;
   /** A URL. */
-  labPlanId?: string;
+  labPlanId?: string | undefined;
   /** The title of the lab. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the lab. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateLabRequest {
   /** The ID of the target subscription. */
@@ -1996,9 +1999,9 @@ export interface UpdateLabRequest {
   /** The name of the lab that uniquely identifies it within containing lab plan. Used in resource URIs. */
   labName: string;
   /** Resource tags. */
-  tags?: UpdateLabRequestTagsList;
+  tags?: UpdateLabRequestTagsList | undefined;
   /** Lab resource properties */
-  properties?: LabUpdatePropertiesInput;
+  properties?: LabUpdatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateLabResponseTagsMap = { [key: string]: string | undefined };
@@ -2017,31 +2020,31 @@ export type UpdateLabResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateLabResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateLabResponseSystemDataCreatedByType;
+  createdByType?: UpdateLabResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateLabResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateLabResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateLabResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateLabResponseTagsMap;
+  tags?: UpdateLabResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateLabResponseSystemData;
+  systemData?: UpdateLabResponseSystemData | undefined;
   /** Lab resource properties */
   properties: LabProperties;
 }
@@ -2058,26 +2061,26 @@ export type LabPlanUpdatePropertiesAllowedRegionsList = Array<string>;
 /** Lab plan resource properties for updates */
 export interface LabPlanUpdateProperties {
   /** Connection profile for how users connect to lab virtual machines. */
-  defaultConnectionProfile?: LabPlanPropertiesDefaultConnectionProfile;
+  defaultConnectionProfile?: LabPlanPropertiesDefaultConnectionProfile | undefined;
   /** Profile for how to handle shutting down virtual machines. */
-  defaultAutoShutdownProfile?: LabPlanPropertiesDefaultAutoShutdownProfile;
+  defaultAutoShutdownProfile?: LabPlanPropertiesDefaultAutoShutdownProfile | undefined;
   /** The lab plan network profile. To enforce lab network policies they must be defined here and cannot be changed when there are existing labs associated with this lab plan. */
-  defaultNetworkProfile?: LabPlanNetworkProfile;
+  defaultNetworkProfile?: LabPlanNetworkProfile | undefined;
   /** The allowed regions for the lab creator to use when creating labs using this lab plan. */
-  allowedRegions?: LabPlanUpdatePropertiesAllowedRegionsList;
+  allowedRegions?: LabPlanUpdatePropertiesAllowedRegionsList | undefined;
   /** A URL. */
-  sharedGalleryId?: string;
+  sharedGalleryId?: string | undefined;
   /** Support contact information and instructions for users of the lab plan. This information is displayed to lab owners and virtual machine users for all labs in the lab plan. */
-  supportInfo?: SupportInfo;
+  supportInfo?: SupportInfo | undefined;
   /** A URL. */
-  linkedLmsInstance?: string;
+  linkedLmsInstance?: string | undefined;
 }
 /** The identity type. */
 export type UpdateLabPlanRequestIdentityType = "SystemAssigned";
 /** Identity for the resource. */
 export interface UpdateLabPlanRequestIdentity {
   /** The identity type. */
-  type?: UpdateLabPlanRequestIdentityType | (string & {});
+  type?: UpdateLabPlanRequestIdentityType | (string & {}) | undefined;
 }
 export interface UpdateLabPlanRequest {
   /** The ID of the target subscription. */
@@ -2087,11 +2090,11 @@ export interface UpdateLabPlanRequest {
   /** The name of the lab plan that uniquely identifies it within containing resource group. Used in resource URIs and in UI. */
   labPlanName: string;
   /** Resource tags. */
-  tags?: UpdateLabPlanRequestTagsList;
+  tags?: UpdateLabPlanRequestTagsList | undefined;
   /** Lab plan resource update properties */
-  properties?: LabPlanUpdateProperties;
+  properties?: LabPlanUpdateProperties | undefined;
   /** Identity for the resource. */
-  identity?: UpdateLabPlanRequestIdentity;
+  identity?: UpdateLabPlanRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateLabPlanResponseTagsMap = { [key: string]: string | undefined };
@@ -2110,59 +2113,59 @@ export type UpdateLabPlanResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateLabPlanResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateLabPlanResponseSystemDataCreatedByType;
+  createdByType?: UpdateLabPlanResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateLabPlanResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateLabPlanResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The identity type. */
 export type UpdateLabPlanResponseIdentityType = "SystemAssigned";
 /** Identity for the resource. */
 export interface UpdateLabPlanResponseIdentity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: UpdateLabPlanResponseIdentityType;
+  type?: UpdateLabPlanResponseIdentityType | undefined;
 }
 export interface UpdateLabPlanResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateLabPlanResponseTagsMap;
+  tags?: UpdateLabPlanResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateLabPlanResponseSystemData;
+  systemData?: UpdateLabPlanResponseSystemData | undefined;
   /** Lab plan resource properties */
   properties: LabPlanProperties;
   /** Identity for the resource. */
-  identity?: UpdateLabPlanResponseIdentity;
+  identity?: UpdateLabPlanResponseIdentity | undefined;
 }
 /** Schedule resource properties used for updates. */
 export interface ScheduleUpdateProperties {
   /** When lab user virtual machines will be started. Timestamp offsets will be ignored and timeZoneId is used instead. */
-  startAt?: string;
+  startAt?: string | undefined;
   /** When lab user virtual machines will be stopped. Timestamp offsets will be ignored and timeZoneId is used instead. */
-  stopAt?: string;
+  stopAt?: string | undefined;
   /** The recurrence pattern of the scheduled actions. */
-  recurrencePattern?: RecurrencePattern;
+  recurrencePattern?: RecurrencePattern | undefined;
   /** The IANA timezone id for the schedule. */
-  timeZoneId?: string;
+  timeZoneId?: string | undefined;
   /** Notes for this schedule. */
-  notes?: string;
+  notes?: string | undefined;
 }
 export interface UpdateScheduleRequest {
   /** The ID of the target subscription. */
@@ -2174,7 +2177,7 @@ export interface UpdateScheduleRequest {
   /** The name of the schedule that uniquely identifies it within containing lab. Used in resource URIs. */
   scheduleName: string;
   /** Schedule resource properties */
-  properties?: ScheduleUpdateProperties;
+  properties?: ScheduleUpdateProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateScheduleResponseSystemDataCreatedByType =
@@ -2191,34 +2194,34 @@ export type UpdateScheduleResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateScheduleResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateScheduleResponseSystemDataCreatedByType;
+  createdByType?: UpdateScheduleResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateScheduleResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateScheduleResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateScheduleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateScheduleResponseSystemData;
+  systemData?: UpdateScheduleResponseSystemData | undefined;
   /** Schedule resource properties */
   properties: ScheduleProperties;
 }
 /** User resource properties used for updates. */
 export interface UserUpdateProperties {
   /** The amount of usage quota time the user gets in addition to the lab usage quota. */
-  additionalUsageQuota?: string;
+  additionalUsageQuota?: string | undefined;
 }
 export interface UpdateUserRequest {
   /** The ID of the target subscription. */
@@ -2230,7 +2233,7 @@ export interface UpdateUserRequest {
   /** The name of the user that uniquely identifies it within containing lab. Used in resource URIs. */
   userName: string;
   /** User resource properties */
-  properties?: UserUpdateProperties;
+  properties?: UserUpdateProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateUserResponseSystemDataCreatedByType =
@@ -2247,27 +2250,27 @@ export type UpdateUserResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateUserResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateUserResponseSystemDataCreatedByType;
+  createdByType?: UpdateUserResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateUserResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateUserResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateUserResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateUserResponseSystemData;
+  systemData?: UpdateUserResponseSystemData | undefined;
   /** User resource properties */
   properties: UserProperties;
 }
@@ -2284,11 +2287,11 @@ export type UserPropertiesInputResourceOperationError = LabPropertiesResourceOpe
 /** User resource properties */
 export interface UserPropertiesInput {
   /** The amount of usage quota time the user gets in addition to the lab usage quota. */
-  additionalUsageQuota?: string;
+  additionalUsageQuota?: string | undefined;
   /** Resource provisioning state. */
-  provisioningState?: UserPropertiesInputProvisioningState | (string & {});
+  provisioningState?: UserPropertiesInputProvisioningState | (string & {}) | undefined;
   /** Error details of the latest operation failure on this resource */
-  resourceOperationError?: LabPropertiesResourceOperationError;
+  resourceOperationError?: LabPropertiesResourceOperationError | undefined;
   /** An email address. */
   email: string;
 }
@@ -2319,27 +2322,27 @@ export type UsersCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UsersCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UsersCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: UsersCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UsersCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UsersCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UsersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UsersCreateOrUpdateResponseSystemData;
+  systemData?: UsersCreateOrUpdateResponseSystemData | undefined;
   /** User resource properties */
   properties: UserProperties;
 }

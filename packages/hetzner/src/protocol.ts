@@ -2,6 +2,7 @@ import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * HetznerProtocol -- the shared bearer-REST protocol instantiated for Hetzner
  * Cloud.
@@ -52,7 +53,8 @@ export type HetznerOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Hetzner operation. */
 export type HetznerOpContext = Credentials | HttpClient.HttpClient;

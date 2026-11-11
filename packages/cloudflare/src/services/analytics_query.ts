@@ -128,7 +128,7 @@ export interface DataSecurityFindingsTimeseriesResponse {
   /** Contains time-bucketed result rows. Each slot includes a `timestamp` plus `content` and `posture` maps with `cloud` and `saas` keys. */
   slots: DataSecurityFindingsTimeseriesResponseSlotsList;
   /** Always null for this endpoint. */
-  resolution?: string | null;
+  resolution?: string | null | undefined;
 }
 export type SummaryRequestFiltersItemValuesItem = string | number | boolean;
 export type SummaryRequestFiltersItemValuesList = Array<SummaryRequestFiltersItemValuesItem>;

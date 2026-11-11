@@ -60,13 +60,13 @@ export type ListLocationsRequestSortItem =
 export type ListLocationsRequestSortList = Array<ListLocationsRequestSortItem | (string & {})>;
 export interface ListLocationsRequest {
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListLocationsRequestSortList;
+  sort?: ListLocationsRequestSortList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListLocationsResponseLocationsItem = GetLocationResponseLocation;
 /** List of [Locations](#tag/locations). */

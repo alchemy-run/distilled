@@ -10,23 +10,44 @@
  */
 
 import { InvalidInput } from "@distilled.cloud/core/protocol-http";
-import * as Effect from "effect/Effect";
-import type * as Schema from "effect/Schema";
-import type * as AST from "effect/SchemaAST";
-import type * as Stream from "effect/Stream";
-import type { Operation } from "../client/operation.ts";
+import type { Operation } from "@distilled.cloud/s3/client/operation";
 import {
   Unreadable,
   type ProtocolImpl,
   type ProtocolHandler,
   type TextResponse,
-} from "../client/protocol.ts";
-import type { Request } from "../client/request.ts";
-import type { Response } from "../client/response.ts";
+} from "@distilled.cloud/s3/client/protocol";
+import type { Request } from "@distilled.cloud/s3/client/request";
+import type { Response } from "@distilled.cloud/s3/client/response";
+import type { InputEvent } from "@distilled.cloud/s3/eventstream/serializer";
+import {
+  getEncodedPropertySignatures,
+  getIdentifier,
+  isBooleanAST,
+  isNumberAST,
+} from "@distilled.cloud/s3/util/ast";
+import { inputEncoderSync, outputBody } from "@distilled.cloud/s3/util/codec";
+import {
+  extractJsonErrorCode,
+  extractJsonErrorData,
+  sanitizeErrorCode,
+} from "@distilled.cloud/s3/util/error";
+import { extractStaticQueryParams } from "@distilled.cloud/s3/util/query-params";
+import { applyHttpTrait, bindInputToRequest } from "@distilled.cloud/s3/util/serialize-input";
+import {
+  convertStreamingInput,
+  isEffectStream,
+  readableToEffectStream,
+  readStreamAsBytes,
+  readStreamAsText,
+} from "@distilled.cloud/s3/util/stream";
+import * as Effect from "effect/Effect";
+import type * as Schema from "effect/Schema";
+import type * as AST from "effect/SchemaAST";
+import type * as Stream from "effect/Stream";
 import { applyApiGatewayCustomizations, isApiGateway } from "../customizations/api-gateway.ts";
 import { applyGlacierCustomizations, isGlacier } from "../customizations/glacier.ts";
 import { ParseError } from "../errors.ts";
-import type { InputEvent } from "../eventstream/serializer.ts";
 import {
   getAwsApiService,
   getEventPayloadMap,
@@ -47,23 +68,6 @@ import {
   eventStreamWith,
   eventStreamBody,
 } from "../traits.ts";
-import {
-  getEncodedPropertySignatures,
-  getIdentifier,
-  isBooleanAST,
-  isNumberAST,
-} from "../util/ast.ts";
-import { inputEncoderSync, outputBody } from "../util/codec.ts";
-import { extractJsonErrorCode, extractJsonErrorData, sanitizeErrorCode } from "../util/error.ts";
-import { extractStaticQueryParams } from "../util/query-params.ts";
-import { applyHttpTrait, bindInputToRequest } from "../util/serialize-input.ts";
-import {
-  convertStreamingInput,
-  isEffectStream,
-  readableToEffectStream,
-  readStreamAsBytes,
-  readStreamAsText,
-} from "../util/stream.ts";
 
 export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolHandler => {
   const inputSchema = operation.input;

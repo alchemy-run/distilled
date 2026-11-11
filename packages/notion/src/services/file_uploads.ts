@@ -60,11 +60,11 @@ export interface FileUploadObjectResponseFileImportResult {
   /** The time the file was imported into Notion. ISO 8601 format. */
   imported_time: string;
   /** Indicates a successful import. */
-  type?: string;
+  type?: string | undefined;
   /** Empty object for success type. */
-  success?: unknown;
+  success?: unknown | undefined;
   /** Details about the error that occurred during file import. */
-  error?: FileUploadObjectResponseFileImportResultError;
+  error?: FileUploadObjectResponseFileImportResultError | undefined;
 }
 export interface FileUploadObjectResponseNumberOfParts {
   total: number;
@@ -84,24 +84,24 @@ export interface FileUploadObjectResponse {
   filename: string | null;
   content_type: string | null;
   content_length: number | null;
-  upload_url?: string;
-  complete_url?: string;
-  file_import_result?: FileUploadObjectResponseFileImportResult;
-  number_of_parts?: FileUploadObjectResponseNumberOfParts;
+  upload_url?: string | undefined;
+  complete_url?: string | undefined;
+  file_import_result?: FileUploadObjectResponseFileImportResult | undefined;
+  number_of_parts?: FileUploadObjectResponseNumberOfParts | undefined;
 }
 /** How the file is sent. Defaults to single_part. Use multi_part for files larger than 20 MiB or external_url for a temporary public HTTPS URL. */
 export type CreateFileUploadRequestMode = "single_part" | "multi_part" | "external_url";
 export interface CreateFileUploadRequest {
   /** How the file is sent. Defaults to single_part. Use multi_part for files larger than 20 MiB or external_url for a temporary public HTTPS URL. */
-  mode?: CreateFileUploadRequestMode | (string & {});
+  mode?: CreateFileUploadRequestMode | (string & {}) | undefined;
   /** The filename. Required for multi_part and external_url uploads. Include an extension or provide content_type so one can be inferred. */
-  filename?: string;
+  filename?: string | undefined;
   /** The MIME type. It must match the uploaded file and any filename extension. */
-  content_type?: string;
+  content_type?: string | undefined;
   /** The number of parts in a multi_part upload. Required only for multi_part uploads. This must match the number of uploaded parts and the final part_number sent. */
-  number_of_parts?: number;
+  number_of_parts?: number | undefined;
   /** A public HTTPS URL to import. Required only for external_url uploads. */
-  external_url?: string;
+  external_url?: string | undefined;
 }
 export interface GetFileUploadRequest {
   file_upload_id: string;
@@ -109,9 +109,9 @@ export interface GetFileUploadRequest {
 /** If supplied, the endpoint will return file uploads with the specified status. */
 export type ListFileUploadsRequestStatus = "pending" | "uploaded" | "expired" | "failed";
 export interface ListFileUploadsRequest {
-  status?: ListFileUploadsRequestStatus | (string & {});
-  start_cursor?: string;
-  page_size?: number;
+  status?: ListFileUploadsRequestStatus | (string & {}) | undefined;
+  start_cursor?: string | undefined;
+  page_size?: number | undefined;
 }
 export type ListFileUploadsResponseResultsList = Array<FileUploadObjectResponse>;
 /** Whether the result set is complete or incomplete. `incomplete` means the response does not include all rows that match the query parameters (e.g. due to a server-side pagination depth limit). */
@@ -120,7 +120,7 @@ export interface RequestStatusResponse {
   /** Whether the result set is complete or incomplete. `incomplete` means the response does not include all rows that match the query parameters (e.g. due to a server-side pagination depth limit). */
   type: RequestStatusResponseType;
   /** Why the result set is incomplete. Only present when `type` is `incomplete`. */
-  incomplete_reason?: string;
+  incomplete_reason?: string | undefined;
 }
 export interface ListFileUploadsResponse {
   /** Always `list` */
@@ -131,14 +131,14 @@ export interface ListFileUploadsResponse {
   /** Always `file_upload` */
   type: string;
   file_upload: unknown;
-  request_status?: RequestStatusResponse;
+  request_status?: RequestStatusResponse | undefined;
 }
 export interface SendFileUploadRequest {
   file_upload_id: string;
   /** The raw binary file contents to upload. */
   file: unknown;
   /** When uploading files greater than 20MB in parts, this is the current part number. Must be an integer between 1 and 1,000. */
-  part_number?: string;
+  part_number?: string | undefined;
 }
 export type CompleteFileUploadError = NotionOpError;
 /** Complete a multi-part file upload */

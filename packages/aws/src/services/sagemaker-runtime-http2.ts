@@ -9,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -396,32 +397,44 @@ export class ServiceUnavailableError
   ).pipe(C.withServerError) {}
 export type SensitiveBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface RequestPayloadPart {
-  Bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
-  DataType?: string;
-  CompletionState?: string;
-  P?: string;
+  Bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  DataType?: string | undefined;
+  CompletionState?: string | undefined;
+  P?: string | undefined;
 }
 export type RequestStreamEvent = { PayloadPart: RequestPayloadPart };
 export interface InvokeEndpointWithBidirectionalStreamInput {
   EndpointName: string;
   Body: stream.Stream<RequestStreamEvent, Error, never>;
-  TargetVariant?: string;
-  ModelInvocationPath?: string;
-  ModelQueryString?: string;
+  TargetVariant?: string | undefined;
+  ModelInvocationPath?: string | undefined;
+  ModelQueryString?: string | undefined;
 }
 export interface ResponsePayloadPart {
-  Bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
-  DataType?: string;
-  CompletionState?: string;
-  P?: string;
+  Bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  DataType?: string | undefined;
+  CompletionState?: string | undefined;
+  P?: string | undefined;
 }
 export type ResponseStreamEvent =
-  | { PayloadPart: ResponsePayloadPart; ModelStreamError?: never; InternalStreamFailure?: never }
-  | { PayloadPart?: never; ModelStreamError: ModelStreamError; InternalStreamFailure?: never }
-  | { PayloadPart?: never; ModelStreamError?: never; InternalStreamFailure: InternalStreamFailure };
+  | {
+      PayloadPart: ResponsePayloadPart;
+      ModelStreamError?: undefined;
+      InternalStreamFailure?: undefined;
+    }
+  | {
+      PayloadPart?: undefined;
+      ModelStreamError: ModelStreamError;
+      InternalStreamFailure?: undefined;
+    }
+  | {
+      PayloadPart?: undefined;
+      ModelStreamError?: undefined;
+      InternalStreamFailure: InternalStreamFailure;
+    };
 export interface InvokeEndpointWithBidirectionalStreamOutput {
   Body: stream.Stream<ResponseStreamEvent, Error, never>;
-  InvokedProductionVariant?: string;
+  InvokedProductionVariant?: string | undefined;
 }
 export type InvokeEndpointWithBidirectionalStreamError =
   | InputValidationError
@@ -447,7 +460,7 @@ export type InvokeEndpointWithBidirectionalStreamError =
  * Endpoints are scoped to an individual account, and are not public. The URL does not contain the account ID, but Amazon SageMaker AI determines the account ID from the authentication token that is supplied by the caller.
  */
 export const invokeEndpointWithBidirectionalStream: API.OperationMethod<
-  InvokeEndpointWithBidirectionalStreamInput,
+  InvokeEndpointWithBidirectionalStreamInput & RegionInput,
   InvokeEndpointWithBidirectionalStreamOutput,
   InvokeEndpointWithBidirectionalStreamError,
   Credentials | HttpClient.HttpClient

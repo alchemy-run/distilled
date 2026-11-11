@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -133,87 +134,87 @@ export type __listOf__string = string[];
 const __listOf__string = /*@__PURE__*/ __L.at(__c35, 0);
 export type Tags = { [key: string]: string | undefined };
 export interface CreateCellRequest {
-  CellName?: string;
-  Cells?: string[];
-  Tags?: { [key: string]: string | undefined };
+  CellName?: string | undefined;
+  Cells?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __stringMax256 = string;
 export type __stringMax64PatternAAZAZ09Z = string;
 export interface CreateCellResponse {
-  CellArn?: string;
-  CellName?: string;
-  Cells?: string[];
-  ParentReadinessScopes?: string[];
-  Tags?: { [key: string]: string | undefined };
+  CellArn?: string | undefined;
+  CellName?: string | undefined;
+  Cells?: string[] | undefined;
+  ParentReadinessScopes?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CrossAccountAuthorization = string;
 export interface CreateCrossAccountAuthorizationRequest {
-  CrossAccountAuthorization?: string;
+  CrossAccountAuthorization?: string | undefined;
 }
 export interface CreateCrossAccountAuthorizationResponse {
-  CrossAccountAuthorization?: string;
+  CrossAccountAuthorization?: string | undefined;
 }
 export interface CreateReadinessCheckRequest {
-  ReadinessCheckName?: string;
-  ResourceSetName?: string;
-  Tags?: { [key: string]: string | undefined };
+  ReadinessCheckName?: string | undefined;
+  ResourceSetName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateReadinessCheckResponse {
-  ReadinessCheckArn?: string;
-  ReadinessCheckName?: string;
-  ResourceSet?: string;
-  Tags?: { [key: string]: string | undefined };
+  ReadinessCheckArn?: string | undefined;
+  ReadinessCheckName?: string | undefined;
+  ResourceSet?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateRecoveryGroupRequest {
-  Cells?: string[];
-  RecoveryGroupName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Cells?: string[] | undefined;
+  RecoveryGroupName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateRecoveryGroupResponse {
-  Cells?: string[];
-  RecoveryGroupArn?: string;
-  RecoveryGroupName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Cells?: string[] | undefined;
+  RecoveryGroupArn?: string | undefined;
+  RecoveryGroupName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __stringPatternAWSAZaZ09AZaZ09 = string;
 export interface NLBResource {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface R53ResourceRecord {
-  DomainName?: string;
-  RecordSetId?: string;
+  DomainName?: string | undefined;
+  RecordSetId?: string | undefined;
 }
 export interface TargetResource {
-  NLBResource?: NLBResource;
-  R53Resource?: R53ResourceRecord;
+  NLBResource?: NLBResource | undefined;
+  R53Resource?: R53ResourceRecord | undefined;
 }
 export interface DNSTargetResource {
-  DomainName?: string;
-  HostedZoneArn?: string;
-  RecordSetId?: string;
-  RecordType?: string;
-  TargetResource?: TargetResource;
+  DomainName?: string | undefined;
+  HostedZoneArn?: string | undefined;
+  RecordSetId?: string | undefined;
+  RecordType?: string | undefined;
+  TargetResource?: TargetResource | undefined;
 }
 export interface Resource {
-  ComponentId?: string;
-  DnsTargetResource?: DNSTargetResource;
-  ReadinessScopes?: string[];
-  ResourceArn?: string;
+  ComponentId?: string | undefined;
+  DnsTargetResource?: DNSTargetResource | undefined;
+  ReadinessScopes?: string[] | undefined;
+  ResourceArn?: string | undefined;
 }
 export type __listOfResource = Resource[];
 const __listOfResource = /*@__PURE__*/ __L.at(__c1, 5);
 export interface CreateResourceSetRequest {
-  ResourceSetName?: string;
-  ResourceSetType?: string;
-  Resources?: Resource[];
-  Tags?: { [key: string]: string | undefined };
+  ResourceSetName?: string | undefined;
+  ResourceSetType?: string | undefined;
+  Resources?: Resource[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateResourceSetResponse {
-  ResourceSetArn?: string;
-  ResourceSetName?: string;
-  ResourceSetType?: string;
-  Resources?: Resource[];
-  Tags?: { [key: string]: string | undefined };
+  ResourceSetArn?: string | undefined;
+  ResourceSetName?: string | undefined;
+  ResourceSetType?: string | undefined;
+  Resources?: Resource[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteCellRequest {
   CellName: string;
@@ -237,311 +238,322 @@ export interface DeleteResourceSetRequest {
 export interface DeleteResourceSetResponse {}
 export type MaxResults = number;
 export interface GetArchitectureRecommendationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   RecoveryGroupName: string;
 }
 export type LastAuditTimestamp = Date;
 export interface Recommendation {
-  RecommendationText?: string;
+  RecommendationText?: string | undefined;
 }
 export type __listOfRecommendation = Recommendation[];
 const __listOfRecommendation = /*@__PURE__*/ __L.at(__c8, 2);
 export interface GetArchitectureRecommendationsResponse {
-  LastAuditTimestamp?: Date;
-  NextToken?: string;
-  Recommendations?: (Recommendation & { RecommendationText: string })[];
+  LastAuditTimestamp?: Date | undefined;
+  NextToken?: string | undefined;
+  Recommendations?: (Recommendation & { RecommendationText: string })[] | undefined;
 }
 export interface GetCellRequest {
   CellName: string;
 }
 export interface GetCellResponse {
-  CellArn?: string;
-  CellName?: string;
-  Cells?: string[];
-  ParentReadinessScopes?: string[];
-  Tags?: { [key: string]: string | undefined };
+  CellArn?: string | undefined;
+  CellName?: string | undefined;
+  Cells?: string[] | undefined;
+  ParentReadinessScopes?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetCellReadinessSummaryRequest {
   CellName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type Readiness = "READY" | "NOT_READY" | "UNKNOWN" | "NOT_AUTHORIZED" | (string & {});
 export interface ReadinessCheckSummary {
-  Readiness?: Readiness;
-  ReadinessCheckName?: string;
+  Readiness?: Readiness | undefined;
+  ReadinessCheckName?: string | undefined;
 }
 export type __listOfReadinessCheckSummary = ReadinessCheckSummary[];
 const __listOfReadinessCheckSummary = /*@__PURE__*/ __L.at(__c11, 1);
 export interface GetCellReadinessSummaryResponse {
-  NextToken?: string;
-  Readiness?: Readiness;
-  ReadinessChecks?: ReadinessCheckSummary[];
+  NextToken?: string | undefined;
+  Readiness?: Readiness | undefined;
+  ReadinessChecks?: ReadinessCheckSummary[] | undefined;
 }
 export interface GetReadinessCheckRequest {
   ReadinessCheckName: string;
 }
 export interface GetReadinessCheckResponse {
-  ReadinessCheckArn?: string;
-  ReadinessCheckName?: string;
-  ResourceSet?: string;
-  Tags?: { [key: string]: string | undefined };
+  ReadinessCheckArn?: string | undefined;
+  ReadinessCheckName?: string | undefined;
+  ResourceSet?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetReadinessCheckResourceStatusRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ReadinessCheckName: string;
   ResourceIdentifier: string;
 }
 export type ReadinessCheckTimestamp = Date;
 export interface Message {
-  MessageText?: string;
+  MessageText?: string | undefined;
 }
 export type __listOfMessage = Message[];
 const __listOfMessage = /*@__PURE__*/ __L.at(__c14, 1);
 export interface RuleResult {
-  LastCheckedTimestamp?: Date;
-  Messages?: Message[];
-  Readiness?: Readiness;
-  RuleId?: string;
+  LastCheckedTimestamp?: Date | undefined;
+  Messages?: Message[] | undefined;
+  Readiness?: Readiness | undefined;
+  RuleId?: string | undefined;
 }
 export type __listOfRuleResult = RuleResult[];
 const __listOfRuleResult = /*@__PURE__*/ __L.at(__c13, 2);
 export interface GetReadinessCheckResourceStatusResponse {
-  NextToken?: string;
-  Readiness?: Readiness;
-  Rules?: (RuleResult & {
-    LastCheckedTimestamp: ReadinessCheckTimestamp;
-    Messages: __listOfMessage;
-    Readiness: Readiness;
-    RuleId: string;
-  })[];
+  NextToken?: string | undefined;
+  Readiness?: Readiness | undefined;
+  Rules?:
+    | (RuleResult & {
+        LastCheckedTimestamp: ReadinessCheckTimestamp;
+        Messages: __listOfMessage;
+        Readiness: Readiness;
+        RuleId: string;
+      })[]
+    | undefined;
 }
 export interface GetReadinessCheckStatusRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ReadinessCheckName: string;
 }
 export interface ResourceResult {
-  ComponentId?: string;
-  LastCheckedTimestamp?: Date;
-  Readiness?: Readiness;
-  ResourceArn?: string;
+  ComponentId?: string | undefined;
+  LastCheckedTimestamp?: Date | undefined;
+  Readiness?: Readiness | undefined;
+  ResourceArn?: string | undefined;
 }
 export type __listOfResourceResult = ResourceResult[];
 const __listOfResourceResult = /*@__PURE__*/ __L.at(__c15, 2);
 export interface GetReadinessCheckStatusResponse {
-  Messages?: Message[];
-  NextToken?: string;
-  Readiness?: Readiness;
-  Resources?: (ResourceResult & {
-    LastCheckedTimestamp: ReadinessCheckTimestamp;
-    Readiness: Readiness;
-  })[];
+  Messages?: Message[] | undefined;
+  NextToken?: string | undefined;
+  Readiness?: Readiness | undefined;
+  Resources?:
+    | (ResourceResult & { LastCheckedTimestamp: ReadinessCheckTimestamp; Readiness: Readiness })[]
+    | undefined;
 }
 export interface GetRecoveryGroupRequest {
   RecoveryGroupName: string;
 }
 export interface GetRecoveryGroupResponse {
-  Cells?: string[];
-  RecoveryGroupArn?: string;
-  RecoveryGroupName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Cells?: string[] | undefined;
+  RecoveryGroupArn?: string | undefined;
+  RecoveryGroupName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetRecoveryGroupReadinessSummaryRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   RecoveryGroupName: string;
 }
 export interface GetRecoveryGroupReadinessSummaryResponse {
-  NextToken?: string;
-  Readiness?: Readiness;
-  ReadinessChecks?: ReadinessCheckSummary[];
+  NextToken?: string | undefined;
+  Readiness?: Readiness | undefined;
+  ReadinessChecks?: ReadinessCheckSummary[] | undefined;
 }
 export interface GetResourceSetRequest {
   ResourceSetName: string;
 }
 export interface GetResourceSetResponse {
-  ResourceSetArn?: string;
-  ResourceSetName?: string;
-  ResourceSetType?: string;
-  Resources?: Resource[];
-  Tags?: { [key: string]: string | undefined };
+  ResourceSetArn?: string | undefined;
+  ResourceSetName?: string | undefined;
+  ResourceSetType?: string | undefined;
+  Resources?: Resource[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListCellsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface CellOutput {
-  CellArn?: string;
-  CellName?: string;
-  Cells?: string[];
-  ParentReadinessScopes?: string[];
-  Tags?: { [key: string]: string | undefined };
+  CellArn?: string | undefined;
+  CellName?: string | undefined;
+  Cells?: string[] | undefined;
+  ParentReadinessScopes?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfCellOutput = CellOutput[];
 const __listOfCellOutput = /*@__PURE__*/ __L.at(__c19, 1);
 export interface ListCellsResponse {
-  Cells?: (CellOutput & {
-    CellArn: __stringMax256;
-    CellName: __stringMax64PatternAAZAZ09Z;
-    Cells: __listOf__string;
-    ParentReadinessScopes: __listOf__string;
-  })[];
-  NextToken?: string;
+  Cells?:
+    | (CellOutput & {
+        CellArn: __stringMax256;
+        CellName: __stringMax64PatternAAZAZ09Z;
+        Cells: __listOf__string;
+        ParentReadinessScopes: __listOf__string;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCrossAccountAuthorizationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type __listOfCrossAccountAuthorization = string[];
 const __listOfCrossAccountAuthorization =
   __listOf__string as any as S.Schema<__listOfCrossAccountAuthorization>;
 export interface ListCrossAccountAuthorizationsResponse {
-  CrossAccountAuthorizations?: string[];
-  NextToken?: string;
+  CrossAccountAuthorizations?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListReadinessChecksRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ReadinessCheckOutput {
-  ReadinessCheckArn?: string;
-  ReadinessCheckName?: string;
-  ResourceSet?: string;
-  Tags?: { [key: string]: string | undefined };
+  ReadinessCheckArn?: string | undefined;
+  ReadinessCheckName?: string | undefined;
+  ResourceSet?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfReadinessCheckOutput = ReadinessCheckOutput[];
 const __listOfReadinessCheckOutput = /*@__PURE__*/ __L.at(__c21, 1);
 export interface ListReadinessChecksResponse {
-  NextToken?: string;
-  ReadinessChecks?: (ReadinessCheckOutput & {
-    ReadinessCheckArn: __stringMax256;
-    ResourceSet: __stringMax64PatternAAZAZ09Z;
-  })[];
+  NextToken?: string | undefined;
+  ReadinessChecks?:
+    | (ReadinessCheckOutput & {
+        ReadinessCheckArn: __stringMax256;
+        ResourceSet: __stringMax64PatternAAZAZ09Z;
+      })[]
+    | undefined;
 }
 export interface ListRecoveryGroupsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RecoveryGroupOutput {
-  Cells?: string[];
-  RecoveryGroupArn?: string;
-  RecoveryGroupName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Cells?: string[] | undefined;
+  RecoveryGroupArn?: string | undefined;
+  RecoveryGroupName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfRecoveryGroupOutput = RecoveryGroupOutput[];
 const __listOfRecoveryGroupOutput = /*@__PURE__*/ __L.at(__c22, 1);
 export interface ListRecoveryGroupsResponse {
-  NextToken?: string;
-  RecoveryGroups?: (RecoveryGroupOutput & {
-    Cells: __listOf__string;
-    RecoveryGroupArn: __stringMax256;
-    RecoveryGroupName: __stringMax64PatternAAZAZ09Z;
-  })[];
+  NextToken?: string | undefined;
+  RecoveryGroups?:
+    | (RecoveryGroupOutput & {
+        Cells: __listOf__string;
+        RecoveryGroupArn: __stringMax256;
+        RecoveryGroupName: __stringMax64PatternAAZAZ09Z;
+      })[]
+    | undefined;
 }
 export interface ListResourceSetsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ResourceSetOutput {
-  ResourceSetArn?: string;
-  ResourceSetName?: string;
-  ResourceSetType?: string;
-  Resources?: Resource[];
-  Tags?: { [key: string]: string | undefined };
+  ResourceSetArn?: string | undefined;
+  ResourceSetName?: string | undefined;
+  ResourceSetType?: string | undefined;
+  Resources?: Resource[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfResourceSetOutput = ResourceSetOutput[];
 const __listOfResourceSetOutput = /*@__PURE__*/ __L.at(__c23, 1);
 export interface ListResourceSetsResponse {
-  NextToken?: string;
-  ResourceSets?: (ResourceSetOutput & {
-    ResourceSetArn: __stringMax256;
-    ResourceSetName: __stringMax64PatternAAZAZ09Z;
-    ResourceSetType: __stringPatternAWSAZaZ09AZaZ09;
-    Resources: __listOfResource;
-  })[];
+  NextToken?: string | undefined;
+  ResourceSets?:
+    | (ResourceSetOutput & {
+        ResourceSetArn: __stringMax256;
+        ResourceSetName: __stringMax64PatternAAZAZ09Z;
+        ResourceSetType: __stringPatternAWSAZaZ09AZaZ09;
+        Resources: __listOfResource;
+      })[]
+    | undefined;
 }
 export interface ListRulesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  ResourceType?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ResourceType?: string | undefined;
 }
 export type __stringMax64 = string;
 export interface ListRulesOutput {
-  ResourceType?: string;
-  RuleDescription?: string;
-  RuleId?: string;
+  ResourceType?: string | undefined;
+  RuleDescription?: string | undefined;
+  RuleId?: string | undefined;
 }
 export type __listOfListRulesOutput = ListRulesOutput[];
 const __listOfListRulesOutput = /*@__PURE__*/ __L.at(__c24, 2);
 export interface ListRulesResponse {
-  NextToken?: string;
-  Rules?: (ListRulesOutput & {
-    ResourceType: __stringMax64;
-    RuleDescription: __stringMax256;
-    RuleId: __stringMax64;
-  })[];
+  NextToken?: string | undefined;
+  Rules?:
+    | (ListRulesOutput & {
+        ResourceType: __stringMax64;
+        RuleDescription: __stringMax256;
+        RuleId: __stringMax64;
+      })[]
+    | undefined;
 }
 export interface ListTagsForResourcesRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourcesResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateCellRequest {
   CellName: string;
-  Cells?: string[];
+  Cells?: string[] | undefined;
 }
 export interface UpdateCellResponse {
-  CellArn?: string;
-  CellName?: string;
-  Cells?: string[];
-  ParentReadinessScopes?: string[];
-  Tags?: { [key: string]: string | undefined };
+  CellArn?: string | undefined;
+  CellName?: string | undefined;
+  Cells?: string[] | undefined;
+  ParentReadinessScopes?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateReadinessCheckRequest {
   ReadinessCheckName: string;
-  ResourceSetName?: string;
+  ResourceSetName?: string | undefined;
 }
 export interface UpdateReadinessCheckResponse {
-  ReadinessCheckArn?: string;
-  ReadinessCheckName?: string;
-  ResourceSet?: string;
-  Tags?: { [key: string]: string | undefined };
+  ReadinessCheckArn?: string | undefined;
+  ReadinessCheckName?: string | undefined;
+  ResourceSet?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateRecoveryGroupRequest {
-  Cells?: string[];
+  Cells?: string[] | undefined;
   RecoveryGroupName: string;
 }
 export interface UpdateRecoveryGroupResponse {
-  Cells?: string[];
-  RecoveryGroupArn?: string;
-  RecoveryGroupName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Cells?: string[] | undefined;
+  RecoveryGroupArn?: string | undefined;
+  RecoveryGroupName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateResourceSetRequest {
   ResourceSetName: string;
-  ResourceSetType?: string;
-  Resources?: Resource[];
+  ResourceSetType?: string | undefined;
+  Resources?: Resource[] | undefined;
 }
 export interface UpdateResourceSetResponse {
-  ResourceSetArn?: string;
-  ResourceSetName?: string;
-  ResourceSetType?: string;
-  Resources?: Resource[];
-  Tags?: { [key: string]: string | undefined };
+  ResourceSetArn?: string | undefined;
+  ResourceSetName?: string | undefined;
+  ResourceSetType?: string | undefined;
+  Resources?: Resource[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CreateCellError =
   | AccessDeniedException
@@ -554,7 +566,7 @@ export type CreateCellError =
  * Creates a cell in an account.
  */
 export const createCell: API.OperationMethod<
-  CreateCellRequest,
+  CreateCellRequest & RegionInput,
   CreateCellResponse,
   CreateCellError,
   Credentials | HttpClient.HttpClient
@@ -586,7 +598,7 @@ export type CreateCrossAccountAuthorizationError =
  * Creates a cross-account readiness authorization. This lets you authorize another account to work with Route 53 Application Recovery Controller, for example, to check the readiness status of resources in a separate account.
  */
 export const createCrossAccountAuthorization: API.OperationMethod<
-  CreateCrossAccountAuthorizationRequest,
+  CreateCrossAccountAuthorizationRequest & RegionInput,
   CreateCrossAccountAuthorizationResponse,
   CreateCrossAccountAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -618,7 +630,7 @@ export type CreateReadinessCheckError =
  * Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora instances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check.
  */
 export const createReadinessCheck: API.OperationMethod<
-  CreateReadinessCheckRequest,
+  CreateReadinessCheckRequest & RegionInput,
   CreateReadinessCheckResponse,
   CreateReadinessCheckError,
   Credentials | HttpClient.HttpClient
@@ -650,7 +662,7 @@ export type CreateRecoveryGroupError =
  * Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the application.
  */
 export const createRecoveryGroup: API.OperationMethod<
-  CreateRecoveryGroupRequest,
+  CreateRecoveryGroupRequest & RegionInput,
   CreateRecoveryGroupResponse,
   CreateRecoveryGroupError,
   Credentials | HttpClient.HttpClient
@@ -682,7 +694,7 @@ export type CreateResourceSetError =
  * Creates a resource set. A resource set is a set of resources of one type that span multiple cells. You can associate a resource set with a readiness check to monitor the resources for failover readiness.
  */
 export const createResourceSet: API.OperationMethod<
-  CreateResourceSetRequest,
+  CreateResourceSetRequest & RegionInput,
   CreateResourceSetResponse,
   CreateResourceSetError,
   Credentials | HttpClient.HttpClient
@@ -714,7 +726,7 @@ export type DeleteCellError =
  * Delete a cell. When successful, the response code is 204, with no response body.
  */
 export const deleteCell: API.OperationMethod<
-  DeleteCellRequest,
+  DeleteCellRequest & RegionInput,
   DeleteCellResponse,
   DeleteCellError,
   Credentials | HttpClient.HttpClient
@@ -745,7 +757,7 @@ export type DeleteCrossAccountAuthorizationError =
  * Deletes cross account readiness authorization.
  */
 export const deleteCrossAccountAuthorization: API.OperationMethod<
-  DeleteCrossAccountAuthorizationRequest,
+  DeleteCrossAccountAuthorizationRequest & RegionInput,
   DeleteCrossAccountAuthorizationResponse,
   DeleteCrossAccountAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -776,7 +788,7 @@ export type DeleteReadinessCheckError =
  * Deletes a readiness check.
  */
 export const deleteReadinessCheck: API.OperationMethod<
-  DeleteReadinessCheckRequest,
+  DeleteReadinessCheckRequest & RegionInput,
   DeleteReadinessCheckResponse,
   DeleteReadinessCheckError,
   Credentials | HttpClient.HttpClient
@@ -808,7 +820,7 @@ export type DeleteRecoveryGroupError =
  * Deletes a recovery group.
  */
 export const deleteRecoveryGroup: API.OperationMethod<
-  DeleteRecoveryGroupRequest,
+  DeleteRecoveryGroupRequest & RegionInput,
   DeleteRecoveryGroupResponse,
   DeleteRecoveryGroupError,
   Credentials | HttpClient.HttpClient
@@ -840,7 +852,7 @@ export type DeleteResourceSetError =
  * Deletes a resource set.
  */
 export const deleteResourceSet: API.OperationMethod<
-  DeleteResourceSetRequest,
+  DeleteResourceSetRequest & RegionInput,
   DeleteResourceSetResponse,
   DeleteResourceSetError,
   Credentials | HttpClient.HttpClient
@@ -872,7 +884,7 @@ export type GetArchitectureRecommendationsError =
  * Gets recommendations about architecture designs for improving resiliency for an application, based on a recovery group.
  */
 export const getArchitectureRecommendations: API.OperationMethod<
-  GetArchitectureRecommendationsRequest,
+  GetArchitectureRecommendationsRequest & RegionInput,
   GetArchitectureRecommendationsResponse,
   GetArchitectureRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -904,7 +916,7 @@ export type GetCellError =
  * Gets information about a cell including cell name, cell Amazon Resource Name (ARN), ARNs of nested cells for this cell, and a list of those cell ARNs with their associated recovery group ARNs.
  */
 export const getCell: API.OperationMethod<
-  GetCellRequest,
+  GetCellRequest & RegionInput,
   GetCellResponse,
   GetCellError,
   Credentials | HttpClient.HttpClient
@@ -936,7 +948,7 @@ export type GetCellReadinessSummaryError =
  * Gets readiness for a cell. Aggregates the readiness of all the resources that are associated with the cell into a single value.
  */
 export const getCellReadinessSummary: API.PaginatedOperationMethod<
-  GetCellReadinessSummaryRequest,
+  GetCellReadinessSummaryRequest & RegionInput,
   GetCellReadinessSummaryResponse,
   GetCellReadinessSummaryError,
   Credentials | HttpClient.HttpClient,
@@ -975,7 +987,7 @@ export type GetReadinessCheckError =
  * Gets details about a readiness check.
  */
 export const getReadinessCheck: API.OperationMethod<
-  GetReadinessCheckRequest,
+  GetReadinessCheckRequest & RegionInput,
   GetReadinessCheckResponse,
   GetReadinessCheckError,
   Credentials | HttpClient.HttpClient
@@ -1007,7 +1019,7 @@ export type GetReadinessCheckResourceStatusError =
  * Gets individual readiness status for a readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in the recovery group, use GetRecoveryGroupReadinessSummary.
  */
 export const getReadinessCheckResourceStatus: API.PaginatedOperationMethod<
-  GetReadinessCheckResourceStatusRequest,
+  GetReadinessCheckResourceStatusRequest & RegionInput,
   GetReadinessCheckResourceStatusResponse,
   GetReadinessCheckResourceStatusError,
   Credentials | HttpClient.HttpClient,
@@ -1046,7 +1058,7 @@ export type GetReadinessCheckStatusError =
  * Gets the readiness status for an individual readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in a recovery group, use GetRecoveryGroupReadinessSummary.
  */
 export const getReadinessCheckStatus: API.PaginatedOperationMethod<
-  GetReadinessCheckStatusRequest,
+  GetReadinessCheckStatusRequest & RegionInput,
   GetReadinessCheckStatusResponse,
   GetReadinessCheckStatusError,
   Credentials | HttpClient.HttpClient,
@@ -1085,7 +1097,7 @@ export type GetRecoveryGroupError =
  * Gets details about a recovery group, including a list of the cells that are included in it.
  */
 export const getRecoveryGroup: API.OperationMethod<
-  GetRecoveryGroupRequest,
+  GetRecoveryGroupRequest & RegionInput,
   GetRecoveryGroupResponse,
   GetRecoveryGroupError,
   Credentials | HttpClient.HttpClient
@@ -1117,7 +1129,7 @@ export type GetRecoveryGroupReadinessSummaryError =
  * Displays a summary of information about a recovery group's readiness status. Includes the readiness checks for resources in the recovery group and the readiness status of each one.
  */
 export const getRecoveryGroupReadinessSummary: API.PaginatedOperationMethod<
-  GetRecoveryGroupReadinessSummaryRequest,
+  GetRecoveryGroupReadinessSummaryRequest & RegionInput,
   GetRecoveryGroupReadinessSummaryResponse,
   GetRecoveryGroupReadinessSummaryError,
   Credentials | HttpClient.HttpClient,
@@ -1156,7 +1168,7 @@ export type GetResourceSetError =
  * Displays the details about a resource set, including a list of the resources in the set.
  */
 export const getResourceSet: API.OperationMethod<
-  GetResourceSetRequest,
+  GetResourceSetRequest & RegionInput,
   GetResourceSetResponse,
   GetResourceSetError,
   Credentials | HttpClient.HttpClient
@@ -1187,7 +1199,7 @@ export type ListCellsError =
  * Lists the cells for an account.
  */
 export const listCells: API.PaginatedOperationMethod<
-  ListCellsRequest,
+  ListCellsRequest & RegionInput,
   ListCellsResponse,
   ListCellsError,
   Credentials | HttpClient.HttpClient,
@@ -1224,7 +1236,7 @@ export type ListCrossAccountAuthorizationsError =
  * Lists the cross-account readiness authorizations that are in place for an account.
  */
 export const listCrossAccountAuthorizations: API.PaginatedOperationMethod<
-  ListCrossAccountAuthorizationsRequest,
+  ListCrossAccountAuthorizationsRequest & RegionInput,
   ListCrossAccountAuthorizationsResponse,
   ListCrossAccountAuthorizationsError,
   Credentials | HttpClient.HttpClient,
@@ -1261,7 +1273,7 @@ export type ListReadinessChecksError =
  * Lists the readiness checks for an account.
  */
 export const listReadinessChecks: API.PaginatedOperationMethod<
-  ListReadinessChecksRequest,
+  ListReadinessChecksRequest & RegionInput,
   ListReadinessChecksResponse,
   ListReadinessChecksError,
   Credentials | HttpClient.HttpClient,
@@ -1298,7 +1310,7 @@ export type ListRecoveryGroupsError =
  * Lists the recovery groups in an account.
  */
 export const listRecoveryGroups: API.PaginatedOperationMethod<
-  ListRecoveryGroupsRequest,
+  ListRecoveryGroupsRequest & RegionInput,
   ListRecoveryGroupsResponse,
   ListRecoveryGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1335,7 +1347,7 @@ export type ListResourceSetsError =
  * Lists the resource sets in an account.
  */
 export const listResourceSets: API.PaginatedOperationMethod<
-  ListResourceSetsRequest,
+  ListResourceSetsRequest & RegionInput,
   ListResourceSetsResponse,
   ListResourceSetsError,
   Credentials | HttpClient.HttpClient,
@@ -1372,7 +1384,7 @@ export type ListRulesError =
  * Lists all readiness rules, or lists the readiness rules for a specific resource type.
  */
 export const listRules: API.PaginatedOperationMethod<
-  ListRulesRequest,
+  ListRulesRequest & RegionInput,
   ListRulesResponse,
   ListRulesError,
   Credentials | HttpClient.HttpClient,
@@ -1408,7 +1420,7 @@ export type ListTagsForResourcesError =
  * Lists the tags for a resource.
  */
 export const listTagsForResources: API.OperationMethod<
-  ListTagsForResourcesRequest,
+  ListTagsForResourcesRequest & RegionInput,
   ListTagsForResourcesResponse,
   ListTagsForResourcesError,
   Credentials | HttpClient.HttpClient
@@ -1432,7 +1444,7 @@ export type TagResourceError =
  * Adds a tag to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1456,7 +1468,7 @@ export type UntagResourceError =
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1482,7 +1494,7 @@ export type UpdateCellError =
  * Updates a cell to replace the list of nested cells with a new list of nested cells.
  */
 export const updateCell: API.OperationMethod<
-  UpdateCellRequest,
+  UpdateCellRequest & RegionInput,
   UpdateCellResponse,
   UpdateCellError,
   Credentials | HttpClient.HttpClient
@@ -1514,7 +1526,7 @@ export type UpdateReadinessCheckError =
  * Updates a readiness check.
  */
 export const updateReadinessCheck: API.OperationMethod<
-  UpdateReadinessCheckRequest,
+  UpdateReadinessCheckRequest & RegionInput,
   UpdateReadinessCheckResponse,
   UpdateReadinessCheckError,
   Credentials | HttpClient.HttpClient
@@ -1546,7 +1558,7 @@ export type UpdateRecoveryGroupError =
  * Updates a recovery group.
  */
 export const updateRecoveryGroup: API.OperationMethod<
-  UpdateRecoveryGroupRequest,
+  UpdateRecoveryGroupRequest & RegionInput,
   UpdateRecoveryGroupResponse,
   UpdateRecoveryGroupError,
   Credentials | HttpClient.HttpClient
@@ -1578,7 +1590,7 @@ export type UpdateResourceSetError =
  * Updates a resource set.
  */
 export const updateResourceSet: API.OperationMethod<
-  UpdateResourceSetRequest,
+  UpdateResourceSetRequest & RegionInput,
   UpdateResourceSetResponse,
   UpdateResourceSetError,
   Credentials | HttpClient.HttpClient

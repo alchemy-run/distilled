@@ -205,27 +205,27 @@ export interface GetFinancialReportRequest {
   /** The type of financial report to generate. */
   report_type: GetFinancialReportRequestReportType | (string & {});
   /** Filter rows to this currency, for example `usd`. Defaults to `usd` unless `in_currency` is provided. */
-  currency?: string;
+  currency?: string | undefined;
   /** Aggregate all activity into this display currency via FX conversion. */
-  in_currency?: string;
+  in_currency?: string | undefined;
   /** Start of the report window as an ISO 8601 timestamp. Required for platform-wide (global) reports. */
-  from?: string;
+  from?: string | undefined;
   /** Exclusive end of the report window as an ISO 8601 timestamp. Required for platform-wide (global) reports. */
-  to?: string;
+  to?: string | undefined;
   /** Grouping granularity for report rows. Hourly grouping is supported for account-level balance activity reports only; hourly periods are timestamps in the requested timezone. */
-  group_by?: GetFinancialReportRequestGroupBy | (string & {});
+  group_by?: GetFinancialReportRequestGroupBy | (string & {}) | undefined;
   /** IANA timezone (for example `America/New_York`) used to bucket report periods. Defaults to UTC. `from` and `to` remain exact instants. */
-  timezone?: string;
+  timezone?: string | undefined;
   /** Account-level balance activity only: ledger line categories to include. */
-  line_types?: GetFinancialReportRequestLineTypesList;
+  line_types?: GetFinancialReportRequestLineTypesList | undefined;
   /** Account-level balance activity only: include money moving in or money moving out. */
-  direction?: GetFinancialReportRequestDirection | (string & {});
+  direction?: GetFinancialReportRequestDirection | (string & {}) | undefined;
   /** Platform-wide (global) reports only: when true, return cumulative balances as of to (all history, no lower bound) instead of activity within the period. */
-  cumulative?: boolean;
+  cumulative?: boolean | undefined;
   /** Platform-wide (global) reports only: narrow the report to ledger lines on the ledger account owned by this account ID (a biz_ identifier). Ignored unless account_id is `global`. */
-  scope_account_id?: string;
+  scope_account_id?: string | undefined;
   /** Balance activity only: include payment costs grouped by payment method and provider. */
-  include_payment_fee_breakdown?: boolean;
+  include_payment_fee_breakdown?: boolean | undefined;
 }
 /** Every lifetime cashflow currency, ordered by cashflow volume in the requested period. */
 export type GetFinancialReportResponseCurrenciesList = Array<string>;
@@ -601,29 +601,32 @@ export type GetFinancialReportResponseRowsItemLineCategory =
 /** Which side of the income statement the category falls on, or `null` when it is not a P&L category. */
 export type GetFinancialReportResponseRowsItemProfitAndLossSection = "revenue" | "cost_of_revenue";
 export interface GetFinancialReportResponseRowsItem {
-  account_ik_path?: string | null;
-  account_name?: string | null;
-  account_type?: string | null;
+  account_ik_path?: string | null | undefined;
+  account_name?: string | null | undefined;
+  account_type?: string | null | undefined;
   amount: number;
   /** The family the row's `line_category` rolls up into. Balance summary rows are always `balance`. */
   grouping: GetFinancialReportResponseRowsItemGrouping;
   /** The ledger line category the row aggregates. Balance summary rows carry the balance bucket instead. */
   line_category: GetFinancialReportResponseRowsItemLineCategory;
-  line_count?: number | null;
+  line_count?: number | null | undefined;
   /** Start of the time bucket this row covers, truncated to `group_by`. */
   period: string;
   /** Which side of the income statement the category falls on, or `null` when it is not a P&L category. */
-  profit_and_loss_section?: GetFinancialReportResponseRowsItemProfitAndLossSection | null;
+  profit_and_loss_section?:
+    | GetFinancialReportResponseRowsItemProfitAndLossSection
+    | null
+    | undefined;
 }
 export type GetFinancialReportResponseRowsList = Array<GetFinancialReportResponseRowsItem>;
 export interface GetFinancialReportResponse {
-  beginning_balance?: number | null;
+  beginning_balance?: number | null | undefined;
   /** Every lifetime cashflow currency, ordered by cashflow volume in the requested period. */
-  currencies?: GetFinancialReportResponseCurrenciesList;
-  ending_balance?: number | null;
-  fx_excluded_currencies?: GetFinancialReportResponseFxExcludedCurrenciesList;
+  currencies?: GetFinancialReportResponseCurrenciesList | undefined;
+  ending_balance?: number | null | undefined;
+  fx_excluded_currencies?: GetFinancialReportResponseFxExcludedCurrenciesList | undefined;
   /** Payment costs grouped by customer-facing payment method and provider when requested. */
-  payment_fee_breakdown?: GetFinancialReportResponsePaymentFeeBreakdownList;
+  payment_fee_breakdown?: GetFinancialReportResponsePaymentFeeBreakdownList | undefined;
   /** The report that was generated, echoing the requested `report_type`. */
   report_type: GetFinancialReportResponseReportType;
   rows: GetFinancialReportResponseRowsList;
@@ -663,9 +666,9 @@ export interface GetFinancialReportBreakdownRequest {
   /** Exclusive end of the report window as an ISO 8601 timestamp. */
   to: string;
   /** Period grouping used by the parent report. */
-  group_by?: GetFinancialReportBreakdownRequestGroupBy | (string & {});
+  group_by?: GetFinancialReportBreakdownRequestGroupBy | (string & {}) | undefined;
   /** IANA timezone used by the parent report to bucket periods. Defaults to UTC. */
-  timezone?: string;
+  timezone?: string | undefined;
 }
 export type GetFinancialReportBreakdownResponseActivityFiltersDirection = "money_in" | "money_out";
 export type GetFinancialReportBreakdownResponseActivityFiltersLineTypesList = Array<string>;
@@ -875,37 +878,37 @@ export type ListFinancialActivityRequestLineTypesList = Array<
 export type ListFinancialActivityRequestDirection = "money_in" | "money_out";
 export interface ListFinancialActivityRequest {
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The owning user ID (a user_ identifier). Provide this or account_id. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** When true, aggregates the authenticated user's personal ledger with the businesses they own (owner role with balance read) into one feed. Requires user_id to be the authenticated user; cannot be combined with account_id or the settlement-date filters. Each returned row includes the owning `account`. */
-  include_owned_accounts?: boolean;
+  include_owned_accounts?: boolean | undefined;
   /** Whether to include the `resource` field in the response or not. Consider passing `false` if you need a fast response without as many rich details. */
-  include_resource?: boolean;
+  include_resource?: boolean | undefined;
   /** Optional ledger line categories to include. Some categories (for example `onchain_deposit`, which covers inbound crypto deposits such as MoonPay onramps) are only returned when explicitly requested here. */
-  line_types?: ListFinancialActivityRequestLineTypesList;
+  line_types?: ListFinancialActivityRequestLineTypesList | undefined;
   /** Optional direction filter. `money_in` returns positive activity and `money_out` returns negative activity. */
-  direction?: ListFinancialActivityRequestDirection | (string & {});
+  direction?: ListFinancialActivityRequestDirection | (string & {}) | undefined;
   /** Optional prefixed resource ID. Returns activity associated with that resource. */
-  resource_id?: string;
+  resource_id?: string | undefined;
   /** Optional ledger activity ID (for example `line_3`). Returns at most that one activity. */
-  activity_id?: string;
+  activity_id?: string | undefined;
   /** Whether to exclude balance reservations and balanced movements between the account's own balances. */
-  exclude_internal_movements?: boolean;
+  exclude_internal_movements?: boolean | undefined;
   /** Optional currency code filter, for example `usd`. */
-  currency?: string;
+  currency?: string | undefined;
   /** Only include rows posted after this ISO 8601 timestamp. */
-  posted_after?: string;
+  posted_after?: string | undefined;
   /** Only include rows posted before this ISO 8601 timestamp. */
-  posted_before?: string;
+  posted_before?: string | undefined;
   /** Only include balance credits and debits available on or after this `YYYY-MM-DD` date (UTC), distinct from posted_at. Requires currency. */
-  available_after?: string;
+  available_after?: string | undefined;
   /** Only include balance credits and debits available on or before this `YYYY-MM-DD` date (UTC). Set equal to available_after for a single day. Requires currency. */
-  available_before?: string;
+  available_before?: string | undefined;
   /** Maximum number of rows to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Cursor returned by the previous page. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type LedgerActivityAccountCase0Object = "account";
 export interface LedgerActivityAccountCase0 {
@@ -1294,63 +1297,64 @@ export type LedgerActivityResource =
 export type LedgerActivitySourceFeeKind = "payout" | "transfer" | "deposit" | "swap" | "card_spend";
 /** Payout destination display info (payout sources only). */
 export interface LedgerActivitySourcePayoutDestination {
-  icon_url?: string | null;
-  payer_name?: string | null;
+  icon_url?: string | null | undefined;
+  payer_name?: string | null | undefined;
 }
 /** Source of this ledger activity. Platform markup fees use object platform_fee and the ledger activity ID. */
 export interface LedgerActivitySource {
   /** Payout amount as a decimal number in the destination currency (payout sources only; requires payout:withdrawal:read). */
-  amount_float?: number | null;
+  amount_float?: number | null | undefined;
   /** Card brand used by the payment source. */
-  card_brand?: string | null;
+  card_brand?: string | null | undefined;
   /** Chain the deposit landed on, for example plasma (onchain_transaction sources only). */
-  chain?: string | null;
+  chain?: string | null | undefined;
   /** The airdrop's claim URL. Null unless the caller can manage claim links on the funding company or withdraw from the funding personal balance. */
-  claim_url?: string | null;
+  claim_url?: string | null | undefined;
   /** Payout creation time as an ISO 8601 timestamp (payout sources only; requires payout:withdrawal:read). */
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   /** Estimated arrival as an ISO 8601 timestamp (payout sources only; requires payout:withdrawal:read). */
-  estimated_arrival?: string | null;
+  estimated_arrival?: string | null | undefined;
   /** Action that generated a platform markup fee: deposit, swap, transfer, card_spend, or payout. Present for platform_markup_fee and platform_markup_fee_payout, including when include_resource is false. Null when the originating action is unavailable; omitted on other source types. */
-  fee_kind?: LedgerActivitySourceFeeKind | null;
+  fee_kind?: LedgerActivitySourceFeeKind | null | undefined;
   /** Amount converted out of from_currency as a decimal string (swap sources only). */
-  from_amount?: string | null;
+  from_amount?: string | null | undefined;
   /** Lowercase currency code converted from (swap sources only). */
-  from_currency?: string | null;
+  from_currency?: string | null | undefined;
   id: string;
   /** Memo attached to the transfer or payout source, or null when none was provided (on payout sources requires payout:withdrawal:read). */
-  notes?: string | null;
+  notes?: string | null | undefined;
   object: string;
   /** Name of the entity processing the payout (payout sources only; requires payout:withdrawal:read). */
-  payer_name?: string | null;
+  payer_name?: string | null | undefined;
   /** Total charged by the payment source. */
-  payment_amount?: Money | null;
+  payment_amount?: Money | null | undefined;
   /** Payment method used by the payment source. */
-  payment_method_type?: string | null;
+  payment_method_type?: string | null | undefined;
   /** Processor used by the payment source. */
-  payment_processor?: string | null;
+  payment_processor?: string | null | undefined;
   /** Payout destination display info (payout sources only). */
-  payout_destination?: LedgerActivitySourcePayoutDestination | null;
+  payout_destination?: LedgerActivitySourcePayoutDestination | null | undefined;
   /** Saved payout destination nickname (payout sources only). */
-  payout_token_nickname?: string | null;
+  payout_token_nickname?: string | null | undefined;
   /** Why the activity happened. On transfer sources this is the transfer reason, for example pool_top_up or bounty_return. On payout sources it explains why the payout was canceled, denied, or failed (requires payout:withdrawal:read); null while the payout is progressing normally. */
-  reason?: string | null;
+  reason?: string | null | undefined;
   /** Whether this payout is currently held for manual risk review (payout sources only; requires payout:withdrawal:read). */
-  risk_review_hold?: boolean | null;
+  risk_review_hold?: boolean | null | undefined;
   /** Sender wallet address or onramp provider identifier (onchain_transaction sources only). */
-  sender_address?: string | null;
+  sender_address?: string | null | undefined;
   /** Lifecycle status. On payout sources this is the payout status (requires payout:withdrawal:read); on airdrop_link sources it is the claim-link status (ungated); on payment and top-up sources it is the friendly payment status such as succeeded/pending/failed (ungated). */
-  status?: string | null;
+  status?: string | null | undefined;
   /** Amount received in to_currency as a decimal string (swap sources only). */
-  to_amount?: string | null;
+  to_amount?: string | null | undefined;
   /** Lowercase currency code converted to (swap sources only). */
-  to_currency?: string | null;
+  to_currency?: string | null | undefined;
   /** On-chain transaction hash (onchain_transaction and swap sources only). */
-  tx_hash?: string | null;
+  tx_hash?: string | null | undefined;
+  [key: string]: unknown;
 }
 export interface LedgerActivity {
   /** The viewer account that owns this row's ledger. Present only when the response aggregates owned accounts (include_owned_accounts=true); omitted otherwise. */
-  account?: LedgerActivityAccount;
+  account?: LedgerActivityAccount | undefined;
   /** Signed amount in the currency's smallest precision units. */
   amount: string;
   /** ISO 8601 timestamp when this activity affects available funds: 00:00:00 UTC on the scheduled release date for credits and debits in a pending good-funds release bucket; the posted time for credits and debits to settled available funds, including refunds, disputes and payouts. Null for activity outside these paths, including on-chain rows. The available_after/before filters use its UTC date; default activity excludes some movements, including opt-in reserves. */
@@ -1360,24 +1364,24 @@ export interface LedgerActivity {
   /** Ledger activity ID. */
   id: string;
   /** The ledger account (a ldgr_ identifier) this row belongs to. Present only when the response aggregates owned accounts (include_owned_accounts=true); omitted otherwise. Pair it with `account` to scope drawers and dashboard links to the owning business. */
-  ledger_account_id?: string | null;
+  ledger_account_id?: string | null | undefined;
   /** The ledger line category this activity was posted under. */
   line_type: LedgerActivityLineType;
   object: LedgerActivityObject;
   /** Payment related to this ledger activity. Included when rich resource hydration is enabled and the movement is tied to a payment. */
-  payment?: LedgerActivityPayment | null;
+  payment?: LedgerActivityPayment | null | undefined;
   /** Payment ID for any payment-related activity, including refunds and disputes. */
-  payment_id?: string | null;
+  payment_id?: string | null | undefined;
   /** ID of the plan associated with the payment, when applicable. */
-  plan_id?: string | null;
+  plan_id?: string | null | undefined;
   /** Name of the plan associated with the payment, when applicable. */
-  plan_name?: string | null;
+  plan_name?: string | null | undefined;
   /** When the activity posted to the ledger. */
   posted_at: string;
   /** ID of the product associated with the payment, when applicable. */
-  product_id?: string | null;
+  product_id?: string | null | undefined;
   /** Name of the product associated with the payment, when applicable. */
-  product_name?: string | null;
+  product_name?: string | null | undefined;
   /** Resource associated with this ledger activity. */
   resource: LedgerActivityResource | null;
   /** Source of this ledger activity. Platform markup fees use object platform_fee and the ledger activity ID. */
@@ -1385,11 +1389,11 @@ export interface LedgerActivity {
   /** Dollar value of this movement as a decimal string, signed like `amount`. Converted from the posted amount at the rate that was live when the line posted -- the same pricing the wallet balance chart and the financial reports use -- so a crypto row carries its dollar value too. `null` for a currency Whop holds no exchange rate for. */
   usd_amount: string | null;
   /** Email of the customer associated with the payment. Requires member:email:read. */
-  user_email?: string | null;
+  user_email?: string | null | undefined;
   /** ID of the customer associated with the payment. */
-  user_id?: string | null;
+  user_id?: string | null | undefined;
   /** Display name of the customer associated with the payment. */
-  user_name?: string | null;
+  user_name?: string | null | undefined;
 }
 export type ListFinancialActivityResponseDataList = Array<LedgerActivity>;
 export interface ListFinancialActivityResponsePageInfo {
@@ -1675,33 +1679,36 @@ function __c5(j: number): any {
       ).annotate({ identifier: "LedgerActivitySourcePayoutDestination" });
     case 7:
       return S.suspend(() =>
-        S.Struct({
-          amount_float: S.optional(S.NullOr(S.Number)),
-          card_brand: S.optional(S.NullOr(S.String)),
-          chain: S.optional(S.NullOr(S.String)),
-          claim_url: S.optional(S.NullOr(S.String)),
-          created_at: S.optional(S.NullOr(S.String)),
-          estimated_arrival: S.optional(S.NullOr(S.String)),
-          fee_kind: S.optional(S.NullOr(S.String)),
-          from_amount: S.optional(S.NullOr(S.String)),
-          from_currency: S.optional(S.NullOr(S.String)),
-          id: S.String,
-          notes: S.optional(S.NullOr(S.String)),
-          object: S.String,
-          payer_name: S.optional(S.NullOr(S.String)),
-          payment_amount: S.optional(S.NullOr(__S(32, __c2, 0))),
-          payment_method_type: S.optional(S.NullOr(S.String)),
-          payment_processor: S.optional(S.NullOr(S.String)),
-          payout_destination: S.optional(S.NullOr(__S(86, __c5, 6))),
-          payout_token_nickname: S.optional(S.NullOr(S.String)),
-          reason: S.optional(S.NullOr(S.String)),
-          risk_review_hold: S.optional(S.NullOr(S.Boolean)),
-          sender_address: S.optional(S.NullOr(S.String)),
-          status: S.optional(S.NullOr(S.String)),
-          to_amount: S.optional(S.NullOr(S.String)),
-          to_currency: S.optional(S.NullOr(S.String)),
-          tx_hash: S.optional(S.NullOr(S.String)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            amount_float: S.optional(S.NullOr(S.Number)),
+            card_brand: S.optional(S.NullOr(S.String)),
+            chain: S.optional(S.NullOr(S.String)),
+            claim_url: S.optional(S.NullOr(S.String)),
+            created_at: S.optional(S.NullOr(S.String)),
+            estimated_arrival: S.optional(S.NullOr(S.String)),
+            fee_kind: S.optional(S.NullOr(S.String)),
+            from_amount: S.optional(S.NullOr(S.String)),
+            from_currency: S.optional(S.NullOr(S.String)),
+            id: S.String,
+            notes: S.optional(S.NullOr(S.String)),
+            object: S.String,
+            payer_name: S.optional(S.NullOr(S.String)),
+            payment_amount: S.optional(S.NullOr(__S(32, __c2, 0))),
+            payment_method_type: S.optional(S.NullOr(S.String)),
+            payment_processor: S.optional(S.NullOr(S.String)),
+            payout_destination: S.optional(S.NullOr(__S(86, __c5, 6))),
+            payout_token_nickname: S.optional(S.NullOr(S.String)),
+            reason: S.optional(S.NullOr(S.String)),
+            risk_review_hold: S.optional(S.NullOr(S.Boolean)),
+            sender_address: S.optional(S.NullOr(S.String)),
+            status: S.optional(S.NullOr(S.String)),
+            to_amount: S.optional(S.NullOr(S.String)),
+            to_currency: S.optional(S.NullOr(S.String)),
+            tx_hash: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "LedgerActivitySource" });
     case 8:
       return S.suspend(() =>

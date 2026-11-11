@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -130,81 +131,83 @@ export class UnprocessableEntityException
     /*@__PURE__*/ T.HttpError(422),
   ).pipe(C.withBadRequestError) {}
 export interface EgressAccessLogs {
-  LogGroupName?: string;
+  LogGroupName?: string | undefined;
 }
 export interface IngressAccessLogs {
-  LogGroupName?: string;
+  LogGroupName?: string | undefined;
 }
 export interface ConfigureLogsRequest {
-  EgressAccessLogs?: EgressAccessLogs;
+  EgressAccessLogs?: EgressAccessLogs | undefined;
   Id: string;
-  IngressAccessLogs?: IngressAccessLogs;
+  IngressAccessLogs?: IngressAccessLogs | undefined;
 }
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface IngestEndpoint {
-  Id?: string;
-  Password?: string | redacted.Redacted<string>;
-  Url?: string;
-  Username?: string | redacted.Redacted<string>;
+  Id?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  Url?: string | undefined;
+  Username?: string | redacted.Redacted<string> | undefined;
 }
 export type __listOfIngestEndpoint = IngestEndpoint[];
 const __listOfIngestEndpoint = /*@__PURE__*/ __L.at(__c17, 2);
 export interface HlsIngest {
-  IngestEndpoints?: IngestEndpoint[];
+  IngestEndpoints?: IngestEndpoint[] | undefined;
 }
 export type Tags = { [key: string]: string | undefined };
 export interface ConfigureLogsResponse {
-  Arn?: string;
-  CreatedAt?: string;
-  Description?: string;
-  EgressAccessLogs?: EgressAccessLogs;
-  HlsIngest?: HlsIngest;
-  Id?: string;
-  IngressAccessLogs?: IngressAccessLogs;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreatedAt?: string | undefined;
+  Description?: string | undefined;
+  EgressAccessLogs?: EgressAccessLogs | undefined;
+  HlsIngest?: HlsIngest | undefined;
+  Id?: string | undefined;
+  IngressAccessLogs?: IngressAccessLogs | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateChannelRequest {
-  Description?: string;
-  Id?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Id?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateChannelResponse {
-  Arn?: string;
-  CreatedAt?: string;
-  Description?: string;
-  EgressAccessLogs?: EgressAccessLogs;
-  HlsIngest?: HlsIngest;
-  Id?: string;
-  IngressAccessLogs?: IngressAccessLogs;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreatedAt?: string | undefined;
+  Description?: string | undefined;
+  EgressAccessLogs?: EgressAccessLogs | undefined;
+  HlsIngest?: HlsIngest | undefined;
+  Id?: string | undefined;
+  IngressAccessLogs?: IngressAccessLogs | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface S3Destination {
-  BucketName?: string;
-  ManifestKey?: string;
-  RoleArn?: string;
+  BucketName?: string | undefined;
+  ManifestKey?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export interface CreateHarvestJobRequest {
-  EndTime?: string;
-  Id?: string;
-  OriginEndpointId?: string;
-  S3Destination?: S3Destination;
-  StartTime?: string;
+  EndTime?: string | undefined;
+  Id?: string | undefined;
+  OriginEndpointId?: string | undefined;
+  S3Destination?: S3Destination | undefined;
+  StartTime?: string | undefined;
 }
 export type Status = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export interface CreateHarvestJobResponse {
-  Arn?: string;
-  ChannelId?: string;
-  CreatedAt?: string;
-  EndTime?: string;
-  Id?: string;
-  OriginEndpointId?: string;
-  S3Destination?: S3Destination & { BucketName: string; ManifestKey: string; RoleArn: string };
-  StartTime?: string;
-  Status?: Status;
+  Arn?: string | undefined;
+  ChannelId?: string | undefined;
+  CreatedAt?: string | undefined;
+  EndTime?: string | undefined;
+  Id?: string | undefined;
+  OriginEndpointId?: string | undefined;
+  S3Destination?:
+    | (S3Destination & { BucketName: string; ManifestKey: string; RoleArn: string })
+    | undefined;
+  StartTime?: string | undefined;
+  Status?: Status | undefined;
 }
 export interface Authorization {
-  CdnIdentifierSecret?: string;
-  SecretsRoleArn?: string;
+  CdnIdentifierSecret?: string | undefined;
+  SecretsRoleArn?: string | undefined;
 }
 export type CmafEncryptionMethod = "SAMPLE_AES" | "AES_CTR" | (string & {});
 export type PresetSpeke20Audio =
@@ -227,24 +230,24 @@ export type PresetSpeke20Video =
   | "UNENCRYPTED"
   | (string & {});
 export interface EncryptionContractConfiguration {
-  PresetSpeke20Audio?: PresetSpeke20Audio;
-  PresetSpeke20Video?: PresetSpeke20Video;
+  PresetSpeke20Audio?: PresetSpeke20Audio | undefined;
+  PresetSpeke20Video?: PresetSpeke20Video | undefined;
 }
 export type __listOf__string = string[];
 const __listOf__string = /*@__PURE__*/ __L.at(__c23, 0);
 export interface SpekeKeyProvider {
-  CertificateArn?: string;
-  EncryptionContractConfiguration?: EncryptionContractConfiguration;
-  ResourceId?: string;
-  RoleArn?: string;
-  SystemIds?: string[];
-  Url?: string;
+  CertificateArn?: string | undefined;
+  EncryptionContractConfiguration?: EncryptionContractConfiguration | undefined;
+  ResourceId?: string | undefined;
+  RoleArn?: string | undefined;
+  SystemIds?: string[] | undefined;
+  Url?: string | undefined;
 }
 export interface CmafEncryption {
-  ConstantInitializationVector?: string;
-  EncryptionMethod?: CmafEncryptionMethod;
-  KeyRotationIntervalSeconds?: number;
-  SpekeKeyProvider?: SpekeKeyProvider;
+  ConstantInitializationVector?: string | undefined;
+  EncryptionMethod?: CmafEncryptionMethod | undefined;
+  KeyRotationIntervalSeconds?: number | undefined;
+  SpekeKeyProvider?: SpekeKeyProvider | undefined;
 }
 export type AdMarkers = "NONE" | "SCTE35_ENHANCED" | "PASSTHROUGH" | "DATERANGE" | (string & {});
 export type __AdTriggersElement =
@@ -268,15 +271,15 @@ export type AdsOnDeliveryRestrictions =
   | (string & {});
 export type PlaylistType = "NONE" | "EVENT" | "VOD" | (string & {});
 export interface HlsManifestCreateOrUpdateParameters {
-  AdMarkers?: AdMarkers;
-  AdTriggers?: __AdTriggersElement[];
-  AdsOnDeliveryRestrictions?: AdsOnDeliveryRestrictions;
-  Id?: string;
-  IncludeIframeOnlyStream?: boolean;
-  ManifestName?: string;
-  PlaylistType?: PlaylistType;
-  PlaylistWindowSeconds?: number;
-  ProgramDateTimeIntervalSeconds?: number;
+  AdMarkers?: AdMarkers | undefined;
+  AdTriggers?: __AdTriggersElement[] | undefined;
+  AdsOnDeliveryRestrictions?: AdsOnDeliveryRestrictions | undefined;
+  Id?: string | undefined;
+  IncludeIframeOnlyStream?: boolean | undefined;
+  ManifestName?: string | undefined;
+  PlaylistType?: PlaylistType | undefined;
+  PlaylistWindowSeconds?: number | undefined;
+  ProgramDateTimeIntervalSeconds?: number | undefined;
 }
 export type __listOfHlsManifestCreateOrUpdateParameters = HlsManifestCreateOrUpdateParameters[];
 const __listOfHlsManifestCreateOrUpdateParameters = /*@__PURE__*/ __L.at(__c25, 1);
@@ -286,20 +289,20 @@ export type StreamOrder =
   | "VIDEO_BITRATE_DESCENDING"
   | (string & {});
 export interface StreamSelection {
-  MaxVideoBitsPerSecond?: number;
-  MinVideoBitsPerSecond?: number;
-  StreamOrder?: StreamOrder;
+  MaxVideoBitsPerSecond?: number | undefined;
+  MinVideoBitsPerSecond?: number | undefined;
+  StreamOrder?: StreamOrder | undefined;
 }
 export interface CmafPackageCreateOrUpdateParameters {
-  Encryption?: CmafEncryption;
-  HlsManifests?: HlsManifestCreateOrUpdateParameters[];
-  SegmentDurationSeconds?: number;
-  SegmentPrefix?: string;
-  StreamSelection?: StreamSelection;
+  Encryption?: CmafEncryption | undefined;
+  HlsManifests?: HlsManifestCreateOrUpdateParameters[] | undefined;
+  SegmentDurationSeconds?: number | undefined;
+  SegmentPrefix?: string | undefined;
+  StreamSelection?: StreamSelection | undefined;
 }
 export interface DashEncryption {
-  KeyRotationIntervalSeconds?: number;
-  SpekeKeyProvider?: SpekeKeyProvider;
+  KeyRotationIntervalSeconds?: number | undefined;
+  SpekeKeyProvider?: SpekeKeyProvider | undefined;
 }
 export type ManifestLayout = "FULL" | "COMPACT" | "DRM_TOP_LEVEL_COMPACT" | (string & {});
 export type __PeriodTriggersElement = "ADS" | (string & {});
@@ -317,163 +320,173 @@ export type SegmentTemplateFormat =
   | (string & {});
 export type UtcTiming = "NONE" | "HTTP-HEAD" | "HTTP-ISO" | "HTTP-XSDATE" | (string & {});
 export interface DashPackage {
-  AdTriggers?: __AdTriggersElement[];
-  AdsOnDeliveryRestrictions?: AdsOnDeliveryRestrictions;
-  Encryption?: DashEncryption;
-  IncludeIframeOnlyStream?: boolean;
-  ManifestLayout?: ManifestLayout;
-  ManifestWindowSeconds?: number;
-  MinBufferTimeSeconds?: number;
-  MinUpdatePeriodSeconds?: number;
-  PeriodTriggers?: __PeriodTriggersElement[];
-  Profile?: Profile;
-  SegmentDurationSeconds?: number;
-  SegmentTemplateFormat?: SegmentTemplateFormat;
-  StreamSelection?: StreamSelection;
-  SuggestedPresentationDelaySeconds?: number;
-  UtcTiming?: UtcTiming;
-  UtcTimingUri?: string;
+  AdTriggers?: __AdTriggersElement[] | undefined;
+  AdsOnDeliveryRestrictions?: AdsOnDeliveryRestrictions | undefined;
+  Encryption?: DashEncryption | undefined;
+  IncludeIframeOnlyStream?: boolean | undefined;
+  ManifestLayout?: ManifestLayout | undefined;
+  ManifestWindowSeconds?: number | undefined;
+  MinBufferTimeSeconds?: number | undefined;
+  MinUpdatePeriodSeconds?: number | undefined;
+  PeriodTriggers?: __PeriodTriggersElement[] | undefined;
+  Profile?: Profile | undefined;
+  SegmentDurationSeconds?: number | undefined;
+  SegmentTemplateFormat?: SegmentTemplateFormat | undefined;
+  StreamSelection?: StreamSelection | undefined;
+  SuggestedPresentationDelaySeconds?: number | undefined;
+  UtcTiming?: UtcTiming | undefined;
+  UtcTimingUri?: string | undefined;
 }
 export type EncryptionMethod = "AES_128" | "SAMPLE_AES" | (string & {});
 export interface HlsEncryption {
-  ConstantInitializationVector?: string;
-  EncryptionMethod?: EncryptionMethod;
-  KeyRotationIntervalSeconds?: number;
-  RepeatExtXKey?: boolean;
-  SpekeKeyProvider?: SpekeKeyProvider;
+  ConstantInitializationVector?: string | undefined;
+  EncryptionMethod?: EncryptionMethod | undefined;
+  KeyRotationIntervalSeconds?: number | undefined;
+  RepeatExtXKey?: boolean | undefined;
+  SpekeKeyProvider?: SpekeKeyProvider | undefined;
 }
 export interface HlsPackage {
-  AdMarkers?: AdMarkers;
-  AdTriggers?: __AdTriggersElement[];
-  AdsOnDeliveryRestrictions?: AdsOnDeliveryRestrictions;
-  Encryption?: HlsEncryption;
-  IncludeDvbSubtitles?: boolean;
-  IncludeIframeOnlyStream?: boolean;
-  PlaylistType?: PlaylistType;
-  PlaylistWindowSeconds?: number;
-  ProgramDateTimeIntervalSeconds?: number;
-  SegmentDurationSeconds?: number;
-  StreamSelection?: StreamSelection;
-  UseAudioRenditionGroup?: boolean;
+  AdMarkers?: AdMarkers | undefined;
+  AdTriggers?: __AdTriggersElement[] | undefined;
+  AdsOnDeliveryRestrictions?: AdsOnDeliveryRestrictions | undefined;
+  Encryption?: HlsEncryption | undefined;
+  IncludeDvbSubtitles?: boolean | undefined;
+  IncludeIframeOnlyStream?: boolean | undefined;
+  PlaylistType?: PlaylistType | undefined;
+  PlaylistWindowSeconds?: number | undefined;
+  ProgramDateTimeIntervalSeconds?: number | undefined;
+  SegmentDurationSeconds?: number | undefined;
+  StreamSelection?: StreamSelection | undefined;
+  UseAudioRenditionGroup?: boolean | undefined;
 }
 export interface MssEncryption {
-  SpekeKeyProvider?: SpekeKeyProvider;
+  SpekeKeyProvider?: SpekeKeyProvider | undefined;
 }
 export interface MssPackage {
-  Encryption?: MssEncryption;
-  ManifestWindowSeconds?: number;
-  SegmentDurationSeconds?: number;
-  StreamSelection?: StreamSelection;
+  Encryption?: MssEncryption | undefined;
+  ManifestWindowSeconds?: number | undefined;
+  SegmentDurationSeconds?: number | undefined;
+  StreamSelection?: StreamSelection | undefined;
 }
 export type Origination = "ALLOW" | "DENY" | (string & {});
 export interface CreateOriginEndpointRequest {
-  Authorization?: Authorization;
-  ChannelId?: string;
-  CmafPackage?: CmafPackageCreateOrUpdateParameters;
-  DashPackage?: DashPackage;
-  Description?: string;
-  HlsPackage?: HlsPackage;
-  Id?: string;
-  ManifestName?: string;
-  MssPackage?: MssPackage;
-  Origination?: Origination;
-  StartoverWindowSeconds?: number;
-  Tags?: { [key: string]: string | undefined };
-  TimeDelaySeconds?: number;
-  Whitelist?: string[];
+  Authorization?: Authorization | undefined;
+  ChannelId?: string | undefined;
+  CmafPackage?: CmafPackageCreateOrUpdateParameters | undefined;
+  DashPackage?: DashPackage | undefined;
+  Description?: string | undefined;
+  HlsPackage?: HlsPackage | undefined;
+  Id?: string | undefined;
+  ManifestName?: string | undefined;
+  MssPackage?: MssPackage | undefined;
+  Origination?: Origination | undefined;
+  StartoverWindowSeconds?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TimeDelaySeconds?: number | undefined;
+  Whitelist?: string[] | undefined;
 }
 export interface HlsManifest {
-  AdMarkers?: AdMarkers;
-  Id?: string;
-  IncludeIframeOnlyStream?: boolean;
-  ManifestName?: string;
-  PlaylistType?: PlaylistType;
-  PlaylistWindowSeconds?: number;
-  ProgramDateTimeIntervalSeconds?: number;
-  Url?: string;
-  AdTriggers?: __AdTriggersElement[];
-  AdsOnDeliveryRestrictions?: AdsOnDeliveryRestrictions;
+  AdMarkers?: AdMarkers | undefined;
+  Id?: string | undefined;
+  IncludeIframeOnlyStream?: boolean | undefined;
+  ManifestName?: string | undefined;
+  PlaylistType?: PlaylistType | undefined;
+  PlaylistWindowSeconds?: number | undefined;
+  ProgramDateTimeIntervalSeconds?: number | undefined;
+  Url?: string | undefined;
+  AdTriggers?: __AdTriggersElement[] | undefined;
+  AdsOnDeliveryRestrictions?: AdsOnDeliveryRestrictions | undefined;
 }
 export type __listOfHlsManifest = HlsManifest[];
 const __listOfHlsManifest = /*@__PURE__*/ __L.at(__c24, 13);
 export interface CmafPackage {
-  Encryption?: CmafEncryption;
-  HlsManifests?: HlsManifest[];
-  SegmentDurationSeconds?: number;
-  SegmentPrefix?: string;
-  StreamSelection?: StreamSelection;
+  Encryption?: CmafEncryption | undefined;
+  HlsManifests?: HlsManifest[] | undefined;
+  SegmentDurationSeconds?: number | undefined;
+  SegmentPrefix?: string | undefined;
+  StreamSelection?: StreamSelection | undefined;
 }
 export interface CreateOriginEndpointResponse {
-  Arn?: string;
-  Authorization?: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
-  ChannelId?: string;
-  CmafPackage?: CmafPackage & {
-    Encryption: CmafEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        ResourceId: string;
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+  Arn?: string | undefined;
+  Authorization?:
+    | (Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string })
+    | undefined;
+  ChannelId?: string | undefined;
+  CmafPackage?:
+    | (CmafPackage & {
+        Encryption: CmafEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            ResourceId: string;
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-    HlsManifests: (HlsManifest & { Id: string })[];
-  };
-  CreatedAt?: string;
-  DashPackage?: DashPackage & {
-    Encryption: DashEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        ResourceId: string;
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+        HlsManifests: (HlsManifest & { Id: string })[];
+      })
+    | undefined;
+  CreatedAt?: string | undefined;
+  DashPackage?:
+    | (DashPackage & {
+        Encryption: DashEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            ResourceId: string;
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-  };
-  Description?: string;
-  HlsPackage?: HlsPackage & {
-    Encryption: HlsEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        ResourceId: string;
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+      })
+    | undefined;
+  Description?: string | undefined;
+  HlsPackage?:
+    | (HlsPackage & {
+        Encryption: HlsEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            ResourceId: string;
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-  };
-  Id?: string;
-  ManifestName?: string;
-  MssPackage?: MssPackage & {
-    Encryption: MssEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        ResourceId: string;
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+      })
+    | undefined;
+  Id?: string | undefined;
+  ManifestName?: string | undefined;
+  MssPackage?:
+    | (MssPackage & {
+        Encryption: MssEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            ResourceId: string;
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-  };
-  Origination?: Origination;
-  StartoverWindowSeconds?: number;
-  Tags?: { [key: string]: string | undefined };
-  TimeDelaySeconds?: number;
-  Url?: string;
-  Whitelist?: string[];
+      })
+    | undefined;
+  Origination?: Origination | undefined;
+  StartoverWindowSeconds?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TimeDelaySeconds?: number | undefined;
+  Url?: string | undefined;
+  Whitelist?: string[] | undefined;
 }
 export interface DeleteChannelRequest {
   Id: string;
@@ -487,238 +500,254 @@ export interface DescribeChannelRequest {
   Id: string;
 }
 export interface DescribeChannelResponse {
-  Arn?: string;
-  CreatedAt?: string;
-  Description?: string;
-  EgressAccessLogs?: EgressAccessLogs;
-  HlsIngest?: HlsIngest;
-  Id?: string;
-  IngressAccessLogs?: IngressAccessLogs;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreatedAt?: string | undefined;
+  Description?: string | undefined;
+  EgressAccessLogs?: EgressAccessLogs | undefined;
+  HlsIngest?: HlsIngest | undefined;
+  Id?: string | undefined;
+  IngressAccessLogs?: IngressAccessLogs | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeHarvestJobRequest {
   Id: string;
 }
 export interface DescribeHarvestJobResponse {
-  Arn?: string;
-  ChannelId?: string;
-  CreatedAt?: string;
-  EndTime?: string;
-  Id?: string;
-  OriginEndpointId?: string;
-  S3Destination?: S3Destination & { BucketName: string; ManifestKey: string; RoleArn: string };
-  StartTime?: string;
-  Status?: Status;
+  Arn?: string | undefined;
+  ChannelId?: string | undefined;
+  CreatedAt?: string | undefined;
+  EndTime?: string | undefined;
+  Id?: string | undefined;
+  OriginEndpointId?: string | undefined;
+  S3Destination?:
+    | (S3Destination & { BucketName: string; ManifestKey: string; RoleArn: string })
+    | undefined;
+  StartTime?: string | undefined;
+  Status?: Status | undefined;
 }
 export interface DescribeOriginEndpointRequest {
   Id: string;
 }
 export interface DescribeOriginEndpointResponse {
-  Arn?: string;
-  Authorization?: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
-  ChannelId?: string;
-  CmafPackage?: CmafPackage & {
-    Encryption: CmafEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        ResourceId: string;
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+  Arn?: string | undefined;
+  Authorization?:
+    | (Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string })
+    | undefined;
+  ChannelId?: string | undefined;
+  CmafPackage?:
+    | (CmafPackage & {
+        Encryption: CmafEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            ResourceId: string;
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-    HlsManifests: (HlsManifest & { Id: string })[];
-  };
-  CreatedAt?: string;
-  DashPackage?: DashPackage & {
-    Encryption: DashEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        ResourceId: string;
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+        HlsManifests: (HlsManifest & { Id: string })[];
+      })
+    | undefined;
+  CreatedAt?: string | undefined;
+  DashPackage?:
+    | (DashPackage & {
+        Encryption: DashEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            ResourceId: string;
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-  };
-  Description?: string;
-  HlsPackage?: HlsPackage & {
-    Encryption: HlsEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        ResourceId: string;
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+      })
+    | undefined;
+  Description?: string | undefined;
+  HlsPackage?:
+    | (HlsPackage & {
+        Encryption: HlsEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            ResourceId: string;
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-  };
-  Id?: string;
-  ManifestName?: string;
-  MssPackage?: MssPackage & {
-    Encryption: MssEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        ResourceId: string;
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+      })
+    | undefined;
+  Id?: string | undefined;
+  ManifestName?: string | undefined;
+  MssPackage?:
+    | (MssPackage & {
+        Encryption: MssEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            ResourceId: string;
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-  };
-  Origination?: Origination;
-  StartoverWindowSeconds?: number;
-  Tags?: { [key: string]: string | undefined };
-  TimeDelaySeconds?: number;
-  Url?: string;
-  Whitelist?: string[];
+      })
+    | undefined;
+  Origination?: Origination | undefined;
+  StartoverWindowSeconds?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TimeDelaySeconds?: number | undefined;
+  Url?: string | undefined;
+  Whitelist?: string[] | undefined;
 }
 export type MaxResults = number;
 export interface ListChannelsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Channel {
-  Arn?: string;
-  CreatedAt?: string;
-  Description?: string;
-  EgressAccessLogs?: EgressAccessLogs;
-  HlsIngest?: HlsIngest;
-  Id?: string;
-  IngressAccessLogs?: IngressAccessLogs;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreatedAt?: string | undefined;
+  Description?: string | undefined;
+  EgressAccessLogs?: EgressAccessLogs | undefined;
+  HlsIngest?: HlsIngest | undefined;
+  Id?: string | undefined;
+  IngressAccessLogs?: IngressAccessLogs | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfChannel = Channel[];
 const __listOfChannel = /*@__PURE__*/ __L.at(__c6, 1);
 export interface ListChannelsResponse {
-  Channels?: Channel[];
-  NextToken?: string;
+  Channels?: Channel[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListHarvestJobsRequest {
-  IncludeChannelId?: string;
-  IncludeStatus?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  IncludeChannelId?: string | undefined;
+  IncludeStatus?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface HarvestJob {
-  Arn?: string;
-  ChannelId?: string;
-  CreatedAt?: string;
-  EndTime?: string;
-  Id?: string;
-  OriginEndpointId?: string;
-  S3Destination?: S3Destination;
-  StartTime?: string;
-  Status?: Status;
+  Arn?: string | undefined;
+  ChannelId?: string | undefined;
+  CreatedAt?: string | undefined;
+  EndTime?: string | undefined;
+  Id?: string | undefined;
+  OriginEndpointId?: string | undefined;
+  S3Destination?: S3Destination | undefined;
+  StartTime?: string | undefined;
+  Status?: Status | undefined;
 }
 export type __listOfHarvestJob = HarvestJob[];
 const __listOfHarvestJob = /*@__PURE__*/ __L.at(__c7, 1);
 export interface ListHarvestJobsResponse {
-  HarvestJobs?: (HarvestJob & {
-    S3Destination: S3Destination & { BucketName: string; ManifestKey: string; RoleArn: string };
-  })[];
-  NextToken?: string;
+  HarvestJobs?:
+    | (HarvestJob & {
+        S3Destination: S3Destination & { BucketName: string; ManifestKey: string; RoleArn: string };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOriginEndpointsRequest {
-  ChannelId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ChannelId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface OriginEndpoint {
-  Arn?: string;
-  Authorization?: Authorization;
-  ChannelId?: string;
-  CmafPackage?: CmafPackage;
-  CreatedAt?: string;
-  DashPackage?: DashPackage;
-  Description?: string;
-  HlsPackage?: HlsPackage;
-  Id?: string;
-  ManifestName?: string;
-  MssPackage?: MssPackage;
-  Origination?: Origination;
-  StartoverWindowSeconds?: number;
-  Tags?: { [key: string]: string | undefined };
-  TimeDelaySeconds?: number;
-  Url?: string;
-  Whitelist?: string[];
+  Arn?: string | undefined;
+  Authorization?: Authorization | undefined;
+  ChannelId?: string | undefined;
+  CmafPackage?: CmafPackage | undefined;
+  CreatedAt?: string | undefined;
+  DashPackage?: DashPackage | undefined;
+  Description?: string | undefined;
+  HlsPackage?: HlsPackage | undefined;
+  Id?: string | undefined;
+  ManifestName?: string | undefined;
+  MssPackage?: MssPackage | undefined;
+  Origination?: Origination | undefined;
+  StartoverWindowSeconds?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TimeDelaySeconds?: number | undefined;
+  Url?: string | undefined;
+  Whitelist?: string[] | undefined;
 }
 export type __listOfOriginEndpoint = OriginEndpoint[];
 const __listOfOriginEndpoint = /*@__PURE__*/ __L.at(__c8, 1);
 export interface ListOriginEndpointsResponse {
-  NextToken?: string;
-  OriginEndpoints?: (OriginEndpoint & {
-    Authorization: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
-    CmafPackage: CmafPackage & {
-      Encryption: CmafEncryption & {
-        SpekeKeyProvider: SpekeKeyProvider & {
-          ResourceId: string;
-          RoleArn: string;
-          SystemIds: __listOf__string;
-          Url: string;
-          EncryptionContractConfiguration: EncryptionContractConfiguration & {
-            PresetSpeke20Audio: PresetSpeke20Audio;
-            PresetSpeke20Video: PresetSpeke20Video;
+  NextToken?: string | undefined;
+  OriginEndpoints?:
+    | (OriginEndpoint & {
+        Authorization: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
+        CmafPackage: CmafPackage & {
+          Encryption: CmafEncryption & {
+            SpekeKeyProvider: SpekeKeyProvider & {
+              ResourceId: string;
+              RoleArn: string;
+              SystemIds: __listOf__string;
+              Url: string;
+              EncryptionContractConfiguration: EncryptionContractConfiguration & {
+                PresetSpeke20Audio: PresetSpeke20Audio;
+                PresetSpeke20Video: PresetSpeke20Video;
+              };
+            };
+          };
+          HlsManifests: (HlsManifest & { Id: string })[];
+        };
+        DashPackage: DashPackage & {
+          Encryption: DashEncryption & {
+            SpekeKeyProvider: SpekeKeyProvider & {
+              ResourceId: string;
+              RoleArn: string;
+              SystemIds: __listOf__string;
+              Url: string;
+              EncryptionContractConfiguration: EncryptionContractConfiguration & {
+                PresetSpeke20Audio: PresetSpeke20Audio;
+                PresetSpeke20Video: PresetSpeke20Video;
+              };
+            };
           };
         };
-      };
-      HlsManifests: (HlsManifest & { Id: string })[];
-    };
-    DashPackage: DashPackage & {
-      Encryption: DashEncryption & {
-        SpekeKeyProvider: SpekeKeyProvider & {
-          ResourceId: string;
-          RoleArn: string;
-          SystemIds: __listOf__string;
-          Url: string;
-          EncryptionContractConfiguration: EncryptionContractConfiguration & {
-            PresetSpeke20Audio: PresetSpeke20Audio;
-            PresetSpeke20Video: PresetSpeke20Video;
+        HlsPackage: HlsPackage & {
+          Encryption: HlsEncryption & {
+            SpekeKeyProvider: SpekeKeyProvider & {
+              ResourceId: string;
+              RoleArn: string;
+              SystemIds: __listOf__string;
+              Url: string;
+              EncryptionContractConfiguration: EncryptionContractConfiguration & {
+                PresetSpeke20Audio: PresetSpeke20Audio;
+                PresetSpeke20Video: PresetSpeke20Video;
+              };
+            };
           };
         };
-      };
-    };
-    HlsPackage: HlsPackage & {
-      Encryption: HlsEncryption & {
-        SpekeKeyProvider: SpekeKeyProvider & {
-          ResourceId: string;
-          RoleArn: string;
-          SystemIds: __listOf__string;
-          Url: string;
-          EncryptionContractConfiguration: EncryptionContractConfiguration & {
-            PresetSpeke20Audio: PresetSpeke20Audio;
-            PresetSpeke20Video: PresetSpeke20Video;
+        MssPackage: MssPackage & {
+          Encryption: MssEncryption & {
+            SpekeKeyProvider: SpekeKeyProvider & {
+              ResourceId: string;
+              RoleArn: string;
+              SystemIds: __listOf__string;
+              Url: string;
+              EncryptionContractConfiguration: EncryptionContractConfiguration & {
+                PresetSpeke20Audio: PresetSpeke20Audio;
+                PresetSpeke20Video: PresetSpeke20Video;
+              };
+            };
           };
         };
-      };
-    };
-    MssPackage: MssPackage & {
-      Encryption: MssEncryption & {
-        SpekeKeyProvider: SpekeKeyProvider & {
-          ResourceId: string;
-          RoleArn: string;
-          SystemIds: __listOf__string;
-          Url: string;
-          EncryptionContractConfiguration: EncryptionContractConfiguration & {
-            PresetSpeke20Audio: PresetSpeke20Audio;
-            PresetSpeke20Video: PresetSpeke20Video;
-          };
-        };
-      };
-    };
-  })[];
+      })[]
+    | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
@@ -726,144 +755,154 @@ export interface ListTagsForResourceRequest {
 export type __mapOf__string = { [key: string]: string | undefined };
 const __mapOf__string = __S(288, __c18, 0) as any as S.Schema<__mapOf__string>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RotateChannelCredentialsRequest {
   Id: string;
 }
 export interface RotateChannelCredentialsResponse {
-  Arn?: string;
-  CreatedAt?: string;
-  Description?: string;
-  EgressAccessLogs?: EgressAccessLogs;
-  HlsIngest?: HlsIngest;
-  Id?: string;
-  IngressAccessLogs?: IngressAccessLogs;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreatedAt?: string | undefined;
+  Description?: string | undefined;
+  EgressAccessLogs?: EgressAccessLogs | undefined;
+  HlsIngest?: HlsIngest | undefined;
+  Id?: string | undefined;
+  IngressAccessLogs?: IngressAccessLogs | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RotateIngestEndpointCredentialsRequest {
   Id: string;
   IngestEndpointId: string;
 }
 export interface RotateIngestEndpointCredentialsResponse {
-  Arn?: string;
-  CreatedAt?: string;
-  Description?: string;
-  EgressAccessLogs?: EgressAccessLogs;
-  HlsIngest?: HlsIngest;
-  Id?: string;
-  IngressAccessLogs?: IngressAccessLogs;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreatedAt?: string | undefined;
+  Description?: string | undefined;
+  EgressAccessLogs?: EgressAccessLogs | undefined;
+  HlsIngest?: HlsIngest | undefined;
+  Id?: string | undefined;
+  IngressAccessLogs?: IngressAccessLogs | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateChannelRequest {
-  Description?: string;
+  Description?: string | undefined;
   Id: string;
 }
 export interface UpdateChannelResponse {
-  Arn?: string;
-  CreatedAt?: string;
-  Description?: string;
-  EgressAccessLogs?: EgressAccessLogs;
-  HlsIngest?: HlsIngest;
-  Id?: string;
-  IngressAccessLogs?: IngressAccessLogs;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreatedAt?: string | undefined;
+  Description?: string | undefined;
+  EgressAccessLogs?: EgressAccessLogs | undefined;
+  HlsIngest?: HlsIngest | undefined;
+  Id?: string | undefined;
+  IngressAccessLogs?: IngressAccessLogs | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateOriginEndpointRequest {
-  Authorization?: Authorization;
-  CmafPackage?: CmafPackageCreateOrUpdateParameters;
-  DashPackage?: DashPackage;
-  Description?: string;
-  HlsPackage?: HlsPackage;
+  Authorization?: Authorization | undefined;
+  CmafPackage?: CmafPackageCreateOrUpdateParameters | undefined;
+  DashPackage?: DashPackage | undefined;
+  Description?: string | undefined;
+  HlsPackage?: HlsPackage | undefined;
   Id: string;
-  ManifestName?: string;
-  MssPackage?: MssPackage;
-  Origination?: Origination;
-  StartoverWindowSeconds?: number;
-  TimeDelaySeconds?: number;
-  Whitelist?: string[];
+  ManifestName?: string | undefined;
+  MssPackage?: MssPackage | undefined;
+  Origination?: Origination | undefined;
+  StartoverWindowSeconds?: number | undefined;
+  TimeDelaySeconds?: number | undefined;
+  Whitelist?: string[] | undefined;
 }
 export interface UpdateOriginEndpointResponse {
-  Arn?: string;
-  Authorization?: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
-  ChannelId?: string;
-  CmafPackage?: CmafPackage & {
-    Encryption: CmafEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        ResourceId: string;
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+  Arn?: string | undefined;
+  Authorization?:
+    | (Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string })
+    | undefined;
+  ChannelId?: string | undefined;
+  CmafPackage?:
+    | (CmafPackage & {
+        Encryption: CmafEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            ResourceId: string;
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-    HlsManifests: (HlsManifest & { Id: string })[];
-  };
-  CreatedAt?: string;
-  DashPackage?: DashPackage & {
-    Encryption: DashEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        ResourceId: string;
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+        HlsManifests: (HlsManifest & { Id: string })[];
+      })
+    | undefined;
+  CreatedAt?: string | undefined;
+  DashPackage?:
+    | (DashPackage & {
+        Encryption: DashEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            ResourceId: string;
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-  };
-  Description?: string;
-  HlsPackage?: HlsPackage & {
-    Encryption: HlsEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        ResourceId: string;
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+      })
+    | undefined;
+  Description?: string | undefined;
+  HlsPackage?:
+    | (HlsPackage & {
+        Encryption: HlsEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            ResourceId: string;
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-  };
-  Id?: string;
-  ManifestName?: string;
-  MssPackage?: MssPackage & {
-    Encryption: MssEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        ResourceId: string;
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+      })
+    | undefined;
+  Id?: string | undefined;
+  ManifestName?: string | undefined;
+  MssPackage?:
+    | (MssPackage & {
+        Encryption: MssEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            ResourceId: string;
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-  };
-  Origination?: Origination;
-  StartoverWindowSeconds?: number;
-  Tags?: { [key: string]: string | undefined };
-  TimeDelaySeconds?: number;
-  Url?: string;
-  Whitelist?: string[];
+      })
+    | undefined;
+  Origination?: Origination | undefined;
+  StartoverWindowSeconds?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TimeDelaySeconds?: number | undefined;
+  Url?: string | undefined;
+  Whitelist?: string[] | undefined;
 }
 export type ConfigureLogsError =
   | ForbiddenException
@@ -877,7 +916,7 @@ export type ConfigureLogsError =
  * Changes the Channel's properities to configure log subscription
  */
 export const configureLogs: API.OperationMethod<
-  ConfigureLogsRequest,
+  ConfigureLogsRequest & RegionInput,
   ConfigureLogsResponse,
   ConfigureLogsError,
   Credentials | HttpClient.HttpClient
@@ -911,7 +950,7 @@ export type CreateChannelError =
  * Creates a new Channel.
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
+  CreateChannelRequest & RegionInput,
   CreateChannelResponse,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
@@ -945,7 +984,7 @@ export type CreateHarvestJobError =
  * Creates a new HarvestJob record.
  */
 export const createHarvestJob: API.OperationMethod<
-  CreateHarvestJobRequest,
+  CreateHarvestJobRequest & RegionInput,
   CreateHarvestJobResponse,
   CreateHarvestJobError,
   Credentials | HttpClient.HttpClient
@@ -979,7 +1018,7 @@ export type CreateOriginEndpointError =
  * Creates a new OriginEndpoint record.
  */
 export const createOriginEndpoint: API.OperationMethod<
-  CreateOriginEndpointRequest,
+  CreateOriginEndpointRequest & RegionInput,
   CreateOriginEndpointResponse,
   CreateOriginEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1013,7 +1052,7 @@ export type DeleteChannelError =
  * Deletes an existing Channel.
  */
 export const deleteChannel: API.OperationMethod<
-  DeleteChannelRequest,
+  DeleteChannelRequest & RegionInput,
   DeleteChannelResponse,
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
@@ -1047,7 +1086,7 @@ export type DeleteOriginEndpointError =
  * Deletes an existing OriginEndpoint.
  */
 export const deleteOriginEndpoint: API.OperationMethod<
-  DeleteOriginEndpointRequest,
+  DeleteOriginEndpointRequest & RegionInput,
   DeleteOriginEndpointResponse,
   DeleteOriginEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1081,7 +1120,7 @@ export type DescribeChannelError =
  * Gets details about a Channel.
  */
 export const describeChannel: API.OperationMethod<
-  DescribeChannelRequest,
+  DescribeChannelRequest & RegionInput,
   DescribeChannelResponse,
   DescribeChannelError,
   Credentials | HttpClient.HttpClient
@@ -1115,7 +1154,7 @@ export type DescribeHarvestJobError =
  * Gets details about an existing HarvestJob.
  */
 export const describeHarvestJob: API.OperationMethod<
-  DescribeHarvestJobRequest,
+  DescribeHarvestJobRequest & RegionInput,
   DescribeHarvestJobResponse,
   DescribeHarvestJobError,
   Credentials | HttpClient.HttpClient
@@ -1149,7 +1188,7 @@ export type DescribeOriginEndpointError =
  * Gets details about an existing OriginEndpoint.
  */
 export const describeOriginEndpoint: API.OperationMethod<
-  DescribeOriginEndpointRequest,
+  DescribeOriginEndpointRequest & RegionInput,
   DescribeOriginEndpointResponse,
   DescribeOriginEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1183,7 +1222,7 @@ export type ListChannelsError =
  * Returns a collection of Channels.
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -1224,7 +1263,7 @@ export type ListHarvestJobsError =
  * Returns a collection of HarvestJob records.
  */
 export const listHarvestJobs: API.PaginatedOperationMethod<
-  ListHarvestJobsRequest,
+  ListHarvestJobsRequest & RegionInput,
   ListHarvestJobsResponse,
   ListHarvestJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1265,7 +1304,7 @@ export type ListOriginEndpointsError =
  * Returns a collection of OriginEndpoint records.
  */
 export const listOriginEndpoints: API.PaginatedOperationMethod<
-  ListOriginEndpointsRequest,
+  ListOriginEndpointsRequest & RegionInput,
   ListOriginEndpointsResponse,
   ListOriginEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -1299,7 +1338,7 @@ export type ListTagsForResourceError = CommonErrors;
  *
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1326,7 +1365,7 @@ export type RotateChannelCredentialsError =
  * Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
  */
 export const rotateChannelCredentials: API.OperationMethod<
-  RotateChannelCredentialsRequest,
+  RotateChannelCredentialsRequest & RegionInput,
   RotateChannelCredentialsResponse,
   RotateChannelCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -1360,7 +1399,7 @@ export type RotateIngestEndpointCredentialsError =
  * Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's id.
  */
 export const rotateIngestEndpointCredentials: API.OperationMethod<
-  RotateIngestEndpointCredentialsRequest,
+  RotateIngestEndpointCredentialsRequest & RegionInput,
   RotateIngestEndpointCredentialsResponse,
   RotateIngestEndpointCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -1387,7 +1426,7 @@ export type TagResourceError = CommonErrors;
  *
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1407,7 +1446,7 @@ export type UntagResourceError = CommonErrors;
  *
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1434,7 +1473,7 @@ export type UpdateChannelError =
  * Updates an existing Channel.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
+  UpdateChannelRequest & RegionInput,
   UpdateChannelResponse,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
@@ -1468,7 +1507,7 @@ export type UpdateOriginEndpointError =
  * Updates an existing OriginEndpoint.
  */
 export const updateOriginEndpoint: API.OperationMethod<
-  UpdateOriginEndpointRequest,
+  UpdateOriginEndpointRequest & RegionInput,
   UpdateOriginEndpointResponse,
   UpdateOriginEndpointError,
   Credentials | HttpClient.HttpClient

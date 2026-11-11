@@ -80,7 +80,7 @@ export type CreateOauthGrantRequestRequestedScopesList = Array<string>;
 export type CreateOauthGrantRequestResponseType = "code";
 export interface CreateOauthGrantRequest {
   /** Authorize the app for one of the user's accounts rather than for the user alone, prefixed `biz_`. The user must have access to it. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The app being authorized, prefixed `app_`. */
   client_id: string;
   /** The PKCE code challenge: the base64url-encoded SHA-256 of your code verifier, without padding. */
@@ -88,19 +88,19 @@ export interface CreateOauthGrantRequest {
   /** How `code_challenge` was derived. Only `S256` is accepted. */
   code_challenge_method: CreateOauthGrantRequestCodeChallengeMethod | (string & {});
   /** Whether the consent UI listed these scopes for the user. Sending `false` succeeds only when the user has already granted every scope requested. */
-  consent_shown?: boolean;
+  consent_shown?: boolean | undefined;
   /** OIDC nonce, echoed into the resulting ID token. Required when `requested_scopes` includes `openid`. */
-  nonce?: string;
+  nonce?: string | undefined;
   /** Where to send the user once they have consented. Must match one of the app's registered redirect URIs exactly -- it is compared as a string, not normalized. */
   redirect_uri: string;
   /** The permissions the app is asking for, for example `member:basic:read`. `GET /api_keys/permissions` names and describes each one. Granting adds to whatever the user already granted this app rather than replacing it. */
   requested_scopes: CreateOauthGrantRequestRequestedScopesList;
   /** The OAuth response type. Only `code` is accepted; defaults to `code`. */
-  response_type?: CreateOauthGrantRequestResponseType | (string & {});
+  response_type?: CreateOauthGrantRequestResponseType | (string & {}) | undefined;
   /** Opaque value appended to `redirect_url` unchanged, for the client to correlate the response with its request. */
-  state?: string;
+  state?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type OauthGrantScopesList = Array<string>;
 export interface OauthGrant {
@@ -115,7 +115,7 @@ export interface OauthGrant {
   /** Grant ID, prefixed `oag_`. */
   id: string;
   /** Where to send the user to finish the flow: the `redirect_uri` you supplied with the authorization `code` appended, and `state` when you supplied one. Its scheme, host, port, and path come back exactly as sent -- never re-cased or re-encoded -- because the client matches them against its registered URI. Returned only once, on create: the code is single-use and expires 10 minutes after it is issued, so redirect immediately. */
-  redirect_url?: string;
+  redirect_url?: string | undefined;
   /** When the grant was revoked, as an ISO 8601 timestamp, or `null` while it is still in force. A revoked grant authorizes nothing -- treat its `scopes` as no longer granted. */
   revoked_at: string | null;
   scopes: OauthGrantScopesList;
@@ -130,7 +130,7 @@ export interface CreatePasskeyRequest {
   /** A name for this passkey, usually the device it lives on. 255 characters or fewer. */
   nickname: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface Passkey {
   /** When the user registered this passkey, as an ISO 8601 timestamp. */
@@ -150,9 +150,9 @@ export interface CreatePasskeyChallengeRequest {
   /** The ceremony this challenge is for. */
   challenge_type: CreatePasskeyChallengeRequestChallengeType | (string & {});
   /** The passkey the ceremony targets, prefixed `wcred_`. Required when `challenge_type` is `deletion`, ignored otherwise. */
-  passkey_id?: string;
+  passkey_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface CreatePasskeyChallengeResponse {
   /** The challenge to pass to the WebAuthn ceremony, base64url-encoded without padding. */
@@ -179,21 +179,21 @@ export interface GetUserRequest {
   /** User ID (prefixed `user_`), username, or `me` for the authenticated user. */
   id: string;
   /** Also retrieve live trading state under `trading`. Only honored on the self view (me) with crypto_wallet:trade:read, crypto_wallet:trade, or crypto_wallet:manage permission and an Ethereum wallet. Provider failures return 503. */
-  include_trading?: boolean;
+  include_trading?: boolean | undefined;
   /** When set, returns the user's account-specific profile overrides for this account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Compute live wallet and owned-account balances on the self view (default true). Set false for identity-only reads. Ignored when the id is not `me` or the caller lacks balance-read scope. */
-  include_balance?: boolean;
+  include_balance?: boolean | undefined;
   /** Also compute your balance history (opt-in; runs a heavier query). Only applies when the id is `me`; ignored for callers without balance-read scope. */
-  include_balance_history?: boolean;
+  include_balance_history?: boolean | undefined;
   /** Balance-history window start, ISO 8601 date or datetime. Defaults to 30 days ago. Only used with `include_balance_history`. */
-  from?: string;
+  from?: string | undefined;
   /** Balance-history window end, ISO 8601 date or datetime. Defaults to now. Only used with `include_balance_history`. */
-  to?: string;
+  to?: string | undefined;
   /** Balance-history point granularity. Defaults to `day`. Only used with `include_balance_history`. */
-  interval?: GetUserRequestInterval | (string & {});
+  interval?: GetUserRequestInterval | (string & {}) | undefined;
   /** IANA time zone the balance-history points are bucketed in. Defaults to `UTC`. Only used with `include_balance_history`. */
-  time_zone?: string;
+  time_zone?: string | undefined;
 }
 export interface UserBalanceBusiness {
   /** The account's total balance in USD. */
@@ -603,19 +603,19 @@ export type ListOauthGrantsRequestOrder = "created_at";
 export type ListOauthGrantsRequestDirection = "asc" | "desc";
 export interface ListOauthGrantsRequest {
   /** Only return grants for this app, prefixed `app_`. An app the user has never authorized returns an empty list. */
-  app_id?: string;
+  app_id?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** The field to sort grants by. */
-  order?: ListOauthGrantsRequestOrder | (string & {});
+  order?: ListOauthGrantsRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListOauthGrantsRequestDirection | (string & {});
+  direction?: ListOauthGrantsRequestDirection | (string & {}) | undefined;
 }
 export type ListOauthGrantsResponseDataList = Array<OauthGrant>;
 export interface ListOauthGrantsResponsePageInfo {
@@ -632,17 +632,17 @@ export type ListPasskeysRequestOrder = "created_at";
 export type ListPasskeysRequestDirection = "asc" | "desc";
 export interface ListPasskeysRequest {
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** The field to sort passkeys by. */
-  order?: ListPasskeysRequestOrder | (string & {});
+  order?: ListPasskeysRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListPasskeysRequestDirection | (string & {});
+  direction?: ListPasskeysRequestDirection | (string & {}) | undefined;
 }
 export type ListPasskeysResponseDataList = Array<Passkey>;
 export type ListPasskeysResponsePageInfo = ListOauthGrantsResponsePageInfo;
@@ -652,9 +652,9 @@ export interface ListPasskeysResponse {
 }
 export interface ListUserNotificationExperiencePreferencesRequest {
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
 }
 /** What the user is notified about in the experience: `all` notifications, only `mentions`, or `nothing`. */
 export type ExperienceNotificationPreferenceLevel = "all" | "mentions" | "nothing";
@@ -693,19 +693,19 @@ export interface ListUserNotificationExperiencePreferencesResponse {
 export type ListUserNotificationTopicPreferencesRequestChannel = "in_app" | "mobile";
 export interface ListUserNotificationTopicPreferencesRequest {
   /** Only return preferences for this delivery channel (or not narrowed to a channel). */
-  channel?: ListUserNotificationTopicPreferencesRequestChannel | (string & {});
+  channel?: ListUserNotificationTopicPreferencesRequestChannel | (string & {}) | undefined;
   /** Only return preferences scoped to this account's member notifications (`biz_` tag). */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only return preferences scoped to this account's team notifications (`biz_` tag). */
-  team_account_id?: string;
+  team_account_id?: string | undefined;
   /** Only return preferences scoped to this experience (`exp_` tag). */
-  experience_id?: string;
+  experience_id?: string | undefined;
   /** Only return preferences scoped to this notification topic (`topic_` tag). */
-  topic_id?: string;
+  topic_id?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
 }
 /** What the user is notified about in this scope: `all` or `nothing`. */
 export type UserNotificationPreferenceLevel = "all" | "nothing";
@@ -795,15 +795,15 @@ export interface ListUserRecommendedActionsResponse {
 }
 export interface ListUsersRequest {
   /** A search term to filter users by name or username. */
-  query?: string;
+  query?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListUsersResponseDataList = Array<User>;
 export type ListUsersResponsePageInfo = ListOauthGrantsResponsePageInfo;
@@ -821,15 +821,19 @@ export type SetUserNotificationPreferencesRequestPreferencesItemScopeChannel = "
 /** What the preference applies to. `null` on a dimension means the preference is not narrowed there. */
 export interface SetUserNotificationPreferencesRequestPreferencesItemScope {
   /** Account to scope the preference to (member notifications), `biz_` tag. */
-  account_id?: string | null;
+  account_id?: string | null | undefined;
   /** Delivery channel the preference applies to. Omit it (or pass `null`) to apply the preference to every channel. */
-  channel?: SetUserNotificationPreferencesRequestPreferencesItemScopeChannel | (string & {}) | null;
+  channel?:
+    | SetUserNotificationPreferencesRequestPreferencesItemScopeChannel
+    | (string & {})
+    | null
+    | undefined;
   /** Experience to scope the preference to (`exp_` tag). Requires `account_id` when a `topic_id` is also given. */
-  experience_id?: string | null;
+  experience_id?: string | null | undefined;
   /** Account whose team notifications the preference is scoped to, `biz_` tag. */
-  team_account_id?: string | null;
+  team_account_id?: string | null | undefined;
   /** Notification topic to scope the preference to, `topic_` tag. */
-  topic_id?: string | null;
+  topic_id?: string | null | undefined;
 }
 export interface SetUserNotificationPreferencesRequestPreferencesItem {
   /** What the user is notified about in this scope. `mentions` is only valid for an experience level. `null` clears the preference. */
@@ -863,28 +867,28 @@ export interface SetUserNotificationPreferencesResponse {
   data: SetUserNotificationPreferencesResponseDataList;
 }
 export interface UpdateUserRequestBanner {
-  direct_upload_id?: string;
-  id?: string;
+  direct_upload_id?: string | undefined;
+  id?: string | undefined;
 }
 export type UpdateUserRequestProfilePicture = UpdateUserRequestBanner;
 export interface UpdateUserRequest {
   /** User ID (prefixed `user_`), username, or `me` for the authenticated user. */
   id: string;
   /** The account whose profile override to update. Required for API key callers. */
-  account_id?: string;
-  banner?: UpdateUserRequestBanner | null;
-  bio?: string;
-  name?: string;
-  profile_picture?: UpdateUserRequestBanner;
-  username?: string;
+  account_id?: string | undefined;
+  banner?: UpdateUserRequestBanner | null | undefined;
+  bio?: string | undefined;
+  name?: string | undefined;
+  profile_picture?: UpdateUserRequestBanner | undefined;
+  username?: string | undefined;
 }
 export interface UpdateUserPreferencesRequest {
   /** Whether the user has dismissed the first-time bounty worker onboarding. Set to `false` to show it again. */
-  bounty_worker_onboarding_dismissed?: boolean;
+  bounty_worker_onboarding_dismissed?: boolean | undefined;
   /** Whether investigation mode is enabled for the user. Only meaningful for staff users with investigation access. */
-  investigation_enabled?: boolean;
+  investigation_enabled?: boolean | undefined;
   /** Records the user's acceptance of Whop's terms and policies. Only `true` is accepted -- the server stamps `terms_accepted_at` and acceptance cannot be withdrawn here. */
-  terms_accepted?: boolean;
+  terms_accepted?: boolean | undefined;
 }
 export type CheckUserAccessError = WhopOpError;
 /** Check User Access Checks whether a user has access to an account, product, or experience the caller can reach. */

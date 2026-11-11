@@ -294,8 +294,8 @@ export interface InstancesChatCompletionsRequestMessagesItemContentCase1ItemCase
 }
 export interface InstancesChatCompletionsRequestMessagesItemContentCase1ItemCase2File {
   filename: string;
-  fileData?: string;
-  fileId?: string;
+  fileData?: string | undefined;
+  fileId?: string | undefined;
 }
 export type InstancesChatCompletionsRequestMessagesItemContentCase1ItemCase2Type = "file";
 export interface InstancesChatCompletionsRequestMessagesItemContentCase1ItemCase2 {
@@ -318,7 +318,7 @@ export type InstancesChatCompletionsRequestMessagesItemRole =
   | "assistant"
   | "tool";
 export interface InstancesChatCompletionsRequestMessagesItem {
-  content?: InstancesChatCompletionsRequestMessagesItemContent | null;
+  content?: InstancesChatCompletionsRequestMessagesItemContent | null | undefined;
   role: InstancesChatCompletionsRequestMessagesItemRole | (string & {});
 }
 export type InstancesChatCompletionsRequestMessagesList =
@@ -331,8 +331,9 @@ export type InstancesChatCompletionsRequestAiSearchOptionsCacheCacheThreshold =
 export interface InstancesChatCompletionsRequestAiSearchOptionsCache {
   cacheThreshold?:
     | InstancesChatCompletionsRequestAiSearchOptionsCacheCacheThreshold
-    | (string & {});
-  enabled?: boolean;
+    | (string & {})
+    | undefined;
+  enabled?: boolean | undefined;
 }
 export type InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue =
   | string
@@ -342,15 +343,15 @@ export type InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap = {
   [key: string]: InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue | undefined;
 };
 export interface InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  model?: string;
-  rewritePrompt?: string;
+  model?: string | undefined;
+  rewritePrompt?: string | undefined;
 }
 export interface InstancesChatCompletionsRequestAiSearchOptionsReranking {
-  enabled?: boolean;
-  matchThreshold?: number;
-  model?: string;
+  enabled?: boolean | undefined;
+  matchThreshold?: number | undefined;
+  model?: string | undefined;
 }
 export type InstancesChatCompletionsRequestAiSearchOptionsRetrievalBoostByItemDirection =
   | "asc"
@@ -363,7 +364,8 @@ export interface InstancesChatCompletionsRequestAiSearchOptionsRetrievalBoostByI
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
   direction?:
     | InstancesChatCompletionsRequestAiSearchOptionsRetrievalBoostByItemDirection
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type InstancesChatCompletionsRequestAiSearchOptionsRetrievalBoostByList =
   Array<InstancesChatCompletionsRequestAiSearchOptionsRetrievalBoostByItem>;
@@ -378,42 +380,45 @@ export type InstancesChatCompletionsRequestAiSearchOptionsRetrievalRetrievalType
   | "hybrid";
 export interface InstancesChatCompletionsRequestAiSearchOptionsRetrieval {
   /** Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: InstancesChatCompletionsRequestAiSearchOptionsRetrievalBoostByList;
-  contextExpansion?: number;
-  filters?: InstancesChatCompletionsRequestAiSearchOptionsRetrievalFiltersMap;
+  boostBy?: InstancesChatCompletionsRequestAiSearchOptionsRetrievalBoostByList | undefined;
+  contextExpansion?: number | undefined;
+  filters?: InstancesChatCompletionsRequestAiSearchOptionsRetrievalFiltersMap | undefined;
   fusionMethod?:
     | InstancesChatCompletionsRequestAiSearchOptionsRetrievalFusionMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'. */
   keywordMatchMode?:
     | InstancesChatCompletionsRequestAiSearchOptionsRetrievalKeywordMatchMode
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Minimum similarity score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4. */
-  matchThreshold?: number;
+  matchThreshold?: number | undefined;
   /** Maximum number of results to return. When omitted, falls back to the instance-level max_num_results, then to 10. */
-  maxNumResults?: number;
+  maxNumResults?: number | undefined;
   retrievalType?:
     | InstancesChatCompletionsRequestAiSearchOptionsRetrievalRetrievalType
-    | (string & {});
-  returnOnFailure?: boolean;
+    | (string & {})
+    | undefined;
+  returnOnFailure?: boolean | undefined;
 }
 export interface InstancesChatCompletionsRequestAiSearchOptions {
-  cache?: InstancesChatCompletionsRequestAiSearchOptionsCache;
+  cache?: InstancesChatCompletionsRequestAiSearchOptionsCache | undefined;
   /** Metadata added to AI Gateway logs for requests this operation triggers. Accepts up to 2 string, number, or boolean entries. Reserved keys: 'ai-search', 'task', 'origin', and any key beginning with 'cf.'. */
-  customMetadata?: InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap;
-  queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite;
-  reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking;
-  retrieval?: InstancesChatCompletionsRequestAiSearchOptionsRetrieval;
+  customMetadata?: InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap | undefined;
+  queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite | undefined;
+  reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking | undefined;
+  retrieval?: InstancesChatCompletionsRequestAiSearchOptionsRetrieval | undefined;
 }
 export interface ChatCompletionsInstanceRequest {
   accountId: string;
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
   messages: InstancesChatCompletionsRequestMessagesList;
-  aiSearchOptions?: InstancesChatCompletionsRequestAiSearchOptions;
+  aiSearchOptions?: InstancesChatCompletionsRequestAiSearchOptions | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  model?: string;
-  stream?: boolean;
+  model?: string | undefined;
+  stream?: boolean | undefined;
 }
 export type InstancesChatCompletionsResponseChoicesItemMessageContentCase1ItemCase0Type = "text";
 export interface InstancesChatCompletionsResponseChoicesItemMessageContentCase1ItemCase0 {
@@ -430,8 +435,8 @@ export interface InstancesChatCompletionsResponseChoicesItemMessageContentCase1I
 }
 export interface InstancesChatCompletionsResponseChoicesItemMessageContentCase1ItemCase2File {
   filename: string;
-  fileData?: string | null;
-  fileId?: string | null;
+  fileData?: string | null | undefined;
+  fileId?: string | null | undefined;
 }
 export type InstancesChatCompletionsResponseChoicesItemMessageContentCase1ItemCase2Type = "file";
 export interface InstancesChatCompletionsResponseChoicesItemMessageContentCase1ItemCase2 {
@@ -459,7 +464,7 @@ export interface InstancesChatCompletionsResponseChoicesItemMessage {
 }
 export interface InstancesChatCompletionsResponseChoicesItem {
   message: InstancesChatCompletionsResponseChoicesItemMessage;
-  index?: number | null;
+  index?: number | null | undefined;
 }
 export type InstancesChatCompletionsResponseChoicesList =
   Array<InstancesChatCompletionsResponseChoicesItem>;
@@ -468,17 +473,20 @@ export type InstancesChatCompletionsResponseChunksItemItemMetadataMap = {
 };
 export interface InstancesChatCompletionsResponseChunksItemItem {
   key: string;
-  metadata?: InstancesChatCompletionsResponseChunksItemItemMetadataMap | null;
-  timestamp?: number | null;
+  metadata?: InstancesChatCompletionsResponseChunksItemItemMetadataMap | null | undefined;
+  timestamp?: number | null | undefined;
 }
 export type InstancesChatCompletionsResponseChunksItemScoringDetailsFusionMethod = "rrf" | "max";
 export interface InstancesChatCompletionsResponseChunksItemScoringDetails {
-  fusionMethod?: InstancesChatCompletionsResponseChunksItemScoringDetailsFusionMethod | null;
-  keywordRank?: number | null;
-  keywordScore?: number | null;
-  rerankingScore?: number | null;
-  vectorRank?: number | null;
-  vectorScore?: number | null;
+  fusionMethod?:
+    | InstancesChatCompletionsResponseChunksItemScoringDetailsFusionMethod
+    | null
+    | undefined;
+  keywordRank?: number | null | undefined;
+  keywordScore?: number | null | undefined;
+  rerankingScore?: number | null | undefined;
+  vectorRank?: number | null | undefined;
+  vectorScore?: number | null | undefined;
 }
 export type InstancesChatCompletionsResponseChunksItemSourceMediaType = "audio" | "video";
 export interface InstancesChatCompletionsResponseChunksItem {
@@ -486,14 +494,14 @@ export interface InstancesChatCompletionsResponseChunksItem {
   score: number;
   text: string;
   type: string;
-  item?: InstancesChatCompletionsResponseChunksItemItem | null;
+  item?: InstancesChatCompletionsResponseChunksItemItem | null | undefined;
   /** Audio/video transcript chunks only: end, in milliseconds from the start of the media (whole seconds), of the last transcript section the matched chunk covers. Describes the matched chunk before any context expansion, not the expanded `text`. */
-  mediaEndMs?: number | null;
+  mediaEndMs?: number | null | undefined;
   /** Audio/video transcript chunks only: start, in milliseconds from the start of the media (whole seconds), of the transcript section the matched chunk begins in. Describes the matched chunk before any context expansion, not the expanded `text`. */
-  mediaStartMs?: number | null;
-  scoringDetails?: InstancesChatCompletionsResponseChunksItemScoringDetails | null;
+  mediaStartMs?: number | null | undefined;
+  scoringDetails?: InstancesChatCompletionsResponseChunksItemScoringDetails | null | undefined;
   /** Audio/video transcript chunks only: type of the source media file. Omitted for all other chunks. */
-  sourceMediaType?: InstancesChatCompletionsResponseChunksItemSourceMediaType | null;
+  sourceMediaType?: InstancesChatCompletionsResponseChunksItemSourceMediaType | null | undefined;
 }
 export type InstancesChatCompletionsResponseChunksList =
   Array<InstancesChatCompletionsResponseChunksItem>;
@@ -501,9 +509,9 @@ export type InstancesChatCompletionsResponseChunksList =
 export interface ChatCompletionsInstanceResponse {
   choices: InstancesChatCompletionsResponseChoicesList;
   chunks: InstancesChatCompletionsResponseChunksList;
-  id?: string | null;
-  model?: string | null;
-  object?: string | null;
+  id?: string | null | undefined;
+  model?: string | null | undefined;
+  object?: string | null | undefined;
 }
 export type NamespacesChatCompletionsRequestAiSearchOptionsInstanceIdsList = Array<string>;
 export type NamespacesChatCompletionsRequestAiSearchOptionsCacheCacheThreshold =
@@ -514,8 +522,9 @@ export type NamespacesChatCompletionsRequestAiSearchOptionsCacheCacheThreshold =
 export interface NamespacesChatCompletionsRequestAiSearchOptionsCache {
   cacheThreshold?:
     | NamespacesChatCompletionsRequestAiSearchOptionsCacheCacheThreshold
-    | (string & {});
-  enabled?: boolean;
+    | (string & {})
+    | undefined;
+  enabled?: boolean | undefined;
 }
 export type NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataValue =
   | string
@@ -539,7 +548,8 @@ export interface NamespacesChatCompletionsRequestAiSearchOptionsRetrievalBoostBy
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
   direction?:
     | NamespacesChatCompletionsRequestAiSearchOptionsRetrievalBoostByItemDirection
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type NamespacesChatCompletionsRequestAiSearchOptionsRetrievalBoostByList =
   Array<NamespacesChatCompletionsRequestAiSearchOptionsRetrievalBoostByItem>;
@@ -554,33 +564,36 @@ export type NamespacesChatCompletionsRequestAiSearchOptionsRetrievalRetrievalTyp
   | "hybrid";
 export interface NamespacesChatCompletionsRequestAiSearchOptionsRetrieval {
   /** Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: NamespacesChatCompletionsRequestAiSearchOptionsRetrievalBoostByList;
-  contextExpansion?: number;
-  filters?: NamespacesChatCompletionsRequestAiSearchOptionsRetrievalFiltersMap;
+  boostBy?: NamespacesChatCompletionsRequestAiSearchOptionsRetrievalBoostByList | undefined;
+  contextExpansion?: number | undefined;
+  filters?: NamespacesChatCompletionsRequestAiSearchOptionsRetrievalFiltersMap | undefined;
   fusionMethod?:
     | NamespacesChatCompletionsRequestAiSearchOptionsRetrievalFusionMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'. */
   keywordMatchMode?:
     | NamespacesChatCompletionsRequestAiSearchOptionsRetrievalKeywordMatchMode
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Minimum score a chunk must reach to be returned. When omitted, each instance's chunks are filtered by that instance's score_threshold, capped at the lower of the first instance's score_threshold and 0.4. */
-  matchThreshold?: number;
+  matchThreshold?: number | undefined;
   /** Maximum number of merged results to return. When omitted, defaults to the first instance's max_num_results, then 10. */
-  maxNumResults?: number;
+  maxNumResults?: number | undefined;
   retrievalType?:
     | NamespacesChatCompletionsRequestAiSearchOptionsRetrievalRetrievalType
-    | (string & {});
-  returnOnFailure?: boolean;
+    | (string & {})
+    | undefined;
+  returnOnFailure?: boolean | undefined;
 }
 export interface NamespacesChatCompletionsRequestAiSearchOptions {
   instanceIds: NamespacesChatCompletionsRequestAiSearchOptionsInstanceIdsList;
-  cache?: NamespacesChatCompletionsRequestAiSearchOptionsCache;
+  cache?: NamespacesChatCompletionsRequestAiSearchOptionsCache | undefined;
   /** Metadata added to AI Gateway logs for requests this operation triggers. Accepts up to 2 string, number, or boolean entries. Reserved keys: 'ai-search', 'task', 'origin', and any key beginning with 'cf.'. */
-  customMetadata?: NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataMap;
-  queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite;
-  reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking;
-  retrieval?: NamespacesChatCompletionsRequestAiSearchOptionsRetrieval;
+  customMetadata?: NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataMap | undefined;
+  queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite | undefined;
+  reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking | undefined;
+  retrieval?: NamespacesChatCompletionsRequestAiSearchOptionsRetrieval | undefined;
 }
 export type NamespacesChatCompletionsRequestMessagesItemContentCase1ItemCase0Type = "text";
 export interface NamespacesChatCompletionsRequestMessagesItemContentCase1ItemCase0 {
@@ -617,7 +630,7 @@ export type NamespacesChatCompletionsRequestMessagesItemRole =
   | "assistant"
   | "tool";
 export interface NamespacesChatCompletionsRequestMessagesItem {
-  content?: NamespacesChatCompletionsRequestMessagesItemContent | null;
+  content?: NamespacesChatCompletionsRequestMessagesItemContent | null | undefined;
   role: NamespacesChatCompletionsRequestMessagesItemRole | (string & {});
 }
 export type NamespacesChatCompletionsRequestMessagesList =
@@ -628,8 +641,8 @@ export interface ChatCompletionsNamespaceRequest {
   aiSearchOptions: NamespacesChatCompletionsRequestAiSearchOptions;
   messages: NamespacesChatCompletionsRequestMessagesList;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  model?: string;
-  stream?: boolean;
+  model?: string | undefined;
+  stream?: boolean | undefined;
 }
 export type NamespacesChatCompletionsResponseChoicesItemMessageContentCase1ItemCase0Type = "text";
 export interface NamespacesChatCompletionsResponseChoicesItemMessageContentCase1ItemCase0 {
@@ -672,7 +685,7 @@ export interface NamespacesChatCompletionsResponseChoicesItemMessage {
 }
 export interface NamespacesChatCompletionsResponseChoicesItem {
   message: NamespacesChatCompletionsResponseChoicesItemMessage;
-  index?: number | null;
+  index?: number | null | undefined;
 }
 export type NamespacesChatCompletionsResponseChoicesList =
   Array<NamespacesChatCompletionsResponseChoicesItem>;
@@ -681,17 +694,20 @@ export type NamespacesChatCompletionsResponseChunksItemItemMetadataMap = {
 };
 export interface NamespacesChatCompletionsResponseChunksItemItem {
   key: string;
-  metadata?: NamespacesChatCompletionsResponseChunksItemItemMetadataMap | null;
-  timestamp?: number | null;
+  metadata?: NamespacesChatCompletionsResponseChunksItemItemMetadataMap | null | undefined;
+  timestamp?: number | null | undefined;
 }
 export type NamespacesChatCompletionsResponseChunksItemScoringDetailsFusionMethod = "rrf" | "max";
 export interface NamespacesChatCompletionsResponseChunksItemScoringDetails {
-  fusionMethod?: NamespacesChatCompletionsResponseChunksItemScoringDetailsFusionMethod | null;
-  keywordRank?: number | null;
-  keywordScore?: number | null;
-  rerankingScore?: number | null;
-  vectorRank?: number | null;
-  vectorScore?: number | null;
+  fusionMethod?:
+    | NamespacesChatCompletionsResponseChunksItemScoringDetailsFusionMethod
+    | null
+    | undefined;
+  keywordRank?: number | null | undefined;
+  keywordScore?: number | null | undefined;
+  rerankingScore?: number | null | undefined;
+  vectorRank?: number | null | undefined;
+  vectorScore?: number | null | undefined;
 }
 export type NamespacesChatCompletionsResponseChunksItemSourceMediaType = "audio" | "video";
 export interface NamespacesChatCompletionsResponseChunksItem {
@@ -700,14 +716,14 @@ export interface NamespacesChatCompletionsResponseChunksItem {
   score: number;
   text: string;
   type: string;
-  item?: NamespacesChatCompletionsResponseChunksItemItem | null;
+  item?: NamespacesChatCompletionsResponseChunksItemItem | null | undefined;
   /** Audio/video transcript chunks only: end, in milliseconds from the start of the media (whole seconds), of the last transcript section the matched chunk covers. Describes the matched chunk before any context expansion, not the expanded `text`. */
-  mediaEndMs?: number | null;
+  mediaEndMs?: number | null | undefined;
   /** Audio/video transcript chunks only: start, in milliseconds from the start of the media (whole seconds), of the transcript section the matched chunk begins in. Describes the matched chunk before any context expansion, not the expanded `text`. */
-  mediaStartMs?: number | null;
-  scoringDetails?: NamespacesChatCompletionsResponseChunksItemScoringDetails | null;
+  mediaStartMs?: number | null | undefined;
+  scoringDetails?: NamespacesChatCompletionsResponseChunksItemScoringDetails | null | undefined;
   /** Audio/video transcript chunks only: type of the source media file. Omitted for all other chunks. */
-  sourceMediaType?: NamespacesChatCompletionsResponseChunksItemSourceMediaType | null;
+  sourceMediaType?: NamespacesChatCompletionsResponseChunksItemSourceMediaType | null | undefined;
 }
 export type NamespacesChatCompletionsResponseChunksList =
   Array<NamespacesChatCompletionsResponseChunksItem>;
@@ -715,9 +731,9 @@ export type NamespacesChatCompletionsResponseChunksList =
 export interface ChatCompletionsNamespaceResponse {
   choices: NamespacesChatCompletionsResponseChoicesList;
   chunks: NamespacesChatCompletionsResponseChunksList;
-  id?: string | null;
-  model?: string | null;
-  object?: string | null;
+  id?: string | null | undefined;
+  model?: string | null | undefined;
+  object?: string | null | undefined;
 }
 export type NamespacesInstancesChatCompletionsRequestMessagesItemContentCase1ItemCase0Type = "text";
 export interface NamespacesInstancesChatCompletionsRequestMessagesItemContentCase1ItemCase0 {
@@ -755,7 +771,7 @@ export type NamespacesInstancesChatCompletionsRequestMessagesItemRole =
   | "assistant"
   | "tool";
 export interface NamespacesInstancesChatCompletionsRequestMessagesItem {
-  content?: NamespacesInstancesChatCompletionsRequestMessagesItemContent | null;
+  content?: NamespacesInstancesChatCompletionsRequestMessagesItemContent | null | undefined;
   role: NamespacesInstancesChatCompletionsRequestMessagesItemRole | (string & {});
 }
 export type NamespacesInstancesChatCompletionsRequestMessagesList =
@@ -768,8 +784,9 @@ export type NamespacesInstancesChatCompletionsRequestAiSearchOptionsCacheCacheTh
 export interface NamespacesInstancesChatCompletionsRequestAiSearchOptionsCache {
   cacheThreshold?:
     | NamespacesInstancesChatCompletionsRequestAiSearchOptionsCacheCacheThreshold
-    | (string & {});
-  enabled?: boolean;
+    | (string & {})
+    | undefined;
+  enabled?: boolean | undefined;
 }
 export type NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue =
   | string
@@ -795,7 +812,8 @@ export interface NamespacesInstancesChatCompletionsRequestAiSearchOptionsRetriev
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
   direction?:
     | NamespacesInstancesChatCompletionsRequestAiSearchOptionsRetrievalBoostByItemDirection
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type NamespacesInstancesChatCompletionsRequestAiSearchOptionsRetrievalBoostByList =
   Array<NamespacesInstancesChatCompletionsRequestAiSearchOptionsRetrievalBoostByItem>;
@@ -814,32 +832,39 @@ export type NamespacesInstancesChatCompletionsRequestAiSearchOptionsRetrievalRet
   | "hybrid";
 export interface NamespacesInstancesChatCompletionsRequestAiSearchOptionsRetrieval {
   /** Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: NamespacesInstancesChatCompletionsRequestAiSearchOptionsRetrievalBoostByList;
-  contextExpansion?: number;
-  filters?: NamespacesInstancesChatCompletionsRequestAiSearchOptionsRetrievalFiltersMap;
+  boostBy?:
+    | NamespacesInstancesChatCompletionsRequestAiSearchOptionsRetrievalBoostByList
+    | undefined;
+  contextExpansion?: number | undefined;
+  filters?: NamespacesInstancesChatCompletionsRequestAiSearchOptionsRetrievalFiltersMap | undefined;
   fusionMethod?:
     | NamespacesInstancesChatCompletionsRequestAiSearchOptionsRetrievalFusionMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'. */
   keywordMatchMode?:
     | NamespacesInstancesChatCompletionsRequestAiSearchOptionsRetrievalKeywordMatchMode
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Minimum similarity score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4. */
-  matchThreshold?: number;
+  matchThreshold?: number | undefined;
   /** Maximum number of results to return. When omitted, falls back to the instance-level max_num_results, then to 10. */
-  maxNumResults?: number;
+  maxNumResults?: number | undefined;
   retrievalType?:
     | NamespacesInstancesChatCompletionsRequestAiSearchOptionsRetrievalRetrievalType
-    | (string & {});
-  returnOnFailure?: boolean;
+    | (string & {})
+    | undefined;
+  returnOnFailure?: boolean | undefined;
 }
 export interface NamespacesInstancesChatCompletionsRequestAiSearchOptions {
-  cache?: NamespacesInstancesChatCompletionsRequestAiSearchOptionsCache;
+  cache?: NamespacesInstancesChatCompletionsRequestAiSearchOptionsCache | undefined;
   /** Metadata added to AI Gateway logs for requests this operation triggers. Accepts up to 2 string, number, or boolean entries. Reserved keys: 'ai-search', 'task', 'origin', and any key beginning with 'cf.'. */
-  customMetadata?: NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap;
-  queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite;
-  reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking;
-  retrieval?: NamespacesInstancesChatCompletionsRequestAiSearchOptionsRetrieval;
+  customMetadata?:
+    | NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap
+    | undefined;
+  queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite | undefined;
+  reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking | undefined;
+  retrieval?: NamespacesInstancesChatCompletionsRequestAiSearchOptionsRetrieval | undefined;
 }
 export interface ChatCompletionsNamespaceInstanceRequest {
   accountId: string;
@@ -847,10 +872,10 @@ export interface ChatCompletionsNamespaceInstanceRequest {
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
   messages: NamespacesInstancesChatCompletionsRequestMessagesList;
-  aiSearchOptions?: NamespacesInstancesChatCompletionsRequestAiSearchOptions;
+  aiSearchOptions?: NamespacesInstancesChatCompletionsRequestAiSearchOptions | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  model?: string;
-  stream?: boolean;
+  model?: string | undefined;
+  stream?: boolean | undefined;
 }
 export type NamespacesInstancesChatCompletionsResponseChoicesItemMessageContentCase1ItemCase0Type =
   "text";
@@ -895,7 +920,7 @@ export interface NamespacesInstancesChatCompletionsResponseChoicesItemMessage {
 }
 export interface NamespacesInstancesChatCompletionsResponseChoicesItem {
   message: NamespacesInstancesChatCompletionsResponseChoicesItemMessage;
-  index?: number | null;
+  index?: number | null | undefined;
 }
 export type NamespacesInstancesChatCompletionsResponseChoicesList =
   Array<NamespacesInstancesChatCompletionsResponseChoicesItem>;
@@ -904,19 +929,22 @@ export type NamespacesInstancesChatCompletionsResponseChunksItemItemMetadataMap 
 };
 export interface NamespacesInstancesChatCompletionsResponseChunksItemItem {
   key: string;
-  metadata?: NamespacesInstancesChatCompletionsResponseChunksItemItemMetadataMap | null;
-  timestamp?: number | null;
+  metadata?: NamespacesInstancesChatCompletionsResponseChunksItemItemMetadataMap | null | undefined;
+  timestamp?: number | null | undefined;
 }
 export type NamespacesInstancesChatCompletionsResponseChunksItemScoringDetailsFusionMethod =
   | "rrf"
   | "max";
 export interface NamespacesInstancesChatCompletionsResponseChunksItemScoringDetails {
-  fusionMethod?: NamespacesInstancesChatCompletionsResponseChunksItemScoringDetailsFusionMethod | null;
-  keywordRank?: number | null;
-  keywordScore?: number | null;
-  rerankingScore?: number | null;
-  vectorRank?: number | null;
-  vectorScore?: number | null;
+  fusionMethod?:
+    | NamespacesInstancesChatCompletionsResponseChunksItemScoringDetailsFusionMethod
+    | null
+    | undefined;
+  keywordRank?: number | null | undefined;
+  keywordScore?: number | null | undefined;
+  rerankingScore?: number | null | undefined;
+  vectorRank?: number | null | undefined;
+  vectorScore?: number | null | undefined;
 }
 export type NamespacesInstancesChatCompletionsResponseChunksItemSourceMediaType = "audio" | "video";
 export interface NamespacesInstancesChatCompletionsResponseChunksItem {
@@ -924,14 +952,20 @@ export interface NamespacesInstancesChatCompletionsResponseChunksItem {
   score: number;
   text: string;
   type: string;
-  item?: NamespacesInstancesChatCompletionsResponseChunksItemItem | null;
+  item?: NamespacesInstancesChatCompletionsResponseChunksItemItem | null | undefined;
   /** Audio/video transcript chunks only: end, in milliseconds from the start of the media (whole seconds), of the last transcript section the matched chunk covers. Describes the matched chunk before any context expansion, not the expanded `text`. */
-  mediaEndMs?: number | null;
+  mediaEndMs?: number | null | undefined;
   /** Audio/video transcript chunks only: start, in milliseconds from the start of the media (whole seconds), of the transcript section the matched chunk begins in. Describes the matched chunk before any context expansion, not the expanded `text`. */
-  mediaStartMs?: number | null;
-  scoringDetails?: NamespacesInstancesChatCompletionsResponseChunksItemScoringDetails | null;
+  mediaStartMs?: number | null | undefined;
+  scoringDetails?:
+    | NamespacesInstancesChatCompletionsResponseChunksItemScoringDetails
+    | null
+    | undefined;
   /** Audio/video transcript chunks only: type of the source media file. Omitted for all other chunks. */
-  sourceMediaType?: NamespacesInstancesChatCompletionsResponseChunksItemSourceMediaType | null;
+  sourceMediaType?:
+    | NamespacesInstancesChatCompletionsResponseChunksItemSourceMediaType
+    | null
+    | undefined;
 }
 export type NamespacesInstancesChatCompletionsResponseChunksList =
   Array<NamespacesInstancesChatCompletionsResponseChunksItem>;
@@ -939,9 +973,9 @@ export type NamespacesInstancesChatCompletionsResponseChunksList =
 export interface ChatCompletionsNamespaceInstanceResponse {
   choices: NamespacesInstancesChatCompletionsResponseChoicesList;
   chunks: NamespacesInstancesChatCompletionsResponseChunksList;
-  id?: string | null;
-  model?: string | null;
-  object?: string | null;
+  id?: string | null | undefined;
+  model?: string | null | undefined;
+  object?: string | null | undefined;
 }
 export interface ChunksNamespaceInstanceItemRequest {
   accountId: string;
@@ -949,30 +983,30 @@ export interface ChunksNamespaceInstanceItemRequest {
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
   itemId: string;
-  limit?: number;
-  offset?: number;
+  limit?: number | undefined;
+  offset?: number | undefined;
 }
 export type NamespacesInstancesItemsChunksResultItemItemMetadataMap = {
   [key: string]: unknown | undefined;
 };
 export interface NamespacesInstancesItemsChunksResultItemItem {
   key: string;
-  metadata?: NamespacesInstancesItemsChunksResultItemItemMetadataMap | null;
-  timestamp?: number | null;
+  metadata?: NamespacesInstancesItemsChunksResultItemItemMetadataMap | null | undefined;
+  timestamp?: number | null | undefined;
 }
 export type NamespacesInstancesItemsChunksResultItemSourceMediaType = "audio" | "video";
 export interface NamespacesInstancesItemsChunksResultItem {
   id: string;
   item: NamespacesInstancesItemsChunksResultItemItem;
   text: string;
-  endByte?: number | null;
+  endByte?: number | null | undefined;
   /** Audio/video transcript chunks only: end, in milliseconds from the start of the media (whole seconds), of the last transcript section the chunk covers. */
-  mediaEndMs?: number | null;
+  mediaEndMs?: number | null | undefined;
   /** Audio/video transcript chunks only: start, in milliseconds from the start of the media (whole seconds), of the transcript section the chunk begins in. */
-  mediaStartMs?: number | null;
+  mediaStartMs?: number | null | undefined;
   /** Audio/video transcript chunks only: type of the source media file. Omitted for all other chunks. */
-  sourceMediaType?: NamespacesInstancesItemsChunksResultItemSourceMediaType | null;
-  startByte?: number | null;
+  sourceMediaType?: NamespacesInstancesItemsChunksResultItemSourceMediaType | null | undefined;
+  startByte?: number | null | undefined;
 }
 export type NamespacesInstancesItemsChunksResultList =
   Array<NamespacesInstancesItemsChunksResultItem>;
@@ -1014,9 +1048,12 @@ export interface InstancesCreateRequestIndexMethod {
 export type InstancesCreateRequestIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface InstancesCreateRequestIndexingOptions {
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
-  keywordTokenizer?: InstancesCreateRequestIndexingOptionsKeywordTokenizer | (string & {});
+  keywordTokenizer?:
+    | InstancesCreateRequestIndexingOptionsKeywordTokenizer
+    | (string & {})
+    | undefined;
   /** Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false. */
-  useOcr?: boolean;
+  useOcr?: boolean | undefined;
 }
 export type InstancesCreateRequestMetadataCreatedFromEmdashPluginType = "native" | "rest";
 export interface InstancesCreateRequestMetadataCreatedFromEmdashPlugin {
@@ -1024,42 +1061,47 @@ export interface InstancesCreateRequestMetadataCreatedFromEmdashPlugin {
   version: string;
 }
 export interface InstancesCreateRequestMetadata {
-  createdFromAisearchWizard?: boolean;
-  createdFromEmdashPlugin?: InstancesCreateRequestMetadataCreatedFromEmdashPlugin;
-  workerDomain?: string;
+  createdFromAisearchWizard?: boolean | undefined;
+  createdFromEmdashPlugin?: InstancesCreateRequestMetadataCreatedFromEmdashPlugin | undefined;
+  workerDomain?: string | undefined;
 }
 export type InstancesCreateRequestPublicEndpointParamsAuthorizedHostsList = Array<string>;
 export interface InstancesCreateRequestPublicEndpointParamsChatCompletionsEndpoint {
   /** Disable chat completions endpoint for this public endpoint. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 export type InstancesCreateRequestPublicEndpointParamsCustomDomainsList = Array<string>;
 export interface InstancesCreateRequestPublicEndpointParamsMcp {
-  description?: string;
+  description?: string | undefined;
   /** Disable MCP endpoint for this public endpoint. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 export type InstancesCreateRequestPublicEndpointParamsRateLimitTechnique = "fixed" | "sliding";
 export interface InstancesCreateRequestPublicEndpointParamsRateLimit {
-  periodMs?: number;
-  requests?: number;
-  technique?: InstancesCreateRequestPublicEndpointParamsRateLimitTechnique | (string & {});
+  periodMs?: number | undefined;
+  requests?: number | undefined;
+  technique?:
+    | InstancesCreateRequestPublicEndpointParamsRateLimitTechnique
+    | (string & {})
+    | undefined;
 }
 export interface InstancesCreateRequestPublicEndpointParamsSearchEndpoint {
   /** Disable search endpoint for this public endpoint. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 export interface InstancesCreateRequestPublicEndpointParams {
-  authorizedHosts?: InstancesCreateRequestPublicEndpointParamsAuthorizedHostsList;
-  chatCompletionsEndpoint?: InstancesCreateRequestPublicEndpointParamsChatCompletionsEndpoint;
+  authorizedHosts?: InstancesCreateRequestPublicEndpointParamsAuthorizedHostsList | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateRequestPublicEndpointParamsChatCompletionsEndpoint
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: InstancesCreateRequestPublicEndpointParamsCustomDomainsList;
+  customDomains?: InstancesCreateRequestPublicEndpointParamsCustomDomainsList | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean;
-  enabled?: boolean;
-  mcp?: InstancesCreateRequestPublicEndpointParamsMcp;
-  rateLimit?: InstancesCreateRequestPublicEndpointParamsRateLimit;
-  searchEndpoint?: InstancesCreateRequestPublicEndpointParamsSearchEndpoint;
+  defaultDomainEnabled?: boolean | undefined;
+  enabled?: boolean | undefined;
+  mcp?: InstancesCreateRequestPublicEndpointParamsMcp | undefined;
+  rateLimit?: InstancesCreateRequestPublicEndpointParamsRateLimit | undefined;
+  searchEndpoint?: InstancesCreateRequestPublicEndpointParamsSearchEndpoint | undefined;
 }
 export type InstancesCreateRequestRetrievalOptionsBoostByItemDirection =
   | "asc"
@@ -1070,16 +1112,22 @@ export interface InstancesCreateRequestRetrievalOptionsBoostByItem {
   /** Metadata field name to boost by. Use 'timestamp' for document freshness, or any custom_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not_exists); text/boolean fields only support exists/not_exists. */
   field: string;
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
-  direction?: InstancesCreateRequestRetrievalOptionsBoostByItemDirection | (string & {});
+  direction?:
+    | InstancesCreateRequestRetrievalOptionsBoostByItemDirection
+    | (string & {})
+    | undefined;
 }
 export type InstancesCreateRequestRetrievalOptionsBoostByList =
   Array<InstancesCreateRequestRetrievalOptionsBoostByItem>;
 export type InstancesCreateRequestRetrievalOptionsKeywordMatchMode = "and" | "or";
 export interface InstancesCreateRequestRetrievalOptions {
   /** Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: InstancesCreateRequestRetrievalOptionsBoostByList;
+  boostBy?: InstancesCreateRequestRetrievalOptionsBoostByList | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'. */
-  keywordMatchMode?: InstancesCreateRequestRetrievalOptionsKeywordMatchMode | (string & {});
+  keywordMatchMode?:
+    | InstancesCreateRequestRetrievalOptionsKeywordMatchMode
+    | (string & {})
+    | undefined;
 }
 export type InstancesCreateRequestSourceParamsExcludeItemsList = Array<string>;
 export type InstancesCreateRequestSourceParamsIncludeItemsList = Array<string>;
@@ -1089,17 +1137,20 @@ export type InstancesCreateRequestSourceParamsWebCrawlerDiscoverOptionsSource =
   | "links";
 export interface InstancesCreateRequestSourceParamsWebCrawlerDiscoverOptions {
   /** Maximum link-follow depth from the seed URL. */
-  depth?: number;
+  depth?: number | undefined;
   /** Follow links that point outside the source domain. Must stay `false` because discover crawls only cover the zone you own. */
-  includeExternalLinks?: boolean;
+  includeExternalLinks?: boolean | undefined;
   /** Follow links to subdomains of the source host. */
-  includeSubdomains?: boolean;
+  includeSubdomains?: boolean | undefined;
   /** Maximum number of pages to crawl (1-100000). */
-  limit?: number;
+  limit?: number | undefined;
   /** Maximum content age in seconds to accept (0-604800). */
-  maxAge?: number;
+  maxAge?: number | undefined;
   /** Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both. */
-  source?: InstancesCreateRequestSourceParamsWebCrawlerDiscoverOptionsSource | (string & {});
+  source?:
+    | InstancesCreateRequestSourceParamsWebCrawlerDiscoverOptionsSource
+    | (string & {})
+    | undefined;
 }
 export interface InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem {
   /** Glob pattern to match against the page URL path. Uses standard glob syntax: * matches within a segment, ** crosses directories. */
@@ -1116,42 +1167,48 @@ export type InstancesCreateRequestSourceParamsWebCrawlerParseOptionsSpecificSite
   Array<string>;
 export interface InstancesCreateRequestSourceParamsWebCrawlerParseOptions {
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
-  contentSelector?: InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorList;
+  contentSelector?:
+    | InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorList
+    | undefined;
   /** Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. */
-  includeHeaders?: InstancesCreateRequestSourceParamsWebCrawlerParseOptionsIncludeHeadersMap;
-  includeImages?: boolean;
+  includeHeaders?:
+    | InstancesCreateRequestSourceParamsWebCrawlerParseOptionsIncludeHeadersMap
+    | undefined;
+  includeImages?: boolean | undefined;
   /** List of specific sitemap URLs to use for crawling. Only valid when parse_type is 'sitemap'. */
-  specificSitemaps?: InstancesCreateRequestSourceParamsWebCrawlerParseOptionsSpecificSitemapsList;
-  useBrowserRendering?: boolean;
+  specificSitemaps?:
+    | InstancesCreateRequestSourceParamsWebCrawlerParseOptionsSpecificSitemapsList
+    | undefined;
+  useBrowserRendering?: boolean | undefined;
 }
 export type InstancesCreateRequestSourceParamsWebCrawlerParseType = "sitemap" | "discover";
 export type WebCrawlerCrawlOptionsSource = "all" | "sitemaps" | "links";
 export interface WebCrawlerCrawlOptions {
   /** Maximum crawl depth from the seed URL. */
-  depth?: number | null;
-  includeExternalLinks?: boolean | null;
-  includeSubdomains?: boolean | null;
-  maxAge?: number | null;
+  depth?: number | null | undefined;
+  includeExternalLinks?: boolean | null | undefined;
+  includeSubdomains?: boolean | null | undefined;
+  maxAge?: number | null | undefined;
   /** Where the crawler discovers URLs: sitemaps, page links, or both. Use links for sitemap-less seeds (avoids missing_sitemap rejections). */
-  source?: WebCrawlerCrawlOptionsSource | (string & {}) | null;
+  source?: WebCrawlerCrawlOptionsSource | (string & {}) | null | undefined;
 }
 export interface InstancesCreateRequestSourceParamsWebCrawler {
   /** Options for parse_type 'discover', where Browser Run discovers URLs through link following and sitemaps. Ignored for 'sitemap'. */
-  discoverOptions?: InstancesCreateRequestSourceParamsWebCrawlerDiscoverOptions;
-  parseOptions?: InstancesCreateRequestSourceParamsWebCrawlerParseOptions;
+  discoverOptions?: InstancesCreateRequestSourceParamsWebCrawlerDiscoverOptions | undefined;
+  parseOptions?: InstancesCreateRequestSourceParamsWebCrawlerParseOptions | undefined;
   /** How the crawler finds URLs. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to belong to a Verified zone on this account. */
-  parseType?: InstancesCreateRequestSourceParamsWebCrawlerParseType | (string & {});
+  parseType?: InstancesCreateRequestSourceParamsWebCrawlerParseType | (string & {}) | undefined;
   /** Options controlling crawl discovery (e.g. { source: "links" }). */
-  crawlOptions?: WebCrawlerCrawlOptions;
+  crawlOptions?: WebCrawlerCrawlOptions | undefined;
 }
 export interface InstancesCreateRequestSourceParams {
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
-  excludeItems?: InstancesCreateRequestSourceParamsExcludeItemsList;
+  excludeItems?: InstancesCreateRequestSourceParamsExcludeItemsList | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
-  includeItems?: InstancesCreateRequestSourceParamsIncludeItemsList;
-  prefix?: string;
-  r2Jurisdiction?: string;
-  webCrawler?: InstancesCreateRequestSourceParamsWebCrawler;
+  includeItems?: InstancesCreateRequestSourceParamsIncludeItemsList | undefined;
+  prefix?: string | undefined;
+  r2Jurisdiction?: string | undefined;
+  webCrawler?: InstancesCreateRequestSourceParamsWebCrawler | undefined;
 }
 export type InstancesCreateRequestSyncInterval =
   | 900
@@ -1167,42 +1224,42 @@ export interface CreateInstanceRequest {
   accountId: string;
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
-  aiGatewayId?: string;
+  aiGatewayId?: string | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  aiSearchModel?: string;
-  cache?: boolean;
-  cacheThreshold?: InstancesCreateRequestCacheThreshold | (string & {});
+  aiSearchModel?: string | undefined;
+  cache?: boolean | undefined;
+  cacheThreshold?: InstancesCreateRequestCacheThreshold | (string & {}) | undefined;
   /** Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?: InstancesCreateRequestCacheTtl | (number & {});
-  chunk?: boolean;
-  chunkOverlap?: number;
-  chunkSize?: number;
-  customMetadata?: InstancesCreateRequestCustomMetadataList;
-  embeddingModel?: string;
-  fusionMethod?: InstancesCreateRequestFusionMethod | (string & {});
+  cacheTtl?: InstancesCreateRequestCacheTtl | (number & {}) | undefined;
+  chunk?: boolean | undefined;
+  chunkOverlap?: number | undefined;
+  chunkSize?: number | undefined;
+  customMetadata?: InstancesCreateRequestCustomMetadataList | undefined;
+  embeddingModel?: string | undefined;
+  fusionMethod?: InstancesCreateRequestFusionMethod | (string & {}) | undefined;
   /** Deprecated -- use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
-  hybridSearchEnabled?: boolean;
+  hybridSearchEnabled?: boolean | undefined;
   /** Controls which storage backends indexing uses. Defaults to vector and keyword indexing for new instances. When set, both vector and keyword are required. */
-  indexMethod?: InstancesCreateRequestIndexMethod;
-  indexingOptions?: InstancesCreateRequestIndexingOptions;
-  maxNumResults?: number;
-  metadata?: InstancesCreateRequestMetadata;
-  publicEndpointParams?: InstancesCreateRequestPublicEndpointParams;
-  reranking?: boolean;
-  rerankingModel?: string;
-  retrievalOptions?: InstancesCreateRequestRetrievalOptions;
+  indexMethod?: InstancesCreateRequestIndexMethod | undefined;
+  indexingOptions?: InstancesCreateRequestIndexingOptions | undefined;
+  maxNumResults?: number | undefined;
+  metadata?: InstancesCreateRequestMetadata | undefined;
+  publicEndpointParams?: InstancesCreateRequestPublicEndpointParams | undefined;
+  reranking?: boolean | undefined;
+  rerankingModel?: string | undefined;
+  retrievalOptions?: InstancesCreateRequestRetrievalOptions | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  rewriteModel?: string;
-  rewriteQuery?: boolean;
+  rewriteModel?: string | undefined;
+  rewriteQuery?: boolean | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
-  scoreThreshold?: number;
-  source?: string;
-  sourceParams?: InstancesCreateRequestSourceParams;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
-  syncInterval?: InstancesCreateRequestSyncInterval | (number & {});
-  tokenId?: string;
+  scoreThreshold?: number | undefined;
+  source?: string | undefined;
+  sourceParams?: InstancesCreateRequestSourceParams | undefined;
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
+  syncInterval?: InstancesCreateRequestSyncInterval | (number & {}) | undefined;
+  tokenId?: string | undefined;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
-  type?: InstancesCreateRequestType | (string & {});
+  type?: InstancesCreateRequestType | (string & {}) | undefined;
 }
 export type InstancesCreateResponseCacheThreshold =
   | "super_strict_match"
@@ -1236,9 +1293,9 @@ export type InstancesCreateResponseIndexMethod = InstancesCreateRequestIndexMeth
 export type InstancesCreateResponseIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface InstancesCreateResponseIndexingOptions {
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
-  keywordTokenizer?: InstancesCreateResponseIndexingOptionsKeywordTokenizer | null;
+  keywordTokenizer?: InstancesCreateResponseIndexingOptionsKeywordTokenizer | null | undefined;
   /** Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false. */
-  useOcr?: boolean | null;
+  useOcr?: boolean | null | undefined;
 }
 export type InstancesCreateResponseMetadataCreatedFromEmdashPluginType = "native" | "rest";
 export interface InstancesCreateResponseMetadataCreatedFromEmdashPlugin {
@@ -1246,42 +1303,51 @@ export interface InstancesCreateResponseMetadataCreatedFromEmdashPlugin {
   version: string;
 }
 export interface InstancesCreateResponseMetadata {
-  createdFromAisearchWizard?: boolean | null;
-  createdFromEmdashPlugin?: InstancesCreateResponseMetadataCreatedFromEmdashPlugin | null;
-  workerDomain?: string | null;
+  createdFromAisearchWizard?: boolean | null | undefined;
+  createdFromEmdashPlugin?:
+    | InstancesCreateResponseMetadataCreatedFromEmdashPlugin
+    | null
+    | undefined;
+  workerDomain?: string | null | undefined;
 }
 export type InstancesCreateResponsePublicEndpointParamsAuthorizedHostsList = Array<string>;
 export interface InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint {
   /** Disable chat completions endpoint for this public endpoint. */
-  disabled?: boolean | null;
+  disabled?: boolean | null | undefined;
 }
 export type InstancesCreateResponsePublicEndpointParamsCustomDomainsList = Array<string>;
 export interface InstancesCreateResponsePublicEndpointParamsMcp {
-  description?: string | null;
+  description?: string | null | undefined;
   /** Disable MCP endpoint for this public endpoint. */
-  disabled?: boolean | null;
+  disabled?: boolean | null | undefined;
 }
 export type InstancesCreateResponsePublicEndpointParamsRateLimitTechnique = "fixed" | "sliding";
 export interface InstancesCreateResponsePublicEndpointParamsRateLimit {
-  periodMs?: number | null;
-  requests?: number | null;
-  technique?: InstancesCreateResponsePublicEndpointParamsRateLimitTechnique | null;
+  periodMs?: number | null | undefined;
+  requests?: number | null | undefined;
+  technique?: InstancesCreateResponsePublicEndpointParamsRateLimitTechnique | null | undefined;
 }
 export interface InstancesCreateResponsePublicEndpointParamsSearchEndpoint {
   /** Disable search endpoint for this public endpoint. */
-  disabled?: boolean | null;
+  disabled?: boolean | null | undefined;
 }
 export interface InstancesCreateResponsePublicEndpointParams {
-  authorizedHosts?: InstancesCreateResponsePublicEndpointParamsAuthorizedHostsList | null;
-  chatCompletionsEndpoint?: InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint | null;
+  authorizedHosts?:
+    | InstancesCreateResponsePublicEndpointParamsAuthorizedHostsList
+    | null
+    | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint
+    | null
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: InstancesCreateResponsePublicEndpointParamsCustomDomainsList | null;
+  customDomains?: InstancesCreateResponsePublicEndpointParamsCustomDomainsList | null | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean | null;
-  enabled?: boolean | null;
-  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null;
-  rateLimit?: InstancesCreateResponsePublicEndpointParamsRateLimit | null;
-  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null;
+  defaultDomainEnabled?: boolean | null | undefined;
+  enabled?: boolean | null | undefined;
+  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null | undefined;
+  rateLimit?: InstancesCreateResponsePublicEndpointParamsRateLimit | null | undefined;
+  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null | undefined;
 }
 export type InstancesCreateResponseRetrievalOptionsBoostByItemDirection =
   | "asc"
@@ -1292,16 +1358,16 @@ export interface InstancesCreateResponseRetrievalOptionsBoostByItem {
   /** Metadata field name to boost by. Use 'timestamp' for document freshness, or any custom_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not_exists); text/boolean fields only support exists/not_exists. */
   field: string;
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
-  direction?: InstancesCreateResponseRetrievalOptionsBoostByItemDirection | null;
+  direction?: InstancesCreateResponseRetrievalOptionsBoostByItemDirection | null | undefined;
 }
 export type InstancesCreateResponseRetrievalOptionsBoostByList =
   Array<InstancesCreateResponseRetrievalOptionsBoostByItem>;
 export type InstancesCreateResponseRetrievalOptionsKeywordMatchMode = "and" | "or";
 export interface InstancesCreateResponseRetrievalOptions {
   /** Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: InstancesCreateResponseRetrievalOptionsBoostByList | null;
+  boostBy?: InstancesCreateResponseRetrievalOptionsBoostByList | null | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'. */
-  keywordMatchMode?: InstancesCreateResponseRetrievalOptionsKeywordMatchMode | null;
+  keywordMatchMode?: InstancesCreateResponseRetrievalOptionsKeywordMatchMode | null | undefined;
 }
 export type InstancesCreateResponseSourceParamsExcludeItemsList = Array<string>;
 export type InstancesCreateResponseSourceParamsIncludeItemsList = Array<string>;
@@ -1311,17 +1377,17 @@ export type InstancesCreateResponseSourceParamsWebCrawlerDiscoverOptionsSource =
   | "links";
 export interface InstancesCreateResponseSourceParamsWebCrawlerDiscoverOptions {
   /** Maximum link-follow depth from the seed URL. */
-  depth?: number | null;
+  depth?: number | null | undefined;
   /** Follow links that point outside the source domain. Must stay `false` because discover crawls only cover the zone you own. */
-  includeExternalLinks?: boolean | null;
+  includeExternalLinks?: boolean | null | undefined;
   /** Follow links to subdomains of the source host. */
-  includeSubdomains?: boolean | null;
+  includeSubdomains?: boolean | null | undefined;
   /** Maximum number of pages to crawl (1-100000). */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Maximum content age in seconds to accept (0-604800). */
-  maxAge?: number | null;
+  maxAge?: number | null | undefined;
   /** Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both. */
-  source?: InstancesCreateResponseSourceParamsWebCrawlerDiscoverOptionsSource | null;
+  source?: InstancesCreateResponseSourceParamsWebCrawlerDiscoverOptionsSource | null | undefined;
 }
 export type InstancesCreateResponseSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
@@ -1334,32 +1400,41 @@ export type InstancesCreateResponseSourceParamsWebCrawlerParseOptionsSpecificSit
   Array<string>;
 export interface InstancesCreateResponseSourceParamsWebCrawlerParseOptions {
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
-  contentSelector?: InstancesCreateResponseSourceParamsWebCrawlerParseOptionsContentSelectorList | null;
+  contentSelector?:
+    | InstancesCreateResponseSourceParamsWebCrawlerParseOptionsContentSelectorList
+    | null
+    | undefined;
   /** Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. */
-  includeHeaders?: InstancesCreateResponseSourceParamsWebCrawlerParseOptionsIncludeHeadersMap | null;
-  includeImages?: boolean | null;
+  includeHeaders?:
+    | InstancesCreateResponseSourceParamsWebCrawlerParseOptionsIncludeHeadersMap
+    | null
+    | undefined;
+  includeImages?: boolean | null | undefined;
   /** List of specific sitemap URLs to use for crawling. Only valid when parse_type is 'sitemap'. */
-  specificSitemaps?: InstancesCreateResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList | null;
-  useBrowserRendering?: boolean | null;
+  specificSitemaps?:
+    | InstancesCreateResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList
+    | null
+    | undefined;
+  useBrowserRendering?: boolean | null | undefined;
 }
 export type InstancesCreateResponseSourceParamsWebCrawlerParseType = "sitemap" | "discover";
 export interface InstancesCreateResponseSourceParamsWebCrawler {
   /** Options for parse_type 'discover', where Browser Run discovers URLs through link following and sitemaps. Ignored for 'sitemap'. */
-  discoverOptions?: InstancesCreateResponseSourceParamsWebCrawlerDiscoverOptions | null;
-  parseOptions?: InstancesCreateResponseSourceParamsWebCrawlerParseOptions | null;
+  discoverOptions?: InstancesCreateResponseSourceParamsWebCrawlerDiscoverOptions | null | undefined;
+  parseOptions?: InstancesCreateResponseSourceParamsWebCrawlerParseOptions | null | undefined;
   /** How the crawler finds URLs. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to belong to a Verified zone on this account. */
-  parseType?: InstancesCreateResponseSourceParamsWebCrawlerParseType | null;
+  parseType?: InstancesCreateResponseSourceParamsWebCrawlerParseType | null | undefined;
   /** Options controlling crawl discovery (e.g. { source: "links" }). */
-  crawlOptions?: WebCrawlerCrawlOptions | null;
+  crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface InstancesCreateResponseSourceParams {
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
-  excludeItems?: InstancesCreateResponseSourceParamsExcludeItemsList | null;
+  excludeItems?: InstancesCreateResponseSourceParamsExcludeItemsList | null | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
-  includeItems?: InstancesCreateResponseSourceParamsIncludeItemsList | null;
-  prefix?: string | null;
-  r2Jurisdiction?: string | null;
-  webCrawler?: InstancesCreateResponseSourceParamsWebCrawler | null;
+  includeItems?: InstancesCreateResponseSourceParamsIncludeItemsList | null | undefined;
+  prefix?: string | null | undefined;
+  r2Jurisdiction?: string | null | undefined;
+  webCrawler?: InstancesCreateResponseSourceParamsWebCrawler | null | undefined;
 }
 export type InstancesCreateResponseSyncInterval =
   | 900
@@ -1377,67 +1452,67 @@ export interface CreateInstanceResponse {
   id: string;
   createdAt: string;
   modifiedAt: string;
-  aiGatewayId?: string | null;
+  aiGatewayId?: string | null | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  aiSearchModel?: string | null;
-  cache?: boolean | null;
-  cacheThreshold?: InstancesCreateResponseCacheThreshold | null;
+  aiSearchModel?: string | null | undefined;
+  cache?: boolean | null | undefined;
+  cacheThreshold?: InstancesCreateResponseCacheThreshold | null | undefined;
   /** Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?: InstancesCreateResponseCacheTtl | null;
-  chunkOverlap?: number | null;
-  chunkSize?: number | null;
-  createdBy?: string | null;
-  customMetadata?: InstancesCreateResponseCustomMetadataList | null;
-  embeddingModel?: string | null;
-  enable?: boolean | null;
-  engineVersion?: number | null;
-  fusionMethod?: InstancesCreateResponseFusionMethod | null;
+  cacheTtl?: InstancesCreateResponseCacheTtl | null | undefined;
+  chunkOverlap?: number | null | undefined;
+  chunkSize?: number | null | undefined;
+  createdBy?: string | null | undefined;
+  customMetadata?: InstancesCreateResponseCustomMetadataList | null | undefined;
+  embeddingModel?: string | null | undefined;
+  enable?: boolean | null | undefined;
+  engineVersion?: number | null | undefined;
+  fusionMethod?: InstancesCreateResponseFusionMethod | null | undefined;
   /** Deprecated -- use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
-  hybridSearchEnabled?: boolean | null;
+  hybridSearchEnabled?: boolean | null | undefined;
   /** Controls which storage backends indexing uses. Defaults to vector and keyword indexing for new instances. When set, both vector and keyword are required. */
-  indexMethod?: InstancesCreateRequestIndexMethod | null;
-  indexingOptions?: InstancesCreateResponseIndexingOptions | null;
-  lastActivity?: string | null;
-  maxNumResults?: number | null;
-  metadata?: InstancesCreateResponseMetadata | null;
-  modifiedBy?: string | null;
-  namespace?: string | null;
-  paused?: boolean | null;
-  publicEndpointId?: string | null;
-  publicEndpointParams?: InstancesCreateResponsePublicEndpointParams | null;
-  reranking?: boolean | null;
-  rerankingModel?: string | null;
-  retrievalOptions?: InstancesCreateResponseRetrievalOptions | null;
+  indexMethod?: InstancesCreateRequestIndexMethod | null | undefined;
+  indexingOptions?: InstancesCreateResponseIndexingOptions | null | undefined;
+  lastActivity?: string | null | undefined;
+  maxNumResults?: number | null | undefined;
+  metadata?: InstancesCreateResponseMetadata | null | undefined;
+  modifiedBy?: string | null | undefined;
+  namespace?: string | null | undefined;
+  paused?: boolean | null | undefined;
+  publicEndpointId?: string | null | undefined;
+  publicEndpointParams?: InstancesCreateResponsePublicEndpointParams | null | undefined;
+  reranking?: boolean | null | undefined;
+  rerankingModel?: string | null | undefined;
+  retrievalOptions?: InstancesCreateResponseRetrievalOptions | null | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  rewriteModel?: string | null;
-  rewriteQuery?: boolean | null;
+  rewriteModel?: string | null | undefined;
+  rewriteQuery?: boolean | null | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
-  scoreThreshold?: number | null;
-  source?: string | null;
-  sourceParams?: InstancesCreateResponseSourceParams | null;
-  status?: string | null;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
-  syncInterval?: InstancesCreateResponseSyncInterval | null;
-  tokenId?: string | null;
+  scoreThreshold?: number | null | undefined;
+  source?: string | null | undefined;
+  sourceParams?: InstancesCreateResponseSourceParams | null | undefined;
+  status?: string | null | undefined;
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
+  syncInterval?: InstancesCreateResponseSyncInterval | null | undefined;
+  tokenId?: string | null | undefined;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
-  type?: InstancesCreateResponseType | null;
+  type?: InstancesCreateResponseType | null | undefined;
 }
 export interface CreateInstanceJobRequest {
   accountId: string;
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type InstancesJobsCreateResponseSource = "user" | "schedule";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateInstanceJobResponse {
   id: string;
   source: InstancesJobsCreateResponseSource;
-  description?: string | null;
-  endReason?: string | null;
-  endedAt?: string | null;
-  lastSeenAt?: string | null;
-  startedAt?: string | null;
+  description?: string | null | undefined;
+  endReason?: string | null | undefined;
+  endedAt?: string | null | undefined;
+  lastSeenAt?: string | null | undefined;
+  startedAt?: string | null | undefined;
 }
 export type NamespacesCreateRequestPublicEndpointParamsAuthorizedHostsList = Array<string>;
 export type NamespacesCreateRequestPublicEndpointParamsChatCompletionsEndpoint =
@@ -1448,32 +1523,37 @@ export type NamespacesCreateRequestPublicEndpointParamsMcp =
   InstancesCreateRequestPublicEndpointParamsMcp;
 export type NamespacesCreateRequestPublicEndpointParamsRateLimitTechnique = "fixed" | "sliding";
 export interface NamespacesCreateRequestPublicEndpointParamsRateLimit {
-  periodMs?: number;
-  requests?: number;
-  technique?: NamespacesCreateRequestPublicEndpointParamsRateLimitTechnique | (string & {});
+  periodMs?: number | undefined;
+  requests?: number | undefined;
+  technique?:
+    | NamespacesCreateRequestPublicEndpointParamsRateLimitTechnique
+    | (string & {})
+    | undefined;
 }
 export type NamespacesCreateRequestPublicEndpointParamsSearchEndpoint =
   InstancesCreateRequestPublicEndpointParamsSearchEndpoint;
 export interface NamespacesCreateRequestPublicEndpointParams {
-  authorizedHosts?: NamespacesCreateRequestPublicEndpointParamsAuthorizedHostsList;
-  chatCompletionsEndpoint?: InstancesCreateRequestPublicEndpointParamsChatCompletionsEndpoint;
+  authorizedHosts?: NamespacesCreateRequestPublicEndpointParamsAuthorizedHostsList | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateRequestPublicEndpointParamsChatCompletionsEndpoint
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: NamespacesCreateRequestPublicEndpointParamsCustomDomainsList;
+  customDomains?: NamespacesCreateRequestPublicEndpointParamsCustomDomainsList | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean;
-  enabled?: boolean;
+  defaultDomainEnabled?: boolean | undefined;
+  enabled?: boolean | undefined;
   /** Instance IDs exposed through the namespace public endpoint. Empty means nothing is searchable. Every ID must reference an existing instance in this namespace, and the list must stay within the account's multi-instance search limit. */
-  instancesAllowed?: NamespacesCreateRequestPublicEndpointParamsInstancesAllowedList;
-  mcp?: InstancesCreateRequestPublicEndpointParamsMcp;
-  rateLimit?: NamespacesCreateRequestPublicEndpointParamsRateLimit;
-  searchEndpoint?: InstancesCreateRequestPublicEndpointParamsSearchEndpoint;
+  instancesAllowed?: NamespacesCreateRequestPublicEndpointParamsInstancesAllowedList | undefined;
+  mcp?: InstancesCreateRequestPublicEndpointParamsMcp | undefined;
+  rateLimit?: NamespacesCreateRequestPublicEndpointParamsRateLimit | undefined;
+  searchEndpoint?: InstancesCreateRequestPublicEndpointParamsSearchEndpoint | undefined;
 }
 export interface CreateNamespaceRequest {
   accountId: string;
   name: string;
   /** Optional description for the namespace. Max 256 characters. */
-  description?: string;
-  publicEndpointParams?: NamespacesCreateRequestPublicEndpointParams;
+  description?: string | undefined;
+  publicEndpointParams?: NamespacesCreateRequestPublicEndpointParams | undefined;
 }
 export type NamespacesCreateResponsePublicEndpointParamsAuthorizedHostsList = Array<string>;
 export type NamespacesCreateResponsePublicEndpointParamsChatCompletionsEndpoint =
@@ -1484,34 +1564,43 @@ export type NamespacesCreateResponsePublicEndpointParamsMcp =
   InstancesCreateResponsePublicEndpointParamsMcp;
 export type NamespacesCreateResponsePublicEndpointParamsRateLimitTechnique = "fixed" | "sliding";
 export interface NamespacesCreateResponsePublicEndpointParamsRateLimit {
-  periodMs?: number | null;
-  requests?: number | null;
-  technique?: NamespacesCreateResponsePublicEndpointParamsRateLimitTechnique | null;
+  periodMs?: number | null | undefined;
+  requests?: number | null | undefined;
+  technique?: NamespacesCreateResponsePublicEndpointParamsRateLimitTechnique | null | undefined;
 }
 export type NamespacesCreateResponsePublicEndpointParamsSearchEndpoint =
   InstancesCreateResponsePublicEndpointParamsSearchEndpoint;
 export interface NamespacesCreateResponsePublicEndpointParams {
-  authorizedHosts?: NamespacesCreateResponsePublicEndpointParamsAuthorizedHostsList | null;
-  chatCompletionsEndpoint?: InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint | null;
+  authorizedHosts?:
+    | NamespacesCreateResponsePublicEndpointParamsAuthorizedHostsList
+    | null
+    | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint
+    | null
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: NamespacesCreateResponsePublicEndpointParamsCustomDomainsList | null;
+  customDomains?: NamespacesCreateResponsePublicEndpointParamsCustomDomainsList | null | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean | null;
-  enabled?: boolean | null;
+  defaultDomainEnabled?: boolean | null | undefined;
+  enabled?: boolean | null | undefined;
   /** Instance IDs exposed through the namespace public endpoint. Empty means nothing is searchable. Every ID must reference an existing instance in this namespace, and the list must stay within the account's multi-instance search limit. */
-  instancesAllowed?: NamespacesCreateResponsePublicEndpointParamsInstancesAllowedList | null;
-  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null;
-  rateLimit?: NamespacesCreateResponsePublicEndpointParamsRateLimit | null;
-  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null;
+  instancesAllowed?:
+    | NamespacesCreateResponsePublicEndpointParamsInstancesAllowedList
+    | null
+    | undefined;
+  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null | undefined;
+  rateLimit?: NamespacesCreateResponsePublicEndpointParamsRateLimit | null | undefined;
+  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateNamespaceResponse {
   createdAt: string;
   name: string;
   /** Optional description for the namespace. Max 256 characters. */
-  description?: string | null;
-  publicEndpointId?: string | null;
-  publicEndpointParams?: NamespacesCreateResponsePublicEndpointParams | null;
+  description?: string | null | undefined;
+  publicEndpointId?: string | null | undefined;
+  publicEndpointParams?: NamespacesCreateResponsePublicEndpointParams | null | undefined;
 }
 export type NamespacesInstancesCreateRequestCacheThreshold =
   | "super_strict_match"
@@ -1547,9 +1636,10 @@ export interface NamespacesInstancesCreateRequestIndexingOptions {
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
   keywordTokenizer?:
     | NamespacesInstancesCreateRequestIndexingOptionsKeywordTokenizer
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false. */
-  useOcr?: boolean;
+  useOcr?: boolean | undefined;
 }
 export type NamespacesInstancesCreateRequestMetadataCreatedFromEmdashPluginType = "native" | "rest";
 export interface NamespacesInstancesCreateRequestMetadataCreatedFromEmdashPlugin {
@@ -1557,9 +1647,11 @@ export interface NamespacesInstancesCreateRequestMetadataCreatedFromEmdashPlugin
   version: string;
 }
 export interface NamespacesInstancesCreateRequestMetadata {
-  createdFromAisearchWizard?: boolean;
-  createdFromEmdashPlugin?: NamespacesInstancesCreateRequestMetadataCreatedFromEmdashPlugin;
-  workerDomain?: string;
+  createdFromAisearchWizard?: boolean | undefined;
+  createdFromEmdashPlugin?:
+    | NamespacesInstancesCreateRequestMetadataCreatedFromEmdashPlugin
+    | undefined;
+  workerDomain?: string | undefined;
 }
 export type NamespacesInstancesCreateRequestPublicEndpointParamsAuthorizedHostsList = Array<string>;
 export type NamespacesInstancesCreateRequestPublicEndpointParamsChatCompletionsEndpoint =
@@ -1571,25 +1663,30 @@ export type NamespacesInstancesCreateRequestPublicEndpointParamsRateLimitTechniq
   | "fixed"
   | "sliding";
 export interface NamespacesInstancesCreateRequestPublicEndpointParamsRateLimit {
-  periodMs?: number;
-  requests?: number;
+  periodMs?: number | undefined;
+  requests?: number | undefined;
   technique?:
     | NamespacesInstancesCreateRequestPublicEndpointParamsRateLimitTechnique
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type NamespacesInstancesCreateRequestPublicEndpointParamsSearchEndpoint =
   InstancesCreateRequestPublicEndpointParamsSearchEndpoint;
 export interface NamespacesInstancesCreateRequestPublicEndpointParams {
-  authorizedHosts?: NamespacesInstancesCreateRequestPublicEndpointParamsAuthorizedHostsList;
-  chatCompletionsEndpoint?: InstancesCreateRequestPublicEndpointParamsChatCompletionsEndpoint;
+  authorizedHosts?:
+    | NamespacesInstancesCreateRequestPublicEndpointParamsAuthorizedHostsList
+    | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateRequestPublicEndpointParamsChatCompletionsEndpoint
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: NamespacesInstancesCreateRequestPublicEndpointParamsCustomDomainsList;
+  customDomains?: NamespacesInstancesCreateRequestPublicEndpointParamsCustomDomainsList | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean;
-  enabled?: boolean;
-  mcp?: InstancesCreateRequestPublicEndpointParamsMcp;
-  rateLimit?: NamespacesInstancesCreateRequestPublicEndpointParamsRateLimit;
-  searchEndpoint?: InstancesCreateRequestPublicEndpointParamsSearchEndpoint;
+  defaultDomainEnabled?: boolean | undefined;
+  enabled?: boolean | undefined;
+  mcp?: InstancesCreateRequestPublicEndpointParamsMcp | undefined;
+  rateLimit?: NamespacesInstancesCreateRequestPublicEndpointParamsRateLimit | undefined;
+  searchEndpoint?: InstancesCreateRequestPublicEndpointParamsSearchEndpoint | undefined;
 }
 export type NamespacesInstancesCreateRequestRetrievalOptionsBoostByItemDirection =
   | "asc"
@@ -1600,18 +1697,22 @@ export interface NamespacesInstancesCreateRequestRetrievalOptionsBoostByItem {
   /** Metadata field name to boost by. Use 'timestamp' for document freshness, or any custom_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not_exists); text/boolean fields only support exists/not_exists. */
   field: string;
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
-  direction?: NamespacesInstancesCreateRequestRetrievalOptionsBoostByItemDirection | (string & {});
+  direction?:
+    | NamespacesInstancesCreateRequestRetrievalOptionsBoostByItemDirection
+    | (string & {})
+    | undefined;
 }
 export type NamespacesInstancesCreateRequestRetrievalOptionsBoostByList =
   Array<NamespacesInstancesCreateRequestRetrievalOptionsBoostByItem>;
 export type NamespacesInstancesCreateRequestRetrievalOptionsKeywordMatchMode = "and" | "or";
 export interface NamespacesInstancesCreateRequestRetrievalOptions {
   /** Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: NamespacesInstancesCreateRequestRetrievalOptionsBoostByList;
+  boostBy?: NamespacesInstancesCreateRequestRetrievalOptionsBoostByList | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'. */
   keywordMatchMode?:
     | NamespacesInstancesCreateRequestRetrievalOptionsKeywordMatchMode
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type NamespacesInstancesCreateRequestSourceParamsExcludeItemsList = Array<string>;
 export type NamespacesInstancesCreateRequestSourceParamsIncludeItemsList = Array<string>;
@@ -1621,19 +1722,20 @@ export type NamespacesInstancesCreateRequestSourceParamsWebCrawlerDiscoverOption
   | "links";
 export interface NamespacesInstancesCreateRequestSourceParamsWebCrawlerDiscoverOptions {
   /** Maximum link-follow depth from the seed URL. */
-  depth?: number;
+  depth?: number | undefined;
   /** Follow links that point outside the source domain. Must stay `false` because discover crawls only cover the zone you own. */
-  includeExternalLinks?: boolean;
+  includeExternalLinks?: boolean | undefined;
   /** Follow links to subdomains of the source host. */
-  includeSubdomains?: boolean;
+  includeSubdomains?: boolean | undefined;
   /** Maximum number of pages to crawl (1-100000). */
-  limit?: number;
+  limit?: number | undefined;
   /** Maximum content age in seconds to accept (0-604800). */
-  maxAge?: number;
+  maxAge?: number | undefined;
   /** Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both. */
   source?:
     | NamespacesInstancesCreateRequestSourceParamsWebCrawlerDiscoverOptionsSource
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
@@ -1646,34 +1748,45 @@ export type NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptionsSp
   Array<string>;
 export interface NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptions {
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
-  contentSelector?: NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorList;
+  contentSelector?:
+    | NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorList
+    | undefined;
   /** Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. */
-  includeHeaders?: NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptionsIncludeHeadersMap;
-  includeImages?: boolean;
+  includeHeaders?:
+    | NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptionsIncludeHeadersMap
+    | undefined;
+  includeImages?: boolean | undefined;
   /** List of specific sitemap URLs to use for crawling. Only valid when parse_type is 'sitemap'. */
-  specificSitemaps?: NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptionsSpecificSitemapsList;
-  useBrowserRendering?: boolean;
+  specificSitemaps?:
+    | NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptionsSpecificSitemapsList
+    | undefined;
+  useBrowserRendering?: boolean | undefined;
 }
 export type NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseType =
   | "sitemap"
   | "discover";
 export interface NamespacesInstancesCreateRequestSourceParamsWebCrawler {
   /** Options for parse_type 'discover', where Browser Run discovers URLs through link following and sitemaps. Ignored for 'sitemap'. */
-  discoverOptions?: NamespacesInstancesCreateRequestSourceParamsWebCrawlerDiscoverOptions;
-  parseOptions?: NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptions;
+  discoverOptions?:
+    | NamespacesInstancesCreateRequestSourceParamsWebCrawlerDiscoverOptions
+    | undefined;
+  parseOptions?: NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptions | undefined;
   /** How the crawler finds URLs. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to belong to a Verified zone on this account. */
-  parseType?: NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseType | (string & {});
+  parseType?:
+    | NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseType
+    | (string & {})
+    | undefined;
   /** Options controlling crawl discovery (e.g. { source: "links" }). */
-  crawlOptions?: WebCrawlerCrawlOptions;
+  crawlOptions?: WebCrawlerCrawlOptions | undefined;
 }
 export interface NamespacesInstancesCreateRequestSourceParams {
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
-  excludeItems?: NamespacesInstancesCreateRequestSourceParamsExcludeItemsList;
+  excludeItems?: NamespacesInstancesCreateRequestSourceParamsExcludeItemsList | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
-  includeItems?: NamespacesInstancesCreateRequestSourceParamsIncludeItemsList;
-  prefix?: string;
-  r2Jurisdiction?: string;
-  webCrawler?: NamespacesInstancesCreateRequestSourceParamsWebCrawler;
+  includeItems?: NamespacesInstancesCreateRequestSourceParamsIncludeItemsList | undefined;
+  prefix?: string | undefined;
+  r2Jurisdiction?: string | undefined;
+  webCrawler?: NamespacesInstancesCreateRequestSourceParamsWebCrawler | undefined;
 }
 export type NamespacesInstancesCreateRequestSyncInterval =
   | 900
@@ -1690,42 +1803,42 @@ export interface CreateNamespaceInstanceRequest {
   namespace: string;
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
-  aiGatewayId?: string;
+  aiGatewayId?: string | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  aiSearchModel?: string;
-  cache?: boolean;
-  cacheThreshold?: NamespacesInstancesCreateRequestCacheThreshold | (string & {});
+  aiSearchModel?: string | undefined;
+  cache?: boolean | undefined;
+  cacheThreshold?: NamespacesInstancesCreateRequestCacheThreshold | (string & {}) | undefined;
   /** Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?: NamespacesInstancesCreateRequestCacheTtl | (number & {});
-  chunk?: boolean;
-  chunkOverlap?: number;
-  chunkSize?: number;
-  customMetadata?: NamespacesInstancesCreateRequestCustomMetadataList;
-  embeddingModel?: string;
-  fusionMethod?: NamespacesInstancesCreateRequestFusionMethod | (string & {});
+  cacheTtl?: NamespacesInstancesCreateRequestCacheTtl | (number & {}) | undefined;
+  chunk?: boolean | undefined;
+  chunkOverlap?: number | undefined;
+  chunkSize?: number | undefined;
+  customMetadata?: NamespacesInstancesCreateRequestCustomMetadataList | undefined;
+  embeddingModel?: string | undefined;
+  fusionMethod?: NamespacesInstancesCreateRequestFusionMethod | (string & {}) | undefined;
   /** Deprecated -- use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
-  hybridSearchEnabled?: boolean;
+  hybridSearchEnabled?: boolean | undefined;
   /** Controls which storage backends indexing uses. Defaults to vector and keyword indexing for new instances. When set, both vector and keyword are required. */
-  indexMethod?: InstancesCreateRequestIndexMethod;
-  indexingOptions?: NamespacesInstancesCreateRequestIndexingOptions;
-  maxNumResults?: number;
-  metadata?: NamespacesInstancesCreateRequestMetadata;
-  publicEndpointParams?: NamespacesInstancesCreateRequestPublicEndpointParams;
-  reranking?: boolean;
-  rerankingModel?: string;
-  retrievalOptions?: NamespacesInstancesCreateRequestRetrievalOptions;
+  indexMethod?: InstancesCreateRequestIndexMethod | undefined;
+  indexingOptions?: NamespacesInstancesCreateRequestIndexingOptions | undefined;
+  maxNumResults?: number | undefined;
+  metadata?: NamespacesInstancesCreateRequestMetadata | undefined;
+  publicEndpointParams?: NamespacesInstancesCreateRequestPublicEndpointParams | undefined;
+  reranking?: boolean | undefined;
+  rerankingModel?: string | undefined;
+  retrievalOptions?: NamespacesInstancesCreateRequestRetrievalOptions | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  rewriteModel?: string;
-  rewriteQuery?: boolean;
+  rewriteModel?: string | undefined;
+  rewriteQuery?: boolean | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
-  scoreThreshold?: number;
-  source?: string;
-  sourceParams?: NamespacesInstancesCreateRequestSourceParams;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
-  syncInterval?: NamespacesInstancesCreateRequestSyncInterval | (number & {});
-  tokenId?: string;
+  scoreThreshold?: number | undefined;
+  source?: string | undefined;
+  sourceParams?: NamespacesInstancesCreateRequestSourceParams | undefined;
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
+  syncInterval?: NamespacesInstancesCreateRequestSyncInterval | (number & {}) | undefined;
+  tokenId?: string | undefined;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
-  type?: NamespacesInstancesCreateRequestType | (string & {});
+  type?: NamespacesInstancesCreateRequestType | (string & {}) | undefined;
 }
 export type NamespacesInstancesCreateResponseCacheThreshold =
   | "super_strict_match"
@@ -1759,9 +1872,12 @@ export type NamespacesInstancesCreateResponseIndexMethod = InstancesCreateReques
 export type NamespacesInstancesCreateResponseIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface NamespacesInstancesCreateResponseIndexingOptions {
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
-  keywordTokenizer?: NamespacesInstancesCreateResponseIndexingOptionsKeywordTokenizer | null;
+  keywordTokenizer?:
+    | NamespacesInstancesCreateResponseIndexingOptionsKeywordTokenizer
+    | null
+    | undefined;
   /** Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false. */
-  useOcr?: boolean | null;
+  useOcr?: boolean | null | undefined;
 }
 export type NamespacesInstancesCreateResponseMetadataCreatedFromEmdashPluginType =
   | "native"
@@ -1771,9 +1887,12 @@ export interface NamespacesInstancesCreateResponseMetadataCreatedFromEmdashPlugi
   version: string;
 }
 export interface NamespacesInstancesCreateResponseMetadata {
-  createdFromAisearchWizard?: boolean | null;
-  createdFromEmdashPlugin?: NamespacesInstancesCreateResponseMetadataCreatedFromEmdashPlugin | null;
-  workerDomain?: string | null;
+  createdFromAisearchWizard?: boolean | null | undefined;
+  createdFromEmdashPlugin?:
+    | NamespacesInstancesCreateResponseMetadataCreatedFromEmdashPlugin
+    | null
+    | undefined;
+  workerDomain?: string | null | undefined;
 }
 export type NamespacesInstancesCreateResponsePublicEndpointParamsAuthorizedHostsList =
   Array<string>;
@@ -1786,23 +1905,35 @@ export type NamespacesInstancesCreateResponsePublicEndpointParamsRateLimitTechni
   | "fixed"
   | "sliding";
 export interface NamespacesInstancesCreateResponsePublicEndpointParamsRateLimit {
-  periodMs?: number | null;
-  requests?: number | null;
-  technique?: NamespacesInstancesCreateResponsePublicEndpointParamsRateLimitTechnique | null;
+  periodMs?: number | null | undefined;
+  requests?: number | null | undefined;
+  technique?:
+    | NamespacesInstancesCreateResponsePublicEndpointParamsRateLimitTechnique
+    | null
+    | undefined;
 }
 export type NamespacesInstancesCreateResponsePublicEndpointParamsSearchEndpoint =
   InstancesCreateResponsePublicEndpointParamsSearchEndpoint;
 export interface NamespacesInstancesCreateResponsePublicEndpointParams {
-  authorizedHosts?: NamespacesInstancesCreateResponsePublicEndpointParamsAuthorizedHostsList | null;
-  chatCompletionsEndpoint?: InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint | null;
+  authorizedHosts?:
+    | NamespacesInstancesCreateResponsePublicEndpointParamsAuthorizedHostsList
+    | null
+    | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint
+    | null
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: NamespacesInstancesCreateResponsePublicEndpointParamsCustomDomainsList | null;
+  customDomains?:
+    | NamespacesInstancesCreateResponsePublicEndpointParamsCustomDomainsList
+    | null
+    | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean | null;
-  enabled?: boolean | null;
-  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null;
-  rateLimit?: NamespacesInstancesCreateResponsePublicEndpointParamsRateLimit | null;
-  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null;
+  defaultDomainEnabled?: boolean | null | undefined;
+  enabled?: boolean | null | undefined;
+  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null | undefined;
+  rateLimit?: NamespacesInstancesCreateResponsePublicEndpointParamsRateLimit | null | undefined;
+  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null | undefined;
 }
 export type NamespacesInstancesCreateResponseRetrievalOptionsBoostByItemDirection =
   | "asc"
@@ -1813,16 +1944,22 @@ export interface NamespacesInstancesCreateResponseRetrievalOptionsBoostByItem {
   /** Metadata field name to boost by. Use 'timestamp' for document freshness, or any custom_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not_exists); text/boolean fields only support exists/not_exists. */
   field: string;
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
-  direction?: NamespacesInstancesCreateResponseRetrievalOptionsBoostByItemDirection | null;
+  direction?:
+    | NamespacesInstancesCreateResponseRetrievalOptionsBoostByItemDirection
+    | null
+    | undefined;
 }
 export type NamespacesInstancesCreateResponseRetrievalOptionsBoostByList =
   Array<NamespacesInstancesCreateResponseRetrievalOptionsBoostByItem>;
 export type NamespacesInstancesCreateResponseRetrievalOptionsKeywordMatchMode = "and" | "or";
 export interface NamespacesInstancesCreateResponseRetrievalOptions {
   /** Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: NamespacesInstancesCreateResponseRetrievalOptionsBoostByList | null;
+  boostBy?: NamespacesInstancesCreateResponseRetrievalOptionsBoostByList | null | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'. */
-  keywordMatchMode?: NamespacesInstancesCreateResponseRetrievalOptionsKeywordMatchMode | null;
+  keywordMatchMode?:
+    | NamespacesInstancesCreateResponseRetrievalOptionsKeywordMatchMode
+    | null
+    | undefined;
 }
 export type NamespacesInstancesCreateResponseSourceParamsExcludeItemsList = Array<string>;
 export type NamespacesInstancesCreateResponseSourceParamsIncludeItemsList = Array<string>;
@@ -1832,17 +1969,20 @@ export type NamespacesInstancesCreateResponseSourceParamsWebCrawlerDiscoverOptio
   | "links";
 export interface NamespacesInstancesCreateResponseSourceParamsWebCrawlerDiscoverOptions {
   /** Maximum link-follow depth from the seed URL. */
-  depth?: number | null;
+  depth?: number | null | undefined;
   /** Follow links that point outside the source domain. Must stay `false` because discover crawls only cover the zone you own. */
-  includeExternalLinks?: boolean | null;
+  includeExternalLinks?: boolean | null | undefined;
   /** Follow links to subdomains of the source host. */
-  includeSubdomains?: boolean | null;
+  includeSubdomains?: boolean | null | undefined;
   /** Maximum number of pages to crawl (1-100000). */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Maximum content age in seconds to accept (0-604800). */
-  maxAge?: number | null;
+  maxAge?: number | null | undefined;
   /** Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both. */
-  source?: NamespacesInstancesCreateResponseSourceParamsWebCrawlerDiscoverOptionsSource | null;
+  source?:
+    | NamespacesInstancesCreateResponseSourceParamsWebCrawlerDiscoverOptionsSource
+    | null
+    | undefined;
 }
 export type NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
@@ -1855,34 +1995,49 @@ export type NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptionsS
   Array<string>;
 export interface NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptions {
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
-  contentSelector?: NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptionsContentSelectorList | null;
+  contentSelector?:
+    | NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptionsContentSelectorList
+    | null
+    | undefined;
   /** Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. */
-  includeHeaders?: NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptionsIncludeHeadersMap | null;
-  includeImages?: boolean | null;
+  includeHeaders?:
+    | NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptionsIncludeHeadersMap
+    | null
+    | undefined;
+  includeImages?: boolean | null | undefined;
   /** List of specific sitemap URLs to use for crawling. Only valid when parse_type is 'sitemap'. */
-  specificSitemaps?: NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList | null;
-  useBrowserRendering?: boolean | null;
+  specificSitemaps?:
+    | NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList
+    | null
+    | undefined;
+  useBrowserRendering?: boolean | null | undefined;
 }
 export type NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseType =
   | "sitemap"
   | "discover";
 export interface NamespacesInstancesCreateResponseSourceParamsWebCrawler {
   /** Options for parse_type 'discover', where Browser Run discovers URLs through link following and sitemaps. Ignored for 'sitemap'. */
-  discoverOptions?: NamespacesInstancesCreateResponseSourceParamsWebCrawlerDiscoverOptions | null;
-  parseOptions?: NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptions | null;
+  discoverOptions?:
+    | NamespacesInstancesCreateResponseSourceParamsWebCrawlerDiscoverOptions
+    | null
+    | undefined;
+  parseOptions?:
+    | NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptions
+    | null
+    | undefined;
   /** How the crawler finds URLs. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to belong to a Verified zone on this account. */
-  parseType?: NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseType | null;
+  parseType?: NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseType | null | undefined;
   /** Options controlling crawl discovery (e.g. { source: "links" }). */
-  crawlOptions?: WebCrawlerCrawlOptions | null;
+  crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface NamespacesInstancesCreateResponseSourceParams {
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
-  excludeItems?: NamespacesInstancesCreateResponseSourceParamsExcludeItemsList | null;
+  excludeItems?: NamespacesInstancesCreateResponseSourceParamsExcludeItemsList | null | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
-  includeItems?: NamespacesInstancesCreateResponseSourceParamsIncludeItemsList | null;
-  prefix?: string | null;
-  r2Jurisdiction?: string | null;
-  webCrawler?: NamespacesInstancesCreateResponseSourceParamsWebCrawler | null;
+  includeItems?: NamespacesInstancesCreateResponseSourceParamsIncludeItemsList | null | undefined;
+  prefix?: string | null | undefined;
+  r2Jurisdiction?: string | null | undefined;
+  webCrawler?: NamespacesInstancesCreateResponseSourceParamsWebCrawler | null | undefined;
 }
 export type NamespacesInstancesCreateResponseSyncInterval =
   | 900
@@ -1900,68 +2055,68 @@ export interface CreateNamespaceInstanceResponse {
   id: string;
   createdAt: string;
   modifiedAt: string;
-  aiGatewayId?: string | null;
+  aiGatewayId?: string | null | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  aiSearchModel?: string | null;
-  cache?: boolean | null;
-  cacheThreshold?: NamespacesInstancesCreateResponseCacheThreshold | null;
+  aiSearchModel?: string | null | undefined;
+  cache?: boolean | null | undefined;
+  cacheThreshold?: NamespacesInstancesCreateResponseCacheThreshold | null | undefined;
   /** Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?: NamespacesInstancesCreateResponseCacheTtl | null;
-  chunkOverlap?: number | null;
-  chunkSize?: number | null;
-  createdBy?: string | null;
-  customMetadata?: NamespacesInstancesCreateResponseCustomMetadataList | null;
-  embeddingModel?: string | null;
-  enable?: boolean | null;
-  engineVersion?: number | null;
-  fusionMethod?: NamespacesInstancesCreateResponseFusionMethod | null;
+  cacheTtl?: NamespacesInstancesCreateResponseCacheTtl | null | undefined;
+  chunkOverlap?: number | null | undefined;
+  chunkSize?: number | null | undefined;
+  createdBy?: string | null | undefined;
+  customMetadata?: NamespacesInstancesCreateResponseCustomMetadataList | null | undefined;
+  embeddingModel?: string | null | undefined;
+  enable?: boolean | null | undefined;
+  engineVersion?: number | null | undefined;
+  fusionMethod?: NamespacesInstancesCreateResponseFusionMethod | null | undefined;
   /** Deprecated -- use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
-  hybridSearchEnabled?: boolean | null;
+  hybridSearchEnabled?: boolean | null | undefined;
   /** Controls which storage backends indexing uses. Defaults to vector and keyword indexing for new instances. When set, both vector and keyword are required. */
-  indexMethod?: InstancesCreateRequestIndexMethod | null;
-  indexingOptions?: NamespacesInstancesCreateResponseIndexingOptions | null;
-  lastActivity?: string | null;
-  maxNumResults?: number | null;
-  metadata?: NamespacesInstancesCreateResponseMetadata | null;
-  modifiedBy?: string | null;
-  namespace?: string | null;
-  paused?: boolean | null;
-  publicEndpointId?: string | null;
-  publicEndpointParams?: NamespacesInstancesCreateResponsePublicEndpointParams | null;
-  reranking?: boolean | null;
-  rerankingModel?: string | null;
-  retrievalOptions?: NamespacesInstancesCreateResponseRetrievalOptions | null;
+  indexMethod?: InstancesCreateRequestIndexMethod | null | undefined;
+  indexingOptions?: NamespacesInstancesCreateResponseIndexingOptions | null | undefined;
+  lastActivity?: string | null | undefined;
+  maxNumResults?: number | null | undefined;
+  metadata?: NamespacesInstancesCreateResponseMetadata | null | undefined;
+  modifiedBy?: string | null | undefined;
+  namespace?: string | null | undefined;
+  paused?: boolean | null | undefined;
+  publicEndpointId?: string | null | undefined;
+  publicEndpointParams?: NamespacesInstancesCreateResponsePublicEndpointParams | null | undefined;
+  reranking?: boolean | null | undefined;
+  rerankingModel?: string | null | undefined;
+  retrievalOptions?: NamespacesInstancesCreateResponseRetrievalOptions | null | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  rewriteModel?: string | null;
-  rewriteQuery?: boolean | null;
+  rewriteModel?: string | null | undefined;
+  rewriteQuery?: boolean | null | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
-  scoreThreshold?: number | null;
-  source?: string | null;
-  sourceParams?: NamespacesInstancesCreateResponseSourceParams | null;
-  status?: string | null;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
-  syncInterval?: NamespacesInstancesCreateResponseSyncInterval | null;
-  tokenId?: string | null;
+  scoreThreshold?: number | null | undefined;
+  source?: string | null | undefined;
+  sourceParams?: NamespacesInstancesCreateResponseSourceParams | null | undefined;
+  status?: string | null | undefined;
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
+  syncInterval?: NamespacesInstancesCreateResponseSyncInterval | null | undefined;
+  tokenId?: string | null | undefined;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
-  type?: NamespacesInstancesCreateResponseType | null;
+  type?: NamespacesInstancesCreateResponseType | null | undefined;
 }
 export interface CreateNamespaceInstanceJobRequest {
   accountId: string;
   namespace: string;
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type NamespacesInstancesJobsCreateResponseSource = "user" | "schedule";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateNamespaceInstanceJobResponse {
   id: string;
   source: NamespacesInstancesJobsCreateResponseSource;
-  description?: string | null;
-  endReason?: string | null;
-  endedAt?: string | null;
-  lastSeenAt?: string | null;
-  startedAt?: string | null;
+  description?: string | null | undefined;
+  endReason?: string | null | undefined;
+  endedAt?: string | null | undefined;
+  lastSeenAt?: string | null | undefined;
+  startedAt?: string | null | undefined;
 }
 export type NamespacesInstancesItemsCreateOrUpdateRequestNextAction = "INDEX";
 export interface CreateOrUpdateNamespaceInstanceItemRequest {
@@ -1973,7 +2128,7 @@ export interface CreateOrUpdateNamespaceInstanceItemRequest {
   key: string;
   nextAction: NamespacesInstancesItemsCreateOrUpdateRequestNextAction | (string & {});
   /** Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself continues uninterrupted and can exceed that budget. If confirmation times out, the response returns the current item state and background indexing continues. Defaults to false. */
-  waitForCompletion?: boolean;
+  waitForCompletion?: boolean | undefined;
 }
 export type NamespacesInstancesItemsCreateOrUpdateResponseMetadataValue = string | number | boolean;
 export type NamespacesInstancesItemsCreateOrUpdateResponseMetadataMap = {
@@ -2003,14 +2158,14 @@ export interface CreateOrUpdateNamespaceInstanceItemResponse {
   /** Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items. */
   sourceId: string;
   status: NamespacesInstancesItemsCreateOrUpdateResponseStatus;
-  error?: string | null;
+  error?: string | null | undefined;
 }
 export interface CreateTokenRequest {
   accountId: string;
   cfApiId: string;
   cfApiKey: string;
   name: string;
-  legacy?: boolean;
+  legacy?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateTokenResponse {
@@ -2019,10 +2174,10 @@ export interface CreateTokenResponse {
   createdAt: string;
   modifiedAt: string;
   name: string;
-  createdBy?: string | null;
-  enabled?: boolean | null;
-  legacy?: boolean | null;
-  modifiedBy?: string | null;
+  createdBy?: string | null | undefined;
+  enabled?: boolean | null | undefined;
+  legacy?: boolean | null | undefined;
+  modifiedBy?: string | null | undefined;
 }
 export interface DeleteInstanceRequest {
   accountId: string;
@@ -2060,9 +2215,9 @@ export type InstancesDeleteResponseIndexMethod = InstancesCreateRequestIndexMeth
 export type InstancesDeleteResponseIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface InstancesDeleteResponseIndexingOptions {
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
-  keywordTokenizer?: InstancesDeleteResponseIndexingOptionsKeywordTokenizer | null;
+  keywordTokenizer?: InstancesDeleteResponseIndexingOptionsKeywordTokenizer | null | undefined;
   /** Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false. */
-  useOcr?: boolean | null;
+  useOcr?: boolean | null | undefined;
 }
 export type InstancesDeleteResponseMetadataCreatedFromEmdashPluginType = "native" | "rest";
 export interface InstancesDeleteResponseMetadataCreatedFromEmdashPlugin {
@@ -2070,9 +2225,12 @@ export interface InstancesDeleteResponseMetadataCreatedFromEmdashPlugin {
   version: string;
 }
 export interface InstancesDeleteResponseMetadata {
-  createdFromAisearchWizard?: boolean | null;
-  createdFromEmdashPlugin?: InstancesDeleteResponseMetadataCreatedFromEmdashPlugin | null;
-  workerDomain?: string | null;
+  createdFromAisearchWizard?: boolean | null | undefined;
+  createdFromEmdashPlugin?:
+    | InstancesDeleteResponseMetadataCreatedFromEmdashPlugin
+    | null
+    | undefined;
+  workerDomain?: string | null | undefined;
 }
 export type InstancesDeleteResponsePublicEndpointParamsAuthorizedHostsList = Array<string>;
 export type InstancesDeleteResponsePublicEndpointParamsChatCompletionsEndpoint =
@@ -2082,23 +2240,29 @@ export type InstancesDeleteResponsePublicEndpointParamsMcp =
   InstancesCreateResponsePublicEndpointParamsMcp;
 export type InstancesDeleteResponsePublicEndpointParamsRateLimitTechnique = "fixed" | "sliding";
 export interface InstancesDeleteResponsePublicEndpointParamsRateLimit {
-  periodMs?: number | null;
-  requests?: number | null;
-  technique?: InstancesDeleteResponsePublicEndpointParamsRateLimitTechnique | null;
+  periodMs?: number | null | undefined;
+  requests?: number | null | undefined;
+  technique?: InstancesDeleteResponsePublicEndpointParamsRateLimitTechnique | null | undefined;
 }
 export type InstancesDeleteResponsePublicEndpointParamsSearchEndpoint =
   InstancesCreateResponsePublicEndpointParamsSearchEndpoint;
 export interface InstancesDeleteResponsePublicEndpointParams {
-  authorizedHosts?: InstancesDeleteResponsePublicEndpointParamsAuthorizedHostsList | null;
-  chatCompletionsEndpoint?: InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint | null;
+  authorizedHosts?:
+    | InstancesDeleteResponsePublicEndpointParamsAuthorizedHostsList
+    | null
+    | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint
+    | null
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: InstancesDeleteResponsePublicEndpointParamsCustomDomainsList | null;
+  customDomains?: InstancesDeleteResponsePublicEndpointParamsCustomDomainsList | null | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean | null;
-  enabled?: boolean | null;
-  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null;
-  rateLimit?: InstancesDeleteResponsePublicEndpointParamsRateLimit | null;
-  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null;
+  defaultDomainEnabled?: boolean | null | undefined;
+  enabled?: boolean | null | undefined;
+  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null | undefined;
+  rateLimit?: InstancesDeleteResponsePublicEndpointParamsRateLimit | null | undefined;
+  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null | undefined;
 }
 export type InstancesDeleteResponseRetrievalOptionsBoostByItemDirection =
   | "asc"
@@ -2109,16 +2273,16 @@ export interface InstancesDeleteResponseRetrievalOptionsBoostByItem {
   /** Metadata field name to boost by. Use 'timestamp' for document freshness, or any custom_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not_exists); text/boolean fields only support exists/not_exists. */
   field: string;
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
-  direction?: InstancesDeleteResponseRetrievalOptionsBoostByItemDirection | null;
+  direction?: InstancesDeleteResponseRetrievalOptionsBoostByItemDirection | null | undefined;
 }
 export type InstancesDeleteResponseRetrievalOptionsBoostByList =
   Array<InstancesDeleteResponseRetrievalOptionsBoostByItem>;
 export type InstancesDeleteResponseRetrievalOptionsKeywordMatchMode = "and" | "or";
 export interface InstancesDeleteResponseRetrievalOptions {
   /** Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: InstancesDeleteResponseRetrievalOptionsBoostByList | null;
+  boostBy?: InstancesDeleteResponseRetrievalOptionsBoostByList | null | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'. */
-  keywordMatchMode?: InstancesDeleteResponseRetrievalOptionsKeywordMatchMode | null;
+  keywordMatchMode?: InstancesDeleteResponseRetrievalOptionsKeywordMatchMode | null | undefined;
 }
 export type InstancesDeleteResponseSourceParamsExcludeItemsList = Array<string>;
 export type InstancesDeleteResponseSourceParamsIncludeItemsList = Array<string>;
@@ -2128,17 +2292,17 @@ export type InstancesDeleteResponseSourceParamsWebCrawlerDiscoverOptionsSource =
   | "links";
 export interface InstancesDeleteResponseSourceParamsWebCrawlerDiscoverOptions {
   /** Maximum link-follow depth from the seed URL. */
-  depth?: number | null;
+  depth?: number | null | undefined;
   /** Follow links that point outside the source domain. Must stay `false` because discover crawls only cover the zone you own. */
-  includeExternalLinks?: boolean | null;
+  includeExternalLinks?: boolean | null | undefined;
   /** Follow links to subdomains of the source host. */
-  includeSubdomains?: boolean | null;
+  includeSubdomains?: boolean | null | undefined;
   /** Maximum number of pages to crawl (1-100000). */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Maximum content age in seconds to accept (0-604800). */
-  maxAge?: number | null;
+  maxAge?: number | null | undefined;
   /** Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both. */
-  source?: InstancesDeleteResponseSourceParamsWebCrawlerDiscoverOptionsSource | null;
+  source?: InstancesDeleteResponseSourceParamsWebCrawlerDiscoverOptionsSource | null | undefined;
 }
 export type InstancesDeleteResponseSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
@@ -2151,32 +2315,41 @@ export type InstancesDeleteResponseSourceParamsWebCrawlerParseOptionsSpecificSit
   Array<string>;
 export interface InstancesDeleteResponseSourceParamsWebCrawlerParseOptions {
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
-  contentSelector?: InstancesDeleteResponseSourceParamsWebCrawlerParseOptionsContentSelectorList | null;
+  contentSelector?:
+    | InstancesDeleteResponseSourceParamsWebCrawlerParseOptionsContentSelectorList
+    | null
+    | undefined;
   /** Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. */
-  includeHeaders?: InstancesDeleteResponseSourceParamsWebCrawlerParseOptionsIncludeHeadersMap | null;
-  includeImages?: boolean | null;
+  includeHeaders?:
+    | InstancesDeleteResponseSourceParamsWebCrawlerParseOptionsIncludeHeadersMap
+    | null
+    | undefined;
+  includeImages?: boolean | null | undefined;
   /** List of specific sitemap URLs to use for crawling. Only valid when parse_type is 'sitemap'. */
-  specificSitemaps?: InstancesDeleteResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList | null;
-  useBrowserRendering?: boolean | null;
+  specificSitemaps?:
+    | InstancesDeleteResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList
+    | null
+    | undefined;
+  useBrowserRendering?: boolean | null | undefined;
 }
 export type InstancesDeleteResponseSourceParamsWebCrawlerParseType = "sitemap" | "discover";
 export interface InstancesDeleteResponseSourceParamsWebCrawler {
   /** Options for parse_type 'discover', where Browser Run discovers URLs through link following and sitemaps. Ignored for 'sitemap'. */
-  discoverOptions?: InstancesDeleteResponseSourceParamsWebCrawlerDiscoverOptions | null;
-  parseOptions?: InstancesDeleteResponseSourceParamsWebCrawlerParseOptions | null;
+  discoverOptions?: InstancesDeleteResponseSourceParamsWebCrawlerDiscoverOptions | null | undefined;
+  parseOptions?: InstancesDeleteResponseSourceParamsWebCrawlerParseOptions | null | undefined;
   /** How the crawler finds URLs. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to belong to a Verified zone on this account. */
-  parseType?: InstancesDeleteResponseSourceParamsWebCrawlerParseType | null;
+  parseType?: InstancesDeleteResponseSourceParamsWebCrawlerParseType | null | undefined;
   /** Options controlling crawl discovery (e.g. { source: "links" }). */
-  crawlOptions?: WebCrawlerCrawlOptions | null;
+  crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface InstancesDeleteResponseSourceParams {
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
-  excludeItems?: InstancesDeleteResponseSourceParamsExcludeItemsList | null;
+  excludeItems?: InstancesDeleteResponseSourceParamsExcludeItemsList | null | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
-  includeItems?: InstancesDeleteResponseSourceParamsIncludeItemsList | null;
-  prefix?: string | null;
-  r2Jurisdiction?: string | null;
-  webCrawler?: InstancesDeleteResponseSourceParamsWebCrawler | null;
+  includeItems?: InstancesDeleteResponseSourceParamsIncludeItemsList | null | undefined;
+  prefix?: string | null | undefined;
+  r2Jurisdiction?: string | null | undefined;
+  webCrawler?: InstancesDeleteResponseSourceParamsWebCrawler | null | undefined;
 }
 export type InstancesDeleteResponseSyncInterval =
   | 900
@@ -2194,50 +2367,50 @@ export interface DeleteInstanceResponse {
   id: string;
   createdAt: string;
   modifiedAt: string;
-  aiGatewayId?: string | null;
+  aiGatewayId?: string | null | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  aiSearchModel?: string | null;
-  cache?: boolean | null;
-  cacheThreshold?: InstancesDeleteResponseCacheThreshold | null;
+  aiSearchModel?: string | null | undefined;
+  cache?: boolean | null | undefined;
+  cacheThreshold?: InstancesDeleteResponseCacheThreshold | null | undefined;
   /** Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?: InstancesDeleteResponseCacheTtl | null;
-  chunkOverlap?: number | null;
-  chunkSize?: number | null;
-  createdBy?: string | null;
-  customMetadata?: InstancesDeleteResponseCustomMetadataList | null;
-  embeddingModel?: string | null;
-  enable?: boolean | null;
-  engineVersion?: number | null;
-  fusionMethod?: InstancesDeleteResponseFusionMethod | null;
+  cacheTtl?: InstancesDeleteResponseCacheTtl | null | undefined;
+  chunkOverlap?: number | null | undefined;
+  chunkSize?: number | null | undefined;
+  createdBy?: string | null | undefined;
+  customMetadata?: InstancesDeleteResponseCustomMetadataList | null | undefined;
+  embeddingModel?: string | null | undefined;
+  enable?: boolean | null | undefined;
+  engineVersion?: number | null | undefined;
+  fusionMethod?: InstancesDeleteResponseFusionMethod | null | undefined;
   /** Deprecated -- use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
-  hybridSearchEnabled?: boolean | null;
+  hybridSearchEnabled?: boolean | null | undefined;
   /** Controls which storage backends indexing uses. Defaults to vector and keyword indexing for new instances. When set, both vector and keyword are required. */
-  indexMethod?: InstancesCreateRequestIndexMethod | null;
-  indexingOptions?: InstancesDeleteResponseIndexingOptions | null;
-  lastActivity?: string | null;
-  maxNumResults?: number | null;
-  metadata?: InstancesDeleteResponseMetadata | null;
-  modifiedBy?: string | null;
-  namespace?: string | null;
-  paused?: boolean | null;
-  publicEndpointId?: string | null;
-  publicEndpointParams?: InstancesDeleteResponsePublicEndpointParams | null;
-  reranking?: boolean | null;
-  rerankingModel?: string | null;
-  retrievalOptions?: InstancesDeleteResponseRetrievalOptions | null;
+  indexMethod?: InstancesCreateRequestIndexMethod | null | undefined;
+  indexingOptions?: InstancesDeleteResponseIndexingOptions | null | undefined;
+  lastActivity?: string | null | undefined;
+  maxNumResults?: number | null | undefined;
+  metadata?: InstancesDeleteResponseMetadata | null | undefined;
+  modifiedBy?: string | null | undefined;
+  namespace?: string | null | undefined;
+  paused?: boolean | null | undefined;
+  publicEndpointId?: string | null | undefined;
+  publicEndpointParams?: InstancesDeleteResponsePublicEndpointParams | null | undefined;
+  reranking?: boolean | null | undefined;
+  rerankingModel?: string | null | undefined;
+  retrievalOptions?: InstancesDeleteResponseRetrievalOptions | null | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  rewriteModel?: string | null;
-  rewriteQuery?: boolean | null;
+  rewriteModel?: string | null | undefined;
+  rewriteQuery?: boolean | null | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
-  scoreThreshold?: number | null;
-  source?: string | null;
-  sourceParams?: InstancesDeleteResponseSourceParams | null;
-  status?: string | null;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
-  syncInterval?: InstancesDeleteResponseSyncInterval | null;
-  tokenId?: string | null;
+  scoreThreshold?: number | null | undefined;
+  source?: string | null | undefined;
+  sourceParams?: InstancesDeleteResponseSourceParams | null | undefined;
+  status?: string | null | undefined;
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
+  syncInterval?: InstancesDeleteResponseSyncInterval | null | undefined;
+  tokenId?: string | null | undefined;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
-  type?: InstancesDeleteResponseType | null;
+  type?: InstancesDeleteResponseType | null | undefined;
 }
 export interface DeleteNamespaceRequest {
   accountId: string;
@@ -2281,9 +2454,12 @@ export type NamespacesInstancesDeleteResponseIndexMethod = InstancesCreateReques
 export type NamespacesInstancesDeleteResponseIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface NamespacesInstancesDeleteResponseIndexingOptions {
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
-  keywordTokenizer?: NamespacesInstancesDeleteResponseIndexingOptionsKeywordTokenizer | null;
+  keywordTokenizer?:
+    | NamespacesInstancesDeleteResponseIndexingOptionsKeywordTokenizer
+    | null
+    | undefined;
   /** Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false. */
-  useOcr?: boolean | null;
+  useOcr?: boolean | null | undefined;
 }
 export type NamespacesInstancesDeleteResponseMetadataCreatedFromEmdashPluginType =
   | "native"
@@ -2293,9 +2469,12 @@ export interface NamespacesInstancesDeleteResponseMetadataCreatedFromEmdashPlugi
   version: string;
 }
 export interface NamespacesInstancesDeleteResponseMetadata {
-  createdFromAisearchWizard?: boolean | null;
-  createdFromEmdashPlugin?: NamespacesInstancesDeleteResponseMetadataCreatedFromEmdashPlugin | null;
-  workerDomain?: string | null;
+  createdFromAisearchWizard?: boolean | null | undefined;
+  createdFromEmdashPlugin?:
+    | NamespacesInstancesDeleteResponseMetadataCreatedFromEmdashPlugin
+    | null
+    | undefined;
+  workerDomain?: string | null | undefined;
 }
 export type NamespacesInstancesDeleteResponsePublicEndpointParamsAuthorizedHostsList =
   Array<string>;
@@ -2308,23 +2487,35 @@ export type NamespacesInstancesDeleteResponsePublicEndpointParamsRateLimitTechni
   | "fixed"
   | "sliding";
 export interface NamespacesInstancesDeleteResponsePublicEndpointParamsRateLimit {
-  periodMs?: number | null;
-  requests?: number | null;
-  technique?: NamespacesInstancesDeleteResponsePublicEndpointParamsRateLimitTechnique | null;
+  periodMs?: number | null | undefined;
+  requests?: number | null | undefined;
+  technique?:
+    | NamespacesInstancesDeleteResponsePublicEndpointParamsRateLimitTechnique
+    | null
+    | undefined;
 }
 export type NamespacesInstancesDeleteResponsePublicEndpointParamsSearchEndpoint =
   InstancesCreateResponsePublicEndpointParamsSearchEndpoint;
 export interface NamespacesInstancesDeleteResponsePublicEndpointParams {
-  authorizedHosts?: NamespacesInstancesDeleteResponsePublicEndpointParamsAuthorizedHostsList | null;
-  chatCompletionsEndpoint?: InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint | null;
+  authorizedHosts?:
+    | NamespacesInstancesDeleteResponsePublicEndpointParamsAuthorizedHostsList
+    | null
+    | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint
+    | null
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: NamespacesInstancesDeleteResponsePublicEndpointParamsCustomDomainsList | null;
+  customDomains?:
+    | NamespacesInstancesDeleteResponsePublicEndpointParamsCustomDomainsList
+    | null
+    | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean | null;
-  enabled?: boolean | null;
-  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null;
-  rateLimit?: NamespacesInstancesDeleteResponsePublicEndpointParamsRateLimit | null;
-  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null;
+  defaultDomainEnabled?: boolean | null | undefined;
+  enabled?: boolean | null | undefined;
+  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null | undefined;
+  rateLimit?: NamespacesInstancesDeleteResponsePublicEndpointParamsRateLimit | null | undefined;
+  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null | undefined;
 }
 export type NamespacesInstancesDeleteResponseRetrievalOptionsBoostByItemDirection =
   | "asc"
@@ -2335,16 +2526,22 @@ export interface NamespacesInstancesDeleteResponseRetrievalOptionsBoostByItem {
   /** Metadata field name to boost by. Use 'timestamp' for document freshness, or any custom_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not_exists); text/boolean fields only support exists/not_exists. */
   field: string;
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
-  direction?: NamespacesInstancesDeleteResponseRetrievalOptionsBoostByItemDirection | null;
+  direction?:
+    | NamespacesInstancesDeleteResponseRetrievalOptionsBoostByItemDirection
+    | null
+    | undefined;
 }
 export type NamespacesInstancesDeleteResponseRetrievalOptionsBoostByList =
   Array<NamespacesInstancesDeleteResponseRetrievalOptionsBoostByItem>;
 export type NamespacesInstancesDeleteResponseRetrievalOptionsKeywordMatchMode = "and" | "or";
 export interface NamespacesInstancesDeleteResponseRetrievalOptions {
   /** Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: NamespacesInstancesDeleteResponseRetrievalOptionsBoostByList | null;
+  boostBy?: NamespacesInstancesDeleteResponseRetrievalOptionsBoostByList | null | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'. */
-  keywordMatchMode?: NamespacesInstancesDeleteResponseRetrievalOptionsKeywordMatchMode | null;
+  keywordMatchMode?:
+    | NamespacesInstancesDeleteResponseRetrievalOptionsKeywordMatchMode
+    | null
+    | undefined;
 }
 export type NamespacesInstancesDeleteResponseSourceParamsExcludeItemsList = Array<string>;
 export type NamespacesInstancesDeleteResponseSourceParamsIncludeItemsList = Array<string>;
@@ -2354,17 +2551,20 @@ export type NamespacesInstancesDeleteResponseSourceParamsWebCrawlerDiscoverOptio
   | "links";
 export interface NamespacesInstancesDeleteResponseSourceParamsWebCrawlerDiscoverOptions {
   /** Maximum link-follow depth from the seed URL. */
-  depth?: number | null;
+  depth?: number | null | undefined;
   /** Follow links that point outside the source domain. Must stay `false` because discover crawls only cover the zone you own. */
-  includeExternalLinks?: boolean | null;
+  includeExternalLinks?: boolean | null | undefined;
   /** Follow links to subdomains of the source host. */
-  includeSubdomains?: boolean | null;
+  includeSubdomains?: boolean | null | undefined;
   /** Maximum number of pages to crawl (1-100000). */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Maximum content age in seconds to accept (0-604800). */
-  maxAge?: number | null;
+  maxAge?: number | null | undefined;
   /** Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both. */
-  source?: NamespacesInstancesDeleteResponseSourceParamsWebCrawlerDiscoverOptionsSource | null;
+  source?:
+    | NamespacesInstancesDeleteResponseSourceParamsWebCrawlerDiscoverOptionsSource
+    | null
+    | undefined;
 }
 export type NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
@@ -2377,34 +2577,49 @@ export type NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptionsS
   Array<string>;
 export interface NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptions {
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
-  contentSelector?: NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptionsContentSelectorList | null;
+  contentSelector?:
+    | NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptionsContentSelectorList
+    | null
+    | undefined;
   /** Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. */
-  includeHeaders?: NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptionsIncludeHeadersMap | null;
-  includeImages?: boolean | null;
+  includeHeaders?:
+    | NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptionsIncludeHeadersMap
+    | null
+    | undefined;
+  includeImages?: boolean | null | undefined;
   /** List of specific sitemap URLs to use for crawling. Only valid when parse_type is 'sitemap'. */
-  specificSitemaps?: NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList | null;
-  useBrowserRendering?: boolean | null;
+  specificSitemaps?:
+    | NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList
+    | null
+    | undefined;
+  useBrowserRendering?: boolean | null | undefined;
 }
 export type NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseType =
   | "sitemap"
   | "discover";
 export interface NamespacesInstancesDeleteResponseSourceParamsWebCrawler {
   /** Options for parse_type 'discover', where Browser Run discovers URLs through link following and sitemaps. Ignored for 'sitemap'. */
-  discoverOptions?: NamespacesInstancesDeleteResponseSourceParamsWebCrawlerDiscoverOptions | null;
-  parseOptions?: NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptions | null;
+  discoverOptions?:
+    | NamespacesInstancesDeleteResponseSourceParamsWebCrawlerDiscoverOptions
+    | null
+    | undefined;
+  parseOptions?:
+    | NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptions
+    | null
+    | undefined;
   /** How the crawler finds URLs. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to belong to a Verified zone on this account. */
-  parseType?: NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseType | null;
+  parseType?: NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseType | null | undefined;
   /** Options controlling crawl discovery (e.g. { source: "links" }). */
-  crawlOptions?: WebCrawlerCrawlOptions | null;
+  crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface NamespacesInstancesDeleteResponseSourceParams {
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
-  excludeItems?: NamespacesInstancesDeleteResponseSourceParamsExcludeItemsList | null;
+  excludeItems?: NamespacesInstancesDeleteResponseSourceParamsExcludeItemsList | null | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
-  includeItems?: NamespacesInstancesDeleteResponseSourceParamsIncludeItemsList | null;
-  prefix?: string | null;
-  r2Jurisdiction?: string | null;
-  webCrawler?: NamespacesInstancesDeleteResponseSourceParamsWebCrawler | null;
+  includeItems?: NamespacesInstancesDeleteResponseSourceParamsIncludeItemsList | null | undefined;
+  prefix?: string | null | undefined;
+  r2Jurisdiction?: string | null | undefined;
+  webCrawler?: NamespacesInstancesDeleteResponseSourceParamsWebCrawler | null | undefined;
 }
 export type NamespacesInstancesDeleteResponseSyncInterval =
   | 900
@@ -2422,50 +2637,50 @@ export interface DeleteNamespaceInstanceResponse {
   id: string;
   createdAt: string;
   modifiedAt: string;
-  aiGatewayId?: string | null;
+  aiGatewayId?: string | null | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  aiSearchModel?: string | null;
-  cache?: boolean | null;
-  cacheThreshold?: NamespacesInstancesDeleteResponseCacheThreshold | null;
+  aiSearchModel?: string | null | undefined;
+  cache?: boolean | null | undefined;
+  cacheThreshold?: NamespacesInstancesDeleteResponseCacheThreshold | null | undefined;
   /** Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?: NamespacesInstancesDeleteResponseCacheTtl | null;
-  chunkOverlap?: number | null;
-  chunkSize?: number | null;
-  createdBy?: string | null;
-  customMetadata?: NamespacesInstancesDeleteResponseCustomMetadataList | null;
-  embeddingModel?: string | null;
-  enable?: boolean | null;
-  engineVersion?: number | null;
-  fusionMethod?: NamespacesInstancesDeleteResponseFusionMethod | null;
+  cacheTtl?: NamespacesInstancesDeleteResponseCacheTtl | null | undefined;
+  chunkOverlap?: number | null | undefined;
+  chunkSize?: number | null | undefined;
+  createdBy?: string | null | undefined;
+  customMetadata?: NamespacesInstancesDeleteResponseCustomMetadataList | null | undefined;
+  embeddingModel?: string | null | undefined;
+  enable?: boolean | null | undefined;
+  engineVersion?: number | null | undefined;
+  fusionMethod?: NamespacesInstancesDeleteResponseFusionMethod | null | undefined;
   /** Deprecated -- use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
-  hybridSearchEnabled?: boolean | null;
+  hybridSearchEnabled?: boolean | null | undefined;
   /** Controls which storage backends indexing uses. Defaults to vector and keyword indexing for new instances. When set, both vector and keyword are required. */
-  indexMethod?: InstancesCreateRequestIndexMethod | null;
-  indexingOptions?: NamespacesInstancesDeleteResponseIndexingOptions | null;
-  lastActivity?: string | null;
-  maxNumResults?: number | null;
-  metadata?: NamespacesInstancesDeleteResponseMetadata | null;
-  modifiedBy?: string | null;
-  namespace?: string | null;
-  paused?: boolean | null;
-  publicEndpointId?: string | null;
-  publicEndpointParams?: NamespacesInstancesDeleteResponsePublicEndpointParams | null;
-  reranking?: boolean | null;
-  rerankingModel?: string | null;
-  retrievalOptions?: NamespacesInstancesDeleteResponseRetrievalOptions | null;
+  indexMethod?: InstancesCreateRequestIndexMethod | null | undefined;
+  indexingOptions?: NamespacesInstancesDeleteResponseIndexingOptions | null | undefined;
+  lastActivity?: string | null | undefined;
+  maxNumResults?: number | null | undefined;
+  metadata?: NamespacesInstancesDeleteResponseMetadata | null | undefined;
+  modifiedBy?: string | null | undefined;
+  namespace?: string | null | undefined;
+  paused?: boolean | null | undefined;
+  publicEndpointId?: string | null | undefined;
+  publicEndpointParams?: NamespacesInstancesDeleteResponsePublicEndpointParams | null | undefined;
+  reranking?: boolean | null | undefined;
+  rerankingModel?: string | null | undefined;
+  retrievalOptions?: NamespacesInstancesDeleteResponseRetrievalOptions | null | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  rewriteModel?: string | null;
-  rewriteQuery?: boolean | null;
+  rewriteModel?: string | null | undefined;
+  rewriteQuery?: boolean | null | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
-  scoreThreshold?: number | null;
-  source?: string | null;
-  sourceParams?: NamespacesInstancesDeleteResponseSourceParams | null;
-  status?: string | null;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
-  syncInterval?: NamespacesInstancesDeleteResponseSyncInterval | null;
-  tokenId?: string | null;
+  scoreThreshold?: number | null | undefined;
+  source?: string | null | undefined;
+  sourceParams?: NamespacesInstancesDeleteResponseSourceParams | null | undefined;
+  status?: string | null | undefined;
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
+  syncInterval?: NamespacesInstancesDeleteResponseSyncInterval | null | undefined;
+  tokenId?: string | null | undefined;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
-  type?: NamespacesInstancesDeleteResponseType | null;
+  type?: NamespacesInstancesDeleteResponseType | null | undefined;
 }
 export interface DeleteNamespaceInstanceItemRequest {
   accountId: string;
@@ -2502,11 +2717,11 @@ export type InstancesJobsGetResponseSource = "user" | "schedule";
 export interface GetInstanceJobResponse {
   id: string;
   source: InstancesJobsGetResponseSource;
-  description?: string | null;
-  endReason?: string | null;
-  endedAt?: string | null;
-  lastSeenAt?: string | null;
-  startedAt?: string | null;
+  description?: string | null | undefined;
+  endReason?: string | null | undefined;
+  endedAt?: string | null | undefined;
+  lastSeenAt?: string | null | undefined;
+  startedAt?: string | null | undefined;
 }
 export interface GetNamespaceInstanceItemRequest {
   accountId: string;
@@ -2543,7 +2758,7 @@ export interface GetNamespaceInstanceItemResponse {
   /** Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items. */
   sourceId: string;
   status: NamespacesInstancesItemsGetResponseStatus;
-  error?: string | null;
+  error?: string | null | undefined;
 }
 export interface GetNamespaceInstanceJobRequest {
   accountId: string;
@@ -2557,54 +2772,54 @@ export type NamespacesInstancesJobsGetResponseSource = "user" | "schedule";
 export interface GetNamespaceInstanceJobResponse {
   id: string;
   source: NamespacesInstancesJobsGetResponseSource;
-  description?: string | null;
-  endReason?: string | null;
-  endedAt?: string | null;
-  lastSeenAt?: string | null;
-  startedAt?: string | null;
+  description?: string | null | undefined;
+  endReason?: string | null | undefined;
+  endedAt?: string | null | undefined;
+  lastSeenAt?: string | null | undefined;
+  startedAt?: string | null | undefined;
 }
 export interface ListInstanceJobsRequest {
   accountId: string;
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
-  page?: number;
-  perPage?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
 }
 export type InstancesJobsListResultItemSource = "user" | "schedule";
 export interface InstancesJobsListResultItem {
   id: string;
   source: InstancesJobsListResultItemSource;
-  description?: string | null;
-  endReason?: string | null;
-  endedAt?: string | null;
-  lastSeenAt?: string | null;
-  startedAt?: string | null;
+  description?: string | null | undefined;
+  endReason?: string | null | undefined;
+  endedAt?: string | null | undefined;
+  lastSeenAt?: string | null | undefined;
+  startedAt?: string | null | undefined;
 }
 export type InstancesJobsListResultList = Array<InstancesJobsListResultItem>;
 export interface ListInstanceJobsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InstancesJobsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type InstancesListRequestOrderBy = "created_at";
 export type InstancesListRequestOrderByDirection = "asc" | "desc";
 export interface ListInstancesRequest {
   accountId: string;
   /** Return only instances with this exact Search for Agents hostname (case-insensitive). */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Return only instances in this namespace. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Field to order results by. */
-  orderBy?: InstancesListRequestOrderBy | (string & {});
+  orderBy?: InstancesListRequestOrderBy | (string & {}) | undefined;
   /** Order direction. */
-  orderByDirection?: InstancesListRequestOrderByDirection | (string & {});
+  orderByDirection?: InstancesListRequestOrderByDirection | (string & {}) | undefined;
   /** Page number (1-indexed). */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter instances whose id contains this string (case-insensitive). */
-  search?: string;
+  search?: string | undefined;
 }
 export type InstancesListResultItemCacheThreshold =
   | "super_strict_match"
@@ -2640,8 +2855,8 @@ export interface InstancesListResultItemIndexMethod {
 }
 export type InstancesListResultItemIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface InstancesListResultItemIndexingOptions {
-  keywordTokenizer?: InstancesListResultItemIndexingOptionsKeywordTokenizer | null;
-  useOcr?: boolean | null;
+  keywordTokenizer?: InstancesListResultItemIndexingOptionsKeywordTokenizer | null | undefined;
+  useOcr?: boolean | null | undefined;
 }
 export type InstancesListResultItemMetadataCreatedFromEmdashPluginType = "native" | "rest";
 export interface InstancesListResultItemMetadataCreatedFromEmdashPlugin {
@@ -2649,36 +2864,48 @@ export interface InstancesListResultItemMetadataCreatedFromEmdashPlugin {
   version: string;
 }
 export interface InstancesListResultItemMetadata {
-  createdFromAisearchWizard?: boolean | null;
-  createdFromEmdashPlugin?: InstancesListResultItemMetadataCreatedFromEmdashPlugin | null;
-  workerDomain?: string | null;
+  createdFromAisearchWizard?: boolean | null | undefined;
+  createdFromEmdashPlugin?:
+    | InstancesListResultItemMetadataCreatedFromEmdashPlugin
+    | null
+    | undefined;
+  workerDomain?: string | null | undefined;
 }
 export type InstancesListResultItemPublicEndpointParamsAuthorizedHostsList = Array<string>;
 export interface InstancesListResultItemPublicEndpointParamsChatCompletionsEndpoint {
-  disabled?: boolean | null;
+  disabled?: boolean | null | undefined;
 }
 export type InstancesListResultItemPublicEndpointParamsCustomDomainsList = Array<string>;
 export interface InstancesListResultItemPublicEndpointParamsMcp {
-  description?: string | null;
-  disabled?: boolean | null;
+  description?: string | null | undefined;
+  disabled?: boolean | null | undefined;
 }
 export type InstancesListResultItemPublicEndpointParamsRateLimitTechnique = "fixed" | "sliding";
 export interface InstancesListResultItemPublicEndpointParamsRateLimit {
-  periodMs?: number | null;
-  requests?: number | null;
-  technique?: InstancesListResultItemPublicEndpointParamsRateLimitTechnique | null;
+  periodMs?: number | null | undefined;
+  requests?: number | null | undefined;
+  technique?: InstancesListResultItemPublicEndpointParamsRateLimitTechnique | null | undefined;
 }
 export type InstancesListResultItemPublicEndpointParamsSearchEndpoint =
   InstancesListResultItemPublicEndpointParamsChatCompletionsEndpoint;
 export interface InstancesListResultItemPublicEndpointParams {
-  authorizedHosts?: InstancesListResultItemPublicEndpointParamsAuthorizedHostsList | null;
-  chatCompletionsEndpoint?: InstancesListResultItemPublicEndpointParamsChatCompletionsEndpoint | null;
-  customDomains?: InstancesListResultItemPublicEndpointParamsCustomDomainsList | null;
-  defaultDomainEnabled?: boolean | null;
-  enabled?: boolean | null;
-  mcp?: InstancesListResultItemPublicEndpointParamsMcp | null;
-  rateLimit?: InstancesListResultItemPublicEndpointParamsRateLimit | null;
-  searchEndpoint?: InstancesListResultItemPublicEndpointParamsChatCompletionsEndpoint | null;
+  authorizedHosts?:
+    | InstancesListResultItemPublicEndpointParamsAuthorizedHostsList
+    | null
+    | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesListResultItemPublicEndpointParamsChatCompletionsEndpoint
+    | null
+    | undefined;
+  customDomains?: InstancesListResultItemPublicEndpointParamsCustomDomainsList | null | undefined;
+  defaultDomainEnabled?: boolean | null | undefined;
+  enabled?: boolean | null | undefined;
+  mcp?: InstancesListResultItemPublicEndpointParamsMcp | null | undefined;
+  rateLimit?: InstancesListResultItemPublicEndpointParamsRateLimit | null | undefined;
+  searchEndpoint?:
+    | InstancesListResultItemPublicEndpointParamsChatCompletionsEndpoint
+    | null
+    | undefined;
 }
 export type InstancesListResultItemRetrievalOptionsBoostByItemDataType =
   | "number"
@@ -2692,15 +2919,15 @@ export type InstancesListResultItemRetrievalOptionsBoostByItemDirection =
   | "not_exists";
 export interface InstancesListResultItemRetrievalOptionsBoostByItem {
   field: string;
-  dataType?: InstancesListResultItemRetrievalOptionsBoostByItemDataType | null;
-  direction?: InstancesListResultItemRetrievalOptionsBoostByItemDirection | null;
+  dataType?: InstancesListResultItemRetrievalOptionsBoostByItemDataType | null | undefined;
+  direction?: InstancesListResultItemRetrievalOptionsBoostByItemDirection | null | undefined;
 }
 export type InstancesListResultItemRetrievalOptionsBoostByList =
   Array<InstancesListResultItemRetrievalOptionsBoostByItem>;
 export type InstancesListResultItemRetrievalOptionsKeywordMatchMode = "and" | "or";
 export interface InstancesListResultItemRetrievalOptions {
-  boostBy?: InstancesListResultItemRetrievalOptionsBoostByList | null;
-  keywordMatchMode?: InstancesListResultItemRetrievalOptionsKeywordMatchMode | null;
+  boostBy?: InstancesListResultItemRetrievalOptionsBoostByList | null | undefined;
+  keywordMatchMode?: InstancesListResultItemRetrievalOptionsKeywordMatchMode | null | undefined;
 }
 export type InstancesListResultItemSourceParamsExcludeItemsList = Array<string>;
 export type InstancesListResultItemSourceParamsIncludeItemsList = Array<string>;
@@ -2709,13 +2936,13 @@ export type InstancesListResultItemSourceParamsWebCrawlerDiscoverOptionsSource =
   | "sitemaps"
   | "links";
 export interface InstancesListResultItemSourceParamsWebCrawlerDiscoverOptions {
-  depth?: number | null;
-  includeExternalLinks?: boolean | null;
-  includeSubdomains?: boolean | null;
+  depth?: number | null | undefined;
+  includeExternalLinks?: boolean | null | undefined;
+  includeSubdomains?: boolean | null | undefined;
   /** Maximum number of pages to crawl. New values have a maximum of 100000; instances configured before that cap may report a higher stored value, which the crawler clamps at run time. */
-  limit?: number | null;
-  maxAge?: number | null;
-  source?: InstancesListResultItemSourceParamsWebCrawlerDiscoverOptionsSource | null;
+  limit?: number | null | undefined;
+  maxAge?: number | null | undefined;
+  source?: InstancesListResultItemSourceParamsWebCrawlerDiscoverOptionsSource | null | undefined;
 }
 export interface InstancesListResultItemSourceParamsWebCrawlerParseOptionsContentSelectorItem {
   path: string;
@@ -2729,26 +2956,35 @@ export type InstancesListResultItemSourceParamsWebCrawlerParseOptionsIncludeHead
 export type InstancesListResultItemSourceParamsWebCrawlerParseOptionsSpecificSitemapsList =
   Array<string>;
 export interface InstancesListResultItemSourceParamsWebCrawlerParseOptions {
-  contentSelector?: InstancesListResultItemSourceParamsWebCrawlerParseOptionsContentSelectorList | null;
-  includeHeaders?: InstancesListResultItemSourceParamsWebCrawlerParseOptionsIncludeHeadersMap | null;
-  includeImages?: boolean | null;
-  specificSitemaps?: InstancesListResultItemSourceParamsWebCrawlerParseOptionsSpecificSitemapsList | null;
-  useBrowserRendering?: boolean | null;
+  contentSelector?:
+    | InstancesListResultItemSourceParamsWebCrawlerParseOptionsContentSelectorList
+    | null
+    | undefined;
+  includeHeaders?:
+    | InstancesListResultItemSourceParamsWebCrawlerParseOptionsIncludeHeadersMap
+    | null
+    | undefined;
+  includeImages?: boolean | null | undefined;
+  specificSitemaps?:
+    | InstancesListResultItemSourceParamsWebCrawlerParseOptionsSpecificSitemapsList
+    | null
+    | undefined;
+  useBrowserRendering?: boolean | null | undefined;
 }
 export type InstancesListResultItemSourceParamsWebCrawlerParseType = "sitemap" | "discover";
 export interface InstancesListResultItemSourceParamsWebCrawler {
-  discoverOptions?: InstancesListResultItemSourceParamsWebCrawlerDiscoverOptions | null;
-  parseOptions?: InstancesListResultItemSourceParamsWebCrawlerParseOptions | null;
-  parseType?: InstancesListResultItemSourceParamsWebCrawlerParseType | null;
+  discoverOptions?: InstancesListResultItemSourceParamsWebCrawlerDiscoverOptions | null | undefined;
+  parseOptions?: InstancesListResultItemSourceParamsWebCrawlerParseOptions | null | undefined;
+  parseType?: InstancesListResultItemSourceParamsWebCrawlerParseType | null | undefined;
   /** Options controlling crawl discovery (e.g. { source: "links" }). */
-  crawlOptions?: WebCrawlerCrawlOptions | null;
+  crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface InstancesListResultItemSourceParams {
-  excludeItems?: InstancesListResultItemSourceParamsExcludeItemsList | null;
-  includeItems?: InstancesListResultItemSourceParamsIncludeItemsList | null;
-  prefix?: string | null;
-  r2Jurisdiction?: string | null;
-  webCrawler?: InstancesListResultItemSourceParamsWebCrawler | null;
+  excludeItems?: InstancesListResultItemSourceParamsExcludeItemsList | null | undefined;
+  includeItems?: InstancesListResultItemSourceParamsIncludeItemsList | null | undefined;
+  prefix?: string | null | undefined;
+  r2Jurisdiction?: string | null | undefined;
+  webCrawler?: InstancesListResultItemSourceParamsWebCrawler | null | undefined;
 }
 export type InstancesListResultItemSyncInterval =
   | 900
@@ -2812,7 +3048,7 @@ export interface ListInstancesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InstancesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type NamespacesInstancesItemsListRequestSortBy = "status" | "modified_at";
 export type NamespacesInstancesItemsListRequestStatus =
@@ -2828,19 +3064,19 @@ export interface ListNamespaceInstanceItemsRequest {
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
   /** Return only the item with this unique ID. Returns at most one item. */
-  itemId?: string;
+  itemId?: string | undefined;
   /** Return only items with this exact key (object key / filename). Each key is unique within a source, so combine with `source` to disambiguate across data sources. */
-  key?: string;
+  key?: string | undefined;
   /** JSON-encoded metadata filter using Vectorize filter syntax. Examples: {"folder":"reports/"}, {"timestamp":{"$gte":1700000000000}}, {"folder":{"$in":["docs/","reports/"]}}. */
-  metadataFilter?: string;
-  page?: number;
-  perPage?: number;
-  search?: string;
+  metadataFilter?: string | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  search?: string | undefined;
   /** Sort order for items. "status" (default) sorts items according to status priority, then last_seen_at. "modified_at" sorts items according to file modification time (most recent first), falling back to created_at. */
-  sortBy?: NamespacesInstancesItemsListRequestSortBy | (string & {});
+  sortBy?: NamespacesInstancesItemsListRequestSortBy | (string & {}) | undefined;
   /** Return only items with this source_id. Use "builtin" for uploaded files, or a source identifier like "web-crawler: https://example.com". */
-  source?: string;
-  status?: NamespacesInstancesItemsListRequestStatus | (string & {});
+  source?: string | undefined;
+  status?: NamespacesInstancesItemsListRequestStatus | (string & {}) | undefined;
 }
 export type NamespacesInstancesItemsListResultItemMetadataValue = string | number | boolean;
 export type NamespacesInstancesItemsListResultItemMetadataMap = {
@@ -2869,39 +3105,39 @@ export interface NamespacesInstancesItemsListResultItem {
   /** Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items. */
   sourceId: string;
   status: NamespacesInstancesItemsListResultItemStatus;
-  error?: string | null;
+  error?: string | null | undefined;
 }
 export type NamespacesInstancesItemsListResultList = Array<NamespacesInstancesItemsListResultItem>;
 export interface ListNamespaceInstanceItemsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: NamespacesInstancesItemsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListNamespaceInstanceJobsRequest {
   accountId: string;
   namespace: string;
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
-  page?: number;
-  perPage?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
 }
 export type NamespacesInstancesJobsListResultItemSource = "user" | "schedule";
 export interface NamespacesInstancesJobsListResultItem {
   id: string;
   source: NamespacesInstancesJobsListResultItemSource;
-  description?: string | null;
-  endReason?: string | null;
-  endedAt?: string | null;
-  lastSeenAt?: string | null;
-  startedAt?: string | null;
+  description?: string | null | undefined;
+  endReason?: string | null | undefined;
+  endedAt?: string | null | undefined;
+  lastSeenAt?: string | null | undefined;
+  startedAt?: string | null | undefined;
 }
 export type NamespacesInstancesJobsListResultList = Array<NamespacesInstancesJobsListResultItem>;
 export interface ListNamespaceInstanceJobsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: NamespacesInstancesJobsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type NamespacesInstancesListRequestOrderBy = "created_at";
 export type NamespacesInstancesListRequestOrderByDirection = "asc" | "desc";
@@ -2909,17 +3145,17 @@ export interface ListNamespaceInstancesRequest {
   accountId: string;
   namespace: string;
   /** Return only instances with this exact Search for Agents hostname (case-insensitive). */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Field to order results by. */
-  orderBy?: NamespacesInstancesListRequestOrderBy | (string & {});
+  orderBy?: NamespacesInstancesListRequestOrderBy | (string & {}) | undefined;
   /** Order direction. */
-  orderByDirection?: NamespacesInstancesListRequestOrderByDirection | (string & {});
+  orderByDirection?: NamespacesInstancesListRequestOrderByDirection | (string & {}) | undefined;
   /** Page number (1-indexed). */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter instances whose id contains this string (case-insensitive). */
-  search?: string;
+  search?: string | undefined;
 }
 export type NamespacesInstancesListResultItemCacheThreshold =
   | "super_strict_match"
@@ -2952,8 +3188,11 @@ export type NamespacesInstancesListResultItemFusionMethod = "max" | "rrf";
 export type NamespacesInstancesListResultItemIndexMethod = InstancesListResultItemIndexMethod;
 export type NamespacesInstancesListResultItemIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface NamespacesInstancesListResultItemIndexingOptions {
-  keywordTokenizer?: NamespacesInstancesListResultItemIndexingOptionsKeywordTokenizer | null;
-  useOcr?: boolean | null;
+  keywordTokenizer?:
+    | NamespacesInstancesListResultItemIndexingOptionsKeywordTokenizer
+    | null
+    | undefined;
+  useOcr?: boolean | null | undefined;
 }
 export type NamespacesInstancesListResultItemMetadataCreatedFromEmdashPluginType =
   | "native"
@@ -2963,9 +3202,12 @@ export interface NamespacesInstancesListResultItemMetadataCreatedFromEmdashPlugi
   version: string;
 }
 export interface NamespacesInstancesListResultItemMetadata {
-  createdFromAisearchWizard?: boolean | null;
-  createdFromEmdashPlugin?: NamespacesInstancesListResultItemMetadataCreatedFromEmdashPlugin | null;
-  workerDomain?: string | null;
+  createdFromAisearchWizard?: boolean | null | undefined;
+  createdFromEmdashPlugin?:
+    | NamespacesInstancesListResultItemMetadataCreatedFromEmdashPlugin
+    | null
+    | undefined;
+  workerDomain?: string | null | undefined;
 }
 export type NamespacesInstancesListResultItemPublicEndpointParamsAuthorizedHostsList =
   Array<string>;
@@ -2978,21 +3220,36 @@ export type NamespacesInstancesListResultItemPublicEndpointParamsRateLimitTechni
   | "fixed"
   | "sliding";
 export interface NamespacesInstancesListResultItemPublicEndpointParamsRateLimit {
-  periodMs?: number | null;
-  requests?: number | null;
-  technique?: NamespacesInstancesListResultItemPublicEndpointParamsRateLimitTechnique | null;
+  periodMs?: number | null | undefined;
+  requests?: number | null | undefined;
+  technique?:
+    | NamespacesInstancesListResultItemPublicEndpointParamsRateLimitTechnique
+    | null
+    | undefined;
 }
 export type NamespacesInstancesListResultItemPublicEndpointParamsSearchEndpoint =
   InstancesListResultItemPublicEndpointParamsChatCompletionsEndpoint;
 export interface NamespacesInstancesListResultItemPublicEndpointParams {
-  authorizedHosts?: NamespacesInstancesListResultItemPublicEndpointParamsAuthorizedHostsList | null;
-  chatCompletionsEndpoint?: InstancesListResultItemPublicEndpointParamsChatCompletionsEndpoint | null;
-  customDomains?: NamespacesInstancesListResultItemPublicEndpointParamsCustomDomainsList | null;
-  defaultDomainEnabled?: boolean | null;
-  enabled?: boolean | null;
-  mcp?: InstancesListResultItemPublicEndpointParamsMcp | null;
-  rateLimit?: NamespacesInstancesListResultItemPublicEndpointParamsRateLimit | null;
-  searchEndpoint?: InstancesListResultItemPublicEndpointParamsChatCompletionsEndpoint | null;
+  authorizedHosts?:
+    | NamespacesInstancesListResultItemPublicEndpointParamsAuthorizedHostsList
+    | null
+    | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesListResultItemPublicEndpointParamsChatCompletionsEndpoint
+    | null
+    | undefined;
+  customDomains?:
+    | NamespacesInstancesListResultItemPublicEndpointParamsCustomDomainsList
+    | null
+    | undefined;
+  defaultDomainEnabled?: boolean | null | undefined;
+  enabled?: boolean | null | undefined;
+  mcp?: InstancesListResultItemPublicEndpointParamsMcp | null | undefined;
+  rateLimit?: NamespacesInstancesListResultItemPublicEndpointParamsRateLimit | null | undefined;
+  searchEndpoint?:
+    | InstancesListResultItemPublicEndpointParamsChatCompletionsEndpoint
+    | null
+    | undefined;
 }
 export type NamespacesInstancesListResultItemRetrievalOptionsBoostByItemDataType =
   | "number"
@@ -3006,15 +3263,24 @@ export type NamespacesInstancesListResultItemRetrievalOptionsBoostByItemDirectio
   | "not_exists";
 export interface NamespacesInstancesListResultItemRetrievalOptionsBoostByItem {
   field: string;
-  dataType?: NamespacesInstancesListResultItemRetrievalOptionsBoostByItemDataType | null;
-  direction?: NamespacesInstancesListResultItemRetrievalOptionsBoostByItemDirection | null;
+  dataType?:
+    | NamespacesInstancesListResultItemRetrievalOptionsBoostByItemDataType
+    | null
+    | undefined;
+  direction?:
+    | NamespacesInstancesListResultItemRetrievalOptionsBoostByItemDirection
+    | null
+    | undefined;
 }
 export type NamespacesInstancesListResultItemRetrievalOptionsBoostByList =
   Array<NamespacesInstancesListResultItemRetrievalOptionsBoostByItem>;
 export type NamespacesInstancesListResultItemRetrievalOptionsKeywordMatchMode = "and" | "or";
 export interface NamespacesInstancesListResultItemRetrievalOptions {
-  boostBy?: NamespacesInstancesListResultItemRetrievalOptionsBoostByList | null;
-  keywordMatchMode?: NamespacesInstancesListResultItemRetrievalOptionsKeywordMatchMode | null;
+  boostBy?: NamespacesInstancesListResultItemRetrievalOptionsBoostByList | null | undefined;
+  keywordMatchMode?:
+    | NamespacesInstancesListResultItemRetrievalOptionsKeywordMatchMode
+    | null
+    | undefined;
 }
 export type NamespacesInstancesListResultItemSourceParamsExcludeItemsList = Array<string>;
 export type NamespacesInstancesListResultItemSourceParamsIncludeItemsList = Array<string>;
@@ -3023,13 +3289,16 @@ export type NamespacesInstancesListResultItemSourceParamsWebCrawlerDiscoverOptio
   | "sitemaps"
   | "links";
 export interface NamespacesInstancesListResultItemSourceParamsWebCrawlerDiscoverOptions {
-  depth?: number | null;
-  includeExternalLinks?: boolean | null;
-  includeSubdomains?: boolean | null;
+  depth?: number | null | undefined;
+  includeExternalLinks?: boolean | null | undefined;
+  includeSubdomains?: boolean | null | undefined;
   /** Maximum number of pages to crawl. New values have a maximum of 100000; instances configured before that cap may report a higher stored value, which the crawler clamps at run time. */
-  limit?: number | null;
-  maxAge?: number | null;
-  source?: NamespacesInstancesListResultItemSourceParamsWebCrawlerDiscoverOptionsSource | null;
+  limit?: number | null | undefined;
+  maxAge?: number | null | undefined;
+  source?:
+    | NamespacesInstancesListResultItemSourceParamsWebCrawlerDiscoverOptionsSource
+    | null
+    | undefined;
 }
 export type NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesListResultItemSourceParamsWebCrawlerParseOptionsContentSelectorItem;
@@ -3041,28 +3310,43 @@ export type NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptionsI
 export type NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptionsSpecificSitemapsList =
   Array<string>;
 export interface NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptions {
-  contentSelector?: NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptionsContentSelectorList | null;
-  includeHeaders?: NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptionsIncludeHeadersMap | null;
-  includeImages?: boolean | null;
-  specificSitemaps?: NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptionsSpecificSitemapsList | null;
-  useBrowserRendering?: boolean | null;
+  contentSelector?:
+    | NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptionsContentSelectorList
+    | null
+    | undefined;
+  includeHeaders?:
+    | NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptionsIncludeHeadersMap
+    | null
+    | undefined;
+  includeImages?: boolean | null | undefined;
+  specificSitemaps?:
+    | NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptionsSpecificSitemapsList
+    | null
+    | undefined;
+  useBrowserRendering?: boolean | null | undefined;
 }
 export type NamespacesInstancesListResultItemSourceParamsWebCrawlerParseType =
   | "sitemap"
   | "discover";
 export interface NamespacesInstancesListResultItemSourceParamsWebCrawler {
-  discoverOptions?: NamespacesInstancesListResultItemSourceParamsWebCrawlerDiscoverOptions | null;
-  parseOptions?: NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptions | null;
-  parseType?: NamespacesInstancesListResultItemSourceParamsWebCrawlerParseType | null;
+  discoverOptions?:
+    | NamespacesInstancesListResultItemSourceParamsWebCrawlerDiscoverOptions
+    | null
+    | undefined;
+  parseOptions?:
+    | NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptions
+    | null
+    | undefined;
+  parseType?: NamespacesInstancesListResultItemSourceParamsWebCrawlerParseType | null | undefined;
   /** Options controlling crawl discovery (e.g. { source: "links" }). */
-  crawlOptions?: WebCrawlerCrawlOptions | null;
+  crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface NamespacesInstancesListResultItemSourceParams {
-  excludeItems?: NamespacesInstancesListResultItemSourceParamsExcludeItemsList | null;
-  includeItems?: NamespacesInstancesListResultItemSourceParamsIncludeItemsList | null;
-  prefix?: string | null;
-  r2Jurisdiction?: string | null;
-  webCrawler?: NamespacesInstancesListResultItemSourceParamsWebCrawler | null;
+  excludeItems?: NamespacesInstancesListResultItemSourceParamsExcludeItemsList | null | undefined;
+  includeItems?: NamespacesInstancesListResultItemSourceParamsIncludeItemsList | null | undefined;
+  prefix?: string | null | undefined;
+  r2Jurisdiction?: string | null | undefined;
+  webCrawler?: NamespacesInstancesListResultItemSourceParamsWebCrawler | null | undefined;
 }
 export type NamespacesInstancesListResultItemSyncInterval =
   | 900
@@ -3126,16 +3410,16 @@ export interface ListNamespaceInstancesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: NamespacesInstancesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListNamespacesRequest {
   accountId: string;
   /** Page number (1-indexed). */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter namespaces whose name or description contains this string (case-insensitive). */
-  search?: string;
+  search?: string | undefined;
 }
 export type NamespacesListResultItemPublicEndpointParamsAuthorizedHostsList = Array<string>;
 export type NamespacesListResultItemPublicEndpointParamsChatCompletionsEndpoint =
@@ -3146,49 +3430,58 @@ export type NamespacesListResultItemPublicEndpointParamsMcp =
   InstancesCreateResponsePublicEndpointParamsMcp;
 export type NamespacesListResultItemPublicEndpointParamsRateLimitTechnique = "fixed" | "sliding";
 export interface NamespacesListResultItemPublicEndpointParamsRateLimit {
-  periodMs?: number | null;
-  requests?: number | null;
-  technique?: NamespacesListResultItemPublicEndpointParamsRateLimitTechnique | null;
+  periodMs?: number | null | undefined;
+  requests?: number | null | undefined;
+  technique?: NamespacesListResultItemPublicEndpointParamsRateLimitTechnique | null | undefined;
 }
 export type NamespacesListResultItemPublicEndpointParamsSearchEndpoint =
   InstancesCreateResponsePublicEndpointParamsSearchEndpoint;
 export interface NamespacesListResultItemPublicEndpointParams {
-  authorizedHosts?: NamespacesListResultItemPublicEndpointParamsAuthorizedHostsList | null;
-  chatCompletionsEndpoint?: InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint | null;
+  authorizedHosts?:
+    | NamespacesListResultItemPublicEndpointParamsAuthorizedHostsList
+    | null
+    | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint
+    | null
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: NamespacesListResultItemPublicEndpointParamsCustomDomainsList | null;
+  customDomains?: NamespacesListResultItemPublicEndpointParamsCustomDomainsList | null | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean | null;
-  enabled?: boolean | null;
+  defaultDomainEnabled?: boolean | null | undefined;
+  enabled?: boolean | null | undefined;
   /** Instance IDs exposed through the namespace public endpoint. Empty means nothing is searchable. Every ID must reference an existing instance in this namespace, and the list must stay within the account's multi-instance search limit. */
-  instancesAllowed?: NamespacesListResultItemPublicEndpointParamsInstancesAllowedList | null;
-  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null;
-  rateLimit?: NamespacesListResultItemPublicEndpointParamsRateLimit | null;
-  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null;
+  instancesAllowed?:
+    | NamespacesListResultItemPublicEndpointParamsInstancesAllowedList
+    | null
+    | undefined;
+  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null | undefined;
+  rateLimit?: NamespacesListResultItemPublicEndpointParamsRateLimit | null | undefined;
+  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null | undefined;
 }
 export interface NamespacesListResultItem {
   createdAt: string;
   name: string;
   /** Optional description for the namespace. Max 256 characters. */
-  description?: string | null;
-  publicEndpointId?: string | null;
-  publicEndpointParams?: NamespacesListResultItemPublicEndpointParams | null;
+  description?: string | null | undefined;
+  publicEndpointId?: string | null | undefined;
+  publicEndpointParams?: NamespacesListResultItemPublicEndpointParams | null | undefined;
 }
 export type NamespacesListResultList = Array<NamespacesListResultItem>;
 export interface ListNamespacesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: NamespacesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListTokensRequest {
   accountId: string;
   /** Page number (1-indexed). */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter tokens whose name contains this string (case-insensitive). */
-  search?: string;
+  search?: string | undefined;
 }
 export interface TokensListResultItem {
   id: string;
@@ -3196,25 +3489,25 @@ export interface TokensListResultItem {
   createdAt: string;
   modifiedAt: string;
   name: string;
-  createdBy?: string | null;
-  enabled?: boolean | null;
-  legacy?: boolean | null;
-  modifiedBy?: string | null;
+  createdBy?: string | null | undefined;
+  enabled?: boolean | null | undefined;
+  legacy?: boolean | null | undefined;
+  modifiedBy?: string | null | undefined;
 }
 export type TokensListResultList = Array<TokensListResultItem>;
 export interface ListTokensResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: TokensListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface LogsInstanceJobRequest {
   accountId: string;
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
   jobId: string;
-  page?: number;
-  perPage?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
 }
 export interface InstancesJobsLogsResultItem {
   id: number;
@@ -3230,8 +3523,8 @@ export interface LogsNamespaceInstanceItemRequest {
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
   itemId: string;
-  cursor?: string;
-  limit?: number;
+  cursor?: string | undefined;
+  limit?: number | undefined;
 }
 export interface NamespacesInstancesItemsLogsResultItem {
   action: string;
@@ -3250,8 +3543,8 @@ export interface LogsNamespaceInstanceJobRequest {
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
   jobId: string;
-  page?: number;
-  perPage?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
 }
 export type NamespacesInstancesJobsLogsResultItem = InstancesJobsLogsResultItem;
 export type NamespacesInstancesJobsLogsResultList = Array<InstancesJobsLogsResultItem>;
@@ -3280,11 +3573,11 @@ export type NamespacesInstancesJobsUpdateResponseSource = "user" | "schedule";
 export interface PatchNamespaceInstanceJobResponse {
   id: string;
   source: NamespacesInstancesJobsUpdateResponseSource;
-  description?: string | null;
-  endReason?: string | null;
-  endedAt?: string | null;
-  lastSeenAt?: string | null;
-  startedAt?: string | null;
+  description?: string | null | undefined;
+  endReason?: string | null | undefined;
+  endedAt?: string | null | undefined;
+  lastSeenAt?: string | null | undefined;
+  startedAt?: string | null | undefined;
 }
 export interface ReadInstanceRequest {
   accountId: string;
@@ -3322,9 +3615,9 @@ export type InstancesReadResponseIndexMethod = InstancesCreateRequestIndexMethod
 export type InstancesReadResponseIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface InstancesReadResponseIndexingOptions {
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
-  keywordTokenizer?: InstancesReadResponseIndexingOptionsKeywordTokenizer | null;
+  keywordTokenizer?: InstancesReadResponseIndexingOptionsKeywordTokenizer | null | undefined;
   /** Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false. */
-  useOcr?: boolean | null;
+  useOcr?: boolean | null | undefined;
 }
 export type InstancesReadResponseMetadataCreatedFromEmdashPluginType = "native" | "rest";
 export interface InstancesReadResponseMetadataCreatedFromEmdashPlugin {
@@ -3332,9 +3625,9 @@ export interface InstancesReadResponseMetadataCreatedFromEmdashPlugin {
   version: string;
 }
 export interface InstancesReadResponseMetadata {
-  createdFromAisearchWizard?: boolean | null;
-  createdFromEmdashPlugin?: InstancesReadResponseMetadataCreatedFromEmdashPlugin | null;
-  workerDomain?: string | null;
+  createdFromAisearchWizard?: boolean | null | undefined;
+  createdFromEmdashPlugin?: InstancesReadResponseMetadataCreatedFromEmdashPlugin | null | undefined;
+  workerDomain?: string | null | undefined;
 }
 export type InstancesReadResponsePublicEndpointParamsAuthorizedHostsList = Array<string>;
 export type InstancesReadResponsePublicEndpointParamsChatCompletionsEndpoint =
@@ -3344,23 +3637,26 @@ export type InstancesReadResponsePublicEndpointParamsMcp =
   InstancesCreateResponsePublicEndpointParamsMcp;
 export type InstancesReadResponsePublicEndpointParamsRateLimitTechnique = "fixed" | "sliding";
 export interface InstancesReadResponsePublicEndpointParamsRateLimit {
-  periodMs?: number | null;
-  requests?: number | null;
-  technique?: InstancesReadResponsePublicEndpointParamsRateLimitTechnique | null;
+  periodMs?: number | null | undefined;
+  requests?: number | null | undefined;
+  technique?: InstancesReadResponsePublicEndpointParamsRateLimitTechnique | null | undefined;
 }
 export type InstancesReadResponsePublicEndpointParamsSearchEndpoint =
   InstancesCreateResponsePublicEndpointParamsSearchEndpoint;
 export interface InstancesReadResponsePublicEndpointParams {
-  authorizedHosts?: InstancesReadResponsePublicEndpointParamsAuthorizedHostsList | null;
-  chatCompletionsEndpoint?: InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint | null;
+  authorizedHosts?: InstancesReadResponsePublicEndpointParamsAuthorizedHostsList | null | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint
+    | null
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: InstancesReadResponsePublicEndpointParamsCustomDomainsList | null;
+  customDomains?: InstancesReadResponsePublicEndpointParamsCustomDomainsList | null | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean | null;
-  enabled?: boolean | null;
-  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null;
-  rateLimit?: InstancesReadResponsePublicEndpointParamsRateLimit | null;
-  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null;
+  defaultDomainEnabled?: boolean | null | undefined;
+  enabled?: boolean | null | undefined;
+  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null | undefined;
+  rateLimit?: InstancesReadResponsePublicEndpointParamsRateLimit | null | undefined;
+  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null | undefined;
 }
 export type InstancesReadResponseRetrievalOptionsBoostByItemDirection =
   | "asc"
@@ -3371,16 +3667,16 @@ export interface InstancesReadResponseRetrievalOptionsBoostByItem {
   /** Metadata field name to boost by. Use 'timestamp' for document freshness, or any custom_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not_exists); text/boolean fields only support exists/not_exists. */
   field: string;
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
-  direction?: InstancesReadResponseRetrievalOptionsBoostByItemDirection | null;
+  direction?: InstancesReadResponseRetrievalOptionsBoostByItemDirection | null | undefined;
 }
 export type InstancesReadResponseRetrievalOptionsBoostByList =
   Array<InstancesReadResponseRetrievalOptionsBoostByItem>;
 export type InstancesReadResponseRetrievalOptionsKeywordMatchMode = "and" | "or";
 export interface InstancesReadResponseRetrievalOptions {
   /** Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: InstancesReadResponseRetrievalOptionsBoostByList | null;
+  boostBy?: InstancesReadResponseRetrievalOptionsBoostByList | null | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'. */
-  keywordMatchMode?: InstancesReadResponseRetrievalOptionsKeywordMatchMode | null;
+  keywordMatchMode?: InstancesReadResponseRetrievalOptionsKeywordMatchMode | null | undefined;
 }
 export type InstancesReadResponseSourceParamsExcludeItemsList = Array<string>;
 export type InstancesReadResponseSourceParamsIncludeItemsList = Array<string>;
@@ -3390,17 +3686,17 @@ export type InstancesReadResponseSourceParamsWebCrawlerDiscoverOptionsSource =
   | "links";
 export interface InstancesReadResponseSourceParamsWebCrawlerDiscoverOptions {
   /** Maximum link-follow depth from the seed URL. */
-  depth?: number | null;
+  depth?: number | null | undefined;
   /** Follow links that point outside the source domain. Must stay `false` because discover crawls only cover the zone you own. */
-  includeExternalLinks?: boolean | null;
+  includeExternalLinks?: boolean | null | undefined;
   /** Follow links to subdomains of the source host. */
-  includeSubdomains?: boolean | null;
+  includeSubdomains?: boolean | null | undefined;
   /** Maximum number of pages to crawl (1-100000). */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Maximum content age in seconds to accept (0-604800). */
-  maxAge?: number | null;
+  maxAge?: number | null | undefined;
   /** Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both. */
-  source?: InstancesReadResponseSourceParamsWebCrawlerDiscoverOptionsSource | null;
+  source?: InstancesReadResponseSourceParamsWebCrawlerDiscoverOptionsSource | null | undefined;
 }
 export type InstancesReadResponseSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
@@ -3413,32 +3709,41 @@ export type InstancesReadResponseSourceParamsWebCrawlerParseOptionsSpecificSitem
   Array<string>;
 export interface InstancesReadResponseSourceParamsWebCrawlerParseOptions {
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
-  contentSelector?: InstancesReadResponseSourceParamsWebCrawlerParseOptionsContentSelectorList | null;
+  contentSelector?:
+    | InstancesReadResponseSourceParamsWebCrawlerParseOptionsContentSelectorList
+    | null
+    | undefined;
   /** Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. */
-  includeHeaders?: InstancesReadResponseSourceParamsWebCrawlerParseOptionsIncludeHeadersMap | null;
-  includeImages?: boolean | null;
+  includeHeaders?:
+    | InstancesReadResponseSourceParamsWebCrawlerParseOptionsIncludeHeadersMap
+    | null
+    | undefined;
+  includeImages?: boolean | null | undefined;
   /** List of specific sitemap URLs to use for crawling. Only valid when parse_type is 'sitemap'. */
-  specificSitemaps?: InstancesReadResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList | null;
-  useBrowserRendering?: boolean | null;
+  specificSitemaps?:
+    | InstancesReadResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList
+    | null
+    | undefined;
+  useBrowserRendering?: boolean | null | undefined;
 }
 export type InstancesReadResponseSourceParamsWebCrawlerParseType = "sitemap" | "discover";
 export interface InstancesReadResponseSourceParamsWebCrawler {
   /** Options for parse_type 'discover', where Browser Run discovers URLs through link following and sitemaps. Ignored for 'sitemap'. */
-  discoverOptions?: InstancesReadResponseSourceParamsWebCrawlerDiscoverOptions | null;
-  parseOptions?: InstancesReadResponseSourceParamsWebCrawlerParseOptions | null;
+  discoverOptions?: InstancesReadResponseSourceParamsWebCrawlerDiscoverOptions | null | undefined;
+  parseOptions?: InstancesReadResponseSourceParamsWebCrawlerParseOptions | null | undefined;
   /** How the crawler finds URLs. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to belong to a Verified zone on this account. */
-  parseType?: InstancesReadResponseSourceParamsWebCrawlerParseType | null;
+  parseType?: InstancesReadResponseSourceParamsWebCrawlerParseType | null | undefined;
   /** Options controlling crawl discovery (e.g. { source: "links" }). */
-  crawlOptions?: WebCrawlerCrawlOptions | null;
+  crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface InstancesReadResponseSourceParams {
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
-  excludeItems?: InstancesReadResponseSourceParamsExcludeItemsList | null;
+  excludeItems?: InstancesReadResponseSourceParamsExcludeItemsList | null | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
-  includeItems?: InstancesReadResponseSourceParamsIncludeItemsList | null;
-  prefix?: string | null;
-  r2Jurisdiction?: string | null;
-  webCrawler?: InstancesReadResponseSourceParamsWebCrawler | null;
+  includeItems?: InstancesReadResponseSourceParamsIncludeItemsList | null | undefined;
+  prefix?: string | null | undefined;
+  r2Jurisdiction?: string | null | undefined;
+  webCrawler?: InstancesReadResponseSourceParamsWebCrawler | null | undefined;
 }
 export type InstancesReadResponseSyncInterval =
   | 900
@@ -3456,50 +3761,50 @@ export interface ReadInstanceResponse {
   id: string;
   createdAt: string;
   modifiedAt: string;
-  aiGatewayId?: string | null;
+  aiGatewayId?: string | null | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  aiSearchModel?: string | null;
-  cache?: boolean | null;
-  cacheThreshold?: InstancesReadResponseCacheThreshold | null;
+  aiSearchModel?: string | null | undefined;
+  cache?: boolean | null | undefined;
+  cacheThreshold?: InstancesReadResponseCacheThreshold | null | undefined;
   /** Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?: InstancesReadResponseCacheTtl | null;
-  chunkOverlap?: number | null;
-  chunkSize?: number | null;
-  createdBy?: string | null;
-  customMetadata?: InstancesReadResponseCustomMetadataList | null;
-  embeddingModel?: string | null;
-  enable?: boolean | null;
-  engineVersion?: number | null;
-  fusionMethod?: InstancesReadResponseFusionMethod | null;
+  cacheTtl?: InstancesReadResponseCacheTtl | null | undefined;
+  chunkOverlap?: number | null | undefined;
+  chunkSize?: number | null | undefined;
+  createdBy?: string | null | undefined;
+  customMetadata?: InstancesReadResponseCustomMetadataList | null | undefined;
+  embeddingModel?: string | null | undefined;
+  enable?: boolean | null | undefined;
+  engineVersion?: number | null | undefined;
+  fusionMethod?: InstancesReadResponseFusionMethod | null | undefined;
   /** Deprecated -- use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
-  hybridSearchEnabled?: boolean | null;
+  hybridSearchEnabled?: boolean | null | undefined;
   /** Controls which storage backends indexing uses. Defaults to vector and keyword indexing for new instances. When set, both vector and keyword are required. */
-  indexMethod?: InstancesCreateRequestIndexMethod | null;
-  indexingOptions?: InstancesReadResponseIndexingOptions | null;
-  lastActivity?: string | null;
-  maxNumResults?: number | null;
-  metadata?: InstancesReadResponseMetadata | null;
-  modifiedBy?: string | null;
-  namespace?: string | null;
-  paused?: boolean | null;
-  publicEndpointId?: string | null;
-  publicEndpointParams?: InstancesReadResponsePublicEndpointParams | null;
-  reranking?: boolean | null;
-  rerankingModel?: string | null;
-  retrievalOptions?: InstancesReadResponseRetrievalOptions | null;
+  indexMethod?: InstancesCreateRequestIndexMethod | null | undefined;
+  indexingOptions?: InstancesReadResponseIndexingOptions | null | undefined;
+  lastActivity?: string | null | undefined;
+  maxNumResults?: number | null | undefined;
+  metadata?: InstancesReadResponseMetadata | null | undefined;
+  modifiedBy?: string | null | undefined;
+  namespace?: string | null | undefined;
+  paused?: boolean | null | undefined;
+  publicEndpointId?: string | null | undefined;
+  publicEndpointParams?: InstancesReadResponsePublicEndpointParams | null | undefined;
+  reranking?: boolean | null | undefined;
+  rerankingModel?: string | null | undefined;
+  retrievalOptions?: InstancesReadResponseRetrievalOptions | null | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  rewriteModel?: string | null;
-  rewriteQuery?: boolean | null;
+  rewriteModel?: string | null | undefined;
+  rewriteQuery?: boolean | null | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
-  scoreThreshold?: number | null;
-  source?: string | null;
-  sourceParams?: InstancesReadResponseSourceParams | null;
-  status?: string | null;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
-  syncInterval?: InstancesReadResponseSyncInterval | null;
-  tokenId?: string | null;
+  scoreThreshold?: number | null | undefined;
+  source?: string | null | undefined;
+  sourceParams?: InstancesReadResponseSourceParams | null | undefined;
+  status?: string | null | undefined;
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
+  syncInterval?: InstancesReadResponseSyncInterval | null | undefined;
+  tokenId?: string | null | undefined;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
-  type?: InstancesReadResponseType | null;
+  type?: InstancesReadResponseType | null | undefined;
 }
 export interface ReadNamespaceRequest {
   accountId: string;
@@ -3514,34 +3819,43 @@ export type NamespacesReadResponsePublicEndpointParamsMcp =
   InstancesCreateResponsePublicEndpointParamsMcp;
 export type NamespacesReadResponsePublicEndpointParamsRateLimitTechnique = "fixed" | "sliding";
 export interface NamespacesReadResponsePublicEndpointParamsRateLimit {
-  periodMs?: number | null;
-  requests?: number | null;
-  technique?: NamespacesReadResponsePublicEndpointParamsRateLimitTechnique | null;
+  periodMs?: number | null | undefined;
+  requests?: number | null | undefined;
+  technique?: NamespacesReadResponsePublicEndpointParamsRateLimitTechnique | null | undefined;
 }
 export type NamespacesReadResponsePublicEndpointParamsSearchEndpoint =
   InstancesCreateResponsePublicEndpointParamsSearchEndpoint;
 export interface NamespacesReadResponsePublicEndpointParams {
-  authorizedHosts?: NamespacesReadResponsePublicEndpointParamsAuthorizedHostsList | null;
-  chatCompletionsEndpoint?: InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint | null;
+  authorizedHosts?:
+    | NamespacesReadResponsePublicEndpointParamsAuthorizedHostsList
+    | null
+    | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint
+    | null
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: NamespacesReadResponsePublicEndpointParamsCustomDomainsList | null;
+  customDomains?: NamespacesReadResponsePublicEndpointParamsCustomDomainsList | null | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean | null;
-  enabled?: boolean | null;
+  defaultDomainEnabled?: boolean | null | undefined;
+  enabled?: boolean | null | undefined;
   /** Instance IDs exposed through the namespace public endpoint. Empty means nothing is searchable. Every ID must reference an existing instance in this namespace, and the list must stay within the account's multi-instance search limit. */
-  instancesAllowed?: NamespacesReadResponsePublicEndpointParamsInstancesAllowedList | null;
-  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null;
-  rateLimit?: NamespacesReadResponsePublicEndpointParamsRateLimit | null;
-  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null;
+  instancesAllowed?:
+    | NamespacesReadResponsePublicEndpointParamsInstancesAllowedList
+    | null
+    | undefined;
+  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null | undefined;
+  rateLimit?: NamespacesReadResponsePublicEndpointParamsRateLimit | null | undefined;
+  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ReadNamespaceResponse {
   createdAt: string;
   name: string;
   /** Optional description for the namespace. Max 256 characters. */
-  description?: string | null;
-  publicEndpointId?: string | null;
-  publicEndpointParams?: NamespacesReadResponsePublicEndpointParams | null;
+  description?: string | null | undefined;
+  publicEndpointId?: string | null | undefined;
+  publicEndpointParams?: NamespacesReadResponsePublicEndpointParams | null | undefined;
 }
 export interface ReadNamespaceInstanceRequest {
   accountId: string;
@@ -3580,9 +3894,12 @@ export type NamespacesInstancesReadResponseIndexMethod = InstancesCreateRequestI
 export type NamespacesInstancesReadResponseIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface NamespacesInstancesReadResponseIndexingOptions {
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
-  keywordTokenizer?: NamespacesInstancesReadResponseIndexingOptionsKeywordTokenizer | null;
+  keywordTokenizer?:
+    | NamespacesInstancesReadResponseIndexingOptionsKeywordTokenizer
+    | null
+    | undefined;
   /** Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false. */
-  useOcr?: boolean | null;
+  useOcr?: boolean | null | undefined;
 }
 export type NamespacesInstancesReadResponseMetadataCreatedFromEmdashPluginType = "native" | "rest";
 export interface NamespacesInstancesReadResponseMetadataCreatedFromEmdashPlugin {
@@ -3590,9 +3907,12 @@ export interface NamespacesInstancesReadResponseMetadataCreatedFromEmdashPlugin 
   version: string;
 }
 export interface NamespacesInstancesReadResponseMetadata {
-  createdFromAisearchWizard?: boolean | null;
-  createdFromEmdashPlugin?: NamespacesInstancesReadResponseMetadataCreatedFromEmdashPlugin | null;
-  workerDomain?: string | null;
+  createdFromAisearchWizard?: boolean | null | undefined;
+  createdFromEmdashPlugin?:
+    | NamespacesInstancesReadResponseMetadataCreatedFromEmdashPlugin
+    | null
+    | undefined;
+  workerDomain?: string | null | undefined;
 }
 export type NamespacesInstancesReadResponsePublicEndpointParamsAuthorizedHostsList = Array<string>;
 export type NamespacesInstancesReadResponsePublicEndpointParamsChatCompletionsEndpoint =
@@ -3604,23 +3924,35 @@ export type NamespacesInstancesReadResponsePublicEndpointParamsRateLimitTechniqu
   | "fixed"
   | "sliding";
 export interface NamespacesInstancesReadResponsePublicEndpointParamsRateLimit {
-  periodMs?: number | null;
-  requests?: number | null;
-  technique?: NamespacesInstancesReadResponsePublicEndpointParamsRateLimitTechnique | null;
+  periodMs?: number | null | undefined;
+  requests?: number | null | undefined;
+  technique?:
+    | NamespacesInstancesReadResponsePublicEndpointParamsRateLimitTechnique
+    | null
+    | undefined;
 }
 export type NamespacesInstancesReadResponsePublicEndpointParamsSearchEndpoint =
   InstancesCreateResponsePublicEndpointParamsSearchEndpoint;
 export interface NamespacesInstancesReadResponsePublicEndpointParams {
-  authorizedHosts?: NamespacesInstancesReadResponsePublicEndpointParamsAuthorizedHostsList | null;
-  chatCompletionsEndpoint?: InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint | null;
+  authorizedHosts?:
+    | NamespacesInstancesReadResponsePublicEndpointParamsAuthorizedHostsList
+    | null
+    | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint
+    | null
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: NamespacesInstancesReadResponsePublicEndpointParamsCustomDomainsList | null;
+  customDomains?:
+    | NamespacesInstancesReadResponsePublicEndpointParamsCustomDomainsList
+    | null
+    | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean | null;
-  enabled?: boolean | null;
-  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null;
-  rateLimit?: NamespacesInstancesReadResponsePublicEndpointParamsRateLimit | null;
-  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null;
+  defaultDomainEnabled?: boolean | null | undefined;
+  enabled?: boolean | null | undefined;
+  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null | undefined;
+  rateLimit?: NamespacesInstancesReadResponsePublicEndpointParamsRateLimit | null | undefined;
+  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null | undefined;
 }
 export type NamespacesInstancesReadResponseRetrievalOptionsBoostByItemDirection =
   | "asc"
@@ -3631,16 +3963,22 @@ export interface NamespacesInstancesReadResponseRetrievalOptionsBoostByItem {
   /** Metadata field name to boost by. Use 'timestamp' for document freshness, or any custom_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not_exists); text/boolean fields only support exists/not_exists. */
   field: string;
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
-  direction?: NamespacesInstancesReadResponseRetrievalOptionsBoostByItemDirection | null;
+  direction?:
+    | NamespacesInstancesReadResponseRetrievalOptionsBoostByItemDirection
+    | null
+    | undefined;
 }
 export type NamespacesInstancesReadResponseRetrievalOptionsBoostByList =
   Array<NamespacesInstancesReadResponseRetrievalOptionsBoostByItem>;
 export type NamespacesInstancesReadResponseRetrievalOptionsKeywordMatchMode = "and" | "or";
 export interface NamespacesInstancesReadResponseRetrievalOptions {
   /** Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: NamespacesInstancesReadResponseRetrievalOptionsBoostByList | null;
+  boostBy?: NamespacesInstancesReadResponseRetrievalOptionsBoostByList | null | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'. */
-  keywordMatchMode?: NamespacesInstancesReadResponseRetrievalOptionsKeywordMatchMode | null;
+  keywordMatchMode?:
+    | NamespacesInstancesReadResponseRetrievalOptionsKeywordMatchMode
+    | null
+    | undefined;
 }
 export type NamespacesInstancesReadResponseSourceParamsExcludeItemsList = Array<string>;
 export type NamespacesInstancesReadResponseSourceParamsIncludeItemsList = Array<string>;
@@ -3650,17 +3988,20 @@ export type NamespacesInstancesReadResponseSourceParamsWebCrawlerDiscoverOptions
   | "links";
 export interface NamespacesInstancesReadResponseSourceParamsWebCrawlerDiscoverOptions {
   /** Maximum link-follow depth from the seed URL. */
-  depth?: number | null;
+  depth?: number | null | undefined;
   /** Follow links that point outside the source domain. Must stay `false` because discover crawls only cover the zone you own. */
-  includeExternalLinks?: boolean | null;
+  includeExternalLinks?: boolean | null | undefined;
   /** Follow links to subdomains of the source host. */
-  includeSubdomains?: boolean | null;
+  includeSubdomains?: boolean | null | undefined;
   /** Maximum number of pages to crawl (1-100000). */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Maximum content age in seconds to accept (0-604800). */
-  maxAge?: number | null;
+  maxAge?: number | null | undefined;
   /** Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both. */
-  source?: NamespacesInstancesReadResponseSourceParamsWebCrawlerDiscoverOptionsSource | null;
+  source?:
+    | NamespacesInstancesReadResponseSourceParamsWebCrawlerDiscoverOptionsSource
+    | null
+    | undefined;
 }
 export type NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
@@ -3673,32 +4014,47 @@ export type NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptionsSpe
   Array<string>;
 export interface NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptions {
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
-  contentSelector?: NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptionsContentSelectorList | null;
+  contentSelector?:
+    | NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptionsContentSelectorList
+    | null
+    | undefined;
   /** Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. */
-  includeHeaders?: NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptionsIncludeHeadersMap | null;
-  includeImages?: boolean | null;
+  includeHeaders?:
+    | NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptionsIncludeHeadersMap
+    | null
+    | undefined;
+  includeImages?: boolean | null | undefined;
   /** List of specific sitemap URLs to use for crawling. Only valid when parse_type is 'sitemap'. */
-  specificSitemaps?: NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList | null;
-  useBrowserRendering?: boolean | null;
+  specificSitemaps?:
+    | NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList
+    | null
+    | undefined;
+  useBrowserRendering?: boolean | null | undefined;
 }
 export type NamespacesInstancesReadResponseSourceParamsWebCrawlerParseType = "sitemap" | "discover";
 export interface NamespacesInstancesReadResponseSourceParamsWebCrawler {
   /** Options for parse_type 'discover', where Browser Run discovers URLs through link following and sitemaps. Ignored for 'sitemap'. */
-  discoverOptions?: NamespacesInstancesReadResponseSourceParamsWebCrawlerDiscoverOptions | null;
-  parseOptions?: NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptions | null;
+  discoverOptions?:
+    | NamespacesInstancesReadResponseSourceParamsWebCrawlerDiscoverOptions
+    | null
+    | undefined;
+  parseOptions?:
+    | NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptions
+    | null
+    | undefined;
   /** How the crawler finds URLs. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to belong to a Verified zone on this account. */
-  parseType?: NamespacesInstancesReadResponseSourceParamsWebCrawlerParseType | null;
+  parseType?: NamespacesInstancesReadResponseSourceParamsWebCrawlerParseType | null | undefined;
   /** Options controlling crawl discovery (e.g. { source: "links" }). */
-  crawlOptions?: WebCrawlerCrawlOptions | null;
+  crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface NamespacesInstancesReadResponseSourceParams {
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
-  excludeItems?: NamespacesInstancesReadResponseSourceParamsExcludeItemsList | null;
+  excludeItems?: NamespacesInstancesReadResponseSourceParamsExcludeItemsList | null | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
-  includeItems?: NamespacesInstancesReadResponseSourceParamsIncludeItemsList | null;
-  prefix?: string | null;
-  r2Jurisdiction?: string | null;
-  webCrawler?: NamespacesInstancesReadResponseSourceParamsWebCrawler | null;
+  includeItems?: NamespacesInstancesReadResponseSourceParamsIncludeItemsList | null | undefined;
+  prefix?: string | null | undefined;
+  r2Jurisdiction?: string | null | undefined;
+  webCrawler?: NamespacesInstancesReadResponseSourceParamsWebCrawler | null | undefined;
 }
 export type NamespacesInstancesReadResponseSyncInterval =
   | 900
@@ -3716,50 +4072,50 @@ export interface ReadNamespaceInstanceResponse {
   id: string;
   createdAt: string;
   modifiedAt: string;
-  aiGatewayId?: string | null;
+  aiGatewayId?: string | null | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  aiSearchModel?: string | null;
-  cache?: boolean | null;
-  cacheThreshold?: NamespacesInstancesReadResponseCacheThreshold | null;
+  aiSearchModel?: string | null | undefined;
+  cache?: boolean | null | undefined;
+  cacheThreshold?: NamespacesInstancesReadResponseCacheThreshold | null | undefined;
   /** Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?: NamespacesInstancesReadResponseCacheTtl | null;
-  chunkOverlap?: number | null;
-  chunkSize?: number | null;
-  createdBy?: string | null;
-  customMetadata?: NamespacesInstancesReadResponseCustomMetadataList | null;
-  embeddingModel?: string | null;
-  enable?: boolean | null;
-  engineVersion?: number | null;
-  fusionMethod?: NamespacesInstancesReadResponseFusionMethod | null;
+  cacheTtl?: NamespacesInstancesReadResponseCacheTtl | null | undefined;
+  chunkOverlap?: number | null | undefined;
+  chunkSize?: number | null | undefined;
+  createdBy?: string | null | undefined;
+  customMetadata?: NamespacesInstancesReadResponseCustomMetadataList | null | undefined;
+  embeddingModel?: string | null | undefined;
+  enable?: boolean | null | undefined;
+  engineVersion?: number | null | undefined;
+  fusionMethod?: NamespacesInstancesReadResponseFusionMethod | null | undefined;
   /** Deprecated -- use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
-  hybridSearchEnabled?: boolean | null;
+  hybridSearchEnabled?: boolean | null | undefined;
   /** Controls which storage backends indexing uses. Defaults to vector and keyword indexing for new instances. When set, both vector and keyword are required. */
-  indexMethod?: InstancesCreateRequestIndexMethod | null;
-  indexingOptions?: NamespacesInstancesReadResponseIndexingOptions | null;
-  lastActivity?: string | null;
-  maxNumResults?: number | null;
-  metadata?: NamespacesInstancesReadResponseMetadata | null;
-  modifiedBy?: string | null;
-  namespace?: string | null;
-  paused?: boolean | null;
-  publicEndpointId?: string | null;
-  publicEndpointParams?: NamespacesInstancesReadResponsePublicEndpointParams | null;
-  reranking?: boolean | null;
-  rerankingModel?: string | null;
-  retrievalOptions?: NamespacesInstancesReadResponseRetrievalOptions | null;
+  indexMethod?: InstancesCreateRequestIndexMethod | null | undefined;
+  indexingOptions?: NamespacesInstancesReadResponseIndexingOptions | null | undefined;
+  lastActivity?: string | null | undefined;
+  maxNumResults?: number | null | undefined;
+  metadata?: NamespacesInstancesReadResponseMetadata | null | undefined;
+  modifiedBy?: string | null | undefined;
+  namespace?: string | null | undefined;
+  paused?: boolean | null | undefined;
+  publicEndpointId?: string | null | undefined;
+  publicEndpointParams?: NamespacesInstancesReadResponsePublicEndpointParams | null | undefined;
+  reranking?: boolean | null | undefined;
+  rerankingModel?: string | null | undefined;
+  retrievalOptions?: NamespacesInstancesReadResponseRetrievalOptions | null | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  rewriteModel?: string | null;
-  rewriteQuery?: boolean | null;
+  rewriteModel?: string | null | undefined;
+  rewriteQuery?: boolean | null | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
-  scoreThreshold?: number | null;
-  source?: string | null;
-  sourceParams?: NamespacesInstancesReadResponseSourceParams | null;
-  status?: string | null;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
-  syncInterval?: NamespacesInstancesReadResponseSyncInterval | null;
-  tokenId?: string | null;
+  scoreThreshold?: number | null | undefined;
+  source?: string | null | undefined;
+  sourceParams?: NamespacesInstancesReadResponseSourceParams | null | undefined;
+  status?: string | null | undefined;
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
+  syncInterval?: NamespacesInstancesReadResponseSyncInterval | null | undefined;
+  tokenId?: string | null | undefined;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
-  type?: NamespacesInstancesReadResponseType | null;
+  type?: NamespacesInstancesReadResponseType | null | undefined;
 }
 export interface ReadTokenRequest {
   accountId: string;
@@ -3772,10 +4128,10 @@ export interface ReadTokenResponse {
   createdAt: string;
   modifiedAt: string;
   name: string;
-  createdBy?: string | null;
-  enabled?: boolean | null;
-  legacy?: boolean | null;
-  modifiedBy?: string | null;
+  createdBy?: string | null | undefined;
+  enabled?: boolean | null | undefined;
+  legacy?: boolean | null | undefined;
+  modifiedBy?: string | null | undefined;
 }
 export type InstancesSearchRequestAiSearchOptionsCacheCacheThreshold =
   | "super_strict_match"
@@ -3783,8 +4139,11 @@ export type InstancesSearchRequestAiSearchOptionsCacheCacheThreshold =
   | "flexible_friend"
   | "anything_goes";
 export interface InstancesSearchRequestAiSearchOptionsCache {
-  cacheThreshold?: InstancesSearchRequestAiSearchOptionsCacheCacheThreshold | (string & {});
-  enabled?: boolean;
+  cacheThreshold?:
+    | InstancesSearchRequestAiSearchOptionsCacheCacheThreshold
+    | (string & {})
+    | undefined;
+  enabled?: boolean | undefined;
 }
 export type InstancesSearchRequestAiSearchOptionsCustomMetadataValue = string | number | boolean;
 export type InstancesSearchRequestAiSearchOptionsCustomMetadataMap = {
@@ -3803,7 +4162,10 @@ export interface InstancesSearchRequestAiSearchOptionsRetrievalBoostByItem {
   /** Metadata field name to boost by. Use 'timestamp' for document freshness, or any custom_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not_exists); text/boolean fields only support exists/not_exists. */
   field: string;
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
-  direction?: InstancesSearchRequestAiSearchOptionsRetrievalBoostByItemDirection | (string & {});
+  direction?:
+    | InstancesSearchRequestAiSearchOptionsRetrievalBoostByItemDirection
+    | (string & {})
+    | undefined;
 }
 export type InstancesSearchRequestAiSearchOptionsRetrievalBoostByList =
   Array<InstancesSearchRequestAiSearchOptionsRetrievalBoostByItem>;
@@ -3818,26 +4180,35 @@ export type InstancesSearchRequestAiSearchOptionsRetrievalRetrievalType =
   | "hybrid";
 export interface InstancesSearchRequestAiSearchOptionsRetrieval {
   /** Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: InstancesSearchRequestAiSearchOptionsRetrievalBoostByList;
-  contextExpansion?: number;
-  filters?: InstancesSearchRequestAiSearchOptionsRetrievalFiltersMap;
-  fusionMethod?: InstancesSearchRequestAiSearchOptionsRetrievalFusionMethod | (string & {});
+  boostBy?: InstancesSearchRequestAiSearchOptionsRetrievalBoostByList | undefined;
+  contextExpansion?: number | undefined;
+  filters?: InstancesSearchRequestAiSearchOptionsRetrievalFiltersMap | undefined;
+  fusionMethod?:
+    | InstancesSearchRequestAiSearchOptionsRetrievalFusionMethod
+    | (string & {})
+    | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'. */
-  keywordMatchMode?: InstancesSearchRequestAiSearchOptionsRetrievalKeywordMatchMode | (string & {});
+  keywordMatchMode?:
+    | InstancesSearchRequestAiSearchOptionsRetrievalKeywordMatchMode
+    | (string & {})
+    | undefined;
   /** Minimum similarity score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4. */
-  matchThreshold?: number;
+  matchThreshold?: number | undefined;
   /** Maximum number of results to return. When omitted, falls back to the instance-level max_num_results, then to 10. */
-  maxNumResults?: number;
-  retrievalType?: InstancesSearchRequestAiSearchOptionsRetrievalRetrievalType | (string & {});
-  returnOnFailure?: boolean;
+  maxNumResults?: number | undefined;
+  retrievalType?:
+    | InstancesSearchRequestAiSearchOptionsRetrievalRetrievalType
+    | (string & {})
+    | undefined;
+  returnOnFailure?: boolean | undefined;
 }
 export interface InstancesSearchRequestAiSearchOptions {
-  cache?: InstancesSearchRequestAiSearchOptionsCache;
+  cache?: InstancesSearchRequestAiSearchOptionsCache | undefined;
   /** Metadata added to AI Gateway logs for requests this operation triggers. Accepts up to 2 string, number, or boolean entries. Reserved keys: 'ai-search', 'task', 'origin', and any key beginning with 'cf.'. */
-  customMetadata?: InstancesSearchRequestAiSearchOptionsCustomMetadataMap;
-  queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite;
-  reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking;
-  retrieval?: InstancesSearchRequestAiSearchOptionsRetrieval;
+  customMetadata?: InstancesSearchRequestAiSearchOptionsCustomMetadataMap | undefined;
+  queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite | undefined;
+  reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking | undefined;
+  retrieval?: InstancesSearchRequestAiSearchOptionsRetrieval | undefined;
 }
 export type InstancesSearchRequestMessagesItemContentCase1ItemCase0Type = "text";
 export interface InstancesSearchRequestMessagesItemContentCase1ItemCase0 {
@@ -3882,28 +4253,28 @@ export interface SearchInstanceRequest {
   accountId: string;
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
-  aiSearchOptions?: InstancesSearchRequestAiSearchOptions;
+  aiSearchOptions?: InstancesSearchRequestAiSearchOptions | undefined;
   /** OpenAI-compatible message array. For multimodal queries, set the last user message's `content` to an array of typed parts: `[{type:'text', text:'...'}, {type:'image_url', image_url:{url:'...'}}]`. Image inputs require the RAG's embedding_model to declare 'image' in supported_modalities. */
-  messages?: InstancesSearchRequestMessagesList;
+  messages?: InstancesSearchRequestMessagesList | undefined;
   /** A simple text query string. Alternative to 'messages' -- provide either this or 'messages', not both. */
-  query?: string;
+  query?: string | undefined;
 }
 export type InstancesSearchResponseChunksItemItemMetadataMap = {
   [key: string]: unknown | undefined;
 };
 export interface InstancesSearchResponseChunksItemItem {
   key: string;
-  metadata?: InstancesSearchResponseChunksItemItemMetadataMap | null;
-  timestamp?: number | null;
+  metadata?: InstancesSearchResponseChunksItemItemMetadataMap | null | undefined;
+  timestamp?: number | null | undefined;
 }
 export type InstancesSearchResponseChunksItemScoringDetailsFusionMethod = "rrf" | "max";
 export interface InstancesSearchResponseChunksItemScoringDetails {
-  fusionMethod?: InstancesSearchResponseChunksItemScoringDetailsFusionMethod | null;
-  keywordRank?: number | null;
-  keywordScore?: number | null;
-  rerankingScore?: number | null;
-  vectorRank?: number | null;
-  vectorScore?: number | null;
+  fusionMethod?: InstancesSearchResponseChunksItemScoringDetailsFusionMethod | null | undefined;
+  keywordRank?: number | null | undefined;
+  keywordScore?: number | null | undefined;
+  rerankingScore?: number | null | undefined;
+  vectorRank?: number | null | undefined;
+  vectorScore?: number | null | undefined;
 }
 export type InstancesSearchResponseChunksItemSourceMediaType = "audio" | "video";
 export interface InstancesSearchResponseChunksItem {
@@ -3911,14 +4282,14 @@ export interface InstancesSearchResponseChunksItem {
   score: number;
   text: string;
   type: string;
-  item?: InstancesSearchResponseChunksItemItem | null;
+  item?: InstancesSearchResponseChunksItemItem | null | undefined;
   /** Audio/video transcript chunks only: end, in milliseconds from the start of the media (whole seconds), of the last transcript section the matched chunk covers. Describes the matched chunk before any context expansion, not the expanded `text`. */
-  mediaEndMs?: number | null;
+  mediaEndMs?: number | null | undefined;
   /** Audio/video transcript chunks only: start, in milliseconds from the start of the media (whole seconds), of the transcript section the matched chunk begins in. Describes the matched chunk before any context expansion, not the expanded `text`. */
-  mediaStartMs?: number | null;
-  scoringDetails?: InstancesSearchResponseChunksItemScoringDetails | null;
+  mediaStartMs?: number | null | undefined;
+  scoringDetails?: InstancesSearchResponseChunksItemScoringDetails | null | undefined;
   /** Audio/video transcript chunks only: type of the source media file. Omitted for all other chunks. */
-  sourceMediaType?: InstancesSearchResponseChunksItemSourceMediaType | null;
+  sourceMediaType?: InstancesSearchResponseChunksItemSourceMediaType | null | undefined;
 }
 export type InstancesSearchResponseChunksList = Array<InstancesSearchResponseChunksItem>;
 export type InstancesSearchResponseQueryKind = "text" | "image" | "multimodal";
@@ -3926,7 +4297,7 @@ export type InstancesSearchResponseQueryKind = "text" | "image" | "multimodal";
 export interface SearchInstanceResponse {
   chunks: InstancesSearchResponseChunksList;
   queryKind: InstancesSearchResponseQueryKind;
-  searchQuery?: string | null;
+  searchQuery?: string | null | undefined;
 }
 export type NamespacesSearchRequestAiSearchOptionsInstanceIdsList = Array<string>;
 export type NamespacesSearchRequestAiSearchOptionsCacheCacheThreshold =
@@ -3935,8 +4306,11 @@ export type NamespacesSearchRequestAiSearchOptionsCacheCacheThreshold =
   | "flexible_friend"
   | "anything_goes";
 export interface NamespacesSearchRequestAiSearchOptionsCache {
-  cacheThreshold?: NamespacesSearchRequestAiSearchOptionsCacheCacheThreshold | (string & {});
-  enabled?: boolean;
+  cacheThreshold?:
+    | NamespacesSearchRequestAiSearchOptionsCacheCacheThreshold
+    | (string & {})
+    | undefined;
+  enabled?: boolean | undefined;
 }
 export type NamespacesSearchRequestAiSearchOptionsCustomMetadataValue = string | number | boolean;
 export type NamespacesSearchRequestAiSearchOptionsCustomMetadataMap = {
@@ -3955,7 +4329,10 @@ export interface NamespacesSearchRequestAiSearchOptionsRetrievalBoostByItem {
   /** Metadata field name to boost by. Use 'timestamp' for document freshness, or any custom_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not_exists); text/boolean fields only support exists/not_exists. */
   field: string;
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
-  direction?: NamespacesSearchRequestAiSearchOptionsRetrievalBoostByItemDirection | (string & {});
+  direction?:
+    | NamespacesSearchRequestAiSearchOptionsRetrievalBoostByItemDirection
+    | (string & {})
+    | undefined;
 }
 export type NamespacesSearchRequestAiSearchOptionsRetrievalBoostByList =
   Array<NamespacesSearchRequestAiSearchOptionsRetrievalBoostByItem>;
@@ -3970,29 +4347,36 @@ export type NamespacesSearchRequestAiSearchOptionsRetrievalRetrievalType =
   | "hybrid";
 export interface NamespacesSearchRequestAiSearchOptionsRetrieval {
   /** Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: NamespacesSearchRequestAiSearchOptionsRetrievalBoostByList;
-  contextExpansion?: number;
-  filters?: NamespacesSearchRequestAiSearchOptionsRetrievalFiltersMap;
-  fusionMethod?: NamespacesSearchRequestAiSearchOptionsRetrievalFusionMethod | (string & {});
+  boostBy?: NamespacesSearchRequestAiSearchOptionsRetrievalBoostByList | undefined;
+  contextExpansion?: number | undefined;
+  filters?: NamespacesSearchRequestAiSearchOptionsRetrievalFiltersMap | undefined;
+  fusionMethod?:
+    | NamespacesSearchRequestAiSearchOptionsRetrievalFusionMethod
+    | (string & {})
+    | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'. */
   keywordMatchMode?:
     | NamespacesSearchRequestAiSearchOptionsRetrievalKeywordMatchMode
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Minimum score a chunk must reach to be returned. When omitted, each instance's chunks are filtered by that instance's score_threshold, capped at 0.4. */
-  matchThreshold?: number;
+  matchThreshold?: number | undefined;
   /** Maximum number of merged results to return. When omitted, defaults to the sum of the searched instances' max_num_results (each falling back to 10), up to 50. */
-  maxNumResults?: number;
-  retrievalType?: NamespacesSearchRequestAiSearchOptionsRetrievalRetrievalType | (string & {});
-  returnOnFailure?: boolean;
+  maxNumResults?: number | undefined;
+  retrievalType?:
+    | NamespacesSearchRequestAiSearchOptionsRetrievalRetrievalType
+    | (string & {})
+    | undefined;
+  returnOnFailure?: boolean | undefined;
 }
 export interface NamespacesSearchRequestAiSearchOptions {
   instanceIds: NamespacesSearchRequestAiSearchOptionsInstanceIdsList;
-  cache?: NamespacesSearchRequestAiSearchOptionsCache;
+  cache?: NamespacesSearchRequestAiSearchOptionsCache | undefined;
   /** Metadata added to AI Gateway logs for requests this operation triggers. Accepts up to 2 string, number, or boolean entries. Reserved keys: 'ai-search', 'task', 'origin', and any key beginning with 'cf.'. */
-  customMetadata?: NamespacesSearchRequestAiSearchOptionsCustomMetadataMap;
-  queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite;
-  reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking;
-  retrieval?: NamespacesSearchRequestAiSearchOptionsRetrieval;
+  customMetadata?: NamespacesSearchRequestAiSearchOptionsCustomMetadataMap | undefined;
+  queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite | undefined;
+  reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking | undefined;
+  retrieval?: NamespacesSearchRequestAiSearchOptionsRetrieval | undefined;
 }
 export type NamespacesSearchRequestMessagesItemContentCase1ItemCase0Type = "text";
 export interface NamespacesSearchRequestMessagesItemContentCase1ItemCase0 {
@@ -4038,26 +4422,26 @@ export interface SearchNamespaceRequest {
   name: string;
   aiSearchOptions: NamespacesSearchRequestAiSearchOptions;
   /** OpenAI-compatible message array. For multimodal queries, set the last user message's `content` to an array of typed parts: `[{type:'text', text:'...'}, {type:'image_url', image_url:{url:'...'}}]`. Image inputs require the RAG's embedding_model to declare 'image' in supported_modalities. */
-  messages?: NamespacesSearchRequestMessagesList;
+  messages?: NamespacesSearchRequestMessagesList | undefined;
   /** A simple text query string. Alternative to 'messages' -- provide either this or 'messages', not both. */
-  query?: string;
+  query?: string | undefined;
 }
 export type NamespacesSearchResponseChunksItemItemMetadataMap = {
   [key: string]: unknown | undefined;
 };
 export interface NamespacesSearchResponseChunksItemItem {
   key: string;
-  metadata?: NamespacesSearchResponseChunksItemItemMetadataMap | null;
-  timestamp?: number | null;
+  metadata?: NamespacesSearchResponseChunksItemItemMetadataMap | null | undefined;
+  timestamp?: number | null | undefined;
 }
 export type NamespacesSearchResponseChunksItemScoringDetailsFusionMethod = "rrf" | "max";
 export interface NamespacesSearchResponseChunksItemScoringDetails {
-  fusionMethod?: NamespacesSearchResponseChunksItemScoringDetailsFusionMethod | null;
-  keywordRank?: number | null;
-  keywordScore?: number | null;
-  rerankingScore?: number | null;
-  vectorRank?: number | null;
-  vectorScore?: number | null;
+  fusionMethod?: NamespacesSearchResponseChunksItemScoringDetailsFusionMethod | null | undefined;
+  keywordRank?: number | null | undefined;
+  keywordScore?: number | null | undefined;
+  rerankingScore?: number | null | undefined;
+  vectorRank?: number | null | undefined;
+  vectorScore?: number | null | undefined;
 }
 export type NamespacesSearchResponseChunksItemSourceMediaType = "audio" | "video";
 export interface NamespacesSearchResponseChunksItem {
@@ -4066,14 +4450,14 @@ export interface NamespacesSearchResponseChunksItem {
   score: number;
   text: string;
   type: string;
-  item?: NamespacesSearchResponseChunksItemItem | null;
+  item?: NamespacesSearchResponseChunksItemItem | null | undefined;
   /** Audio/video transcript chunks only: end, in milliseconds from the start of the media (whole seconds), of the last transcript section the matched chunk covers. Describes the matched chunk before any context expansion, not the expanded `text`. */
-  mediaEndMs?: number | null;
+  mediaEndMs?: number | null | undefined;
   /** Audio/video transcript chunks only: start, in milliseconds from the start of the media (whole seconds), of the transcript section the matched chunk begins in. Describes the matched chunk before any context expansion, not the expanded `text`. */
-  mediaStartMs?: number | null;
-  scoringDetails?: NamespacesSearchResponseChunksItemScoringDetails | null;
+  mediaStartMs?: number | null | undefined;
+  scoringDetails?: NamespacesSearchResponseChunksItemScoringDetails | null | undefined;
   /** Audio/video transcript chunks only: type of the source media file. Omitted for all other chunks. */
-  sourceMediaType?: NamespacesSearchResponseChunksItemSourceMediaType | null;
+  sourceMediaType?: NamespacesSearchResponseChunksItemSourceMediaType | null | undefined;
 }
 export type NamespacesSearchResponseChunksList = Array<NamespacesSearchResponseChunksItem>;
 export type NamespacesSearchResponseQueryKind = "text" | "image" | "multimodal";
@@ -4086,8 +4470,8 @@ export type NamespacesSearchResponseErrorsList = Array<NamespacesSearchResponseE
 export interface SearchNamespaceResponse {
   chunks: NamespacesSearchResponseChunksList;
   queryKind: NamespacesSearchResponseQueryKind;
-  errors?: NamespacesSearchResponseErrorsList | null;
-  searchQuery?: string | null;
+  errors?: NamespacesSearchResponseErrorsList | null | undefined;
+  searchQuery?: string | null | undefined;
 }
 export type NamespacesInstancesSearchRequestAiSearchOptionsCacheCacheThreshold =
   | "super_strict_match"
@@ -4097,8 +4481,9 @@ export type NamespacesInstancesSearchRequestAiSearchOptionsCacheCacheThreshold =
 export interface NamespacesInstancesSearchRequestAiSearchOptionsCache {
   cacheThreshold?:
     | NamespacesInstancesSearchRequestAiSearchOptionsCacheCacheThreshold
-    | (string & {});
-  enabled?: boolean;
+    | (string & {})
+    | undefined;
+  enabled?: boolean | undefined;
 }
 export type NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataValue =
   | string
@@ -4122,7 +4507,8 @@ export interface NamespacesInstancesSearchRequestAiSearchOptionsRetrievalBoostBy
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
   direction?:
     | NamespacesInstancesSearchRequestAiSearchOptionsRetrievalBoostByItemDirection
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type NamespacesInstancesSearchRequestAiSearchOptionsRetrievalBoostByList =
   Array<NamespacesInstancesSearchRequestAiSearchOptionsRetrievalBoostByItem>;
@@ -4137,32 +4523,35 @@ export type NamespacesInstancesSearchRequestAiSearchOptionsRetrievalRetrievalTyp
   | "hybrid";
 export interface NamespacesInstancesSearchRequestAiSearchOptionsRetrieval {
   /** Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: NamespacesInstancesSearchRequestAiSearchOptionsRetrievalBoostByList;
-  contextExpansion?: number;
-  filters?: NamespacesInstancesSearchRequestAiSearchOptionsRetrievalFiltersMap;
+  boostBy?: NamespacesInstancesSearchRequestAiSearchOptionsRetrievalBoostByList | undefined;
+  contextExpansion?: number | undefined;
+  filters?: NamespacesInstancesSearchRequestAiSearchOptionsRetrievalFiltersMap | undefined;
   fusionMethod?:
     | NamespacesInstancesSearchRequestAiSearchOptionsRetrievalFusionMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'. */
   keywordMatchMode?:
     | NamespacesInstancesSearchRequestAiSearchOptionsRetrievalKeywordMatchMode
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Minimum similarity score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4. */
-  matchThreshold?: number;
+  matchThreshold?: number | undefined;
   /** Maximum number of results to return. When omitted, falls back to the instance-level max_num_results, then to 10. */
-  maxNumResults?: number;
+  maxNumResults?: number | undefined;
   retrievalType?:
     | NamespacesInstancesSearchRequestAiSearchOptionsRetrievalRetrievalType
-    | (string & {});
-  returnOnFailure?: boolean;
+    | (string & {})
+    | undefined;
+  returnOnFailure?: boolean | undefined;
 }
 export interface NamespacesInstancesSearchRequestAiSearchOptions {
-  cache?: NamespacesInstancesSearchRequestAiSearchOptionsCache;
+  cache?: NamespacesInstancesSearchRequestAiSearchOptionsCache | undefined;
   /** Metadata added to AI Gateway logs for requests this operation triggers. Accepts up to 2 string, number, or boolean entries. Reserved keys: 'ai-search', 'task', 'origin', and any key beginning with 'cf.'. */
-  customMetadata?: NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataMap;
-  queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite;
-  reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking;
-  retrieval?: NamespacesInstancesSearchRequestAiSearchOptionsRetrieval;
+  customMetadata?: NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataMap | undefined;
+  queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite | undefined;
+  reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking | undefined;
+  retrieval?: NamespacesInstancesSearchRequestAiSearchOptionsRetrieval | undefined;
 }
 export type NamespacesInstancesSearchRequestMessagesItemContentCase1ItemCase0Type = "text";
 export interface NamespacesInstancesSearchRequestMessagesItemContentCase1ItemCase0 {
@@ -4209,28 +4598,31 @@ export interface SearchNamespaceInstanceRequest {
   namespace: string;
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
-  aiSearchOptions?: NamespacesInstancesSearchRequestAiSearchOptions;
+  aiSearchOptions?: NamespacesInstancesSearchRequestAiSearchOptions | undefined;
   /** OpenAI-compatible message array. For multimodal queries, set the last user message's `content` to an array of typed parts: `[{type:'text', text:'...'}, {type:'image_url', image_url:{url:'...'}}]`. Image inputs require the RAG's embedding_model to declare 'image' in supported_modalities. */
-  messages?: NamespacesInstancesSearchRequestMessagesList;
+  messages?: NamespacesInstancesSearchRequestMessagesList | undefined;
   /** A simple text query string. Alternative to 'messages' -- provide either this or 'messages', not both. */
-  query?: string;
+  query?: string | undefined;
 }
 export type NamespacesInstancesSearchResponseChunksItemItemMetadataMap = {
   [key: string]: unknown | undefined;
 };
 export interface NamespacesInstancesSearchResponseChunksItemItem {
   key: string;
-  metadata?: NamespacesInstancesSearchResponseChunksItemItemMetadataMap | null;
-  timestamp?: number | null;
+  metadata?: NamespacesInstancesSearchResponseChunksItemItemMetadataMap | null | undefined;
+  timestamp?: number | null | undefined;
 }
 export type NamespacesInstancesSearchResponseChunksItemScoringDetailsFusionMethod = "rrf" | "max";
 export interface NamespacesInstancesSearchResponseChunksItemScoringDetails {
-  fusionMethod?: NamespacesInstancesSearchResponseChunksItemScoringDetailsFusionMethod | null;
-  keywordRank?: number | null;
-  keywordScore?: number | null;
-  rerankingScore?: number | null;
-  vectorRank?: number | null;
-  vectorScore?: number | null;
+  fusionMethod?:
+    | NamespacesInstancesSearchResponseChunksItemScoringDetailsFusionMethod
+    | null
+    | undefined;
+  keywordRank?: number | null | undefined;
+  keywordScore?: number | null | undefined;
+  rerankingScore?: number | null | undefined;
+  vectorRank?: number | null | undefined;
+  vectorScore?: number | null | undefined;
 }
 export type NamespacesInstancesSearchResponseChunksItemSourceMediaType = "audio" | "video";
 export interface NamespacesInstancesSearchResponseChunksItem {
@@ -4238,14 +4630,14 @@ export interface NamespacesInstancesSearchResponseChunksItem {
   score: number;
   text: string;
   type: string;
-  item?: NamespacesInstancesSearchResponseChunksItemItem | null;
+  item?: NamespacesInstancesSearchResponseChunksItemItem | null | undefined;
   /** Audio/video transcript chunks only: end, in milliseconds from the start of the media (whole seconds), of the last transcript section the matched chunk covers. Describes the matched chunk before any context expansion, not the expanded `text`. */
-  mediaEndMs?: number | null;
+  mediaEndMs?: number | null | undefined;
   /** Audio/video transcript chunks only: start, in milliseconds from the start of the media (whole seconds), of the transcript section the matched chunk begins in. Describes the matched chunk before any context expansion, not the expanded `text`. */
-  mediaStartMs?: number | null;
-  scoringDetails?: NamespacesInstancesSearchResponseChunksItemScoringDetails | null;
+  mediaStartMs?: number | null | undefined;
+  scoringDetails?: NamespacesInstancesSearchResponseChunksItemScoringDetails | null | undefined;
   /** Audio/video transcript chunks only: type of the source media file. Omitted for all other chunks. */
-  sourceMediaType?: NamespacesInstancesSearchResponseChunksItemSourceMediaType | null;
+  sourceMediaType?: NamespacesInstancesSearchResponseChunksItemSourceMediaType | null | undefined;
 }
 export type NamespacesInstancesSearchResponseChunksList =
   Array<NamespacesInstancesSearchResponseChunksItem>;
@@ -4254,7 +4646,7 @@ export type NamespacesInstancesSearchResponseQueryKind = "text" | "image" | "mul
 export interface SearchNamespaceInstanceResponse {
   chunks: NamespacesInstancesSearchResponseChunksList;
   queryKind: NamespacesInstancesSearchResponseQueryKind;
-  searchQuery?: string | null;
+  searchQuery?: string | null | undefined;
 }
 export interface StatsInstanceRequest {
   accountId: string;
@@ -4272,27 +4664,27 @@ export interface InstancesStatsResponseEngineVectorize {
 }
 export interface InstancesStatsResponseEngine {
   /** R2 bucket storage usage in bytes. */
-  r2?: InstancesStatsResponseEngineR2 | null;
+  r2?: InstancesStatsResponseEngineR2 | null | undefined;
   /** Vectorize index metadata (dimensions, vector count). */
-  vectorize?: InstancesStatsResponseEngineVectorize | null;
+  vectorize?: InstancesStatsResponseEngineVectorize | null | undefined;
 }
 export type InstancesStatsResponseFileEmbedErrorsMap = { [key: string]: unknown | undefined };
 export type InstancesStatsResponseIndexSourceErrorsMap = { [key: string]: unknown | undefined };
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface StatsInstanceResponse {
-  completed?: number | null;
+  completed?: number | null | undefined;
   /** True when the API cannot compute status counts (e.g. the legacy stats query exceeded the D1 statement-size limit). The response omits counts in this case. */
-  degraded?: boolean | null;
+  degraded?: boolean | null | undefined;
   /** Engine-specific metadata. Present only for managed (v3) instances. */
-  engine?: InstancesStatsResponseEngine | null;
-  error?: number | null;
-  fileEmbedErrors?: InstancesStatsResponseFileEmbedErrorsMap | null;
-  indexSourceErrors?: InstancesStatsResponseIndexSourceErrorsMap | null;
-  lastActivity?: string | null;
-  outdated?: number | null;
-  queued?: number | null;
-  running?: number | null;
-  skipped?: number | null;
+  engine?: InstancesStatsResponseEngine | null | undefined;
+  error?: number | null | undefined;
+  fileEmbedErrors?: InstancesStatsResponseFileEmbedErrorsMap | null | undefined;
+  indexSourceErrors?: InstancesStatsResponseIndexSourceErrorsMap | null | undefined;
+  lastActivity?: string | null | undefined;
+  outdated?: number | null | undefined;
+  queued?: number | null | undefined;
+  running?: number | null | undefined;
+  skipped?: number | null | undefined;
 }
 export interface StatsNamespaceInstanceRequest {
   accountId: string;
@@ -4311,19 +4703,19 @@ export type NamespacesInstancesStatsResponseIndexSourceErrorsMap = {
 };
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface StatsNamespaceInstanceResponse {
-  completed?: number | null;
+  completed?: number | null | undefined;
   /** True when the API cannot compute status counts (e.g. the legacy stats query exceeded the D1 statement-size limit). The response omits counts in this case. */
-  degraded?: boolean | null;
+  degraded?: boolean | null | undefined;
   /** Engine-specific metadata. Present only for managed (v3) instances. */
-  engine?: InstancesStatsResponseEngine | null;
-  error?: number | null;
-  fileEmbedErrors?: NamespacesInstancesStatsResponseFileEmbedErrorsMap | null;
-  indexSourceErrors?: NamespacesInstancesStatsResponseIndexSourceErrorsMap | null;
-  lastActivity?: string | null;
-  outdated?: number | null;
-  queued?: number | null;
-  running?: number | null;
-  skipped?: number | null;
+  engine?: InstancesStatsResponseEngine | null | undefined;
+  error?: number | null | undefined;
+  fileEmbedErrors?: NamespacesInstancesStatsResponseFileEmbedErrorsMap | null | undefined;
+  indexSourceErrors?: NamespacesInstancesStatsResponseIndexSourceErrorsMap | null | undefined;
+  lastActivity?: string | null | undefined;
+  outdated?: number | null | undefined;
+  queued?: number | null | undefined;
+  running?: number | null | undefined;
+  skipped?: number | null | undefined;
 }
 export type NamespacesInstancesItemsSyncRequestNextAction = "INDEX";
 export interface SyncNamespaceInstanceItemRequest {
@@ -4334,7 +4726,7 @@ export interface SyncNamespaceInstanceItemRequest {
   itemId: string;
   nextAction: NamespacesInstancesItemsSyncRequestNextAction | (string & {});
   /** Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself continues uninterrupted and can exceed that budget. If confirmation times out, the response returns the current item state and background indexing continues. Defaults to false. */
-  waitForCompletion?: boolean;
+  waitForCompletion?: boolean | undefined;
 }
 export type NamespacesInstancesItemsSyncResponseMetadataValue = string | number | boolean;
 export type NamespacesInstancesItemsSyncResponseMetadataMap = {
@@ -4364,7 +4756,7 @@ export interface SyncNamespaceInstanceItemResponse {
   /** Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items. */
   sourceId: string;
   status: NamespacesInstancesItemsSyncResponseStatus;
-  error?: string | null;
+  error?: string | null | undefined;
 }
 export type InstancesUpdateRequestCacheThreshold =
   | "super_strict_match"
@@ -4398,9 +4790,12 @@ export type InstancesUpdateRequestIndexMethod = InstancesCreateRequestIndexMetho
 export type InstancesUpdateRequestIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface InstancesUpdateRequestIndexingOptions {
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
-  keywordTokenizer?: InstancesUpdateRequestIndexingOptionsKeywordTokenizer | (string & {});
+  keywordTokenizer?:
+    | InstancesUpdateRequestIndexingOptionsKeywordTokenizer
+    | (string & {})
+    | undefined;
   /** Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false. */
-  useOcr?: boolean;
+  useOcr?: boolean | undefined;
 }
 export type InstancesUpdateRequestMetadataCreatedFromEmdashPluginType = "native" | "rest";
 export interface InstancesUpdateRequestMetadataCreatedFromEmdashPlugin {
@@ -4408,9 +4803,9 @@ export interface InstancesUpdateRequestMetadataCreatedFromEmdashPlugin {
   version: string;
 }
 export interface InstancesUpdateRequestMetadata {
-  createdFromAisearchWizard?: boolean;
-  createdFromEmdashPlugin?: InstancesUpdateRequestMetadataCreatedFromEmdashPlugin;
-  workerDomain?: string;
+  createdFromAisearchWizard?: boolean | undefined;
+  createdFromEmdashPlugin?: InstancesUpdateRequestMetadataCreatedFromEmdashPlugin | undefined;
+  workerDomain?: string | undefined;
 }
 export type InstancesUpdateRequestPublicEndpointParamsAuthorizedHostsList = Array<string>;
 export type InstancesUpdateRequestPublicEndpointParamsChatCompletionsEndpoint =
@@ -4420,23 +4815,28 @@ export type InstancesUpdateRequestPublicEndpointParamsMcp =
   InstancesCreateRequestPublicEndpointParamsMcp;
 export type InstancesUpdateRequestPublicEndpointParamsRateLimitTechnique = "fixed" | "sliding";
 export interface InstancesUpdateRequestPublicEndpointParamsRateLimit {
-  periodMs?: number;
-  requests?: number;
-  technique?: InstancesUpdateRequestPublicEndpointParamsRateLimitTechnique | (string & {});
+  periodMs?: number | undefined;
+  requests?: number | undefined;
+  technique?:
+    | InstancesUpdateRequestPublicEndpointParamsRateLimitTechnique
+    | (string & {})
+    | undefined;
 }
 export type InstancesUpdateRequestPublicEndpointParamsSearchEndpoint =
   InstancesCreateRequestPublicEndpointParamsSearchEndpoint;
 export interface InstancesUpdateRequestPublicEndpointParams {
-  authorizedHosts?: InstancesUpdateRequestPublicEndpointParamsAuthorizedHostsList;
-  chatCompletionsEndpoint?: InstancesCreateRequestPublicEndpointParamsChatCompletionsEndpoint;
+  authorizedHosts?: InstancesUpdateRequestPublicEndpointParamsAuthorizedHostsList | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateRequestPublicEndpointParamsChatCompletionsEndpoint
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: InstancesUpdateRequestPublicEndpointParamsCustomDomainsList;
+  customDomains?: InstancesUpdateRequestPublicEndpointParamsCustomDomainsList | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean;
-  enabled?: boolean;
-  mcp?: InstancesCreateRequestPublicEndpointParamsMcp;
-  rateLimit?: InstancesUpdateRequestPublicEndpointParamsRateLimit;
-  searchEndpoint?: InstancesCreateRequestPublicEndpointParamsSearchEndpoint;
+  defaultDomainEnabled?: boolean | undefined;
+  enabled?: boolean | undefined;
+  mcp?: InstancesCreateRequestPublicEndpointParamsMcp | undefined;
+  rateLimit?: InstancesUpdateRequestPublicEndpointParamsRateLimit | undefined;
+  searchEndpoint?: InstancesCreateRequestPublicEndpointParamsSearchEndpoint | undefined;
 }
 export type InstancesUpdateRequestRetrievalOptionsBoostByItemDirection =
   | "asc"
@@ -4447,16 +4847,22 @@ export interface InstancesUpdateRequestRetrievalOptionsBoostByItem {
   /** Metadata field name to boost by. Use 'timestamp' for document freshness, or any custom_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not_exists); text/boolean fields only support exists/not_exists. */
   field: string;
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
-  direction?: InstancesUpdateRequestRetrievalOptionsBoostByItemDirection | (string & {});
+  direction?:
+    | InstancesUpdateRequestRetrievalOptionsBoostByItemDirection
+    | (string & {})
+    | undefined;
 }
 export type InstancesUpdateRequestRetrievalOptionsBoostByList =
   Array<InstancesUpdateRequestRetrievalOptionsBoostByItem>;
 export type InstancesUpdateRequestRetrievalOptionsKeywordMatchMode = "and" | "or";
 export interface InstancesUpdateRequestRetrievalOptions {
   /** Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: InstancesUpdateRequestRetrievalOptionsBoostByList;
+  boostBy?: InstancesUpdateRequestRetrievalOptionsBoostByList | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'. */
-  keywordMatchMode?: InstancesUpdateRequestRetrievalOptionsKeywordMatchMode | (string & {});
+  keywordMatchMode?:
+    | InstancesUpdateRequestRetrievalOptionsKeywordMatchMode
+    | (string & {})
+    | undefined;
 }
 export type InstancesUpdateRequestSourceParamsExcludeItemsList = Array<string>;
 export type InstancesUpdateRequestSourceParamsIncludeItemsList = Array<string>;
@@ -4466,17 +4872,20 @@ export type InstancesUpdateRequestSourceParamsWebCrawlerDiscoverOptionsSource =
   | "links";
 export interface InstancesUpdateRequestSourceParamsWebCrawlerDiscoverOptions {
   /** Maximum link-follow depth from the seed URL. */
-  depth?: number;
+  depth?: number | undefined;
   /** Follow links that point outside the source domain. Must stay `false` because discover crawls only cover the zone you own. */
-  includeExternalLinks?: boolean;
+  includeExternalLinks?: boolean | undefined;
   /** Follow links to subdomains of the source host. */
-  includeSubdomains?: boolean;
+  includeSubdomains?: boolean | undefined;
   /** Maximum number of pages to crawl (1-100000). */
-  limit?: number;
+  limit?: number | undefined;
   /** Maximum content age in seconds to accept (0-604800). */
-  maxAge?: number;
+  maxAge?: number | undefined;
   /** Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both. */
-  source?: InstancesUpdateRequestSourceParamsWebCrawlerDiscoverOptionsSource | (string & {});
+  source?:
+    | InstancesUpdateRequestSourceParamsWebCrawlerDiscoverOptionsSource
+    | (string & {})
+    | undefined;
 }
 export type InstancesUpdateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
@@ -4489,32 +4898,38 @@ export type InstancesUpdateRequestSourceParamsWebCrawlerParseOptionsSpecificSite
   Array<string>;
 export interface InstancesUpdateRequestSourceParamsWebCrawlerParseOptions {
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
-  contentSelector?: InstancesUpdateRequestSourceParamsWebCrawlerParseOptionsContentSelectorList;
+  contentSelector?:
+    | InstancesUpdateRequestSourceParamsWebCrawlerParseOptionsContentSelectorList
+    | undefined;
   /** Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. */
-  includeHeaders?: InstancesUpdateRequestSourceParamsWebCrawlerParseOptionsIncludeHeadersMap;
-  includeImages?: boolean;
+  includeHeaders?:
+    | InstancesUpdateRequestSourceParamsWebCrawlerParseOptionsIncludeHeadersMap
+    | undefined;
+  includeImages?: boolean | undefined;
   /** List of specific sitemap URLs to use for crawling. Only valid when parse_type is 'sitemap'. */
-  specificSitemaps?: InstancesUpdateRequestSourceParamsWebCrawlerParseOptionsSpecificSitemapsList;
-  useBrowserRendering?: boolean;
+  specificSitemaps?:
+    | InstancesUpdateRequestSourceParamsWebCrawlerParseOptionsSpecificSitemapsList
+    | undefined;
+  useBrowserRendering?: boolean | undefined;
 }
 export type InstancesUpdateRequestSourceParamsWebCrawlerParseType = "sitemap" | "discover";
 export interface InstancesUpdateRequestSourceParamsWebCrawler {
   /** Options for parse_type 'discover', where Browser Run discovers URLs through link following and sitemaps. Ignored for 'sitemap'. */
-  discoverOptions?: InstancesUpdateRequestSourceParamsWebCrawlerDiscoverOptions;
-  parseOptions?: InstancesUpdateRequestSourceParamsWebCrawlerParseOptions;
+  discoverOptions?: InstancesUpdateRequestSourceParamsWebCrawlerDiscoverOptions | undefined;
+  parseOptions?: InstancesUpdateRequestSourceParamsWebCrawlerParseOptions | undefined;
   /** How the crawler finds URLs. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to belong to a Verified zone on this account. */
-  parseType?: InstancesUpdateRequestSourceParamsWebCrawlerParseType | (string & {});
+  parseType?: InstancesUpdateRequestSourceParamsWebCrawlerParseType | (string & {}) | undefined;
   /** Options controlling crawl discovery (e.g. { source: "links" }). */
-  crawlOptions?: WebCrawlerCrawlOptions;
+  crawlOptions?: WebCrawlerCrawlOptions | undefined;
 }
 export interface InstancesUpdateRequestSourceParams {
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
-  excludeItems?: InstancesUpdateRequestSourceParamsExcludeItemsList;
+  excludeItems?: InstancesUpdateRequestSourceParamsExcludeItemsList | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
-  includeItems?: InstancesUpdateRequestSourceParamsIncludeItemsList;
-  prefix?: string;
-  r2Jurisdiction?: string;
-  webCrawler?: InstancesUpdateRequestSourceParamsWebCrawler;
+  includeItems?: InstancesUpdateRequestSourceParamsIncludeItemsList | undefined;
+  prefix?: string | undefined;
+  r2Jurisdiction?: string | undefined;
+  webCrawler?: InstancesUpdateRequestSourceParamsWebCrawler | undefined;
 }
 export type InstancesUpdateRequestSyncInterval =
   | 900
@@ -4528,44 +4943,44 @@ export type InstancesUpdateRequestSyncInterval =
 export interface UpdateInstanceRequest {
   accountId: string;
   id: string;
-  aiGatewayId?: string;
+  aiGatewayId?: string | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  aiSearchModel?: string;
-  cache?: boolean;
-  cacheThreshold?: InstancesUpdateRequestCacheThreshold | (string & {});
+  aiSearchModel?: string | undefined;
+  cache?: boolean | undefined;
+  cacheThreshold?: InstancesUpdateRequestCacheThreshold | (string & {}) | undefined;
   /** Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?: InstancesUpdateRequestCacheTtl | (number & {});
-  chunk?: boolean;
-  chunkOverlap?: number;
-  chunkSize?: number;
-  customMetadata?: InstancesUpdateRequestCustomMetadataList;
-  embeddingModel?: string;
-  fusionMethod?: InstancesUpdateRequestFusionMethod | (string & {});
+  cacheTtl?: InstancesUpdateRequestCacheTtl | (number & {}) | undefined;
+  chunk?: boolean | undefined;
+  chunkOverlap?: number | undefined;
+  chunkSize?: number | undefined;
+  customMetadata?: InstancesUpdateRequestCustomMetadataList | undefined;
+  embeddingModel?: string | undefined;
+  fusionMethod?: InstancesUpdateRequestFusionMethod | (string & {}) | undefined;
   /** Controls which storage backends indexing uses. Defaults to vector and keyword indexing for new instances. When set, both vector and keyword are required. */
-  indexMethod?: InstancesCreateRequestIndexMethod;
-  indexingOptions?: InstancesUpdateRequestIndexingOptions;
-  maxNumResults?: number;
-  metadata?: InstancesUpdateRequestMetadata;
-  paused?: boolean;
-  publicEndpointParams?: InstancesUpdateRequestPublicEndpointParams;
-  reranking?: boolean;
-  rerankingModel?: string;
-  retrievalOptions?: InstancesUpdateRequestRetrievalOptions;
+  indexMethod?: InstancesCreateRequestIndexMethod | undefined;
+  indexingOptions?: InstancesUpdateRequestIndexingOptions | undefined;
+  maxNumResults?: number | undefined;
+  metadata?: InstancesUpdateRequestMetadata | undefined;
+  paused?: boolean | undefined;
+  publicEndpointParams?: InstancesUpdateRequestPublicEndpointParams | undefined;
+  reranking?: boolean | undefined;
+  rerankingModel?: string | undefined;
+  retrievalOptions?: InstancesUpdateRequestRetrievalOptions | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  rewriteModel?: string;
-  rewriteQuery?: boolean;
+  rewriteModel?: string | undefined;
+  rewriteQuery?: boolean | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
-  scoreThreshold?: number;
-  source?: string;
-  sourceParams?: InstancesUpdateRequestSourceParams;
-  summarization?: boolean;
-  summarizationModel?: string;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
-  syncInterval?: InstancesUpdateRequestSyncInterval | (number & {});
-  systemPromptAiSearch?: string;
-  systemPromptIndexSummarization?: string;
-  systemPromptRewriteQuery?: string;
-  tokenId?: string;
+  scoreThreshold?: number | undefined;
+  source?: string | undefined;
+  sourceParams?: InstancesUpdateRequestSourceParams | undefined;
+  summarization?: boolean | undefined;
+  summarizationModel?: string | undefined;
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
+  syncInterval?: InstancesUpdateRequestSyncInterval | (number & {}) | undefined;
+  systemPromptAiSearch?: string | undefined;
+  systemPromptIndexSummarization?: string | undefined;
+  systemPromptRewriteQuery?: string | undefined;
+  tokenId?: string | undefined;
 }
 export type InstancesUpdateResponseCacheThreshold =
   | "super_strict_match"
@@ -4599,9 +5014,9 @@ export type InstancesUpdateResponseIndexMethod = InstancesCreateRequestIndexMeth
 export type InstancesUpdateResponseIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface InstancesUpdateResponseIndexingOptions {
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
-  keywordTokenizer?: InstancesUpdateResponseIndexingOptionsKeywordTokenizer | null;
+  keywordTokenizer?: InstancesUpdateResponseIndexingOptionsKeywordTokenizer | null | undefined;
   /** Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false. */
-  useOcr?: boolean | null;
+  useOcr?: boolean | null | undefined;
 }
 export type InstancesUpdateResponseMetadataCreatedFromEmdashPluginType = "native" | "rest";
 export interface InstancesUpdateResponseMetadataCreatedFromEmdashPlugin {
@@ -4609,9 +5024,12 @@ export interface InstancesUpdateResponseMetadataCreatedFromEmdashPlugin {
   version: string;
 }
 export interface InstancesUpdateResponseMetadata {
-  createdFromAisearchWizard?: boolean | null;
-  createdFromEmdashPlugin?: InstancesUpdateResponseMetadataCreatedFromEmdashPlugin | null;
-  workerDomain?: string | null;
+  createdFromAisearchWizard?: boolean | null | undefined;
+  createdFromEmdashPlugin?:
+    | InstancesUpdateResponseMetadataCreatedFromEmdashPlugin
+    | null
+    | undefined;
+  workerDomain?: string | null | undefined;
 }
 export type InstancesUpdateResponsePublicEndpointParamsAuthorizedHostsList = Array<string>;
 export type InstancesUpdateResponsePublicEndpointParamsChatCompletionsEndpoint =
@@ -4621,23 +5039,29 @@ export type InstancesUpdateResponsePublicEndpointParamsMcp =
   InstancesCreateResponsePublicEndpointParamsMcp;
 export type InstancesUpdateResponsePublicEndpointParamsRateLimitTechnique = "fixed" | "sliding";
 export interface InstancesUpdateResponsePublicEndpointParamsRateLimit {
-  periodMs?: number | null;
-  requests?: number | null;
-  technique?: InstancesUpdateResponsePublicEndpointParamsRateLimitTechnique | null;
+  periodMs?: number | null | undefined;
+  requests?: number | null | undefined;
+  technique?: InstancesUpdateResponsePublicEndpointParamsRateLimitTechnique | null | undefined;
 }
 export type InstancesUpdateResponsePublicEndpointParamsSearchEndpoint =
   InstancesCreateResponsePublicEndpointParamsSearchEndpoint;
 export interface InstancesUpdateResponsePublicEndpointParams {
-  authorizedHosts?: InstancesUpdateResponsePublicEndpointParamsAuthorizedHostsList | null;
-  chatCompletionsEndpoint?: InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint | null;
+  authorizedHosts?:
+    | InstancesUpdateResponsePublicEndpointParamsAuthorizedHostsList
+    | null
+    | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint
+    | null
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: InstancesUpdateResponsePublicEndpointParamsCustomDomainsList | null;
+  customDomains?: InstancesUpdateResponsePublicEndpointParamsCustomDomainsList | null | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean | null;
-  enabled?: boolean | null;
-  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null;
-  rateLimit?: InstancesUpdateResponsePublicEndpointParamsRateLimit | null;
-  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null;
+  defaultDomainEnabled?: boolean | null | undefined;
+  enabled?: boolean | null | undefined;
+  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null | undefined;
+  rateLimit?: InstancesUpdateResponsePublicEndpointParamsRateLimit | null | undefined;
+  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null | undefined;
 }
 export type InstancesUpdateResponseRetrievalOptionsBoostByItemDirection =
   | "asc"
@@ -4648,16 +5072,16 @@ export interface InstancesUpdateResponseRetrievalOptionsBoostByItem {
   /** Metadata field name to boost by. Use 'timestamp' for document freshness, or any custom_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not_exists); text/boolean fields only support exists/not_exists. */
   field: string;
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
-  direction?: InstancesUpdateResponseRetrievalOptionsBoostByItemDirection | null;
+  direction?: InstancesUpdateResponseRetrievalOptionsBoostByItemDirection | null | undefined;
 }
 export type InstancesUpdateResponseRetrievalOptionsBoostByList =
   Array<InstancesUpdateResponseRetrievalOptionsBoostByItem>;
 export type InstancesUpdateResponseRetrievalOptionsKeywordMatchMode = "and" | "or";
 export interface InstancesUpdateResponseRetrievalOptions {
   /** Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: InstancesUpdateResponseRetrievalOptionsBoostByList | null;
+  boostBy?: InstancesUpdateResponseRetrievalOptionsBoostByList | null | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'. */
-  keywordMatchMode?: InstancesUpdateResponseRetrievalOptionsKeywordMatchMode | null;
+  keywordMatchMode?: InstancesUpdateResponseRetrievalOptionsKeywordMatchMode | null | undefined;
 }
 export type InstancesUpdateResponseSourceParamsExcludeItemsList = Array<string>;
 export type InstancesUpdateResponseSourceParamsIncludeItemsList = Array<string>;
@@ -4667,17 +5091,17 @@ export type InstancesUpdateResponseSourceParamsWebCrawlerDiscoverOptionsSource =
   | "links";
 export interface InstancesUpdateResponseSourceParamsWebCrawlerDiscoverOptions {
   /** Maximum link-follow depth from the seed URL. */
-  depth?: number | null;
+  depth?: number | null | undefined;
   /** Follow links that point outside the source domain. Must stay `false` because discover crawls only cover the zone you own. */
-  includeExternalLinks?: boolean | null;
+  includeExternalLinks?: boolean | null | undefined;
   /** Follow links to subdomains of the source host. */
-  includeSubdomains?: boolean | null;
+  includeSubdomains?: boolean | null | undefined;
   /** Maximum number of pages to crawl (1-100000). */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Maximum content age in seconds to accept (0-604800). */
-  maxAge?: number | null;
+  maxAge?: number | null | undefined;
   /** Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both. */
-  source?: InstancesUpdateResponseSourceParamsWebCrawlerDiscoverOptionsSource | null;
+  source?: InstancesUpdateResponseSourceParamsWebCrawlerDiscoverOptionsSource | null | undefined;
 }
 export type InstancesUpdateResponseSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
@@ -4690,32 +5114,41 @@ export type InstancesUpdateResponseSourceParamsWebCrawlerParseOptionsSpecificSit
   Array<string>;
 export interface InstancesUpdateResponseSourceParamsWebCrawlerParseOptions {
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
-  contentSelector?: InstancesUpdateResponseSourceParamsWebCrawlerParseOptionsContentSelectorList | null;
+  contentSelector?:
+    | InstancesUpdateResponseSourceParamsWebCrawlerParseOptionsContentSelectorList
+    | null
+    | undefined;
   /** Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. */
-  includeHeaders?: InstancesUpdateResponseSourceParamsWebCrawlerParseOptionsIncludeHeadersMap | null;
-  includeImages?: boolean | null;
+  includeHeaders?:
+    | InstancesUpdateResponseSourceParamsWebCrawlerParseOptionsIncludeHeadersMap
+    | null
+    | undefined;
+  includeImages?: boolean | null | undefined;
   /** List of specific sitemap URLs to use for crawling. Only valid when parse_type is 'sitemap'. */
-  specificSitemaps?: InstancesUpdateResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList | null;
-  useBrowserRendering?: boolean | null;
+  specificSitemaps?:
+    | InstancesUpdateResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList
+    | null
+    | undefined;
+  useBrowserRendering?: boolean | null | undefined;
 }
 export type InstancesUpdateResponseSourceParamsWebCrawlerParseType = "sitemap" | "discover";
 export interface InstancesUpdateResponseSourceParamsWebCrawler {
   /** Options for parse_type 'discover', where Browser Run discovers URLs through link following and sitemaps. Ignored for 'sitemap'. */
-  discoverOptions?: InstancesUpdateResponseSourceParamsWebCrawlerDiscoverOptions | null;
-  parseOptions?: InstancesUpdateResponseSourceParamsWebCrawlerParseOptions | null;
+  discoverOptions?: InstancesUpdateResponseSourceParamsWebCrawlerDiscoverOptions | null | undefined;
+  parseOptions?: InstancesUpdateResponseSourceParamsWebCrawlerParseOptions | null | undefined;
   /** How the crawler finds URLs. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to belong to a Verified zone on this account. */
-  parseType?: InstancesUpdateResponseSourceParamsWebCrawlerParseType | null;
+  parseType?: InstancesUpdateResponseSourceParamsWebCrawlerParseType | null | undefined;
   /** Options controlling crawl discovery (e.g. { source: "links" }). */
-  crawlOptions?: WebCrawlerCrawlOptions | null;
+  crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface InstancesUpdateResponseSourceParams {
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
-  excludeItems?: InstancesUpdateResponseSourceParamsExcludeItemsList | null;
+  excludeItems?: InstancesUpdateResponseSourceParamsExcludeItemsList | null | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
-  includeItems?: InstancesUpdateResponseSourceParamsIncludeItemsList | null;
-  prefix?: string | null;
-  r2Jurisdiction?: string | null;
-  webCrawler?: InstancesUpdateResponseSourceParamsWebCrawler | null;
+  includeItems?: InstancesUpdateResponseSourceParamsIncludeItemsList | null | undefined;
+  prefix?: string | null | undefined;
+  r2Jurisdiction?: string | null | undefined;
+  webCrawler?: InstancesUpdateResponseSourceParamsWebCrawler | null | undefined;
 }
 export type InstancesUpdateResponseSyncInterval =
   | 900
@@ -4733,50 +5166,50 @@ export interface UpdateInstanceResponse {
   id: string;
   createdAt: string;
   modifiedAt: string;
-  aiGatewayId?: string | null;
+  aiGatewayId?: string | null | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  aiSearchModel?: string | null;
-  cache?: boolean | null;
-  cacheThreshold?: InstancesUpdateResponseCacheThreshold | null;
+  aiSearchModel?: string | null | undefined;
+  cache?: boolean | null | undefined;
+  cacheThreshold?: InstancesUpdateResponseCacheThreshold | null | undefined;
   /** Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?: InstancesUpdateResponseCacheTtl | null;
-  chunkOverlap?: number | null;
-  chunkSize?: number | null;
-  createdBy?: string | null;
-  customMetadata?: InstancesUpdateResponseCustomMetadataList | null;
-  embeddingModel?: string | null;
-  enable?: boolean | null;
-  engineVersion?: number | null;
-  fusionMethod?: InstancesUpdateResponseFusionMethod | null;
+  cacheTtl?: InstancesUpdateResponseCacheTtl | null | undefined;
+  chunkOverlap?: number | null | undefined;
+  chunkSize?: number | null | undefined;
+  createdBy?: string | null | undefined;
+  customMetadata?: InstancesUpdateResponseCustomMetadataList | null | undefined;
+  embeddingModel?: string | null | undefined;
+  enable?: boolean | null | undefined;
+  engineVersion?: number | null | undefined;
+  fusionMethod?: InstancesUpdateResponseFusionMethod | null | undefined;
   /** Deprecated -- use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
-  hybridSearchEnabled?: boolean | null;
+  hybridSearchEnabled?: boolean | null | undefined;
   /** Controls which storage backends indexing uses. Defaults to vector and keyword indexing for new instances. When set, both vector and keyword are required. */
-  indexMethod?: InstancesCreateRequestIndexMethod | null;
-  indexingOptions?: InstancesUpdateResponseIndexingOptions | null;
-  lastActivity?: string | null;
-  maxNumResults?: number | null;
-  metadata?: InstancesUpdateResponseMetadata | null;
-  modifiedBy?: string | null;
-  namespace?: string | null;
-  paused?: boolean | null;
-  publicEndpointId?: string | null;
-  publicEndpointParams?: InstancesUpdateResponsePublicEndpointParams | null;
-  reranking?: boolean | null;
-  rerankingModel?: string | null;
-  retrievalOptions?: InstancesUpdateResponseRetrievalOptions | null;
+  indexMethod?: InstancesCreateRequestIndexMethod | null | undefined;
+  indexingOptions?: InstancesUpdateResponseIndexingOptions | null | undefined;
+  lastActivity?: string | null | undefined;
+  maxNumResults?: number | null | undefined;
+  metadata?: InstancesUpdateResponseMetadata | null | undefined;
+  modifiedBy?: string | null | undefined;
+  namespace?: string | null | undefined;
+  paused?: boolean | null | undefined;
+  publicEndpointId?: string | null | undefined;
+  publicEndpointParams?: InstancesUpdateResponsePublicEndpointParams | null | undefined;
+  reranking?: boolean | null | undefined;
+  rerankingModel?: string | null | undefined;
+  retrievalOptions?: InstancesUpdateResponseRetrievalOptions | null | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  rewriteModel?: string | null;
-  rewriteQuery?: boolean | null;
+  rewriteModel?: string | null | undefined;
+  rewriteQuery?: boolean | null | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
-  scoreThreshold?: number | null;
-  source?: string | null;
-  sourceParams?: InstancesUpdateResponseSourceParams | null;
-  status?: string | null;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
-  syncInterval?: InstancesUpdateResponseSyncInterval | null;
-  tokenId?: string | null;
+  scoreThreshold?: number | null | undefined;
+  source?: string | null | undefined;
+  sourceParams?: InstancesUpdateResponseSourceParams | null | undefined;
+  status?: string | null | undefined;
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
+  syncInterval?: InstancesUpdateResponseSyncInterval | null | undefined;
+  tokenId?: string | null | undefined;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
-  type?: InstancesUpdateResponseType | null;
+  type?: InstancesUpdateResponseType | null | undefined;
 }
 export type NamespacesUpdateRequestPublicEndpointParamsAuthorizedHostsList = Array<string>;
 export type NamespacesUpdateRequestPublicEndpointParamsChatCompletionsEndpoint =
@@ -4787,32 +5220,37 @@ export type NamespacesUpdateRequestPublicEndpointParamsMcp =
   InstancesCreateRequestPublicEndpointParamsMcp;
 export type NamespacesUpdateRequestPublicEndpointParamsRateLimitTechnique = "fixed" | "sliding";
 export interface NamespacesUpdateRequestPublicEndpointParamsRateLimit {
-  periodMs?: number;
-  requests?: number;
-  technique?: NamespacesUpdateRequestPublicEndpointParamsRateLimitTechnique | (string & {});
+  periodMs?: number | undefined;
+  requests?: number | undefined;
+  technique?:
+    | NamespacesUpdateRequestPublicEndpointParamsRateLimitTechnique
+    | (string & {})
+    | undefined;
 }
 export type NamespacesUpdateRequestPublicEndpointParamsSearchEndpoint =
   InstancesCreateRequestPublicEndpointParamsSearchEndpoint;
 export interface NamespacesUpdateRequestPublicEndpointParams {
-  authorizedHosts?: NamespacesUpdateRequestPublicEndpointParamsAuthorizedHostsList;
-  chatCompletionsEndpoint?: InstancesCreateRequestPublicEndpointParamsChatCompletionsEndpoint;
+  authorizedHosts?: NamespacesUpdateRequestPublicEndpointParamsAuthorizedHostsList | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateRequestPublicEndpointParamsChatCompletionsEndpoint
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: NamespacesUpdateRequestPublicEndpointParamsCustomDomainsList;
+  customDomains?: NamespacesUpdateRequestPublicEndpointParamsCustomDomainsList | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean;
-  enabled?: boolean;
+  defaultDomainEnabled?: boolean | undefined;
+  enabled?: boolean | undefined;
   /** Instance IDs exposed through the namespace public endpoint. Empty means nothing is searchable. Every ID must reference an existing instance in this namespace, and the list must stay within the account's multi-instance search limit. */
-  instancesAllowed?: NamespacesUpdateRequestPublicEndpointParamsInstancesAllowedList;
-  mcp?: InstancesCreateRequestPublicEndpointParamsMcp;
-  rateLimit?: NamespacesUpdateRequestPublicEndpointParamsRateLimit;
-  searchEndpoint?: InstancesCreateRequestPublicEndpointParamsSearchEndpoint;
+  instancesAllowed?: NamespacesUpdateRequestPublicEndpointParamsInstancesAllowedList | undefined;
+  mcp?: InstancesCreateRequestPublicEndpointParamsMcp | undefined;
+  rateLimit?: NamespacesUpdateRequestPublicEndpointParamsRateLimit | undefined;
+  searchEndpoint?: InstancesCreateRequestPublicEndpointParamsSearchEndpoint | undefined;
 }
 export interface UpdateNamespaceRequest {
   accountId: string;
   name: string;
   /** Optional description for the namespace. Max 256 characters. */
-  description?: string | null;
-  publicEndpointParams?: NamespacesUpdateRequestPublicEndpointParams;
+  description?: string | null | undefined;
+  publicEndpointParams?: NamespacesUpdateRequestPublicEndpointParams | undefined;
 }
 export type NamespacesUpdateResponsePublicEndpointParamsAuthorizedHostsList = Array<string>;
 export type NamespacesUpdateResponsePublicEndpointParamsChatCompletionsEndpoint =
@@ -4823,34 +5261,43 @@ export type NamespacesUpdateResponsePublicEndpointParamsMcp =
   InstancesCreateResponsePublicEndpointParamsMcp;
 export type NamespacesUpdateResponsePublicEndpointParamsRateLimitTechnique = "fixed" | "sliding";
 export interface NamespacesUpdateResponsePublicEndpointParamsRateLimit {
-  periodMs?: number | null;
-  requests?: number | null;
-  technique?: NamespacesUpdateResponsePublicEndpointParamsRateLimitTechnique | null;
+  periodMs?: number | null | undefined;
+  requests?: number | null | undefined;
+  technique?: NamespacesUpdateResponsePublicEndpointParamsRateLimitTechnique | null | undefined;
 }
 export type NamespacesUpdateResponsePublicEndpointParamsSearchEndpoint =
   InstancesCreateResponsePublicEndpointParamsSearchEndpoint;
 export interface NamespacesUpdateResponsePublicEndpointParams {
-  authorizedHosts?: NamespacesUpdateResponsePublicEndpointParamsAuthorizedHostsList | null;
-  chatCompletionsEndpoint?: InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint | null;
+  authorizedHosts?:
+    | NamespacesUpdateResponsePublicEndpointParamsAuthorizedHostsList
+    | null
+    | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint
+    | null
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: NamespacesUpdateResponsePublicEndpointParamsCustomDomainsList | null;
+  customDomains?: NamespacesUpdateResponsePublicEndpointParamsCustomDomainsList | null | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean | null;
-  enabled?: boolean | null;
+  defaultDomainEnabled?: boolean | null | undefined;
+  enabled?: boolean | null | undefined;
   /** Instance IDs exposed through the namespace public endpoint. Empty means nothing is searchable. Every ID must reference an existing instance in this namespace, and the list must stay within the account's multi-instance search limit. */
-  instancesAllowed?: NamespacesUpdateResponsePublicEndpointParamsInstancesAllowedList | null;
-  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null;
-  rateLimit?: NamespacesUpdateResponsePublicEndpointParamsRateLimit | null;
-  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null;
+  instancesAllowed?:
+    | NamespacesUpdateResponsePublicEndpointParamsInstancesAllowedList
+    | null
+    | undefined;
+  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null | undefined;
+  rateLimit?: NamespacesUpdateResponsePublicEndpointParamsRateLimit | null | undefined;
+  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateNamespaceResponse {
   createdAt: string;
   name: string;
   /** Optional description for the namespace. Max 256 characters. */
-  description?: string | null;
-  publicEndpointId?: string | null;
-  publicEndpointParams?: NamespacesUpdateResponsePublicEndpointParams | null;
+  description?: string | null | undefined;
+  publicEndpointId?: string | null | undefined;
+  publicEndpointParams?: NamespacesUpdateResponsePublicEndpointParams | null | undefined;
 }
 export type NamespacesInstancesUpdateRequestCacheThreshold =
   | "super_strict_match"
@@ -4886,9 +5333,10 @@ export interface NamespacesInstancesUpdateRequestIndexingOptions {
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
   keywordTokenizer?:
     | NamespacesInstancesUpdateRequestIndexingOptionsKeywordTokenizer
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false. */
-  useOcr?: boolean;
+  useOcr?: boolean | undefined;
 }
 export type NamespacesInstancesUpdateRequestMetadataCreatedFromEmdashPluginType = "native" | "rest";
 export interface NamespacesInstancesUpdateRequestMetadataCreatedFromEmdashPlugin {
@@ -4896,9 +5344,11 @@ export interface NamespacesInstancesUpdateRequestMetadataCreatedFromEmdashPlugin
   version: string;
 }
 export interface NamespacesInstancesUpdateRequestMetadata {
-  createdFromAisearchWizard?: boolean;
-  createdFromEmdashPlugin?: NamespacesInstancesUpdateRequestMetadataCreatedFromEmdashPlugin;
-  workerDomain?: string;
+  createdFromAisearchWizard?: boolean | undefined;
+  createdFromEmdashPlugin?:
+    | NamespacesInstancesUpdateRequestMetadataCreatedFromEmdashPlugin
+    | undefined;
+  workerDomain?: string | undefined;
 }
 export type NamespacesInstancesUpdateRequestPublicEndpointParamsAuthorizedHostsList = Array<string>;
 export type NamespacesInstancesUpdateRequestPublicEndpointParamsChatCompletionsEndpoint =
@@ -4910,25 +5360,30 @@ export type NamespacesInstancesUpdateRequestPublicEndpointParamsRateLimitTechniq
   | "fixed"
   | "sliding";
 export interface NamespacesInstancesUpdateRequestPublicEndpointParamsRateLimit {
-  periodMs?: number;
-  requests?: number;
+  periodMs?: number | undefined;
+  requests?: number | undefined;
   technique?:
     | NamespacesInstancesUpdateRequestPublicEndpointParamsRateLimitTechnique
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type NamespacesInstancesUpdateRequestPublicEndpointParamsSearchEndpoint =
   InstancesCreateRequestPublicEndpointParamsSearchEndpoint;
 export interface NamespacesInstancesUpdateRequestPublicEndpointParams {
-  authorizedHosts?: NamespacesInstancesUpdateRequestPublicEndpointParamsAuthorizedHostsList;
-  chatCompletionsEndpoint?: InstancesCreateRequestPublicEndpointParamsChatCompletionsEndpoint;
+  authorizedHosts?:
+    | NamespacesInstancesUpdateRequestPublicEndpointParamsAuthorizedHostsList
+    | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateRequestPublicEndpointParamsChatCompletionsEndpoint
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: NamespacesInstancesUpdateRequestPublicEndpointParamsCustomDomainsList;
+  customDomains?: NamespacesInstancesUpdateRequestPublicEndpointParamsCustomDomainsList | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean;
-  enabled?: boolean;
-  mcp?: InstancesCreateRequestPublicEndpointParamsMcp;
-  rateLimit?: NamespacesInstancesUpdateRequestPublicEndpointParamsRateLimit;
-  searchEndpoint?: InstancesCreateRequestPublicEndpointParamsSearchEndpoint;
+  defaultDomainEnabled?: boolean | undefined;
+  enabled?: boolean | undefined;
+  mcp?: InstancesCreateRequestPublicEndpointParamsMcp | undefined;
+  rateLimit?: NamespacesInstancesUpdateRequestPublicEndpointParamsRateLimit | undefined;
+  searchEndpoint?: InstancesCreateRequestPublicEndpointParamsSearchEndpoint | undefined;
 }
 export type NamespacesInstancesUpdateRequestRetrievalOptionsBoostByItemDirection =
   | "asc"
@@ -4939,18 +5394,22 @@ export interface NamespacesInstancesUpdateRequestRetrievalOptionsBoostByItem {
   /** Metadata field name to boost by. Use 'timestamp' for document freshness, or any custom_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not_exists); text/boolean fields only support exists/not_exists. */
   field: string;
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
-  direction?: NamespacesInstancesUpdateRequestRetrievalOptionsBoostByItemDirection | (string & {});
+  direction?:
+    | NamespacesInstancesUpdateRequestRetrievalOptionsBoostByItemDirection
+    | (string & {})
+    | undefined;
 }
 export type NamespacesInstancesUpdateRequestRetrievalOptionsBoostByList =
   Array<NamespacesInstancesUpdateRequestRetrievalOptionsBoostByItem>;
 export type NamespacesInstancesUpdateRequestRetrievalOptionsKeywordMatchMode = "and" | "or";
 export interface NamespacesInstancesUpdateRequestRetrievalOptions {
   /** Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: NamespacesInstancesUpdateRequestRetrievalOptionsBoostByList;
+  boostBy?: NamespacesInstancesUpdateRequestRetrievalOptionsBoostByList | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'. */
   keywordMatchMode?:
     | NamespacesInstancesUpdateRequestRetrievalOptionsKeywordMatchMode
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type NamespacesInstancesUpdateRequestSourceParamsExcludeItemsList = Array<string>;
 export type NamespacesInstancesUpdateRequestSourceParamsIncludeItemsList = Array<string>;
@@ -4960,19 +5419,20 @@ export type NamespacesInstancesUpdateRequestSourceParamsWebCrawlerDiscoverOption
   | "links";
 export interface NamespacesInstancesUpdateRequestSourceParamsWebCrawlerDiscoverOptions {
   /** Maximum link-follow depth from the seed URL. */
-  depth?: number;
+  depth?: number | undefined;
   /** Follow links that point outside the source domain. Must stay `false` because discover crawls only cover the zone you own. */
-  includeExternalLinks?: boolean;
+  includeExternalLinks?: boolean | undefined;
   /** Follow links to subdomains of the source host. */
-  includeSubdomains?: boolean;
+  includeSubdomains?: boolean | undefined;
   /** Maximum number of pages to crawl (1-100000). */
-  limit?: number;
+  limit?: number | undefined;
   /** Maximum content age in seconds to accept (0-604800). */
-  maxAge?: number;
+  maxAge?: number | undefined;
   /** Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both. */
   source?:
     | NamespacesInstancesUpdateRequestSourceParamsWebCrawlerDiscoverOptionsSource
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
@@ -4985,34 +5445,45 @@ export type NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptionsSp
   Array<string>;
 export interface NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptions {
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
-  contentSelector?: NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptionsContentSelectorList;
+  contentSelector?:
+    | NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptionsContentSelectorList
+    | undefined;
   /** Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. */
-  includeHeaders?: NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptionsIncludeHeadersMap;
-  includeImages?: boolean;
+  includeHeaders?:
+    | NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptionsIncludeHeadersMap
+    | undefined;
+  includeImages?: boolean | undefined;
   /** List of specific sitemap URLs to use for crawling. Only valid when parse_type is 'sitemap'. */
-  specificSitemaps?: NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptionsSpecificSitemapsList;
-  useBrowserRendering?: boolean;
+  specificSitemaps?:
+    | NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptionsSpecificSitemapsList
+    | undefined;
+  useBrowserRendering?: boolean | undefined;
 }
 export type NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseType =
   | "sitemap"
   | "discover";
 export interface NamespacesInstancesUpdateRequestSourceParamsWebCrawler {
   /** Options for parse_type 'discover', where Browser Run discovers URLs through link following and sitemaps. Ignored for 'sitemap'. */
-  discoverOptions?: NamespacesInstancesUpdateRequestSourceParamsWebCrawlerDiscoverOptions;
-  parseOptions?: NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptions;
+  discoverOptions?:
+    | NamespacesInstancesUpdateRequestSourceParamsWebCrawlerDiscoverOptions
+    | undefined;
+  parseOptions?: NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptions | undefined;
   /** How the crawler finds URLs. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to belong to a Verified zone on this account. */
-  parseType?: NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseType | (string & {});
+  parseType?:
+    | NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseType
+    | (string & {})
+    | undefined;
   /** Options controlling crawl discovery (e.g. { source: "links" }). */
-  crawlOptions?: WebCrawlerCrawlOptions;
+  crawlOptions?: WebCrawlerCrawlOptions | undefined;
 }
 export interface NamespacesInstancesUpdateRequestSourceParams {
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
-  excludeItems?: NamespacesInstancesUpdateRequestSourceParamsExcludeItemsList;
+  excludeItems?: NamespacesInstancesUpdateRequestSourceParamsExcludeItemsList | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
-  includeItems?: NamespacesInstancesUpdateRequestSourceParamsIncludeItemsList;
-  prefix?: string;
-  r2Jurisdiction?: string;
-  webCrawler?: NamespacesInstancesUpdateRequestSourceParamsWebCrawler;
+  includeItems?: NamespacesInstancesUpdateRequestSourceParamsIncludeItemsList | undefined;
+  prefix?: string | undefined;
+  r2Jurisdiction?: string | undefined;
+  webCrawler?: NamespacesInstancesUpdateRequestSourceParamsWebCrawler | undefined;
 }
 export type NamespacesInstancesUpdateRequestSyncInterval =
   | 900
@@ -5027,44 +5498,44 @@ export interface UpdateNamespaceInstanceRequest {
   accountId: string;
   namespace: string;
   id: string;
-  aiGatewayId?: string;
+  aiGatewayId?: string | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  aiSearchModel?: string;
-  cache?: boolean;
-  cacheThreshold?: NamespacesInstancesUpdateRequestCacheThreshold | (string & {});
+  aiSearchModel?: string | undefined;
+  cache?: boolean | undefined;
+  cacheThreshold?: NamespacesInstancesUpdateRequestCacheThreshold | (string & {}) | undefined;
   /** Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?: NamespacesInstancesUpdateRequestCacheTtl | (number & {});
-  chunk?: boolean;
-  chunkOverlap?: number;
-  chunkSize?: number;
-  customMetadata?: NamespacesInstancesUpdateRequestCustomMetadataList;
-  embeddingModel?: string;
-  fusionMethod?: NamespacesInstancesUpdateRequestFusionMethod | (string & {});
+  cacheTtl?: NamespacesInstancesUpdateRequestCacheTtl | (number & {}) | undefined;
+  chunk?: boolean | undefined;
+  chunkOverlap?: number | undefined;
+  chunkSize?: number | undefined;
+  customMetadata?: NamespacesInstancesUpdateRequestCustomMetadataList | undefined;
+  embeddingModel?: string | undefined;
+  fusionMethod?: NamespacesInstancesUpdateRequestFusionMethod | (string & {}) | undefined;
   /** Controls which storage backends indexing uses. Defaults to vector and keyword indexing for new instances. When set, both vector and keyword are required. */
-  indexMethod?: InstancesCreateRequestIndexMethod;
-  indexingOptions?: NamespacesInstancesUpdateRequestIndexingOptions;
-  maxNumResults?: number;
-  metadata?: NamespacesInstancesUpdateRequestMetadata;
-  paused?: boolean;
-  publicEndpointParams?: NamespacesInstancesUpdateRequestPublicEndpointParams;
-  reranking?: boolean;
-  rerankingModel?: string;
-  retrievalOptions?: NamespacesInstancesUpdateRequestRetrievalOptions;
+  indexMethod?: InstancesCreateRequestIndexMethod | undefined;
+  indexingOptions?: NamespacesInstancesUpdateRequestIndexingOptions | undefined;
+  maxNumResults?: number | undefined;
+  metadata?: NamespacesInstancesUpdateRequestMetadata | undefined;
+  paused?: boolean | undefined;
+  publicEndpointParams?: NamespacesInstancesUpdateRequestPublicEndpointParams | undefined;
+  reranking?: boolean | undefined;
+  rerankingModel?: string | undefined;
+  retrievalOptions?: NamespacesInstancesUpdateRequestRetrievalOptions | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  rewriteModel?: string;
-  rewriteQuery?: boolean;
+  rewriteModel?: string | undefined;
+  rewriteQuery?: boolean | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
-  scoreThreshold?: number;
-  source?: string;
-  sourceParams?: NamespacesInstancesUpdateRequestSourceParams;
-  summarization?: boolean;
-  summarizationModel?: string;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
-  syncInterval?: NamespacesInstancesUpdateRequestSyncInterval | (number & {});
-  systemPromptAiSearch?: string;
-  systemPromptIndexSummarization?: string;
-  systemPromptRewriteQuery?: string;
-  tokenId?: string;
+  scoreThreshold?: number | undefined;
+  source?: string | undefined;
+  sourceParams?: NamespacesInstancesUpdateRequestSourceParams | undefined;
+  summarization?: boolean | undefined;
+  summarizationModel?: string | undefined;
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
+  syncInterval?: NamespacesInstancesUpdateRequestSyncInterval | (number & {}) | undefined;
+  systemPromptAiSearch?: string | undefined;
+  systemPromptIndexSummarization?: string | undefined;
+  systemPromptRewriteQuery?: string | undefined;
+  tokenId?: string | undefined;
 }
 export type NamespacesInstancesUpdateResponseCacheThreshold =
   | "super_strict_match"
@@ -5098,9 +5569,12 @@ export type NamespacesInstancesUpdateResponseIndexMethod = InstancesCreateReques
 export type NamespacesInstancesUpdateResponseIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface NamespacesInstancesUpdateResponseIndexingOptions {
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
-  keywordTokenizer?: NamespacesInstancesUpdateResponseIndexingOptionsKeywordTokenizer | null;
+  keywordTokenizer?:
+    | NamespacesInstancesUpdateResponseIndexingOptionsKeywordTokenizer
+    | null
+    | undefined;
   /** Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false. */
-  useOcr?: boolean | null;
+  useOcr?: boolean | null | undefined;
 }
 export type NamespacesInstancesUpdateResponseMetadataCreatedFromEmdashPluginType =
   | "native"
@@ -5110,9 +5584,12 @@ export interface NamespacesInstancesUpdateResponseMetadataCreatedFromEmdashPlugi
   version: string;
 }
 export interface NamespacesInstancesUpdateResponseMetadata {
-  createdFromAisearchWizard?: boolean | null;
-  createdFromEmdashPlugin?: NamespacesInstancesUpdateResponseMetadataCreatedFromEmdashPlugin | null;
-  workerDomain?: string | null;
+  createdFromAisearchWizard?: boolean | null | undefined;
+  createdFromEmdashPlugin?:
+    | NamespacesInstancesUpdateResponseMetadataCreatedFromEmdashPlugin
+    | null
+    | undefined;
+  workerDomain?: string | null | undefined;
 }
 export type NamespacesInstancesUpdateResponsePublicEndpointParamsAuthorizedHostsList =
   Array<string>;
@@ -5125,23 +5602,35 @@ export type NamespacesInstancesUpdateResponsePublicEndpointParamsRateLimitTechni
   | "fixed"
   | "sliding";
 export interface NamespacesInstancesUpdateResponsePublicEndpointParamsRateLimit {
-  periodMs?: number | null;
-  requests?: number | null;
-  technique?: NamespacesInstancesUpdateResponsePublicEndpointParamsRateLimitTechnique | null;
+  periodMs?: number | null | undefined;
+  requests?: number | null | undefined;
+  technique?:
+    | NamespacesInstancesUpdateResponsePublicEndpointParamsRateLimitTechnique
+    | null
+    | undefined;
 }
 export type NamespacesInstancesUpdateResponsePublicEndpointParamsSearchEndpoint =
   InstancesCreateResponsePublicEndpointParamsSearchEndpoint;
 export interface NamespacesInstancesUpdateResponsePublicEndpointParams {
-  authorizedHosts?: NamespacesInstancesUpdateResponsePublicEndpointParamsAuthorizedHostsList | null;
-  chatCompletionsEndpoint?: InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint | null;
+  authorizedHosts?:
+    | NamespacesInstancesUpdateResponsePublicEndpointParamsAuthorizedHostsList
+    | null
+    | undefined;
+  chatCompletionsEndpoint?:
+    | InstancesCreateResponsePublicEndpointParamsChatCompletionsEndpoint
+    | null
+    | undefined;
   /** Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged). */
-  customDomains?: NamespacesInstancesUpdateResponsePublicEndpointParamsCustomDomainsList | null;
+  customDomains?:
+    | NamespacesInstancesUpdateResponsePublicEndpointParamsCustomDomainsList
+    | null
+    | undefined;
   /** When false, the instance is reachable only via a registered custom domain and the default &lt;public_endpoint_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public_endpoint_params is replaced wholesale on update, so resend default_domain_enabled on every update to keep the default host off -- omitting it resets to true. */
-  defaultDomainEnabled?: boolean | null;
-  enabled?: boolean | null;
-  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null;
-  rateLimit?: NamespacesInstancesUpdateResponsePublicEndpointParamsRateLimit | null;
-  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null;
+  defaultDomainEnabled?: boolean | null | undefined;
+  enabled?: boolean | null | undefined;
+  mcp?: InstancesCreateResponsePublicEndpointParamsMcp | null | undefined;
+  rateLimit?: NamespacesInstancesUpdateResponsePublicEndpointParamsRateLimit | null | undefined;
+  searchEndpoint?: InstancesCreateResponsePublicEndpointParamsSearchEndpoint | null | undefined;
 }
 export type NamespacesInstancesUpdateResponseRetrievalOptionsBoostByItemDirection =
   | "asc"
@@ -5152,16 +5641,22 @@ export interface NamespacesInstancesUpdateResponseRetrievalOptionsBoostByItem {
   /** Metadata field name to boost by. Use 'timestamp' for document freshness, or any custom_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not_exists); text/boolean fields only support exists/not_exists. */
   field: string;
   /** Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional -- defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. */
-  direction?: NamespacesInstancesUpdateResponseRetrievalOptionsBoostByItemDirection | null;
+  direction?:
+    | NamespacesInstancesUpdateResponseRetrievalOptionsBoostByItemDirection
+    | null
+    | undefined;
 }
 export type NamespacesInstancesUpdateResponseRetrievalOptionsBoostByList =
   Array<NamespacesInstancesUpdateResponseRetrievalOptionsBoostByItem>;
 export type NamespacesInstancesUpdateResponseRetrievalOptionsKeywordMatchMode = "and" | "or";
 export interface NamespacesInstancesUpdateResponseRetrievalOptions {
   /** Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. */
-  boostBy?: NamespacesInstancesUpdateResponseRetrievalOptionsBoostByList | null;
+  boostBy?: NamespacesInstancesUpdateResponseRetrievalOptionsBoostByList | null | undefined;
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'. */
-  keywordMatchMode?: NamespacesInstancesUpdateResponseRetrievalOptionsKeywordMatchMode | null;
+  keywordMatchMode?:
+    | NamespacesInstancesUpdateResponseRetrievalOptionsKeywordMatchMode
+    | null
+    | undefined;
 }
 export type NamespacesInstancesUpdateResponseSourceParamsExcludeItemsList = Array<string>;
 export type NamespacesInstancesUpdateResponseSourceParamsIncludeItemsList = Array<string>;
@@ -5171,17 +5666,20 @@ export type NamespacesInstancesUpdateResponseSourceParamsWebCrawlerDiscoverOptio
   | "links";
 export interface NamespacesInstancesUpdateResponseSourceParamsWebCrawlerDiscoverOptions {
   /** Maximum link-follow depth from the seed URL. */
-  depth?: number | null;
+  depth?: number | null | undefined;
   /** Follow links that point outside the source domain. Must stay `false` because discover crawls only cover the zone you own. */
-  includeExternalLinks?: boolean | null;
+  includeExternalLinks?: boolean | null | undefined;
   /** Follow links to subdomains of the source host. */
-  includeSubdomains?: boolean | null;
+  includeSubdomains?: boolean | null | undefined;
   /** Maximum number of pages to crawl (1-100000). */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Maximum content age in seconds to accept (0-604800). */
-  maxAge?: number | null;
+  maxAge?: number | null | undefined;
   /** Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both. */
-  source?: NamespacesInstancesUpdateResponseSourceParamsWebCrawlerDiscoverOptionsSource | null;
+  source?:
+    | NamespacesInstancesUpdateResponseSourceParamsWebCrawlerDiscoverOptionsSource
+    | null
+    | undefined;
 }
 export type NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
@@ -5194,34 +5692,49 @@ export type NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptionsS
   Array<string>;
 export interface NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptions {
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
-  contentSelector?: NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptionsContentSelectorList | null;
+  contentSelector?:
+    | NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptionsContentSelectorList
+    | null
+    | undefined;
   /** Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. */
-  includeHeaders?: NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptionsIncludeHeadersMap | null;
-  includeImages?: boolean | null;
+  includeHeaders?:
+    | NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptionsIncludeHeadersMap
+    | null
+    | undefined;
+  includeImages?: boolean | null | undefined;
   /** List of specific sitemap URLs to use for crawling. Only valid when parse_type is 'sitemap'. */
-  specificSitemaps?: NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList | null;
-  useBrowserRendering?: boolean | null;
+  specificSitemaps?:
+    | NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList
+    | null
+    | undefined;
+  useBrowserRendering?: boolean | null | undefined;
 }
 export type NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseType =
   | "sitemap"
   | "discover";
 export interface NamespacesInstancesUpdateResponseSourceParamsWebCrawler {
   /** Options for parse_type 'discover', where Browser Run discovers URLs through link following and sitemaps. Ignored for 'sitemap'. */
-  discoverOptions?: NamespacesInstancesUpdateResponseSourceParamsWebCrawlerDiscoverOptions | null;
-  parseOptions?: NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptions | null;
+  discoverOptions?:
+    | NamespacesInstancesUpdateResponseSourceParamsWebCrawlerDiscoverOptions
+    | null
+    | undefined;
+  parseOptions?:
+    | NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptions
+    | null
+    | undefined;
   /** How the crawler finds URLs. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to belong to a Verified zone on this account. */
-  parseType?: NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseType | null;
+  parseType?: NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseType | null | undefined;
   /** Options controlling crawl discovery (e.g. { source: "links" }). */
-  crawlOptions?: WebCrawlerCrawlOptions | null;
+  crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface NamespacesInstancesUpdateResponseSourceParams {
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
-  excludeItems?: NamespacesInstancesUpdateResponseSourceParamsExcludeItemsList | null;
+  excludeItems?: NamespacesInstancesUpdateResponseSourceParamsExcludeItemsList | null | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
-  includeItems?: NamespacesInstancesUpdateResponseSourceParamsIncludeItemsList | null;
-  prefix?: string | null;
-  r2Jurisdiction?: string | null;
-  webCrawler?: NamespacesInstancesUpdateResponseSourceParamsWebCrawler | null;
+  includeItems?: NamespacesInstancesUpdateResponseSourceParamsIncludeItemsList | null | undefined;
+  prefix?: string | null | undefined;
+  r2Jurisdiction?: string | null | undefined;
+  webCrawler?: NamespacesInstancesUpdateResponseSourceParamsWebCrawler | null | undefined;
 }
 export type NamespacesInstancesUpdateResponseSyncInterval =
   | 900
@@ -5239,50 +5752,50 @@ export interface UpdateNamespaceInstanceResponse {
   id: string;
   createdAt: string;
   modifiedAt: string;
-  aiGatewayId?: string | null;
+  aiGatewayId?: string | null | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  aiSearchModel?: string | null;
-  cache?: boolean | null;
-  cacheThreshold?: NamespacesInstancesUpdateResponseCacheThreshold | null;
+  aiSearchModel?: string | null | undefined;
+  cache?: boolean | null | undefined;
+  cacheThreshold?: NamespacesInstancesUpdateResponseCacheThreshold | null | undefined;
   /** Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?: NamespacesInstancesUpdateResponseCacheTtl | null;
-  chunkOverlap?: number | null;
-  chunkSize?: number | null;
-  createdBy?: string | null;
-  customMetadata?: NamespacesInstancesUpdateResponseCustomMetadataList | null;
-  embeddingModel?: string | null;
-  enable?: boolean | null;
-  engineVersion?: number | null;
-  fusionMethod?: NamespacesInstancesUpdateResponseFusionMethod | null;
+  cacheTtl?: NamespacesInstancesUpdateResponseCacheTtl | null | undefined;
+  chunkOverlap?: number | null | undefined;
+  chunkSize?: number | null | undefined;
+  createdBy?: string | null | undefined;
+  customMetadata?: NamespacesInstancesUpdateResponseCustomMetadataList | null | undefined;
+  embeddingModel?: string | null | undefined;
+  enable?: boolean | null | undefined;
+  engineVersion?: number | null | undefined;
+  fusionMethod?: NamespacesInstancesUpdateResponseFusionMethod | null | undefined;
   /** Deprecated -- use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
-  hybridSearchEnabled?: boolean | null;
+  hybridSearchEnabled?: boolean | null | undefined;
   /** Controls which storage backends indexing uses. Defaults to vector and keyword indexing for new instances. When set, both vector and keyword are required. */
-  indexMethod?: InstancesCreateRequestIndexMethod | null;
-  indexingOptions?: NamespacesInstancesUpdateResponseIndexingOptions | null;
-  lastActivity?: string | null;
-  maxNumResults?: number | null;
-  metadata?: NamespacesInstancesUpdateResponseMetadata | null;
-  modifiedBy?: string | null;
-  namespace?: string | null;
-  paused?: boolean | null;
-  publicEndpointId?: string | null;
-  publicEndpointParams?: NamespacesInstancesUpdateResponsePublicEndpointParams | null;
-  reranking?: boolean | null;
-  rerankingModel?: string | null;
-  retrievalOptions?: NamespacesInstancesUpdateResponseRetrievalOptions | null;
+  indexMethod?: InstancesCreateRequestIndexMethod | null | undefined;
+  indexingOptions?: NamespacesInstancesUpdateResponseIndexingOptions | null | undefined;
+  lastActivity?: string | null | undefined;
+  maxNumResults?: number | null | undefined;
+  metadata?: NamespacesInstancesUpdateResponseMetadata | null | undefined;
+  modifiedBy?: string | null | undefined;
+  namespace?: string | null | undefined;
+  paused?: boolean | null | undefined;
+  publicEndpointId?: string | null | undefined;
+  publicEndpointParams?: NamespacesInstancesUpdateResponsePublicEndpointParams | null | undefined;
+  reranking?: boolean | null | undefined;
+  rerankingModel?: string | null | undefined;
+  retrievalOptions?: NamespacesInstancesUpdateResponseRetrievalOptions | null | undefined;
   /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
-  rewriteModel?: string | null;
-  rewriteQuery?: boolean | null;
+  rewriteModel?: string | null | undefined;
+  rewriteQuery?: boolean | null | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
-  scoreThreshold?: number | null;
-  source?: string | null;
-  sourceParams?: NamespacesInstancesUpdateResponseSourceParams | null;
-  status?: string | null;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
-  syncInterval?: NamespacesInstancesUpdateResponseSyncInterval | null;
-  tokenId?: string | null;
+  scoreThreshold?: number | null | undefined;
+  source?: string | null | undefined;
+  sourceParams?: NamespacesInstancesUpdateResponseSourceParams | null | undefined;
+  status?: string | null | undefined;
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
+  syncInterval?: NamespacesInstancesUpdateResponseSyncInterval | null | undefined;
+  tokenId?: string | null | undefined;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
-  type?: NamespacesInstancesUpdateResponseType | null;
+  type?: NamespacesInstancesUpdateResponseType | null | undefined;
 }
 export interface UpdateTokenRequest {
   accountId: string;
@@ -5290,7 +5803,7 @@ export interface UpdateTokenRequest {
   cfApiId: string;
   cfApiKey: string;
   name: string;
-  legacy?: boolean;
+  legacy?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateTokenResponse {
@@ -5299,18 +5812,18 @@ export interface UpdateTokenResponse {
   createdAt: string;
   modifiedAt: string;
   name: string;
-  createdBy?: string | null;
-  enabled?: boolean | null;
-  legacy?: boolean | null;
-  modifiedBy?: string | null;
+  createdBy?: string | null | undefined;
+  enabled?: boolean | null | undefined;
+  legacy?: boolean | null | undefined;
+  modifiedBy?: string | null | undefined;
 }
 export interface NamespacesInstancesItemsUploadRequestFile {
   /** The file to upload. Filename must not exceed 128 characters. */
   file: string;
   /** JSON string of custom metadata key-value pairs. */
-  metadata?: string;
+  metadata?: string | undefined;
   /** Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself continues uninterrupted and can exceed that budget. If confirmation times out, the response returns the current item state and background indexing continues. Defaults to false. */
-  waitForCompletion?: boolean;
+  waitForCompletion?: boolean | undefined;
 }
 export interface UploadNamespaceInstanceItemRequest {
   accountId: string;
@@ -5370,8 +5883,8 @@ export interface UploadNamespaceInstanceItemResponse {
   /** Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items. */
   sourceId: string;
   status: NamespacesInstancesItemsUploadResponseStatus;
-  error?: string | null;
-  warnings?: NamespacesInstancesItemsUploadResponseWarningsList | null;
+  error?: string | null | undefined;
+  warnings?: NamespacesInstancesItemsUploadResponseWarningsList | null | undefined;
 }
 export type ChatCompletionsInstanceError = CloudflareOpError;
 /** Performs a chat completion request against an AI Search instance, using indexed content as context for generating responses. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{namespace}/instances (and descendant paths) instead. */
@@ -6110,7 +6623,7 @@ export const patchNamespaceInstanceJob: API.OperationMethod<
 
 export type ReadInstanceError =
   | ValidationError
-  | NotFound
+  | AiSearchInstanceNotFound
   | InvalidRoute
   | Forbidden
   | CloudflareOpError;
@@ -6125,7 +6638,7 @@ export const readInstance: API.OperationMethod<
   output: __S(243, __c15, 3) as any as S.Schema<ReadInstanceResponse>,
   errors: [
     ValidationError,
-    NotFound,
+    AiSearchInstanceNotFound,
     InvalidRoute,
     Forbidden,
     CloudflareRateLimited,

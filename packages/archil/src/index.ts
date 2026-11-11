@@ -25,3 +25,5 @@ export * as Services from "./services/index.ts";
 // service-local classes.
 export * from "./services/archil.ts";
 export { BadRequest, Conflict, Forbidden, NotFound } from "./services/archil.ts";
+export * as Objects from "./objects.ts";
+export * as Process from "./process.ts";

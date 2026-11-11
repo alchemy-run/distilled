@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -162,20 +163,20 @@ export interface ApplyPendingMaintenanceActionInput {
   resourceArn: string;
   applyAction: string;
   optInType: string;
-  applyOn?: string;
+  applyOn?: string | undefined;
 }
 export interface PendingMaintenanceActionDetails {
   action: string;
-  autoAppliedAfterDate?: string;
-  forcedApplyDate?: string;
-  optInStatus?: string;
-  currentApplyDate?: string;
-  description?: string;
+  autoAppliedAfterDate?: string | undefined;
+  forcedApplyDate?: string | undefined;
+  optInStatus?: string | undefined;
+  currentApplyDate?: string | undefined;
+  description?: string | undefined;
 }
 export type PendingMaintenanceActionDetailsList = PendingMaintenanceActionDetails[];
 export interface ResourcePendingMaintenanceAction {
-  resourceArn?: string;
-  pendingMaintenanceActionDetails?: PendingMaintenanceActionDetails[];
+  resourceArn?: string | undefined;
+  pendingMaintenanceActionDetails?: PendingMaintenanceActionDetails[] | undefined;
 }
 export interface ApplyPendingMaintenanceActionOutput {
   resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction;
@@ -186,9 +187,9 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CopyClusterSnapshotInput {
   snapshotArn: string;
   targetSnapshotName: string;
-  kmsKeyId?: string;
-  copyTags?: boolean;
-  tags?: { [key: string]: string | undefined };
+  kmsKeyId?: string | undefined;
+  copyTags?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type StringList = string[];
 export type Status = string;
@@ -204,7 +205,7 @@ export interface ClusterSnapshot {
   vpcSecurityGroupIds: string[];
   adminUserName: string;
   kmsKeyId: string;
-  snapshotType?: string;
+  snapshotType?: string | undefined;
 }
 export interface CopyClusterSnapshotOutput {
   snapshot: ClusterSnapshot;
@@ -218,15 +219,15 @@ export interface CreateClusterInput {
   adminUserPassword: string | redacted.Redacted<string>;
   shardCapacity: number;
   shardCount: number;
-  vpcSecurityGroupIds?: string[];
-  subnetIds?: string[];
-  kmsKeyId?: string;
-  clientToken?: string;
-  preferredMaintenanceWindow?: string;
-  tags?: { [key: string]: string | undefined };
-  backupRetentionPeriod?: number;
-  preferredBackupWindow?: string;
-  shardInstanceCount?: number;
+  vpcSecurityGroupIds?: string[] | undefined;
+  subnetIds?: string[] | undefined;
+  kmsKeyId?: string | undefined;
+  clientToken?: string | undefined;
+  preferredMaintenanceWindow?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  backupRetentionPeriod?: number | undefined;
+  preferredBackupWindow?: string | undefined;
+  shardInstanceCount?: number | undefined;
 }
 export interface Shard {
   shardId: string;
@@ -238,7 +239,7 @@ export interface Cluster {
   clusterName: string;
   clusterArn: string;
   status: string;
-  clusterEndpoint?: string;
+  clusterEndpoint?: string | undefined;
   createTime: string;
   adminUserName: string;
   authType: string;
@@ -248,10 +249,10 @@ export interface Cluster {
   subnetIds: string[];
   preferredMaintenanceWindow: string;
   kmsKeyId: string;
-  shards?: Shard[];
-  backupRetentionPeriod?: number;
-  preferredBackupWindow?: string;
-  shardInstanceCount?: number;
+  shards?: Shard[] | undefined;
+  backupRetentionPeriod?: number | undefined;
+  preferredBackupWindow?: string | undefined;
+  shardInstanceCount?: number | undefined;
 }
 export interface CreateClusterOutput {
   cluster: Cluster;
@@ -259,7 +260,7 @@ export interface CreateClusterOutput {
 export interface CreateClusterSnapshotInput {
   clusterArn: string;
   snapshotName: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateClusterSnapshotOutput {
   snapshot: ClusterSnapshot;
@@ -296,8 +297,8 @@ export interface GetPendingMaintenanceActionOutput {
 }
 export type PaginationToken = string;
 export interface ListClustersInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ClusterInList {
   clusterName: string;
@@ -306,14 +307,14 @@ export interface ClusterInList {
 }
 export type ClusterList = ClusterInList[];
 export interface ListClustersOutput {
-  clusters?: ClusterInList[];
-  nextToken?: string;
+  clusters?: ClusterInList[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListClusterSnapshotsInput {
-  clusterArn?: string;
-  nextToken?: string;
-  maxResults?: number;
-  snapshotType?: string;
+  clusterArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  snapshotType?: string | undefined;
 }
 export interface ClusterSnapshotInList {
   snapshotName: string;
@@ -324,34 +325,34 @@ export interface ClusterSnapshotInList {
 }
 export type ClusterSnapshotList = ClusterSnapshotInList[];
 export interface ListClusterSnapshotsOutput {
-  snapshots?: ClusterSnapshotInList[];
-  nextToken?: string;
+  snapshots?: ClusterSnapshotInList[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPendingMaintenanceActionsInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ResourcePendingMaintenanceActionList = ResourcePendingMaintenanceAction[];
 export interface ListPendingMaintenanceActionsOutput {
   resourcePendingMaintenanceActions: ResourcePendingMaintenanceAction[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RestoreClusterFromSnapshotInput {
   clusterName: string;
   snapshotArn: string;
-  vpcSecurityGroupIds?: string[];
-  subnetIds?: string[];
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
-  shardCapacity?: number;
-  shardInstanceCount?: number;
+  vpcSecurityGroupIds?: string[] | undefined;
+  subnetIds?: string[] | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  shardCapacity?: number | undefined;
+  shardInstanceCount?: number | undefined;
 }
 export interface RestoreClusterFromSnapshotOutput {
   cluster: Cluster;
@@ -381,17 +382,17 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateClusterInput {
   clusterArn: string;
-  authType?: string;
-  shardCapacity?: number;
-  shardCount?: number;
-  vpcSecurityGroupIds?: string[];
-  subnetIds?: string[];
-  adminUserPassword?: string | redacted.Redacted<string>;
-  clientToken?: string;
-  preferredMaintenanceWindow?: string;
-  backupRetentionPeriod?: number;
-  preferredBackupWindow?: string;
-  shardInstanceCount?: number;
+  authType?: string | undefined;
+  shardCapacity?: number | undefined;
+  shardCount?: number | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  subnetIds?: string[] | undefined;
+  adminUserPassword?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
+  preferredMaintenanceWindow?: string | undefined;
+  backupRetentionPeriod?: number | undefined;
+  preferredBackupWindow?: string | undefined;
+  shardInstanceCount?: number | undefined;
 }
 export interface UpdateClusterOutput {
   cluster: Cluster;
@@ -414,7 +415,7 @@ export type ApplyPendingMaintenanceActionError =
  * The type of pending maintenance action to be applied to the resource.
  */
 export const applyPendingMaintenanceAction: API.OperationMethod<
-  ApplyPendingMaintenanceActionInput,
+  ApplyPendingMaintenanceActionInput & RegionInput,
   ApplyPendingMaintenanceActionOutput,
   ApplyPendingMaintenanceActionError,
   Credentials | HttpClient.HttpClient
@@ -449,7 +450,7 @@ export type CopyClusterSnapshotError =
  * Copies a snapshot of an elastic cluster.
  */
 export const copyClusterSnapshot: API.OperationMethod<
-  CopyClusterSnapshotInput,
+  CopyClusterSnapshotInput & RegionInput,
   CopyClusterSnapshotOutput,
   CopyClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -484,7 +485,7 @@ export type CreateClusterError =
  * Creates a new Amazon DocumentDB elastic cluster and returns its cluster structure.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterInput,
+  CreateClusterInput & RegionInput,
   CreateClusterOutput,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -519,7 +520,7 @@ export type CreateClusterSnapshotError =
  * Creates a snapshot of an elastic cluster.
  */
 export const createClusterSnapshot: API.OperationMethod<
-  CreateClusterSnapshotInput,
+  CreateClusterSnapshotInput & RegionInput,
   CreateClusterSnapshotOutput,
   CreateClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -554,7 +555,7 @@ export type DeleteClusterError =
  * Delete an elastic cluster.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterInput,
+  DeleteClusterInput & RegionInput,
   DeleteClusterOutput,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -588,7 +589,7 @@ export type DeleteClusterSnapshotError =
  * Delete an elastic cluster snapshot.
  */
 export const deleteClusterSnapshot: API.OperationMethod<
-  DeleteClusterSnapshotInput,
+  DeleteClusterSnapshotInput & RegionInput,
   DeleteClusterSnapshotOutput,
   DeleteClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -621,7 +622,7 @@ export type GetClusterError =
  * Returns information about a specific elastic cluster.
  */
 export const getCluster: API.OperationMethod<
-  GetClusterInput,
+  GetClusterInput & RegionInput,
   GetClusterOutput,
   GetClusterError,
   Credentials | HttpClient.HttpClient
@@ -653,7 +654,7 @@ export type GetClusterSnapshotError =
  * Returns information about a specific elastic cluster snapshot
  */
 export const getClusterSnapshot: API.OperationMethod<
-  GetClusterSnapshotInput,
+  GetClusterSnapshotInput & RegionInput,
   GetClusterSnapshotOutput,
   GetClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -686,7 +687,7 @@ export type GetPendingMaintenanceActionError =
  * Retrieves all maintenance actions that are pending.
  */
 export const getPendingMaintenanceAction: API.OperationMethod<
-  GetPendingMaintenanceActionInput,
+  GetPendingMaintenanceActionInput & RegionInput,
   GetPendingMaintenanceActionOutput,
   GetPendingMaintenanceActionError,
   Credentials | HttpClient.HttpClient
@@ -718,7 +719,7 @@ export type ListClustersError =
  * Returns information about provisioned Amazon DocumentDB elastic clusters.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersInput,
+  ListClustersInput & RegionInput,
   ListClustersOutput,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
@@ -755,7 +756,7 @@ export type ListClusterSnapshotsError =
  * Returns information about snapshots for a specified elastic cluster.
  */
 export const listClusterSnapshots: API.PaginatedOperationMethod<
-  ListClusterSnapshotsInput,
+  ListClusterSnapshotsInput & RegionInput,
   ListClusterSnapshotsOutput,
   ListClusterSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -792,7 +793,7 @@ export type ListPendingMaintenanceActionsError =
  * Retrieves a list of all maintenance actions that are pending.
  */
 export const listPendingMaintenanceActions: API.PaginatedOperationMethod<
-  ListPendingMaintenanceActionsInput,
+  ListPendingMaintenanceActionsInput & RegionInput,
   ListPendingMaintenanceActionsOutput,
   ListPendingMaintenanceActionsError,
   Credentials | HttpClient.HttpClient,
@@ -829,7 +830,7 @@ export type ListTagsForResourceError =
  * Lists all tags on a elastic cluster resource
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -862,7 +863,7 @@ export type RestoreClusterFromSnapshotError =
  * Restores an elastic cluster from a snapshot.
  */
 export const restoreClusterFromSnapshot: API.OperationMethod<
-  RestoreClusterFromSnapshotInput,
+  RestoreClusterFromSnapshotInput & RegionInput,
   RestoreClusterFromSnapshotOutput,
   RestoreClusterFromSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -896,7 +897,7 @@ export type StartClusterError =
  * Restarts the stopped elastic cluster that is specified by `clusterARN`.
  */
 export const startCluster: API.OperationMethod<
-  StartClusterInput,
+  StartClusterInput & RegionInput,
   StartClusterOutput,
   StartClusterError,
   Credentials | HttpClient.HttpClient
@@ -929,7 +930,7 @@ export type StopClusterError =
  * The elastic cluster must be in the *available* state.
  */
 export const stopCluster: API.OperationMethod<
-  StopClusterInput,
+  StopClusterInput & RegionInput,
   StopClusterOutput,
   StopClusterError,
   Credentials | HttpClient.HttpClient
@@ -960,7 +961,7 @@ export type TagResourceError =
  * Adds metadata tags to an elastic cluster resource
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -990,7 +991,7 @@ export type UntagResourceError =
  * Removes metadata tags from an elastic cluster resource
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1023,7 +1024,7 @@ export type UpdateClusterError =
  * upgrading the API version, and setting up a backup window and maintenance window
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterInput,
+  UpdateClusterInput & RegionInput,
   UpdateClusterOutput,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient

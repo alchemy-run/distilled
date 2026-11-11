@@ -78,11 +78,11 @@ export interface CreateApiKeysRequestAiGatewayQuota {
   /** The quota limit amount. */
   limitAmount: number;
   /** Whether to include BYOK (Bring Your Own Key) usage in the quota. */
-  includeByokInQuota?: boolean;
+  includeByokInQuota?: boolean | undefined;
   /** How often the quota refreshes. */
-  refreshPeriod?: CreateApiKeysRequestAiGatewayQuotaRefreshPeriod | (string & {});
+  refreshPeriod?: CreateApiKeysRequestAiGatewayQuotaRefreshPeriod | (string & {}) | undefined;
   /** Spend percentages (a subset of [50, 75, 100]) at which to send a spend alert. */
-  alertThresholds?: CreateApiKeysRequestAiGatewayQuotaAlertThresholdsList;
+  alertThresholds?: CreateApiKeysRequestAiGatewayQuotaAlertThresholdsList | undefined;
 }
 /** Optional generic metadata for the API key. The accepted shape depends on the key's `purpose` and is validated on creation; for `ai-gateway` keys this accepts `environment`. */
 export type CreateApiKeysRequestMetadataMap = { [key: string]: unknown | undefined };
@@ -90,15 +90,15 @@ export interface CreateApiKeysRequest {
   /** The API key's purpose, which restricts how it can be used. */
   purpose: string;
   /** An optional project to restrict the API key to. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** An optional name for the API key. */
-  name?: string;
+  name?: string | undefined;
   /** The API key's expiration, expressed as a UNIX timestamp in milliseconds. */
-  expiresAt?: number;
+  expiresAt?: number | undefined;
   /** Optional AI Gateway quota configuration for the API key. */
-  aiGatewayQuota?: CreateApiKeysRequestAiGatewayQuota;
+  aiGatewayQuota?: CreateApiKeysRequestAiGatewayQuota | undefined;
   /** Optional generic metadata for the API key. The accepted shape depends on the key's `purpose` and is validated on creation; for `ai-gateway` keys this accepts `environment`. */
-  metadata?: CreateApiKeysRequestMetadataMap;
+  metadata?: CreateApiKeysRequestMetadataMap | undefined;
 }
 /** Spend percentages (a subset of [50, 75, 100]) at which to send a spend alert. Empty or undefined disables alerts. */
 export type APIKeyQuotaAlertThresholdsList = Array<number>;
@@ -121,13 +121,13 @@ export interface APIKeyQuota {
   /** Whether the quota has been archived. */
   archived: boolean;
   /** Spend percentages (a subset of [50, 75, 100]) at which to send a spend alert. Empty or undefined disables alerts. */
-  alertThresholds?: APIKeyQuotaAlertThresholdsList;
+  alertThresholds?: APIKeyQuotaAlertThresholdsList | undefined;
   /** Timestamp (in milliseconds) of when the quota was created. */
   createdAt: number;
   /** Timestamp (in milliseconds) of when the quota was last updated. */
   updatedAt: number;
 }
-/** Information about the newly created API key. */
+/** Represents an API key. */
 export interface APIKey {
   /** The unique identifier of the API key. */
   id: string;
@@ -155,9 +155,9 @@ export interface APIKey {
   leakedUrl: string | null;
   /** The ID of the app that created the API key, if any */
   createdByAppId: string | null;
-  quota?: APIKeyQuota;
+  quota?: APIKeyQuota | undefined;
   /** Generic metadata attached to the API key. The accepted shape depends on the key's `purpose` and is validated when the key is created. For `ai-gateway` keys this carries `environment` and `spendAttribution`. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export interface CreateApiKeysResponse {
   /** The API key's actual value. This value is only provided in this response, and can never be retrieved again in the future. Be sure to save it somewhere safe! */
@@ -166,13 +166,13 @@ export interface CreateApiKeysResponse {
 }
 export interface CreateAuthTokenRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   name: string;
-  expiresAt?: number;
+  expiresAt?: number | undefined;
   /** The ID of the project to scope this token to */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 export type AuthTokenScopesItemCase0Origin =
   | "app"
@@ -203,15 +203,15 @@ export interface AuthTokenScopesItemCase0Sudo {
   expiresAt: number;
   /** Possible step-up auth origins */
   origin: AuthTokenScopesItemCase0SudoOrigin;
-  verifiedAt?: number;
+  verifiedAt?: number | undefined;
 }
 export type AuthTokenScopesItemCase0Type = "user";
 /** The access scopes granted to the token. */
 export interface AuthTokenScopesItemCase0 {
   createdAt: number;
-  expiresAt?: number;
-  origin?: AuthTokenScopesItemCase0Origin;
-  sudo?: AuthTokenScopesItemCase0Sudo;
+  expiresAt?: number | undefined;
+  origin?: AuthTokenScopesItemCase0Origin | undefined;
+  sudo?: AuthTokenScopesItemCase0Sudo | undefined;
   type: AuthTokenScopesItemCase0Type;
 }
 export type AuthTokenScopesItemCase1Origin =
@@ -236,8 +236,8 @@ export type AuthTokenScopesItemCase1Type = "team";
 /** The access scopes granted to the token. */
 export interface AuthTokenScopesItemCase1 {
   createdAt: number;
-  expiresAt?: number;
-  origin?: AuthTokenScopesItemCase1Origin;
+  expiresAt?: number | undefined;
+  origin?: AuthTokenScopesItemCase1Origin | undefined;
   teamId: string;
   type: AuthTokenScopesItemCase1Type;
 }
@@ -251,25 +251,25 @@ export interface AuthToken {
   /** Timestamp (in milliseconds) of when the token was created. */
   createdAt: number;
   /** Timestamp (in milliseconds) of when the token expires. */
-  expiresAt?: number;
+  expiresAt?: number | undefined;
   /** The unique identifier of the token. */
   id: string;
   /** Timestamp (in milliseconds) of when the token was marked as leaked. */
-  leakedAt?: number;
+  leakedAt?: number | undefined;
   /** URL where the token was discovered as leaked. */
-  leakedUrl?: string;
+  leakedUrl?: string | undefined;
   /** The human-readable name of the token. */
   name: string;
   /** The origin of how the token was created. */
-  origin?: string;
+  origin?: string | undefined;
   /** The token's prefix, for identification purposes. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Timestamp (in milliseconds) of when the token was revoked. */
-  revokedAt?: number;
+  revokedAt?: number | undefined;
   /** The access scopes granted to the token. */
-  scopes?: AuthTokenScopesList;
+  scopes?: AuthTokenScopesList | undefined;
   /** The last few characters of the token, for identification purposes. */
-  suffix?: string;
+  suffix?: string | undefined;
   /** The type of the token. */
   type: string;
 }
@@ -278,9 +278,17 @@ export interface CreateAuthTokenResponse {
   bearerToken: string;
   token: AuthToken;
 }
+/** Identifies an explicit logout for the deletion event. Only applies when tokenId is current. */
+export type DeleteAuthTokenRequestReason = "logout";
+/** The product the caller is logging out of. Only applies when reason is logout and tokenId is current. */
+export type DeleteAuthTokenRequestLogoutSource = "v0" | "vercel";
 export interface DeleteAuthTokenRequest {
   /** The identifier of the token to invalidate. The special value "current" may be supplied, which invalidates the token that the HTTP request was authenticated with. */
   tokenId: string;
+  /** Identifies an explicit logout for the deletion event. Only applies when tokenId is current. */
+  reason?: DeleteAuthTokenRequestReason | (string & {}) | undefined;
+  /** The product the caller is logging out of. Only applies when reason is logout and tokenId is current. */
+  logoutSource?: DeleteAuthTokenRequestLogoutSource | (string & {}) | undefined;
 }
 export interface DeleteAuthTokenResponse {
   /** The unique identifier of the token that was deleted. */
@@ -292,13 +300,13 @@ export interface ExchangeSsoTokenRequestBodyCase0 {
   /** The sensitive code received from Vercel */
   code: string;
   /** The state received from the initialization request */
-  state?: string;
+  state?: string | undefined;
   /** The integration client id */
   client_id: string;
   /** The integration client secret */
   client_secret: string | Redacted.Redacted<string>;
   /** The integration redirect URI */
-  redirect_uri?: string;
+  redirect_uri?: string | undefined;
   /** The grant type, when using x-www-form-urlencoded content type */
   grant_type: ExchangeSsoTokenRequestBodyCase0GrantType;
 }
@@ -322,9 +330,9 @@ export interface ExchangeSsoTokenRequest {
 }
 export interface ExchangeSsoTokenResponseBodyCase0 {
   access_token: string | Redacted.Redacted<string> | null;
-  expires_in?: number;
+  expires_in?: number | undefined;
   id_token: string;
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
   token_type: string | null;
 }
 export interface ExchangeSsoTokenResponseBodyCase1 {
@@ -600,6 +608,8 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           tokenId: S.String.pipe(T.Label()),
+          reason: S.optional(S.String.pipe(T.Query())),
+          logoutSource: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "DELETE", uri: "/v3/user/tokens/{tokenId}", code: 200 })),
       ).annotate({ identifier: "DeleteAuthTokenRequest" });
     case 1:

@@ -69,9 +69,9 @@ export type CreateProductRequestCustomCta =
   | "complete_order";
 export interface CreateProductRequestGalleryImagesItem {
   /** The signed ID of a completed direct upload, as an alternative to id. */
-  direct_upload_id?: string;
+  direct_upload_id?: string | undefined;
   /** The tag of an already-uploaded attachment. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Images or videos displayed in the product gallery, in display order. Replaces the existing gallery. Send an empty array to clear it; omit or pass null to leave it unchanged. A banner image does not populate the gallery. */
 export type CreateProductRequestGalleryImagesList = Array<CreateProductRequestGalleryImagesItem>;
@@ -83,47 +83,47 @@ export type CreateProductRequestLabelsList = Array<string>;
 export type CreateProductRequestMemberAffiliateStatus = "enabled" | "disabled";
 export interface CreateProductRequest {
   /** The unique identifier of the account to create this product for. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Whether to collect a shipping address at checkout. */
-  collect_shipping_address?: boolean | null;
+  collect_shipping_address?: boolean | null | undefined;
   /** The call-to-action button label. */
-  custom_cta?: CreateProductRequestCustomCta | (string & {}) | null;
+  custom_cta?: CreateProductRequestCustomCta | (string & {}) | null | undefined;
   /** A URL the call-to-action button links to. */
-  custom_cta_url?: string | null;
+  custom_cta_url?: string | null | undefined;
   /** Custom bank statement descriptor. Must start with WHOP*. */
-  custom_statement_descriptor?: string | null;
+  custom_statement_descriptor?: string | null | undefined;
   /** A written description displayed on the product page. Maximum 1,500 characters. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Images or videos displayed in the product gallery, in display order. Replaces the existing gallery. Send an empty array to clear it; omit or pass null to leave it unchanged. A banner image does not populate the gallery. */
-  gallery_images?: CreateProductRequestGalleryImagesList | null;
+  gallery_images?: CreateProductRequestGalleryImagesList | null | undefined;
   /** The commission rate affiliates earn. */
-  global_affiliate_percentage?: number | null;
+  global_affiliate_percentage?: number | null | undefined;
   /** The enrollment status in the global affiliate program. */
-  global_affiliate_status?: CreateProductRequestGlobalAffiliateStatus | (string & {});
+  global_affiliate_status?: CreateProductRequestGlobalAffiliateStatus | (string & {}) | undefined;
   /** A short marketing headline for the product page. Maximum 80 characters. */
-  headline?: string | null;
+  headline?: string | null | undefined;
   /** Labels used to group products into collections. Stored lowercased and de-duplicated. Maximum 20 labels, 50 characters each. */
-  labels?: CreateProductRequestLabelsList | null;
+  labels?: CreateProductRequestLabelsList | null | undefined;
   /** The commission rate members earn. */
-  member_affiliate_percentage?: number | null;
+  member_affiliate_percentage?: number | null | undefined;
   /** The enrollment status in the member affiliate program. */
-  member_affiliate_status?: CreateProductRequestMemberAffiliateStatus | (string & {});
+  member_affiliate_status?: CreateProductRequestMemberAffiliateStatus | (string & {}) | undefined;
   /** Custom key-value pairs to store on the product. */
-  metadata?: unknown | null;
+  metadata?: unknown | null | undefined;
   /** The unique identifier of the tax classification code. See the available [product categories](https://docs.numeral.com/essentials/product-categories). */
-  product_tax_code_id?: string | null;
+  product_tax_code_id?: string | null | undefined;
   /** A URL to redirect the customer to after purchase. */
-  redirect_purchase_url?: string | null;
+  redirect_purchase_url?: string | null | undefined;
   /** The URL slug for the product's public link. */
-  route?: string | null;
+  route?: string | null | undefined;
   /** Whether to send an automated welcome message via support chat when a user joins this product. Defaults to true. */
-  send_welcome_message?: boolean | null;
+  send_welcome_message?: boolean | null | undefined;
   /** The display name of the product. Maximum 80 characters. */
   title: string;
   /** Whether the product is visible to customers. */
-  visibility?: string;
+  visibility?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Call-to-action button label shown on the product purchase page. */
 export type ProductCustomCta =
@@ -389,39 +389,39 @@ export type ListProductsRequestLabelsList = Array<string>;
 export type ListProductsRequestDirection = "asc" | "desc";
 export interface ListProductsRequest {
   /** The unique identifier of the account to list products for. Omit to search the public marketplace. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Ranked search against product title and headline. Omit to browse by recency. */
-  query?: string;
+  query?: string | undefined;
   /** Only return marketplace products assigned to this category route, such as `trading`. */
-  marketplace_category_route?: string;
+  marketplace_category_route?: string | undefined;
   /** Filter to products with a buyable plan of these billing models, such as `one_time` or `renewal`. */
-  plan_types?: ListProductsRequestPlanTypesList;
+  plan_types?: ListProductsRequestPlanTypesList | undefined;
   /** Only return products whose advertised buyable plan has a displayed price of at least this amount. Recurring plans use renewal price. */
-  price_minimum?: number;
+  price_minimum?: number | undefined;
   /** Only return products whose advertised buyable plan has a displayed price of at most this amount. Recurring plans use renewal price. */
-  price_maximum?: number;
+  price_maximum?: number | undefined;
   /** Filter to only products matching these visibility states. Ignored on the public marketplace list, which only returns visible products. */
-  visibilities?: ListProductsRequestVisibilitiesList;
+  visibilities?: ListProductsRequestVisibilitiesList | undefined;
   /** Filter to only products matching these types. */
-  access_pass_types?: ListProductsRequestAccessPassTypesList;
+  access_pass_types?: ListProductsRequestAccessPassTypesList | undefined;
   /** Filter to only products carrying all of these labels. Labels are matched lowercased. */
-  labels?: ListProductsRequestLabelsList;
+  labels?: ListProductsRequestLabelsList | undefined;
   /** The sort direction for results. Defaults to descending. */
-  direction?: ListProductsRequestDirection | (string & {});
+  direction?: ListProductsRequestDirection | (string & {}) | undefined;
   /** The field to sort results by. Account lists default to `created_at`. Marketplace lists default to `discoverable_at` and accept `created_at` or `discoverable_at`. Cannot be combined with `query`. */
-  order?: string;
+  order?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** Only return products created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Only return products created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
 }
 export type ProductListItemGalleryImagesList = Array<ProductGalleryImage>;
 export type ProductListItemLabelsList = Array<string>;
@@ -478,20 +478,20 @@ export interface PublishProductRequest {
   /** The unique identifier of the product, prefixed `prod_`. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface UnpublishProductRequest {
   /** The unique identifier of the product, prefixed `prod_`. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** A wide image for the product, shown on the product page and on listing cards. Pass `{ id }` for an existing attachment or `{ direct_upload_id }` for a completed direct upload; `null` removes it. */
 export interface UpdateProductRequestBannerImage {
   /** The signed id of a completed direct upload. */
-  direct_upload_id?: string;
+  direct_upload_id?: string | undefined;
   /** The tag of an already-uploaded attachment. */
-  id?: string;
+  id?: string | undefined;
 }
 export type UpdateProductRequestGalleryImagesItem = CreateProductRequestGalleryImagesItem;
 /** Images or videos displayed in the product gallery, in display order. Replaces the existing gallery. Send an empty array to clear it; omit or pass null to leave it unchanged. A banner image does not populate the gallery. */
@@ -502,25 +502,25 @@ export interface UpdateProductRequest {
   /** The unique identifier of the product. */
   id: string;
   /** A wide image for the product, shown on the product page and on listing cards. Pass `{ id }` for an existing attachment or `{ direct_upload_id }` for a completed direct upload; `null` removes it. */
-  banner_image?: UpdateProductRequestBannerImage | null;
+  banner_image?: UpdateProductRequestBannerImage | null | undefined;
   /** A written description displayed on the product page. Maximum 1,500 characters. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Images or videos displayed in the product gallery, in display order. Replaces the existing gallery. Send an empty array to clear it; omit or pass null to leave it unchanged. A banner image does not populate the gallery. */
-  gallery_images?: UpdateProductRequestGalleryImagesList | null;
+  gallery_images?: UpdateProductRequestGalleryImagesList | null | undefined;
   /** A short marketing headline for the product page. Maximum 80 characters. */
-  headline?: string | null;
+  headline?: string | null | undefined;
   /** Labels used to group products into collections. Replaces the existing labels. Send an empty array to clear them. */
-  labels?: UpdateProductRequestLabelsList | null;
+  labels?: UpdateProductRequestLabelsList | null | undefined;
   /** Custom key-value pairs to store on the product. */
-  metadata?: unknown | null;
+  metadata?: unknown | null | undefined;
   /** The unique identifier of the tax classification code. See the available [product categories](https://docs.numeral.com/essentials/product-categories). */
-  product_tax_code_id?: string | null;
+  product_tax_code_id?: string | null | undefined;
   /** Whether to send an automated welcome message via support chat when a user joins this product. */
-  send_welcome_message?: boolean | null;
+  send_welcome_message?: boolean | null | undefined;
   /** The display name of the product. Maximum 80 characters. */
-  title?: string;
+  title?: string | undefined;
   /** Whether the product is visible to customers. */
-  visibility?: string;
+  visibility?: string | undefined;
 }
 export type CreateProductError = Conflict | WhopOpError;
 /** Create Product Creates a new product for an account. */

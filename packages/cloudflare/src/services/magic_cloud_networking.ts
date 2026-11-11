@@ -158,7 +158,10 @@ export class FeatureNotEnabled
       code: S.Number,
       message: S.String,
     }),
-    [{ code: 1012, status: 403 }],
+    [
+      { code: 1012, status: 403 },
+      { status: 404, message: { includes: "No route for that URI" } },
+    ],
   ) {}
 
 export class Forbidden
@@ -188,12 +191,12 @@ export type CatalogSyncsCreateRequestDestinationType = "NONE" | "ZERO_TRUST_LIST
 export type CatalogSyncsCreateRequestUpdateMode = "AUTO" | "MANUAL";
 export interface CreateCatalogSyncRequest {
   accountId: string;
-  forwarded?: string;
+  forwarded?: string | undefined;
   destinationType: CatalogSyncsCreateRequestDestinationType | (string & {});
   name: string;
   updateMode: CatalogSyncsCreateRequestUpdateMode | (string & {});
-  description?: string;
-  policy?: string;
+  description?: string | undefined;
+  policy?: string | undefined;
 }
 export type CatalogSyncsCreateResponseDestinationType = "NONE" | "ZERO_TRUST_LIST";
 export type CatalogSyncsCreateResponseUpdateMode = "AUTO" | "MANUAL";
@@ -354,22 +357,22 @@ export type CatalogSyncsCreateResponseErrorsValueCode =
   | 103007
   | 103008;
 export interface CatalogSyncsCreateResponseErrorsValueMeta {
-  l10nKey?: string | null;
-  loggableError?: string | null;
-  templateData?: unknown | null;
-  traceId?: string | null;
+  l10nKey?: string | null | undefined;
+  loggableError?: string | null | undefined;
+  templateData?: unknown | null | undefined;
+  traceId?: string | null | undefined;
 }
 export interface CatalogSyncsCreateResponseErrorsValueSource {
-  parameter?: string | null;
-  parameterValueIndex?: number | null;
-  pointer?: string | null;
+  parameter?: string | null | undefined;
+  parameterValueIndex?: number | null | undefined;
+  pointer?: string | null | undefined;
 }
 export interface CatalogSyncsCreateResponseErrorsValue {
   code: CatalogSyncsCreateResponseErrorsValueCode;
   message: string;
-  documentationUrl?: string | null;
-  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null;
-  source?: CatalogSyncsCreateResponseErrorsValueSource | null;
+  documentationUrl?: string | null | undefined;
+  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null | undefined;
+  source?: CatalogSyncsCreateResponseErrorsValueSource | null | undefined;
 }
 export type CatalogSyncsCreateResponseErrorsMap = {
   [key: string]: CatalogSyncsCreateResponseErrorsValue | undefined;
@@ -384,18 +387,18 @@ export interface CreateCatalogSyncResponse {
   name: string;
   policy: string;
   updateMode: CatalogSyncsCreateResponseUpdateMode;
-  errors?: CatalogSyncsCreateResponseErrorsMap | null;
-  includesDiscoveriesUntil?: string | null;
-  lastAttemptedUpdateAt?: string | null;
-  lastSuccessfulUpdateAt?: string | null;
+  errors?: CatalogSyncsCreateResponseErrorsMap | null | undefined;
+  includesDiscoveriesUntil?: string | null | undefined;
+  lastAttemptedUpdateAt?: string | null | undefined;
+  lastSuccessfulUpdateAt?: string | null | undefined;
 }
 export type CloudIntegrationsCreateRequestCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export interface CreateCloudIntegrationRequest {
   accountId: string;
-  forwarded?: string;
+  forwarded?: string | undefined;
   cloudType: CloudIntegrationsCreateRequestCloudType | (string & {});
   friendlyName: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type CloudIntegrationsCreateResponseCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export type CloudIntegrationsCreateResponseLifecycleState = "ACTIVE" | "PENDING_SETUP" | "RETIRED";
@@ -445,17 +448,17 @@ export interface CloudIntegrationsCreateResponseStatus {
   lastDiscoveryStatus: CloudIntegrationsCreateResponseStatusLastDiscoveryStatus;
   lastDiscoveryStatusV2: CloudIntegrationsCreateResponseStatusLastDiscoveryStatusV2;
   regions: CloudIntegrationsCreateResponseStatusRegionsList;
-  credentialsGoodSince?: string | null;
-  credentialsMissingSince?: string | null;
-  credentialsRejectedSince?: string | null;
-  discoveryMessage?: string | null;
-  discoveryMessageV2?: string | null;
-  inUseBy?: CloudIntegrationsCreateResponseStatusInUseByList | null;
-  lastDiscoveryCompletedAt?: string | null;
-  lastDiscoveryCompletedAtV2?: string | null;
-  lastDiscoveryStartedAt?: string | null;
-  lastDiscoveryStartedAtV2?: string | null;
-  lastUpdated?: string | null;
+  credentialsGoodSince?: string | null | undefined;
+  credentialsMissingSince?: string | null | undefined;
+  credentialsRejectedSince?: string | null | undefined;
+  discoveryMessage?: string | null | undefined;
+  discoveryMessageV2?: string | null | undefined;
+  inUseBy?: CloudIntegrationsCreateResponseStatusInUseByList | null | undefined;
+  lastDiscoveryCompletedAt?: string | null | undefined;
+  lastDiscoveryCompletedAtV2?: string | null | undefined;
+  lastDiscoveryStartedAt?: string | null | undefined;
+  lastDiscoveryStartedAtV2?: string | null | undefined;
+  lastUpdated?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateCloudIntegrationResponse {
@@ -466,13 +469,13 @@ export interface CreateCloudIntegrationResponse {
   lifecycleState: CloudIntegrationsCreateResponseLifecycleState;
   state: CloudIntegrationsCreateResponseState;
   stateV2: CloudIntegrationsCreateResponseStateV2;
-  awsArn?: string | null;
-  azureSubscriptionId?: string | null;
-  azureTenantId?: string | null;
-  description?: string | null;
-  gcpProjectId?: string | null;
-  gcpServiceAccountEmail?: string | null;
-  status?: CloudIntegrationsCreateResponseStatus | null;
+  awsArn?: string | null | undefined;
+  azureSubscriptionId?: string | null | undefined;
+  azureTenantId?: string | null | undefined;
+  description?: string | null | undefined;
+  gcpProjectId?: string | null | undefined;
+  gcpServiceAccountEmail?: string | null | undefined;
+  status?: CloudIntegrationsCreateResponseStatus | null | undefined;
 }
 export type OnRampsCreateRequestCloudType = "AWS" | "AZURE" | "GOOGLE";
 export type OnRampsCreateRequestType = "OnrampTypeSingle" | "OnrampTypeHub";
@@ -480,7 +483,7 @@ export type OnRampsCreateRequestAttachedHubsList = Array<string>;
 export type OnRampsCreateRequestAttachedVpcsList = Array<string>;
 export interface CreateOnRampRequest {
   accountId: string;
-  forwarded?: string;
+  forwarded?: string | undefined;
   cloudType: OnRampsCreateRequestCloudType | (string & {});
   /** Enables BGP routing. When enabling this feature, set both install_routes_in_cloud and install_routes_in_magic_wan to false. */
   dynamicRouting: boolean;
@@ -488,17 +491,17 @@ export interface CreateOnRampRequest {
   installRoutesInMagicWan: boolean;
   name: string;
   type: OnRampsCreateRequestType | (string & {});
-  adoptedHubId?: string;
-  attachedHubs?: OnRampsCreateRequestAttachedHubsList;
-  attachedVpcs?: OnRampsCreateRequestAttachedVpcsList;
+  adoptedHubId?: string | undefined;
+  attachedHubs?: OnRampsCreateRequestAttachedHubsList | undefined;
+  attachedVpcs?: OnRampsCreateRequestAttachedVpcsList | undefined;
   /** Sets the cloud-side ASN. If unset or zero, the cloud's default ASN takes effect. */
-  cloudAsn?: number;
-  description?: string;
-  hubProviderId?: string;
-  manageHubToHubAttachments?: boolean;
-  manageVpcToHubAttachments?: boolean;
-  region?: string;
-  vpc?: string;
+  cloudAsn?: number | undefined;
+  description?: string | undefined;
+  hubProviderId?: string | undefined;
+  manageHubToHubAttachments?: boolean | undefined;
+  manageVpcToHubAttachments?: boolean | undefined;
+  region?: string | undefined;
+  vpc?: string | undefined;
 }
 export type OnRampsCreateResponseCloudType = "AWS" | "AZURE" | "GOOGLE";
 export type OnRampsCreateResponseType = "OnrampTypeSingle" | "OnrampTypeHub";
@@ -873,9 +876,12 @@ export type OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsI
   | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
   | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem;
 export interface OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?:
+    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValue
+    | null
+    | undefined;
 }
 export type OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsList =
   Array<OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItem>;
@@ -1055,9 +1061,12 @@ export type OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItems
   | OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
   | OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem;
 export interface OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?:
+    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValue
+    | null
+    | undefined;
 }
 export type OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsList =
   Array<OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItem>;
@@ -1065,7 +1074,7 @@ export interface OnRampsCreateResponsePostApplyResourcesValueSectionsItem {
   hiddenItems: OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsList;
   name: string;
   visibleItems: OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsList;
-  helpText?: string | null;
+  helpText?: string | null | undefined;
 }
 export type OnRampsCreateResponsePostApplyResourcesValueSectionsList =
   Array<OnRampsCreateResponsePostApplyResourcesValueSectionsItem>;
@@ -1105,7 +1114,7 @@ export interface OnRampsCreateResponsePostApplyResourcesValue {
   tags: OnRampsCreateResponsePostApplyResourcesValueTagsMap;
   updatedAt: string;
   url: string;
-  managedBy?: OnRampsCreateResponsePostApplyResourcesValueManagedByList | null;
+  managedBy?: OnRampsCreateResponsePostApplyResourcesValueManagedByList | null | undefined;
 }
 export type OnRampsCreateResponsePostApplyResourcesMap = {
   [key: string]: OnRampsCreateResponsePostApplyResourcesValue | undefined;
@@ -1293,9 +1302,9 @@ export type OnRampsCreateResponseStatusLifecycleErrorsValueSource =
 export interface OnRampsCreateResponseStatusLifecycleErrorsValue {
   code: OnRampsCreateResponseStatusLifecycleErrorsValueCode;
   message: string;
-  documentationUrl?: string | null;
-  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null;
-  source?: CatalogSyncsCreateResponseErrorsValueSource | null;
+  documentationUrl?: string | null | undefined;
+  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null | undefined;
+  source?: CatalogSyncsCreateResponseErrorsValueSource | null | undefined;
 }
 export type OnRampsCreateResponseStatusLifecycleErrorsMap = {
   [key: string]: OnRampsCreateResponseStatusLifecycleErrorsValue | undefined;
@@ -1306,7 +1315,7 @@ export interface OnRampsCreateResponseStatus {
   planProgress: OnRampsCreateResponseStatusApplyProgress;
   routes: OnRampsCreateResponseStatusRoutesList;
   tunnels: OnRampsCreateResponseStatusTunnelsList;
-  lifecycleErrors?: OnRampsCreateResponseStatusLifecycleErrorsMap | null;
+  lifecycleErrors?: OnRampsCreateResponseStatusLifecycleErrorsMap | null | undefined;
 }
 export type OnRampsCreateResponseVpcsByIdValueCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export type OnRampsCreateResponseVpcsByIdValueConfigMap = { [key: string]: unknown | undefined };
@@ -1555,9 +1564,9 @@ export type OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValue =
   | OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
   | OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItem;
 export interface OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?: OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValue | null | undefined;
 }
 export type OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsList =
   Array<OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItem>;
@@ -1737,9 +1746,9 @@ export type OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue 
   | OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
   | OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItem;
 export interface OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?: OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue | null | undefined;
 }
 export type OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsList =
   Array<OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItem>;
@@ -1747,7 +1756,7 @@ export interface OnRampsCreateResponseVpcsByIdValueSectionsItem {
   hiddenItems: OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsList;
   name: string;
   visibleItems: OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsList;
-  helpText?: string | null;
+  helpText?: string | null | undefined;
 }
 export type OnRampsCreateResponseVpcsByIdValueSectionsList =
   Array<OnRampsCreateResponseVpcsByIdValueSectionsItem>;
@@ -1782,7 +1791,7 @@ export interface OnRampsCreateResponseVpcsByIdValue {
   tags: OnRampsCreateResponseVpcsByIdValueTagsMap;
   updatedAt: string;
   url: string;
-  managedBy?: OnRampsCreateResponseVpcsByIdValueManagedByList | null;
+  managedBy?: OnRampsCreateResponseVpcsByIdValueManagedByList | null | undefined;
 }
 export type OnRampsCreateResponseVpcsByIdMap = {
   [key: string]: OnRampsCreateResponseVpcsByIdValue | undefined;
@@ -1798,33 +1807,36 @@ export interface CreateOnRampResponse {
   name: string;
   type: OnRampsCreateResponseType;
   updatedAt: string;
-  attachedHubs?: OnRampsCreateResponseAttachedHubsList | null;
-  attachedVpcs?: OnRampsCreateResponseAttachedVpcsList | null;
-  cloudAsn?: number | null;
-  description?: string | null;
-  hub?: string | null;
-  lastAppliedAt?: string | null;
-  lastExportedAt?: string | null;
-  lastPlannedAt?: string | null;
-  manageHubToHubAttachments?: boolean | null;
-  manageVpcToHubAttachments?: boolean | null;
-  plannedMonthlyCostEstimate?: OnRampsCreateResponsePlannedMonthlyCostEstimate | null;
-  plannedResources?: OnRampsCreateResponsePlannedResourcesList | null;
-  plannedResourcesUnavailable?: boolean | null;
-  postApplyMonthlyCostEstimate?: OnRampsCreateResponsePostApplyMonthlyCostEstimate | null;
-  postApplyResources?: OnRampsCreateResponsePostApplyResourcesMap | null;
-  postApplyResourcesUnavailable?: boolean | null;
-  region?: string | null;
-  status?: OnRampsCreateResponseStatus | null;
-  vpc?: string | null;
-  vpcsById?: OnRampsCreateResponseVpcsByIdMap | null;
+  attachedHubs?: OnRampsCreateResponseAttachedHubsList | null | undefined;
+  attachedVpcs?: OnRampsCreateResponseAttachedVpcsList | null | undefined;
+  cloudAsn?: number | null | undefined;
+  description?: string | null | undefined;
+  hub?: string | null | undefined;
+  lastAppliedAt?: string | null | undefined;
+  lastExportedAt?: string | null | undefined;
+  lastPlannedAt?: string | null | undefined;
+  manageHubToHubAttachments?: boolean | null | undefined;
+  manageVpcToHubAttachments?: boolean | null | undefined;
+  plannedMonthlyCostEstimate?: OnRampsCreateResponsePlannedMonthlyCostEstimate | null | undefined;
+  plannedResources?: OnRampsCreateResponsePlannedResourcesList | null | undefined;
+  plannedResourcesUnavailable?: boolean | null | undefined;
+  postApplyMonthlyCostEstimate?:
+    | OnRampsCreateResponsePostApplyMonthlyCostEstimate
+    | null
+    | undefined;
+  postApplyResources?: OnRampsCreateResponsePostApplyResourcesMap | null | undefined;
+  postApplyResourcesUnavailable?: boolean | null | undefined;
+  region?: string | null | undefined;
+  status?: OnRampsCreateResponseStatus | null | undefined;
+  vpc?: string | null | undefined;
+  vpcsById?: OnRampsCreateResponseVpcsByIdMap | null | undefined;
   /** The list of vpc IDs for which resource details failed to generate. */
-  vpcsByIdUnavailable?: OnRampsCreateResponseVpcsByIdUnavailableList | null;
+  vpcsByIdUnavailable?: OnRampsCreateResponseVpcsByIdUnavailableList | null | undefined;
 }
 export interface DeleteCatalogSyncRequest {
   accountId: string;
   syncId: string;
-  deleteDestination?: boolean;
+  deleteDestination?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteCatalogSyncResponse {
@@ -1841,8 +1853,8 @@ export interface DeleteCloudIntegrationResponse {
 export interface DeleteOnRampRequest {
   accountId: string;
   onrampId: string;
-  destroy?: boolean;
-  force?: boolean;
+  destroy?: boolean | undefined;
+  force?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteOnRampResponse {
@@ -1855,7 +1867,7 @@ export interface DiscoverAllCloudIntegrationResponse {}
 export interface DiscoverCloudIntegrationRequest {
   accountId: string;
   providerId: string;
-  v2?: boolean;
+  v2?: boolean | undefined;
 }
 export interface DiscoverCloudIntegrationResponse {}
 export interface ExportOnRampRequest {
@@ -1928,16 +1940,16 @@ export type ResourcesExportRequestResourceTypeList = Array<
 export type ResourcesExportRequestSearchList = Array<string>;
 export interface ExportResourceRequest {
   accountId: string;
-  desc?: boolean;
+  desc?: boolean | undefined;
   /** One of ["id", "resource_type", "region"]. */
-  orderBy?: string;
-  providerId?: string;
-  region?: string;
-  resourceGroup?: string;
-  resourceId?: ResourcesExportRequestResourceIdList;
-  resourceType?: ResourcesExportRequestResourceTypeList;
-  search?: ResourcesExportRequestSearchList;
-  v2?: boolean;
+  orderBy?: string | undefined;
+  providerId?: string | undefined;
+  region?: string | undefined;
+  resourceGroup?: string | undefined;
+  resourceId?: ResourcesExportRequestResourceIdList | undefined;
+  resourceType?: ResourcesExportRequestResourceTypeList | undefined;
+  search?: ResourcesExportRequestSearchList | undefined;
+  v2?: boolean | undefined;
 }
 export interface ExportResourceResponse {}
 export interface GetCatalogSyncRequest {
@@ -2107,9 +2119,9 @@ export type CatalogSyncsGetResponseErrorsValueSource = CatalogSyncsCreateRespons
 export interface CatalogSyncsGetResponseErrorsValue {
   code: CatalogSyncsGetResponseErrorsValueCode;
   message: string;
-  documentationUrl?: string | null;
-  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null;
-  source?: CatalogSyncsCreateResponseErrorsValueSource | null;
+  documentationUrl?: string | null | undefined;
+  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null | undefined;
+  source?: CatalogSyncsCreateResponseErrorsValueSource | null | undefined;
 }
 export type CatalogSyncsGetResponseErrorsMap = {
   [key: string]: CatalogSyncsGetResponseErrorsValue | undefined;
@@ -2124,15 +2136,15 @@ export interface GetCatalogSyncResponse {
   name: string;
   policy: string;
   updateMode: CatalogSyncsGetResponseUpdateMode;
-  errors?: CatalogSyncsGetResponseErrorsMap | null;
-  includesDiscoveriesUntil?: string | null;
-  lastAttemptedUpdateAt?: string | null;
-  lastSuccessfulUpdateAt?: string | null;
+  errors?: CatalogSyncsGetResponseErrorsMap | null | undefined;
+  includesDiscoveriesUntil?: string | null | undefined;
+  lastAttemptedUpdateAt?: string | null | undefined;
+  lastSuccessfulUpdateAt?: string | null | undefined;
 }
 export interface GetCloudIntegrationRequest {
   accountId: string;
   providerId: string;
-  status?: boolean;
+  status?: boolean | undefined;
 }
 export type CloudIntegrationsGetResponseCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export type CloudIntegrationsGetResponseLifecycleState = "ACTIVE" | "PENDING_SETUP" | "RETIRED";
@@ -2179,17 +2191,17 @@ export interface CloudIntegrationsGetResponseStatus {
   lastDiscoveryStatus: CloudIntegrationsGetResponseStatusLastDiscoveryStatus;
   lastDiscoveryStatusV2: CloudIntegrationsGetResponseStatusLastDiscoveryStatusV2;
   regions: CloudIntegrationsGetResponseStatusRegionsList;
-  credentialsGoodSince?: string | null;
-  credentialsMissingSince?: string | null;
-  credentialsRejectedSince?: string | null;
-  discoveryMessage?: string | null;
-  discoveryMessageV2?: string | null;
-  inUseBy?: CloudIntegrationsGetResponseStatusInUseByList | null;
-  lastDiscoveryCompletedAt?: string | null;
-  lastDiscoveryCompletedAtV2?: string | null;
-  lastDiscoveryStartedAt?: string | null;
-  lastDiscoveryStartedAtV2?: string | null;
-  lastUpdated?: string | null;
+  credentialsGoodSince?: string | null | undefined;
+  credentialsMissingSince?: string | null | undefined;
+  credentialsRejectedSince?: string | null | undefined;
+  discoveryMessage?: string | null | undefined;
+  discoveryMessageV2?: string | null | undefined;
+  inUseBy?: CloudIntegrationsGetResponseStatusInUseByList | null | undefined;
+  lastDiscoveryCompletedAt?: string | null | undefined;
+  lastDiscoveryCompletedAtV2?: string | null | undefined;
+  lastDiscoveryStartedAt?: string | null | undefined;
+  lastDiscoveryStartedAtV2?: string | null | undefined;
+  lastUpdated?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetCloudIntegrationResponse {
@@ -2200,21 +2212,21 @@ export interface GetCloudIntegrationResponse {
   lifecycleState: CloudIntegrationsGetResponseLifecycleState;
   state: CloudIntegrationsGetResponseState;
   stateV2: CloudIntegrationsGetResponseStateV2;
-  awsArn?: string | null;
-  azureSubscriptionId?: string | null;
-  azureTenantId?: string | null;
-  description?: string | null;
-  gcpProjectId?: string | null;
-  gcpServiceAccountEmail?: string | null;
-  status?: CloudIntegrationsGetResponseStatus | null;
+  awsArn?: string | null | undefined;
+  azureSubscriptionId?: string | null | undefined;
+  azureTenantId?: string | null | undefined;
+  description?: string | null | undefined;
+  gcpProjectId?: string | null | undefined;
+  gcpServiceAccountEmail?: string | null | undefined;
+  status?: CloudIntegrationsGetResponseStatus | null | undefined;
 }
 export interface GetOnRampRequest {
   accountId: string;
   onrampId: string;
-  plannedResources?: boolean;
-  postApplyResources?: boolean;
-  status?: boolean;
-  vpcs?: boolean;
+  plannedResources?: boolean | undefined;
+  postApplyResources?: boolean | undefined;
+  status?: boolean | undefined;
+  vpcs?: boolean | undefined;
 }
 export type OnRampsGetResponseCloudType = "AWS" | "AZURE" | "GOOGLE";
 export type OnRampsGetResponseType = "OnrampTypeSingle" | "OnrampTypeHub";
@@ -2567,9 +2579,12 @@ export type OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItem
   | OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
   | OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem;
 export interface OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?:
+    | OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValue
+    | null
+    | undefined;
 }
 export type OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsList =
   Array<OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItem>;
@@ -2749,9 +2764,12 @@ export type OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsIte
   | OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
   | OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem;
 export interface OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?:
+    | OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValue
+    | null
+    | undefined;
 }
 export type OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsList =
   Array<OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItem>;
@@ -2759,7 +2777,7 @@ export interface OnRampsGetResponsePostApplyResourcesValueSectionsItem {
   hiddenItems: OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsList;
   name: string;
   visibleItems: OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsList;
-  helpText?: string | null;
+  helpText?: string | null | undefined;
 }
 export type OnRampsGetResponsePostApplyResourcesValueSectionsList =
   Array<OnRampsGetResponsePostApplyResourcesValueSectionsItem>;
@@ -2799,7 +2817,7 @@ export interface OnRampsGetResponsePostApplyResourcesValue {
   tags: OnRampsGetResponsePostApplyResourcesValueTagsMap;
   updatedAt: string;
   url: string;
-  managedBy?: OnRampsGetResponsePostApplyResourcesValueManagedByList | null;
+  managedBy?: OnRampsGetResponsePostApplyResourcesValueManagedByList | null | undefined;
 }
 export type OnRampsGetResponsePostApplyResourcesMap = {
   [key: string]: OnRampsGetResponsePostApplyResourcesValue | undefined;
@@ -2984,9 +3002,9 @@ export type OnRampsGetResponseStatusLifecycleErrorsValueSource =
 export interface OnRampsGetResponseStatusLifecycleErrorsValue {
   code: OnRampsGetResponseStatusLifecycleErrorsValueCode;
   message: string;
-  documentationUrl?: string | null;
-  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null;
-  source?: CatalogSyncsCreateResponseErrorsValueSource | null;
+  documentationUrl?: string | null | undefined;
+  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null | undefined;
+  source?: CatalogSyncsCreateResponseErrorsValueSource | null | undefined;
 }
 export type OnRampsGetResponseStatusLifecycleErrorsMap = {
   [key: string]: OnRampsGetResponseStatusLifecycleErrorsValue | undefined;
@@ -2997,7 +3015,7 @@ export interface OnRampsGetResponseStatus {
   planProgress: OnRampsCreateResponseStatusApplyProgress;
   routes: OnRampsGetResponseStatusRoutesList;
   tunnels: OnRampsGetResponseStatusTunnelsList;
-  lifecycleErrors?: OnRampsGetResponseStatusLifecycleErrorsMap | null;
+  lifecycleErrors?: OnRampsGetResponseStatusLifecycleErrorsMap | null | undefined;
 }
 export type OnRampsGetResponseVpcsByIdValueCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export type OnRampsGetResponseVpcsByIdValueConfigMap = { [key: string]: unknown | undefined };
@@ -3246,9 +3264,9 @@ export type OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValue =
   | OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
   | OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItem;
 export interface OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?: OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValue | null | undefined;
 }
 export type OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsList =
   Array<OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItem>;
@@ -3428,9 +3446,9 @@ export type OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValue =
   | OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
   | OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItem;
 export interface OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?: OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValue | null | undefined;
 }
 export type OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsList =
   Array<OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItem>;
@@ -3438,7 +3456,7 @@ export interface OnRampsGetResponseVpcsByIdValueSectionsItem {
   hiddenItems: OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsList;
   name: string;
   visibleItems: OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsList;
-  helpText?: string | null;
+  helpText?: string | null | undefined;
 }
 export type OnRampsGetResponseVpcsByIdValueSectionsList =
   Array<OnRampsGetResponseVpcsByIdValueSectionsItem>;
@@ -3473,7 +3491,7 @@ export interface OnRampsGetResponseVpcsByIdValue {
   tags: OnRampsGetResponseVpcsByIdValueTagsMap;
   updatedAt: string;
   url: string;
-  managedBy?: OnRampsGetResponseVpcsByIdValueManagedByList | null;
+  managedBy?: OnRampsGetResponseVpcsByIdValueManagedByList | null | undefined;
 }
 export type OnRampsGetResponseVpcsByIdMap = {
   [key: string]: OnRampsGetResponseVpcsByIdValue | undefined;
@@ -3489,33 +3507,36 @@ export interface GetOnRampResponse {
   name: string;
   type: OnRampsGetResponseType;
   updatedAt: string;
-  attachedHubs?: OnRampsGetResponseAttachedHubsList | null;
-  attachedVpcs?: OnRampsGetResponseAttachedVpcsList | null;
-  cloudAsn?: number | null;
-  description?: string | null;
-  hub?: string | null;
-  lastAppliedAt?: string | null;
-  lastExportedAt?: string | null;
-  lastPlannedAt?: string | null;
-  manageHubToHubAttachments?: boolean | null;
-  manageVpcToHubAttachments?: boolean | null;
-  plannedMonthlyCostEstimate?: OnRampsCreateResponsePlannedMonthlyCostEstimate | null;
-  plannedResources?: OnRampsGetResponsePlannedResourcesList | null;
-  plannedResourcesUnavailable?: boolean | null;
-  postApplyMonthlyCostEstimate?: OnRampsCreateResponsePostApplyMonthlyCostEstimate | null;
-  postApplyResources?: OnRampsGetResponsePostApplyResourcesMap | null;
-  postApplyResourcesUnavailable?: boolean | null;
-  region?: string | null;
-  status?: OnRampsGetResponseStatus | null;
-  vpc?: string | null;
-  vpcsById?: OnRampsGetResponseVpcsByIdMap | null;
+  attachedHubs?: OnRampsGetResponseAttachedHubsList | null | undefined;
+  attachedVpcs?: OnRampsGetResponseAttachedVpcsList | null | undefined;
+  cloudAsn?: number | null | undefined;
+  description?: string | null | undefined;
+  hub?: string | null | undefined;
+  lastAppliedAt?: string | null | undefined;
+  lastExportedAt?: string | null | undefined;
+  lastPlannedAt?: string | null | undefined;
+  manageHubToHubAttachments?: boolean | null | undefined;
+  manageVpcToHubAttachments?: boolean | null | undefined;
+  plannedMonthlyCostEstimate?: OnRampsCreateResponsePlannedMonthlyCostEstimate | null | undefined;
+  plannedResources?: OnRampsGetResponsePlannedResourcesList | null | undefined;
+  plannedResourcesUnavailable?: boolean | null | undefined;
+  postApplyMonthlyCostEstimate?:
+    | OnRampsCreateResponsePostApplyMonthlyCostEstimate
+    | null
+    | undefined;
+  postApplyResources?: OnRampsGetResponsePostApplyResourcesMap | null | undefined;
+  postApplyResourcesUnavailable?: boolean | null | undefined;
+  region?: string | null | undefined;
+  status?: OnRampsGetResponseStatus | null | undefined;
+  vpc?: string | null | undefined;
+  vpcsById?: OnRampsGetResponseVpcsByIdMap | null | undefined;
   /** The list of vpc IDs for which resource details failed to generate. */
-  vpcsByIdUnavailable?: OnRampsGetResponseVpcsByIdUnavailableList | null;
+  vpcsByIdUnavailable?: OnRampsGetResponseVpcsByIdUnavailableList | null | undefined;
 }
 export interface GetResourceRequest {
   accountId: string;
   resourceId: string;
-  v2?: boolean;
+  v2?: boolean | undefined;
 }
 export type ResourcesGetResponseCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export type ResourcesGetResponseConfigMap = { [key: string]: unknown | undefined };
@@ -3762,9 +3783,9 @@ export type ResourcesGetResponseSectionsItemHiddenItemsItemValue =
   | ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
   | ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnListItem;
 export interface ResourcesGetResponseSectionsItemHiddenItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: ResourcesGetResponseSectionsItemHiddenItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?: ResourcesGetResponseSectionsItemHiddenItemsItemValue | null | undefined;
 }
 export type ResourcesGetResponseSectionsItemHiddenItemsList =
   Array<ResourcesGetResponseSectionsItemHiddenItemsItem>;
@@ -3944,9 +3965,9 @@ export type ResourcesGetResponseSectionsItemVisibleItemsItemValue =
   | ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
   | ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnListItem;
 export interface ResourcesGetResponseSectionsItemVisibleItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: ResourcesGetResponseSectionsItemVisibleItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?: ResourcesGetResponseSectionsItemVisibleItemsItemValue | null | undefined;
 }
 export type ResourcesGetResponseSectionsItemVisibleItemsList =
   Array<ResourcesGetResponseSectionsItemVisibleItemsItem>;
@@ -3954,7 +3975,7 @@ export interface ResourcesGetResponseSectionsItem {
   hiddenItems: ResourcesGetResponseSectionsItemHiddenItemsList;
   name: string;
   visibleItems: ResourcesGetResponseSectionsItemVisibleItemsList;
-  helpText?: string | null;
+  helpText?: string | null | undefined;
 }
 export type ResourcesGetResponseSectionsList = Array<ResourcesGetResponseSectionsItem>;
 export type ResourcesGetResponseStateMap = { [key: string]: unknown | undefined };
@@ -3988,7 +4009,7 @@ export interface GetResourceResponse {
   tags: ResourcesGetResponseTagsMap;
   updatedAt: string;
   url: string;
-  managedBy?: ResourcesGetResponseManagedByList | null;
+  managedBy?: ResourcesGetResponseManagedByList | null | undefined;
 }
 export interface InitialSetupCloudIntegrationRequest {
   accountId: string;
@@ -4018,7 +4039,10 @@ export type CatalogSyncsPrebuiltPoliciesListRequestDestinationType = "NONE" | "Z
 export interface ListCatalogSyncPrebuiltPoliciesRequest {
   accountId: string;
   /** Specify type of destination, omit to return all. */
-  destinationType?: CatalogSyncsPrebuiltPoliciesListRequestDestinationType | (string & {});
+  destinationType?:
+    | CatalogSyncsPrebuiltPoliciesListRequestDestinationType
+    | (string & {})
+    | undefined;
 }
 export type CatalogSyncsPrebuiltPoliciesListResultItemApplicableDestinationsItem =
   | "NONE"
@@ -4037,7 +4061,7 @@ export interface ListCatalogSyncPrebuiltPoliciesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: CatalogSyncsPrebuiltPoliciesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListCatalogSyncsRequest {
   accountId: string;
@@ -4206,9 +4230,9 @@ export type CatalogSyncsListResultItemErrorsValueSource =
 export interface CatalogSyncsListResultItemErrorsValue {
   code: CatalogSyncsListResultItemErrorsValueCode;
   message: string;
-  documentationUrl?: string | null;
-  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null;
-  source?: CatalogSyncsCreateResponseErrorsValueSource | null;
+  documentationUrl?: string | null | undefined;
+  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null | undefined;
+  source?: CatalogSyncsCreateResponseErrorsValueSource | null | undefined;
 }
 export type CatalogSyncsListResultItemErrorsMap = {
   [key: string]: CatalogSyncsListResultItemErrorsValue | undefined;
@@ -4222,25 +4246,25 @@ export interface CatalogSyncsListResultItem {
   name: string;
   policy: string;
   updateMode: CatalogSyncsListResultItemUpdateMode;
-  errors?: CatalogSyncsListResultItemErrorsMap | null;
-  includesDiscoveriesUntil?: string | null;
-  lastAttemptedUpdateAt?: string | null;
-  lastSuccessfulUpdateAt?: string | null;
+  errors?: CatalogSyncsListResultItemErrorsMap | null | undefined;
+  includesDiscoveriesUntil?: string | null | undefined;
+  lastAttemptedUpdateAt?: string | null | undefined;
+  lastSuccessfulUpdateAt?: string | null | undefined;
 }
 export type CatalogSyncsListResultList = Array<CatalogSyncsListResultItem>;
 export interface ListCatalogSyncsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: CatalogSyncsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListCloudIntegrationsRequest {
   accountId: string;
-  cloudflare?: boolean;
-  desc?: boolean;
+  cloudflare?: boolean | undefined;
+  desc?: boolean | undefined;
   /** One of ["updated_at", "id", "cloud_type", "name"]. */
-  orderBy?: string;
-  status?: boolean;
+  orderBy?: string | undefined;
+  status?: boolean | undefined;
 }
 export type CloudIntegrationsListResultItemCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export type CloudIntegrationsListResultItemLifecycleState = "ACTIVE" | "PENDING_SETUP" | "RETIRED";
@@ -4287,17 +4311,17 @@ export interface CloudIntegrationsListResultItemStatus {
   lastDiscoveryStatus: CloudIntegrationsListResultItemStatusLastDiscoveryStatus;
   lastDiscoveryStatusV2: CloudIntegrationsListResultItemStatusLastDiscoveryStatusV2;
   regions: CloudIntegrationsListResultItemStatusRegionsList;
-  credentialsGoodSince?: string | null;
-  credentialsMissingSince?: string | null;
-  credentialsRejectedSince?: string | null;
-  discoveryMessage?: string | null;
-  discoveryMessageV2?: string | null;
-  inUseBy?: CloudIntegrationsListResultItemStatusInUseByList | null;
-  lastDiscoveryCompletedAt?: string | null;
-  lastDiscoveryCompletedAtV2?: string | null;
-  lastDiscoveryStartedAt?: string | null;
-  lastDiscoveryStartedAtV2?: string | null;
-  lastUpdated?: string | null;
+  credentialsGoodSince?: string | null | undefined;
+  credentialsMissingSince?: string | null | undefined;
+  credentialsRejectedSince?: string | null | undefined;
+  discoveryMessage?: string | null | undefined;
+  discoveryMessageV2?: string | null | undefined;
+  inUseBy?: CloudIntegrationsListResultItemStatusInUseByList | null | undefined;
+  lastDiscoveryCompletedAt?: string | null | undefined;
+  lastDiscoveryCompletedAtV2?: string | null | undefined;
+  lastDiscoveryStartedAt?: string | null | undefined;
+  lastDiscoveryStartedAtV2?: string | null | undefined;
+  lastUpdated?: string | null | undefined;
 }
 export interface CloudIntegrationsListResultItem {
   id: string;
@@ -4307,20 +4331,20 @@ export interface CloudIntegrationsListResultItem {
   lifecycleState: CloudIntegrationsListResultItemLifecycleState;
   state: CloudIntegrationsListResultItemState;
   stateV2: CloudIntegrationsListResultItemStateV2;
-  awsArn?: string | null;
-  azureSubscriptionId?: string | null;
-  azureTenantId?: string | null;
-  description?: string | null;
-  gcpProjectId?: string | null;
-  gcpServiceAccountEmail?: string | null;
-  status?: CloudIntegrationsListResultItemStatus | null;
+  awsArn?: string | null | undefined;
+  azureSubscriptionId?: string | null | undefined;
+  azureTenantId?: string | null | undefined;
+  description?: string | null | undefined;
+  gcpProjectId?: string | null | undefined;
+  gcpServiceAccountEmail?: string | null | undefined;
+  status?: CloudIntegrationsListResultItemStatus | null | undefined;
 }
 export type CloudIntegrationsListResultList = Array<CloudIntegrationsListResultItem>;
 export interface ListCloudIntegrationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: CloudIntegrationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListOnRampAddressSpacesRequest {
   accountId: string;
@@ -4332,11 +4356,11 @@ export interface ListOnRampAddressSpacesResponse {
 }
 export interface ListOnRampsRequest {
   accountId: string;
-  desc?: boolean;
+  desc?: boolean | undefined;
   /** One of ["updated_at", "id", "cloud_type", "name"]. */
-  orderBy?: string;
-  status?: boolean;
-  vpcs?: boolean;
+  orderBy?: string | undefined;
+  status?: boolean | undefined;
+  vpcs?: boolean | undefined;
 }
 export type OnRampsListResultItemCloudType = "AWS" | "AZURE" | "GOOGLE";
 export type OnRampsListResultItemType = "OnrampTypeSingle" | "OnrampTypeHub";
@@ -4690,9 +4714,12 @@ export type OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsI
   | OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
   | OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem;
 export interface OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?:
+    | OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValue
+    | null
+    | undefined;
 }
 export type OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsList =
   Array<OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItem>;
@@ -4872,9 +4899,12 @@ export type OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItems
   | OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
   | OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem;
 export interface OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?:
+    | OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValue
+    | null
+    | undefined;
 }
 export type OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsList =
   Array<OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItem>;
@@ -4882,7 +4912,7 @@ export interface OnRampsListResultItemPostApplyResourcesValueSectionsItem {
   hiddenItems: OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsList;
   name: string;
   visibleItems: OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsList;
-  helpText?: string | null;
+  helpText?: string | null | undefined;
 }
 export type OnRampsListResultItemPostApplyResourcesValueSectionsList =
   Array<OnRampsListResultItemPostApplyResourcesValueSectionsItem>;
@@ -4922,7 +4952,7 @@ export interface OnRampsListResultItemPostApplyResourcesValue {
   tags: OnRampsListResultItemPostApplyResourcesValueTagsMap;
   updatedAt: string;
   url: string;
-  managedBy?: OnRampsListResultItemPostApplyResourcesValueManagedByList | null;
+  managedBy?: OnRampsListResultItemPostApplyResourcesValueManagedByList | null | undefined;
 }
 export type OnRampsListResultItemPostApplyResourcesMap = {
   [key: string]: OnRampsListResultItemPostApplyResourcesValue | undefined;
@@ -5107,9 +5137,9 @@ export type OnRampsListResultItemStatusLifecycleErrorsValueSource =
 export interface OnRampsListResultItemStatusLifecycleErrorsValue {
   code: OnRampsListResultItemStatusLifecycleErrorsValueCode;
   message: string;
-  documentationUrl?: string | null;
-  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null;
-  source?: CatalogSyncsCreateResponseErrorsValueSource | null;
+  documentationUrl?: string | null | undefined;
+  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null | undefined;
+  source?: CatalogSyncsCreateResponseErrorsValueSource | null | undefined;
 }
 export type OnRampsListResultItemStatusLifecycleErrorsMap = {
   [key: string]: OnRampsListResultItemStatusLifecycleErrorsValue | undefined;
@@ -5120,7 +5150,7 @@ export interface OnRampsListResultItemStatus {
   planProgress: OnRampsCreateResponseStatusApplyProgress;
   routes: OnRampsListResultItemStatusRoutesList;
   tunnels: OnRampsListResultItemStatusTunnelsList;
-  lifecycleErrors?: OnRampsListResultItemStatusLifecycleErrorsMap | null;
+  lifecycleErrors?: OnRampsListResultItemStatusLifecycleErrorsMap | null | undefined;
 }
 export type OnRampsListResultItemVpcsByIdValueCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export type OnRampsListResultItemVpcsByIdValueConfigMap = { [key: string]: unknown | undefined };
@@ -5369,9 +5399,9 @@ export type OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValue =
   | OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
   | OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItem;
 export interface OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?: OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValue | null | undefined;
 }
 export type OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsList =
   Array<OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItem>;
@@ -5551,9 +5581,9 @@ export type OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValue 
   | OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
   | OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItem;
 export interface OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?: OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValue | null | undefined;
 }
 export type OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsList =
   Array<OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItem>;
@@ -5561,7 +5591,7 @@ export interface OnRampsListResultItemVpcsByIdValueSectionsItem {
   hiddenItems: OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsList;
   name: string;
   visibleItems: OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsList;
-  helpText?: string | null;
+  helpText?: string | null | undefined;
 }
 export type OnRampsListResultItemVpcsByIdValueSectionsList =
   Array<OnRampsListResultItemVpcsByIdValueSectionsItem>;
@@ -5596,7 +5626,7 @@ export interface OnRampsListResultItemVpcsByIdValue {
   tags: OnRampsListResultItemVpcsByIdValueTagsMap;
   updatedAt: string;
   url: string;
-  managedBy?: OnRampsListResultItemVpcsByIdValueManagedByList | null;
+  managedBy?: OnRampsListResultItemVpcsByIdValueManagedByList | null | undefined;
 }
 export type OnRampsListResultItemVpcsByIdMap = {
   [key: string]: OnRampsListResultItemVpcsByIdValue | undefined;
@@ -5611,35 +5641,38 @@ export interface OnRampsListResultItem {
   name: string;
   type: OnRampsListResultItemType;
   updatedAt: string;
-  attachedHubs?: OnRampsListResultItemAttachedHubsList | null;
-  attachedVpcs?: OnRampsListResultItemAttachedVpcsList | null;
-  cloudAsn?: number | null;
-  description?: string | null;
-  hub?: string | null;
-  lastAppliedAt?: string | null;
-  lastExportedAt?: string | null;
-  lastPlannedAt?: string | null;
-  manageHubToHubAttachments?: boolean | null;
-  manageVpcToHubAttachments?: boolean | null;
-  plannedMonthlyCostEstimate?: OnRampsCreateResponsePlannedMonthlyCostEstimate | null;
-  plannedResources?: OnRampsListResultItemPlannedResourcesList | null;
-  plannedResourcesUnavailable?: boolean | null;
-  postApplyMonthlyCostEstimate?: OnRampsCreateResponsePostApplyMonthlyCostEstimate | null;
-  postApplyResources?: OnRampsListResultItemPostApplyResourcesMap | null;
-  postApplyResourcesUnavailable?: boolean | null;
-  region?: string | null;
-  status?: OnRampsListResultItemStatus | null;
-  vpc?: string | null;
-  vpcsById?: OnRampsListResultItemVpcsByIdMap | null;
+  attachedHubs?: OnRampsListResultItemAttachedHubsList | null | undefined;
+  attachedVpcs?: OnRampsListResultItemAttachedVpcsList | null | undefined;
+  cloudAsn?: number | null | undefined;
+  description?: string | null | undefined;
+  hub?: string | null | undefined;
+  lastAppliedAt?: string | null | undefined;
+  lastExportedAt?: string | null | undefined;
+  lastPlannedAt?: string | null | undefined;
+  manageHubToHubAttachments?: boolean | null | undefined;
+  manageVpcToHubAttachments?: boolean | null | undefined;
+  plannedMonthlyCostEstimate?: OnRampsCreateResponsePlannedMonthlyCostEstimate | null | undefined;
+  plannedResources?: OnRampsListResultItemPlannedResourcesList | null | undefined;
+  plannedResourcesUnavailable?: boolean | null | undefined;
+  postApplyMonthlyCostEstimate?:
+    | OnRampsCreateResponsePostApplyMonthlyCostEstimate
+    | null
+    | undefined;
+  postApplyResources?: OnRampsListResultItemPostApplyResourcesMap | null | undefined;
+  postApplyResourcesUnavailable?: boolean | null | undefined;
+  region?: string | null | undefined;
+  status?: OnRampsListResultItemStatus | null | undefined;
+  vpc?: string | null | undefined;
+  vpcsById?: OnRampsListResultItemVpcsByIdMap | null | undefined;
   /** The list of vpc IDs for which resource details failed to generate. */
-  vpcsByIdUnavailable?: OnRampsListResultItemVpcsByIdUnavailableList | null;
+  vpcsByIdUnavailable?: OnRampsListResultItemVpcsByIdUnavailableList | null | undefined;
 }
 export type OnRampsListResultList = Array<OnRampsListResultItem>;
 export interface ListOnRampsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: OnRampsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ResourcesListRequestResourceIdList = Array<string>;
 export type ResourcesListRequestResourceType =
@@ -5706,20 +5739,20 @@ export type ResourcesListRequestResourceTypeList = Array<
 export type ResourcesListRequestSearchList = Array<string>;
 export interface ListResourcesRequest {
   accountId: string;
-  cloudflare?: boolean;
-  desc?: boolean;
-  managed?: boolean;
+  cloudflare?: boolean | undefined;
+  desc?: boolean | undefined;
+  managed?: boolean | undefined;
   /** One of ["id", "resource_type", "region"]. */
-  orderBy?: string;
-  page?: number;
-  perPage?: number;
-  providerId?: string;
-  region?: string;
-  resourceGroup?: string;
-  resourceId?: ResourcesListRequestResourceIdList;
-  resourceType?: ResourcesListRequestResourceTypeList;
-  search?: ResourcesListRequestSearchList;
-  v2?: boolean;
+  orderBy?: string | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  providerId?: string | undefined;
+  region?: string | undefined;
+  resourceGroup?: string | undefined;
+  resourceId?: ResourcesListRequestResourceIdList | undefined;
+  resourceType?: ResourcesListRequestResourceTypeList | undefined;
+  search?: ResourcesListRequestSearchList | undefined;
+  v2?: boolean | undefined;
 }
 export type ResourcesListResultItemCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export type ResourcesListResultItemConfigMap = { [key: string]: unknown | undefined };
@@ -5966,9 +5999,9 @@ export type ResourcesListResultItemSectionsItemHiddenItemsItemValue =
   | ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
   | ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnListItem;
 export interface ResourcesListResultItemSectionsItemHiddenItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: ResourcesListResultItemSectionsItemHiddenItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?: ResourcesListResultItemSectionsItemHiddenItemsItemValue | null | undefined;
 }
 export type ResourcesListResultItemSectionsItemHiddenItemsList =
   Array<ResourcesListResultItemSectionsItemHiddenItemsItem>;
@@ -6148,9 +6181,9 @@ export type ResourcesListResultItemSectionsItemVisibleItemsItemValue =
   | ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
   | ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnListItem;
 export interface ResourcesListResultItemSectionsItemVisibleItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: ResourcesListResultItemSectionsItemVisibleItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?: ResourcesListResultItemSectionsItemVisibleItemsItemValue | null | undefined;
 }
 export type ResourcesListResultItemSectionsItemVisibleItemsList =
   Array<ResourcesListResultItemSectionsItemVisibleItemsItem>;
@@ -6158,7 +6191,7 @@ export interface ResourcesListResultItemSectionsItem {
   hiddenItems: ResourcesListResultItemSectionsItemHiddenItemsList;
   name: string;
   visibleItems: ResourcesListResultItemSectionsItemVisibleItemsList;
-  helpText?: string | null;
+  helpText?: string | null | undefined;
 }
 export type ResourcesListResultItemSectionsList = Array<ResourcesListResultItemSectionsItem>;
 export type ResourcesListResultItemStateMap = { [key: string]: unknown | undefined };
@@ -6191,23 +6224,23 @@ export interface ResourcesListResultItem {
   tags: ResourcesListResultItemTagsMap;
   updatedAt: string;
   url: string;
-  managedBy?: ResourcesListResultItemManagedByList | null;
+  managedBy?: ResourcesListResultItemManagedByList | null | undefined;
 }
 export type ResourcesListResultList = Array<ResourcesListResultItem>;
 export interface ListResourcesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ResourcesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CatalogSyncsEditRequestUpdateMode = "AUTO" | "MANUAL";
 export interface PatchCatalogSyncRequest {
   accountId: string;
   syncId: string;
-  description?: string;
-  name?: string;
-  policy?: string;
-  updateMode?: CatalogSyncsEditRequestUpdateMode | (string & {});
+  description?: string | undefined;
+  name?: string | undefined;
+  policy?: string | undefined;
+  updateMode?: CatalogSyncsEditRequestUpdateMode | (string & {}) | undefined;
 }
 export type CatalogSyncsEditResponseDestinationType = "NONE" | "ZERO_TRUST_LIST";
 export type CatalogSyncsEditResponseUpdateMode = "AUTO" | "MANUAL";
@@ -6372,9 +6405,9 @@ export type CatalogSyncsEditResponseErrorsValueSource = CatalogSyncsCreateRespon
 export interface CatalogSyncsEditResponseErrorsValue {
   code: CatalogSyncsEditResponseErrorsValueCode;
   message: string;
-  documentationUrl?: string | null;
-  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null;
-  source?: CatalogSyncsCreateResponseErrorsValueSource | null;
+  documentationUrl?: string | null | undefined;
+  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null | undefined;
+  source?: CatalogSyncsCreateResponseErrorsValueSource | null | undefined;
 }
 export type CatalogSyncsEditResponseErrorsMap = {
   [key: string]: CatalogSyncsEditResponseErrorsValue | undefined;
@@ -6389,21 +6422,21 @@ export interface PatchCatalogSyncResponse {
   name: string;
   policy: string;
   updateMode: CatalogSyncsEditResponseUpdateMode;
-  errors?: CatalogSyncsEditResponseErrorsMap | null;
-  includesDiscoveriesUntil?: string | null;
-  lastAttemptedUpdateAt?: string | null;
-  lastSuccessfulUpdateAt?: string | null;
+  errors?: CatalogSyncsEditResponseErrorsMap | null | undefined;
+  includesDiscoveriesUntil?: string | null | undefined;
+  lastAttemptedUpdateAt?: string | null | undefined;
+  lastSuccessfulUpdateAt?: string | null | undefined;
 }
 export interface PatchCloudIntegrationRequest {
   accountId: string;
   providerId: string;
-  awsArn?: string;
-  azureSubscriptionId?: string;
-  azureTenantId?: string;
-  description?: string;
-  friendlyName?: string;
-  gcpProjectId?: string;
-  gcpServiceAccountEmail?: string;
+  awsArn?: string | undefined;
+  azureSubscriptionId?: string | undefined;
+  azureTenantId?: string | undefined;
+  description?: string | undefined;
+  friendlyName?: string | undefined;
+  gcpProjectId?: string | undefined;
+  gcpServiceAccountEmail?: string | undefined;
 }
 export type CloudIntegrationsEditResponseCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export type CloudIntegrationsEditResponseLifecycleState = "ACTIVE" | "PENDING_SETUP" | "RETIRED";
@@ -6450,17 +6483,17 @@ export interface CloudIntegrationsEditResponseStatus {
   lastDiscoveryStatus: CloudIntegrationsEditResponseStatusLastDiscoveryStatus;
   lastDiscoveryStatusV2: CloudIntegrationsEditResponseStatusLastDiscoveryStatusV2;
   regions: CloudIntegrationsEditResponseStatusRegionsList;
-  credentialsGoodSince?: string | null;
-  credentialsMissingSince?: string | null;
-  credentialsRejectedSince?: string | null;
-  discoveryMessage?: string | null;
-  discoveryMessageV2?: string | null;
-  inUseBy?: CloudIntegrationsEditResponseStatusInUseByList | null;
-  lastDiscoveryCompletedAt?: string | null;
-  lastDiscoveryCompletedAtV2?: string | null;
-  lastDiscoveryStartedAt?: string | null;
-  lastDiscoveryStartedAtV2?: string | null;
-  lastUpdated?: string | null;
+  credentialsGoodSince?: string | null | undefined;
+  credentialsMissingSince?: string | null | undefined;
+  credentialsRejectedSince?: string | null | undefined;
+  discoveryMessage?: string | null | undefined;
+  discoveryMessageV2?: string | null | undefined;
+  inUseBy?: CloudIntegrationsEditResponseStatusInUseByList | null | undefined;
+  lastDiscoveryCompletedAt?: string | null | undefined;
+  lastDiscoveryCompletedAtV2?: string | null | undefined;
+  lastDiscoveryStartedAt?: string | null | undefined;
+  lastDiscoveryStartedAtV2?: string | null | undefined;
+  lastUpdated?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchCloudIntegrationResponse {
@@ -6471,28 +6504,28 @@ export interface PatchCloudIntegrationResponse {
   lifecycleState: CloudIntegrationsEditResponseLifecycleState;
   state: CloudIntegrationsEditResponseState;
   stateV2: CloudIntegrationsEditResponseStateV2;
-  awsArn?: string | null;
-  azureSubscriptionId?: string | null;
-  azureTenantId?: string | null;
-  description?: string | null;
-  gcpProjectId?: string | null;
-  gcpServiceAccountEmail?: string | null;
-  status?: CloudIntegrationsEditResponseStatus | null;
+  awsArn?: string | null | undefined;
+  azureSubscriptionId?: string | null | undefined;
+  azureTenantId?: string | null | undefined;
+  description?: string | null | undefined;
+  gcpProjectId?: string | null | undefined;
+  gcpServiceAccountEmail?: string | null | undefined;
+  status?: CloudIntegrationsEditResponseStatus | null | undefined;
 }
 export type OnRampsEditRequestAttachedHubsList = Array<string>;
 export type OnRampsEditRequestAttachedVpcsList = Array<string>;
 export interface PatchOnRampRequest {
   accountId: string;
   onrampId: string;
-  attachedHubs?: OnRampsEditRequestAttachedHubsList;
-  attachedVpcs?: OnRampsEditRequestAttachedVpcsList;
-  description?: string;
-  installRoutesInCloud?: boolean;
-  installRoutesInMagicWan?: boolean;
-  manageHubToHubAttachments?: boolean;
-  manageVpcToHubAttachments?: boolean;
-  name?: string;
-  vpc?: string;
+  attachedHubs?: OnRampsEditRequestAttachedHubsList | undefined;
+  attachedVpcs?: OnRampsEditRequestAttachedVpcsList | undefined;
+  description?: string | undefined;
+  installRoutesInCloud?: boolean | undefined;
+  installRoutesInMagicWan?: boolean | undefined;
+  manageHubToHubAttachments?: boolean | undefined;
+  manageVpcToHubAttachments?: boolean | undefined;
+  name?: string | undefined;
+  vpc?: string | undefined;
 }
 export type OnRampsEditResponseCloudType = "AWS" | "AZURE" | "GOOGLE";
 export type OnRampsEditResponseType = "OnrampTypeSingle" | "OnrampTypeHub";
@@ -6846,9 +6879,12 @@ export type OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsIte
   | OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
   | OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem;
 export interface OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?:
+    | OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValue
+    | null
+    | undefined;
 }
 export type OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsList =
   Array<OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItem>;
@@ -7028,9 +7064,12 @@ export type OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsIt
   | OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
   | OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem;
 export interface OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?:
+    | OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValue
+    | null
+    | undefined;
 }
 export type OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsList =
   Array<OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItem>;
@@ -7038,7 +7077,7 @@ export interface OnRampsEditResponsePostApplyResourcesValueSectionsItem {
   hiddenItems: OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsList;
   name: string;
   visibleItems: OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsList;
-  helpText?: string | null;
+  helpText?: string | null | undefined;
 }
 export type OnRampsEditResponsePostApplyResourcesValueSectionsList =
   Array<OnRampsEditResponsePostApplyResourcesValueSectionsItem>;
@@ -7078,7 +7117,7 @@ export interface OnRampsEditResponsePostApplyResourcesValue {
   tags: OnRampsEditResponsePostApplyResourcesValueTagsMap;
   updatedAt: string;
   url: string;
-  managedBy?: OnRampsEditResponsePostApplyResourcesValueManagedByList | null;
+  managedBy?: OnRampsEditResponsePostApplyResourcesValueManagedByList | null | undefined;
 }
 export type OnRampsEditResponsePostApplyResourcesMap = {
   [key: string]: OnRampsEditResponsePostApplyResourcesValue | undefined;
@@ -7263,9 +7302,9 @@ export type OnRampsEditResponseStatusLifecycleErrorsValueSource =
 export interface OnRampsEditResponseStatusLifecycleErrorsValue {
   code: OnRampsEditResponseStatusLifecycleErrorsValueCode;
   message: string;
-  documentationUrl?: string | null;
-  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null;
-  source?: CatalogSyncsCreateResponseErrorsValueSource | null;
+  documentationUrl?: string | null | undefined;
+  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null | undefined;
+  source?: CatalogSyncsCreateResponseErrorsValueSource | null | undefined;
 }
 export type OnRampsEditResponseStatusLifecycleErrorsMap = {
   [key: string]: OnRampsEditResponseStatusLifecycleErrorsValue | undefined;
@@ -7276,7 +7315,7 @@ export interface OnRampsEditResponseStatus {
   planProgress: OnRampsCreateResponseStatusApplyProgress;
   routes: OnRampsEditResponseStatusRoutesList;
   tunnels: OnRampsEditResponseStatusTunnelsList;
-  lifecycleErrors?: OnRampsEditResponseStatusLifecycleErrorsMap | null;
+  lifecycleErrors?: OnRampsEditResponseStatusLifecycleErrorsMap | null | undefined;
 }
 export type OnRampsEditResponseVpcsByIdValueCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export type OnRampsEditResponseVpcsByIdValueConfigMap = { [key: string]: unknown | undefined };
@@ -7525,9 +7564,9 @@ export type OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValue =
   | OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
   | OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItem;
 export interface OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?: OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValue | null | undefined;
 }
 export type OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsList =
   Array<OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItem>;
@@ -7707,9 +7746,9 @@ export type OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValue =
   | OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
   | OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItem;
 export interface OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?: OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValue | null | undefined;
 }
 export type OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsList =
   Array<OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItem>;
@@ -7717,7 +7756,7 @@ export interface OnRampsEditResponseVpcsByIdValueSectionsItem {
   hiddenItems: OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsList;
   name: string;
   visibleItems: OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsList;
-  helpText?: string | null;
+  helpText?: string | null | undefined;
 }
 export type OnRampsEditResponseVpcsByIdValueSectionsList =
   Array<OnRampsEditResponseVpcsByIdValueSectionsItem>;
@@ -7752,7 +7791,7 @@ export interface OnRampsEditResponseVpcsByIdValue {
   tags: OnRampsEditResponseVpcsByIdValueTagsMap;
   updatedAt: string;
   url: string;
-  managedBy?: OnRampsEditResponseVpcsByIdValueManagedByList | null;
+  managedBy?: OnRampsEditResponseVpcsByIdValueManagedByList | null | undefined;
 }
 export type OnRampsEditResponseVpcsByIdMap = {
   [key: string]: OnRampsEditResponseVpcsByIdValue | undefined;
@@ -7768,28 +7807,31 @@ export interface PatchOnRampResponse {
   name: string;
   type: OnRampsEditResponseType;
   updatedAt: string;
-  attachedHubs?: OnRampsEditResponseAttachedHubsList | null;
-  attachedVpcs?: OnRampsEditResponseAttachedVpcsList | null;
-  cloudAsn?: number | null;
-  description?: string | null;
-  hub?: string | null;
-  lastAppliedAt?: string | null;
-  lastExportedAt?: string | null;
-  lastPlannedAt?: string | null;
-  manageHubToHubAttachments?: boolean | null;
-  manageVpcToHubAttachments?: boolean | null;
-  plannedMonthlyCostEstimate?: OnRampsCreateResponsePlannedMonthlyCostEstimate | null;
-  plannedResources?: OnRampsEditResponsePlannedResourcesList | null;
-  plannedResourcesUnavailable?: boolean | null;
-  postApplyMonthlyCostEstimate?: OnRampsCreateResponsePostApplyMonthlyCostEstimate | null;
-  postApplyResources?: OnRampsEditResponsePostApplyResourcesMap | null;
-  postApplyResourcesUnavailable?: boolean | null;
-  region?: string | null;
-  status?: OnRampsEditResponseStatus | null;
-  vpc?: string | null;
-  vpcsById?: OnRampsEditResponseVpcsByIdMap | null;
+  attachedHubs?: OnRampsEditResponseAttachedHubsList | null | undefined;
+  attachedVpcs?: OnRampsEditResponseAttachedVpcsList | null | undefined;
+  cloudAsn?: number | null | undefined;
+  description?: string | null | undefined;
+  hub?: string | null | undefined;
+  lastAppliedAt?: string | null | undefined;
+  lastExportedAt?: string | null | undefined;
+  lastPlannedAt?: string | null | undefined;
+  manageHubToHubAttachments?: boolean | null | undefined;
+  manageVpcToHubAttachments?: boolean | null | undefined;
+  plannedMonthlyCostEstimate?: OnRampsCreateResponsePlannedMonthlyCostEstimate | null | undefined;
+  plannedResources?: OnRampsEditResponsePlannedResourcesList | null | undefined;
+  plannedResourcesUnavailable?: boolean | null | undefined;
+  postApplyMonthlyCostEstimate?:
+    | OnRampsCreateResponsePostApplyMonthlyCostEstimate
+    | null
+    | undefined;
+  postApplyResources?: OnRampsEditResponsePostApplyResourcesMap | null | undefined;
+  postApplyResourcesUnavailable?: boolean | null | undefined;
+  region?: string | null | undefined;
+  status?: OnRampsEditResponseStatus | null | undefined;
+  vpc?: string | null | undefined;
+  vpcsById?: OnRampsEditResponseVpcsByIdMap | null | undefined;
   /** The list of vpc IDs for which resource details failed to generate. */
-  vpcsByIdUnavailable?: OnRampsEditResponseVpcsByIdUnavailableList | null;
+  vpcsByIdUnavailable?: OnRampsEditResponseVpcsByIdUnavailableList | null | undefined;
 }
 export type OnRampsAddressSpacesEditRequestPrefixesList = Array<string>;
 export interface PatchOnRampAddressSpaceRequest {
@@ -7830,10 +7872,10 @@ export type CatalogSyncsUpdateRequestUpdateMode = "AUTO" | "MANUAL";
 export interface UpdateCatalogSyncRequest {
   accountId: string;
   syncId: string;
-  description?: string;
-  name?: string;
-  policy?: string;
-  updateMode?: CatalogSyncsUpdateRequestUpdateMode | (string & {});
+  description?: string | undefined;
+  name?: string | undefined;
+  policy?: string | undefined;
+  updateMode?: CatalogSyncsUpdateRequestUpdateMode | (string & {}) | undefined;
 }
 export type CatalogSyncsUpdateResponseDestinationType = "NONE" | "ZERO_TRUST_LIST";
 export type CatalogSyncsUpdateResponseUpdateMode = "AUTO" | "MANUAL";
@@ -7999,9 +8041,9 @@ export type CatalogSyncsUpdateResponseErrorsValueSource =
 export interface CatalogSyncsUpdateResponseErrorsValue {
   code: CatalogSyncsUpdateResponseErrorsValueCode;
   message: string;
-  documentationUrl?: string | null;
-  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null;
-  source?: CatalogSyncsCreateResponseErrorsValueSource | null;
+  documentationUrl?: string | null | undefined;
+  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null | undefined;
+  source?: CatalogSyncsCreateResponseErrorsValueSource | null | undefined;
 }
 export type CatalogSyncsUpdateResponseErrorsMap = {
   [key: string]: CatalogSyncsUpdateResponseErrorsValue | undefined;
@@ -8016,21 +8058,21 @@ export interface UpdateCatalogSyncResponse {
   name: string;
   policy: string;
   updateMode: CatalogSyncsUpdateResponseUpdateMode;
-  errors?: CatalogSyncsUpdateResponseErrorsMap | null;
-  includesDiscoveriesUntil?: string | null;
-  lastAttemptedUpdateAt?: string | null;
-  lastSuccessfulUpdateAt?: string | null;
+  errors?: CatalogSyncsUpdateResponseErrorsMap | null | undefined;
+  includesDiscoveriesUntil?: string | null | undefined;
+  lastAttemptedUpdateAt?: string | null | undefined;
+  lastSuccessfulUpdateAt?: string | null | undefined;
 }
 export interface UpdateCloudIntegrationRequest {
   accountId: string;
   providerId: string;
-  awsArn?: string;
-  azureSubscriptionId?: string;
-  azureTenantId?: string;
-  description?: string;
-  friendlyName?: string;
-  gcpProjectId?: string;
-  gcpServiceAccountEmail?: string;
+  awsArn?: string | undefined;
+  azureSubscriptionId?: string | undefined;
+  azureTenantId?: string | undefined;
+  description?: string | undefined;
+  friendlyName?: string | undefined;
+  gcpProjectId?: string | undefined;
+  gcpServiceAccountEmail?: string | undefined;
 }
 export type CloudIntegrationsUpdateResponseCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export type CloudIntegrationsUpdateResponseLifecycleState = "ACTIVE" | "PENDING_SETUP" | "RETIRED";
@@ -8077,17 +8119,17 @@ export interface CloudIntegrationsUpdateResponseStatus {
   lastDiscoveryStatus: CloudIntegrationsUpdateResponseStatusLastDiscoveryStatus;
   lastDiscoveryStatusV2: CloudIntegrationsUpdateResponseStatusLastDiscoveryStatusV2;
   regions: CloudIntegrationsUpdateResponseStatusRegionsList;
-  credentialsGoodSince?: string | null;
-  credentialsMissingSince?: string | null;
-  credentialsRejectedSince?: string | null;
-  discoveryMessage?: string | null;
-  discoveryMessageV2?: string | null;
-  inUseBy?: CloudIntegrationsUpdateResponseStatusInUseByList | null;
-  lastDiscoveryCompletedAt?: string | null;
-  lastDiscoveryCompletedAtV2?: string | null;
-  lastDiscoveryStartedAt?: string | null;
-  lastDiscoveryStartedAtV2?: string | null;
-  lastUpdated?: string | null;
+  credentialsGoodSince?: string | null | undefined;
+  credentialsMissingSince?: string | null | undefined;
+  credentialsRejectedSince?: string | null | undefined;
+  discoveryMessage?: string | null | undefined;
+  discoveryMessageV2?: string | null | undefined;
+  inUseBy?: CloudIntegrationsUpdateResponseStatusInUseByList | null | undefined;
+  lastDiscoveryCompletedAt?: string | null | undefined;
+  lastDiscoveryCompletedAtV2?: string | null | undefined;
+  lastDiscoveryStartedAt?: string | null | undefined;
+  lastDiscoveryStartedAtV2?: string | null | undefined;
+  lastUpdated?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateCloudIntegrationResponse {
@@ -8098,28 +8140,28 @@ export interface UpdateCloudIntegrationResponse {
   lifecycleState: CloudIntegrationsUpdateResponseLifecycleState;
   state: CloudIntegrationsUpdateResponseState;
   stateV2: CloudIntegrationsUpdateResponseStateV2;
-  awsArn?: string | null;
-  azureSubscriptionId?: string | null;
-  azureTenantId?: string | null;
-  description?: string | null;
-  gcpProjectId?: string | null;
-  gcpServiceAccountEmail?: string | null;
-  status?: CloudIntegrationsUpdateResponseStatus | null;
+  awsArn?: string | null | undefined;
+  azureSubscriptionId?: string | null | undefined;
+  azureTenantId?: string | null | undefined;
+  description?: string | null | undefined;
+  gcpProjectId?: string | null | undefined;
+  gcpServiceAccountEmail?: string | null | undefined;
+  status?: CloudIntegrationsUpdateResponseStatus | null | undefined;
 }
 export type OnRampsUpdateRequestAttachedHubsList = Array<string>;
 export type OnRampsUpdateRequestAttachedVpcsList = Array<string>;
 export interface UpdateOnRampRequest {
   accountId: string;
   onrampId: string;
-  attachedHubs?: OnRampsUpdateRequestAttachedHubsList;
-  attachedVpcs?: OnRampsUpdateRequestAttachedVpcsList;
-  description?: string;
-  installRoutesInCloud?: boolean;
-  installRoutesInMagicWan?: boolean;
-  manageHubToHubAttachments?: boolean;
-  manageVpcToHubAttachments?: boolean;
-  name?: string;
-  vpc?: string;
+  attachedHubs?: OnRampsUpdateRequestAttachedHubsList | undefined;
+  attachedVpcs?: OnRampsUpdateRequestAttachedVpcsList | undefined;
+  description?: string | undefined;
+  installRoutesInCloud?: boolean | undefined;
+  installRoutesInMagicWan?: boolean | undefined;
+  manageHubToHubAttachments?: boolean | undefined;
+  manageVpcToHubAttachments?: boolean | undefined;
+  name?: string | undefined;
+  vpc?: string | undefined;
 }
 export type OnRampsUpdateResponseCloudType = "AWS" | "AZURE" | "GOOGLE";
 export type OnRampsUpdateResponseType = "OnrampTypeSingle" | "OnrampTypeHub";
@@ -8473,9 +8515,12 @@ export type OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsI
   | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
   | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem;
 export interface OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?:
+    | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValue
+    | null
+    | undefined;
 }
 export type OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsList =
   Array<OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItem>;
@@ -8655,9 +8700,12 @@ export type OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItems
   | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
   | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem;
 export interface OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?:
+    | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValue
+    | null
+    | undefined;
 }
 export type OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsList =
   Array<OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItem>;
@@ -8665,7 +8713,7 @@ export interface OnRampsUpdateResponsePostApplyResourcesValueSectionsItem {
   hiddenItems: OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsList;
   name: string;
   visibleItems: OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsList;
-  helpText?: string | null;
+  helpText?: string | null | undefined;
 }
 export type OnRampsUpdateResponsePostApplyResourcesValueSectionsList =
   Array<OnRampsUpdateResponsePostApplyResourcesValueSectionsItem>;
@@ -8705,7 +8753,7 @@ export interface OnRampsUpdateResponsePostApplyResourcesValue {
   tags: OnRampsUpdateResponsePostApplyResourcesValueTagsMap;
   updatedAt: string;
   url: string;
-  managedBy?: OnRampsUpdateResponsePostApplyResourcesValueManagedByList | null;
+  managedBy?: OnRampsUpdateResponsePostApplyResourcesValueManagedByList | null | undefined;
 }
 export type OnRampsUpdateResponsePostApplyResourcesMap = {
   [key: string]: OnRampsUpdateResponsePostApplyResourcesValue | undefined;
@@ -8890,9 +8938,9 @@ export type OnRampsUpdateResponseStatusLifecycleErrorsValueSource =
 export interface OnRampsUpdateResponseStatusLifecycleErrorsValue {
   code: OnRampsUpdateResponseStatusLifecycleErrorsValueCode;
   message: string;
-  documentationUrl?: string | null;
-  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null;
-  source?: CatalogSyncsCreateResponseErrorsValueSource | null;
+  documentationUrl?: string | null | undefined;
+  meta?: CatalogSyncsCreateResponseErrorsValueMeta | null | undefined;
+  source?: CatalogSyncsCreateResponseErrorsValueSource | null | undefined;
 }
 export type OnRampsUpdateResponseStatusLifecycleErrorsMap = {
   [key: string]: OnRampsUpdateResponseStatusLifecycleErrorsValue | undefined;
@@ -8903,7 +8951,7 @@ export interface OnRampsUpdateResponseStatus {
   planProgress: OnRampsCreateResponseStatusApplyProgress;
   routes: OnRampsUpdateResponseStatusRoutesList;
   tunnels: OnRampsUpdateResponseStatusTunnelsList;
-  lifecycleErrors?: OnRampsUpdateResponseStatusLifecycleErrorsMap | null;
+  lifecycleErrors?: OnRampsUpdateResponseStatusLifecycleErrorsMap | null | undefined;
 }
 export type OnRampsUpdateResponseVpcsByIdValueCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export type OnRampsUpdateResponseVpcsByIdValueConfigMap = { [key: string]: unknown | undefined };
@@ -9152,9 +9200,9 @@ export type OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValue =
   | OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
   | OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItem;
 export interface OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?: OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValue | null | undefined;
 }
 export type OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsList =
   Array<OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItem>;
@@ -9334,9 +9382,9 @@ export type OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue 
   | OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
   | OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItem;
 export interface OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItem {
-  helpText?: string | null;
-  name?: string | null;
-  value?: OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue | null;
+  helpText?: string | null | undefined;
+  name?: string | null | undefined;
+  value?: OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue | null | undefined;
 }
 export type OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsList =
   Array<OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItem>;
@@ -9344,7 +9392,7 @@ export interface OnRampsUpdateResponseVpcsByIdValueSectionsItem {
   hiddenItems: OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsList;
   name: string;
   visibleItems: OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsList;
-  helpText?: string | null;
+  helpText?: string | null | undefined;
 }
 export type OnRampsUpdateResponseVpcsByIdValueSectionsList =
   Array<OnRampsUpdateResponseVpcsByIdValueSectionsItem>;
@@ -9379,7 +9427,7 @@ export interface OnRampsUpdateResponseVpcsByIdValue {
   tags: OnRampsUpdateResponseVpcsByIdValueTagsMap;
   updatedAt: string;
   url: string;
-  managedBy?: OnRampsUpdateResponseVpcsByIdValueManagedByList | null;
+  managedBy?: OnRampsUpdateResponseVpcsByIdValueManagedByList | null | undefined;
 }
 export type OnRampsUpdateResponseVpcsByIdMap = {
   [key: string]: OnRampsUpdateResponseVpcsByIdValue | undefined;
@@ -9395,28 +9443,31 @@ export interface UpdateOnRampResponse {
   name: string;
   type: OnRampsUpdateResponseType;
   updatedAt: string;
-  attachedHubs?: OnRampsUpdateResponseAttachedHubsList | null;
-  attachedVpcs?: OnRampsUpdateResponseAttachedVpcsList | null;
-  cloudAsn?: number | null;
-  description?: string | null;
-  hub?: string | null;
-  lastAppliedAt?: string | null;
-  lastExportedAt?: string | null;
-  lastPlannedAt?: string | null;
-  manageHubToHubAttachments?: boolean | null;
-  manageVpcToHubAttachments?: boolean | null;
-  plannedMonthlyCostEstimate?: OnRampsCreateResponsePlannedMonthlyCostEstimate | null;
-  plannedResources?: OnRampsUpdateResponsePlannedResourcesList | null;
-  plannedResourcesUnavailable?: boolean | null;
-  postApplyMonthlyCostEstimate?: OnRampsCreateResponsePostApplyMonthlyCostEstimate | null;
-  postApplyResources?: OnRampsUpdateResponsePostApplyResourcesMap | null;
-  postApplyResourcesUnavailable?: boolean | null;
-  region?: string | null;
-  status?: OnRampsUpdateResponseStatus | null;
-  vpc?: string | null;
-  vpcsById?: OnRampsUpdateResponseVpcsByIdMap | null;
+  attachedHubs?: OnRampsUpdateResponseAttachedHubsList | null | undefined;
+  attachedVpcs?: OnRampsUpdateResponseAttachedVpcsList | null | undefined;
+  cloudAsn?: number | null | undefined;
+  description?: string | null | undefined;
+  hub?: string | null | undefined;
+  lastAppliedAt?: string | null | undefined;
+  lastExportedAt?: string | null | undefined;
+  lastPlannedAt?: string | null | undefined;
+  manageHubToHubAttachments?: boolean | null | undefined;
+  manageVpcToHubAttachments?: boolean | null | undefined;
+  plannedMonthlyCostEstimate?: OnRampsCreateResponsePlannedMonthlyCostEstimate | null | undefined;
+  plannedResources?: OnRampsUpdateResponsePlannedResourcesList | null | undefined;
+  plannedResourcesUnavailable?: boolean | null | undefined;
+  postApplyMonthlyCostEstimate?:
+    | OnRampsCreateResponsePostApplyMonthlyCostEstimate
+    | null
+    | undefined;
+  postApplyResources?: OnRampsUpdateResponsePostApplyResourcesMap | null | undefined;
+  postApplyResourcesUnavailable?: boolean | null | undefined;
+  region?: string | null | undefined;
+  status?: OnRampsUpdateResponseStatus | null | undefined;
+  vpc?: string | null | undefined;
+  vpcsById?: OnRampsUpdateResponseVpcsByIdMap | null | undefined;
   /** The list of vpc IDs for which resource details failed to generate. */
-  vpcsByIdUnavailable?: OnRampsUpdateResponseVpcsByIdUnavailableList | null;
+  vpcsByIdUnavailable?: OnRampsUpdateResponseVpcsByIdUnavailableList | null | undefined;
 }
 export type ApplyOnRampError = CloudflareOpError;
 /** Apply an On-ramp (Closed Beta). */

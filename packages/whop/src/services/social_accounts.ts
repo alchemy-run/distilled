@@ -74,15 +74,15 @@ export type ConnectSocialAccountRequestScopesList = Array<
 >;
 export interface ConnectSocialAccountRequest {
   /** The Account (biz_ identifier) to connect the social account for. An account-scoped API key may omit this to default to its own account. Omit for user profile connections. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The platform to connect the social account on. Use `meta_business` to connect Meta Business assets, which is how Facebook Pages and Instagram accounts are connected -- there is no separate `instagram` value. Use `tiktok` for TikTok accounts, `snapchat` for Snapchat Public Profiles, or `linkedin` to connect the authenticated user's LinkedIn profile. */
   platform: ConnectSocialAccountRequestPlatform | (string & {});
   /** Where to send the user once they finish connecting their accounts. Any `http` or `https` URL. If the connection fails, the user is redirected with a `social_account_error` query param. */
   redirect_url: string;
   /** The connection purpose. For `meta_business` and `snapchat`, `advertise` is required and connects company advertising assets. For `linkedin`, omit scopes to connect the authenticated user's profile; advertising is not supported. For `tiktok`, omit scopes to connect the authenticated user's profile, or pass `advertise` to connect company advertising assets. Profile connections still request the platform permissions needed to read the profile. */
-  scopes?: ConnectSocialAccountRequestScopesList;
+  scopes?: ConnectSocialAccountRequestScopesList | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface ConnectSocialAccountResponse {
   /** The OAuth authorization URL to redirect the user to. */
@@ -92,11 +92,11 @@ export interface ConnectSocialAccountResponse {
 export type CreateSocialAccountRequestPlatform = "facebook" | "tiktok";
 export interface CreateSocialAccountRequest {
   /** The Account (biz_ identifier) to create the social account for. An account-scoped API key may omit this to default to its own account. Account API keys cannot update their own account's branding through Update Account; use a user-authenticated path. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The platform to create the social account on. `facebook` requires the account's `banner_image`, `logo`, and `description`, and `tiktok` requires its `logo`; configure them with [Update Account](/api-reference/beta/accounts/update-account). The account is returned before the platform has created it -- its `id` is usable right away, and the rest of the profile fills in once provisioning finishes. */
   platform: CreateSocialAccountRequestPlatform | (string & {});
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** The platform the parent social account exists on. */
 export type SocialAccountParentPlatform =
@@ -164,9 +164,9 @@ export interface DeleteSocialAccountRequest {
   /** The ID of the social account to disconnect. */
   id: string;
   /** The Account that the social account is connected to. Provide either this or user_id. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The User that the social account is connected to. Provide either this or account_id. */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 export interface DeleteSocialAccountResponse {
   /** Always true. */
@@ -231,25 +231,25 @@ export interface AdLeadFormOptionLogic {
   /** What happens when the choice is selected. */
   action: AdLeadFormOptionLogicAction;
   /** Zero-based index of the ending screen to jump to. */
-  target_end_page_index?: number;
+  target_end_page_index?: number | undefined;
   /** Zero-based index of the question to jump to, for `go_to_question`. */
-  target_question_index?: number;
+  target_question_index?: number | undefined;
 }
 export interface AdLeadFormQuestionOption {
   /** Stable identifier the choice's answers are stored under. Absent for simple choices. */
-  key?: string | null;
+  key?: string | null | undefined;
   /** Where the form goes when this choice is selected. Absent when the form just continues to the next question. */
-  logic?: AdLeadFormOptionLogic;
+  logic?: AdLeadFormOptionLogic | undefined;
   /** Choice text shown to the person. */
   value: string;
 }
 export type AdLeadFormQuestionOptionsList = Array<AdLeadFormQuestionOption>;
 export interface AdLeadFormQuestion {
   /** Answer format for `custom` questions: `short_answer`, `multiple_choice`, or `appointment`. Absent otherwise. */
-  format?: string;
+  format?: string | undefined;
   /** Question text for `custom` questions. Absent for standard prefill questions. */
-  label?: string;
-  options?: AdLeadFormQuestionOptionsList;
+  label?: string | undefined;
+  options?: AdLeadFormQuestionOptionsList | undefined;
   /** Question type: a standard prefill type such as `email`, `phone`, or `full_name`, or `custom` for your own question. */
   type: string;
 }
@@ -288,11 +288,11 @@ export interface ListSocialAccountPostsRequest {
   /** The Account (a biz_ identifier) the social account is connected to. */
   account_id: string;
   /** Return only the single post with this platform id, instead of the full list. */
-  post_id?: string;
+  post_id?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
 }
 /** The post's call-to-action button, for example shop_now (Facebook only; null for Instagram and TikTok). */
 export type SocialAccountPostCallToAction =
@@ -382,27 +382,27 @@ export type ListSocialAccountsRequestOrder = "display_order" | "created_at";
 export type ListSocialAccountsRequestDirection = "asc" | "desc";
 export interface ListSocialAccountsRequest {
   /** The Account that the social accounts are connected to. Provide either this or user_id. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The User that the social accounts are connected to. Provide either this or account_id. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Only return social accounts for the platform that is specified. */
-  platform?: ListSocialAccountsRequestPlatform | (string & {});
+  platform?: ListSocialAccountsRequestPlatform | (string & {}) | undefined;
   /** Only return social accounts that are verified on the platform. */
-  verified?: boolean;
+  verified?: boolean | undefined;
   /** Only return social accounts that have these scopes. */
-  scopes?: ListSocialAccountsRequestScopesList;
+  scopes?: ListSocialAccountsRequestScopesList | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** The field to sort social accounts by. */
-  order?: ListSocialAccountsRequestOrder | (string & {});
+  order?: ListSocialAccountsRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListSocialAccountsRequestDirection | (string & {});
+  direction?: ListSocialAccountsRequestDirection | (string & {}) | undefined;
 }
 export type ListSocialAccountsResponseDataList = Array<SocialAccount>;
 export interface ListSocialAccountsResponsePageInfo {
@@ -419,9 +419,9 @@ export interface RefreshSocialAccountRequest {
   /** The social account (a sacc_ identifier) to refresh. */
   id: string;
   /** The Account (biz_ identifier) the social account is connected to. An account-scoped API key may omit this to default to its own account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type ConnectSocialAccountError = BadRequest | Conflict | WhopOpError;
 /** Connect a Social Account Starts an OAuth connection flow and returns an authorize_url where the user can connect a social account. LinkedIn supports personal profiles only, with scopes omitted. TikTok connects the authenticated user's profile when scopes are omitted or company advertising assets with advertise. Meta Business and Snapchat support advertising connections only and require advertise. Personal profile connections must be completed in a browser signed in as the initiating Whop user. */

@@ -73,6 +73,10 @@ export interface AutoresearchPipelineTargetDefinitionCase1 {
 export type AutoresearchPipelineTargetDefinition =
   | AutoresearchPipelineTargetDefinitionCase0
   | AutoresearchPipelineTargetDefinitionCase1;
+/** * `7` - 7 * `14` - 14 * `30` - 30 * `60` - 60 * `90` - 90 */
+export type ResearchIntervalDaysEnum = 7 | 14 | 30 | 60 | 90;
+/** * `explore` - Explore * `maintain` - Maintain */
+export type TrainingPhaseEnum = "explore" | "maintain";
 /** * `draft` - Draft * `bootstrapping` - Bootstrapping * `running` - Running * `converged` - Converged * `paused` - Paused * `archived` - Archived */
 export type AutoresearchPipelineStatusEnum =
   | "draft"
@@ -96,15 +100,67 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
+}
+export interface AutoresearchRealizedAucPoint {
+  /** Validated prediction date. */
+  prediction_date: string;
+  /** Realized AUC on that date. */
+  realized_auc: number;
+}
+/** Realized AUC of the current champion on its newest 14 validated prediction dates, oldest first. */
+export type AutoresearchPipelineChampionRealizedAucTrendList = Array<AutoresearchRealizedAucPoint>;
+export interface AutoresearchTrainingTrendPoint {
+  /** Iteration number inside the training run. */
+  iteration_number: number;
+  /** Best holdout AUC of the run up to and including this iteration. */
+  best_holdout_score: number;
+}
+/** Best-so-far holdout AUC per iteration of the training run that produced the current champion, oldest first. Iterations before the first holdout score are left out. Empty when the pipeline has no champion. */
+export type AutoresearchPipelineChampionTrainingTrendList = Array<AutoresearchTrainingTrendPoint>;
+export interface AutoresearchPredictionCoverage {
+  /** People in the inference population at the run's cutoff. */
+  population: number;
+  /** People with a champion score inside the lookback window before the cutoff. Shadow scores do not count. */
+  with_score: number;
+  /** People with no champion score inside the lookback window. A rolling run scores these people first. */
+  never_scored: number;
+  /** Mean age in days of the newest score per person. Null when nobody has a score. */
+  age_days_avg: number | null;
+  /** Median age in days of the newest score per person. Null when nobody has a score. */
+  age_days_p50: number | null;
+  /** 90th percentile age in days of the newest score per person. Null when nobody has a score. */
+  age_days_p90: number | null;
+  /** Oldest score age in days. Null when nobody has a score. */
+  age_days_max: number | null;
+  /** How many days before the cutoff the measure reads scores. Older scores count as never scored. */
+  lookback_days: number;
+}
+/** Best-so-far holdout AUC per experiment of this run, oldest first. Experiments before the first holdout score are left out. */
+export type AutoresearchLiveTrainingRunTrendList = Array<AutoresearchTrainingTrendPoint>;
+export interface AutoresearchLiveTrainingRun {
+  /** Unique UUID of the live training run. */
+  id: string;
+  /** Maximum experiments allowed for this run. */
+  iteration_budget: number;
+  /** Experiments the agent has recorded so far in this run. */
+  experiment_count: number;
+  /** Best holdout AUC so far in this run. Null before any is recorded. */
+  best_holdout_score: number | null;
+  /** The agent's rationale for its newest experiment. */
+  latest_agent_description: string;
+  /** Plain-language sentence on the newest experiment, for people. Null if the agent wrote none. */
+  latest_summary: string | null;
+  /** Best-so-far holdout AUC per experiment of this run, oldest first. Experiments before the first holdout score are left out. */
+  trend: AutoresearchLiveTrainingRunTrendList;
 }
 export interface AutoresearchPipeline {
   /** Unique UUID of this pipeline. */
@@ -112,31 +168,51 @@ export interface AutoresearchPipeline {
   /** Display name for the pipeline. */
   name: string;
   /** Optional free-text description. */
-  description?: string;
+  description?: string | undefined;
   /** PostHog event name to predict, e.g. '$pageview' or 'signed_up'. */
   target_event: string;
   /** Resolved target definition: {"type": "event"} or {"type": "action", "action_id": N}. */
   target_definition: AutoresearchPipelineTargetDefinition;
   /** Prediction horizon in days. The model predicts whether the target event occurs within this window. */
-  horizon_days?: number;
+  horizon_days?: number | undefined;
   /** How far back to look for training examples. Larger windows give more data but may include stale behavior. */
-  training_lookback_days?: number;
+  training_lookback_days?: number | undefined;
   /** Population used for training. Defines which users can appear as training examples. */
   training_population: unknown;
   /** Population scored daily. Typically broader than the training population. */
   inference_population: unknown;
   /** Re-score the inference population every N days. */
-  cadence_days?: number;
-  /** Total training iterations allowed for the autoresearch loop. */
-  iteration_budget?: number;
-  /** Iterations remaining in the current budget. */
+  cadence_days?: number | undefined;
+  /** Deprecated: scheduled training no longer reads it. Use iterations_per_run. */
+  iteration_budget?: number | undefined;
+  /** Deprecated: scheduled training no longer reads or spends it. */
   iteration_budget_remaining: number;
+  /** Experiments the agent may try in each training run (1-50). Each experiment costs agent time and queries, so a higher value costs more per run. Scheduled runs and Train now use it. */
+  iterations_per_run: number;
+  /** Days between scheduled research runs once the first burst of daily runs ends: 7, 14, 30, 60 or 90. Null means only when asked: no scheduled research, so the only training cost comes from runs you start and from rescue runs for a model that cannot score. A shorter interval costs more. * `7` - 7 * `14` - 14 * `30` - 30 * `60` - 60 * `90` - 90 */
+  research_interval_days: ResearchIntervalDaysEnum | null;
+  /** Model the training agent runs on, as set on this pipeline. Null uses the autoresearch default. */
+  agent_model: string | null;
+  /** Reasoning effort for the training agent, as set on this pipeline. Null uses the autoresearch default. */
+  agent_reasoning_effort: string | null;
+  /** Model the next training run uses: agent_model, or the autoresearch default when that is null. */
+  effective_agent_model: string;
+  /** Reasoning effort the next training run uses: agent_reasoning_effort, or the autoresearch default when that is null. Null when the model has no effort setting. */
+  effective_agent_reasoning_effort: string | null;
+  /** explore: a research run on each scoring day until a run does not promote a better model, or until 5 research runs have run. maintain: one research run every research_interval_days. * `explore` - Explore * `maintain` - Maintain */
+  training_phase: TrainingPhaseEnum;
+  /** Start of the UTC day from which the daily sweep can start the next scheduled research run. Null when research_interval_days is null. */
+  next_research_at: string | null;
+  /** Why the best model of the newest completed training run did not go live, for example a failed fit or a failed scorability check. Set only while the pipeline is bootstrapping with no champion. */
+  not_promoted_reason: string | null;
   /** Target AUC threshold. Training stops early if this score is reached. */
-  success_auc?: number | null;
+  success_auc?: number | null | undefined;
   /** Stop training if no AUC improvement is seen in this many consecutive iterations. */
-  plateau_iterations?: number;
+  plateau_iterations?: number | undefined;
   /** Person property name that stores the daily prediction score, e.g. 'predicted_p_pageview'. */
-  output_person_property?: string;
+  output_person_property?: string | undefined;
+  /** Whether live scoring writes the champion's score to output_person_property on each scored person. Feature flags, cohorts, workflows and insights that target people by score need it on. */
+  write_person_property: boolean;
   /** Pipeline lifecycle status: draft, bootstrapping, running, converged, paused, or archived. * `draft` - Draft * `bootstrapping` - Bootstrapping * `running` - Running * `converged` - Converged * `paused` - Paused * `archived` - Archived */
   status: AutoresearchPipelineStatusEnum;
   created_by: UserBasic;
@@ -148,6 +224,30 @@ export interface AutoresearchPipeline {
   champion_holdout_auc: number | null;
   /** Realized online AUC of the current champion model, computed from mature predictions against actual outcomes. */
   champion_realized_auc: number | null;
+  /** Lift in the top 10% of scores for the current champion model, from its latest validated prediction date. 2.0 means the top 10% converts at twice the average rate. */
+  champion_lift_at_10: number | null;
+  /** True while the current champion model has no realized AUC yet. Null when the pipeline has no champion. */
+  champion_is_preliminary: boolean | null;
+  /** Realized AUC of the current champion on its newest 14 validated prediction dates, oldest first. */
+  champion_realized_auc_trend: AutoresearchPipelineChampionRealizedAucTrendList;
+  /** Best-so-far holdout AUC per iteration of the training run that produced the current champion, oldest first. Iterations before the first holdout score are left out. Empty when the pipeline has no champion. */
+  champion_training_trend: AutoresearchPipelineChampionTrainingTrendList;
+  /** People scored by the most recent completed inference run. Null before the first scoring run. */
+  people_scored: number | null;
+  /** People the newest completed live run of the current champion scored at or above likely_threshold. Null before such a run, and for runs that did not record it. */
+  likely_count: number | null;
+  /** The Likely cut point that likely_count used, as it was when that run scored. It is the fixed cut point until enough predictions are checked. Null when likely_count is null. */
+  likely_threshold: number | null;
+  /** When online validation can first check the current champion against real outcomes: its earliest prediction date plus the horizon plus the ingestion grace. Null before the champion's first scoring run, and once a validation has checked it. */
+  first_check_expected_at: string | null;
+  /** Score coverage and score age from the newest live champion run that measured them. Null before the first such run. */
+  coverage: AutoresearchPredictionCoverage | null;
+  /** Training runs started for this pipeline. */
+  training_run_count: number;
+  /** Experiments (iterations) recorded across every training run. */
+  experiment_count: number;
+  /** Progress of the pending or running training run. Null when no run is live. */
+  live_training_run: AutoresearchLiveTrainingRun | null;
 }
 export interface AutoresearchDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -238,17 +338,17 @@ export interface AutoresearchValidateCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Event name to predict, e.g. '$pageview'. Must exist in the team's event schema. Omit when predicting an action target (pass target_definition instead). */
-  target_event?: string;
+  target_event?: string | undefined;
   /** Optional target definition. Pass {"type": "action", "action_id": N} to predict a PostHog action (multi-step / property / autocapture matcher) instead of a single event. */
-  target_definition?: AutoresearchValidateCreateRequestTargetDefinition;
+  target_definition?: AutoresearchValidateCreateRequestTargetDefinition | undefined;
   /** Predict whether the target event occurs within this many days. */
-  horizon_days?: number;
+  horizon_days?: number | undefined;
   /** How far back to look for training examples. Default: 180. */
-  training_lookback_days?: number;
+  training_lookback_days?: number | undefined;
   /** Population filter for training examples. Use {} for all identified users. */
-  training_population?: unknown;
+  training_population?: unknown | undefined;
   /** Population filter for daily scoring. When omitted or empty, the training population is counted, as creation stores it. */
-  inference_population?: unknown;
+  inference_population?: unknown | undefined;
 }
 /** * `info` - info * `warning` - warning * `error` - error */
 export type ValidationWarningSeverityEnum = "info" | "warning" | "error";
@@ -288,8 +388,8 @@ export interface AutoresearchValidateOnlineCreateRequest {
   /** A UUID string identifying this autoresearch pipeline. */
   id: string;
 }
-/** * `inference` - Inference * `validation` - Validation */
-export type AutoresearchRunRunTypeEnum = "inference" | "validation";
+/** * `inference` - Inference * `validation` - Validation * `property_cleanup` - Property cleanup */
+export type AutoresearchRunRunTypeEnum = "inference" | "validation" | "property_cleanup";
 /** * `pending` - Pending * `running` - Running * `completed` - Completed * `failed` - Failed */
 export type ZendeskImportJobStatusEnum = "pending" | "running" | "completed" | "failed";
 /** Run metrics: score distribution summary, validation AUC, etc. An inference run records 'rows_eligible', the users in the inference population. When it is larger than rows_scored, the run scored a rolling part of the population: users never scored first, then users whose last score was oldest. */
@@ -300,21 +400,23 @@ export interface AutoresearchRun {
   /** Pipeline this run belongs to. */
   pipeline: string;
   /** Model used for scoring. Null for validation runs. */
-  model?: string | null;
-  /** Type of run: 'inference' (daily scoring) or 'validation' (outcome evaluation). * `inference` - Inference * `validation` - Validation */
+  model?: string | null | undefined;
+  /** Type of run: 'inference' (daily scoring) or 'validation' (outcome evaluation). * `inference` - Inference * `validation` - Validation * `property_cleanup` - Property cleanup */
   run_type: AutoresearchRunRunTypeEnum;
   /** Run status: pending, running, completed, or failed. * `pending` - Pending * `running` - Running * `completed` - Completed * `failed` - Failed */
-  status?: ZendeskImportJobStatusEnum;
+  status?: ZendeskImportJobStatusEnum | undefined;
   /** Number of users scored in this inference run. */
-  rows_scored?: number | null;
+  rows_scored?: number | null | undefined;
   /** Run metrics: score distribution summary, validation AUC, etc. An inference run records 'rows_eligible', the users in the inference population. When it is larger than rows_scored, the run scored a rolling part of the population: users never scored first, then users whose last score was oldest. */
   metrics: AutoresearchRunMetricsMap;
+  /** Score coverage and score age at the cutoff of a live champion run. Null for backfill, shadow, validation and older runs. */
+  coverage: AutoresearchPredictionCoverage | null;
   /** Error message if the run failed. */
-  error?: string;
+  error?: string | undefined;
   /** Timestamp when the run started. */
-  started_at?: string | null;
+  started_at?: string | null | undefined;
   /** Timestamp when the run completed or failed. */
-  completed_at?: string | null;
+  completed_at?: string | null | undefined;
   created_at: string;
 }
 export type AutoresearchValidateOnlineCreateResponseBodyList = Array<AutoresearchRun>;
@@ -342,29 +444,39 @@ export interface CreateAutoresearchRequest {
   /** Display name for the pipeline. */
   name: string;
   /** Optional free-text description. */
-  description?: string;
+  description?: string | undefined;
   /** PostHog event name to predict, e.g. '$pageview' or 'signed_up'. Omit when predicting an action target (pass target_definition instead). */
-  target_event?: string;
+  target_event?: string | undefined;
   /** Omit (or pass {"type": "event"}) to predict target_event; pass {"type": "action", "action_id": N} to predict a PostHog action. No other shapes are accepted. */
-  target_definition?: CreateAutoresearchRequestTargetDefinition;
+  target_definition?: CreateAutoresearchRequestTargetDefinition | undefined;
   /** Prediction horizon in days (1-365). The model predicts whether the target event occurs within this window. */
-  horizon_days?: number;
+  horizon_days?: number | undefined;
   /** How far back to look for training examples (7-730 days). Larger windows give more data but may include stale behavior. Default: 180. */
-  training_lookback_days?: number;
+  training_lookback_days?: number | undefined;
   /** Training population filter. Use {} for all identified users. */
-  training_population?: unknown;
+  training_population?: unknown | undefined;
   /** Inference population filter. Defaults to training_population if not set. */
-  inference_population?: unknown;
+  inference_population?: unknown | undefined;
   /** Re-score the inference population every N days (1-365). Default: 1. */
-  cadence_days?: number;
-  /** Total training iterations allowed for the autoresearch loop (1-500). Default: 50. */
-  iteration_budget?: number;
+  cadence_days?: number | undefined;
+  /** Deprecated: scheduled training no longer reads it. Use iterations_per_run. */
+  iteration_budget?: number | undefined;
+  /** Experiments the agent may try in each training run (1-50). Each experiment costs agent time and queries, so a higher value costs more per run. Scheduled runs and Train now use it. Default: 5. */
+  iterations_per_run?: number | undefined;
+  /** Days between scheduled research runs once the first burst of daily runs ends: 7, 14, 30, 60 or 90. Null means only when asked: no scheduled research, so the only training cost comes from runs you start and from rescue runs for a model that cannot score. A shorter interval costs more. Default: 7. * `7` - 7 * `14` - 14 * `30` - 30 * `60` - 60 * `90` - 90 */
+  research_interval_days?: ResearchIntervalDaysEnum | (number & {}) | null | undefined;
+  /** Model the training agent runs on, a model id from the PostHog Tasks catalogue such as 'claude-opus-5-5', 'claude-sonnet-5-5' or 'gpt-6.1-sol'. Null or omitted uses the autoresearch default, Claude Opus 5.5. A larger model costs more per training run. Scheduled runs and Train now use it. */
+  agent_model?: string | null | undefined;
+  /** Reasoning effort for the training agent, such as 'low', 'medium' or 'high'. It must be one the model supports, and without agent_model it is checked against the default model. Null or omitted uses the autoresearch default, medium. Higher effort costs more per training run. */
+  agent_reasoning_effort?: string | null | undefined;
   /** Target AUC threshold (0-1). Training stops early if reached. Default: 0.75. */
-  success_auc?: number | null;
+  success_auc?: number | null | undefined;
   /** Stop training if no improvement in this many consecutive iterations (at least 1). Default: 10. */
-  plateau_iterations?: number;
+  plateau_iterations?: number | undefined;
   /** Person property name for the prediction score, e.g. 'predicted_p_pageview'. Auto-derived from target_event if omitted. Letters, digits, and _ $ . - only, and it cannot start with $ (reserved for PostHog's own properties); must be unique among this project's non-archived pipelines. */
-  output_person_property?: string;
+  output_person_property?: string | undefined;
+  /** Write the champion's score to output_person_property on each scored person at every live scoring run. Default: false. Needed to target people by score in feature flags, cohorts, workflows and insights. Prediction events, validation and segments work without it. Turning it off, or archiving or deleting the pipeline while it is on, removes the property from the people it scored. */
+  write_person_property?: boolean | undefined;
 }
 export interface CreateAutoresearchPauseRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -385,9 +497,9 @@ export interface CreateAutoresearchResolveTemplateRequest {
   /** Template to resolve. The templates endpoint lists each one with its description. Required. * `likely_active_soon` - Likely Active Soon * `at_risk_of_inactivity` - At Risk Of Inactivity * `return_after_first_use` - Return After First Use * `feature_adoption` - Feature Adoption * `repeat_key_behavior` - Repeat Key Behavior */
   template_key: TemplateKeyEnum | (string & {});
   /** Event name to use as the prediction target. Required for 'feature_adoption' and 'repeat_key_behavior'. Optional override for activity-based templates ('likely_active_soon', 'at_risk_of_inactivity', 'return_after_first_use'); omit to use the auto-resolved event. To predict an action, create the pipeline with target_definition after resolving. */
-  target_event?: string;
+  target_event?: string | undefined;
   /** Override the template's default prediction horizon in days. */
-  horizon_days?: number;
+  horizon_days?: number | undefined;
 }
 /** Other viable activity events found in your schema. If the resolved event is not the right signal, re-resolve with one of these as target_event. */
 export type ResolvedTemplateActivityEventAlternativesList = Array<string>;
@@ -434,7 +546,7 @@ export interface CreateAutoresearchSuggestionRequest {
   /** Free-text hypothesis or direction for the agent to explore, e.g. 'try a tree-based model' or 'remove recency features, I suspect leakage'. */
   prompt: string;
   /** 'try_next' asks the agent to act on this before other autonomous iterations; 'consider' is advisory context. * `try_next` - try_next * `consider` - consider */
-  priority?: CreateSuggestionPriorityEnum | (string & {});
+  priority?: CreateSuggestionPriorityEnum | (string & {}) | undefined;
 }
 /** * `try_next` - Try next * `consider` - Consider */
 export type AutoresearchSuggestionPriorityEnum = "try_next" | "consider";
@@ -452,7 +564,7 @@ export interface AutoresearchSuggestion {
   /** Free-text hypothesis or direction for the agent to explore. */
   prompt: string;
   /** 'try_next' instructs the agent to act on this before other iterations; 'consider' is advisory. * `try_next` - Try next * `consider` - Consider */
-  priority?: AutoresearchSuggestionPriorityEnum;
+  priority?: AutoresearchSuggestionPriorityEnum | undefined;
   /** Lifecycle status: 'queued' (awaiting pickup), 'picked_up' (agent is applying as a constraint), 'acted_on' (agent spawned iterations), 'dismissed' (agent rejected with rationale). * `queued` - Queued * `picked_up` - Picked up * `acted_on` - Acted on * `dismissed` - Dismissed */
   status: AutoresearchSuggestionStatusEnum;
   /** 'user' for human-submitted suggestions; 'agent' for agent-generated hypotheses. * `user` - User * `agent` - Agent */
@@ -477,16 +589,22 @@ export interface CreateAutoresearchSuggestionsRespondRequest {
   /** How the agent handled the suggestion: 'picked_up' (applied as a search constraint), 'acted_on' (spawned one or more iterations), or 'dismissed' (rejected -- explain why in agent_response). * `picked_up` - picked_up * `acted_on` - acted_on * `dismissed` - dismissed */
   status: RespondToSuggestionStatusEnum | (string & {});
   /** Plain-English note on how the suggestion was interpreted and acted upon. A dismissal needs a note, sent now or recorded earlier. Omit it to keep the note already recorded; send an empty string to clear it. */
-  agent_response?: string;
+  agent_response?: string | undefined;
 }
 export interface CreateAutoresearchTrainRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this autoresearch pipeline. */
   id: string;
-  /** Override the pipeline iteration budget for this training run. */
-  iteration_budget?: number;
+  /** Iterations for this training run. Defaults to the pipeline's iterations_per_run. The project's iteration limit per run can lower it. */
+  iteration_budget?: number | undefined;
 }
+/** * `explore` - Explore * `scheduled` - Scheduled * `rescue` - Rescue * `manual` - Manual */
+export type AutoresearchTrainingRunKickoffReasonEnum =
+  | "explore"
+  | "scheduled"
+  | "rescue"
+  | "manual";
 /** One iteration referenced from a run summary's ladder or dead-ends list. */
 export interface TrainingRunSummaryLadderItem {
   /** Iteration index this entry refers to. */
@@ -523,8 +641,10 @@ export interface TrainingRunSummary {
   /** Agent's 1-2 sentence distillation of what this run learned. Empty if not provided. */
   distillation: string;
   /** Short id of the report notebook the agent built for this run. Empty if there is none. */
-  report_notebook_short_id?: string;
+  report_notebook_short_id?: string | undefined;
 }
+/** Short plain-language next steps for people, at most 5. Null if not written. */
+export type AutoresearchTrainingRunNextStepsList = Array<string>;
 /** * `kept` - Kept * `discarded` - Discarded * `crashed` - Crashed */
 export type AutoresearchIterationStatusEnum = "kept" | "discarded" | "crashed";
 /** Keyword arguments for the estimator's constructor; null or absent means the defaults. */
@@ -534,7 +654,7 @@ export interface IterationTrailModelSpec {
   /** Dotted path of the estimator class. */
   model_class: string;
   /** Keyword arguments for the estimator's constructor; null or absent means the defaults. */
-  model_params?: IterationTrailModelSpecModelParamsMap | null;
+  model_params?: IterationTrailModelSpecModelParamsMap | null | undefined;
 }
 /** Compact, read-only view of one iteration for the cross-run history feed and the Training tab. */
 export interface IterationTrail {
@@ -543,11 +663,15 @@ export interface IterationTrail {
   /** Whether this recipe was kept (improved the best score), discarded, or crashed. * `kept` - Kept * `discarded` - Discarded * `crashed` - Crashed */
   status: AutoresearchIterationStatusEnum;
   /** Holdout AUC this iteration achieved. Null if it was skipped/degenerate. */
-  holdout_score?: number | null;
+  holdout_score?: number | null | undefined;
   /** Train-fold AUC for this iteration, if recorded. */
-  train_score?: number | null;
+  train_score?: number | null | undefined;
   /** The agent's one-line rationale for what it tried and why. */
-  agent_description?: string;
+  agent_description?: string | undefined;
+  /** Plain-language sentence on what this experiment tried and what happened, for people. Null if not written. */
+  summary: string | null;
+  /** Short title for this experiment, for people. Null if not written. */
+  headline: string | null;
   /** Model class and hyperparameters tried in this iteration. */
   model_spec: IterationTrailModelSpec;
 }
@@ -559,21 +683,37 @@ export interface AutoresearchTrainingRun {
   /** Pipeline this training run belongs to. */
   pipeline: string;
   /** Parent Task ID in the tasks sandbox. Null for stub runs. */
-  task_id?: string | null;
+  task_id?: string | null | undefined;
   /** Task sandbox run ID. Null for stub/synchronous training runs. */
-  task_run_id?: string | null;
+  task_run_id?: string | null | undefined;
   /** Relative URL to the underlying sandbox Task detail page. Null for stub/synchronous training runs. */
   task_url: string | null;
   /** Run status: pending, running, completed, or failed. * `pending` - Pending * `running` - Running * `completed` - Completed * `failed` - Failed */
   status: ZendeskImportJobStatusEnum;
+  /** Why the run started: explore (the first burst of daily runs), scheduled (the research interval), rescue (the champion cannot score) or manual (a person or an agent asked). Null for older runs. * `explore` - Explore * `scheduled` - Scheduled * `rescue` - Rescue * `manual` - Manual */
+  kickoff_reason: AutoresearchTrainingRunKickoffReasonEnum | null;
+  /** Runtime that drove the training agent, 'claude' or 'codex'. Null for older runs and runs with no task. */
+  agent_runtime_adapter: string | null;
+  /** Model the training agent ran on. Null for older runs and runs with no task. */
+  agent_model: string | null;
+  /** Display name of agent_model, e.g. 'Claude Opus 5.5'. Null when agent_model is null. */
+  agent_model_label: string | null;
+  /** Reasoning effort the training agent ran at. Null for older runs, runs with no task, and models with no effort setting. */
+  agent_reasoning_effort: string | null;
   /** Maximum iterations allowed for this run. */
-  iteration_budget?: number;
+  iteration_budget?: number | undefined;
   /** Number of iterations completed. */
   iteration_count: number;
   /** Best holdout AUC achieved across all iterations in this run. */
   best_holdout_score: number | null;
   /** Distilled cross-run learning summary written on completion. Null until the run completes. */
   summary: TrainingRunSummary | null;
+  /** One or two plain sentences on what this run learned, for people. Null if not written. */
+  reader_summary: string | null;
+  /** Short title for this run, for people. Null if not written. */
+  headline: string | null;
+  /** Short plain-language next steps for people, at most 5. Null if not written. */
+  next_steps: AutoresearchTrainingRunNextStepsList | null;
   /** Per-iteration breakdown -- every recipe the agent tried this run, kept or discarded, with its model spec, holdout/train AUC, and one-line rationale. Ordered by iteration_number. */
   iterations: AutoresearchTrainingRunIterationsList;
   /** Error message if the run failed. */
@@ -588,9 +728,32 @@ export interface CreateAutoresearchTrainingRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   pipeline_id: string;
-  /** Iteration budget for this run. Defaults to the pipeline's iteration_budget if omitted. */
-  iteration_budget?: number;
+  /** Iteration budget for this run. Defaults to the pipeline's iterations_per_run if omitted. */
+  iteration_budget?: number | undefined;
 }
+/** * `positive` - Positive * `negative` - Negative */
+export type FeatureDirectionEnum = "positive" | "negative";
+export interface FeatureImportance {
+  /** Feature column name, as returned by the feature SQL. */
+  name: string;
+  /** Non-negative importance, for example the mean holdout AUC drop when the feature is shuffled. */
+  importance: number;
+  /** 'positive' if a higher value raises the predicted probability, 'negative' if it lowers it. * `positive` - Positive * `negative` - Negative */
+  direction: FeatureDirectionEnum | (string & {});
+}
+/** At most 30 features, strongest first. */
+export type ModelExplanationFieldTopFeaturesList = Array<FeatureImportance>;
+/** Global feature importances for the model card. */
+export interface ModelExplanationField {
+  /** At most 30 features, strongest first. */
+  top_features?: ModelExplanationFieldTopFeaturesList | undefined;
+  /** Short description of how the importances were computed, e.g. 'permutation importance on holdout'. */
+  method?: string | undefined;
+  /** Optional caveat shown under the chart. */
+  note?: string | undefined;
+}
+/** Short next steps for people, at most 5 items of a few words each (max 80 characters per item). */
+export type CreateAutoresearchTrainingRunsCompleteRequestNextStepsList = Array<string>;
 export interface CreateAutoresearchTrainingRunsCompleteRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -598,15 +761,21 @@ export interface CreateAutoresearchTrainingRunsCompleteRequest {
   /** A UUID string identifying this autoresearch training run. */
   id: string;
   /** Advisory nomination. The server promotes the kept iteration with the highest holdout_score; this id only breaks a tie at that score, and a lower-scoring nomination is logged and ignored. */
-  best_iteration_id?: string | null;
+  best_iteration_id?: string | null | undefined;
   /** Global feature importance / directionality bundle for the champion model card. */
-  model_explanation?: unknown;
+  model_explanation?: ModelExplanationField | undefined;
   /** What a future run should try next, given what this run learned. Stored in the run summary so the next run reads it during orientation. Keep it short and concrete; max 2000 characters. */
-  recommended_next?: string;
+  recommended_next?: string | undefined;
   /** A 1-2 sentence distillation of what this run learned -- the winning signal, the key transform, the dead-ends. Stored in the run summary as the cheapest thing the next run reads. Max 2000 characters. */
-  distillation?: string;
+  distillation?: string | undefined;
+  /** One or two plain sentences for people on what this run learned. Max 600 characters. */
+  reader_summary?: string | null | undefined;
+  /** A short title for people, at most 60 characters, on what this run learned. Use plain words, with no column names, SQL or model jargon. Longer text is cut, not rejected. */
+  headline?: string | null | undefined;
+  /** Short next steps for people, at most 5 items of a few words each (max 80 characters per item). */
+  next_steps?: CreateAutoresearchTrainingRunsCompleteRequestNextStepsList | null | undefined;
   /** Short id of the report notebook you built for this run. Stored in the run summary only if the notebook exists in this project; an unknown id is dropped and does not fail the completion. */
-  report_notebook_short_id?: string;
+  report_notebook_short_id?: string | undefined;
 }
 /** Transforms the bundle applies to the feature columns; null or absent means none, and the in-process path accepts none. */
 export type CreateAutoresearchTrainingRunsIterationRequestRecipeSnapshotFeatureTransformsList =
@@ -616,7 +785,10 @@ export interface CreateAutoresearchTrainingRunsIterationRequestRecipeSnapshot {
   /** A read-only HogQL SELECT from {anchors}, one row per person, keyed on person_id. */
   feature_sql: string;
   /** Transforms the bundle applies to the feature columns; null or absent means none, and the in-process path accepts none. */
-  feature_transforms?: CreateAutoresearchTrainingRunsIterationRequestRecipeSnapshotFeatureTransformsList | null;
+  feature_transforms?:
+    | CreateAutoresearchTrainingRunsIterationRequestRecipeSnapshotFeatureTransformsList
+    | null
+    | undefined;
 }
 /** Keyword arguments for the estimator's constructor; null or absent means the defaults. */
 export type CreateAutoresearchTrainingRunsIterationRequestModelSpecModelParamsMap = {
@@ -627,7 +799,10 @@ export interface CreateAutoresearchTrainingRunsIterationRequestModelSpec {
   /** Dotted path of the estimator class. */
   model_class: string;
   /** Keyword arguments for the estimator's constructor; null or absent means the defaults. */
-  model_params?: CreateAutoresearchTrainingRunsIterationRequestModelSpecModelParamsMap | null;
+  model_params?:
+    | CreateAutoresearchTrainingRunsIterationRequestModelSpecModelParamsMap
+    | null
+    | undefined;
 }
 /** * `kept` - kept * `discarded` - discarded * `crashed` - crashed */
 export type RecordIterationStatusEnum = "kept" | "discarded" | "crashed";
@@ -646,15 +821,19 @@ export interface CreateAutoresearchTrainingRunsIterationRequest {
   /** 'kept' if this iteration improved on the best score, 'discarded' otherwise, 'crashed' on failure. * `kept` - kept * `discarded` - discarded * `crashed` - crashed */
   status: RecordIterationStatusEnum | (string & {});
   /** Training-set AUC for this iteration (0-1). */
-  train_score?: number | null;
+  train_score?: number | null | undefined;
   /** Held-out AUC for this iteration (0-1). Used to pick the champion at completion. */
-  holdout_score?: number | null;
+  holdout_score?: number | null | undefined;
   /** Agent's plain-English rationale for this iteration. Max 2000 characters. */
-  agent_description?: string;
+  agent_description?: string | undefined;
+  /** One plain sentence for people on what this experiment tried and what happened. Max 300 characters. */
+  summary?: string | null | undefined;
+  /** A short title for people, at most 60 characters, on what this experiment tried. Use plain words, with no column names, SQL or model jargon. Longer text is cut, not rejected. */
+  headline?: string | null | undefined;
   /** Agent's self-assessed confidence (0-1) that this iteration helps. */
-  agent_confidence?: number | null;
+  agent_confidence?: number | null | undefined;
   /** UUID of the steering suggestion this iteration was spawned from, if any. Set it whenever the iteration acts on a pending suggestion -- it links the iteration back to the suggestion for attribution and advances the suggestion to 'acted_on'. */
-  parent_suggestion?: string | null;
+  parent_suggestion?: string | null | undefined;
 }
 /** Transforms the bundle applies to the feature columns; null or absent means none, and the in-process path accepts none. */
 export type AutoresearchIterationRecipeSnapshotFeatureTransformsList = Array<unknown>;
@@ -663,7 +842,7 @@ export interface AutoresearchIterationRecipeSnapshot {
   /** A read-only HogQL SELECT from {anchors}, one row per person, keyed on person_id. */
   feature_sql: string;
   /** Transforms the bundle applies to the feature columns; null or absent means none, and the in-process path accepts none. */
-  feature_transforms?: AutoresearchIterationRecipeSnapshotFeatureTransformsList | null;
+  feature_transforms?: AutoresearchIterationRecipeSnapshotFeatureTransformsList | null | undefined;
 }
 /** Keyword arguments for the estimator's constructor; null or absent means the defaults. */
 export type AutoresearchIterationModelSpecModelParamsMap = { [key: string]: unknown | undefined };
@@ -672,7 +851,7 @@ export interface AutoresearchIterationModelSpec {
   /** Dotted path of the estimator class. */
   model_class: string;
   /** Keyword arguments for the estimator's constructor; null or absent means the defaults. */
-  model_params?: AutoresearchIterationModelSpecModelParamsMap | null;
+  model_params?: AutoresearchIterationModelSpecModelParamsMap | null | undefined;
 }
 export interface AutoresearchIteration {
   id: string;
@@ -684,14 +863,18 @@ export interface AutoresearchIteration {
   recipe_snapshot: AutoresearchIterationRecipeSnapshot;
   /** Model class and hyperparameters tried in this iteration. */
   model_spec: AutoresearchIterationModelSpec;
-  train_score?: number | null;
-  holdout_score?: number | null;
+  train_score?: number | null | undefined;
+  holdout_score?: number | null | undefined;
   status: AutoresearchIterationStatusEnum;
-  agent_description?: string;
+  agent_description?: string | undefined;
+  /** Plain-language sentence on what this experiment tried and what happened, for people. */
+  summary?: string | null | undefined;
+  /** Short title for this experiment, for people. */
+  headline?: string | null | undefined;
   /** Agent's self-assessed confidence 0-1 */
-  agent_confidence?: number | null;
+  agent_confidence?: number | null | undefined;
   /** UUID of the steering suggestion this iteration was spawned from, if any. */
-  parent_suggestion?: string | null;
+  parent_suggestion?: string | null | undefined;
   created_at: string;
 }
 export interface CreateAutoresearchTrainingRunsMaterializeFeatureRequest {
@@ -738,6 +921,60 @@ export interface GetAutoresearchRequest {
   /** A UUID string identifying this autoresearch pipeline. */
   id: string;
 }
+export interface GetAutoresearchAgentModelRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export interface AgentReasoningEffortOption {
+  /** Effort id to pass as agent_reasoning_effort, e.g. 'medium'. */
+  value: string;
+  /** Display name, e.g. 'Medium'. */
+  label: string;
+}
+/** Reasoning efforts this model supports. Empty when it has no effort setting. */
+export type AgentModelOptionSupportedEffortsList = Array<AgentReasoningEffortOption>;
+export interface AgentModelOption {
+  /** Model id to pass as agent_model, e.g. 'claude-sonnet-5-5'. */
+  model: string;
+  /** Display name, e.g. 'Claude Sonnet 5.5'. */
+  label: string;
+  /** Runtime that drives the model: 'claude' or 'codex'. */
+  runtime_adapter: string;
+  /** Reasoning efforts this model supports. Empty when it has no effort setting. */
+  supported_efforts: AgentModelOptionSupportedEffortsList;
+  /** Token price relative to Claude Sonnet 5, e.g. '2×'. Null when no rate is known. */
+  cost_multiplier: string | null;
+}
+/** Models a pipeline may set as agent_model. */
+export type AgentModelOptionsModelsList = Array<AgentModelOption>;
+export interface AgentModelOptions {
+  /** Model a pipeline with a null agent_model trains on. */
+  default_model: string;
+  /** Display name of default_model. */
+  default_model_label: string;
+  /** Reasoning effort a pipeline with a null agent_reasoning_effort trains at. */
+  default_reasoning_effort: string | null;
+  /** Models a pipeline may set as agent_model. */
+  models: AgentModelOptionsModelsList;
+}
+export interface GetAutoresearchLimitRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export interface ProjectLimits {
+  /** Sandbox training runs the project may start in any 24 hours, across all its pipelines. 0 means training is turned off. */
+  max_training_runs_per_day: number;
+  /** Sandbox training runs the project started in the last 24 hours, across all its pipelines. */
+  training_runs_used: number;
+  /** When the next training run can start, while the project is at its daily limit. Null while a run can start now, and when training is turned off. */
+  next_slot_at: string | null;
+  /** Most experiments any one training run gets. A pipeline's iterations_per_run above this is lowered to it. */
+  max_iterations_per_run: number;
+  /** Most pipelines the project may have live (bootstrapping, running or converged, or a draft with an open training run, which goes live when the run promotes). Starting a draft's first training run or resuming a paused pipeline is refused at this limit. */
+  max_live_pipelines: number;
+  /** Pipelines that count against max_live_pipelines now. Can exceed it if the limit was lowered. */
+  live_pipelines: number;
+}
 export interface GetAutoresearchModelRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -747,7 +984,7 @@ export interface GetAutoresearchModelRequest {
 }
 /** * `champion` - Champion * `challenger` - Challenger * `archived` - Archived */
 export type AutoresearchModelRoleEnum = "champion" | "challenger" | "archived";
-/** Extended metrics bundle: Brier score, precision/recall at thresholds, lift@k, base rate, row counts. */
+/** Extended metrics bundle. Holds the holdout AUC from training, and under 'realized' the newest validated date's online metrics: realized AUC, Brier score, calibration error and bins, lift@k, average precision, confusion counts at top 10%, top 20% and Likely, base rate, and row counts. */
 export type AutoresearchModelMetricsMap = { [key: string]: unknown | undefined };
 export interface AutoresearchModel {
   /** Unique UUID of this model version. */
@@ -755,35 +992,35 @@ export interface AutoresearchModel {
   /** Pipeline this model belongs to. */
   pipeline: string;
   /** Model role: 'champion' (active scoring model), 'challenger' (shadow model), or 'archived'. * `champion` - Champion * `challenger` - Challenger * `archived` - Archived */
-  role?: AutoresearchModelRoleEnum;
+  role?: AutoresearchModelRoleEnum | undefined;
   /** SHA-256 of the serialized recipe. Used to deduplicate identical recipes across runs. */
   recipe_hash: string;
   /** Portable recipe artifact. Feature SQL, transforms, model class, params, and metadata. */
   model_recipe: unknown;
   /** Global feature importance and directionality. Used to explain top drivers on the model card. */
-  model_explanation: unknown;
+  model_explanation: ModelExplanationField;
   /** AUC on the held-out test split at training time. Preliminary signal before online labels mature. */
-  holdout_score?: number | null;
+  holdout_score?: number | null | undefined;
   /** Online AUC computed from actual realized outcomes. Authoritative once enough labels have matured. */
-  realized_score?: number | null;
+  realized_score?: number | null | undefined;
   /** Expected calibration error (ECE). Lower is better; well-calibrated models have ECE < 0.05. */
-  calibration_error?: number | null;
-  /** Extended metrics bundle: Brier score, precision/recall at thresholds, lift@k, base rate, row counts. */
-  metrics?: AutoresearchModelMetricsMap;
+  calibration_error?: number | null | undefined;
+  /** Extended metrics bundle. Holds the holdout AUC from training, and under 'realized' the newest validated date's online metrics: realized AUC, Brier score, calibration error and bins, lift@k, average precision, confusion counts at top 10%, top 20% and Likely, base rate, and row counts. */
+  metrics?: AutoresearchModelMetricsMap | undefined;
   /** Training run that produced this model. Read that run's artifact bundle to reuse the champion's train.py and features.sql as a starting point. Null for legacy models. */
   source_training_run: string | null;
   /** The agent's own plain-English description of what this recipe does and why it was chosen. */
-  agent_description?: string;
+  agent_description?: string | undefined;
   /** Start of the training data window (inclusive). */
-  trained_on_start?: string | null;
+  trained_on_start?: string | null | undefined;
   /** End of the training data window (exclusive). */
-  trained_on_end?: string | null;
+  trained_on_end?: string | null | undefined;
   /** True if this model has not yet been validated against realized online outcomes. */
-  is_preliminary?: boolean;
+  is_preliminary?: boolean | undefined;
   /** Timestamp when this model was promoted to champion. */
-  promoted_at?: string | null;
+  promoted_at?: string | null | undefined;
   /** Timestamp when this model was archived (superseded or retired). */
-  archived_at?: string | null;
+  archived_at?: string | null | undefined;
   created_at: string;
   updated_at: string;
   /** True if this model is in the pipeline's shadow set: the champion, the previous champion, and up to 3 recent fitted challengers with distinct recipes. */
@@ -795,7 +1032,31 @@ export interface GetAutoresearchOnlinePerformanceRequest {
   /** A UUID string identifying this autoresearch pipeline. */
   id: string;
   /** Maximum number of validated prediction dates to return, newest first (default 60, at most 180). Each date returns one row per model that emitted predictions on it. */
-  limit?: number;
+  limit?: number | undefined;
+}
+export interface ConfusionCounts {
+  /** True positives: flagged users who did the target event. */
+  tp: number;
+  /** False positives: flagged users who did not do the target event. */
+  fp: number;
+  /** False negatives: users not flagged who did the target event. */
+  fn: number;
+  /** True negatives: users not flagged who did not do the target event. */
+  tn: number;
+  /** Number of users the cutoff flagged (tp + fp). Top-k cutoffs flag every user tied at the boundary score, so this can be a little above k. */
+  n_flagged: number;
+  /** tp / n_flagged: share of flagged users who did the target event. Null when no user was flagged. */
+  precision: number | null;
+  /** tp / (tp + fn): share of users who did the target event that the cutoff flagged. Null when no user did it. */
+  recall: number | null;
+}
+export interface ConfusionByCutoff {
+  /** Counts when the top 10% of users by score are flagged. */
+  top_10: ConfusionCounts;
+  /** Counts when the top 20% of users by score are flagged. */
+  top_20: ConfusionCounts;
+  /** Counts when users in the Likely segment, with a score of likely_threshold or higher, are flagged. */
+  likely: ConfusionCounts;
 }
 export interface CalibrationBin {
   /** Number of scored users in this bin. */
@@ -844,6 +1105,12 @@ export interface OnlinePerformanceRow {
   lift_at_10: number | null;
   /** Positives in the top 20% by score, relative to a random 20%. */
   lift_at_20: number | null;
+  /** Average precision: area under the precision-recall curve. Higher is better, and a random model scores about base_rate. Null when no scored user did the target event, or for dates validated before this metric existed. */
+  average_precision: number | null;
+  /** Confusion counts, precision and recall at three cutoffs: top 10%, top 20%, and the Likely segment. Null for dates validated before this metric existed. */
+  confusion: ConfusionByCutoff | null;
+  /** The Likely cut point the 'likely' confusion counts used for this date, from the base rate of the dates checked before it. Null when confusion is null. */
+  likely_threshold: number | null;
   /** Calibration table with up to 10 bins cut at score quantiles, lowest scores first. Users with equal scores share a bin, so heavy ties give fewer bins. Null for dates validated before this metric existed. */
   calibration_bins: OnlinePerformanceRowCalibrationBinsList | null;
   /** 'single_class_no_auc' when every scored user had the same outcome, otherwise null. */
@@ -853,9 +1120,33 @@ export interface OnlinePerformanceRow {
 }
 /** One row per model per validated prediction date, newest date first. Empty until a prediction horizon has elapsed and online validation has run. */
 export type OnlinePerformanceRowsList = Array<OnlinePerformanceRow>;
+/** * `realized` - Realized * `training` - Training * `fixed` - Fixed */
+export type BaseRateSourceEnum = "realized" | "training" | "fixed";
+export interface PredictionSegmentThresholds {
+  /** Users with a score at or above this probability are in the Likely segment: likely_lift times the base rate, capped halfway between the base rate and 1. A fixed cut point when base_rate_source is fixed. */
+  likely_threshold: number;
+  /** Users with a score at or above this probability and below likely_threshold are in the Possible segment, and users below it are Unlikely. Equal to base_rate, or a fixed cut point when base_rate_source is fixed. */
+  possible_threshold: number;
+  /** How many times the base rate a score must reach to be in the Likely segment. */
+  likely_lift: number;
+  /** The base rate the cut points use. When base_rate_source is realized, the fraction of the champion's scored users who did the target event, pooled over the newest checked dates. When base_rate_source is training, the fraction of the champion's training population that did it. Null when base_rate_source is fixed. */
+  base_rate: number | null;
+  /** Number of checked prediction dates the base rate pools. */
+  base_rate_dates: number;
+  /** Where the cut points come from. realized: the checked dates hold enough positives. training: no realized base rate yet, so the champion's training population sets it. fixed: neither is available, so fixed cut points apply. * `realized` - Realized * `training` - Training * `fixed` - Fixed */
+  base_rate_source: BaseRateSourceEnum;
+  /** The current champion's mean predicted probability over the checked dates it scored as champion. Null until those dates hold enough positives. */
+  champion_mean_p_y: number | null;
+  /** The real rate of the target event over the same dates as champion_mean_p_y. */
+  champion_base_rate: number | null;
+  /** True when champion_mean_p_y is far above or below champion_base_rate. The scores are then not probabilities (for example after class weighting in train.py), so a score of likely_lift times the base rate does not mean the user is that many times as likely to convert. */
+  scores_miscalibrated: boolean;
+}
 export interface OnlinePerformance {
   /** One row per model per validated prediction date, newest date first. Empty until a prediction horizon has elapsed and online validation has run. */
   rows: OnlinePerformanceRowsList;
+  /** The current cut points between the Likely, Possible and Unlikely segments, set by lift over the realized base rate. They do not depend on limit. */
+  segment_thresholds: PredictionSegmentThresholds;
 }
 export interface GetAutoresearchRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -899,7 +1190,7 @@ export interface GetAutoresearchTrainingRunsHistoryRequest {
   project_id: string;
   pipeline_id: string;
   /** Maximum number of prior runs to return (default 5, at most 20). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Keyword arguments for the estimator's constructor; null or absent means the defaults. */
 export type IterationTrailWithRecipeModelSpecModelParamsMap = {
@@ -910,7 +1201,7 @@ export interface IterationTrailWithRecipeModelSpec {
   /** Dotted path of the estimator class. */
   model_class: string;
   /** Keyword arguments for the estimator's constructor; null or absent means the defaults. */
-  model_params?: IterationTrailWithRecipeModelSpecModelParamsMap | null;
+  model_params?: IterationTrailWithRecipeModelSpecModelParamsMap | null | undefined;
 }
 /** Transforms the bundle applies to the feature columns; null or absent means none, and the in-process path accepts none. */
 export type IterationTrailWithRecipeRecipeSnapshotFeatureTransformsList = Array<unknown>;
@@ -919,7 +1210,10 @@ export interface IterationTrailWithRecipeRecipeSnapshot {
   /** A read-only HogQL SELECT from {anchors}, one row per person, keyed on person_id. */
   feature_sql: string;
   /** Transforms the bundle applies to the feature columns; null or absent means none, and the in-process path accepts none. */
-  feature_transforms?: IterationTrailWithRecipeRecipeSnapshotFeatureTransformsList | null;
+  feature_transforms?:
+    | IterationTrailWithRecipeRecipeSnapshotFeatureTransformsList
+    | null
+    | undefined;
 }
 /** The trail with each iteration's recipe, for history only: a run list page would otherwise carry every recipe of every run. */
 export interface IterationTrailWithRecipe {
@@ -928,11 +1222,15 @@ export interface IterationTrailWithRecipe {
   /** Whether this recipe was kept (improved the best score), discarded, or crashed. * `kept` - Kept * `discarded` - Discarded * `crashed` - Crashed */
   status: AutoresearchIterationStatusEnum;
   /** Holdout AUC this iteration achieved. Null if it was skipped/degenerate. */
-  holdout_score?: number | null;
+  holdout_score?: number | null | undefined;
   /** Train-fold AUC for this iteration, if recorded. */
-  train_score?: number | null;
+  train_score?: number | null | undefined;
   /** The agent's one-line rationale for what it tried and why. */
-  agent_description?: string;
+  agent_description?: string | undefined;
+  /** Plain-language sentence on what this experiment tried and what happened, for people. Null if not written. */
+  summary: string | null;
+  /** Short title for this experiment, for people. Null if not written. */
+  headline: string | null;
   /** Model class and hyperparameters tried in this iteration. */
   model_spec: IterationTrailWithRecipeModelSpec;
   /** The recipe this iteration tried: its feature_sql and transforms, so a later run can reuse them. */
@@ -974,15 +1272,15 @@ export interface ListAutoresearchRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedAutoresearchPipelineListResultsList = Array<AutoresearchPipeline>;
 export interface PaginatedAutoresearchPipelineList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAutoresearchPipelineListResultsList;
 }
 export interface ListAutoresearchModelsRequest {
@@ -990,15 +1288,15 @@ export interface ListAutoresearchModelsRequest {
   project_id: string;
   pipeline_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedAutoresearchModelListResultsList = Array<AutoresearchModel>;
 export interface PaginatedAutoresearchModelList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAutoresearchModelListResultsList;
 }
 export interface ListAutoresearchRunsRequest {
@@ -1006,15 +1304,15 @@ export interface ListAutoresearchRunsRequest {
   project_id: string;
   pipeline_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedAutoresearchRunListResultsList = Array<AutoresearchRun>;
 export interface PaginatedAutoresearchRunList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAutoresearchRunListResultsList;
 }
 export interface ListAutoresearchSuggestionsRequest {
@@ -1022,15 +1320,15 @@ export interface ListAutoresearchSuggestionsRequest {
   project_id: string;
   pipeline_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedAutoresearchSuggestionListResultsList = Array<AutoresearchSuggestion>;
 export interface PaginatedAutoresearchSuggestionList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAutoresearchSuggestionListResultsList;
 }
 export interface ListAutoresearchTemplatesRequest {
@@ -1060,15 +1358,15 @@ export interface ListAutoresearchTrainingRunsRequest {
   project_id: string;
   pipeline_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedAutoresearchTrainingRunListResultsList = Array<AutoresearchTrainingRun>;
 export interface PaginatedAutoresearchTrainingRunList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAutoresearchTrainingRunListResultsList;
 }
 export type UpdateAutoresearchRequestTargetDefinitionCase0Type = "event";
@@ -1095,73 +1393,39 @@ export interface UpdateAutoresearchRequest {
   /** Display name for the pipeline. */
   name: string;
   /** Optional free-text description. */
-  description?: string;
+  description?: string | undefined;
   /** PostHog event name to predict, e.g. '$pageview' or 'signed_up'. Omit when predicting an action target (pass target_definition instead). */
-  target_event?: string;
+  target_event?: string | undefined;
   /** Omit (or pass {"type": "event"}) to predict target_event; pass {"type": "action", "action_id": N} to predict a PostHog action. No other shapes are accepted. */
-  target_definition?: UpdateAutoresearchRequestTargetDefinition;
+  target_definition?: UpdateAutoresearchRequestTargetDefinition | undefined;
   /** Prediction horizon in days (1-365). The model predicts whether the target event occurs within this window. */
-  horizon_days?: number;
+  horizon_days?: number | undefined;
   /** How far back to look for training examples (7-730 days). Larger windows give more data but may include stale behavior. Default: 180. */
-  training_lookback_days?: number;
+  training_lookback_days?: number | undefined;
   /** Training population filter. Use {} for all identified users. */
-  training_population?: unknown;
+  training_population?: unknown | undefined;
   /** Inference population filter. Defaults to training_population if not set. */
-  inference_population?: unknown;
+  inference_population?: unknown | undefined;
   /** Re-score the inference population every N days (1-365). Default: 1. */
-  cadence_days?: number;
-  /** Total training iterations allowed for the autoresearch loop (1-500). Default: 50. */
-  iteration_budget?: number;
+  cadence_days?: number | undefined;
+  /** Deprecated: scheduled training no longer reads it. Use iterations_per_run. */
+  iteration_budget?: number | undefined;
+  /** Experiments the agent may try in each training run (1-50). Each experiment costs agent time and queries, so a higher value costs more per run. Scheduled runs and Train now use it. Default: 5. */
+  iterations_per_run?: number | undefined;
+  /** Days between scheduled research runs once the first burst of daily runs ends: 7, 14, 30, 60 or 90. Null means only when asked: no scheduled research, so the only training cost comes from runs you start and from rescue runs for a model that cannot score. A shorter interval costs more. Default: 7. * `7` - 7 * `14` - 14 * `30` - 30 * `60` - 60 * `90` - 90 */
+  research_interval_days?: ResearchIntervalDaysEnum | (number & {}) | null | undefined;
+  /** Model the training agent runs on, a model id from the PostHog Tasks catalogue such as 'claude-opus-5-5', 'claude-sonnet-5-5' or 'gpt-6.1-sol'. Null or omitted uses the autoresearch default, Claude Opus 5.5. A larger model costs more per training run. Scheduled runs and Train now use it. */
+  agent_model?: string | null | undefined;
+  /** Reasoning effort for the training agent, such as 'low', 'medium' or 'high'. It must be one the model supports, and without agent_model it is checked against the default model. Null or omitted uses the autoresearch default, medium. Higher effort costs more per training run. */
+  agent_reasoning_effort?: string | null | undefined;
   /** Target AUC threshold (0-1). Training stops early if reached. Default: 0.75. */
-  success_auc?: number | null;
+  success_auc?: number | null | undefined;
   /** Stop training if no improvement in this many consecutive iterations (at least 1). Default: 10. */
-  plateau_iterations?: number;
+  plateau_iterations?: number | undefined;
   /** Person property name for the prediction score, e.g. 'predicted_p_pageview'. Auto-derived from target_event if omitted. Letters, digits, and _ $ . - only, and it cannot start with $ (reserved for PostHog's own properties); must be unique among this project's non-archived pipelines. */
-  output_person_property?: string;
-}
-export type AutoresearchPipelineCreateTargetDefinitionCase0Type = "event";
-/** Predict target_event. The default when target_definition is omitted. */
-export interface AutoresearchPipelineCreateTargetDefinitionCase0 {
-  type: AutoresearchPipelineCreateTargetDefinitionCase0Type;
-}
-export type AutoresearchPipelineCreateTargetDefinitionCase1Type = "action";
-/** Predict a PostHog action in this project. */
-export interface AutoresearchPipelineCreateTargetDefinitionCase1 {
-  type: AutoresearchPipelineCreateTargetDefinitionCase1Type;
-  /** ID of the action to predict. */
-  action_id: number;
-}
-/** Omit (or pass {"type": "event"}) to predict target_event; pass {"type": "action", "action_id": N} to predict a PostHog action. No other shapes are accepted. */
-export type AutoresearchPipelineCreateTargetDefinition =
-  | AutoresearchPipelineCreateTargetDefinitionCase0
-  | AutoresearchPipelineCreateTargetDefinitionCase1;
-export interface AutoresearchPipelineCreate {
-  /** Display name for the pipeline. */
-  name: string;
-  /** Optional free-text description. */
-  description?: string;
-  /** PostHog event name to predict, e.g. '$pageview' or 'signed_up'. Omit when predicting an action target (pass target_definition instead). */
-  target_event?: string;
-  /** Omit (or pass {"type": "event"}) to predict target_event; pass {"type": "action", "action_id": N} to predict a PostHog action. No other shapes are accepted. */
-  target_definition?: AutoresearchPipelineCreateTargetDefinition;
-  /** Prediction horizon in days (1-365). The model predicts whether the target event occurs within this window. */
-  horizon_days?: number;
-  /** How far back to look for training examples (7-730 days). Larger windows give more data but may include stale behavior. Default: 180. */
-  training_lookback_days?: number;
-  /** Training population filter. Use {} for all identified users. */
-  training_population?: unknown;
-  /** Inference population filter. Defaults to training_population if not set. */
-  inference_population?: unknown;
-  /** Re-score the inference population every N days (1-365). Default: 1. */
-  cadence_days?: number;
-  /** Total training iterations allowed for the autoresearch loop (1-500). Default: 50. */
-  iteration_budget?: number;
-  /** Target AUC threshold (0-1). Training stops early if reached. Default: 0.75. */
-  success_auc?: number | null;
-  /** Stop training if no improvement in this many consecutive iterations (at least 1). Default: 10. */
-  plateau_iterations?: number;
-  /** Person property name for the prediction score, e.g. 'predicted_p_pageview'. Auto-derived from target_event if omitted. Letters, digits, and _ $ . - only, and it cannot start with $ (reserved for PostHog's own properties); must be unique among this project's non-archived pipelines. */
-  output_person_property?: string;
+  output_person_property?: string | undefined;
+  /** Write the champion's score to output_person_property on each scored person at every live scoring run. Default: false. Needed to target people by score in feature flags, cohorts, workflows and insights. Prediction events, validation and segments work without it. Turning it off, or archiving or deleting the pipeline while it is on, removes the property from the people it scored. */
+  write_person_property?: boolean | undefined;
 }
 export type UpdateAutoresearchPartialRequestTargetDefinitionCase0Type = "event";
 /** Predict target_event. The default when target_definition is omitted. */
@@ -1185,42 +1449,52 @@ export interface UpdateAutoresearchPartialRequest {
   /** A UUID string identifying this autoresearch pipeline. */
   id: string;
   /** Display name for the pipeline. */
-  name?: string;
+  name?: string | undefined;
   /** Optional free-text description. */
-  description?: string;
+  description?: string | undefined;
   /** PostHog event name to predict, e.g. '$pageview' or 'signed_up'. Omit when predicting an action target (pass target_definition instead). */
-  target_event?: string;
+  target_event?: string | undefined;
   /** Omit (or pass {"type": "event"}) to predict target_event; pass {"type": "action", "action_id": N} to predict a PostHog action. No other shapes are accepted. */
-  target_definition?: UpdateAutoresearchPartialRequestTargetDefinition;
+  target_definition?: UpdateAutoresearchPartialRequestTargetDefinition | undefined;
   /** Prediction horizon in days (1-365). The model predicts whether the target event occurs within this window. */
-  horizon_days?: number;
+  horizon_days?: number | undefined;
   /** How far back to look for training examples (7-730 days). Larger windows give more data but may include stale behavior. Default: 180. */
-  training_lookback_days?: number;
+  training_lookback_days?: number | undefined;
   /** Training population filter. Use {} for all identified users. */
-  training_population?: unknown;
+  training_population?: unknown | undefined;
   /** Inference population filter. Defaults to training_population if not set. */
-  inference_population?: unknown;
+  inference_population?: unknown | undefined;
   /** Re-score the inference population every N days (1-365). Default: 1. */
-  cadence_days?: number;
-  /** Total training iterations allowed for the autoresearch loop (1-500). Default: 50. */
-  iteration_budget?: number;
+  cadence_days?: number | undefined;
+  /** Deprecated: scheduled training no longer reads it. Use iterations_per_run. */
+  iteration_budget?: number | undefined;
+  /** Experiments the agent may try in each training run (1-50). Each experiment costs agent time and queries, so a higher value costs more per run. Scheduled runs and Train now use it. Default: 5. */
+  iterations_per_run?: number | undefined;
+  /** Days between scheduled research runs once the first burst of daily runs ends: 7, 14, 30, 60 or 90. Null means only when asked: no scheduled research, so the only training cost comes from runs you start and from rescue runs for a model that cannot score. A shorter interval costs more. Default: 7. * `7` - 7 * `14` - 14 * `30` - 30 * `60` - 60 * `90` - 90 */
+  research_interval_days?: ResearchIntervalDaysEnum | (number & {}) | null | undefined;
+  /** Model the training agent runs on, a model id from the PostHog Tasks catalogue such as 'claude-opus-5-5', 'claude-sonnet-5-5' or 'gpt-6.1-sol'. Null or omitted uses the autoresearch default, Claude Opus 5.5. A larger model costs more per training run. Scheduled runs and Train now use it. */
+  agent_model?: string | null | undefined;
+  /** Reasoning effort for the training agent, such as 'low', 'medium' or 'high'. It must be one the model supports, and without agent_model it is checked against the default model. Null or omitted uses the autoresearch default, medium. Higher effort costs more per training run. */
+  agent_reasoning_effort?: string | null | undefined;
   /** Target AUC threshold (0-1). Training stops early if reached. Default: 0.75. */
-  success_auc?: number | null;
+  success_auc?: number | null | undefined;
   /** Stop training if no improvement in this many consecutive iterations (at least 1). Default: 10. */
-  plateau_iterations?: number;
+  plateau_iterations?: number | undefined;
   /** Person property name for the prediction score, e.g. 'predicted_p_pageview'. Auto-derived from target_event if omitted. Letters, digits, and _ $ . - only, and it cannot start with $ (reserved for PostHog's own properties); must be unique among this project's non-archived pipelines. */
-  output_person_property?: string;
+  output_person_property?: string | undefined;
+  /** Write the champion's score to output_person_property on each scored person at every live scoring run. Default: false. Needed to target people by score in feature flags, cohorts, workflows and insights. Prediction events, validation and segments work without it. Turning it off, or archiving or deleting the pipeline while it is on, removes the property from the people it scored. */
+  write_person_property?: boolean | undefined;
 }
 export type AutoresearchArchiveCreateError = BadRequest | NotFound | PosthogOpError;
-/** Archive a pipeline Soft-delete a pipeline. Stops daily scoring and training. Predictions and metrics are preserved. Refused while a training run is in progress. */
+/** Archive a pipeline Soft-delete a pipeline. Stops daily scoring and training. Predictions and metrics are preserved. When write_person_property is on, a cleanup run removes output_person_property from the people it scored. Refused while a training run is in progress. */
 export const autoresearchArchiveCreate: API.OperationMethod<
   AutoresearchArchiveCreateRequest,
   AutoresearchPipeline,
   AutoresearchArchiveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<AutoresearchArchiveCreateRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<AutoresearchPipeline>,
+  input: __S(480, __c30, 0) as any as S.Schema<AutoresearchArchiveCreateRequest>,
+  output: __S(549, __c34, 5) as any as S.Schema<AutoresearchPipeline>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1236,8 +1510,8 @@ export const autoresearchDestroy: API.OperationMethod<
   AutoresearchDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<AutoresearchDestroyRequest>,
-  output: __S(337, __c42, 1) as any as S.Schema<AutoresearchDestroyResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<AutoresearchDestroyRequest>,
+  output: __S(721, __c45, 1) as any as S.Schema<AutoresearchDestroyResponse>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1246,15 +1520,15 @@ export const autoresearchDestroy: API.OperationMethod<
 }));
 
 export type AutoresearchResumeCreateError = BadRequest | NotFound | PosthogOpError;
-/** Resume a pipeline Resume a paused pipeline. Daily scoring and training will restart on the next cadence tick. */
+/** Resume a pipeline Resume a paused pipeline. Daily scoring and training will restart on the next cadence tick. Refused when the project already has its limit of live pipelines, which the limits endpoint reports. */
 export const autoresearchResumeCreate: API.OperationMethod<
   AutoresearchResumeCreateRequest,
   AutoresearchPipeline,
   AutoresearchResumeCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<AutoresearchResumeCreateRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<AutoresearchPipeline>,
+  input: __S(736, __c46, 0) as any as S.Schema<AutoresearchResumeCreateRequest>,
+  output: __S(549, __c34, 5) as any as S.Schema<AutoresearchPipeline>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1271,11 +1545,11 @@ export const autoresearchTrainingRunsArtifactsDeleteCreate: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    352,
-    __c44,
+    752,
+    __c47,
     0,
   ) as any as S.Schema<AutoresearchTrainingRunsArtifactsDeleteCreateRequest>,
-  output: __S(353, __c44, 1) as any as S.Schema<ArtifactDeleteResult>,
+  output: __S(753, __c47, 1) as any as S.Schema<ArtifactDeleteResult>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1291,8 +1565,8 @@ export const autoresearchTrainingRunsArtifactsGetCreate: API.OperationMethod<
   AutoresearchTrainingRunsArtifactsGetCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<AutoresearchTrainingRunsArtifactsGetCreateRequest>,
-  output: __S(361, __c45, 1) as any as S.Schema<ArtifactContent>,
+  input: __S(768, __c48, 0) as any as S.Schema<AutoresearchTrainingRunsArtifactsGetCreateRequest>,
+  output: __S(769, __c48, 1) as any as S.Schema<ArtifactContent>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1309,11 +1583,11 @@ export const autoresearchTrainingRunsArtifactsUploadCreate: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    368,
-    __c46,
+    784,
+    __c49,
     0,
   ) as any as S.Schema<AutoresearchTrainingRunsArtifactsUploadCreateRequest>,
-  output: __S(369, __c46, 1) as any as S.Schema<StoredArtifact>,
+  output: __S(785, __c49, 1) as any as S.Schema<StoredArtifact>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1329,8 +1603,8 @@ export const autoresearchValidateCreate: API.OperationMethod<
   AutoresearchValidateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<AutoresearchValidateCreateRequest>,
-  output: __S(379, __c47, 3) as any as S.Schema<ValidatePipelineResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<AutoresearchValidateCreateRequest>,
+  output: __S(803, __c50, 3) as any as S.Schema<ValidatePipelineResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1363,8 +1637,8 @@ export const createAutoresearch: API.OperationMethod<
   CreateAutoresearchError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<CreateAutoresearchRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<AutoresearchPipeline>,
+  input: __S(48, __c3, 0) as any as S.Schema<CreateAutoresearchRequest>,
+  output: __S(549, __c34, 5) as any as S.Schema<AutoresearchPipeline>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1380,8 +1654,8 @@ export const createAutoresearchPause: API.OperationMethod<
   CreateAutoresearchPauseError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<CreateAutoresearchPauseRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<AutoresearchPipeline>,
+  input: __S(64, __c4, 0) as any as S.Schema<CreateAutoresearchPauseRequest>,
+  output: __S(549, __c34, 5) as any as S.Schema<AutoresearchPipeline>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1397,8 +1671,8 @@ export const createAutoresearchResolveTemplate: API.OperationMethod<
   CreateAutoresearchResolveTemplateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreateAutoresearchResolveTemplateRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<ResolvedTemplate>,
+  input: __S(80, __c5, 0) as any as S.Schema<CreateAutoresearchResolveTemplateRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<ResolvedTemplate>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1414,8 +1688,8 @@ export const createAutoresearchScore: API.OperationMethod<
   CreateAutoresearchScoreError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CreateAutoresearchScoreRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<AutoresearchRun>,
+  input: __S(112, __c7, 0) as any as S.Schema<CreateAutoresearchScoreRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<AutoresearchRun>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1431,8 +1705,8 @@ export const createAutoresearchSuggestion: API.OperationMethod<
   CreateAutoresearchSuggestionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<CreateAutoresearchSuggestionRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<AutoresearchSuggestion>,
+  input: __S(128, __c8, 0) as any as S.Schema<CreateAutoresearchSuggestionRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<AutoresearchSuggestion>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1448,8 +1722,8 @@ export const createAutoresearchSuggestionsRespond: API.OperationMethod<
   CreateAutoresearchSuggestionsRespondError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<CreateAutoresearchSuggestionsRespondRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<AutoresearchSuggestion>,
+  input: __S(160, __c10, 0) as any as S.Schema<CreateAutoresearchSuggestionsRespondRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<AutoresearchSuggestion>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1465,8 +1739,8 @@ export const createAutoresearchTrain: API.OperationMethod<
   CreateAutoresearchTrainError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<CreateAutoresearchTrainRequest>,
-  output: __S(114, __c14, 2) as any as S.Schema<AutoresearchTrainingRun>,
+  input: __S(176, __c11, 0) as any as S.Schema<CreateAutoresearchTrainRequest>,
+  output: __S(226, __c14, 2) as any as S.Schema<AutoresearchTrainingRun>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1482,8 +1756,8 @@ export const createAutoresearchTrainingRun: API.OperationMethod<
   CreateAutoresearchTrainingRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<CreateAutoresearchTrainingRunRequest>,
-  output: __S(114, __c14, 2) as any as S.Schema<AutoresearchTrainingRun>,
+  input: __S(240, __c15, 0) as any as S.Schema<CreateAutoresearchTrainingRunRequest>,
+  output: __S(226, __c14, 2) as any as S.Schema<AutoresearchTrainingRun>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1499,8 +1773,8 @@ export const createAutoresearchTrainingRunsComplete: API.OperationMethod<
   CreateAutoresearchTrainingRunsCompleteError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<CreateAutoresearchTrainingRunsCompleteRequest>,
-  output: __S(114, __c14, 2) as any as S.Schema<AutoresearchTrainingRun>,
+  input: __S(256, __c16, 0) as any as S.Schema<CreateAutoresearchTrainingRunsCompleteRequest>,
+  output: __S(226, __c14, 2) as any as S.Schema<AutoresearchTrainingRun>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1516,8 +1790,8 @@ export const createAutoresearchTrainingRunsIteration: API.OperationMethod<
   CreateAutoresearchTrainingRunsIterationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<CreateAutoresearchTrainingRunsIterationRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<AutoresearchIteration>,
+  input: __S(288, __c18, 0) as any as S.Schema<CreateAutoresearchTrainingRunsIterationRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<AutoresearchIteration>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1534,11 +1808,11 @@ export const createAutoresearchTrainingRunsMaterializeFeature: API.OperationMeth
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    152,
-    __c19,
+    320,
+    __c20,
     0,
   ) as any as S.Schema<CreateAutoresearchTrainingRunsMaterializeFeatureRequest>,
-  output: __S(153, __c19, 1) as any as S.Schema<MaterializeFeaturesResponse>,
+  output: __S(321, __c20, 1) as any as S.Schema<MaterializeFeaturesResponse>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1554,13 +1828,47 @@ export const getAutoresearch: API.OperationMethod<
   GetAutoresearchError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetAutoresearchRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<AutoresearchPipeline>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetAutoresearchRequest>,
+  output: __S(549, __c34, 5) as any as S.Schema<AutoresearchPipeline>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAutoresearch",
+}));
+
+export type GetAutoresearchAgentModelError = PosthogOpError;
+/** List training agent models Return the models a pipeline's training agent may run on, with the reasoning efforts each supports and its relative token cost, plus the model and effort a pipeline with blank settings uses. Pass a model id as agent_model and an effort as agent_reasoning_effort on create or update. */
+export const getAutoresearchAgentModel: API.OperationMethod<
+  GetAutoresearchAgentModelRequest,
+  AgentModelOptions,
+  GetAutoresearchAgentModelError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(352, __c22, 0) as any as S.Schema<GetAutoresearchAgentModelRequest>,
+  output: __S(357, __c22, 5) as any as S.Schema<AgentModelOptions>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoresearchAgentModel",
+}));
+
+export type GetAutoresearchLimitError = PosthogOpError;
+/** Read the project's limits Return the project's autoresearch limits and how much of each it is using: sandbox training runs in the last 24 hours against the daily limit, with when the next run can start at the limit, the most experiments per training run, and live pipelines against the live pipeline limit. Read-only; it runs no queries. */
+export const getAutoresearchLimit: API.OperationMethod<
+  GetAutoresearchLimitRequest,
+  ProjectLimits,
+  GetAutoresearchLimitError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(368, __c23, 0) as any as S.Schema<GetAutoresearchLimitRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<ProjectLimits>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoresearchLimit",
 }));
 
 export type GetAutoresearchModelError = PosthogOpError;
@@ -1571,8 +1879,8 @@ export const getAutoresearchModel: API.OperationMethod<
   GetAutoresearchModelError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetAutoresearchModelRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<AutoresearchModel>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetAutoresearchModelRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<AutoresearchModel>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1588,8 +1896,8 @@ export const getAutoresearchOnlinePerformance: API.OperationMethod<
   GetAutoresearchOnlinePerformanceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<GetAutoresearchOnlinePerformanceRequest>,
-  output: __S(189, __c23, 5) as any as S.Schema<OnlinePerformance>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetAutoresearchOnlinePerformanceRequest>,
+  output: __S(424, __c26, 8) as any as S.Schema<OnlinePerformance>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1605,8 +1913,8 @@ export const getAutoresearchRun: API.OperationMethod<
   GetAutoresearchRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetAutoresearchRunRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<AutoresearchRun>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetAutoresearchRunRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<AutoresearchRun>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1622,8 +1930,8 @@ export const getAutoresearchSuggestion: API.OperationMethod<
   GetAutoresearchSuggestionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<GetAutoresearchSuggestionRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<AutoresearchSuggestion>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetAutoresearchSuggestionRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<AutoresearchSuggestion>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1639,8 +1947,8 @@ export const getAutoresearchTrainingRun: API.OperationMethod<
   GetAutoresearchTrainingRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<GetAutoresearchTrainingRunRequest>,
-  output: __S(114, __c14, 2) as any as S.Schema<AutoresearchTrainingRun>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetAutoresearchTrainingRunRequest>,
+  output: __S(226, __c14, 2) as any as S.Schema<AutoresearchTrainingRun>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1656,8 +1964,8 @@ export const getAutoresearchTrainingRunsArtifact: API.OperationMethod<
   GetAutoresearchTrainingRunsArtifactError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<GetAutoresearchTrainingRunsArtifactRequest>,
-  output: __S(217, __c27, 1) as any as S.Schema<ArtifactList>,
+  input: __S(560, __c35, 0) as any as S.Schema<GetAutoresearchTrainingRunsArtifactRequest>,
+  output: __S(561, __c35, 1) as any as S.Schema<ArtifactList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1673,8 +1981,8 @@ export const getAutoresearchTrainingRunsHistory: API.OperationMethod<
   GetAutoresearchTrainingRunsHistoryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<GetAutoresearchTrainingRunsHistoryRequest>,
-  output: __S(229, __c28, 5) as any as S.Schema<TrainingRunHistory>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetAutoresearchTrainingRunsHistoryRequest>,
+  output: __S(581, __c36, 5) as any as S.Schema<TrainingRunHistory>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1690,8 +1998,8 @@ export const listAutoresearch: API.OperationMethod<
   ListAutoresearchError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<ListAutoresearchRequest>,
-  output: __S(266, __c33, 2) as any as S.Schema<PaginatedAutoresearchPipelineList>,
+  input: __S(592, __c37, 0) as any as S.Schema<ListAutoresearchRequest>,
+  output: __S(594, __c37, 2) as any as S.Schema<PaginatedAutoresearchPipelineList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1707,8 +2015,8 @@ export const listAutoresearchModels: API.OperationMethod<
   ListAutoresearchModelsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<ListAutoresearchModelsRequest>,
-  output: __S(274, __c34, 2) as any as S.Schema<PaginatedAutoresearchModelList>,
+  input: __S(608, __c38, 0) as any as S.Schema<ListAutoresearchModelsRequest>,
+  output: __S(610, __c38, 2) as any as S.Schema<PaginatedAutoresearchModelList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1724,8 +2032,8 @@ export const listAutoresearchRuns: API.OperationMethod<
   ListAutoresearchRunsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<ListAutoresearchRunsRequest>,
-  output: __S(281, __c35, 1) as any as S.Schema<PaginatedAutoresearchRunList>,
+  input: __S(624, __c39, 0) as any as S.Schema<ListAutoresearchRunsRequest>,
+  output: __S(625, __c39, 1) as any as S.Schema<PaginatedAutoresearchRunList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1741,8 +2049,8 @@ export const listAutoresearchSuggestions: API.OperationMethod<
   ListAutoresearchSuggestionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<ListAutoresearchSuggestionsRequest>,
-  output: __S(290, __c36, 2) as any as S.Schema<PaginatedAutoresearchSuggestionList>,
+  input: __S(640, __c40, 0) as any as S.Schema<ListAutoresearchSuggestionsRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<PaginatedAutoresearchSuggestionList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1758,8 +2066,8 @@ export const listAutoresearchTemplates: API.OperationMethod<
   ListAutoresearchTemplatesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<ListAutoresearchTemplatesRequest>,
-  output: __S(299, __c37, 3) as any as S.Schema<ListAutoresearchTemplatesResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<ListAutoresearchTemplatesRequest>,
+  output: __S(659, __c41, 3) as any as S.Schema<ListAutoresearchTemplatesResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1775,8 +2083,8 @@ export const listAutoresearchTrainingRuns: API.OperationMethod<
   ListAutoresearchTrainingRunsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<ListAutoresearchTrainingRunsRequest>,
-  output: __S(306, __c38, 2) as any as S.Schema<PaginatedAutoresearchTrainingRunList>,
+  input: __S(672, __c42, 0) as any as S.Schema<ListAutoresearchTrainingRunsRequest>,
+  output: __S(674, __c42, 2) as any as S.Schema<PaginatedAutoresearchTrainingRunList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1788,12 +2096,12 @@ export type UpdateAutoresearchError = PosthogOpError;
 /** Manage autoresearch prediction pipelines. A pipeline defines a target event, population, and horizon. The autoresearch training loop finds the best predictive recipe; the inference workflow scores users daily and emits autoresearch_prediction events. */
 export const updateAutoresearch: API.OperationMethod<
   UpdateAutoresearchRequest,
-  AutoresearchPipelineCreate,
+  AutoresearchPipeline,
   UpdateAutoresearchError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<UpdateAutoresearchRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<AutoresearchPipelineCreate>,
+  input: __S(688, __c43, 0) as any as S.Schema<UpdateAutoresearchRequest>,
+  output: __S(549, __c34, 5) as any as S.Schema<AutoresearchPipeline>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1805,12 +2113,12 @@ export type UpdateAutoresearchPartialError = PosthogOpError;
 /** Manage autoresearch prediction pipelines. A pipeline defines a target event, population, and horizon. The autoresearch training loop finds the best predictive recipe; the inference workflow scores users daily and emits autoresearch_prediction events. */
 export const updateAutoresearchPartial: API.OperationMethod<
   UpdateAutoresearchPartialRequest,
-  AutoresearchPipelineCreate,
+  AutoresearchPipeline,
   UpdateAutoresearchPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<UpdateAutoresearchPartialRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<AutoresearchPipelineCreate>,
+  input: __S(704, __c44, 0) as any as S.Schema<UpdateAutoresearchPartialRequest>,
+  output: __S(549, __c34, 5) as any as S.Schema<AutoresearchPipeline>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1835,7 +2143,7 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "AutoresearchValidateOnlineCreateRequest" });
     case 1:
-      return S.suspend(() => __S(16, __c2, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(32, __c2, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "AutoresearchValidateOnlineCreateResponse",
       });
   }
@@ -1851,7 +2159,8 @@ function __c1(j: number): any {
           run_type: S.String,
           status: S.optional(S.String),
           rows_scored: S.optional(S.NullOr(S.Number)),
-          metrics: __S(240, __c30, 0),
+          metrics: __S(496, __c31, 0),
+          coverage: S.NullOr(__S(512, __c32, 0)),
           error: S.optional(S.String),
           started_at: S.optional(S.NullOr(S.String)),
           completed_at: S.optional(S.NullOr(S.String)),
@@ -1863,7 +2172,7 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(16, __c1, 0));
   }
 }
 function __c3(j: number): any {
@@ -1882,9 +2191,14 @@ function __c3(j: number): any {
           inference_population: S.optional(S.Unknown),
           cadence_days: S.optional(S.Number),
           iteration_budget: S.optional(S.Number),
+          iterations_per_run: S.optional(S.Number),
+          research_interval_days: S.optional(S.NullOr(S.Number)),
+          agent_model: S.optional(S.NullOr(S.String)),
+          agent_reasoning_effort: S.optional(S.NullOr(S.String)),
           success_auc: S.optional(S.NullOr(S.Number)),
           plateau_iterations: S.optional(S.Number),
           output_person_property: S.optional(S.String),
+          write_person_property: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/autoresearch/", code: 200 }),
         ),
@@ -1934,7 +2248,7 @@ function __c5(j: number): any {
           suggested_name: S.String,
           target_event: S.String,
           resolved_activity_event: S.NullOr(S.String),
-          activity_event_alternatives: __S(48, __c6, 0),
+          activity_event_alternatives: __S(96, __c6, 0),
           horizon_days: S.Number,
           training_lookback_days: S.Number,
           training_population: S.Unknown,
@@ -1999,8 +2313,8 @@ function __c9(j: number): any {
           status: S.String,
           source: S.String,
           agent_response: S.String,
-          created_by: S.NullOr(__S(248, __c31, 0)),
-          linked_iteration_ids: __S(48, __c6, 0),
+          created_by: S.NullOr(__S(528, __c33, 0)),
+          linked_iteration_ids: __S(96, __c6, 0),
           created_at: S.String,
           updated_at: S.String,
         }),
@@ -2051,7 +2365,7 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           model_class: S.String,
-          model_params: S.optional(S.NullOr(__S(240, __c30, 0))),
+          model_params: S.optional(S.NullOr(__S(496, __c31, 0))),
         }),
       ).annotate({ identifier: "IterationTrailModelSpec" });
   }
@@ -2068,7 +2382,7 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "TrainingRunSummaryLadderItem" });
     case 1:
-      return S.Array(__S(104, __c13, 0));
+      return S.Array(__S(208, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2077,8 +2391,8 @@ function __c13(j: number): any {
           best_holdout_score: S.NullOr(S.Number),
           champion_promoted: S.Boolean,
           champion_model_class: S.String,
-          kept_ladder: __S(105, __c13, 1),
-          dead_ends: __S(105, __c13, 1),
+          kept_ladder: __S(209, __c13, 1),
+          dead_ends: __S(209, __c13, 1),
           recommended_next: S.String,
           distillation: S.String,
           report_notebook_short_id: S.optional(S.String),
@@ -2096,11 +2410,13 @@ function __c14(j: number): any {
           holdout_score: S.optional(S.NullOr(S.Number)),
           train_score: S.optional(S.NullOr(S.Number)),
           agent_description: S.optional(S.String),
-          model_spec: __S(96, __c12, 0),
+          summary: S.NullOr(S.String),
+          headline: S.NullOr(S.String),
+          model_spec: __S(192, __c12, 0),
         }),
       ).annotate({ identifier: "IterationTrail" });
     case 1:
-      return S.Array(__S(112, __c14, 0));
+      return S.Array(__S(224, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2110,11 +2426,19 @@ function __c14(j: number): any {
           task_run_id: S.optional(S.NullOr(S.String)),
           task_url: S.NullOr(S.String),
           status: S.String,
+          kickoff_reason: S.NullOr(S.String),
+          agent_runtime_adapter: S.NullOr(S.String),
+          agent_model: S.NullOr(S.String),
+          agent_model_label: S.NullOr(S.String),
+          agent_reasoning_effort: S.NullOr(S.String),
           iteration_budget: S.optional(S.Number),
           iteration_count: S.Number,
           best_holdout_score: S.NullOr(S.Number),
-          summary: S.NullOr(__S(106, __c13, 2)),
-          iterations: __S(113, __c14, 1),
+          summary: S.NullOr(__S(210, __c13, 2)),
+          reader_summary: S.NullOr(S.String),
+          headline: S.NullOr(S.String),
+          next_steps: S.NullOr(__S(96, __c6, 0)),
+          iterations: __S(225, __c14, 1),
           error: S.String,
           started_at: S.NullOr(S.String),
           completed_at: S.NullOr(S.String),
@@ -2150,9 +2474,12 @@ function __c16(j: number): any {
           pipeline_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           best_iteration_id: S.optional(S.NullOr(S.String)),
-          model_explanation: S.optional(S.Unknown),
+          model_explanation: S.optional(__S(274, __c17, 2)),
           recommended_next: S.optional(S.String),
           distillation: S.optional(S.String),
+          reader_summary: S.optional(S.NullOr(S.String)),
+          headline: S.optional(S.NullOr(S.String)),
+          next_steps: S.optional(S.NullOr(__S(96, __c6, 0))),
           report_notebook_short_id: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -2169,16 +2496,40 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String,
+          importance: S.Number,
+          direction: S.String,
+        }),
+      ).annotate({ identifier: "FeatureImportance" });
+    case 1:
+      return S.Array(__S(272, __c17, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          top_features: S.optional(__S(273, __c17, 1)),
+          method: S.optional(S.String),
+          note: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ModelExplanationField" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           project_id: S.String.pipe(T.Label()),
           pipeline_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           iteration_number: S.Number,
-          recipe_snapshot: __S(145, __c18, 1),
-          model_spec: __S(96, __c12, 0),
+          recipe_snapshot: __S(305, __c19, 1),
+          model_spec: __S(192, __c12, 0),
           status: S.String,
           train_score: S.optional(S.NullOr(S.Number)),
           holdout_score: S.optional(S.NullOr(S.Number)),
           agent_description: S.optional(S.String),
+          summary: S.optional(S.NullOr(S.String)),
+          headline: S.optional(S.NullOr(S.String)),
           agent_confidence: S.optional(S.NullOr(S.Number)),
           parent_suggestion: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -2197,12 +2548,14 @@ function __c17(j: number): any {
           training_run: S.String,
           iteration_number: S.Number,
           recipe_hash: S.String,
-          recipe_snapshot: __S(145, __c18, 1),
-          model_spec: __S(96, __c12, 0),
+          recipe_snapshot: __S(305, __c19, 1),
+          model_spec: __S(192, __c12, 0),
           train_score: S.optional(S.NullOr(S.Number)),
           holdout_score: S.optional(S.NullOr(S.Number)),
           status: S.String,
           agent_description: S.optional(S.String),
+          summary: S.optional(S.NullOr(S.String)),
+          headline: S.optional(S.NullOr(S.String)),
           agent_confidence: S.optional(S.NullOr(S.Number)),
           parent_suggestion: S.optional(S.NullOr(S.String)),
           created_at: S.String,
@@ -2210,7 +2563,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "AutoresearchIteration" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -2218,12 +2571,12 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           feature_sql: S.String,
-          feature_transforms: S.optional(S.NullOr(__S(144, __c18, 0))),
+          feature_transforms: S.optional(S.NullOr(__S(304, __c19, 0))),
         }),
       ).annotate({ identifier: "CreateAutoresearchTrainingRunsIterationRequestRecipeSnapshot" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2250,15 +2603,15 @@ function __c19(j: number): any {
           n_train: S.Number,
           n_holdout: S.Number,
           n_features: S.Number,
-          feature_cols: __S(48, __c6, 0),
+          feature_cols: __S(96, __c6, 0),
           elapsed_s: S.Number,
           rows_read: S.Number,
-          hints: __S(48, __c6, 0),
+          hints: __S(96, __c6, 0),
         }),
       ).annotate({ identifier: "MaterializeFeaturesResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2275,7 +2628,80 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetAutoresearchRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/autoresearch/agent_models/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetAutoresearchAgentModelRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.String,
+          label: S.String,
+        }),
+      ).annotate({ identifier: "AgentReasoningEffortOption" });
+    case 2:
+      return S.Array(__S(353, __c22, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          model: S.String,
+          label: S.String,
+          runtime_adapter: S.String,
+          supported_efforts: __S(354, __c22, 2),
+          cost_multiplier: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "AgentModelOption" });
+    case 4:
+      return S.Array(__S(355, __c22, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          default_model: S.String,
+          default_model_label: S.String,
+          default_reasoning_effort: S.NullOr(S.String),
+          models: __S(356, __c22, 4),
+        }),
+      ).annotate({ identifier: "AgentModelOptions" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/autoresearch/limits/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetAutoresearchLimitRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          max_training_runs_per_day: S.Number,
+          training_runs_used: S.Number,
+          next_slot_at: S.NullOr(S.String),
+          max_iterations_per_run: S.Number,
+          max_live_pipelines: S.Number,
+          live_pipelines: S.Number,
+        }),
+      ).annotate({ identifier: "ProjectLimits" });
+  }
+}
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2293,7 +2719,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetAutoresearchModelRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2303,11 +2729,11 @@ function __c22(j: number): any {
           role: S.optional(S.String),
           recipe_hash: S.String,
           model_recipe: S.Unknown,
-          model_explanation: S.Unknown,
+          model_explanation: __S(274, __c17, 2),
           holdout_score: S.optional(S.NullOr(S.Number)),
           realized_score: S.optional(S.NullOr(S.Number)),
           calibration_error: S.optional(S.NullOr(S.Number)),
-          metrics: S.optional(__S(240, __c30, 0)),
+          metrics: S.optional(__S(496, __c31, 0)),
           source_training_run: S.NullOr(S.String),
           agent_description: S.optional(S.String),
           trained_on_start: S.optional(S.NullOr(S.String)),
@@ -2322,7 +2748,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "AutoresearchModel" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2341,14 +2767,34 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          tp: S.Number,
+          fp: S.Number,
+          fn: S.Number,
+          tn: S.Number,
+          n_flagged: S.Number,
+          precision: S.NullOr(S.Number),
+          recall: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "ConfusionCounts" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          top_10: __S(417, __c26, 1),
+          top_20: __S(417, __c26, 1),
+          likely: __S(417, __c26, 1),
+        }),
+      ).annotate({ identifier: "ConfusionByCutoff" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           n: S.Number,
           mean_p_y: S.Number,
           positive_rate: S.Number,
         }),
       ).annotate({ identifier: "CalibrationBin" });
-    case 2:
-      return S.Array(__S(185, __c23, 1));
-    case 3:
+    case 4:
+      return S.Array(__S(419, __c26, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           validation_run_id: S.String,
@@ -2369,22 +2815,40 @@ function __c23(j: number): any {
           calibration_error: S.NullOr(S.Number),
           lift_at_10: S.NullOr(S.Number),
           lift_at_20: S.NullOr(S.Number),
-          calibration_bins: S.NullOr(__S(186, __c23, 2)),
+          average_precision: S.NullOr(S.Number),
+          confusion: S.NullOr(__S(418, __c26, 2)),
+          likely_threshold: S.NullOr(S.Number),
+          calibration_bins: S.NullOr(__S(420, __c26, 4)),
           warning: S.NullOr(S.String),
           validated_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "OnlinePerformanceRow" });
-    case 4:
-      return S.Array(__S(187, __c23, 3));
-    case 5:
+    case 6:
+      return S.Array(__S(421, __c26, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          rows: __S(188, __c23, 4),
+          likely_threshold: S.Number,
+          possible_threshold: S.Number,
+          likely_lift: S.Number,
+          base_rate: S.NullOr(S.Number),
+          base_rate_dates: S.Number,
+          base_rate_source: S.String,
+          champion_mean_p_y: S.NullOr(S.Number),
+          champion_base_rate: S.NullOr(S.Number),
+          scores_miscalibrated: S.Boolean,
+        }),
+      ).annotate({ identifier: "PredictionSegmentThresholds" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          rows: __S(422, __c26, 6),
+          segment_thresholds: __S(423, __c26, 7),
         }),
       ).annotate({ identifier: "OnlinePerformance" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2402,7 +2866,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetAutoresearchRunRequest" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2420,7 +2884,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetAutoresearchSuggestionRequest" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2438,7 +2902,148 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetAutoresearchTrainingRunRequest" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/autoresearch/{id}/archive/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AutoresearchArchiveCreateRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          population: S.Number,
+          with_score: S.Number,
+          never_scored: S.Number,
+          age_days_avg: S.NullOr(S.Number),
+          age_days_p50: S.NullOr(S.Number),
+          age_days_p90: S.NullOr(S.Number),
+          age_days_max: S.NullOr(S.Number),
+          lookback_days: S.Number,
+        }),
+      ).annotate({ identifier: "AutoresearchPredictionCoverage" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          uuid: S.optional(S.String),
+          distinct_id: S.optional(S.NullOr(S.String)),
+          first_name: S.optional(S.String),
+          last_name: S.optional(S.String),
+          email: S.optional(S.String),
+          is_email_verified: S.optional(S.NullOr(S.Boolean)),
+          hedgehog_config: S.optional(S.NullOr(__S(496, __c31, 0))),
+          role_at_organization: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "UserBasic" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          prediction_date: S.String,
+          realized_auc: S.Number,
+        }),
+      ).annotate({ identifier: "AutoresearchRealizedAucPoint" });
+    case 1:
+      return S.Array(__S(544, __c34, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          iteration_number: S.Number,
+          best_holdout_score: S.Number,
+        }),
+      ).annotate({ identifier: "AutoresearchTrainingTrendPoint" });
+    case 3:
+      return S.Array(__S(546, __c34, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          iteration_budget: S.Number,
+          experiment_count: S.Number,
+          best_holdout_score: S.NullOr(S.Number),
+          latest_agent_description: S.String,
+          latest_summary: S.NullOr(S.String),
+          trend: __S(547, __c34, 3),
+        }),
+      ).annotate({ identifier: "AutoresearchLiveTrainingRun" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          target_event: S.String,
+          target_definition: S.Unknown,
+          horizon_days: S.optional(S.Number),
+          training_lookback_days: S.optional(S.Number),
+          training_population: S.Unknown,
+          inference_population: S.Unknown,
+          cadence_days: S.optional(S.Number),
+          iteration_budget: S.optional(S.Number),
+          iteration_budget_remaining: S.Number,
+          iterations_per_run: S.Number,
+          research_interval_days: S.NullOr(S.Number),
+          agent_model: S.NullOr(S.String),
+          agent_reasoning_effort: S.NullOr(S.String),
+          effective_agent_model: S.String,
+          effective_agent_reasoning_effort: S.NullOr(S.String),
+          training_phase: S.String,
+          next_research_at: S.NullOr(S.String),
+          not_promoted_reason: S.NullOr(S.String),
+          success_auc: S.optional(S.NullOr(S.Number)),
+          plateau_iterations: S.optional(S.Number),
+          output_person_property: S.optional(S.String),
+          write_person_property: S.Boolean,
+          status: S.String,
+          created_by: __S(528, __c33, 0),
+          created_at: S.String,
+          updated_at: S.String,
+          last_scored_at: S.NullOr(S.String),
+          champion_holdout_auc: S.NullOr(S.Number),
+          champion_realized_auc: S.NullOr(S.Number),
+          champion_lift_at_10: S.NullOr(S.Number),
+          champion_is_preliminary: S.NullOr(S.Boolean),
+          champion_realized_auc_trend: __S(545, __c34, 1),
+          champion_training_trend: __S(547, __c34, 3),
+          people_scored: S.NullOr(S.Number),
+          likely_count: S.NullOr(S.Number),
+          likely_threshold: S.NullOr(S.Number),
+          first_check_expected_at: S.NullOr(S.String),
+          coverage: S.NullOr(__S(512, __c32, 0)),
+          training_run_count: S.Number,
+          experiment_count: S.Number,
+          live_training_run: S.NullOr(__S(548, __c34, 4)),
+        }),
+      ).annotate({ identifier: "AutoresearchPipeline" });
+  }
+}
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2457,13 +3062,13 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          paths: __S(48, __c6, 0),
+          paths: __S(96, __c6, 0),
           count: S.Number,
         }),
       ).annotate({ identifier: "ArtifactList" });
   }
 }
-function __c28(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2487,12 +3092,14 @@ function __c28(j: number): any {
           holdout_score: S.optional(S.NullOr(S.Number)),
           train_score: S.optional(S.NullOr(S.Number)),
           agent_description: S.optional(S.String),
-          model_spec: __S(96, __c12, 0),
-          recipe_snapshot: __S(145, __c18, 1),
+          summary: S.NullOr(S.String),
+          headline: S.NullOr(S.String),
+          model_spec: __S(192, __c12, 0),
+          recipe_snapshot: __S(305, __c19, 1),
         }),
       ).annotate({ identifier: "IterationTrailWithRecipe" });
     case 2:
-      return S.Array(__S(225, __c28, 1));
+      return S.Array(__S(577, __c36, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2504,93 +3111,21 @@ function __c28(j: number): any {
           best_holdout_score: S.NullOr(S.Number),
           iteration_count: S.Number,
           completed_at: S.NullOr(S.String),
-          summary: S.NullOr(__S(106, __c13, 2)),
-          iterations: __S(226, __c28, 2),
+          summary: S.NullOr(__S(210, __c13, 2)),
+          iterations: __S(578, __c36, 2),
         }),
       ).annotate({ identifier: "TrainingRunHistoryEntry" });
     case 4:
-      return S.Array(__S(227, __c28, 3));
+      return S.Array(__S(579, __c36, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          runs: __S(228, __c28, 4),
+          runs: __S(580, __c36, 4),
         }),
       ).annotate({ identifier: "TrainingRunHistory" });
   }
 }
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/autoresearch/{id}/archive/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AutoresearchArchiveCreateRequest" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          uuid: S.optional(S.String),
-          distinct_id: S.optional(S.NullOr(S.String)),
-          first_name: S.optional(S.String),
-          last_name: S.optional(S.String),
-          email: S.optional(S.String),
-          is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(240, __c30, 0))),
-          role_at_organization: S.optional(S.NullOr(S.Unknown)),
-        }),
-      ).annotate({ identifier: "UserBasic" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          description: S.optional(S.String),
-          target_event: S.String,
-          target_definition: S.Unknown,
-          horizon_days: S.optional(S.Number),
-          training_lookback_days: S.optional(S.Number),
-          training_population: S.Unknown,
-          inference_population: S.Unknown,
-          cadence_days: S.optional(S.Number),
-          iteration_budget: S.optional(S.Number),
-          iteration_budget_remaining: S.Number,
-          success_auc: S.optional(S.NullOr(S.Number)),
-          plateau_iterations: S.optional(S.Number),
-          output_person_property: S.optional(S.String),
-          status: S.String,
-          created_by: __S(248, __c31, 0),
-          created_at: S.String,
-          updated_at: S.String,
-          last_scored_at: S.NullOr(S.String),
-          champion_holdout_auc: S.NullOr(S.Number),
-          champion_realized_auc: S.NullOr(S.Number),
-        }),
-      ).annotate({ identifier: "AutoresearchPipeline" });
-  }
-}
-function __c33(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2603,19 +3138,19 @@ function __c33(j: number): any {
         ),
       ).annotate({ identifier: "ListAutoresearchRequest" });
     case 1:
-      return S.Array(__S(256, __c32, 0));
+      return S.Array(__S(549, __c34, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(265, __c33, 1),
+          results: __S(593, __c37, 1),
         }),
       ).annotate({ identifier: "PaginatedAutoresearchPipelineList" });
   }
 }
-function __c34(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2633,19 +3168,19 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "ListAutoresearchModelsRequest" });
     case 1:
-      return S.Array(__S(176, __c22, 0));
+      return S.Array(__S(400, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(273, __c34, 1),
+          results: __S(609, __c38, 1),
         }),
       ).annotate({ identifier: "PaginatedAutoresearchModelList" });
   }
 }
-function __c35(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2668,12 +3203,12 @@ function __c35(j: number): any {
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(16, __c2, 0),
+          results: __S(32, __c2, 0),
         }),
       ).annotate({ identifier: "PaginatedAutoresearchRunList" });
   }
 }
-function __c36(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2691,19 +3226,19 @@ function __c36(j: number): any {
         ),
       ).annotate({ identifier: "ListAutoresearchSuggestionsRequest" });
     case 1:
-      return S.Array(__S(72, __c9, 0));
+      return S.Array(__S(144, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(289, __c36, 1),
+          results: __S(641, __c40, 1),
         }),
       ).annotate({ identifier: "PaginatedAutoresearchSuggestionList" });
   }
 }
-function __c37(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2730,14 +3265,14 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "TemplateInfo" });
     case 2:
-      return S.Array(__S(297, __c37, 1));
+      return S.Array(__S(657, __c41, 1));
     case 3:
-      return S.suspend(() => __S(298, __c37, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(658, __c41, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAutoresearchTemplatesResponse",
       });
   }
 }
-function __c38(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2755,19 +3290,19 @@ function __c38(j: number): any {
         ),
       ).annotate({ identifier: "ListAutoresearchTrainingRunsRequest" });
     case 1:
-      return S.Array(__S(114, __c14, 2));
+      return S.Array(__S(226, __c14, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(305, __c38, 1),
+          results: __S(673, __c42, 1),
         }),
       ).annotate({ identifier: "PaginatedAutoresearchTrainingRunList" });
   }
 }
-function __c39(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2784,9 +3319,14 @@ function __c39(j: number): any {
           inference_population: S.optional(S.Unknown),
           cadence_days: S.optional(S.Number),
           iteration_budget: S.optional(S.Number),
+          iterations_per_run: S.optional(S.Number),
+          research_interval_days: S.optional(S.NullOr(S.Number)),
+          agent_model: S.optional(S.NullOr(S.String)),
+          agent_reasoning_effort: S.optional(S.NullOr(S.String)),
           success_auc: S.optional(S.NullOr(S.Number)),
           plateau_iterations: S.optional(S.Number),
           output_person_property: S.optional(S.String),
+          write_person_property: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2797,29 +3337,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "UpdateAutoresearchRequest" });
   }
 }
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.optional(S.String),
-          target_event: S.optional(S.String),
-          target_definition: S.optional(S.Unknown),
-          horizon_days: S.optional(S.Number),
-          training_lookback_days: S.optional(S.Number),
-          training_population: S.optional(S.Unknown),
-          inference_population: S.optional(S.Unknown),
-          cadence_days: S.optional(S.Number),
-          iteration_budget: S.optional(S.Number),
-          success_auc: S.optional(S.NullOr(S.Number)),
-          plateau_iterations: S.optional(S.Number),
-          output_person_property: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AutoresearchPipelineCreate" });
-  }
-}
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2836,9 +3354,14 @@ function __c41(j: number): any {
           inference_population: S.optional(S.Unknown),
           cadence_days: S.optional(S.Number),
           iteration_budget: S.optional(S.Number),
+          iterations_per_run: S.optional(S.Number),
+          research_interval_days: S.optional(S.NullOr(S.Number)),
+          agent_model: S.optional(S.NullOr(S.String)),
+          agent_reasoning_effort: S.optional(S.NullOr(S.String)),
           success_auc: S.optional(S.NullOr(S.Number)),
           plateau_iterations: S.optional(S.Number),
           output_person_property: S.optional(S.String),
+          write_person_property: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2849,7 +3372,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "UpdateAutoresearchPartialRequest" });
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2868,7 +3391,7 @@ function __c42(j: number): any {
       return S.suspend(() => S.Struct({})).annotate({ identifier: "AutoresearchDestroyResponse" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2885,7 +3408,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "AutoresearchResumeCreateRequest" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2911,7 +3434,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "ArtifactDeleteResult" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2939,7 +3462,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ArtifactContent" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2967,7 +3490,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "StoredArtifact" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2996,7 +3519,7 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "ValidationWarning" });
     case 2:
-      return S.Array(__S(377, __c47, 1));
+      return S.Array(__S(801, __c50, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3007,7 +3530,7 @@ function __c47(j: number): any {
           negative_count: S.NullOr(S.Number),
           base_rate: S.NullOr(S.Number),
           inference_population_size: S.NullOr(S.Number),
-          warnings: __S(378, __c47, 2),
+          warnings: __S(802, __c50, 2),
           error: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ValidatePipelineResponse" });

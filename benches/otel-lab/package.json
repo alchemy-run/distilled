@@ -16,6 +16,7 @@
     "@distilled.cloud/github": "workspace:*",
     "@distilled.cloud/neon": "workspace:*",
     "@distilled.cloud/railway": "workspace:*",
+    "@distilled.cloud/s3": "workspace:*",
     "@distilled.cloud/slack": "workspace:*",
     "@distilled.cloud/stripe": "workspace:*",
     "@distilled.cloud/vercel": "workspace:*",
