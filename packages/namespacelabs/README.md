@@ -104,7 +104,9 @@ the HTTP status and, where one status covers several codes, on the body's
 `PermissionDenied`, `NotFound`, `AlreadyExists` and `ResourceExhausted`. Each
 carries `message` and the Connect `body` (`code`, `message`, `details` with the
 request id).
-Anything else is `UnknownNamespaceLabsError` with `code` and `details`.
+A response none of them match is one of core's status errors (`BadRequest`,
+`Conflict`, `InternalServerError`, ...). A status core does not map is
+`UnknownNamespaceLabsError` with `code` and `details`.
 
 ```ts
 NamespaceLabs.compute.describeInstance({ instanceId }).pipe(
