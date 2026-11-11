@@ -1,0 +1,50 @@
+{
+  "description": "App Platform runs jobs on a cron schedule: `kind: SCHEDULED` with `schedule: { cron, time_zone }` (DigitalOcean App Platform docs, \"Schedule jobs\"; the app spec reference lists both fields). The OpenAPI document predates the feature, so the enum value and the `schedule` member are added here.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AppJobSpecKind/members/SCHEDULED",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "SCHEDULED"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AppJobSchedule",
+      "value": {
+        "type": "structure",
+        "members": {
+          "cron": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "A five-field cron expression, for example `0 3 * * *`."
+            }
+          },
+          "time_zone": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The IANA time zone the cron expression is read in. Defaults to UTC."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "When a SCHEDULED job runs."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AppJobSpec/members/schedule",
+      "value": {
+        "target": "com.digitalocean.api#AppJobSchedule",
+        "traits": {
+          "smithy.api#documentation": "When a `SCHEDULED` job runs."
+        }
+      }
+    }
+  ]
+}

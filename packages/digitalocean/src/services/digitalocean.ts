@@ -1074,10 +1074,22 @@ export type AppJobSpecInstanceSizeSlug =
   | AppJobSpecInstanceSizeSlugCase0
   | AppJobSpecInstanceSizeSlugCase1;
 /** - UNSPECIFIED: Default job type, will auto-complete to POST_DEPLOY kind. - PRE_DEPLOY: Indicates a job that runs before an app deployment. - POST_DEPLOY: Indicates a job that runs after an app deployment. - FAILED_DEPLOY: Indicates a job that runs after a component fails to deploy. */
-export type AppJobSpecKind = "UNSPECIFIED" | "PRE_DEPLOY" | "POST_DEPLOY" | "FAILED_DEPLOY";
+export type AppJobSpecKind =
+  | "UNSPECIFIED"
+  | "PRE_DEPLOY"
+  | "POST_DEPLOY"
+  | "FAILED_DEPLOY"
+  | "SCHEDULED";
 export interface AppJobSpecTermination {
   /** The number of seconds to wait between sending a TERM signal to a container and issuing a KILL which causes immediate shutdown. (Default 120) */
   grace_period_seconds?: number | undefined;
+}
+/** When a SCHEDULED job runs. */
+export interface AppJobSchedule {
+  /** A five-field cron expression, for example `0 3 * * *`. */
+  cron: string;
+  /** The IANA time zone the cron expression is read in. Defaults to UTC. */
+  time_zone?: string | undefined;
 }
 export interface AppJobSpec {
   /** The name. Must be unique across all components within the same app. */
@@ -1108,6 +1120,8 @@ export interface AppJobSpec {
   /** - UNSPECIFIED: Default job type, will auto-complete to POST_DEPLOY kind. - PRE_DEPLOY: Indicates a job that runs before an app deployment. - POST_DEPLOY: Indicates a job that runs after an app deployment. - FAILED_DEPLOY: Indicates a job that runs after a component fails to deploy. */
   kind?: AppJobSpecKind | (string & {}) | undefined;
   termination?: AppJobSpecTermination | undefined;
+  /** When a `SCHEDULED` job runs. */
+  schedule?: AppJobSchedule | undefined;
 }
 /** Pre and post deployment workloads which do not expose publicly-accessible HTTP routes. */
 export type AppSpecJobsList = Array<AppJobSpec>;
@@ -46296,7 +46310,7 @@ function __c244(j: number): any {
           phase_last_updated_at: S.optional(S.String),
           progress: S.optional(__S(7814, __c244, 6)),
           services: S.optional(__S(7809, __c244, 1)),
-          spec: S.optional(__S(7894, __c246, 22)),
+          spec: S.optional(__S(7895, __c246, 23)),
           static_sites: S.optional(__S(7809, __c244, 1)),
           tier_slug: S.optional(S.String),
           updated_at: S.optional(S.String),
@@ -46547,6 +46561,13 @@ function __c245(j: number): any {
     case 30:
       return S.suspend(() =>
         S.Struct({
+          cron: S.String,
+          time_zone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AppJobSchedule" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String,
           git: S.optional(__S(7842, __c245, 2)),
           github: S.optional(__S(7843, __c245, 3)),
@@ -46564,29 +46585,30 @@ function __c245(j: number): any {
           instance_size_slug: S.optional(S.Unknown),
           kind: S.optional(S.String),
           termination: S.optional(__S(7869, __c245, 29)),
+          schedule: S.optional(__S(7870, __c245, 30)),
         }),
       ).annotate({ identifier: "AppJobSpec" });
-    case 31:
-      return S.Array(__S(7870, __c245, 30));
   }
 }
 function __c246(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(7871, __c245, 31));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           cpu: S.optional(__S(7853, __c245, 13)),
         }),
       ).annotate({ identifier: "AppAutoscalingSpecMetrics" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           min_instance_count: S.optional(S.Number),
           max_instance_count: S.optional(S.Number),
-          metrics: S.optional(__S(7872, __c246, 0)),
+          metrics: S.optional(__S(7873, __c246, 1)),
         }),
       ).annotate({ identifier: "AppAutoscalingSpec" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -46604,23 +46626,23 @@ function __c246(j: number): any {
           log_destinations: S.optional(__S(7852, __c245, 12)),
           instance_count: S.optional(S.Number),
           instance_size_slug: S.optional(S.Unknown),
-          autoscaling: S.optional(__S(7873, __c246, 1)),
+          autoscaling: S.optional(__S(7874, __c246, 2)),
           termination: S.optional(__S(7869, __c245, 29)),
           liveness_health_check: S.optional(__S(7861, __c245, 21)),
         }),
       ).annotate({ identifier: "AppWorkerSpec" });
-    case 3:
-      return S.Array(__S(7874, __c246, 2));
     case 4:
-      return S.Array(__S(7680, __c240, 0));
+      return S.Array(__S(7875, __c246, 3));
     case 5:
+      return S.Array(__S(7680, __c240, 0));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           cors: S.optional(__S(7860, __c245, 20)),
           routes: S.optional(__S(7863, __c245, 23)),
           name: S.String,
           source_dir: S.optional(S.String),
-          alerts: S.optional(__S(7876, __c246, 4)),
+          alerts: S.optional(__S(7877, __c246, 5)),
           envs: S.optional(__S(7846, __c245, 6)),
           git: S.optional(__S(7842, __c245, 2)),
           github: S.optional(__S(7843, __c245, 3)),
@@ -46629,9 +46651,9 @@ function __c246(j: number): any {
           log_destinations: S.optional(__S(7852, __c245, 12)),
         }),
       ).annotate({ identifier: "AppFunctionsSpec" });
-    case 6:
-      return S.Array(__S(7877, __c246, 5));
     case 7:
+      return S.Array(__S(7878, __c246, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           cluster_name: S.optional(S.String),
@@ -46643,28 +46665,28 @@ function __c246(j: number): any {
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppDatabaseSpec" });
-    case 8:
-      return S.Array(__S(7879, __c246, 7));
     case 9:
+      return S.Array(__S(7880, __c246, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           prefix: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "AppIngressSpecRuleStringMatchPrefix" });
-    case 10:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           exact: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "AppIngressSpecRuleStringMatchExact" });
-    case 11:
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          path: S.optional(__S(7881, __c246, 9)),
-          authority: S.optional(__S(7882, __c246, 10)),
+          path: S.optional(__S(7882, __c246, 10)),
+          authority: S.optional(__S(7883, __c246, 11)),
         }),
       ).annotate({ identifier: "AppIngressSpecRuleMatch" });
-    case 12:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -46672,7 +46694,7 @@ function __c246(j: number): any {
           rewrite: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppIngressSpecRuleRoutingComponent" });
-    case 13:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           uri: S.optional(S.String),
@@ -46682,31 +46704,31 @@ function __c246(j: number): any {
           redirect_code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AppIngressSpecRuleRoutingRedirect" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
-          match: S.optional(__S(7883, __c246, 11)),
+          match: S.optional(__S(7884, __c246, 12)),
           cors: S.optional(__S(7860, __c245, 20)),
-          component: S.optional(__S(7884, __c246, 12)),
-          redirect: S.optional(__S(7885, __c246, 13)),
+          component: S.optional(__S(7885, __c246, 13)),
+          redirect: S.optional(__S(7886, __c246, 14)),
         }),
       ).annotate({ identifier: "AppIngressSpecRule" });
-    case 15:
-      return S.Array(__S(7886, __c246, 14));
     case 16:
+      return S.Array(__S(7887, __c246, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(7887, __c246, 15)),
+          rules: S.optional(__S(7888, __c246, 16)),
           custom_error_page_url: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppIngressSpec" });
-    case 17:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppEgressSpec" });
-    case 18:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
@@ -46714,22 +46736,22 @@ function __c246(j: number): any {
           offline_page_url: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppMaintenanceSpec" });
-    case 19:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           ip: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppsVpcEgressIp" });
-    case 20:
-      return S.Array(__S(7891, __c246, 19));
     case 21:
+      return S.Array(__S(7892, __c246, 20));
+    case 22:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          egress_ips: S.optional(__S(7892, __c246, 20)),
+          egress_ips: S.optional(__S(7893, __c246, 21)),
         }),
       ).annotate({ identifier: "AppsVpc" });
-    case 22:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -46740,14 +46762,14 @@ function __c246(j: number): any {
           domains: S.optional(__S(7841, __c245, 1)),
           services: S.optional(__S(7866, __c245, 26)),
           static_sites: S.optional(__S(7868, __c245, 28)),
-          jobs: S.optional(__S(7871, __c245, 31)),
-          workers: S.optional(__S(7875, __c246, 3)),
-          functions: S.optional(__S(7878, __c246, 6)),
-          databases: S.optional(__S(7880, __c246, 8)),
-          ingress: S.optional(__S(7888, __c246, 16)),
-          egress: S.optional(__S(7889, __c246, 17)),
-          maintenance: S.optional(__S(7890, __c246, 18)),
-          vpc: S.optional(__S(7893, __c246, 21)),
+          jobs: S.optional(__S(7872, __c246, 0)),
+          workers: S.optional(__S(7876, __c246, 4)),
+          functions: S.optional(__S(7879, __c246, 7)),
+          databases: S.optional(__S(7881, __c246, 9)),
+          ingress: S.optional(__S(7889, __c246, 17)),
+          egress: S.optional(__S(7890, __c246, 18)),
+          maintenance: S.optional(__S(7891, __c246, 19)),
+          vpc: S.optional(__S(7894, __c246, 22)),
         }),
       ).annotate({ identifier: "AppSpec" });
   }
@@ -54031,7 +54053,7 @@ function __c598(j: number): any {
           phase_last_updated_at: S.optional(S.String),
           progress: S.optional(__S(7814, __c244, 6)),
           services: S.optional(__S(7809, __c244, 1)),
-          spec: S.optional(__S(7894, __c246, 22)),
+          spec: S.optional(__S(7895, __c246, 23)),
           static_sites: S.optional(__S(7809, __c244, 1)),
           tier_slug: S.optional(S.String),
           updated_at: S.optional(S.String),
@@ -54065,12 +54087,12 @@ function __c598(j: number): any {
           pending_deployment: S.optional(__S(19141, __c598, 5)),
           project_id: S.optional(S.String),
           region: S.optional(__S(19104, __c597, 0)),
-          spec: __S(7894, __c246, 22),
+          spec: __S(7895, __c246, 23),
           tier_slug: S.optional(S.String),
           updated_at: S.optional(S.String),
           pinned_deployment: S.optional(__S(19141, __c598, 5)),
           dedicated_ips: S.optional(__S(19143, __c598, 7)),
-          vpc: S.optional(__S(7893, __c246, 21)),
+          vpc: S.optional(__S(7894, __c246, 22)),
         }),
       ).annotate({ identifier: "App" });
   }
@@ -54098,13 +54120,13 @@ function __c600(j: number): any {
           domains: S.optional(__S(7841, __c245, 1)),
           services: S.optional(__S(7866, __c245, 26)),
           static_sites: S.optional(__S(7868, __c245, 28)),
-          jobs: S.optional(__S(7871, __c245, 31)),
-          workers: S.optional(__S(7875, __c246, 3)),
-          functions: S.optional(__S(7878, __c246, 6)),
-          databases: S.optional(__S(7880, __c246, 8)),
-          ingress: S.optional(__S(7888, __c246, 16)),
-          egress: S.optional(__S(7889, __c246, 17)),
-          maintenance: S.optional(__S(7890, __c246, 18)),
+          jobs: S.optional(__S(7872, __c246, 0)),
+          workers: S.optional(__S(7876, __c246, 4)),
+          functions: S.optional(__S(7879, __c246, 7)),
+          databases: S.optional(__S(7881, __c246, 9)),
+          ingress: S.optional(__S(7889, __c246, 17)),
+          egress: S.optional(__S(7890, __c246, 18)),
+          maintenance: S.optional(__S(7891, __c246, 19)),
         }),
       ).annotate({ identifier: "AppSpecInput" });
   }
@@ -66436,7 +66458,7 @@ function __c1193(j: number): any {
           app_name_available: S.optional(S.Boolean),
           app_name_suggestion: S.optional(S.String),
           existing_static_apps: S.optional(S.String),
-          spec: S.optional(__S(7894, __c246, 22)),
+          spec: S.optional(__S(7895, __c246, 23)),
           app_cost: S.optional(S.Number),
           app_tier_downgrade_cost: S.optional(S.Number),
         }),
