@@ -164,7 +164,12 @@ export interface RestProtocolOptions<C> {
    */
   readonly baseUrl: (
     credentials: C,
-    target: { readonly uri: string; readonly method: string },
+    target: {
+      readonly uri: string;
+      readonly method: string;
+      /** The operation's own base URL (`HttpTrait.baseUrl`), when it has one. */
+      readonly baseUrl?: string;
+    },
   ) => string;
   /** Auth (and any fixed) headers from the resolved credentials. */
   readonly headers: (credentials: C) => Record<string, string>;
@@ -374,6 +379,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       baseUrl = options.baseUrl(creds, {
         uri: http?.uri ?? "",
         method: http?.method ?? "",
+        baseUrl: http?.baseUrl,
       });
     } catch (e) {
       // A baseUrl that refuses the route (missing scope in the

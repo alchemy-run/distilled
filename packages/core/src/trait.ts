@@ -86,6 +86,13 @@ export interface HttpTrait {
    * 406). Protocols that don't read it fall back to their own default.
    */
   readonly accept?: string;
+  /**
+   * The operation's own base URL, when the API serves it from a host other
+   * than the service's (an OpenAPI operation-level `servers` entry, such as
+   * a data plane beside a control plane). Protocols receive it as
+   * `target.baseUrl` and decide whether it wins over the configured one.
+   */
+  readonly baseUrl?: string;
 }
 
 export const httpSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http");

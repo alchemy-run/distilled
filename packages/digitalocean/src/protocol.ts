@@ -25,7 +25,12 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import {
+  Credentials,
+  FunctionsCredentials,
+  type Config,
+  type FunctionsConfig,
+} from "./credentials.ts";
 import { UnknownDigitalOceanError, DigitalOceanParseError } from "./errors.ts";
 
 /**
@@ -66,7 +71,9 @@ export const DigitalOceanProtocol: Layer.Layer<API.Protocol> =
     // The Credentials service holds an effect -- resolving it here (per
     // request, on the calling fiber) picks up context-provided credentials.
     credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-    baseUrl: (creds) => creds.apiBaseUrl,
+    // Data-plane operations (Serverless Inference, the Action Gateway)
+    // carry their own host from the spec's operation `servers`.
+    baseUrl: (creds, target) => target.baseUrl ?? creds.apiBaseUrl,
     // DigitalOcean expects JSON on every request; DELETE /v2/projects/{id}
     // answers 415 without the header even though it carries no body.
     headers: (creds) => ({
@@ -74,6 +81,39 @@ export const DigitalOceanProtocol: Layer.Layer<API.Protocol> =
       "Content-Type": "application/json",
     }),
     errorEnvelope,
+    unknownError: ({ code, message, body }) =>
+      new UnknownDigitalOceanError({
+        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+        message,
+        body,
+      }),
+    parseError: ({ body, cause }) => new DigitalOceanParseError({ body, cause }),
+  });
+
+/** Context (requirements) of the generated Functions (OpenWhisk) operations. */
+export type FunctionsOpContext = FunctionsCredentials | HttpClient.HttpClient;
+
+// OpenWhisk error bodies are `{ error, code }`; `code` is a request id.
+const functionsErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
+  if (body === null || typeof body !== "object") return undefined;
+  const b = body as Record<string, unknown>;
+  return typeof b.error === "string" ? { message: b.error } : undefined;
+};
+
+/**
+ * The OpenWhisk REST API a Functions namespace serves at its `api_host`,
+ * signed with HTTP basic auth: a namespace access key (`<id>:<secret>`) or
+ * the namespace's own `<uuid>:<key>`.
+ */
+export const FunctionsProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<FunctionsConfig>({
+    credentials: /*@__PURE__*/ Effect.flatMap(FunctionsCredentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiHost,
+    headers: (creds) => ({
+      Authorization: `Basic ${btoa(`${creds.user}:${Redacted.value(creds.secret)}`)}`,
+      "Content-Type": "application/json",
+    }),
+    errorEnvelope: functionsErrorEnvelope,
     unknownError: ({ code, message, body }) =>
       new UnknownDigitalOceanError({
         code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,

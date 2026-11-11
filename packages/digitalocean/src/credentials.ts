@@ -79,3 +79,24 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
     };
   }),
 );
+
+/**
+ * Credentials for one Functions namespace's OpenWhisk API: its `api_host`
+ * and a basic-auth pair, either a namespace access key (`id` + `secret`
+ * from `createFunctionsAccessKey`) or the namespace's `uuid` + `key`.
+ */
+export interface FunctionsConfig {
+  readonly apiHost: string;
+  readonly user: string;
+  readonly secret: Redacted.Redacted<string>;
+}
+
+export class FunctionsCredentials
+  extends /*@__PURE__*/ Context.Service<
+    FunctionsCredentials,
+    Effect.Effect<FunctionsConfig, ConfigError>
+  >()("DigitalOceanFunctionsCredentials") {}
+
+/** Layer for one namespace's OpenWhisk API. */
+export const fromFunctionsKey = (config: FunctionsConfig): Layer.Layer<FunctionsCredentials> =>
+  Layer.succeed(FunctionsCredentials, Effect.succeed(config));

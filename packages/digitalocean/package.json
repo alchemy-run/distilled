@@ -69,6 +69,12 @@
       "bun": "./src/spaces.ts",
       "worker": "./src/spaces.ts",
       "default": "./lib/spaces.js"
+    },
+    "./Functions": {
+      "types": "./lib/functions.d.ts",
+      "bun": "./src/functions.ts",
+      "worker": "./src/functions.ts",
+      "default": "./lib/functions.js"
     }
   },
   "scripts": {
