@@ -4,7 +4,7 @@
  * Re-exports the shared HTTP status errors from core and adds the Questrade
  * fallback and parse errors.
  *
- * Questrade answers a failure with `{ code, message }` — `code` is a number
+ * Questrade answers a failure with `{ code, message }` -- `code` is a number
  * such as `1017` ("Access token is invalid", 401) or `1019` ("Symbol not
  * found", 404); see https://www.questrade.com/api/documentation/error-handling.
  * The documentation ties no code to an operation, so the protocol maps the

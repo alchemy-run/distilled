@@ -7,8 +7,8 @@
  * refresh token generated in the API Centre
  * (https://www.questrade.com/api/documentation/getting-started):
  *
- *   GET https://login.questrade.com/oauth2/token?grant_type=refresh_token&refresh_token=…
- *   → { access_token, token_type, expires_in, refresh_token, api_server }
+ *   GET https://login.questrade.com/oauth2/token?grant_type=refresh_token&refresh_token=...
+ *   -> { access_token, token_type, expires_in, refresh_token, api_server }
  *
  * The access token lives 30 minutes, and each refresh token redeems ONCE:
  * the answer carries the next one. {@link fromRefreshToken} redeems on first
@@ -65,7 +65,7 @@ export interface RefreshTokenConfig {
   readonly onRefresh?: (tokens: Tokens) => Effect.Effect<void>;
 }
 
-/** `https://api01.iq.questrade.com/` and `…/v1` → `https://api01.iq.questrade.com`. */
+/** `https://api01.iq.questrade.com/` and `.../v1` -> `https://api01.iq.questrade.com`. */
 const normalizeApiServer = (url: string): string => url.replace(/\/+$/, "").replace(/\/v1$/, "");
 
 const tokenError = (message: string) =>
@@ -89,7 +89,7 @@ export const redeemRefreshToken = (
       // the status says enough, and the request URL holds the token.
       return yield* tokenError(
         `${loginUrl} answered ${response.status} ${response.statusText} ` +
-          `(a refresh token redeems once — use the one the last redemption returned)`,
+          `(a refresh token redeems once -- use the one the last redemption returned)`,
       );
     }
     const body = (yield* Effect.tryPromise({
@@ -197,7 +197,7 @@ const fromEnvRefreshToken = /*@__PURE__*/ refreshing(
  * `QUESTRADE_ACCESS_TOKEN` + `QUESTRADE_API_SERVER` when both are set;
  * otherwise `QUESTRADE_REFRESH_TOKEN`, redeemed at `QUESTRADE_LOGIN_URL`
  * (default {@link DEFAULT_LOGIN_URL}) on first use. The rotated refresh
- * tokens are kept in memory only — use {@link fromRefreshToken} with
+ * tokens are kept in memory only -- use {@link fromRefreshToken} with
  * `onRefresh` to store them.
  */
 export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
