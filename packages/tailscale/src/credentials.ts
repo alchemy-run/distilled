@@ -14,14 +14,12 @@ import * as Schema from "effect/Schema";
 import * as SynchronizedRef from "effect/SynchronizedRef";
 
 export const DEFAULT_API_BASE_URL = "https://api.tailscale.com/api/v2";
-export const DEFAULT_TAILNET = "-";
 
 const TOKEN_REFRESH_WINDOW_MS = 60_000;
 
 export interface Config {
   readonly token: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
-  readonly tailnet: string;
 }
 
 export class Credentials extends Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
@@ -35,14 +33,12 @@ export const fromApiKey = (config: {
    * `DEFAULT_API_BASE_URL`. Unlike `TAILSCALE_BASE_URL`, it is not an origin.
    */
   readonly apiBaseUrl?: string;
-  readonly tailnet?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
       token: config.apiKey,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
-      tailnet: config.tailnet ?? DEFAULT_TAILNET,
     }),
   );
 
@@ -55,7 +51,6 @@ export interface ClientCredentialsConfig {
    * `DEFAULT_API_BASE_URL`. Unlike `TAILSCALE_BASE_URL`, it is not an origin.
    */
   readonly apiBaseUrl?: string;
-  readonly tailnet?: string;
   /** Sent as the exchange's `tailnet` parameter to scope the token to an API-only tailnet. */
   readonly tokenTailnet?: string;
 }
@@ -82,7 +77,6 @@ export const makeClientCredentials = (
   Effect.gen(function* () {
     const client = yield* HttpClient.HttpClient;
     const apiBaseUrl = config.apiBaseUrl ?? DEFAULT_API_BASE_URL;
-    const tailnet = config.tailnet ?? DEFAULT_TAILNET;
     const exchange = client
       .execute(
         HttpClientRequest.post(`${apiBaseUrl}/oauth/token`).pipe(
@@ -117,7 +111,6 @@ export const makeClientCredentials = (
           config: {
             token: token.access_token,
             apiBaseUrl,
-            tailnet,
           },
           refreshAt: now + token.expires_in * 1000 - TOKEN_REFRESH_WINDOW_MS,
         };
@@ -144,7 +137,7 @@ const BOTH_METHODS =
 const nonEmpty = (value: Option.Option<Redacted.Redacted<string>>) =>
   Option.filter(value, (v) => Redacted.value(v).length > 0);
 
-const EnvConfig = EffectConfig.all({
+const EnvConfig = /*@__PURE__*/ EffectConfig.all({
   apiKey: EffectConfig.option(EffectConfig.Redacted("TAILSCALE_API_KEY")).pipe(
     EffectConfig.map(nonEmpty),
   ),
@@ -152,7 +145,6 @@ const EnvConfig = EffectConfig.all({
   clientSecret: EffectConfig.option(EffectConfig.Redacted("TAILSCALE_OAUTH_CLIENT_SECRET")).pipe(
     EffectConfig.map(nonEmpty),
   ),
-  tailnet: EffectConfig.String("TAILSCALE_TAILNET").pipe(EffectConfig.withDefault(DEFAULT_TAILNET)),
   origin: EffectConfig.option(EffectConfig.String("TAILSCALE_BASE_URL")),
 });
 
@@ -160,7 +152,6 @@ interface EnvOAuthConfig {
   readonly clientId: string;
   readonly clientSecret: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
-  readonly tailnet: string;
 }
 
 interface EnvOAuth {
@@ -170,13 +161,13 @@ interface EnvOAuth {
 
 /**
  * Reads `TAILSCALE_API_KEY`, `TAILSCALE_OAUTH_CLIENT_ID`,
- * `TAILSCALE_OAUTH_CLIENT_SECRET`, `TAILSCALE_TAILNET` and `TAILSCALE_BASE_URL`
+ * `TAILSCALE_OAUTH_CLIENT_SECRET` and `TAILSCALE_BASE_URL`
  * through `@distilled.cloud/core/config` on every resolution, so a provided
  * `ConfigProvider` supplies them. The OAuth token cache belongs to the layer
  * and is rebuilt when the OAuth variables change.
  */
 export const CredentialsFromEnv: Layer.Layer<Credentials, never, HttpClient.HttpClient> =
-  Layer.effect(
+  /*@__PURE__*/ Layer.effect(
     Credentials,
     Effect.gen(function* () {
       const client = yield* HttpClient.HttpClient;
@@ -213,7 +204,6 @@ export const CredentialsFromEnv: Layer.Layer<Credentials, never, HttpClient.Http
           return {
             token: apiKey,
             apiBaseUrl,
-            tailnet: env.tailnet,
           };
         }
         if (clientId && clientSecret) {
@@ -221,7 +211,6 @@ export const CredentialsFromEnv: Layer.Layer<Credentials, never, HttpClient.Http
             clientId,
             clientSecret,
             apiBaseUrl,
-            tailnet: env.tailnet,
           });
         }
         if (clientId || clientSecret) {

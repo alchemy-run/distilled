@@ -135,49 +135,49 @@ export interface AcceptDeviceInviteRequest {
 /** Information about the device being shared. */
 export interface AcceptDeviceInviteResponseDevice {
   /** The `nodeId` for the device. */
-  id?: string;
+  id?: string | undefined;
   /** The operating system that the device is running. */
-  os?: string;
+  os?: string | undefined;
   /** The name of the device. */
-  name?: string;
+  name?: string | undefined;
   /** The MagicDNS name of the device. Learn more about MagicDNS at https://tailscale.com/docs/features/magicdns. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** The IPv4 address of the device. */
-  ipv4?: string;
+  ipv4?: string | undefined;
   /** The IPv6 address of the device. */
-  ipv6?: string;
+  ipv6?: string | undefined;
   /** Specifies whether the invited user is able to use the device as an exit node when the device is advertising as one. */
-  includeExitNode?: boolean;
+  includeExitNode?: boolean | undefined;
 }
 /** The user who create the device share invite. */
 export interface AcceptDeviceInviteResponseSharer {
   /** The ID of the user who created the share invite. */
-  id?: string;
+  id?: string | undefined;
   /** The display name of the user who created the share invite. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The email address of the user who created the share invite. */
-  loginName?: string;
+  loginName?: string | undefined;
   /** The profile pic URL for the user who created the share invite. */
-  profilePicURL?: string;
+  profilePicURL?: string | undefined;
 }
 /** The user accepting the device share invite. */
 export interface AcceptDeviceInviteResponseAcceptedBy {
   /** The ID of the user who accepted the share invite. */
-  id?: string;
+  id?: string | undefined;
   /** The display name of the user who accepted the share invite. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The email address of the user who accepted the share invite. */
-  loginName?: string;
+  loginName?: string | undefined;
   /** The profile pic URL for the user who accepted the share invite. */
-  profilePicURL?: string;
+  profilePicURL?: string | undefined;
 }
 export interface AcceptDeviceInviteResponse {
   /** Information about the device being shared. */
-  device?: AcceptDeviceInviteResponseDevice;
+  device?: AcceptDeviceInviteResponseDevice | undefined;
   /** The user who create the device share invite. */
-  sharer?: AcceptDeviceInviteResponseSharer;
+  sharer?: AcceptDeviceInviteResponseSharer | undefined;
   /** The user accepting the device share invite. */
-  acceptedBy?: AcceptDeviceInviteResponseAcceptedBy;
+  acceptedBy?: AcceptDeviceInviteResponseAcceptedBy | undefined;
 }
 export interface ApproveUserRequest {
   /** ID of the user. */
@@ -200,7 +200,7 @@ export interface BatchUpdateCustomDevicePostureAttributesRequestNodesValueValue 
   /** Attribute value. */
   value: BatchUpdateCustomDevicePostureAttributesRequestNodesValueValueValue;
   /** Optional expiry time for the attribute. If set, Tailscale automatically removes the attribute within a few minutes after the specified time. */
-  expiry?: string;
+  expiry?: string | undefined;
 }
 /** A mapping of attribute name -> attribute configuration for this device. */
 export type BatchUpdateCustomDevicePostureAttributesRequestNodesValueMap = {
@@ -214,60 +214,60 @@ export interface BatchUpdateCustomDevicePostureAttributesRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
   tailnet: string;
   /** A mapping of deviceId -> posture attributes. */
-  nodes?: BatchUpdateCustomDevicePostureAttributesRequestNodesMap;
+  nodes?: BatchUpdateCustomDevicePostureAttributesRequestNodesMap | undefined;
   /** An optional comment indicating why attributes are being set, which will be added to the audit log. */
-  comment?: string;
+  comment?: string | undefined;
 }
 export type BatchUpdateCustomDevicePostureAttributesResponse = unknown;
 export interface CreateDeviceInvitesRequestBodyItem {
   /** Whether the invite can be accepted more than once. When set to `true`, it results in an invite that can be accepted up to 1,000 times. */
-  multiUse?: boolean;
+  multiUse?: boolean | undefined;
   /** Whether the invited user can use the device as an exit node when it advertises as one. */
-  allowExitNode?: boolean;
+  allowExitNode?: boolean | undefined;
   /** The email to send the created invite to. If not set, the endpoint generates and returns an invite URL (but doesn't send it out). */
-  email?: string;
+  email?: string | undefined;
 }
 export type CreateDeviceInvitesRequestBodyList = Array<CreateDeviceInvitesRequestBodyItem>;
 export interface CreateDeviceInvitesRequest {
   /** ID of the device. Using the device's `nodeId` is preferred, but its numeric `id` value can also be used. */
   deviceId: string;
-  body?: CreateDeviceInvitesRequestBodyList;
+  body?: CreateDeviceInvitesRequestBodyList | undefined;
 }
 /** Set when the invite has been accepted. It holds information about the user who accepted the share invite. */
 export interface DeviceInviteAcceptedBy {
   /** The ID of the user who accepted the share invite. */
-  id?: number;
+  id?: number | undefined;
   /** The login name of the user who accepted the share invite. */
-  loginName?: string;
+  loginName?: string | undefined;
   /** The profile pic URL for the user who accepted the share invite. */
-  profilePicUrl?: string;
+  profilePicUrl?: string | undefined;
 }
 /** A device invite is an invitation that shares a device with an external user (a user not in the device's tailnet). Each device invite has a unique ID that is used to identify the invite in API calls. You can find all device invite IDs for a particular device by [listing all device invites](#tag/deviceinvites/POST/device/{deviceId}/device-invites) for a device. */
 export interface DeviceInvite {
   /** The unique identifier for the invite. Supply this value wherever {deviceInviteId} is indicated in the endpoint. */
-  id?: string;
+  id?: string | undefined;
   /** The creation time of the invite. */
-  created?: string;
+  created?: string | undefined;
   /** The ID of the tailnet to which the shared device belongs. */
-  tailnetId?: number;
+  tailnetId?: number | undefined;
   /** The ID of the device being shared. */
-  deviceId?: number;
+  deviceId?: number | undefined;
   /** The ID of the user who created the share invite. */
-  sharerId?: number;
+  sharerId?: number | undefined;
   /** Specifies whether this device invite can be accepted more than once. */
-  multiUse?: boolean;
+  multiUse?: boolean | undefined;
   /** Specifies whether the invited user is able to use the device as an exit node when the device is advertising as one. */
-  allowExitNode?: boolean;
+  allowExitNode?: boolean | undefined;
   /** The email to which the invite was sent. If empty, the invite was not emailed to anyone, but the inviteUrl can be shared manually. */
-  email?: string;
+  email?: string | undefined;
   /** The last time the invite was attempted to be sent to Email. Only ever set if `email` is not empty. */
-  lastEmailSentAt?: string;
+  lastEmailSentAt?: string | undefined;
   /** The link to accept the invite. Anyone with this link can accept the invite. It is not restricted to the person to which the invite was emailed. */
-  inviteUrl?: Redacted.Redacted<string>;
+  inviteUrl?: Redacted.Redacted<string> | undefined;
   /** `true` when the share invite has been accepted. */
-  accepted?: boolean;
+  accepted?: boolean | undefined;
   /** Set when the invite has been accepted. It holds information about the user who accepted the share invite. */
-  acceptedBy?: DeviceInviteAcceptedBy;
+  acceptedBy?: DeviceInviteAcceptedBy | undefined;
 }
 export type CreateDeviceInvitesResponseBodyList = Array<DeviceInvite>;
 export type CreateDeviceInvitesResponse = CreateDeviceInvitesResponseBodyList;
@@ -275,26 +275,33 @@ export type CreateDeviceInvitesResponse = CreateDeviceInvitesResponseBodyList;
 export type CreateKeyRequestKeyType = "auth" | "client" | "federated";
 /** tags are the tags that will be set on devices registered with this key. Learn about tags at https://tailscale.com/docs/features/tags. Whether tags are required or optional depends on the owner of the auth key: - When creating an auth key owned by the tailnet (using OAuth), it must have tags. The auth tags specified for that new auth key must exactly match the tags that are on the OAuth client used to create that auth key (or they must be tags that are owned by the tags that are on the OAuth client used to create the auth key). - When creating an auth key owned by a user (using a user's access token), tags are optional. */
 export type KeyCapabilitiesDevicesCreateTagsList = Array<string>;
+export type KeyCapabilitiesDevicesCreateNodeAttributesValue = string | number | boolean;
+/** nodeAttributes are custom device posture attributes that will be set on devices registered with this key. Attribute keys must be in the `custom:` namespace, and values must be strings, integers, or booleans. At most 100 attributes may be set. Learn about device posture attributes at https://tailscale.com/docs/features/device-posture. Creating an auth key with node attributes requires permission to write device posture attributes. */
+export type KeyCapabilitiesDevicesCreateNodeAttributesMap = {
+  [key: string]: KeyCapabilitiesDevicesCreateNodeAttributesValue | undefined;
+};
 /** `create` specifies the key's permissions when creating devices. */
 export interface KeyCapabilitiesDevicesCreate {
   /** reusable for auth keys only; reusable auth keys can be used multiple times to register different devices. Learn more about reusable auth keys at https://tailscale.com/docs/features/access-control/auth-keys#types-of-auth-keys. */
-  reusable?: boolean;
+  reusable?: boolean | undefined;
   /** ephemeral for auth keys only; ephemeral keys are used to connect and then clean up short-lived devices. Learn about ephemeral nodes at https://tailscale.com/docs/features/ephemeral-nodes. */
-  ephemeral?: boolean;
+  ephemeral?: boolean | undefined;
   /** preauthorized for auth keys only; these are also referred to as "pre-approved" keys. 'true' means that devices registered with this key won't require additional approval from a tailnet admin. Learn about device approval at https://tailscale.com/docs/features/access-control/device-management/device-approval. */
-  preauthorized?: boolean;
+  preauthorized?: boolean | undefined;
   /** tags are the tags that will be set on devices registered with this key. Learn about tags at https://tailscale.com/docs/features/tags. Whether tags are required or optional depends on the owner of the auth key: - When creating an auth key owned by the tailnet (using OAuth), it must have tags. The auth tags specified for that new auth key must exactly match the tags that are on the OAuth client used to create that auth key (or they must be tags that are owned by the tags that are on the OAuth client used to create the auth key). - When creating an auth key owned by a user (using a user's access token), tags are optional. */
-  tags?: KeyCapabilitiesDevicesCreateTagsList;
+  tags?: KeyCapabilitiesDevicesCreateTagsList | undefined;
+  /** nodeAttributes are custom device posture attributes that will be set on devices registered with this key. Attribute keys must be in the `custom:` namespace, and values must be strings, integers, or booleans. At most 100 attributes may be set. Learn about device posture attributes at https://tailscale.com/docs/features/device-posture. Creating an auth key with node attributes requires permission to write device posture attributes. */
+  nodeAttributes?: KeyCapabilitiesDevicesCreateNodeAttributesMap | undefined;
 }
 /** `devices` specifies the key's permissions over devices. This field is only populated for auth keys. */
 export interface KeyCapabilitiesDevices {
   /** `create` specifies the key's permissions when creating devices. */
-  create?: KeyCapabilitiesDevicesCreate;
+  create?: KeyCapabilitiesDevicesCreate | undefined;
 }
 /** `capabilities` is a mapping of resources to permissible actions. */
 export interface KeyCapabilities {
   /** `devices` specifies the key's permissions over devices. This field is only populated for auth keys. */
-  devices?: KeyCapabilitiesDevices;
+  devices?: KeyCapabilitiesDevices | undefined;
 }
 /** A list of scopes to grant to the key. At least one scope is required for OAuth clients and federated identities. See [trust credentials scopes](https://tailscale.com/docs/reference/trust-credentials#scopes) for a list of available scopes. Only applies to OAuth clients and federated identities. */
 export type CreateKeyRequestScopesList = Array<string>;
@@ -306,24 +313,24 @@ export interface CreateKeyRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
   tailnet: string;
   /** The type of key to create. Defaults to "auth" if omitted. */
-  keyType?: CreateKeyRequestKeyType | (string & {});
+  keyType?: CreateKeyRequestKeyType | (string & {}) | undefined;
   /** A short string specifying the purpose of the key. Can be a maximum of 50 alphanumeric characters. Hyphens and spaces are also allowed. */
-  description?: string;
-  capabilities?: KeyCapabilities;
+  description?: string | undefined;
+  capabilities?: KeyCapabilities | undefined;
   /** Specifies the duration in seconds until the key expires. Defaults to 90 days if not supplied. Only applies to auth keys. */
-  expirySeconds?: number;
+  expirySeconds?: number | undefined;
   /** A list of scopes to grant to the key. At least one scope is required for OAuth clients and federated identities. See [trust credentials scopes](https://tailscale.com/docs/reference/trust-credentials#scopes) for a list of available scopes. Only applies to OAuth clients and federated identities. */
-  scopes?: CreateKeyRequestScopesList;
+  scopes?: CreateKeyRequestScopesList | undefined;
   /** A list of tags associated to the trust credential. Auth keys created with this credential must have these exact tags, or tags owned by the credential's tags. Mandatory if the scopes include "devices:core" or "auth_keys". Only applies to OAuth clients and federated identities. */
-  tags?: CreateKeyRequestTagsList;
+  tags?: CreateKeyRequestTagsList | undefined;
   /** The issuer of the OIDC identity token used in the token exchange. Must be a valid and publicly reachable https:// URL. Only applies to federated identities. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** The pattern used when matching against the `sub` claim from an OIDC identity token. Patterns can include `*` characters to match against any character. Only applies to federated identities. */
-  subject?: string;
+  subject?: string | undefined;
   /** The value used when matching against the `aud` claim from an OIDC identity token. Specifying the audience is optional as Tailscale will generate a secure audience at creation time by default. It is recommended to let Tailscale generate the audience unless the identity provider you are integrating with requires a specific audience format. Only applies to federated identities. */
-  audience?: string;
+  audience?: string | undefined;
   /** A map of claim names to pattern strings used to match against arbitrary claims in the OIDC identity token. Patterns can include `*` characters to match against any character. Only applies to federated identities. */
-  customClaimRules?: CreateKeyRequestCustomClaimRulesMap;
+  customClaimRules?: CreateKeyRequestCustomClaimRulesMap | undefined;
 }
 /** The type of key. Can be one of "auth", "client", "federated", or "api". - "auth" refers to machine auth keys. - "client" refers to OAuth clients. - "federated" refers to federated identities. - "api" refers to personal API access tokens or tokens generated using an OAuth client or federated identity. */
 export type KeyKeyType = "auth" | "client" | "api" | "federated";
@@ -335,35 +342,35 @@ export type KeyTagsList = Array<string>;
 export type KeyCustomClaimRulesMap = { [key: string]: string | undefined };
 /** An API access token or Auth Key. */
 export interface Key {
-  id?: string;
+  id?: string | undefined;
   /** The secret key material (only populated at creation time). */
-  key?: Redacted.Redacted<string>;
+  key?: Redacted.Redacted<string> | undefined;
   /** The type of key. Can be one of "auth", "client", "federated", or "api". - "auth" refers to machine auth keys. - "client" refers to OAuth clients. - "federated" refers to federated identities. - "api" refers to personal API access tokens or tokens generated using an OAuth client or federated identity. */
-  keyType?: KeyKeyType;
+  keyType?: KeyKeyType | undefined;
   /** Duration in seconds until the key expires. Only applies to auth keys. */
-  expirySeconds?: number;
-  created?: string;
-  updated?: string;
-  expires?: string;
-  revoked?: string;
-  capabilities?: KeyCapabilities;
+  expirySeconds?: number | undefined;
+  created?: string | undefined;
+  updated?: string | undefined;
+  expires?: string | undefined;
+  revoked?: string | undefined;
+  capabilities?: KeyCapabilities | undefined;
   /** A list of scopes granted to the key. Only applies to OAuth clients, API access tokens, and federated identities. */
-  scopes?: KeyScopesList;
+  scopes?: KeyScopesList | undefined;
   /** A list of tags associated to the trust credential. Auth keys created with this client must have these exact tags, or tags owned by the client's tags. Mandatory if the scopes include "devices:core" or "auth_keys". Only applies to OAuth clients and federated identities. */
-  tags?: KeyTagsList;
-  description?: string;
+  tags?: KeyTagsList | undefined;
+  description?: string | undefined;
   /** Response for a revoked (deleted) or expired key will have an `invalid` field set to true. */
-  invalid?: boolean;
+  invalid?: boolean | undefined;
   /** ID of the user who created this key, empty for keys created by trust credentials. */
-  userId?: string;
+  userId?: string | undefined;
   /** The value used when matching against the `aud` claim from an OIDC identity token. Specifying the audience is optional as Tailscale will generate a secure audience at creation time by default. It is recommended to let Tailscale generate the audience unless the identity provider you are integrating with requires a specific audience format. Only applies to federated identities. */
-  audience?: string;
+  audience?: string | undefined;
   /** The issuer of the OIDC identity token used in the token exchange. Must be a valid and publicly reachable https:// URL. Only applies to federated identities. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** The pattern used when matching against the `sub` claim from an OIDC identity token. This pattern can include `*` characters to match against any character. Only applies to federated identities. */
-  subject?: string;
+  subject?: string | undefined;
   /** A map of claim names to pattern strings used to match against arbitrary claims in the OIDC identity token. Patterns can include `*` characters to match against any character. Only applies to federated identities. */
-  customClaimRules?: KeyCustomClaimRulesMap;
+  customClaimRules?: KeyCustomClaimRulesMap | undefined;
 }
 /** The list of permitted redirect URIs for the OAuth authorization code flow. At least one redirect URI is required. Each URI must use the `https` scheme, except for `localhost`, `127.0.0.1`, and `::1`, which may use any scheme. Raw IP address hosts are not permitted. */
 export type RedirectURIs = Array<string>;
@@ -375,10 +382,10 @@ export interface CreateOAuthAppRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
   tailnet: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   redirectURIs: RedirectURIs;
   scopes: Scopes;
-  allowedNodeAttributes?: AllowedNodeAttributes;
+  allowedNodeAttributes?: AllowedNodeAttributes | undefined;
 }
 /** The list of permitted redirect URIs for the OAuth authorization code flow. At least one redirect URI is required. Each URI must use the `https` scheme, except for `localhost`, `127.0.0.1`, and `::1`, which may use any scheme. Raw IP address hosts are not permitted. */
 export type OAuthAppRedirectURIsList = Array<string>;
@@ -388,23 +395,23 @@ export type OAuthAppScopesList = Array<string>;
 export type OAuthAppAllowedNodeAttributesList = Array<string>;
 export interface OAuthApp {
   /** The unique identifier for the OAuth app. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the OAuth app. Must be between 3 and 50 characters and contain only alphanumeric characters, dashes, periods, and underscores. */
-  name?: string;
+  name?: string | undefined;
   /** A human-readable description of the OAuth app. Must be at most 300 characters. */
-  description?: string;
+  description?: string | undefined;
   /** The list of permitted redirect URIs for the OAuth authorization code flow. At least one redirect URI is required. Each URI must use the `https` scheme, except for `localhost`, `127.0.0.1`, and `::1`, which may use any scheme. Raw IP address hosts are not permitted. */
-  redirectURIs?: OAuthAppRedirectURIsList;
+  redirectURIs?: OAuthAppRedirectURIsList | undefined;
   /** The list of OAuth scopes granted to the app. Must be non-empty. Learn more about [OAuth clients and scopes](/docs/features/oauth-clients). */
-  scopes?: OAuthAppScopesList;
+  scopes?: OAuthAppScopesList | undefined;
   /** The list of custom device attributes that the OAuth app is allowed to set. */
-  allowedNodeAttributes?: OAuthAppAllowedNodeAttributesList;
+  allowedNodeAttributes?: OAuthAppAllowedNodeAttributesList | undefined;
   /** The client secret for the OAuth app. Only populated when the app is created and cannot be retrieved afterwards. */
-  clientSecret?: Redacted.Redacted<string>;
+  clientSecret?: Redacted.Redacted<string> | undefined;
   /** The time the OAuth app was created. */
-  created?: string;
+  created?: string | undefined;
   /** The time the OAuth app was last updated. */
-  updated?: string;
+  updated?: string | undefined;
 }
 export interface CreateOrganizationTailnetRequest {
   /** The organization identifier. Use a dash (`-`) to reference the organization of the access token being used to make the API call. */
@@ -415,24 +422,24 @@ export interface CreateOrganizationTailnetRequest {
 /** OAuth client credentials with the `all` scope for the newly created tailnet. The secret is returned only once. */
 export interface TailnetOAuthClient {
   /** A stable, globally unique identifier for the OAuth client. */
-  id?: string;
+  id?: string | undefined;
   /** The OAuth client secret. */
-  secret?: Redacted.Redacted<string>;
+  secret?: Redacted.Redacted<string> | undefined;
 }
 export interface CreateOrganizationTailnetResponse {
   /** A stable, globally unique identifier for the tailnet. */
-  id?: string;
+  id?: string | undefined;
   /** The tailnet name provided in the request. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** A stable, globally unique identifier for the organization. */
-  orgId?: string;
+  orgId?: string | undefined;
   /** The DNS suffix used to construct fully qualified domain names for devices in this tailnet. */
-  dnsName?: string;
+  dnsName?: string | undefined;
   /** RFC3339 timestamp of when the tailnet was created. */
-  createdAt?: string;
-  oauthClient?: TailnetOAuthClient;
+  createdAt?: string | undefined;
+  oauthClient?: TailnetOAuthClient | undefined;
   /** True if the requested tailnet already exists. */
-  alreadyExists?: boolean;
+  alreadyExists?: boolean | undefined;
 }
 /** The device posture provider. Required on POST requests, ignored on PATCH requests. */
 export type CreatePostureIntegrationRequestProvider =
@@ -446,15 +453,15 @@ export interface CreatePostureIntegrationRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
   tailnet: string;
   /** The device posture provider. Required on POST requests, ignored on PATCH requests. */
-  provider?: CreatePostureIntegrationRequestProvider | (string & {});
+  provider?: CreatePostureIntegrationRequestProvider | (string & {}) | undefined;
   /** Identifies which of the provider's clouds to integrate with. - For CrowdStrike Falcon, it will be one of `us-1`, `us-2`, `eu-1` or `us-gov`. - For Microsoft Intune, it will be one of `global` or `us-gov`. - For Jamf Pro, Kandji and Sentinel One, it is the FQDN of your subdomain, for example `mydomain.sentinelone.net`. - For Kolide, this is left blank. */
-  cloudId?: string;
+  cloudId?: string | undefined;
   /** Unique identifier for your client. - For Microsoft Intune, it will be your application's UUID. - For CrowdStrike Falcon and Jamf Pro, it will be your client id. - For Kandji, Kolide and Sentinel One, this is left blank. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The Microsoft Intune directory (tenant) ID. For other providers, this is left blank. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The secret (auth key, token, etc.) used to authenticate with the provider. Required when creating a new integration, may be omitted when updating an existing integration, in which case we retain the existing password. */
-  clientSecret?: Redacted.Redacted<string>;
+  clientSecret?: Redacted.Redacted<string> | undefined;
 }
 /** The device posture provider. Required on POST requests, ignored on PATCH requests. */
 export type PostureIntegrationOutputProvider =
@@ -467,32 +474,32 @@ export type PostureIntegrationOutputProvider =
 /** Most recent status for this integration. */
 export interface PostureIntegrationOutputStatus {
   /** Timestamp of the last synchronization with the device posture provider, in RFC 3339 format. */
-  lastSync?: string;
+  lastSync?: string | undefined;
   /** If the last synchronization failed, this shows the error message associated with the failed synchronization. */
-  error?: string;
+  error?: string | undefined;
   /** The number of devices known to the provider. */
-  providerHostCount?: number;
+  providerHostCount?: number | undefined;
   /** The number of Tailscale nodes that were matched with provider. */
-  matchedCount?: number;
+  matchedCount?: number | undefined;
   /** The number of Tailscale nodes with identifiers for matching. */
-  possibleMatchedCount?: number;
+  possibleMatchedCount?: number | undefined;
 }
 /** A configured PostureIntegration. */
 export interface PostureIntegrationOutput {
   /** The device posture provider. Required on POST requests, ignored on PATCH requests. */
-  provider?: PostureIntegrationOutputProvider;
+  provider?: PostureIntegrationOutputProvider | undefined;
   /** Identifies which of the provider's clouds to integrate with. - For CrowdStrike Falcon, it will be one of `us-1`, `us-2`, `eu-1` or `us-gov`. - For Microsoft Intune, it will be one of `global` or `us-gov`. - For Jamf Pro, Kandji and Sentinel One, it is the FQDN of your subdomain, for example `mydomain.sentinelone.net`. - For Kolide, this is left blank. */
-  cloudId?: string;
+  cloudId?: string | undefined;
   /** Unique identifier for your client. - For Microsoft Intune, it will be your application's UUID. - For CrowdStrike Falcon and Jamf Pro, it will be your client id. - For Kandji, Kolide and Sentinel One, this is left blank. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The Microsoft Intune directory (tenant) ID. For other providers, this is left blank. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** A unique identifier for the integration (generated by the system). */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp of the last time this configuration was updated, in RFC 3339 format. */
-  configUpdated?: string;
+  configUpdated?: string | undefined;
   /** Most recent status for this integration. */
-  status?: PostureIntegrationOutputStatus;
+  status?: PostureIntegrationOutputStatus | undefined;
 }
 /** Optionally specifies a user role to assign the invited user. */
 export type CreateUserInvitesRequestBodyItemRole =
@@ -504,15 +511,15 @@ export type CreateUserInvitesRequestBodyItemRole =
   | "auditor";
 export interface CreateUserInvitesRequestBodyItem {
   /** Optionally specifies a user role to assign the invited user. */
-  role?: CreateUserInvitesRequestBodyItemRole | (string & {});
+  role?: CreateUserInvitesRequestBodyItemRole | (string & {}) | undefined;
   /** Optionally specifies the email to send the created invite. If not set, the endpoint generates and returns an invite URL, but does not email it out. */
-  email?: string;
+  email?: string | undefined;
 }
 export type CreateUserInvitesRequestBodyList = Array<CreateUserInvitesRequestBodyItem>;
 export interface CreateUserInvitesRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
   tailnet: string;
-  body?: CreateUserInvitesRequestBodyList;
+  body?: CreateUserInvitesRequestBodyList | undefined;
 }
 /** The tailnet user role to assign to the invited user upon accepting the invite. */
 export type UserInviteRole =
@@ -533,11 +540,11 @@ export interface UserInvite {
   /** The ID of the user who created the invite. */
   inviterId: number;
   /** The email to which the invite was sent. If empty, the invite was not emailed to anyone, but the inviteUrl can be shared manually. */
-  email?: string;
+  email?: string | undefined;
   /** The last time the invite was attempted to be sent to Email. Only ever set if `email` is not empty. */
-  lastEmailSentAt?: string;
+  lastEmailSentAt?: string | undefined;
   /** Included when `email` is not part of the tailnet's domain, or when `email` is empty. It is the link to accept the invite. When included, anyone with this link can accept the invite. It is not restricted to the person to which the invite was emailed. When `email` is part of the tailnet's domain (has the same @domain.com suffix as the tailnet), the user can join the tailnet automatically by logging in with their domain email at https://login.tailscale.com/start. They'll be assigned the specified `role` upon signing in for the first time. */
-  inviteUrl?: Redacted.Redacted<string>;
+  inviteUrl?: Redacted.Redacted<string> | undefined;
 }
 export type CreateUserInvitesResponseBodyList = Array<UserInvite>;
 export type CreateUserInvitesResponse = CreateUserInvitesResponseBodyList;
@@ -569,7 +576,7 @@ export interface CreateWebhookRequest {
   tailnet: string;
   /** The endpoint that events are sent to from Tailscale via POST requests. */
   endpointUrl: Redacted.Redacted<string>;
-  providerType?: ProviderType | (string & {});
+  providerType?: ProviderType | (string & {}) | undefined;
   subscriptions: Subscriptions;
 }
 /** The provider type for the webhook destination, or an empty string if none are applicable. Outgoing webhook events are sent in the format expected by the provider type if non-empty. */
@@ -597,21 +604,21 @@ export type WebhookSubscriptionsItem =
 export type WebhookSubscriptionsList = Array<WebhookSubscriptionsItem>;
 export interface Webhook {
   /** ID of the webhook endpoint. */
-  endpointId?: string;
+  endpointId?: string | undefined;
   /** The endpoint that events are sent to from Tailscale via POST requests. */
-  endpointUrl?: Redacted.Redacted<string>;
+  endpointUrl?: Redacted.Redacted<string> | undefined;
   /** The provider type for the webhook destination, or an empty string if none are applicable. Outgoing webhook events are sent in the format expected by the provider type if non-empty. */
-  providerType?: WebhookProviderType;
+  providerType?: WebhookProviderType | undefined;
   /** The login name for the creator of the webhook endpoint. In some cases, such as webhooks created with an OAuth client, this can be blank. */
-  creatorLoginName?: string;
+  creatorLoginName?: string | undefined;
   /** The time the webhook endpoint was created. */
-  created?: string;
+  created?: string | undefined;
   /** The time the webhook endpoint was last modified. */
-  lastModified?: string;
+  lastModified?: string | undefined;
   /** The list of subscribed events that trigger POST requests to the configured endpoint URL. Learn more about [webhook events](/docs/features/webhooks#events). */
-  subscriptions?: WebhookSubscriptionsList;
+  subscriptions?: WebhookSubscriptionsList | undefined;
   /** The webhook secret associated with the endpoint. Only populated on creation or when the secret is rotated. This secret is used for generating the `Tailscale-Webhook-Signature` header in requests sent to the endpoint URL. Learn more about [verifying webhook event signatures](/docs/features/webhooks#verifying-an-event-signature). */
-  secret?: Redacted.Redacted<string>;
+  secret?: Redacted.Redacted<string> | undefined;
 }
 export interface DeleteCustomDevicePostureAttributesRequest {
   /** ID of the device. Using the device's `nodeId` is preferred, but its numeric `id` value can also be used. */
@@ -694,14 +701,14 @@ export interface GetAwsExternalIdRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
   tailnet: string;
   /** If set to true, this same AWS external id will be returned on future calls to this endpoint, if and only if those calls also mark `reusable` as true, and the ID has not yet been linked with an AWS account. */
-  reusable?: boolean;
+  reusable?: boolean | undefined;
 }
 /** An external ID for use in authenticating to AWS using role-based authentication. */
 export interface AwsExternalId {
   /** The external id that Tailscale will supply to AWS when authenticating using role-based authentication. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** The AWS account id that Tailscale will supply to AWS when authenticating using role-based authentication. */
-  tailscaleAwsAccountId?: string;
+  tailscaleAwsAccountId?: string | undefined;
 }
 export interface GetContactsRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -710,23 +717,23 @@ export interface GetContactsRequest {
 /** A tailnet contact. */
 export interface Contact {
   /** The contact's email address. */
-  email?: string;
+  email?: string | undefined;
   /** The email address used when contact's email address has not been verified. */
-  fallbackEmail?: string;
+  fallbackEmail?: string | undefined;
   /** Indicates whether the contact's email address still needs to be verified. */
-  needsVerification?: boolean;
+  needsVerification?: boolean | undefined;
 }
 export interface GetContactsResponse {
-  account?: Contact;
-  support?: Contact;
-  security?: Contact;
+  account?: Contact | undefined;
+  support?: Contact | undefined;
+  security?: Contact | undefined;
 }
 export type GetDeviceRequestFields = "all" | "default";
 export interface GetDeviceRequest {
   /** ID of the device. Using the device's `nodeId` is preferred, but its numeric `id` value can also be used. */
   deviceId: string;
   /** Optionally controls whether the response returns **all** fields or only a predefined subset of fields. Currently, there are two supported options: - **`all`:** return all fields in the response - **`default`:** return the following fields - `addresses` - `id` - `nodeId` - `user` - `name` - `hostname` - `clientVersion` - `updateAvailable` - `os` - `created` - `connectedToControl` - `lastSeen` - `keyExpiryDisabled` - `expires` - `authorized` - `isExternal` - `machineKey` - `nodeKey` - `blocksIncomingConnections` - `tailnetLockKey` - `tailnetLockError` - `tags` - `isEphemeral` If the `fields` parameter is not supplied, then the default (limited fields) option is used. */
-  fields?: GetDeviceRequestFields | (string & {});
+  fields?: GetDeviceRequestFields | (string & {}) | undefined;
 }
 /** A list of Tailscale IP addresses for the device, including both IPv4 (formatted as 100.x.y.z) and IPv6 (formatted as fd7a:115c:a1e0:a:b:c:d:e) addresses. */
 export type DeviceAddressesList = Array<string>;
@@ -738,9 +745,9 @@ export type DeviceAdvertisedRoutesList = Array<string>;
 export type DeviceClientConnectivityEndpointsList = Array<string>;
 export interface DeviceClientConnectivityLatencyValue {
   /** 'true' for the node's preferred DERP server for incoming traffic. */
-  preferred?: boolean;
+  preferred?: boolean | undefined;
   /** Current latency to DERP server. */
-  latencyMs?: number;
+  latencyMs?: number | undefined;
 }
 /** Map of DERP server locations and their current latency. */
 export type DeviceClientConnectivityLatencyMap = {
@@ -749,121 +756,121 @@ export type DeviceClientConnectivityLatencyMap = {
 /** Identifies features supported by the client. */
 export interface DeviceClientConnectivityClientSupports {
   /** This information is no longer tracked and will always be null. */
-  hairPinning?: boolean | null;
+  hairPinning?: boolean | null | undefined;
   /** 'true' if the device OS supports IPv6, regardless of whether IPv6 internet connectivity is available. */
-  ipv6?: boolean | null;
+  ipv6?: boolean | null | undefined;
   /** 'true' if PCP port-mapping service exists on your router. */
-  pcp?: boolean | null;
+  pcp?: boolean | null | undefined;
   /** 'true' if NAT-PMP port-mapping service exists on your router. */
-  pmp?: boolean | null;
+  pmp?: boolean | null | undefined;
   /** 'true' if UDP traffic is enabled on the current network; if 'false', Tailscale may be unable to make direct connections, and will rely on our DERP servers. */
-  udp?: boolean | null;
+  udp?: boolean | null | undefined;
   /** 'true' if UPnP port-mapping service exists on your router. */
-  upnp?: boolean | null;
+  upnp?: boolean | null | undefined;
 }
 /** clientConnectivity provides a report on the device's current physical network conditions. */
 export interface DeviceClientConnectivity {
   /** Client's magicsock UDP IP:port endpoints (IPv4 or IPv6). */
-  endpoints?: DeviceClientConnectivityEndpointsList;
+  endpoints?: DeviceClientConnectivityEndpointsList | undefined;
   /** 'true' if the host's NAT mappings vary based on the destination IP. */
-  mappingVariesByDestIP?: boolean;
+  mappingVariesByDestIP?: boolean | undefined;
   /** Map of DERP server locations and their current latency. */
-  latency?: DeviceClientConnectivityLatencyMap;
+  latency?: DeviceClientConnectivityLatencyMap | undefined;
   /** Identifies features supported by the client. */
-  clientSupports?: DeviceClientConnectivityClientSupports;
+  clientSupports?: DeviceClientConnectivityClientSupports | undefined;
 }
 /** Lets you assign an identity to a device that is separate from human users, and use it as part of an ACL to restrict access. Once a device is tagged, the tag is the owner of that device. A single node can have multiple tags assigned. This value is empty for external devices. Learn more about tags at https://tailscale.com/docs/features/tags. */
 export type DeviceTagsList = Array<string>;
 export type DevicePostureIdentitySerialNumbersList = Array<string>;
 /** Contains extra identifiers from the device when the tailnet it is connected to has device posture identification collection enabled. If the device has not opted-in to posture identification collection, this will contain {"disabled": true}. Learn more about posture identity at https://tailscale.com/docs/features/access-control/device-management/how-to/manage-identity. */
 export interface DevicePostureIdentity {
-  serialNumbers?: DevicePostureIdentitySerialNumbersList;
-  disabled?: boolean;
+  serialNumbers?: DevicePostureIdentitySerialNumbersList | undefined;
+  disabled?: boolean | undefined;
 }
 /** List of posture assertions the device is failing. Empty if the device is passing. */
 export type DevicePostureStatusFailingAssertionsList = Array<string>;
 /** Reports the status of a single posture for a device. */
 export interface DevicePostureStatus {
   /** Reports whether the device is passing this posture. */
-  passing?: boolean;
+  passing?: boolean | undefined;
   /** Whether the status of this posture affects the connectivity of the device. */
-  impacting?: boolean;
+  impacting?: boolean | undefined;
   /** List of posture assertions the device is failing. Empty if the device is passing. */
-  failingAssertions?: DevicePostureStatusFailingAssertionsList;
+  failingAssertions?: DevicePostureStatusFailingAssertionsList | undefined;
 }
 /** distro provides details of the operating system distribution, if available. */
 export interface DeviceDistro {
   /** The operating system distribution that the device is running. */
-  name?: string;
+  name?: string | undefined;
   /** The operating system distribution version that the device is running. */
-  version?: string;
+  version?: string | undefined;
   /** The operating system distribution code name that the device is running. */
-  codeName?: string;
+  codeName?: string | undefined;
 }
 /** A Tailscale device (sometimes referred to as *node* or *machine*), is any computer or mobile device that joins a tailnet. Each device has a unique ID (`nodeId` in the schema below) that is used to identify the device in API calls. This ID can be found by going to the [Machines](https://login.tailscale.com/admin/machines) page in the admin console, selecting the relevant device, then finding the ID in the Machine Details section. You can also [list all devices](#tag/devices/get/tailnet/{tailnet}/devices) in the tailnet to get their `nodeId` values. */
 export interface Device {
   /** A list of Tailscale IP addresses for the device, including both IPv4 (formatted as 100.x.y.z) and IPv6 (formatted as fd7a:115c:a1e0:a:b:c:d:e) addresses. */
-  addresses?: DeviceAddressesList;
+  addresses?: DeviceAddressesList | undefined;
   /** The legacy identifier for a device; you can supply this value wherever {deviceId} is indicated in the endpoint. Note that although "id" is still accepted, "nodeId" is preferred. */
-  id?: string;
+  id?: string | undefined;
   /** The preferred identifier for a device; supply this value wherever {deviceId} is indicated in the endpoint. */
-  nodeId?: string;
+  nodeId?: string | undefined;
   /** The user who registered the node. For untagged nodes, this user is the device owner. */
-  user?: string;
+  user?: string | undefined;
   /** The MagicDNS name of the device. Learn more about MagicDNS at https://tailscale.com/docs/features/magicdns. */
-  name?: string;
+  name?: string | undefined;
   /** The machine name in the admin console. Learn more about machine names at https://tailscale.com/docs/concepts/machine-names. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** The version of the Tailscale client software; this is empty for external devices. */
-  clientVersion?: string;
+  clientVersion?: string | undefined;
   /** 'true' if a Tailscale client version upgrade is available. This value is empty for external devices. */
-  updateAvailable?: boolean;
+  updateAvailable?: boolean | undefined;
   /** The operating system that the device is running. */
-  os?: string;
+  os?: string | undefined;
   /** The date on which the device was added to the tailnet; this is empty for external devices. */
-  created?: string;
+  created?: string | undefined;
   /** Indicates if the device recently maintained a TCP connection to the Tailscale control server. */
-  connectedToControl?: boolean;
+  connectedToControl?: boolean | undefined;
   /** When the device was last connected to the Tailscale control server. Omitted if the device has never been online or `connectedToControl` is true. */
-  lastSeen?: string;
+  lastSeen?: string | undefined;
   /** 'true' if the keys for the device will not expire. Learn more at https://tailscale.com/docs/features/access-control/key-expiry. */
-  keyExpiryDisabled?: boolean;
+  keyExpiryDisabled?: boolean | undefined;
   /** The expiration date of the device's auth key. Learn more about key expiry at https://tailscale.com/docs/features/access-control/key-expiry. */
-  expires?: string;
+  expires?: string | undefined;
   /** 'true' if the device has been authorized to join the tailnet; otherwise, 'false'. Learn more about device authorization at https://tailscale.com/docs/features/access-control/device-management/device-approval. */
-  authorized?: boolean;
+  authorized?: boolean | undefined;
   /** 'true', indicates that a device is not a member of the tailnet, but is shared in to the tailnet; if 'false', the device is a member of the tailnet. Learn more about node sharing at https://tailscale.com/docs/features/sharing. */
-  isExternal?: boolean;
+  isExternal?: boolean | undefined;
   /** 'true', indicates that multiple devices are currently connected using the same node key, which is usually a sign of node state being copied between machines. If only one device is connected using this node's key, the field is omitted. If the number of live connections goes back to 0 or 1, this field is also omitted, meaning it's not sticky. In case an attacker steals node state from a legitimate node, they can mask their activities by not connecting concurrently with the legitimate node. */
-  multipleConnections?: boolean;
+  multipleConnections?: boolean | undefined;
   /** For internal use and is not required for any API operations. This value is empty for external devices. */
-  machineKey?: string;
+  machineKey?: string | undefined;
   /** Mostly for internal use, required for select operations, such as adding a node to a locked tailnet. Learn about tailnet locks at https://tailscale.com/docs/features/tailnet-lock. */
-  nodeKey?: string;
+  nodeKey?: string | undefined;
   /** 'true' if the device is not allowed to accept any connections over Tailscale, including pings. Learn more in the "Allow incoming connections" section of https://tailscale.com/docs/features/client/manage-preferences. */
-  blocksIncomingConnections?: boolean;
+  blocksIncomingConnections?: boolean | undefined;
   /** The subnet routes for this device that have been approved by a tailnet admin. Learn more about subnet routes at https://tailscale.com/docs/features/subnet-routers. */
-  enabledRoutes?: DeviceEnabledRoutesList;
+  enabledRoutes?: DeviceEnabledRoutesList | undefined;
   /** The subnets this device requests to expose. Learn more about subnet routes at https://tailscale.com/docs/features/subnet-routers. */
-  advertisedRoutes?: DeviceAdvertisedRoutesList;
+  advertisedRoutes?: DeviceAdvertisedRoutesList | undefined;
   /** clientConnectivity provides a report on the device's current physical network conditions. */
-  clientConnectivity?: DeviceClientConnectivity;
+  clientConnectivity?: DeviceClientConnectivity | undefined;
   /** Lets you assign an identity to a device that is separate from human users, and use it as part of an ACL to restrict access. Once a device is tagged, the tag is the owner of that device. A single node can have multiple tags assigned. This value is empty for external devices. Learn more about tags at https://tailscale.com/docs/features/tags. */
-  tags?: DeviceTagsList;
+  tags?: DeviceTagsList | undefined;
   /** Indicates an issue with the tailnet lock node-key signature on this device. This field is only populated when tailnet lock is enabled. */
-  tailnetLockError?: string;
+  tailnetLockError?: string | undefined;
   /** The node's tailnet lock key. Every node generates a tailnet lock key (so the value will be present) even if tailnet lock is not enabled. Learn more about tailnet lock at https://tailscale.com/docs/features/tailnet-lock. */
-  tailnetLockKey?: string;
+  tailnetLockKey?: string | undefined;
   /** 'true' if Tailscale SSH is enabled on this device. Learn more about Tailscale SSH at https://tailscale.com/docs/features/tailscale-ssh. */
-  sshEnabled?: boolean;
+  sshEnabled?: boolean | undefined;
   /** Contains extra identifiers from the device when the tailnet it is connected to has device posture identification collection enabled. If the device has not opted-in to posture identification collection, this will contain {"disabled": true}. Learn more about posture identity at https://tailscale.com/docs/features/access-control/device-management/how-to/manage-identity. */
-  postureIdentity?: DevicePostureIdentity;
+  postureIdentity?: DevicePostureIdentity | undefined;
   /** Reports the status of a single posture for a device. */
-  postureStatus?: DevicePostureStatus;
+  postureStatus?: DevicePostureStatus | undefined;
   /** 'true' if the device is ephemeral. Learn more about ephemeral nodes at https://tailscale.com/docs/features/ephemeral-nodes. */
-  isEphemeral?: boolean;
+  isEphemeral?: boolean | undefined;
   /** distro provides details of the operating system distribution, if available. */
-  distro?: DeviceDistro;
+  distro?: DeviceDistro | undefined;
 }
 export interface GetDeviceInviteRequest {
   /** ID of the device invite. */
@@ -882,9 +889,9 @@ export type DevicePostureAttributesAttributesMap = {
 export type DevicePostureAttributesExpiriesMap = { [key: string]: string | undefined };
 export interface DevicePostureAttributes {
   /** Contains all the posture attributes assigned to a node. Attribute values can be strings, numbers or booleans. */
-  attributes?: DevicePostureAttributesAttributesMap;
+  attributes?: DevicePostureAttributesAttributesMap | undefined;
   /** Contains the expiry time for each posture attribute, if set. */
-  expiries?: DevicePostureAttributesExpiriesMap;
+  expiries?: DevicePostureAttributesExpiriesMap | undefined;
 }
 export interface GetDnsConfigurationRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -892,9 +899,9 @@ export interface GetDnsConfigurationRequest {
 }
 export interface DnsConfigurationResolver {
   /** IPv4 or IPv6 address of the DNS resolver. */
-  address?: string;
+  address?: string | undefined;
   /** If true, this resolver should still be used when a device is configured to use a Tailscale exit node. Requires Tailscale v1.88.1 or later. */
-  useWithExitNode?: boolean;
+  useWithExitNode?: boolean | undefined;
 }
 /** Global DNS resolvers to use. If `preferences.overrideLocalDNS` is true, these override the local OS configuration; otherwise they are used as fallback resolvers. */
 export type DnsConfigurationNameserversList = Array<DnsConfigurationResolver>;
@@ -907,18 +914,18 @@ export type DnsConfigurationSplitDNSMap = {
 export type DnsConfigurationSearchPathsList = Array<string>;
 export interface DnsConfigurationPreferences {
   /** If true, resolvers in `nameservers` override the local OS DNS configuration; if false, local resolvers are used. */
-  overrideLocalDNS?: boolean;
+  overrideLocalDNS?: boolean | undefined;
   /** Whether MagicDNS is enabled for this tailnet. */
-  magicDNS?: boolean;
+  magicDNS?: boolean | undefined;
 }
 export interface DnsConfiguration {
   /** Global DNS resolvers to use. If `preferences.overrideLocalDNS` is true, these override the local OS configuration; otherwise they are used as fallback resolvers. */
-  nameservers?: DnsConfigurationNameserversList;
+  nameservers?: DnsConfigurationNameserversList | undefined;
   /** Map of DNS name suffixes (domains) to lists of resolvers for Split DNS and advanced routing overlays. */
-  splitDNS?: DnsConfigurationSplitDNSMap;
+  splitDNS?: DnsConfigurationSplitDNSMap | undefined;
   /** Search domain paths to apply. */
-  searchPaths?: DnsConfigurationSearchPathsList;
-  preferences?: DnsConfigurationPreferences;
+  searchPaths?: DnsConfigurationSearchPathsList | undefined;
+  preferences?: DnsConfigurationPreferences | undefined;
 }
 export interface GetDnsPreferencesRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -963,39 +970,39 @@ export type LogstreamEndpointConfigurationOutputGcsScopesList = Array<string>;
 /** The current configuration of a log streaming endpoint. */
 export interface LogstreamEndpointConfigurationOutput {
   /** The type of log that is streamed to this endpoint. */
-  logType?: LogType;
+  logType?: LogType | undefined;
   /** The type of system to which logs are being streamed. */
-  destinationType?: LogstreamEndpointConfigurationOutputDestinationType;
+  destinationType?: LogstreamEndpointConfigurationOutputDestinationType | undefined;
   /** The URL to which log streams are being posted. If the DestinationType is `s3`, the URL may be (and often is) empty to use the official Amazon S3 endpoint. */
-  url?: string;
+  url?: string | undefined;
   /** The username with which log streams to this endpoint are authenticated. */
-  user?: string;
+  user?: string | undefined;
   /** An optional number of minutes to wait in between uploading new logs. If the quantity of logs does not fit within a single upload, multiple uploads will be made. */
-  uploadPeriodMinutes?: number;
+  uploadPeriodMinutes?: number | undefined;
   /** The compression algorithm with which to compress logs. `none` disables compression. Defaults to `none`. */
-  compressionFormat?: LogstreamEndpointConfigurationOutputCompressionFormat;
+  compressionFormat?: LogstreamEndpointConfigurationOutputCompressionFormat | undefined;
   /** The S3 bucket name. Required if the destinationType is `s3`. */
-  s3Bucket?: string;
+  s3Bucket?: string | undefined;
   /** The region in which the S3 bucket is located. Required if the destinationType is `s3`. */
-  s3Region?: string;
+  s3Region?: string | undefined;
   /** An optional S3 key prefix to prepend to the auto-generated S3 key name. */
-  s3KeyPrefix?: string;
+  s3KeyPrefix?: string | undefined;
   /** What type of authentication to use for S3. Required if the destinationType is `s3`. Tailscale recommends using `rolearn`. See [Amazon documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_common-scenarios_third-party.html). */
-  s3AuthenticationType?: LogstreamEndpointConfigurationOutputS3AuthenticationType;
+  s3AuthenticationType?: LogstreamEndpointConfigurationOutputS3AuthenticationType | undefined;
   /** The S3 access key ID. Required if the destinationType is `s3` and `authenticationType` is `accesskey`. */
-  s3AccessKeyId?: string;
+  s3AccessKeyId?: string | undefined;
   /** The Role ARN that Tailscale should supply to AWS when authenticating using role-based authentication. Required if the destinationType is `s3` and `authenticationType` is `rolearn`. */
-  s3RoleArn?: string;
+  s3RoleArn?: string | undefined;
   /** The AWS external id that Tailscale supplies when authenticating using role-based authentication. Populated if the destinationType is `s3` and `authenticationType` is `rolearn`. This corresponds to the `externalId` field obtained from [tailnet/{tailnet}/aws-external-id](#tag/logging/POST/tailnet/{tailnet}/aws-external-id). */
-  s3ExternalId?: string;
+  s3ExternalId?: string | undefined;
   /** The GCS bucket name. Required if the destinationType is `gcs`. */
-  gcsBucket?: string;
+  gcsBucket?: string | undefined;
   /** An optional GCS key prefix to append to the GCS bucket name. */
-  gcsKeyPrefix?: string;
+  gcsKeyPrefix?: string | undefined;
   /** The GCS scopes needed to be able to write to the GCS bucket. */
-  gcsScopes?: LogstreamEndpointConfigurationOutputGcsScopesList;
+  gcsScopes?: LogstreamEndpointConfigurationOutputGcsScopesList | undefined;
   /** The JSON workload identity credentials from GCS needed for accessing the GCS account. */
-  gcsCredentials?: Redacted.Redacted<string>;
+  gcsCredentials?: Redacted.Redacted<string> | undefined;
 }
 /** The type of log for logging endpoints. */
 export type GetLogStreamingStatusRequestLogType = "configuration" | "network";
@@ -1042,14 +1049,14 @@ export interface GetPolicyFileRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
   tailnet: string;
   /** Request a detailed description of the tailnet policy file by providing `details=true` in the URL query string. Supplying any other value for `details`, or not sending the param, is treated as sending `details=false`. If using this, do not supply an `Accept` parameter in the header. The response will contain a JSON object with the fields: - `acl`: a base64-encoded string representation of the huJSON format. - `warnings`: array of strings for syntactically valid but nonsensical entries. - `errors`: an array of strings for parsing failures. */
-  details?: boolean;
+  details?: boolean | undefined;
   /** Response is encoded as JSON if `application/json` is requested, otherwise HuJSON will be returned. */
-  accept?: string;
+  accept?: string | undefined;
 }
 export interface GetPolicyFileResponse {
   body: string;
   /** Entity tag for the policy file. Send it back as If-Match on setPolicyFile. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetPostureIntegrationRequest {
   /** Unique identifier for a posture integration. */
@@ -1063,7 +1070,7 @@ export interface GetPostureIntegrationsRequest {
 export type GetPostureIntegrationsResponseIntegrationsList = Array<PostureIntegrationOutput>;
 export interface GetPostureIntegrationsResponse {
   /** List of PostureIntegrations. */
-  integrations?: GetPostureIntegrationsResponseIntegrationsList;
+  integrations?: GetPostureIntegrationsResponseIntegrationsList | undefined;
 }
 export interface GetServiceRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -1080,17 +1087,17 @@ export type VIPServiceInfoTagsList = Array<string>;
 /** An information summary for a Service. Each Service has a unique name within the tailnet, one IPv4 and one IPv6 address, optional comment, list of ports, and optional tags. */
 export interface VIPServiceInfo {
   /** The unique name of the Service. */
-  name?: string;
+  name?: string | undefined;
   /** An optional human-readable label for the Service, shown in the Tailscale admin console and to clients with access to the Service. Must be 64 characters or fewer. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The IP addresses assigned to the Service: the IPv4 followed by the IPv6. */
-  addrs?: VIPServiceInfoAddrsList;
+  addrs?: VIPServiceInfoAddrsList | undefined;
   /** An optional comment for the Service. */
-  comment?: string;
+  comment?: string | undefined;
   /** A list of protocol:port pairs to be exposed by the Service. The only supported protocol is "tcp" at this time. "do-not-validate" can be used to skip validation. */
-  ports?: VIPServiceInfoPortsList;
+  ports?: VIPServiceInfoPortsList | undefined;
   /** A list of optional tags associated with the Service. */
-  tags?: VIPServiceInfoTagsList;
+  tags?: VIPServiceInfoTagsList | undefined;
 }
 export interface GetServiceDeviceApprovalRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -1103,9 +1110,9 @@ export interface GetServiceDeviceApprovalRequest {
 /** The approval status of a Service on a specific device. */
 export interface VIPServiceApproval {
   /** Indicates whether the Service is approved on the device. */
-  approved?: boolean;
+  approved?: boolean | undefined;
   /** Indicates whether the Service was auto-approved by an auto-approver. */
-  autoApproved?: boolean;
+  autoApproved?: boolean | undefined;
 }
 export interface GetSplitDnsRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -1130,31 +1137,33 @@ export type TailnetSettingsRouteSelection =
 /** Settings for a tailnet. */
 export interface TailnetSettings {
   /** Prevents users from editing policies in the admin console to avoid conflicts with external management workflows like GitOps or Terraform. */
-  aclsExternallyManagedOn?: boolean | null;
+  aclsExternallyManagedOn?: boolean | null | undefined;
   /** Link to the external tailnet policy definition or management solution for this tailnet. */
-  aclsExternalLink?: string;
+  aclsExternalLink?: string | undefined;
   /** The [admin console session timeout](/docs/account/admin-console-session-timeout) for members of this tailnet. Setting it to 0 disables the timeout. */
-  adminConsoleSessionTimeoutMinutes?: number;
+  adminConsoleSessionTimeoutMinutes?: number | undefined;
   /** Whether [device approval](/docs/features/access-control/device-management/device-approval) is enabled for the tailnet. */
-  devicesApprovalOn?: boolean | null;
+  devicesApprovalOn?: boolean | null | undefined;
   /** Whether [auto updates](/docs/features/client/update#auto-updates) are enabled for devices that belong to this tailnet. */
-  devicesAutoUpdatesOn?: boolean | null;
+  devicesAutoUpdatesOn?: boolean | null | undefined;
   /** The [key expiry](/docs/features/access-control/key-expiry) duration for devices on this tailnet. */
-  devicesKeyDurationDays?: number;
+  devicesKeyDurationDays?: number | undefined;
   /** Whether [user approval](/docs/features/access-control/user-approval) is enabled for this tailnet. */
-  usersApprovalOn?: boolean | null;
+  usersApprovalOn?: boolean | null | undefined;
   /** Which user roles are allowed to [join external tailnets](/docs/features/sharing/how-to/invite-any-user). */
-  usersRoleAllowedToJoinExternalTailnets?: TailnetSettingsUsersRoleAllowedToJoinExternalTailnets;
+  usersRoleAllowedToJoinExternalTailnets?:
+    | TailnetSettingsUsersRoleAllowedToJoinExternalTailnets
+    | undefined;
   /** Whether [network flog logs](/docs/features/logging/network-flow-logs) are enabled for the tailnet. */
-  networkFlowLoggingOn?: boolean | null;
+  networkFlowLoggingOn?: boolean | null | undefined;
   /** Whether [regional routing](/docs/features/route-selection#regional-routing) is enabled for the tailnet. A PATCH request should prefer setting `routeSelection`. A PATCH request must not specify both the `regionalRoutingOn` and `routeSelection` fields. */
-  regionalRoutingOn?: boolean | null;
+  regionalRoutingOn?: boolean | null | undefined;
   /** The [route selection](/docs/features/route-selection) algorithm used by the tailnet: * `active-passive-failover` - Active-passive failover (formerly known as "Failover") * `regional-routing` - Regional routing * `regional-routing-failover` - Regional routing with in-region failover * `magicroute` - MagicRoute A PATCH request must not specify both the `regionalRoutingOn` and `routeSelection` fields. */
-  routeSelection?: TailnetSettingsRouteSelection;
+  routeSelection?: TailnetSettingsRouteSelection | undefined;
   /** Whether [identity collection](/docs/features/access-control/device-management/how-to/manage-identity) is enabled for [device posture](/docs/features/device-posture) integrations for the tailnet. */
-  postureIdentityCollectionOn?: boolean | null;
+  postureIdentityCollectionOn?: boolean | null | undefined;
   /** Whether provisioning of [HTTPS certificates](/docs/how-to/set-up-https-certificates) is enabled for this tailnet. */
-  httpsEnabled?: boolean | null;
+  httpsEnabled?: boolean | null | undefined;
 }
 export interface GetUserRequest {
   /** ID of the user. */
@@ -1176,29 +1185,29 @@ export type UserStatus = "active" | "idle" | "suspended" | "needs-approval" | "o
 /** Representation of a user within a tailnet. */
 export interface User {
   /** The unique identifier for the user. Supply this value wherever {userId} is indicated in an endpoint. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the user. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The emailish login name of the user. */
-  loginName?: string;
+  loginName?: string | undefined;
   /** The profile pic URL for the user. */
-  profilePicUrl?: string;
+  profilePicUrl?: string | undefined;
   /** The tailnet that owns the user. */
-  tailnetId?: string;
+  tailnetId?: string | undefined;
   /** The time the user joined their tailnet. */
-  created?: string;
+  created?: string | undefined;
   /** The type of relation this user has to the tailnet associated with the request. */
-  type?: UserType;
+  type?: UserType | undefined;
   /** The role of the user. Learn more about [user roles](/docs/reference/user-roles). */
-  role?: UserRole;
+  role?: UserRole | undefined;
   /** The status of the user. */
-  status?: UserStatus;
+  status?: UserStatus | undefined;
   /** Number of devices the user owns. */
-  deviceCount?: number;
+  deviceCount?: number | undefined;
   /** The later of either: - The last time any of the user's nodes were connected to the network. - The last time the user authenticated to any tailscale service, including the admin panel. */
-  lastSeen?: string;
+  lastSeen?: string | undefined;
   /** `true` when the user has a node currently connected to the control server. */
-  currentlyConnected?: boolean;
+  currentlyConnected?: boolean | undefined;
 }
 export interface GetUserInviteRequest {
   /** ID of the user invite. */
@@ -1362,11 +1371,11 @@ export interface ListConfigurationAuditLogsRequest {
   /** The end of the time window for which to retrieve logs, in RFC 3339 format. */
   end: string;
   /** List of filters on actors, either exact actor IDs or a wildcard search on login name or display name indicated as `~search`. */
-  actor?: ListConfigurationAuditLogsRequestActorList;
+  actor?: ListConfigurationAuditLogsRequestActorList | undefined;
   /** List of target elements for which to filter, attempts to match any part of any of the targets to any of the given strings. */
-  target?: ListConfigurationAuditLogsRequestTargetList;
+  target?: ListConfigurationAuditLogsRequestTargetList | undefined;
   /** List of events for which to filter. */
-  event?: ListConfigurationAuditLogsRequestEventList;
+  event?: ListConfigurationAuditLogsRequestEventList | undefined;
 }
 /** The type of log (always "CONFIG"). */
 export type ConfigurationAuditLogType = "CONFIG";
@@ -1399,15 +1408,15 @@ export type ConfigurationAuditLogActorTagsList = Array<string>;
 /** The person who caused the action related to this event. */
 export interface ConfigurationAuditLogActor {
   /** The ID (user ID or node ID) of the actor. */
-  id?: string;
+  id?: string | undefined;
   /** The entity type of the actor. */
-  type?: ConfigurationAuditLogActorType;
+  type?: ConfigurationAuditLogActorType | undefined;
   /** The login name of the actor at time of the action. */
-  loginName?: string;
+  loginName?: string | undefined;
   /** The display name of the actor at time of the action. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Indicates the tags owning a node. Its value is only set if `type` is `NODE`. */
-  tags?: ConfigurationAuditLogActorTagsList;
+  tags?: ConfigurationAuditLogActorTagsList | undefined;
 }
 /** The entity type of Target. */
 export type ConfigurationAuditLogTargetType =
@@ -1474,15 +1483,15 @@ export type ConfigurationAuditLogTargetProperty =
 /** The object of this event's action. */
 export interface ConfigurationAuditLogTarget {
   /** The unique ID (user id, tailnet SID, or node id) of the target. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the entity at time of the action. */
-  name?: string;
+  name?: string | undefined;
   /** The entity type of Target. */
-  type?: ConfigurationAuditLogTargetType;
+  type?: ConfigurationAuditLogTargetType | undefined;
   /** Indicates whether the target is ephemeral. Its value should only be set if `type` is `NODE``. */
-  isEphemeral?: boolean;
+  isEphemeral?: boolean | undefined;
   /** The property name on this target which was updated by the event. When empty, the event didn't update any fields on this target. */
-  property?: ConfigurationAuditLogTargetProperty;
+  property?: ConfigurationAuditLogTargetProperty | undefined;
 }
 /** The type of change attempted against the `target`. */
 export type ConfigurationAuditLogAction =
@@ -1533,7 +1542,7 @@ export interface ConfigurationAuditLog {
   /** The type of log (always "CONFIG"). */
   type: ConfigurationAuditLogType;
   /** Timestamp recording the time that the audit log rate limiter enqueued the record to be logged at a future time, in RFC 3339 format. */
-  deferredAt?: string;
+  deferredAt?: string | undefined;
   /** Identifier assigned to one or more audit log events, all of which are the result of a single operation. */
   eventGroupID: string;
   /** The initiator of the action that generated the event, typically an API or user interface, like the Tailscale admin panel. */
@@ -1545,23 +1554,23 @@ export interface ConfigurationAuditLog {
   /** The type of change attempted against the `target`. */
   action: ConfigurationAuditLogAction;
   /** The value of `target.property`` prior to the event. */
-  old?: ConfigurationAuditLogOld;
+  old?: ConfigurationAuditLogOld | undefined;
   /** The value of `target.property` after the event. */
-  new?: ConfigurationAuditLogNew;
+  new?: ConfigurationAuditLogNew | undefined;
   /** Additional information about the event, such as a client-provided reason, if it exists. */
-  actionDetails?: string;
+  actionDetails?: string | undefined;
   /** Provided when the configuration change failed to be completed. It is a user-presentable reason for the failure. */
-  error?: string;
+  error?: string | undefined;
 }
 /** Matching log entries, ordered chronologically. */
 export type ListConfigurationAuditLogsResponseLogsList = Array<ConfigurationAuditLog>;
 export interface ListConfigurationAuditLogsResponse {
   /** Version of audit logs response. */
-  version?: string;
+  version?: string | undefined;
   /** The tailnet on which the logged configuration changes were made. */
-  tailnet?: string;
+  tailnet?: string | undefined;
   /** Matching log entries, ordered chronologically. */
-  logs?: ListConfigurationAuditLogsResponseLogsList;
+  logs?: ListConfigurationAuditLogsResponseLogsList | undefined;
 }
 export interface ListDeviceInvitesRequest {
   /** ID of the device. Using the device's `nodeId` is preferred, but its numeric `id` value can also be used. */
@@ -1579,9 +1588,9 @@ export type DeviceRoutesAdvertisedRoutesList = Array<string>;
 export type DeviceRoutesEnabledRoutesList = Array<string>;
 export interface DeviceRoutes {
   /** The subnets this device requests to expose. */
-  advertisedRoutes?: DeviceRoutesAdvertisedRoutesList;
+  advertisedRoutes?: DeviceRoutesAdvertisedRoutesList | undefined;
   /** The subnet routes for this device that have been approved by a tailnet admin. */
-  enabledRoutes?: DeviceRoutesEnabledRoutesList;
+  enabledRoutes?: DeviceRoutesEnabledRoutesList | undefined;
 }
 export interface ListDnsNameserversRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -1591,7 +1600,7 @@ export interface ListDnsNameserversRequest {
 export type ListDnsNameserversResponseDnsList = Array<string>;
 export interface ListDnsNameserversResponse {
   /** DNS nameservers. */
-  dns?: ListDnsNameserversResponseDnsList;
+  dns?: ListDnsNameserversResponseDnsList | undefined;
 }
 export interface ListDnsSearchPathsRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -1628,19 +1637,19 @@ export type ConnectionCountsProto =
   | "udp";
 export interface ConnectionCounts {
   /** IP protocol name (or number if no name used). */
-  proto?: ConnectionCountsProto;
+  proto?: ConnectionCountsProto | undefined;
   /** Source addr:port. */
-  src?: string;
+  src?: string | undefined;
   /** Destination addr:port. */
-  dst?: string;
+  dst?: string | undefined;
   /** Number of packets sent. */
-  txPkts?: number;
+  txPkts?: number | undefined;
   /** Number of bytes sent. */
-  txBytes?: number;
+  txBytes?: number | undefined;
   /** Number of packets received. */
-  rxPkts?: number;
+  rxPkts?: number | undefined;
   /** Number of bytes received. */
-  rxBytes?: number;
+  rxBytes?: number | undefined;
 }
 export type NetworkFlowLogVirtualTrafficList = Array<ConnectionCounts>;
 export type NetworkFlowLogSubnetTrafficList = Array<ConnectionCounts>;
@@ -1648,23 +1657,23 @@ export type NetworkFlowLogExitTrafficList = Array<ConnectionCounts>;
 export type NetworkFlowLogPhysicalTrafficList = Array<ConnectionCounts>;
 export interface NetworkFlowLog {
   /** Timestamp of the flow log, in RFC 3339 format. */
-  logged?: string;
+  logged?: string | undefined;
   /** Identifier of the node. */
-  nodeId?: string;
+  nodeId?: string | undefined;
   /** Time at which flow started, in RFC 3339 format. */
-  start?: string;
+  start?: string | undefined;
   /** Time at which flow ended, in RFC 3339 format. */
-  end?: string;
-  virtualTraffic?: NetworkFlowLogVirtualTrafficList;
-  subnetTraffic?: NetworkFlowLogSubnetTrafficList;
-  exitTraffic?: NetworkFlowLogExitTrafficList;
-  physicalTraffic?: NetworkFlowLogPhysicalTrafficList;
+  end?: string | undefined;
+  virtualTraffic?: NetworkFlowLogVirtualTrafficList | undefined;
+  subnetTraffic?: NetworkFlowLogSubnetTrafficList | undefined;
+  exitTraffic?: NetworkFlowLogExitTrafficList | undefined;
+  physicalTraffic?: NetworkFlowLogPhysicalTrafficList | undefined;
 }
 /** Matching log entries, ordered chronologically. */
 export type ListNetworkFlowLogsResponseLogsList = Array<NetworkFlowLog>;
 export interface ListNetworkFlowLogsResponse {
   /** Matching log entries, ordered chronologically. */
-  logs?: ListNetworkFlowLogsResponseLogsList;
+  logs?: ListNetworkFlowLogsResponseLogsList | undefined;
 }
 export interface ListOAuthAppsRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -1672,25 +1681,25 @@ export interface ListOAuthAppsRequest {
 }
 export type ListOAuthAppsResponseOauthAppsList = Array<OAuthApp>;
 export interface ListOAuthAppsResponse {
-  oauthApps?: ListOAuthAppsResponseOauthAppsList;
+  oauthApps?: ListOAuthAppsResponseOauthAppsList | undefined;
 }
 export interface ListOrganizationTailnetsRequest {
   /** The organization identifier. Use a dash (`-`) to reference the organization of the access token being used to make the API call. */
   organization: string;
   /** Maximum number of tailnets to return per page; defaults to the maximum of 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor from a previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface OrganizationTailnet {
   /** A stable, globally unique identifier for the tailnet. */
-  id?: string;
+  id?: string | undefined;
   /** The tailnet's display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** A stable, globally unique identifier for the organization. */
-  orgId?: string;
+  orgId?: string | undefined;
   /** RFC3339 timestamp of when the tailnet was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
 }
 /** Tailnets in the organization. */
 export type ListOrganizationTailnetsResponseTailnetsList = Array<OrganizationTailnet>;
@@ -1698,9 +1707,9 @@ export interface ListOrganizationTailnetsResponse {
   /** Tailnets in the organization. */
   tailnets: ListOrganizationTailnetsResponseTailnetsList;
   /** Opaque pagination cursor for the next page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Total number of tailnets in the organization. */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface ListServiceHostsRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -1713,15 +1722,15 @@ export type ServiceHostInfoApprovalLevel = "not-approved" | "approved:auto" | "a
 /** An information summary for a device hosting a Service. */
 export interface ServiceHostInfo {
   /** The approval level of the device hosting the Service. */
-  approvalLevel?: ServiceHostInfoApprovalLevel;
+  approvalLevel?: ServiceHostInfoApprovalLevel | undefined;
   /** The configuration status of the device hosting the Service. */
-  configured?: string;
+  configured?: string | undefined;
   /** The preferred identifier for a device. */
-  nodeId?: string;
+  nodeId?: string | undefined;
 }
 export type ListServiceHostsResponseHostsList = Array<ServiceHostInfo>;
 export interface ListServiceHostsResponse {
-  hosts?: ListServiceHostsResponseHostsList;
+  hosts?: ListServiceHostsResponseHostsList | undefined;
 }
 export interface ListServicesRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -1729,20 +1738,20 @@ export interface ListServicesRequest {
 }
 export type ListServicesResponseVipServicesList = Array<VIPServiceInfo>;
 export interface ListServicesResponse {
-  vipServices?: ListServicesResponseVipServicesList;
+  vipServices?: ListServicesResponseVipServicesList | undefined;
 }
 export type ListTailnetDevicesRequestFields = "all" | "default";
 export interface ListTailnetDevicesRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
   tailnet: string;
   /** Optionally controls whether the response returns **all** fields or only a predefined subset of fields. Currently, there are two supported options: - **`all`:** return all fields in the response - **`default`:** return the following fields - `addresses` - `id` - `nodeId` - `user` - `name` - `hostname` - `clientVersion` - `updateAvailable` - `os` - `created` - `connectedToControl` - `lastSeen` - `keyExpiryDisabled` - `expires` - `authorized` - `isExternal` - `machineKey` - `nodeKey` - `blocksIncomingConnections` - `tailnetLockKey` - `tailnetLockError` - `tags` - `isEphemeral` If the `fields` parameter is not supplied, then the default (limited fields) option is used. */
-  fields?: ListTailnetDevicesRequestFields | (string & {});
+  fields?: ListTailnetDevicesRequestFields | (string & {}) | undefined;
   /** This endpoint supports server-side filtering of devices by specifying one or more filters in the form `<field>=<value>`. Fields must be a top-level device property - e.g. `isEphemeral`, `tags`, `hostname`, etc. Values are matched as _exact_ matches. Properties with simple types (strings, numbers, dates, etc) and lists are supported. Properties that are complex objects (e.g. `clientConnectivity`) are not supported. When multiple parameters are provided, the server performs a logical `AND` across all filter parameters before returning results. For example, `isEphemeral=true&tags=tag:prod&tags=tag:subnetrouter` would return devices where `isEphemeral` is `true` and `tags` contains both `tag:prod` and `tag:subnetrouter`. */
-  _field___value__filters?: string;
+  _field___value__filters?: string | undefined;
 }
 export type ListTailnetDevicesResponseDevicesList = Array<Device>;
 export interface ListTailnetDevicesResponse {
-  devices?: ListTailnetDevicesResponseDevicesList;
+  devices?: ListTailnetDevicesResponseDevicesList | undefined;
 }
 export interface ListTailnetKeysRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -1754,7 +1763,7 @@ export interface ListTailnetKeysRequest {
 export type ListTailnetKeysResponseKeysList = Array<Key>;
 export interface ListTailnetKeysResponse {
   /** A list of the active keys. */
-  keys?: ListTailnetKeysResponseKeysList;
+  keys?: ListTailnetKeysResponseKeysList | undefined;
 }
 export interface ListUserInvitesRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -1776,13 +1785,13 @@ export interface ListUsersRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
   tailnet: string;
   /** Allows for filtering the output by user type. */
-  type?: ListUsersRequestType | (string & {});
+  type?: ListUsersRequestType | (string & {}) | undefined;
   /** Allows for filtering the output by user role. Learn more about [user roles](/docs/reference/user-roles). */
-  role?: ListUsersRequestRole | (string & {});
+  role?: ListUsersRequestRole | (string & {}) | undefined;
 }
 export type ListUsersResponseUsersList = Array<User>;
 export interface ListUsersResponse {
-  users?: ListUsersResponseUsersList;
+  users?: ListUsersResponseUsersList | undefined;
 }
 export interface ListWebhooksRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -1790,7 +1799,7 @@ export interface ListWebhooksRequest {
 }
 export type ListWebhooksResponseWebhooksList = Array<Webhook>;
 export interface ListWebhooksResponse {
-  webhooks?: ListWebhooksResponseWebhooksList | null;
+  webhooks?: ListWebhooksResponseWebhooksList | null | undefined;
 }
 export type PreviewRuleMatchesRequestType = "user" | "ipport";
 export interface PreviewRuleMatchesRequest {
@@ -1856,11 +1865,11 @@ export interface SetCustomDevicePostureAttributesRequest {
   /** The name of the posture attribute to set. This must be prefixed with `custom`: Keys have a maximum length of 128 characters including the namespace, and can only contain letters, numbers, underscores, and colon. Keys are case-sensitive. Keys must be unique, but are checked for uniqueness in a case-insensitive manner. For example, `custom:MyAttribute` and `custom:myattribute` cannot both be set within a single tailnet. All values for a given key need to be of the same type, which is determined when the first value is written for a given key. For example, `custom:myattribute` cannot have a numeric value (`87`) for one node and a string value (`"78"`) for another node within the same tailnet. */
   attributeKey: string;
   /** A value can be either a string, number or boolean. A string value can have a maximum length of 50 characters, and can only contain letters, numbers, underscores, and periods. A number value is an integer and must be a JSON safe number (up to 2^53 - 1). */
-  value?: SetCustomDevicePostureAttributesRequestValue;
+  value?: SetCustomDevicePostureAttributesRequestValue | undefined;
   /** An optional expiry time for a given posture attribute. If set, Tailscale will automatically remove the attribute within a few minutes after the specified time. */
-  expiry?: string;
+  expiry?: string | undefined;
   /** An optional comment indicating a reason why an attribute is set, which will be added to the audit log. */
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface SetDeviceIpRequest {
   /** ID of the device. Using the device's `nodeId` is preferred, but its numeric `id` value can also be used. */
@@ -1882,7 +1891,7 @@ export interface SetDeviceRoutesRequest {
   /** ID of the device. Using the device's `nodeId` is preferred, but its numeric `id` value can also be used. */
   deviceId: string;
   /** The new list of enabled subnet routes. */
-  routes?: SetDeviceRoutesRequestRoutesList;
+  routes?: SetDeviceRoutesRequestRoutesList | undefined;
 }
 /** The new list of tags for the device. */
 export type SetDeviceTagsRequestTagsList = Array<string>;
@@ -1890,7 +1899,7 @@ export interface SetDeviceTagsRequest {
   /** ID of the device. Using the device's `nodeId` is preferred, but its numeric `id` value can also be used. */
   deviceId: string;
   /** The new list of tags for the device. */
-  tags?: SetDeviceTagsRequestTagsList;
+  tags?: SetDeviceTagsRequestTagsList | undefined;
 }
 export interface SetDeviceTagsResponse {}
 /** Global DNS resolvers to use. If `preferences.overrideLocalDNS` is true, these override the local OS configuration; otherwise they are used as fallback resolvers. */
@@ -1906,12 +1915,12 @@ export interface SetDnsConfigurationRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
   tailnet: string;
   /** Global DNS resolvers to use. If `preferences.overrideLocalDNS` is true, these override the local OS configuration; otherwise they are used as fallback resolvers. */
-  nameservers?: SetDnsConfigurationRequestNameserversList;
+  nameservers?: SetDnsConfigurationRequestNameserversList | undefined;
   /** Map of DNS name suffixes (domains) to lists of resolvers for Split DNS and advanced routing overlays. */
-  splitDNS?: SetDnsConfigurationRequestSplitDNSMap;
+  splitDNS?: SetDnsConfigurationRequestSplitDNSMap | undefined;
   /** Search domain paths to apply. */
-  searchPaths?: SetDnsConfigurationRequestSearchPathsList;
-  preferences?: DnsConfigurationPreferences;
+  searchPaths?: SetDnsConfigurationRequestSearchPathsList | undefined;
+  preferences?: DnsConfigurationPreferences | undefined;
 }
 /** DNS nameservers. */
 export type SetDnsNameserversRequestDnsList = Array<string>;
@@ -1919,15 +1928,15 @@ export interface SetDnsNameserversRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
   tailnet: string;
   /** DNS nameservers. */
-  dns?: SetDnsNameserversRequestDnsList;
+  dns?: SetDnsNameserversRequestDnsList | undefined;
 }
 /** DNS nameservers. */
 export type SetDnsNameserversResponseDnsList = Array<string>;
 export interface SetDnsNameserversResponse {
   /** DNS nameservers. */
-  dns?: SetDnsNameserversResponseDnsList;
+  dns?: SetDnsNameserversResponseDnsList | undefined;
   /** Whether MagicDNS is active for this tailnet. */
-  magicDNS?: boolean;
+  magicDNS?: boolean | undefined;
 }
 export interface SetDnsPreferencesRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -1957,21 +1966,21 @@ export interface SetKeyRequest {
   /** The id of the key. The key ID can be found in the [admin console](https://login.tailscale.com/admin/settings/keys). */
   keyId: string;
   /** The type of the key being updated. */
-  keyType?: SetKeyRequestKeyType | (string & {});
+  keyType?: SetKeyRequestKeyType | (string & {}) | undefined;
   /** A short string specifying the purpose of the key. Can be a maximum of 50 alphanumeric characters. Hyphens and spaces are also allowed. */
-  description?: string;
+  description?: string | undefined;
   /** A list of scopes to grant to the key. At least one scope is required. See [trust credentials scopes](https://tailscale.com/docs/reference/trust-credentials#scopes) for a list of available scopes. */
-  scopes?: SetKeyRequestScopesList;
+  scopes?: SetKeyRequestScopesList | undefined;
   /** A list of tags associated to the trust credential. Auth keys created with this credential must have these exact tags, or tags owned by the credential's tags. Mandatory if the scopes include "devices:core" or "auth_keys". */
-  tags?: SetKeyRequestTagsList;
+  tags?: SetKeyRequestTagsList | undefined;
   /** The issuer of the OIDC identity token used in the token exchange. Must be a valid https:// URL. Only applies to federated identities. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** The pattern used when matching against the `sub` claim from an OIDC identity token. Patterns can include `*` characters to match against any character. Only applies to federated identities. */
-  subject?: string;
+  subject?: string | undefined;
   /** The value used when matching against the `aud` claim from an OIDC identity token. Only applies to federated identities. */
-  audience?: string;
+  audience?: string | undefined;
   /** A map of claim names to pattern strings used to match against arbitrary claims in the OIDC identity token. Patterns can include `*` characters to match against any character. Only applies to federated identities. */
-  customClaimRules?: SetKeyRequestCustomClaimRulesMap;
+  customClaimRules?: SetKeyRequestCustomClaimRulesMap | undefined;
 }
 /** The type of log for logging endpoints. */
 export type SetLogStreamingConfigurationRequestLogType = "configuration" | "network";
@@ -1997,59 +2006,65 @@ export interface SetLogStreamingConfigurationRequest {
   /** The type of log. */
   logType: SetLogStreamingConfigurationRequestLogType | (string & {});
   /** The type of system to which logs are being streamed. */
-  destinationType?: SetLogStreamingConfigurationRequestDestinationType | (string & {});
+  destinationType?: SetLogStreamingConfigurationRequestDestinationType | (string & {}) | undefined;
   /** The URL to which log streams are being posted. If the DestinationType is `s3`, the URL may be (and often is) empty to use the official Amazon S3 endpoint. */
-  url?: string;
+  url?: string | undefined;
   /** The username with which log streams to this endpoint are authenticated. */
-  user?: string;
+  user?: string | undefined;
   /** An optional number of minutes to wait in between uploading new logs. If the quantity of logs does not fit within a single upload, multiple uploads will be made. */
-  uploadPeriodMinutes?: number;
+  uploadPeriodMinutes?: number | undefined;
   /** The compression algorithm with which to compress logs. `none` disables compression. Defaults to `none`. */
-  compressionFormat?: SetLogStreamingConfigurationRequestCompressionFormat | (string & {});
+  compressionFormat?:
+    | SetLogStreamingConfigurationRequestCompressionFormat
+    | (string & {})
+    | undefined;
   /** The token/password with which log streams to this endpoint should be authenticated. */
-  token?: Redacted.Redacted<string>;
+  token?: Redacted.Redacted<string> | undefined;
   /** The S3 bucket name. Required if the destinationType is `s3`. */
-  s3Bucket?: string;
+  s3Bucket?: string | undefined;
   /** The region in which the S3 bucket is located. Required if the destinationType is `s3`. */
-  s3Region?: string;
+  s3Region?: string | undefined;
   /** An optional S3 key prefix to prepend to the auto-generated S3 key name. */
-  s3KeyPrefix?: string;
+  s3KeyPrefix?: string | undefined;
   /** What type of authentication to use for S3. Required if the destinationType is `s3`. Tailscale recommends using `rolearn`. See [Amazon documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_common-scenarios_third-party.html). */
-  s3AuthenticationType?: SetLogStreamingConfigurationRequestS3AuthenticationType | (string & {});
+  s3AuthenticationType?:
+    | SetLogStreamingConfigurationRequestS3AuthenticationType
+    | (string & {})
+    | undefined;
   /** The S3 access key ID. Required if the destinationType is `s3` and `authenticationType` is `accesskey`. */
-  s3AccessKeyId?: string;
+  s3AccessKeyId?: string | undefined;
   /** The S3 secret access key. Required if the destinationType is `s3` and `authenticationType` is `accesskey`. */
-  s3SecretAccessKey?: Redacted.Redacted<string>;
+  s3SecretAccessKey?: Redacted.Redacted<string> | undefined;
   /** The Role ARN that Tailscale should supply to AWS when authenticating using role-based authentication. Required if the destinationType is `s3` and `authenticationType` is `rolearn`. */
-  s3RoleArn?: string;
+  s3RoleArn?: string | undefined;
   /** The GCS bucket name. Required if the destinationType is `gcs`. */
-  gcsBucket?: string;
+  gcsBucket?: string | undefined;
   /** An optional GCS key prefix to append to the GCS bucket name. */
-  gcsKeyPrefix?: string;
+  gcsKeyPrefix?: string | undefined;
   /** The GCS scopes needed to be able to write to the GCS bucket. */
-  gcsScopes?: SetLogStreamingConfigurationRequestGcsScopesList;
+  gcsScopes?: SetLogStreamingConfigurationRequestGcsScopesList | undefined;
   /** The JSON workload identity credentials from GCS needed for accessing the GCS account. */
-  gcsCredentials?: Redacted.Redacted<string>;
+  gcsCredentials?: Redacted.Redacted<string> | undefined;
 }
 export interface SetLogStreamingConfigurationResponse {}
 export interface SetPolicyFileRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
   tailnet: string;
   /** Response is encoded as JSON if `application/json` is requested, otherwise HuJSON will be returned. */
-  accept?: string;
+  accept?: string | undefined;
   /** This is a safety mechanism to avoid overwriting other users' updates to the tailnet policy file. - Set the `If-Match` value to that of the `ETag` header returned in a `GET` request to `/api/v2/tailnet/{tailnet}/acl`. Tailscale compares the `ETag` value in your request to that of the current tailnet file and only replaces the file if there's a match. (A mismatch indicates that another update has been made to the file.) For example: `-H "If-Match: \"e0b2816b418\""`. - Alternately, set the `If-Match` value to `ts-default` to ensure that the policy file is replaced *only if the current policy file is still the untouched default created automatically* for each tailnet. For example: `-H "If-Match: \"ts-default\""`. */
-  ifMatch?: string;
+  ifMatch?: string | undefined;
   body: string;
 }
 export interface SetPolicyFileResponse {
   body: string;
   /** Entity tag for the stored policy file. Send it back as If-Match on the next setPolicyFile. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface SetSplitDnsRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
   tailnet: string;
-  body?: SplitDns;
+  body?: SplitDns | undefined;
 }
 export type SetSplitDnsResponse = SplitDns;
 export interface SuspendUserRequest {
@@ -2085,10 +2100,10 @@ export interface UpdateOAuthAppRequest {
   /** The ID of the OAuth app. */
   appId: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   redirectURIs: RedirectURIs;
   scopes: Scopes;
-  allowedNodeAttributes?: AllowedNodeAttributes;
+  allowedNodeAttributes?: AllowedNodeAttributes | undefined;
 }
 /** The device posture provider. Required on POST requests, ignored on PATCH requests. */
 export type UpdatePostureIntegrationRequestProvider =
@@ -2102,15 +2117,15 @@ export interface UpdatePostureIntegrationRequest {
   /** Unique identifier for a posture integration. */
   id: string;
   /** The device posture provider. Required on POST requests, ignored on PATCH requests. */
-  provider?: UpdatePostureIntegrationRequestProvider | (string & {});
+  provider?: UpdatePostureIntegrationRequestProvider | (string & {}) | undefined;
   /** Identifies which of the provider's clouds to integrate with. - For CrowdStrike Falcon, it will be one of `us-1`, `us-2`, `eu-1` or `us-gov`. - For Microsoft Intune, it will be one of `global` or `us-gov`. - For Jamf Pro, Kandji and Sentinel One, it is the FQDN of your subdomain, for example `mydomain.sentinelone.net`. - For Kolide, this is left blank. */
-  cloudId?: string;
+  cloudId?: string | undefined;
   /** Unique identifier for your client. - For Microsoft Intune, it will be your application's UUID. - For CrowdStrike Falcon and Jamf Pro, it will be your client id. - For Kandji, Kolide and Sentinel One, this is left blank. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The Microsoft Intune directory (tenant) ID. For other providers, this is left blank. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The secret (auth key, token, etc.) used to authenticate with the provider. Required when creating a new integration, may be omitted when updating an existing integration, in which case we retain the existing password. */
-  clientSecret?: Redacted.Redacted<string>;
+  clientSecret?: Redacted.Redacted<string> | undefined;
 }
 /** The IP addresses assigned to the Service. - For new Services: either unset or a single IPv4 to assign the Service. - For existing Services: an IPv4 and an IPv6. The IPv4 can be updated, but not the IPv6. */
 export type UpdateServiceRequestAddrsList = Array<string>;
@@ -2124,17 +2139,17 @@ export interface UpdateServiceRequest {
   /** The unique name of a Service. The name should be prefixed with "svc:". It should be unique across the tailnet, so names already used for a machine cannot be reused for a Service. */
   serviceName: string;
   /** The IP addresses assigned to the Service. - For new Services: either unset or a single IPv4 to assign the Service. - For existing Services: an IPv4 and an IPv6. The IPv4 can be updated, but not the IPv6. */
-  addrs?: UpdateServiceRequestAddrsList;
+  addrs?: UpdateServiceRequestAddrsList | undefined;
   /** The unique name of the Service. */
-  name?: string;
+  name?: string | undefined;
   /** An optional human-readable label for the Service, shown in the Tailscale admin console and to clients with access to the Service. Must be 64 characters or fewer. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** An optional comment for the Service. */
-  comment?: string;
+  comment?: string | undefined;
   /** A list of protocol:port pairs to be exposed by the Service. The only supported protocol is "tcp" at this time. "do-not-validate" can be used to skip validation. */
-  ports?: UpdateServiceRequestPortsList;
+  ports?: UpdateServiceRequestPortsList | undefined;
   /** A list of optional tags associated with the Service. */
-  tags?: UpdateServiceRequestTagsList;
+  tags?: UpdateServiceRequestTagsList | undefined;
 }
 export interface UpdateServiceDeviceApprovalRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -2144,12 +2159,12 @@ export interface UpdateServiceDeviceApprovalRequest {
   /** ID of the device. Using the device's `nodeId` is preferred, but its numeric `id` value can also be used. */
   deviceId: string;
   /** Indicates whether to approve or revoke approval for the Service on the device. */
-  approved?: boolean;
+  approved?: boolean | undefined;
 }
 export interface UpdateSplitDnsRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
   tailnet: string;
-  body?: SplitDns;
+  body?: SplitDns | undefined;
 }
 export type UpdateSplitDnsResponse = SplitDns;
 /** Which user roles are allowed to [join external tailnets](/docs/features/sharing/how-to/invite-any-user). */
@@ -2167,31 +2182,32 @@ export interface UpdateTailnetSettingsRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
   tailnet: string;
   /** Prevents users from editing policies in the admin console to avoid conflicts with external management workflows like GitOps or Terraform. */
-  aclsExternallyManagedOn?: boolean | null;
+  aclsExternallyManagedOn?: boolean | null | undefined;
   /** Link to the external tailnet policy definition or management solution for this tailnet. */
-  aclsExternalLink?: string;
+  aclsExternalLink?: string | undefined;
   /** The [admin console session timeout](/docs/account/admin-console-session-timeout) for members of this tailnet. Setting it to 0 disables the timeout. */
-  adminConsoleSessionTimeoutMinutes?: number;
+  adminConsoleSessionTimeoutMinutes?: number | undefined;
   /** Whether [device approval](/docs/features/access-control/device-management/device-approval) is enabled for the tailnet. */
-  devicesApprovalOn?: boolean | null;
+  devicesApprovalOn?: boolean | null | undefined;
   /** Whether [auto updates](/docs/features/client/update#auto-updates) are enabled for devices that belong to this tailnet. */
-  devicesAutoUpdatesOn?: boolean | null;
+  devicesAutoUpdatesOn?: boolean | null | undefined;
   /** The [key expiry](/docs/features/access-control/key-expiry) duration for devices on this tailnet. */
-  devicesKeyDurationDays?: number;
+  devicesKeyDurationDays?: number | undefined;
   /** Whether [user approval](/docs/features/access-control/user-approval) is enabled for this tailnet. */
-  usersApprovalOn?: boolean | null;
+  usersApprovalOn?: boolean | null | undefined;
   /** Which user roles are allowed to [join external tailnets](/docs/features/sharing/how-to/invite-any-user). */
   usersRoleAllowedToJoinExternalTailnets?:
     | UpdateTailnetSettingsRequestUsersRoleAllowedToJoinExternalTailnets
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Whether [network flog logs](/docs/features/logging/network-flow-logs) are enabled for the tailnet. */
-  networkFlowLoggingOn?: boolean | null;
+  networkFlowLoggingOn?: boolean | null | undefined;
   /** The [route selection](/docs/features/route-selection) algorithm used by the tailnet: * `active-passive-failover` - Active-passive failover (formerly known as "Failover") * `regional-routing` - Regional routing * `regional-routing-failover` - Regional routing with in-region failover * `magicroute` - MagicRoute A PATCH request must not specify both the `regionalRoutingOn` and `routeSelection` fields. */
-  routeSelection?: UpdateTailnetSettingsRequestRouteSelection | (string & {});
+  routeSelection?: UpdateTailnetSettingsRequestRouteSelection | (string & {}) | undefined;
   /** Whether [identity collection](/docs/features/access-control/device-management/how-to/manage-identity) is enabled for [device posture](/docs/features/device-posture) integrations for the tailnet. */
-  postureIdentityCollectionOn?: boolean | null;
+  postureIdentityCollectionOn?: boolean | null | undefined;
   /** Whether provisioning of [HTTPS certificates](/docs/how-to/set-up-https-certificates) is enabled for this tailnet. */
-  httpsEnabled?: boolean | null;
+  httpsEnabled?: boolean | null | undefined;
 }
 /** The role of the user. Learn more about [user roles](/docs/reference/user-roles). */
 export type UpdateUserRoleRequestRole =
@@ -2206,13 +2222,13 @@ export interface UpdateUserRoleRequest {
   /** ID of the user. */
   userId: string;
   /** The role of the user. Learn more about [user roles](/docs/reference/user-roles). */
-  role?: UpdateUserRoleRequestRole | (string & {});
+  role?: UpdateUserRoleRequestRole | (string & {}) | undefined;
 }
 export interface UpdateUserRoleResponse {}
 export interface UpdateWebhookRequest {
   /** ID for the webhook endpoint. */
   endpointId: string;
-  subscriptions?: Subscriptions;
+  subscriptions?: Subscriptions | undefined;
 }
 export interface ValidateAndTestPolicyFileRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -2221,8 +2237,8 @@ export interface ValidateAndTestPolicyFileRequest {
 }
 export type ValidateAndTestPolicyFileResponseDataList = Array<unknown>;
 export interface ValidateAndTestPolicyFileResponse {
-  message?: string;
-  data?: ValidateAndTestPolicyFileResponseDataList;
+  message?: string | undefined;
+  data?: ValidateAndTestPolicyFileResponseDataList | undefined;
 }
 export interface ValidateAwsExternalIdRequest {
   /** The tailnet ID. Tailnets created before Oct 2025 can still use the legacy ID, but the Tailnet ID is the preferred identifier. When specifying a tailnet in the API, you can: - Provide a dash (`-`) to reference the default tailnet of the access token being used to make the API call. This is the best option for most users. Your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/-/..." ``` - Provide the **tailnet ID** found on the **[General Settings](https://login.tailscale.com/admin/settings/general)** page of the Tailscale admin console. For example, if your tailnet ID name is `T1234CNTRL`, your API calls would start: ```sh curl "https://api.tailscale.com/api/v2/tailnet/T1234CNTRL/..." ``` Learn more about [tailnet ID](https://tailscale.com/docs/concepts/tailnet-name#tailnet-id). */
@@ -2230,7 +2246,7 @@ export interface ValidateAwsExternalIdRequest {
   /** The AWS external ID to validate. */
   id: string;
   /** ARN of the AWS IAM role to validate with this external ID. */
-  roleArn?: string;
+  roleArn?: string | undefined;
 }
 export interface ValidateAwsExternalIdResponse {}
 export type AcceptDeviceInviteError = BadRequest | TailscaleOpError;
@@ -2323,7 +2339,7 @@ export const createDeviceInvites: API.OperationMethod<
 }));
 
 export type CreateKeyError = NotFound | TailnetNotFound | TailscaleOpError;
-/** Create an auth key or trust credential Creates a new [auth key](https://tailscale.com/docs/features/access-control/auth-keys), or [trust credential](https://tailscale.com/docs/reference/trust-credentials) in the specified tailnet. Trust credentials include [OAuth clients](https://tailscale.com/docs/features/oauth-clients) and [federated identities](https://tailscale.com/docs/features/workload-identity-federation). The key will be associated with the user who owns the API access token used to make this call, or, if the call is made with an access token derived from an OAuth client or federated identity, the key will be owned by the tailnet. Returns a JSON object with the generated key. The key should be recorded and kept safe and secure because it wields the capabilities or scopes specified in the request. The identity of the key is embedded in the key itself and can be used to perform operations on the key (e.g., revoking it or retrieving information about it). The full key can no longer be retrieved after the initial response. OAuth Scope: `auth_keys` grants access to create machine auth keys. OAuth Scope: `oauth_keys` grants access to create OAuth clients. OAuth Scope: `federated_keys` grants access to created federated identities. */
+/** Create an auth key or trust credential Creates a new [auth key](https://tailscale.com/docs/features/access-control/auth-keys), or [trust credential](https://tailscale.com/docs/reference/trust-credentials) in the specified tailnet. Trust credentials include [OAuth clients](https://tailscale.com/docs/features/oauth-clients) and [federated identities](https://tailscale.com/docs/features/workload-identity-federation). The key will be associated with the user who owns the API access token used to make this call, or, if the call is made with an access token derived from an OAuth client or federated identity, the key will be owned by the tailnet. Returns a JSON object with the generated key. The key should be recorded and kept safe and secure because it wields the capabilities or scopes specified in the request. The identity of the key is embedded in the key itself and can be used to perform operations on the key (e.g., revoking it or retrieving information about it). The full key can no longer be retrieved after the initial response. OAuth Scope: `auth_keys` grants access to create machine auth keys. If you include `nodeAttributes` in the request body, you must also have `devices:posture_attributes`. OAuth Scope: `oauth_keys` grants access to create OAuth clients. OAuth Scope: `federated_keys` grants access to created federated identities. */
 export const createKey: API.OperationMethod<
   CreateKeyRequest,
   Key,
@@ -2331,7 +2347,7 @@ export const createKey: API.OperationMethod<
   TailscaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<CreateKeyRequest>,
-  output: __S(123, __c15, 3) as any as S.Schema<Key>,
+  output: __S(124, __c15, 4) as any as S.Schema<Key>,
   errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
@@ -2810,7 +2826,7 @@ export type GetKeyError = NotFound | TailnetNotFound | TailscaleOpError;
 export const getKey: API.OperationMethod<GetKeyRequest, Key, GetKeyError, TailscaleOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(408, __c51, 0) as any as S.Schema<GetKeyRequest>,
-    output: __S(123, __c15, 3) as any as S.Schema<Key>,
+    output: __S(124, __c15, 4) as any as S.Schema<Key>,
     errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
     protocol: TailscaleProtocol,
     retry: Retry.Retry,
@@ -3632,7 +3648,7 @@ export type SetKeyError = NotFound | TailnetNotFound | TailscaleOpError;
 export const setKey: API.OperationMethod<SetKeyRequest, Key, SetKeyError, TailscaleOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(824, __c103, 0) as any as S.Schema<SetKeyRequest>,
-    output: __S(123, __c15, 3) as any as S.Schema<Key>,
+    output: __S(124, __c15, 4) as any as S.Schema<Key>,
     errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
     protocol: TailscaleProtocol,
     retry: Retry.Retry,
@@ -4216,7 +4232,7 @@ function __c12(j: number): any {
           tailnet: S.String.pipe(T.Label()),
           keyType: S.optional(S.String),
           description: S.optional(S.String),
-          capabilities: S.optional(__S(122, __c15, 2)),
+          capabilities: S.optional(__S(123, __c15, 3)),
           expirySeconds: S.optional(S.Number),
           scopes: S.optional(__S(104, __c13, 0)),
           tags: S.optional(__S(104, __c13, 0)),
@@ -4243,27 +4259,30 @@ function __c14(j: number): any {
 function __c15(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           reusable: S.optional(S.Boolean),
           ephemeral: S.optional(S.Boolean),
           preauthorized: S.optional(S.Boolean),
           tags: S.optional(__S(104, __c13, 0)),
+          nodeAttributes: S.optional(__S(120, __c15, 0)),
         }),
       ).annotate({ identifier: "KeyCapabilitiesDevicesCreate" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          create: S.optional(__S(120, __c15, 0)),
-        }),
-      ).annotate({ identifier: "KeyCapabilitiesDevices" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          devices: S.optional(__S(121, __c15, 1)),
+          create: S.optional(__S(121, __c15, 1)),
+        }),
+      ).annotate({ identifier: "KeyCapabilitiesDevices" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          devices: S.optional(__S(122, __c15, 2)),
         }),
       ).annotate({ identifier: "KeyCapabilities" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -4274,7 +4293,7 @@ function __c15(j: number): any {
           updated: S.optional(S.String),
           expires: S.optional(S.String),
           revoked: S.optional(S.String),
-          capabilities: S.optional(__S(122, __c15, 2)),
+          capabilities: S.optional(__S(123, __c15, 3)),
           scopes: S.optional(__S(104, __c13, 0)),
           tags: S.optional(__S(104, __c13, 0)),
           description: S.optional(S.String),
@@ -5484,7 +5503,7 @@ function __c84(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/tailnet/{tailnet}/keys", code: 200 })),
       ).annotate({ identifier: "ListTailnetKeysRequest" });
     case 1:
-      return S.Array(__S(123, __c15, 3));
+      return S.Array(__S(124, __c15, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({

@@ -468,9 +468,6 @@
       "path": "./packages/tailscale/tsconfig.json"
     },
     {
-      "path": "./packages/tailscale/tsconfig.test.json"
-    },
-    {
       "path": "./packages/tailscale/tsconfig.scripts.json"
     },
     {

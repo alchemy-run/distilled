@@ -9,8 +9,6 @@ import {
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
-const HUJSON_BODY_URIS = new Set(["/tailnet/{tailnet}/acl", "/tailnet/{tailnet}/acl/validate"]);
-
 const tailscaleSpec: SdkSpec = {
   nullableTrait: NULLABLE_TRAIT,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
@@ -48,18 +46,6 @@ const tailscaleSpec: SdkSpec = {
       strategy: "paginateCursor",
       itemsFallback: "items",
     },
-  },
-
-  structPipes: ({ httpTrait }) => {
-    if (httpTrait === undefined || httpTrait === null) return [];
-    const http = { ...(httpTrait as Record<string, unknown>) };
-    if (
-      HUJSON_BODY_URIS.has(http.uri as string) &&
-      (http.method === "POST" || http.method === "PUT")
-    ) {
-      http.bodyMediaType = "application/hujson";
-    }
-    return [`T.Http(${JSON.stringify(http)})`];
   },
 
   operationDecl: {

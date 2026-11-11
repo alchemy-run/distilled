@@ -2,6 +2,16 @@
   "description": "Carry policy files as raw HuJSON text. getPolicyFile, setPolicyFile and validateAndTestPolicyFile send and return the body verbatim as application/hujson (the spec's empty-object and oneOf JSON schemas drop or re-quote comments), require the request body (an omitted body stores {}, live 2026-10-03), and model the ETag header on getPolicyFile and setPolicyFile so a guarded write can follow a write without a read.",
   "patches": [
     {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#SetPolicyFile/traits/smithy.api#http/bodyMediaType",
+      "value": "application/hujson"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ValidateAndTestPolicyFile/traits/smithy.api#http/bodyMediaType",
+      "value": "application/hujson"
+    },
+    {
       "op": "remove",
       "path": "/shapes/com.tailscale.api#ValidateAndTestPolicyFileRequestBodyCase0ItemSrcPostureAttrsValue"
     },
