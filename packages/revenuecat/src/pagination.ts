@@ -10,7 +10,9 @@ import * as Stream from "effect/Stream";
 export const paginateNextPage: Pagination.PaginationStrategy = (operation, input, pagination) => {
   const { inputToken, outputToken } = pagination;
   if (!inputToken || !outputToken) {
-    return Stream.die(new Error("RevenueCat pagination requires inputToken and outputToken"));
+    return Pagination.missingPaginationConfig(
+      "RevenueCat pagination requires inputToken and outputToken",
+    );
   }
   return Stream.paginate(input, (request) =>
     Effect.map(operation(request), (page) => {

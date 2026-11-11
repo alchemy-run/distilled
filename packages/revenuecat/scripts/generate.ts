@@ -44,6 +44,7 @@ const revenueCatSpec: SdkSpec = {
   paginationProfiles: {
     cursor: {
       strategy: "paginateNextPage",
+      requires: () => ["inputToken", "outputToken"],
       itemsFallback: "items",
     },
   },

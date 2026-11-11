@@ -154,9 +154,9 @@ export interface AppStoreAppAppStore {
   /** Whether In-App Purchase subscription key credentials are configured. */
   subscription_key_configured: boolean;
   /** Your vendor number from App Store Connect, or null when not configured. */
-  app_store_connect_vendor_number?: string | null;
+  app_store_connect_vendor_number?: string | null | undefined;
   /** The custom URL scheme for the app, derived from the app's public ID. */
-  custom_url_scheme?: string;
+  custom_url_scheme?: string | undefined;
   [key: string]: unknown;
 }
 export interface AppStoreApp {
@@ -187,7 +187,7 @@ export interface MacAppStoreAppMacAppStore {
   /** The bundle ID of the app */
   bundle_id: string | null;
   /** The custom URL scheme for the app, derived from the app's public ID. */
-  custom_url_scheme?: string;
+  custom_url_scheme?: string | undefined;
   [key: string]: unknown;
 }
 export interface MacAppStoreApp {
@@ -220,7 +220,7 @@ export interface PlayStoreAppPlayStore {
   /** Whether Google Play service account credentials are configured. */
   play_service_account_credentials_configured: boolean;
   /** The custom URL scheme for the app, derived from the app's public ID. */
-  custom_url_scheme?: string;
+  custom_url_scheme?: string | undefined;
   [key: string]: unknown;
 }
 export interface PlayStoreApp {
@@ -249,7 +249,7 @@ export type StripeAppType = "stripe";
 /** Stripe type details */
 export interface StripeAppStripe {
   /** Stripe account connected to your RevenueCat account. */
-  stripe_account_id?: string | null;
+  stripe_account_id?: string | null | undefined;
   [key: string]: unknown;
 }
 export interface StripeApp {
@@ -326,15 +326,15 @@ export type RCBillingCurrency =
 /** Revenue Cat Billing Store type details */
 export interface RCBillingAppRcBilling {
   /** Stripe account connected to your RevenueCat account. */
-  stripe_account_id?: string | null;
+  stripe_account_id?: string | null | undefined;
   /** The company name. This field is deprecated. Please, use `app_name` instead. */
   seller_company_name: string;
   /** Shown in checkout, emails, and receipts sent to customers. */
-  app_name?: string;
+  app_name?: string | undefined;
   /** The company support email. This field is deprecated. Please, use `support_email` instead. */
-  seller_company_support_email?: string | null;
+  seller_company_support_email?: string | null | undefined;
   /** Used as the `reply to` address in all emails sent to customers, to allow them to receive support. */
-  support_email?: string | null;
+  support_email?: string | null | undefined;
   /** The default currency to be used for the app. */
   default_currency: RCBillingCurrency;
   [key: string]: unknown;
@@ -365,9 +365,9 @@ export type RokuAppType = "roku";
 /** Roku Channel Store type details */
 export interface RokuAppRoku {
   /** Channel ID provided on the Roku Channel page. */
-  roku_channel_id?: string | null;
+  roku_channel_id?: string | null | undefined;
   /** Channel name that is displayed on the Roku Channel page. */
-  roku_channel_name?: string | null;
+  roku_channel_name?: string | null | undefined;
   [key: string]: unknown;
 }
 export interface RokuApp {
@@ -396,9 +396,9 @@ export type PaddleAppType = "paddle";
 /** Paddle Billing type details */
 export interface PaddleAppPaddle {
   /** Whether the app is tied to the sandbox environment. */
-  paddle_is_sandbox?: boolean;
-  /** Paddle Server-side API key provided on the Paddle dashboard. */
-  paddle_api_key?: string | Redacted.Redacted<string> | null;
+  paddle_is_sandbox?: boolean | undefined;
+  /** Paddle Server-side API key provided on the Paddle dashboard, masked for security. Only a short recognizable prefix is returned, followed by ****. Null when no key is configured. */
+  paddle_api_key?: string | Redacted.Redacted<string> | null | undefined;
   [key: string]: unknown;
 }
 export interface PaddleApp {
@@ -940,17 +940,17 @@ export interface Product {
   /** The product type */
   type: ProductType;
   /** The subscription product object */
-  subscription?: SubscriptionProduct | null;
+  subscription?: SubscriptionProduct | null | undefined;
   /** The one time product object */
-  one_time?: OneTimeProduct | null;
+  one_time?: OneTimeProduct | null | undefined;
   /** The date when the product was created in ms since epoch */
   created_at: number;
   /** The id of the app */
   app_id: string;
   /** The app associated with the product */
-  app?: App | null;
+  app?: App | null | undefined;
   /** The product's indicative price in the default currency/country (USD / US). Null if no price is available. Only present when expanded. */
-  indicative_price?: IndicativePrice | null;
+  indicative_price?: IndicativePrice | null | undefined;
   /** The display name of the product */
   display_name: string | null;
 }
@@ -983,7 +983,7 @@ export interface Entitlement {
   /** The date when the entitlement was created in ms since epoch */
   created_at: number;
   /** List of products attached to the entitlement */
-  products?: EntitlementProducts | null;
+  products?: EntitlementProducts | null | undefined;
 }
 export interface ArchiveOfferingRequest {
   /** ID of the project */
@@ -1034,7 +1034,7 @@ export interface Package {
   position: number | null;
   /** The date the package was created at in ms since epoch */
   created_at: number;
-  products?: PackageProducts | null;
+  products?: PackageProducts | null | undefined;
 }
 /** Details about each object. */
 export type OfferingPackagesItemsList = Array<Package>;
@@ -1068,8 +1068,8 @@ export interface Offering {
   /** ID of the v2-visible paywall attached to this offering, or null if none. */
   paywall_id: string | null;
   /** Custom metadata of the offering */
-  metadata?: OfferingMetadata | null;
-  packages?: OfferingPackages | null;
+  metadata?: OfferingMetadata | null | undefined;
+  packages?: OfferingPackages | null | undefined;
 }
 export interface ArchiveProductRequest {
   /** ID of the project */
@@ -1119,9 +1119,9 @@ export interface VirtualCurrency {
   /** The date the in-app currency (virtual currency) was created at in ms since epoch */
   created_at: number;
   /** Description of the in-app currency (virtual currency) */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The grants that define how products grant this in-app currency (virtual currency) */
-  product_grants?: VirtualCurrencyProductGrantsList | null;
+  product_grants?: VirtualCurrencyProductGrantsList | null | undefined;
 }
 export interface AssignCustomerOfferingRequest {
   /** ID of the project */
@@ -1218,7 +1218,7 @@ export interface PaywallComponentsVersion {
   /** State declarations for this version, keyed by state key name. An empty object when the paywall has no state declarations; null for paywalls not written to since before state declarations were introduced. */
   state_declarations: PaywallComponentsVersionStateDeclarationsMap | null;
   /** Font objects used by the published paywall components. Only present on published versions. */
-  fonts?: PaywallComponentsVersionFontsMap | null;
+  fonts?: PaywallComponentsVersionFontsMap | null | undefined;
 }
 export interface PaywallComponents {
   /** The currently published version of the paywall. Null if the paywall has never been published. */
@@ -1244,9 +1244,9 @@ export interface Paywall {
   /** The paywall's current revision. Used on updates to reject stale writes (if another update has bumped the revision in the meantime). */
   revision: number;
   /** The offering associated with this paywall. Expandable. */
-  offering?: Offering | null;
+  offering?: Offering | null | undefined;
   /** Published and draft components configurations for this paywall. Expandable. */
-  components?: PaywallComponents | null;
+  components?: PaywallComponents | null | undefined;
 }
 /** IDs of the products to be attached to the entitlement. */
 export type AttachProductsToEntitlementRequestProductIdsList = Array<string>;
@@ -1328,7 +1328,7 @@ export interface MonetaryAmount {
   /** Total revenue generated (excluding taxes and commission) */
   gross: number;
   /** Store commission or payment processor fees deducted from gross revenue (if any) */
-  commission?: number;
+  commission?: number | undefined;
   /** Estimated taxes deducted from gross revenue */
   tax: number;
   /** Net revenue after store commission / fees and taxes */
@@ -1388,21 +1388,21 @@ export type SubscriptionPendingChangesStatus =
 /** Expected changes to the subscription that will occur at the end of the current period. Present when the subscription has a pending product change, has already renewed for the next period, or has a failed upcoming renewal. Only fields that differ from the current subscription state are included. */
 export interface SubscriptionPendingChanges {
   /** The product that will be active as of the next renewal */
-  product?: Product | null;
+  product?: Product | null | undefined;
   /** Expected start of the next billing period in ms since epoch. Omitted when unchanged from the current subscription. */
-  current_period_starts_at?: number | null;
+  current_period_starts_at?: number | null | undefined;
   /** Expected end of the next billing period in ms since epoch. Omitted when unchanged from the current subscription. */
-  current_period_ends_at?: number | null;
+  current_period_ends_at?: number | null | undefined;
   /** Expected store subscription identifier for the next period. Omitted when unchanged from the current subscription. */
-  store_subscription_identifier?: string | null;
+  store_subscription_identifier?: string | null | undefined;
   /** Expected auto renewal status for the next period. Omitted when unchanged from the current subscription. */
-  auto_renewal_status?: SubscriptionPendingChangesAutoRenewalStatus | null;
+  auto_renewal_status?: SubscriptionPendingChangesAutoRenewalStatus | null | undefined;
   /** Expected subscription status for the next period. Omitted when unchanged from the current subscription. */
-  status?: SubscriptionPendingChangesStatus | null;
+  status?: SubscriptionPendingChangesStatus | null | undefined;
   /** Expected pending payment flag for the next period. Omitted when unchanged from the current subscription. */
-  pending_payment?: boolean | null;
+  pending_payment?: boolean | null | undefined;
   /** Expected access flag for the next period. Omitted when unchanged from the current subscription. */
-  gives_access?: boolean | null;
+  gives_access?: boolean | null | undefined;
   [key: string]: unknown;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
@@ -1465,15 +1465,15 @@ export interface Subscription {
   /** Ownership of the subscription */
   ownership: Ownership;
   /** Expected changes to the subscription that will occur at the end of the current period. Present when the subscription has a pending product change, has already renewed for the next period, or has a failed upcoming renewal. Only fields that differ from the current subscription state are included. */
-  pending_changes?: SubscriptionPendingChanges | null;
+  pending_changes?: SubscriptionPendingChanges | null | undefined;
   /** Billing country in ISO alpha 2 code */
-  country?: Country | null;
+  country?: Country | null | undefined;
   /** The URL to manage the subscription */
   management_url: string | null;
   /** Information about the most recent successful redemption of the purchase's redemption link. Only applicable to Web Billing web-to-web purchases; null if the purchase has never been successfully redeemed (or has no redemption link, e.g. purchases from other stores). Only present when expanded. */
-  redemption?: Redemption | null;
+  redemption?: Redemption | null | undefined;
   /** The outcome of a product change request. Only present in the response to the change product endpoint. `applied` means this subscription reflects the new product; for Stripe that is a new subscription, so its `id` differs from the one the change was requested for and that one is now expired. `pending` means the change was accepted but this subscription does not reflect it yet. */
-  product_change?: SubscriptionProductChange;
+  product_change?: SubscriptionProductChange | undefined;
 }
 /** The platform of the app. Mac App Store is disabled by default. See [Legacy Mac Apps](https://www.revenuecat.com/docs/legacy-mac-apps) for more details. */
 export type AmazonAppCreateType = "amazon";
@@ -1482,7 +1482,7 @@ export interface AmazonAppCreateAmazon {
   /** The package name of the app */
   package_name: string;
   /** Your Amazon Developer Identity Shared Key */
-  shared_secret?: string | Redacted.Redacted<string>;
+  shared_secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface AmazonAppCreate {
   /** The name of the app */
@@ -1499,25 +1499,25 @@ export interface AppStoreAppCreateAppStore {
   /** The bundle ID of the app */
   bundle_id: string;
   /** The shared secret of the app */
-  shared_secret?: string | Redacted.Redacted<string>;
+  shared_secret?: string | Redacted.Redacted<string> | undefined;
   /** PKCS /#8 In App Key downloaded from App Store Connect in PEM format. Copy the contents of the file in this field. Mutually exclusive with copy_subscription_key_from_app_id. See instructions on how to get it in: https://www.revenuecat.com/docs/in-app-purchase-key-configuration */
-  subscription_private_key?: string | Redacted.Redacted<string>;
+  subscription_private_key?: string | Redacted.Redacted<string> | undefined;
   /** In App Key id. The ID of the downloaded in app key. You can get it from App Store Connect */
-  subscription_key_id?: string;
+  subscription_key_id?: string | undefined;
   /** The key Issuer id. See instructions on how to obtain this in: https://www.revenuecat.com/docs/in-app-purchase-key-configuration#3-providing-the-issuer-id-to-revenuecat */
-  subscription_key_issuer?: string;
+  subscription_key_issuer?: string | undefined;
   /** App Store Connect API Key downloaded from App Store Connect in PEM format. Copy the contents of the file in this field. Mutually exclusive with copy_app_store_connect_api_key_from_app_id. */
-  app_store_connect_api_key?: string | Redacted.Redacted<string>;
+  app_store_connect_api_key?: string | Redacted.Redacted<string> | undefined;
   /** App Store Connect API Key ID. The ID of the downloaded API key. You can get it from App Store Connect. */
-  app_store_connect_api_key_id?: string;
+  app_store_connect_api_key_id?: string | undefined;
   /** App Store Connect API Key Issuer ID. */
-  app_store_connect_api_key_issuer?: string;
+  app_store_connect_api_key_issuer?: string | undefined;
   /** Your vendor number from App Store Connect. Required for some features like financial reports. */
-  app_store_connect_vendor_number?: string;
+  app_store_connect_vendor_number?: string | undefined;
   /** Copy the App Store Connect API key from another App Store app in this project. Pass that app's id from list-apps. Mutually exclusive with app_store_connect_api_key. Key id and issuer are copied unless you send them explicitly. */
-  copy_app_store_connect_api_key_from_app_id?: string;
+  copy_app_store_connect_api_key_from_app_id?: string | undefined;
   /** Copy the In-App Purchase key from another App Store app in this project. Pass that app's id from list-apps. Mutually exclusive with subscription_private_key. Key id and issuer are copied unless you send them explicitly. */
-  copy_subscription_key_from_app_id?: string;
+  copy_subscription_key_from_app_id?: string | undefined;
 }
 export interface AppStoreAppCreate {
   /** The name of the app */
@@ -1534,7 +1534,7 @@ export interface MacAppStoreAppCreateMacAppStore {
   /** The bundle ID of the app */
   bundle_id: string;
   /** The shared secret of the app */
-  shared_secret?: string | Redacted.Redacted<string>;
+  shared_secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface MacAppStoreAppCreate {
   /** The name of the app */
@@ -1551,7 +1551,7 @@ export interface PlayStoreAppCreatePlayStore {
   /** The package name of the app */
   package_name: string;
   /** Contents of the Google Cloud service account key JSON file. Copy the whole file into this field. See instructions on how to create it in: https://www.revenuecat.com/docs/creating-play-service-credentials */
-  play_service_account_credentials_json?: string | Redacted.Redacted<string>;
+  play_service_account_credentials_json?: string | Redacted.Redacted<string> | undefined;
 }
 export interface PlayStoreAppCreate {
   /** The name of the app */
@@ -1566,7 +1566,7 @@ export type StripeAppCreateType = "stripe";
 /** Stripe type details. Should only be used when type is stripe. */
 export interface StripeAppCreateStripe {
   /** It needs to be connected to your RevenueCat account. It can be omitted if you only have a single Stripe account connected to your RevenueCat account. */
-  stripe_account_id?: string | null;
+  stripe_account_id?: string | null | undefined;
 }
 export interface StripeAppCreate {
   /** The name of the app */
@@ -1574,38 +1574,38 @@ export interface StripeAppCreate {
   /** The platform of the app. Mac App Store is disabled by default. See [Legacy Mac Apps](https://www.revenuecat.com/docs/legacy-mac-apps) for more details. */
   type: StripeAppCreateType;
   /** Stripe type details. Should only be used when type is stripe. */
-  stripe?: StripeAppCreateStripe;
+  stripe?: StripeAppCreateStripe | undefined;
 }
 /** The platform of the app. Mac App Store is disabled by default. See [Legacy Mac Apps](https://www.revenuecat.com/docs/legacy-mac-apps) for more details. */
 export type RCBillingAppCreateType = "rc_billing";
-/** Revenue Cat Billing Store type details */
+/** Web Billing type details. Web Billing requires the Pro plan or higher. On other plans, creating a Web Billing app returns an authorization error. */
 export interface RCBillingAppCreateRcBilling {
   /** It needs to be connected to your RevenueCat account. It can be omitted if you only have a single Stripe account connected to your RevenueCat account. */
-  stripe_account_id?: string | null;
+  stripe_account_id?: string | null | undefined;
   /** Shown in checkout, emails, and receipts sent to customers. */
   app_name: string;
   /** Used as the `reply to` address in all emails sent to customers, to allow them to receive support. If you leave this field blank, your RevenueCat account email address will be used. */
-  support_email?: string | null;
-  default_currency?: RCBillingCurrency | (string & {});
+  support_email?: string | null | undefined;
+  default_currency?: RCBillingCurrency | (string & {}) | undefined;
 }
 export interface RCBillingAppCreate {
   /** The name of the app */
   name: string;
   /** The platform of the app. Mac App Store is disabled by default. See [Legacy Mac Apps](https://www.revenuecat.com/docs/legacy-mac-apps) for more details. */
   type: RCBillingAppCreateType;
-  /** Revenue Cat Billing Store type details */
-  rc_billing?: RCBillingAppCreateRcBilling | null;
+  /** Web Billing type details. Web Billing requires the Pro plan or higher. On other plans, creating a Web Billing app returns an authorization error. */
+  rc_billing?: RCBillingAppCreateRcBilling | null | undefined;
 }
 /** The platform of the app. Mac App Store is disabled by default. See [Legacy Mac Apps](https://www.revenuecat.com/docs/legacy-mac-apps) for more details. */
 export type RokuAppCreateType = "roku";
 /** Roku Channel Store details. Should only be used when type is roku. */
 export interface RokuAppCreateRoku {
   /** Roku Pay API key provided on the Roku Pay Web Services page. */
-  roku_api_key?: string | Redacted.Redacted<string> | null;
+  roku_api_key?: string | Redacted.Redacted<string> | null | undefined;
   /** Channel ID provided on the Roku Channel page. */
-  roku_channel_id?: string | null;
+  roku_channel_id?: string | null | undefined;
   /** Channel name that is displayed on the Roku Channel page. */
-  roku_channel_name?: string | null;
+  roku_channel_name?: string | null | undefined;
 }
 export interface RokuAppCreate {
   /** The name of the app */
@@ -1613,16 +1613,16 @@ export interface RokuAppCreate {
   /** The platform of the app. Mac App Store is disabled by default. See [Legacy Mac Apps](https://www.revenuecat.com/docs/legacy-mac-apps) for more details. */
   type: RokuAppCreateType;
   /** Roku Channel Store details. Should only be used when type is roku. */
-  roku?: RokuAppCreateRoku | null;
+  roku?: RokuAppCreateRoku | null | undefined;
 }
 /** The platform of the app. Mac App Store is disabled by default. See [Legacy Mac Apps](https://www.revenuecat.com/docs/legacy-mac-apps) for more details. */
 export type PaddleAppCreateType = "paddle";
 /** Paddle Billing details. Should only be used when type is paddle. */
 export interface PaddleAppCreatePaddle {
   /** Paddle Server-side API key provided on the Paddle dashboard. */
-  paddle_api_key?: string | Redacted.Redacted<string> | null;
+  paddle_api_key?: string | Redacted.Redacted<string> | null | undefined;
   /** [Deprecated] Whether the app is tied to the sandbox environment. This field is deprecated and will be removed in the future. The environment is determined by the `paddle_api_key` format. */
-  paddle_is_sandbox?: boolean | null;
+  paddle_is_sandbox?: boolean | null | undefined;
 }
 export interface PaddleAppCreate {
   /** The name of the app */
@@ -1630,7 +1630,7 @@ export interface PaddleAppCreate {
   /** The platform of the app. Mac App Store is disabled by default. See [Legacy Mac Apps](https://www.revenuecat.com/docs/legacy-mac-apps) for more details. */
   type: PaddleAppCreateType;
   /** Paddle Billing details. Should only be used when type is paddle. */
-  paddle?: PaddleAppCreatePaddle | null;
+  paddle?: PaddleAppCreatePaddle | null | undefined;
 }
 export type AppCreate =
   | AmazonAppCreate
@@ -1765,9 +1765,9 @@ export interface AudienceRuleCondition {
   /** The comparison operator applied to the field. */
   operator: AudienceRuleConditionOperator | (string & {});
   /** The value the field is compared against. May be empty for operators that do not take a value (e.g. `isEmpty`, `isNotEmpty`). Multi-value operators (`isAnyOf`, `isNotAnyOf`, `containsAnyOf`) take comma-separated values. For `latestProduct`, equality operators use product ids (`prod...`), while substring operators use raw product identifier text. For `anyActiveStore`, use store identifiers such as `app_store`. */
-  value?: string;
+  value?: string | undefined;
   /** Currency for a `totalSpent` or `totalAdRevenue` comparison. Omitted values are interpreted as USD. Must be omitted for `isEmpty` and `isNotEmpty`. */
-  currency?: AudienceRuleConditionCurrency | (string & {});
+  currency?: AudienceRuleConditionCurrency | (string & {}) | undefined;
 }
 /** The conditions in the group, combined with AND. */
 export type AudienceRulesGroupsItemConditionsList = Array<AudienceRuleCondition>;
@@ -1808,18 +1808,18 @@ export interface AudienceSampleItem {
   object: AudienceSampleItemObject;
   app_user_id: string;
   app_uuid: string;
-  email?: string | null;
+  email?: string | null | undefined;
   /** Timestamp when the customer was first seen or purchased, in milliseconds since epoch. */
-  first_seen_at?: number | null;
+  first_seen_at?: number | null | undefined;
   /** Timestamp when the customer was last seen, in milliseconds since epoch. */
-  last_seen_at?: number | null;
+  last_seen_at?: number | null | undefined;
   status: string;
   /** Total gross across the subscriber's subscriptions and one-time purchases, in `currency`, or null when no production purchase or exchange rate exists. */
   total_spent: number | null;
   /** ISO 4217 currency code for `total_spent`. */
   currency: Currency;
   /** Display name of the most recent non-sandbox subscription or one-time purchase product, or null if none. */
-  latest_product_name?: string | null;
+  latest_product_name?: string | null | undefined;
 }
 /** Sample of customers matching the Audience. Only present when requested with `expand=customer_sample`. */
 export type AudienceCustomerSampleList = Array<AudienceSampleItem>;
@@ -1877,11 +1877,11 @@ export interface Audience {
   /** The date the Audience was last updated (ms since epoch) */
   updated_at: number | null;
   /** Aggregate stats for the Audience. Only present when requested with `expand=stats`. */
-  stats?: AudiencePreviewStats;
+  stats?: AudiencePreviewStats | undefined;
   /** Sample of customers matching the Audience. Only present when requested with `expand=customer_sample`. */
-  customer_sample?: AudienceCustomerSampleList;
+  customer_sample?: AudienceCustomerSampleList | undefined;
   /** Targeting rules and experiments that use this Audience. Only present when requested with `expand=used_by`. */
-  used_by?: AudienceUsedBy;
+  used_by?: AudienceUsedBy | undefined;
 }
 export type CreateChartSubscriberListExportRequestChartName =
   | "actives"
@@ -1946,17 +1946,17 @@ export interface CreateChartSubscriberListExportRequest {
   /** Name of the chart to retrieve: - actives: Active (paying) subscriptions - actives_movement: Period-over-period delta of active (paying) subscriptions - actives_new: New paying subscriptions, including trial conversions, resubscriptions, and product changes - arr: Annual recurring revenue - churn: Churn rate: active and expired subscriptions per period - cohort_explorer: allows measuring the performance of various cohort definitions over time for revenue, retained subscriptions, subscriptions that are still set to renew (not cancelled), and cohort LTV - conversion_to_paying: Conversion of new customers to paying - customers_new: Newly seen customers - initial_conversion: Initial conversion of new customers to paying within fixed windows (0, 3, 7, 14, 30 days, and unbounded) - ltv_per_customer: Realized LTV per customer, also known as ARPU, cohorted by first seen date - ltv_per_paying_customer: Realized LTV per paying customer, also known as ARPPU, cohorted by first seen date - mrr: Monthly recurring revenue - mrr_movement: Period-over-period delta of monthly recurring revenue - prediction_explorer: similar to cohort_explorer but including future predictions - refund_rate: transactions per period, refunds, refund rate - refund_request: App Store and Google Play refund and chargeback events per period, broken down by resolution status (granted, declined, reversed, pending) - refunds: Refunded revenue and number of refunded transactions per period, by refund date (realtime only) - revenue: revenue (gross, net of taxes, or proceeds net of taxes and commissions) and number of transactions (subscriptions and non-subscriptions) per period - subscription_retention: Per-period retention of paying subscriptions by duration - subscription_status: Break down paying subscriptions, trials, MRR, ARR, or revenue by whether the subscription is set to renew, cancelled, or in billing recovery - trials: Active trials - trials_movement: Movement of active trials - trials_new: New trials - customers_active: Customers seen during the period (also known as DAU/MAU/WAU/etc.) (realtime only) - trial_conversion: Trial conversion funnel from new customers to trials started to paying subscriptions, cohorted by first seen date - trial_conversion_rate: Number of trials started in a period and ratio of them converting to paying (realtime only) - trial_cancellation: Portion of trials started in a period that were cancelled and expired without converting to paid (realtime only) - non-subscription_purchases: Number of non-subscription purchases per period - ad_revenue: Estimated ad revenue per period (realtime only) - ad_impressions: Number of ad impressions per period (realtime only) - ad_clicks: Number of ad clicks per period (realtime only) - ad_monetized_customers: Customers who saw at least one monetized ad during the period, also known as daily ad-monetized users (realtime only) - ad_arpdau: Average ad revenue per daily ad-monetized customer (realtime only) - ad_rpm: Effective cost per mille (eCPM): ad revenue per thousand impressions (realtime only) - ad_fill_rate: Ratio of ad requests that were filled with an ad (realtime only) - ad_ctr: Ad click-through rate: clicks over impressions (realtime only) - paywall_encounter: Share of new customers who encounter a paywall within 0, 1, 3, 7, or 14 days, cohorted by first seen date (realtime only) - paywall_conversion: Conversion of paywall impressions into initial, paid, and trial conversions, cohorted by first impression date (realtime only) - paywall_ltv: Realized LTV attributed to paywall impressions that led to an initial conversion, cohorted by first impression date (realtime only) - paywall_abandonment: Share of paywall impressions with no initial conversion, split into bounces and purchase cancellations (realtime only) - app_store_save_outcomes: Saved Apple retention messages per period, broken down by outcome (promotional offer redeemed, alternate plan redeemed, no purchase) (realtime only) Charts marked as realtime only are served exclusively by Charts v3 and require `realtime=true` (the default). */
   chart_name: CreateChartSubscriberListExportRequestChartName | (string & {});
   /** Time resolution for the chart data. Use the chart options endpoint to discover available resolutions and their IDs. */
-  resolution?: string;
+  resolution?: string | undefined;
   /** Start date for the data range (ISO 8601 format) */
-  start_date?: string;
+  start_date?: string | undefined;
   /** End date for the data range (ISO 8601 format) */
-  end_date?: string;
+  end_date?: string | undefined;
   /** Segment the data by this dimension. Must be one of the segments returned by the chart options schema endpoint for this chart; segments vary per chart, and unsupported segments return a 400 `parameter_error` listing the supported ones. */
-  segment?: string;
+  segment?: string | undefined;
   /** Filters to apply to the exported population. Available filters vary per chart; use the chart options schema endpoint to discover them. */
-  filters?: CreateChartSubscriberListExportRequestFiltersList;
+  filters?: CreateChartSubscriberListExportRequestFiltersList | undefined;
   /** Chart selectors, as returned by the chart options schema endpoint (e.g. conversion_timeframe or revenue_type). */
-  selectors?: CreateChartSubscriberListExportRequestSelectorsMap;
+  selectors?: CreateChartSubscriberListExportRequestSelectorsMap | undefined;
 }
 export interface CreateChartSubscriberListExportResponse {}
 export type CustomerAttributeReservedName =
@@ -2044,7 +2044,7 @@ export interface CreateCustomerRequest {
   project_id: string;
   /** The ID of the customer */
   id: string;
-  attributes?: CreateCustomerRequestAttributesList;
+  attributes?: CreateCustomerRequestAttributesList | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type CustomerObject = "customer";
@@ -2128,11 +2128,11 @@ export interface Customer {
   /** The last platform version the customer was seen on */
   last_seen_platform_version: string | null;
   /** List of the entitlements currently active for the customer. This property is only available in the "Get a customer" endpoint. */
-  active_entitlements?: CustomerActiveEntitlementList | null;
+  active_entitlements?: CustomerActiveEntitlementList | null | undefined;
   /** The experiment enrollment object */
-  experiment?: ExperimentEnrollment | null;
+  experiment?: ExperimentEnrollment | null | undefined;
   /** List of the attributes of the customer. This is an expandable property, only available in the "Get a customer" endpoint. */
-  attributes?: CustomerAttributeList | null;
+  attributes?: CustomerAttributeList | null | undefined;
 }
 /** The type of discount to apply. */
 export type CreateDiscountRequestType = "percentage" | "fixed_amount";
@@ -2164,17 +2164,17 @@ export interface CreateDiscountRequest {
   /** The type of discount to apply. */
   type: CreateDiscountRequestType | (string & {});
   /** Percentage value for percentage discounts. */
-  percentage?: number;
+  percentage?: number | undefined;
   /** Fixed amount values by currency for fixed amount discounts. */
-  fixed_amounts?: CreateDiscountRequestFixedAmountsMap;
+  fixed_amounts?: CreateDiscountRequestFixedAmountsMap | undefined;
   /** The discount duration mode. */
   duration_mode: CreateDiscountRequestDurationMode | (string & {});
   /** Eligibility criteria for this discount. */
   eligibility: CreateDiscountRequestEligibility | (string & {});
   /** ISO-8601 duration when using time window duration mode. */
-  time_window?: string;
+  time_window?: string | undefined;
   /** Product identifiers that this discount applies to. */
-  product_identifiers?: CreateDiscountRequestProductIdentifiersList;
+  product_identifiers?: CreateDiscountRequestProductIdentifiersList | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type DiscountPercentageVariantObject = "discount";
@@ -2205,9 +2205,9 @@ export interface DiscountPercentageVariant {
   /** Eligibility criteria for this discount. */
   eligibility: DiscountPercentageVariantEligibility;
   /** ISO-8601 duration when using time window duration mode. */
-  time_window?: string | null;
+  time_window?: string | null | undefined;
   /** Timestamp in ms since epoch when the discount was disabled. */
-  disabled_at?: number | null;
+  disabled_at?: number | null | undefined;
   /** Percentage value for percentage discounts (1-100). */
   percentage: number;
   /** The date the discount was created at in ms since epoch. */
@@ -2246,9 +2246,9 @@ export interface DiscountFixedAmountVariant {
   /** Eligibility criteria for this discount. */
   eligibility: DiscountFixedAmountVariantEligibility;
   /** ISO-8601 duration when using time window duration mode. */
-  time_window?: string | null;
+  time_window?: string | null | undefined;
   /** Timestamp in ms since epoch when the discount was disabled. */
-  disabled_at?: number | null;
+  disabled_at?: number | null | undefined;
   /** Fixed discount amounts keyed by currency code. */
   fixed_amount: DiscountFixedAmountVariantFixedAmountMap;
   /** The date the discount was created at in ms since epoch. */
@@ -2332,11 +2332,11 @@ export interface CreateIAMEmailOtpAuthenticationMethodRequest {
   /** The type of the authentication method. */
   type: CreateIAMEmailOtpAuthenticationMethodRequestType;
   /** Display name of the sender of the emails. */
-  sender_name?: string | null;
+  sender_name?: string | null | undefined;
   /** Reply-to address of the emails. */
-  reply_to_email?: string | null;
+  reply_to_email?: string | null | undefined;
   /** Number of minutes the code stays valid. */
-  code_expiration_minutes?: number | null;
+  code_expiration_minutes?: number | null | undefined;
 }
 /** The type of the authentication method. */
 export type CreateIAMMagicLinkAuthenticationMethodRequestType = "magic_link";
@@ -2346,11 +2346,11 @@ export interface CreateIAMMagicLinkAuthenticationMethodRequest {
   /** The type of the authentication method. */
   type: CreateIAMMagicLinkAuthenticationMethodRequestType;
   /** Display name of the sender of the emails. */
-  sender_name?: string | null;
+  sender_name?: string | null | undefined;
   /** Reply-to address of the emails. */
-  reply_to_email?: string | null;
+  reply_to_email?: string | null | undefined;
   /** Number of minutes the link stays valid. */
-  magic_link_expiration_minutes?: number | null;
+  magic_link_expiration_minutes?: number | null | undefined;
 }
 /** The type of the authentication method. */
 export type CreateIAMOidcAuthenticationMethodRequestType = "oidc";
@@ -2368,17 +2368,20 @@ export interface CreateIAMOidcAuthenticationMethodRequest {
   /** Issuer URL of the identity provider. The OpenID configuration is discovered from it. */
   issuer_url: string;
   /** Client id expected in the `aud` claim of the ID token. */
-  client_id?: string | null;
+  client_id?: string | null | undefined;
   /** Client secret used for interactive login. It is never returned. */
-  client_secret?: string | Redacted.Redacted<string> | null;
+  client_secret?: string | Redacted.Redacted<string> | null | undefined;
   /** OAuth scopes requested from the identity provider in addition to `openid`, which is always requested. */
-  requested_scopes?: CreateIAMOidcAuthenticationMethodRequestRequestedScopesList | null;
+  requested_scopes?: CreateIAMOidcAuthenticationMethodRequestRequestedScopesList | null | undefined;
   /** Dot-path selector of the ID token claim used as the app user id. When null, the `sub` claim is used. Cannot be changed after users signed in. */
-  app_user_id_claim?: string | null;
+  app_user_id_claim?: string | null | undefined;
   /** Static query parameters added to the authorize URL of the identity provider during interactive login. OAuth and PKCE parameters cannot be overridden. */
-  authorization_params?: CreateIAMOidcAuthenticationMethodRequestAuthorizationParamsMap | null;
+  authorization_params?:
+    | CreateIAMOidcAuthenticationMethodRequestAuthorizationParamsMap
+    | null
+    | undefined;
   /** Maximum age in seconds of the `iat` claim of the external ID token, used for replay protection. When omitted, 5 seconds are used. */
-  id_token_iat_freshness_seconds?: number | null;
+  id_token_iat_freshness_seconds?: number | null | undefined;
 }
 /** The type of the authentication method. */
 export type CreateIAMGoogleAuthenticationMethodRequestType = "google";
@@ -2390,7 +2393,7 @@ export interface CreateIAMGoogleAuthenticationMethodRequest {
   /** Google OAuth client id, matched against the `aud` claim of the ID token. */
   client_id: string;
   /** Maximum age in seconds of the `iat` claim of the external ID token, used for replay protection. When omitted, 5 seconds are used. */
-  id_token_iat_freshness_seconds?: number | null;
+  id_token_iat_freshness_seconds?: number | null | undefined;
 }
 /** The type of the authentication method. */
 export type CreateIAMAppleAuthenticationMethodRequestType = "apple";
@@ -2402,11 +2405,11 @@ export interface CreateIAMAppleAuthenticationMethodRequest {
   /** The type of the authentication method. */
   type: CreateIAMAppleAuthenticationMethodRequestType;
   /** Ids of the Apple apps that form the Apple App ID group of the method. Omit or set to null to cover every Apple app of the project. */
-  app_ids?: CreateIAMAppleAuthenticationMethodRequestAppIdsList | null;
+  app_ids?: CreateIAMAppleAuthenticationMethodRequestAppIdsList | null | undefined;
   /** Id of the Apple app whose App ID is the primary one in the Apple Developer account. */
-  primary_app_id?: string | null;
+  primary_app_id?: string | null | undefined;
   /** Maximum age in seconds of the `iat` claim of the external ID token, used for replay protection. When omitted, 5 seconds are used. */
-  id_token_iat_freshness_seconds?: number | null;
+  id_token_iat_freshness_seconds?: number | null | undefined;
 }
 /** The type of the authentication method. */
 export type CreateIAMFacebookAuthenticationMethodRequestType = "facebook";
@@ -2418,9 +2421,9 @@ export interface CreateIAMFacebookAuthenticationMethodRequest {
   /** Meta app id, matched against the token audience. */
   facebook_app_id: string;
   /** Meta app secret, used to verify Android access tokens. It is never returned. */
-  app_secret?: string | Redacted.Redacted<string> | null;
+  app_secret?: string | Redacted.Redacted<string> | null | undefined;
   /** Maximum age in seconds of the `iat` claim of the external ID token, used for replay protection. When omitted, 5 seconds are used. */
-  id_token_iat_freshness_seconds?: number | null;
+  id_token_iat_freshness_seconds?: number | null | undefined;
 }
 /** The type of the authentication method. */
 export type CreateIAMFirebaseAuthenticationMethodRequestType = "firebase";
@@ -2733,7 +2736,7 @@ export interface CreateOfferingRequest {
   /** The display_name of the offering */
   display_name: string;
   /** Custom metadata of the offering */
-  metadata?: OfferingMetadata | null;
+  metadata?: OfferingMetadata | null | undefined;
 }
 export interface CreatePackagesRequest {
   /** ID of the project */
@@ -2745,13 +2748,13 @@ export interface CreatePackagesRequest {
   /** The display name of the package */
   display_name: string;
   /** The position of the package in the offering */
-  position?: number;
+  position?: number | undefined;
 }
 export interface CreatePaywallRequestCase0 {
   /** The ID of the offering the paywall will be created for. */
   offering_id: string;
   /** Whether font sizes should automatically scale for this paywall. Defaults to true. */
-  automatically_scale_font_size?: boolean;
+  automatically_scale_font_size?: boolean | undefined;
 }
 /** The raw paywall components configuration to save as the draft. */
 export type PaywallDraftCreateComponentsConfigMap = { [key: string]: unknown | undefined };
@@ -2764,17 +2767,17 @@ export type PaywallDraftCreateComponentsLocalizationsMap = {
 };
 export interface PaywallDraftCreate {
   /** The optional ID of the offering the paywall draft will be attached to. */
-  offering_id?: string | null;
+  offering_id?: string | null | undefined;
   /** Optional paywall name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The raw paywall components configuration to save as the draft. */
   components_config: PaywallDraftCreateComponentsConfigMap;
   /** Localized component values keyed by locale. */
   components_localizations: PaywallDraftCreateComponentsLocalizationsMap;
   /** The default locale for this paywall. Defaults to en_US. */
-  default_locale?: string;
+  default_locale?: string | undefined;
   /** Whether font sizes should automatically scale for this paywall. Defaults to true. */
-  automatically_scale_font_size?: boolean;
+  automatically_scale_font_size?: boolean | undefined;
 }
 export type CreatePaywallRequest = CreatePaywallRequestCase0 | PaywallDraftCreate;
 export interface CreatePaywallRequest2 {
@@ -2842,20 +2845,20 @@ export interface ProductSubscriptionInput {
 export interface CreateProductRequest {
   /** ID of the project */
   project_id: string;
-  /** The store identifier of the product. - For Apple App Store products this is the product ID of the subscription or in-app product. - For Google's Play Store, it should follow the format 'productId:basePlanId' for subscription products and SKU for one-time purchase products. - For Stripe, the product identifier that always starts with "prod_". RevenueCat selects the active, supported default price when available, or the only active, supported price otherwise. If no price can be selected, the product is created without a web price. For projects that model Stripe products per price, the `store_identifier` in the response is the Stripe price ID when a price is selected. - For Amazon, if it's a subscription, the term SKU of the subscription. If it's a one-time purchase, the SKU of the product. - For Roku, this is the product identifier of the subscription or one-time purchase product. */
+  /** The store identifier of the product. - For Apple App Store products this is the product ID of the subscription or in-app product. To add the 12-month commitment (monthly billing) plan of an existing 1-year subscription, use '<productId>:monthly' (e.g. 'com.example.app.yearly:monthly'). - For Google's Play Store, it should follow the format 'productId:basePlanId' for subscription products and SKU for one-time purchase products. - For Stripe, the product identifier that always starts with "prod_". RevenueCat selects the active, supported default price when available, or the only active, supported price otherwise. If no price can be selected, the product is created without a web price. For projects that model Stripe products per price, the `store_identifier` in the response is the Stripe price ID when a price is selected. - For Amazon, if it's a subscription, the term SKU of the subscription. If it's a one-time purchase, the SKU of the product. - For Roku, this is the product identifier of the subscription or one-time purchase product. */
   store_identifier: string;
   /** The Stripe price identifier to import. When provided, the price must exist, belong to the Stripe product, and be active and supported. Only supported for Stripe products. */
-  price_identifier?: string | null;
+  price_identifier?: string | null | undefined;
   /** The ID of the app */
   app_id: string;
   /** The product type */
   type: ProductType | (string & {});
   /** The display name of the product */
-  display_name?: string | null;
+  display_name?: string | null | undefined;
   /** Subscription parameters. Only supported for test store products. */
-  subscription?: ProductSubscriptionInput | null;
+  subscription?: ProductSubscriptionInput | null | undefined;
   /** The user-facing title of the product. This field is required for Test Store products. */
-  title?: string | null;
+  title?: string | null | undefined;
 }
 /** The subscription duration period */
 export type CreateAppStoreConnectSubscriptionInputDuration =
@@ -2871,7 +2874,7 @@ export interface CreateAppStoreConnectSubscriptionInput {
   /** The name of the subscription group */
   subscription_group_name: string;
   /** The ID of the subscription group (optional) */
-  subscription_group_id?: string | null;
+  subscription_group_id?: string | null | undefined;
 }
 /** Store-specific information for creating the product in the store */
 export type CreateProductInStoreRequestStoreInformation =
@@ -2883,7 +2886,7 @@ export interface CreateProductInStoreRequest {
   /** ID of the product */
   product_id: string;
   /** Store-specific information for creating the product in the store */
-  store_information?: CreateProductInStoreRequestStoreInformation;
+  store_information?: CreateProductInStoreRequestStoreInformation | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type StoreProductObject = "store_product";
@@ -2893,7 +2896,7 @@ export interface StoreProduct {
   /** The unique identifier of the product in the store (e.g., App Store Connect product ID) */
   id: string;
   /** The name of the store product */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The product identifier used in the store */
   product_identifier: string;
 }
@@ -2917,9 +2920,9 @@ export interface Project {
   /** The date when the project was created in ms since epoch */
   created_at: number;
   /** The URL of the project's icon (small size) */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** The URL of the project's icon (large size) */
-  icon_url_large?: string | null;
+  icon_url_large?: string | null | undefined;
 }
 /** The adjustments to the in-app currencies (virtual currencies) */
 export type CreateVirtualCurrenciesTransactionRequestAdjustmentsMap = {
@@ -2931,11 +2934,11 @@ export interface CreateVirtualCurrenciesTransactionRequest {
   /** ID of the customer */
   customer_id: string;
   /** Whether to include in-app currencies (virtual currencies) with a zero balance (default false). */
-  include_empty_balances?: boolean;
+  include_empty_balances?: boolean | undefined;
   /** The adjustments to the in-app currencies (virtual currencies) */
   adjustments: CreateVirtualCurrenciesTransactionRequestAdjustmentsMap;
   /** The reference of the transaction */
-  reference?: string | null;
+  reference?: string | null | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type VirtualCurrenciesBalancesListObject = "list";
@@ -2949,9 +2952,9 @@ export interface VirtualCurrencyBalance {
   /** The balance of the in-app currency (virtual currency). */
   balance: number;
   /** The description of the in-app currency (virtual currency). */
-  description?: string;
+  description?: string | undefined;
   /** The name of the in-app currency (virtual currency). */
-  name?: string;
+  name?: string | undefined;
 }
 /** Details about each object. */
 export type VirtualCurrenciesBalancesListItemsList = Array<VirtualCurrencyBalance>;
@@ -2973,9 +2976,9 @@ export interface VirtualCurrencyProductGrantInput {
   /** The amount of in-app currency (virtual currency) granted */
   amount: number;
   /** The amount of in-app currency (virtual currency) granted during trial period */
-  trial_amount?: number | null;
+  trial_amount?: number | null | undefined;
   /** Whether the grant expires at the end of the subscription cycle */
-  expire_at_cycle_end?: boolean | null;
+  expire_at_cycle_end?: boolean | null | undefined;
 }
 /** Product grants that define how products grant this in-app currency (virtual currency) */
 export type CreateVirtualCurrencyRequestProductGrantsList = Array<VirtualCurrencyProductGrantInput>;
@@ -2987,9 +2990,9 @@ export interface CreateVirtualCurrencyRequest {
   /** The display name of the in-app currency (virtual currency) */
   name: string;
   /** Description of the in-app currency (virtual currency) */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Product grants that define how products grant this in-app currency (virtual currency) */
-  product_grants?: CreateVirtualCurrencyRequestProductGrantsList | null;
+  product_grants?: CreateVirtualCurrencyRequestProductGrantsList | null | undefined;
 }
 /** The environment the webhook integration is configured for */
 export type CreateWebhookIntegrationRequestEnvironment = "production" | "sandbox";
@@ -3020,13 +3023,13 @@ export interface CreateWebhookIntegrationRequest {
   /** The URL RevenueCat will send webhook notifications to */
   url: string;
   /** Optional authorization header that will be sent with webhook notifications */
-  authorization_header?: string | Redacted.Redacted<string> | null;
+  authorization_header?: string | Redacted.Redacted<string> | null | undefined;
   /** The environment the webhook integration is configured for */
-  environment?: CreateWebhookIntegrationRequestEnvironment | (string & {}) | null;
+  environment?: CreateWebhookIntegrationRequestEnvironment | (string & {}) | null | undefined;
   /** Event types that will trigger the webhook */
-  event_types?: CreateWebhookIntegrationRequestEventTypesList | null;
+  event_types?: CreateWebhookIntegrationRequestEventTypesList | null | undefined;
   /** The ID of the app the webhook integration is scoped to */
-  app_id?: string | null;
+  app_id?: string | null | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type WebhookIntegrationObject = "webhook_integration";
@@ -3048,11 +3051,11 @@ export interface WebhookIntegration {
   /** The environment the webhook integration is configured for. Only events for the selected environment will be sent. */
   environment: WebhookIntegrationEnvironment | null;
   /** Event types that will trigger the webhook. Only events for the selected event types will be sent. */
-  event_types?: WebhookIntegrationEventTypesList | null;
+  event_types?: WebhookIntegrationEventTypesList | null | undefined;
   /** The ID of the app the webhook integration is scoped to. If not provided, the webhook integration will be scoped to all apps in the project. */
   app_id: string | null;
   /** The plaintext HMAC signing secret. Only returned in the response to a rotate request. */
-  signing_secret?: string | Redacted.Redacted<string>;
+  signing_secret?: string | Redacted.Redacted<string> | undefined;
   /** The timestamp in ms since epoch when the webhook integration was created */
   created_at: number;
 }
@@ -3203,11 +3206,11 @@ export interface DuplicatePaywallRequest {
   /** ID of the paywall */
   paywall_id: string;
   /** Optional name for the duplicated paywall. Defaults to the original paywall's name with a "Copy" suffix. */
-  name?: string;
+  name?: string | undefined;
   /** Which version of the source paywall to duplicate: the current draft (default) or the currently published version. The duplicate is always created as an unpublished draft. Fails with a conflict if `published` is requested and the paywall is not currently published. */
-  source_version?: DuplicatePaywallRequestSourceVersion | (string & {});
+  source_version?: DuplicatePaywallRequestSourceVersion | (string & {}) | undefined;
   /** Optional. When provided, the source paywall's offering is duplicated (packages only, without its own checkout config or paywall) and the duplicated paywall is attached to it. Omit to leave the duplicated paywall detached from any offering. Fails with a conflict if the source paywall is not associated with an offering. */
-  offering?: DuplicatePaywallRequestOffering;
+  offering?: DuplicatePaywallRequestOffering | undefined;
 }
 export interface EnableDiscountRequest {
   /** ID of the project */
@@ -3226,7 +3229,7 @@ export interface ExtendSubscriptionByDuration {
   /** Number of days to extend the current billing period by. For Apple Store subscriptions, the maximum allowed value is 90. */
   extend_by_days: number;
   /** Reason for the extension. Required for Apple Store subscriptions; ignored for Google Play and Web Billing subscriptions. */
-  extend_reason_code?: ExtendSubscriptionByDurationExtendReasonCode | (string & {});
+  extend_reason_code?: ExtendSubscriptionByDurationExtendReasonCode | (string & {}) | undefined;
 }
 /** Reason for the extension. Required for Apple Store subscriptions; ignored for Google Play and Web Billing subscriptions. */
 export type ExtendSubscriptionUntilDateExtendReasonCode =
@@ -3238,7 +3241,7 @@ export interface ExtendSubscriptionUntilDate {
   /** Absolute epoch timestamp (in milliseconds) to which the current billing period should be extended. Must be after the subscription's current `current_period_ends_at`. For Apple Store subscriptions, the resulting extension cannot exceed 90 days. */
   extend_until_ms: number;
   /** Reason for the extension. Required for Apple Store subscriptions; ignored for Google Play and Web Billing subscriptions. */
-  extend_reason_code?: ExtendSubscriptionUntilDateExtendReasonCode | (string & {});
+  extend_reason_code?: ExtendSubscriptionUntilDateExtendReasonCode | (string & {}) | undefined;
 }
 export type ExtendSubscriptionRequest = ExtendSubscriptionByDuration | ExtendSubscriptionUntilDate;
 export interface ExtendSubscriptionRequest2 {
@@ -3280,7 +3283,7 @@ export interface GetAudienceRequest {
   /** ID of the Audience */
   audience_id: string;
   /** Specifies which fields in the response should be expanded. Accepted values are: `stats` (requires `audiences:audiences:read` permission), `customer_sample` (requires `audiences:audiences:read` permission), `used_by` (requires `audiences:audiences:read` permission). */
-  expand?: GetAudienceRequestExpandList;
+  expand?: GetAudienceRequestExpandList | undefined;
 }
 export type GetAudienceFilterOptionsRequestFieldsItemCase0 =
   | "mediaSource"
@@ -3334,7 +3337,7 @@ export interface AudienceFilterFieldOptions {
   /** The known values for this field */
   options: AudienceFilterFieldOptionsOptionsList;
   /** Whether additional values exist beyond the stored custom-attribute options. Only present for custom-attribute fields. */
-  cardinality_exceeded?: boolean;
+  cardinality_exceeded?: boolean | undefined;
 }
 /** Details about each object. */
 export type ListAudienceFilterOptionsItemsList = Array<AudienceFilterFieldOptions>;
@@ -3378,9 +3381,9 @@ export interface GetBenchmarksRequest {
   /** ID of the project */
   project_id: string;
   /** Optional filter that restricts the response to benchmarks for a single app within the project. When omitted, benchmarks for every app in the project are returned. */
-  app_id?: string;
+  app_id?: string | undefined;
   /** Overrides the default peer group used to compute the benchmark percentiles. When omitted, each app is compared against its own store category. */
-  comparison_category?: GetBenchmarksRequestComparisonCategory | (string & {});
+  comparison_category?: GetBenchmarksRequestComparisonCategory | (string & {}) | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type BenchmarksObject = "benchmarks";
@@ -3501,29 +3504,29 @@ export interface GetChartDataRequest {
   /** Name of the chart to retrieve: - actives: Active (paying) subscriptions - actives_movement: Period-over-period delta of active (paying) subscriptions - actives_new: New paying subscriptions, including trial conversions, resubscriptions, and product changes - arr: Annual recurring revenue - churn: Churn rate: active and expired subscriptions per period - cohort_explorer: allows measuring the performance of various cohort definitions over time for revenue, retained subscriptions, subscriptions that are still set to renew (not cancelled), and cohort LTV - conversion_to_paying: Conversion of new customers to paying - customers_new: Newly seen customers - initial_conversion: Initial conversion of new customers to paying within fixed windows (0, 3, 7, 14, 30 days, and unbounded) - ltv_per_customer: Realized LTV per customer, also known as ARPU, cohorted by first seen date - ltv_per_paying_customer: Realized LTV per paying customer, also known as ARPPU, cohorted by first seen date - mrr: Monthly recurring revenue - mrr_movement: Period-over-period delta of monthly recurring revenue - prediction_explorer: similar to cohort_explorer but including future predictions - refund_rate: transactions per period, refunds, refund rate - refund_request: App Store and Google Play refund and chargeback events per period, broken down by resolution status (granted, declined, reversed, pending) - refunds: Refunded revenue and number of refunded transactions per period, by refund date (realtime only) - revenue: revenue (gross, net of taxes, or proceeds net of taxes and commissions) and number of transactions (subscriptions and non-subscriptions) per period - subscription_retention: Per-period retention of paying subscriptions by duration - subscription_status: Break down paying subscriptions, trials, MRR, ARR, or revenue by whether the subscription is set to renew, cancelled, or in billing recovery - trials: Active trials - trials_movement: Movement of active trials - trials_new: New trials - customers_active: Customers seen during the period (also known as DAU/MAU/WAU/etc.) (realtime only) - trial_conversion: Trial conversion funnel from new customers to trials started to paying subscriptions, cohorted by first seen date - trial_conversion_rate: Number of trials started in a period and ratio of them converting to paying (realtime only) - trial_cancellation: Portion of trials started in a period that were cancelled and expired without converting to paid (realtime only) - non-subscription_purchases: Number of non-subscription purchases per period - ad_revenue: Estimated ad revenue per period (realtime only) - ad_impressions: Number of ad impressions per period (realtime only) - ad_clicks: Number of ad clicks per period (realtime only) - ad_monetized_customers: Customers who saw at least one monetized ad during the period, also known as daily ad-monetized users (realtime only) - ad_arpdau: Average ad revenue per daily ad-monetized customer (realtime only) - ad_rpm: Effective cost per mille (eCPM): ad revenue per thousand impressions (realtime only) - ad_fill_rate: Ratio of ad requests that were filled with an ad (realtime only) - ad_ctr: Ad click-through rate: clicks over impressions (realtime only) - paywall_encounter: Share of new customers who encounter a paywall within 0, 1, 3, 7, or 14 days, cohorted by first seen date (realtime only) - paywall_conversion: Conversion of paywall impressions into initial, paid, and trial conversions, cohorted by first impression date (realtime only) - paywall_ltv: Realized LTV attributed to paywall impressions that led to an initial conversion, cohorted by first impression date (realtime only) - paywall_abandonment: Share of paywall impressions with no initial conversion, split into bounces and purchase cancellations (realtime only) - app_store_save_outcomes: Saved Apple retention messages per period, broken down by outcome (promotional offer redeemed, alternate plan redeemed, no purchase) (realtime only) Charts marked as realtime only are served exclusively by Charts v3 and require `realtime=true` (the default). */
   chart_name: GetChartDataRequestChartName | (string & {});
   /** Whether to request real-time (v3) charts. Defaults to true. Set to false to request the v2 charts. */
-  realtime?: boolean;
+  realtime?: boolean | undefined;
   /** JSON array of chart filters. Each filter is a ChartFilter object. */
-  filters?: string;
+  filters?: string | undefined;
   /** JSON object of chart selectors. */
-  selectors?: string;
+  selectors?: string | undefined;
   /** Comma-separated aggregate operations to return in `summary` without raw `values`. */
-  aggregate?: GetChartDataRequestAggregateList;
+  aggregate?: GetChartDataRequestAggregateList | undefined;
   /** The currency to return metrics data in */
-  currency?: GetChartDataRequestCurrency | (string & {});
+  currency?: GetChartDataRequestCurrency | (string & {}) | undefined;
   /** Time resolution for the chart data. Use the chart options endpoint to discover available resolutions and their IDs. */
-  resolution?: string;
+  resolution?: string | undefined;
   /** Start date for the data range (ISO 8601 format) */
-  start_date?: string;
+  start_date?: string | undefined;
   /** End date for the data range (ISO 8601 format) */
-  end_date?: string;
+  end_date?: string | undefined;
   /** Whether to expand the date range so the first period is complete (e.g. snap a weekly range back to the start of the week). Defaults to false, which only includes data from the exact start_date provided. Period labels are always aligned to period boundaries: with expand_periods=false and a mid-period start_date, the first period only aggregates data from start_date onwards and is marked as incomplete. Exception: charts of point-in-time (stock) metrics, such as active subscriptions or MRR, ignore this parameter entirely. Their values are snapshots measured exactly at each period boundary, so the first data point is always measured at the start of the period containing start_date (which can fall before start_date) and is not marked as incomplete, since a snapshot cannot be partial. */
-  expand_periods?: boolean;
+  expand_periods?: boolean | undefined;
   /** Segment the data by this dimension. Must be one of the segments returned by the chart options schema endpoint for this chart; segments vary per chart, and unsupported segments return a 400 `parameter_error` listing the supported ones. */
-  segment?: string;
+  segment?: string | undefined;
   /** If set, limits the number of segments returned to the top N by value. All remaining segments are aggregated into an "Other" segment. Only applies when a segment is specified. */
-  limit_num_segments?: number;
+  limit_num_segments?: number | undefined;
   /** When true, includes chart annotations for the project in the response, filtered to the chart's date window. */
-  include_annotations?: boolean;
+  include_annotations?: boolean | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type ChartDataObject = "chart_data";
@@ -3545,23 +3548,23 @@ export interface ChartSeries {
   /** Human-readable label for the series. For cohort `periods`, index 0 is named after the cohorting date (e.g. `New customers`) and later indices after the cohort age (e.g. `Month 0`, `Month 1`). */
   display_name: string;
   /** Longer explanation of what the series measures. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Unit the values of this series are expressed in. `#` means the values are counts, not amounts of the chart's measure. */
-  unit?: string;
+  unit?: string | undefined;
   /** Number of decimal places the values of this series should be rendered with. */
-  decimal_precision?: number;
+  decimal_precision?: number | undefined;
   /** Whether the values of this series are absolute amounts or percentages of a baseline. */
-  scale?: ChartSeriesScale;
+  scale?: ChartSeriesScale | undefined;
   /** Whether the series is meaningful to plot. */
-  chartable?: boolean;
+  chartable?: boolean | undefined;
   /** Whether the series is meaningful to show as a table column. */
-  tabulable?: boolean;
+  tabulable?: boolean | undefined;
   /** Whether the series aggregates all the others. */
-  is_total?: boolean;
+  is_total?: boolean | undefined;
   /** Whether the series aggregates the segments beyond `segments_limit`. */
-  is_other?: boolean;
+  is_other?: boolean | undefined;
   /** Per-measure metadata, when a segmented series carries more than one measure. */
-  nested_measures?: ChartSeriesNestedMeasuresList | null;
+  nested_measures?: ChartSeriesNestedMeasuresList | null | undefined;
   [key: string]: unknown;
 }
 /** Segment information when data is segmented, one entry per series in `values`. Non-realtime (`realtime=false`) cohort charts return their column metadata here instead of in `periods`. */
@@ -3576,8 +3579,8 @@ export type ChartDataUserSelectorsMap = { [key: string]: string | undefined };
 export type ChartDataUnsupportedParamsFiltersList = Array<string>;
 /** Deprecated and always `null`. Unsupported parameters are rejected with a 400 error instead of being reported in the response. */
 export interface ChartDataUnsupportedParams {
-  filters?: ChartDataUnsupportedParamsFiltersList;
-  segment?: string | null;
+  filters?: ChartDataUnsupportedParamsFiltersList | undefined;
+  segment?: string | null | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type ChartAnnotationObject = "chart_annotation";
@@ -3609,41 +3612,41 @@ export interface ChartData {
   /** Description of what the chart shows */
   description: string;
   /** Link to documentation for this chart */
-  documentation_link?: string | null;
+  documentation_link?: string | null | undefined;
   /** Timestamp when the chart data was last computed (ms since epoch) */
-  last_computed_at?: number | null;
+  last_computed_at?: number | null | undefined;
   /** Start date of the data range (ms since epoch) */
-  start_date?: number | null;
+  start_date?: number | null | undefined;
   /** End date of the data range (ms since epoch) */
-  end_date?: number | null;
+  end_date?: number | null | undefined;
   /** Currency used for monetary values */
-  yaxis_currency?: string;
+  yaxis_currency?: string | undefined;
   /** Whether filtering is allowed for this chart */
-  filtering_allowed?: boolean;
+  filtering_allowed?: boolean | undefined;
   /** Whether segmentation is allowed for this chart */
-  segmenting_allowed?: boolean;
+  segmenting_allowed?: boolean | undefined;
   /** Time resolution of the data points */
   resolution: ChartDataResolution;
   /** Chart data points. Structure varies by chart type - can be arrays of numbers or objects with timestamps and values. Returned as an empty array when aggregate operations are requested. Cohort charts (`cohort_explorer`, `prediction_explorer`, `subscription_retention`, ...) return objects shaped `{cohort, period, value}`, optionally with `confidence`, `scale` and `incomplete`. `period` is the index into the `periods` array, not a month number: `periods[0]` is the cohort size (a customer or subscription count, unit `#`) and the measure starts at `period: 1`, which `periods[1].display_name` labels (typically `Month 0`). Read `periods[period]` for the label, unit and scale of each point instead of assuming `period` is the month number. */
   values: ChartDataValuesList;
   /** Summary statistics for the chart data */
-  summary?: ChartDataSummaryMap | null;
+  summary?: ChartDataSummaryMap | null | undefined;
   /** Y-axis configuration including unit */
   yaxis: string;
   /** Segment information when data is segmented, one entry per series in `values`. Non-realtime (`realtime=false`) cohort charts return their column metadata here instead of in `periods`. */
-  segments?: ChartDataSegmentsList | null;
+  segments?: ChartDataSegmentsList | null | undefined;
   /** Maximum number of segments returned */
-  segments_limit?: number | null;
+  segments_limit?: number | null | undefined;
   /** Column metadata for cohort-shaped charts (`cohort_explorer`, `prediction_explorer`, `subscription_retention`, ...) on realtime charts. Positional: entry `i` describes the data points with `period: i` in `values`, so `len(periods)` is one more than the number of measure periods. `periods[0]` always describes the cohort size (unit `#`), and `periods[1]` is the first measure period (typically `Month 0`). */
-  periods?: ChartDataPeriodsList | null;
+  periods?: ChartDataPeriodsList | null | undefined;
   /** Measure definitions for the chart (v3 charts) */
-  measures?: ChartDataMeasuresList | null;
+  measures?: ChartDataMeasuresList | null | undefined;
   /** Currently selected values for user-configurable selectors (keyed by selector name) */
-  user_selectors?: ChartDataUserSelectorsMap | null;
+  user_selectors?: ChartDataUserSelectorsMap | null | undefined;
   /** Deprecated and always `null`. Unsupported parameters are rejected with a 400 error instead of being reported in the response. */
-  unsupported_params?: ChartDataUnsupportedParams | null;
+  unsupported_params?: ChartDataUnsupportedParams | null | undefined;
   /** Chart annotations for the project, filtered to the chart's date window. Only present when include_annotations=true is passed in the request. */
-  annotations?: ChartDataAnnotationsList;
+  annotations?: ChartDataAnnotationsList | undefined;
 }
 export type GetChartOptionsRequestChartName =
   | "actives"
@@ -3693,7 +3696,7 @@ export interface GetChartOptionsRequest {
   /** Name of the chart to retrieve: - actives: Active (paying) subscriptions - actives_movement: Period-over-period delta of active (paying) subscriptions - actives_new: New paying subscriptions, including trial conversions, resubscriptions, and product changes - arr: Annual recurring revenue - churn: Churn rate: active and expired subscriptions per period - cohort_explorer: allows measuring the performance of various cohort definitions over time for revenue, retained subscriptions, subscriptions that are still set to renew (not cancelled), and cohort LTV - conversion_to_paying: Conversion of new customers to paying - customers_new: Newly seen customers - initial_conversion: Initial conversion of new customers to paying within fixed windows (0, 3, 7, 14, 30 days, and unbounded) - ltv_per_customer: Realized LTV per customer, also known as ARPU, cohorted by first seen date - ltv_per_paying_customer: Realized LTV per paying customer, also known as ARPPU, cohorted by first seen date - mrr: Monthly recurring revenue - mrr_movement: Period-over-period delta of monthly recurring revenue - prediction_explorer: similar to cohort_explorer but including future predictions - refund_rate: transactions per period, refunds, refund rate - refund_request: App Store and Google Play refund and chargeback events per period, broken down by resolution status (granted, declined, reversed, pending) - refunds: Refunded revenue and number of refunded transactions per period, by refund date (realtime only) - revenue: revenue (gross, net of taxes, or proceeds net of taxes and commissions) and number of transactions (subscriptions and non-subscriptions) per period - subscription_retention: Per-period retention of paying subscriptions by duration - subscription_status: Break down paying subscriptions, trials, MRR, ARR, or revenue by whether the subscription is set to renew, cancelled, or in billing recovery - trials: Active trials - trials_movement: Movement of active trials - trials_new: New trials - customers_active: Customers seen during the period (also known as DAU/MAU/WAU/etc.) (realtime only) - trial_conversion: Trial conversion funnel from new customers to trials started to paying subscriptions, cohorted by first seen date - trial_conversion_rate: Number of trials started in a period and ratio of them converting to paying (realtime only) - trial_cancellation: Portion of trials started in a period that were cancelled and expired without converting to paid (realtime only) - non-subscription_purchases: Number of non-subscription purchases per period - ad_revenue: Estimated ad revenue per period (realtime only) - ad_impressions: Number of ad impressions per period (realtime only) - ad_clicks: Number of ad clicks per period (realtime only) - ad_monetized_customers: Customers who saw at least one monetized ad during the period, also known as daily ad-monetized users (realtime only) - ad_arpdau: Average ad revenue per daily ad-monetized customer (realtime only) - ad_rpm: Effective cost per mille (eCPM): ad revenue per thousand impressions (realtime only) - ad_fill_rate: Ratio of ad requests that were filled with an ad (realtime only) - ad_ctr: Ad click-through rate: clicks over impressions (realtime only) - paywall_encounter: Share of new customers who encounter a paywall within 0, 1, 3, 7, or 14 days, cohorted by first seen date (realtime only) - paywall_conversion: Conversion of paywall impressions into initial, paid, and trial conversions, cohorted by first impression date (realtime only) - paywall_ltv: Realized LTV attributed to paywall impressions that led to an initial conversion, cohorted by first impression date (realtime only) - paywall_abandonment: Share of paywall impressions with no initial conversion, split into bounces and purchase cancellations (realtime only) - app_store_save_outcomes: Saved Apple retention messages per period, broken down by outcome (promotional offer redeemed, alternate plan redeemed, no purchase) (realtime only) Charts marked as realtime only are served exclusively by Charts v3 and require `realtime=true` (the default). */
   chart_name: GetChartOptionsRequestChartName | (string & {});
   /** Whether to request real-time (v3) charts. Defaults to true. Set to false to request the v2 charts. */
-  realtime?: boolean;
+  realtime?: boolean | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type ChartOptionsObject = "chart_options";
@@ -3716,7 +3719,7 @@ export interface ChartSegmentOption {
   /** Human-readable name for the segment option */
   display_name: string;
   /** Group name for organizing segment options */
-  group_display_name?: string | null;
+  group_display_name?: string | null | undefined;
   [key: string]: unknown;
 }
 /** Available segmentation options */
@@ -3741,7 +3744,7 @@ export interface ChartFilterOption {
   /** Human-readable name for the filter */
   display_name: string;
   /** Group name for organizing filter options */
-  group_display_name?: string | null;
+  group_display_name?: string | null | undefined;
   /** Available values for this filter */
   options: ChartFilterOptionOptionsList;
   [key: string]: unknown;
@@ -3756,10 +3759,10 @@ export type ChartOptionsUserSelectorsValueOptionsList =
   Array<ChartOptionsUserSelectorsValueOptionsItem>;
 export interface ChartOptionsUserSelectorsValue {
   /** Default value for the selector */
-  default?: string;
+  default?: string | undefined;
   /** Human-readable name */
-  display_name?: string;
-  options?: ChartOptionsUserSelectorsValueOptionsList;
+  display_name?: string | undefined;
+  options?: ChartOptionsUserSelectorsValueOptionsList | undefined;
 }
 /** User-configurable selectors for the chart (keyed by selector name) */
 export type ChartOptionsUserSelectorsMap = {
@@ -3776,7 +3779,7 @@ export interface ChartOptions {
   /** Available filter options */
   filters: ChartOptionsFiltersList;
   /** User-configurable selectors for the chart (keyed by selector name) */
-  user_selectors?: ChartOptionsUserSelectorsMap | null;
+  user_selectors?: ChartOptionsUserSelectorsMap | null | undefined;
 }
 export type GetChartSubscriberListExportRequestChartName =
   | "actives"
@@ -3841,13 +3844,13 @@ export interface ChartSubscriberListExport {
   /** Current status of the export job. */
   status: ChartSubscriberListExportStatus;
   /** Timestamp (ms since epoch) when the export finished, or null while it is still pending or running. */
-  completed_at?: number | null;
+  completed_at?: number | null | undefined;
   /** Generic failure notice when status is failed. Invalid requests are rejected synchronously with a 400 instead. */
-  error_message?: string | null;
+  error_message?: string | null | undefined;
   /** Presigned URL to download the exported file (a zip or gzipped CSV, see the create endpoint). Only present when status is succeeded; null if the exported file is no longer stored, in which case create a new export. */
-  download_url?: string | null;
+  download_url?: string | null | undefined;
   /** Timestamp (ms since epoch) when the download URL expires. Poll the endpoint again to get a fresh URL. */
-  download_url_expires_at?: number | null;
+  download_url_expires_at?: number | null | undefined;
 }
 export type GetCustomerRequestExpandItem = "attributes";
 export type GetCustomerRequestExpandList = Array<GetCustomerRequestExpandItem | (string & {})>;
@@ -3857,7 +3860,7 @@ export interface GetCustomerRequest {
   /** ID of the customer */
   customer_id: string;
   /** Specifies which fields in the response should be expanded. Accepted values are: `attributes` (requires `customer_information:customers:read` permission). */
-  expand?: GetCustomerRequestExpandList;
+  expand?: GetCustomerRequestExpandList | undefined;
 }
 export type GetCustomerCenterConfigRequestPlatform =
   | "app_store"
@@ -3871,9 +3874,9 @@ export interface GetCustomerCenterConfigRequest {
   /** ID of the customer */
   customer_id: string;
   /** The platform to process the Customer Center configuration for. When provided, returns the locale-selected, platform-filtered configuration the customer would see. When omitted, returns the full unprocessed configuration for all platforms. Must match a store configured on this project. */
-  platform?: GetCustomerCenterConfigRequestPlatform | (string & {});
+  platform?: GetCustomerCenterConfigRequestPlatform | (string & {}) | undefined;
   /** BCP 47 locale string (e.g. en_US) used to select the appropriate localization when platform is provided. When omitted, the configuration's default locale is used. Has no effect if platform is not provided. */
-  locale?: string;
+  locale?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type CustomerCenterConfigObject = "customer_center_config";
@@ -3902,7 +3905,7 @@ export interface GetEntitlementRequest {
   /** ID of the entitlement */
   entitlement_id: string;
   /** Specifies which fields in the response should be expanded. Accepted values are: `product` (requires `project_configuration:products:read` permission). */
-  expand?: GetEntitlementRequestExpandList;
+  expand?: GetEntitlementRequestExpandList | undefined;
 }
 export interface GetIamAuthenticationMethodRequest {
   /** ID of the project */
@@ -3921,6 +3924,8 @@ export type IAMSettingsObject = "iam_settings";
 export type IAMSettingsMigrationMode = "dual" | "protected" | "authenticat_only";
 /** The migration mode in effect. It is `dual` when no mode was set. */
 export type IAMSettingsEffectiveMigrationMode = "dual" | "protected" | "authenticat_only";
+/** Which app user ids an anonymous login may pass as `app_user_id` to migrate an existing customer. `disabled`: anonymous logins with an `app_user_id` are rejected. `rc_prefix`: only RevenueCat anonymous ids (prefixed with `$RCAnonymousID:`). `custom`: also ids the project sets itself for customers who haven't logged in. It is `disabled` unless you change it. */
+export type IAMSettingsAnonymousMigrationMode = "disabled" | "rc_prefix" | "custom";
 export interface IAMSettings {
   /** String representing the object's type. Objects of the same type share the same value. */
   object: IAMSettingsObject;
@@ -3928,8 +3933,8 @@ export interface IAMSettings {
   migration_mode: IAMSettingsMigrationMode | null;
   /** The migration mode in effect. It is `dual` when no mode was set. */
   effective_migration_mode: IAMSettingsEffectiveMigrationMode;
-  /** Whether an anonymous login may pass an `app_user_id` to migrate an existing anonymous customer. It is `false` unless you enable it. */
-  anonymous_login_app_user_id_enabled: boolean;
+  /** Which app user ids an anonymous login may pass as `app_user_id` to migrate an existing customer. `disabled`: anonymous logins with an `app_user_id` are rejected. `rc_prefix`: only RevenueCat anonymous ids (prefixed with `$RCAnonymousID:`). `custom`: also ids the project sets itself for customers who haven't logged in. It is `disabled` unless you change it. */
+  anonymous_migration_mode: IAMSettingsAnonymousMigrationMode;
   /** Whether SDKs may spend virtual currency with a user access token. It is `false` unless you enable it. */
   sdk_virtual_currency_spend_enabled: boolean;
   [key: string]: unknown;
@@ -3951,7 +3956,7 @@ export interface GetOfferingRequest {
   /** ID of the offering */
   offering_id: string;
   /** Specifies which fields in the response should be expanded. Accepted values are: `package` (requires `project_configuration:packages:read` permission), `package.product` (requires `project_configuration:products:read` permission). */
-  expand?: GetOfferingRequestExpandList;
+  expand?: GetOfferingRequestExpandList | undefined;
 }
 export type GetOverviewMetricsRequestCurrency =
   | "USD"
@@ -3972,7 +3977,7 @@ export interface GetOverviewMetricsRequest {
   /** ID of the project */
   project_id: string;
   /** The currency to return metrics data in */
-  currency?: GetOverviewMetricsRequestCurrency | (string & {});
+  currency?: GetOverviewMetricsRequestCurrency | (string & {}) | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type OverviewMetricsObject = "overview_metrics";
@@ -4034,7 +4039,7 @@ export interface GetPackageRequest {
   /** ID of the package */
   package_id: string;
   /** Specifies which fields in the response should be expanded. Accepted values are: `product` (requires `project_configuration:products:read` permission). */
-  expand?: GetPackageRequestExpandList;
+  expand?: GetPackageRequestExpandList | undefined;
 }
 export type GetPaywallRequestExpandItem = "offering" | "components";
 export type GetPaywallRequestExpandList = Array<GetPaywallRequestExpandItem | (string & {})>;
@@ -4044,7 +4049,7 @@ export interface GetPaywallRequest {
   /** ID of the paywall */
   paywall_id: string;
   /** Specifies which fields in the response should be expanded. Accepted values are: `offering` (requires `project_configuration:offerings:read` permission), `components` (requires `project_configuration:offerings:read` permission). */
-  expand?: GetPaywallRequestExpandList;
+  expand?: GetPaywallRequestExpandList | undefined;
 }
 export interface GetPaywallVersionRequest {
   /** ID of the project */
@@ -4062,13 +4067,16 @@ export interface GetPlayStoreOrAppStoreSubscriptionTransactionsRequest {
   /** ID of the subscription */
   subscription_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
   /** Column to sort the result list by. */
-  sort?: GetPlayStoreOrAppStoreSubscriptionTransactionsRequestSort | (string & {});
+  sort?: GetPlayStoreOrAppStoreSubscriptionTransactionsRequestSort | (string & {}) | undefined;
   /** Sort direction for the result list. */
-  direction?: GetPlayStoreOrAppStoreSubscriptionTransactionsRequestDirection | (string & {});
+  direction?:
+    | GetPlayStoreOrAppStoreSubscriptionTransactionsRequestDirection
+    | (string & {})
+    | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type ListSubscriptionTransactionObject = "list";
@@ -4084,13 +4092,13 @@ export interface SubscriptionTransaction {
   /** The store identifier of the purchased product */
   product_store_identifier: string;
   /** The revenue generated by the transaction in the customer's purchased currency */
-  revenue_in_local_currency?: MonetaryAmount | null;
+  revenue_in_local_currency?: MonetaryAmount | null | undefined;
   /** The revenue generated by the transaction in USD */
-  revenue_in_usd?: MonetaryAmount | null;
+  revenue_in_usd?: MonetaryAmount | null | undefined;
   /** The expiration date of the transaction in ms since epoch */
-  expiration_date?: number | null;
+  expiration_date?: number | null | undefined;
   /** The effective expiration date of the transaction in ms since epoch, including potential grace period */
-  effective_expiration_date?: number | null;
+  effective_expiration_date?: number | null | undefined;
 }
 /** Details about each object. */
 export type ListSubscriptionTransactionItemsList = Array<SubscriptionTransaction>;
@@ -4112,7 +4120,7 @@ export interface GetProductRequest {
   /** ID of the product */
   product_id: string;
   /** Specifies which fields in the response should be expanded. Accepted values are: `app` (requires `project_configuration:apps:read` permission), `indicative_price` (requires `project_configuration:products:read` permission). */
-  expand?: GetProductRequestExpandList;
+  expand?: GetProductRequestExpandList | undefined;
 }
 export interface GetProductsFromEntitlementRequest {
   /** ID of the project */
@@ -4120,9 +4128,9 @@ export interface GetProductsFromEntitlementRequest {
   /** ID of the entitlement */
   entitlement_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type ProductsFromEntitlementObject = "list";
@@ -4144,9 +4152,9 @@ export interface GetProductsFromPackageRequest {
   /** ID of the package */
   package_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type ProductsFromPackageObject = "list";
@@ -4170,7 +4178,7 @@ export interface GetPurchaseRequest {
   /** ID of the purchase */
   purchase_id: string;
   /** Specifies which fields in the response should be expanded. Accepted values are: `redemption` (requires `customer_information:purchases:read` permission). */
-  expand?: GetPurchaseRequestExpandList;
+  expand?: GetPurchaseRequestExpandList | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type PurchaseObject = "purchase";
@@ -4235,9 +4243,9 @@ export interface Purchase {
   /** Ownership of the purchase */
   ownership: Ownership;
   /** Billing country in ISO alpha 2 code */
-  country?: Country | null;
+  country?: Country | null | undefined;
   /** Information about the most recent successful redemption of the purchase's redemption link. Only applicable to Web Billing web-to-web purchases; null if the purchase has never been successfully redeemed (or has no redemption link, e.g. purchases from other stores). Only present when expanded. */
-  redemption?: Redemption | null;
+  redemption?: Redemption | null | undefined;
 }
 export type GetRevenueMetricRequestCurrency =
   | "USD"
@@ -4263,9 +4271,9 @@ export interface GetRevenueMetricRequest {
   /** End date for the data range (ISO 8601 format) */
   end_date: string;
   /** The currency to return metrics data in */
-  currency?: GetRevenueMetricRequestCurrency | (string & {});
+  currency?: GetRevenueMetricRequestCurrency | (string & {}) | undefined;
   /** Which revenue definition to return as the metric value: - `revenue`: gross revenue. - `revenue_net_of_taxes`: revenue with taxes subtracted. - `proceeds`: revenue net of both taxes and store commission (the amount the developer keeps). */
-  revenue_type?: GetRevenueMetricRequestRevenueType | (string & {});
+  revenue_type?: GetRevenueMetricRequestRevenueType | (string & {}) | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type RevenueMetricObject = "revenue_metric";
@@ -4295,7 +4303,7 @@ export interface GetSubscriptionRequest {
   /** ID of the subscription */
   subscription_id: string;
   /** Specifies which fields in the response should be expanded. Accepted values are: `redemption` (requires `customer_information:subscriptions:read` permission). */
-  expand?: GetSubscriptionRequestExpandList;
+  expand?: GetSubscriptionRequestExpandList | undefined;
 }
 export interface GetVirtualCurrencyRequest {
   /** ID of the project */
@@ -4361,9 +4369,9 @@ export interface ListAppsRequest {
   /** ID of the project */
   project_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type AppListObject = "list";
@@ -4401,13 +4409,13 @@ export interface ListAuditLogsRequest {
   /** ID of the project */
   project_id: string;
   /** Cursor for pagination. Returns audit logs after the specified audit log ID, using descending order by audit log ID. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Start date for the data range (ISO 8601 format) */
-  start_date?: string;
+  start_date?: string | undefined;
   /** End date for the data range (ISO 8601 format) */
-  end_date?: string;
+  end_date?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type AuditLogListObject = "list";
@@ -4466,9 +4474,9 @@ export interface ListCollaboratorsRequest {
   /** ID of the project */
   project_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type CollaboratorListObject = "list";
@@ -4490,7 +4498,7 @@ export interface Collaborator {
   /** The id of the collaborator */
   id: string;
   /** The name of the collaborator */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The email address of the collaborator */
   email: string;
   /** The role of the collaborator. The project owner is included in the list with the role `owner`. */
@@ -4518,9 +4526,9 @@ export interface ListCustomerActiveEntitlementsRequest {
   /** ID of the customer */
   customer_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface ListCustomerAliasesRequest {
   /** ID of the project */
@@ -4528,9 +4536,9 @@ export interface ListCustomerAliasesRequest {
   /** ID of the customer */
   customer_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type CustomerAliasListObject = "list";
@@ -4561,9 +4569,9 @@ export interface ListCustomerAttributesRequest {
   /** ID of the customer */
   customer_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListCustomerEventsRequestEnvironment = "sandbox" | "production";
 export interface ListCustomerEventsRequest {
@@ -4572,11 +4580,11 @@ export interface ListCustomerEventsRequest {
   /** ID of the customer */
   customer_id: string;
   /** Filter by environment, omit to include both. */
-  environment?: ListCustomerEventsRequestEnvironment | (string & {});
+  environment?: ListCustomerEventsRequestEnvironment | (string & {}) | undefined;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type CustomerEventsListObject = "list";
@@ -4590,7 +4598,7 @@ export interface CustomerEvent {
   /** The identifier of the event. */
   id: string;
   /** The ID of the app associated with the event. */
-  app_id?: string | null;
+  app_id?: string | null | undefined;
   /** The type of event. */
   type: string;
   /** Event payload. Fields vary by event type. */
@@ -4598,7 +4606,7 @@ export interface CustomerEvent {
   /** The creation date of the event in RevenueCat. */
   created_at: number;
   /** The date when the event occurred, sourced from event_timestamp_ms when available. */
-  occurred_at?: number | null;
+  occurred_at?: number | null | undefined;
 }
 /** Details about each event. */
 export type CustomerEventsListItemsList = Array<CustomerEvent>;
@@ -4618,9 +4626,9 @@ export interface ListCustomerInvoicesRequest {
   /** ID of the customer */
   customer_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type CustomerInvoicesListObject = "list";
@@ -4674,11 +4682,11 @@ export interface ListCustomersRequest {
   /** ID of the project */
   project_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
   /** Search term used to find matching customers within the project. The term is matched against, in order: the $email attribute (exact match), the customer's app user IDs, store transaction identifiers (Apple, Google Play and Amazon), and Apple order IDs. Email searches are paginated; all other identifier searches return a single page of matches. */
-  search?: string;
+  search?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type CustomerListObject = "list";
@@ -4700,9 +4708,9 @@ export interface ListDiscountCodesRequest {
   /** The id of the RevenueCat Billing discount. */
   discount_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type DiscountCodeListObject = "list";
@@ -4723,9 +4731,9 @@ export interface ListDiscountsRequest {
   /** ID of the project */
   project_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type DiscountListObject = "list";
@@ -4750,11 +4758,11 @@ export interface ListEntitlementsRequest {
   /** ID of the project */
   project_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
   /** Specifies which fields in the response should be expanded. Accepted values are: `items.product` (requires `project_configuration:products:read` permission). */
-  expand?: ListEntitlementsRequestExpandList;
+  expand?: ListEntitlementsRequestExpandList | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type EntitlementListObject = "list";
@@ -4774,9 +4782,9 @@ export interface ListFontsRequest {
   /** ID of the project */
   project_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type FontListObject = "list";
@@ -4796,9 +4804,9 @@ export interface ListIamAuthenticationMethodsRequest {
   /** ID of the project */
   project_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type ListIAMAuthenticationMethodsObject = "list";
@@ -4818,9 +4826,9 @@ export interface ListMediaAssetsRequest {
   /** ID of the project */
   project_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type MediaAssetListObject = "list";
@@ -4842,11 +4850,11 @@ export interface ListOfferingsRequest {
   /** ID of the project */
   project_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
   /** Specifies which fields in the response should be expanded. Accepted values are: `items.package` (requires `project_configuration:packages:read` permission), `items.package.product` (requires `project_configuration:products:read` permission). */
-  expand?: ListOfferingsRequestExpandList;
+  expand?: ListOfferingsRequestExpandList | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type OfferingListObject = "list";
@@ -4870,11 +4878,11 @@ export interface ListPackagesRequest {
   /** ID of the offering */
   offering_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
   /** Specifies which fields in the response should be expanded. Accepted values are: `items.product` (requires `project_configuration:products:read` permission). */
-  expand?: ListPackagesRequestExpandList;
+  expand?: ListPackagesRequestExpandList | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type PackageListObject = "list";
@@ -4896,11 +4904,11 @@ export interface ListPaywallsRequest {
   /** ID of the project */
   project_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
   /** Specifies which fields in the response should be expanded. Accepted values are: `items.offering` (requires `project_configuration:offerings:read` permission). */
-  expand?: ListPaywallsRequestExpandList;
+  expand?: ListPaywallsRequestExpandList | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type PaywallListObject = "list";
@@ -4922,13 +4930,13 @@ export interface ListProductsRequest {
   /** ID of the project */
   project_id: string;
   /** This is an optional query parameter to get a list of products of a given entitlement associated with a particular app */
-  app_id?: string;
+  app_id?: string | undefined;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
   /** Specifies which fields in the response should be expanded. Accepted values are: `items.app` (requires `project_configuration:apps:read` permission), `items.indicative_price` (requires `project_configuration:products:read` permission). */
-  expand?: ListProductsRequestExpandList;
+  expand?: ListProductsRequestExpandList | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type ProductListObject = "list";
@@ -4946,9 +4954,9 @@ export interface ProductList {
 }
 export interface ListProjectsRequest {
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type ProjectListObject = "list";
@@ -4970,9 +4978,9 @@ export interface ListPurchaseEntitlementsRequest {
   /** ID of the purchase */
   purchase_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListPurchasesRequestEnvironment = "sandbox" | "production";
 export type ListPurchasesRequestExpandItem = "items.redemption";
@@ -4983,13 +4991,13 @@ export interface ListPurchasesRequest {
   /** ID of the customer */
   customer_id: string;
   /** Filter by environment, omit to include both. */
-  environment?: ListPurchasesRequestEnvironment | (string & {});
+  environment?: ListPurchasesRequestEnvironment | (string & {}) | undefined;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
   /** Specifies which fields in the response should be expanded. Accepted values are: `items.redemption` (requires `customer_information:purchases:read` permission). */
-  expand?: ListPurchasesRequestExpandList;
+  expand?: ListPurchasesRequestExpandList | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type PurchaseListObject = "list";
@@ -5011,9 +5019,9 @@ export interface ListSubscriptionEntitlementsRequest {
   /** ID of the subscription */
   subscription_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListSubscriptionsRequestEnvironment = "sandbox" | "production";
 export type ListSubscriptionsRequestExpandItem = "items.redemption";
@@ -5026,13 +5034,13 @@ export interface ListSubscriptionsRequest {
   /** ID of the customer */
   customer_id: string;
   /** Filter by environment, omit to include both. */
-  environment?: ListSubscriptionsRequestEnvironment | (string & {});
+  environment?: ListSubscriptionsRequestEnvironment | (string & {}) | undefined;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
   /** Specifies which fields in the response should be expanded. Accepted values are: `items.redemption` (requires `customer_information:subscriptions:read` permission). */
-  expand?: ListSubscriptionsRequestExpandList;
+  expand?: ListSubscriptionsRequestExpandList | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type SubscriptionListObject = "list";
@@ -5052,9 +5060,9 @@ export interface ListVirtualCurrenciesRequest {
   /** ID of the project */
   project_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
 export type VirtualCurrencyListObject = "list";
@@ -5076,19 +5084,19 @@ export interface ListVirtualCurrenciesBalancesRequest {
   /** ID of the customer */
   customer_id: string;
   /** Whether to include in-app currencies (virtual currencies) with a zero balance (default false). */
-  include_empty_balances?: boolean;
+  include_empty_balances?: boolean | undefined;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface ListWebhookIntegrationsRequest {
   /** ID of the project */
   project_id: string;
   /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type WebhookIntegrationListObject = "list";
@@ -5100,7 +5108,7 @@ export interface WebhookIntegrationList {
   /** Webhook integrations configured for the project. */
   items: WebhookIntegrationListItemsList;
   /** URL to access the next page of webhook integrations. If not present / null, there is no next page */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** The URL where this list can be accessed. */
   url: string;
 }
@@ -5123,9 +5131,9 @@ export interface PreviewAudienceRequest2 {
   /** ID of the project */
   project_id: string;
   /** Customer sample field to sort by. */
-  sort_by?: PreviewAudienceRequestSortBy | (string & {});
+  sort_by?: PreviewAudienceRequestSortBy | (string & {}) | undefined;
   /** Direction to sort the customer sample. */
-  sort_direction?: PreviewAudienceRequestSortDirection | (string & {});
+  sort_direction?: PreviewAudienceRequestSortDirection | (string & {}) | undefined;
   body: PreviewAudienceRequest;
 }
 export type AudiencePreviewObject = "audience_preview";
@@ -5187,7 +5195,7 @@ export interface SearchPurchasesRequest {
   /** Store ID associated with the one-time purchase. */
   store_purchase_identifier: string;
   /** Specifies which fields in the response should be expanded. Accepted values are: `items.redemption` (requires `customer_information:purchases:read` permission). */
-  expand?: SearchPurchasesRequestExpandList;
+  expand?: SearchPurchasesRequestExpandList | undefined;
 }
 export type SearchSubscriptionsRequestExpandItem = "items.redemption";
 export type SearchSubscriptionsRequestExpandList = Array<
@@ -5199,9 +5207,9 @@ export interface SearchSubscriptionsRequest {
   /** Store ID associated with the subscription for the current or next period. */
   store_subscription_identifier: string;
   /** When true, includes subscriptions scheduled to start in the future in the response. */
-  include_scheduled?: boolean;
+  include_scheduled?: boolean | undefined;
   /** Specifies which fields in the response should be expanded. Accepted values are: `items.redemption` (requires `customer_information:subscriptions:read` permission). */
-  expand?: SearchSubscriptionsRequestExpandList;
+  expand?: SearchSubscriptionsRequestExpandList | undefined;
 }
 /** The name of the attribute */
 export type SetCustomerAttributesRequestAttributesItemName = CustomerAttributeReservedName | string;
@@ -5230,7 +5238,7 @@ export interface TransferCustomerDataRequest {
   /** The ID of the customer to whom the subscriptions and one-time purchases will be transferred. */
   target_customer_id: string;
   /** Optional. The IDs of the apps to filter the transfer by. When specified, only purchases and subscriptions associated with these apps will be transferred. */
-  app_ids?: TransferCustomerDataRequestAppIdsList | null;
+  app_ids?: TransferCustomerDataRequestAppIdsList | null | undefined;
 }
 export interface Transfer {
   /** The original customer before the transfer */
@@ -5251,7 +5259,7 @@ export interface UnarchiveOfferingRequest {
   /** ID of the offering */
   offering_id: string;
   /** If true, also unarchive any archived products referenced by this offering's packages. */
-  unarchive_referenced_entities?: boolean;
+  unarchive_referenced_entities?: boolean | undefined;
 }
 export interface UnarchiveProductRequest {
   /** ID of the project */
@@ -5281,72 +5289,72 @@ export interface UnpublishPaywallRequest {
 /** Amazon type details. Should only be used when type is amazon. */
 export interface UpdateAppRequestAmazon {
   /** The package name of the app */
-  package_name?: string;
+  package_name?: string | undefined;
   /** Your Amazon Developer Identity Shared Key */
-  shared_secret?: string | Redacted.Redacted<string> | null;
+  shared_secret?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** App Store type details. Should only be used when type is app_store. */
 export interface UpdateAppRequestAppStore {
   /** The bundle ID of the app */
-  bundle_id?: string;
+  bundle_id?: string | undefined;
   /** The shared secret of the app */
-  shared_secret?: string | Redacted.Redacted<string> | null;
+  shared_secret?: string | Redacted.Redacted<string> | null | undefined;
   /** PKCS */
-  subscription_private_key?: string | Redacted.Redacted<string>;
+  subscription_private_key?: string | Redacted.Redacted<string> | undefined;
   /** In App Key id. The ID of the downloaded in app key. You can get it from App Store Connect */
-  subscription_key_id?: string;
+  subscription_key_id?: string | undefined;
   /** The key Issuer id. See instructions on how to obtain this in https://www.revenuecat.com/docs/in-app-purchase-key-configuration#3-providing-the-issuer-id-to-revenuecat */
-  subscription_key_issuer?: string;
+  subscription_key_issuer?: string | undefined;
   /** App Store Connect API Key downloaded from App Store Connect in PEM format. Copy the contents of the file in this field. Mutually exclusive with copy_app_store_connect_api_key_from_app_id. */
-  app_store_connect_api_key?: string | Redacted.Redacted<string>;
+  app_store_connect_api_key?: string | Redacted.Redacted<string> | undefined;
   /** App Store Connect API Key ID. The ID of the downloaded API key. You can get it from App Store Connect. */
-  app_store_connect_api_key_id?: string;
+  app_store_connect_api_key_id?: string | undefined;
   /** App Store Connect API Key Issuer ID. */
-  app_store_connect_api_key_issuer?: string;
+  app_store_connect_api_key_issuer?: string | undefined;
   /** Your vendor number from App Store Connect. Required for some features like financial reports. */
-  app_store_connect_vendor_number?: string;
+  app_store_connect_vendor_number?: string | undefined;
   /** Copy the App Store Connect API key from another App Store app in this project. Pass that app's id from list-apps. Mutually exclusive with app_store_connect_api_key. Key id and issuer are copied unless you send them explicitly. */
-  copy_app_store_connect_api_key_from_app_id?: string;
+  copy_app_store_connect_api_key_from_app_id?: string | undefined;
   /** Copy the In-App Purchase key from another App Store app in this project. Pass that app's id from list-apps. Mutually exclusive with subscription_private_key. Key id and issuer are copied unless you send them explicitly. */
-  copy_subscription_key_from_app_id?: string;
+  copy_subscription_key_from_app_id?: string | undefined;
 }
 /** Legacy Mac App Store type details. Should only be used when type is mac_app_store. */
 export interface UpdateAppRequestMacAppStore {
   /** The bundle ID of the app */
-  bundle_id?: string;
+  bundle_id?: string | undefined;
   /** The shared secret of the app */
-  shared_secret?: string | Redacted.Redacted<string> | null;
+  shared_secret?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** Play Store type details. Should only be used when type is play_store. */
 export interface UpdateAppRequestPlayStore {
   /** The package name of the app */
-  package_name?: string;
+  package_name?: string | undefined;
   /** Contents of the Google Cloud service account key JSON file. Copy the whole file into this field. See instructions on how to create it in https://www.revenuecat.com/docs/creating-play-service-credentials */
-  play_service_account_credentials_json?: string | Redacted.Redacted<string>;
+  play_service_account_credentials_json?: string | Redacted.Redacted<string> | undefined;
 }
 /** Stripe type details. Should only be used when type is stripe. */
 export interface UpdateAppRequestStripe {
   /** It needs to be connected to your RevenueCat account. It can be omitted if you only have a single Stripe account connected to your RevenueCat account. */
-  stripe_account_id?: string;
+  stripe_account_id?: string | undefined;
 }
 /** Web Billing type details. Should only be used when type is rc_billing. */
 export interface UpdateAppRequestRcBilling {
   /** It needs to be connected to your RevenueCat account. It can be omitted if you only have a single Stripe account connected to your RevenueCat account. */
-  stripe_account_id?: string | null;
+  stripe_account_id?: string | null | undefined;
   /** Shown in checkout, emails, and receipts sent to customers. */
-  app_name?: string | null;
+  app_name?: string | null | undefined;
   /** Used as the `reply to` address in all emails sent to customers, to allow them to receive support. If you leave this field blank, your RevenueCat account email address will be used. */
-  support_email?: string | null;
-  default_currency?: RCBillingCurrency | (string & {});
+  support_email?: string | null | undefined;
+  default_currency?: RCBillingCurrency | (string & {}) | undefined;
 }
 /** Roku Channel Store type details. Should only be used when type is roku. */
 export type UpdateAppRequestRoku = RokuAppCreateRoku;
 /** Paddle Billing type details. Should only be used when type is paddle. */
 export interface UpdateAppRequestPaddle {
   /** Paddle Server-side API key provided on the Paddle dashboard. */
-  paddle_api_key?: string | Redacted.Redacted<string> | null;
+  paddle_api_key?: string | Redacted.Redacted<string> | null | undefined;
   /** Whether the app is tied to the sandbox environment. */
-  paddle_is_sandbox?: boolean;
+  paddle_is_sandbox?: boolean | undefined;
 }
 export interface UpdateAppRequest {
   /** ID of the project */
@@ -5354,23 +5362,23 @@ export interface UpdateAppRequest {
   /** ID of the app */
   app_id: string;
   /** The name of the app */
-  name?: string;
+  name?: string | undefined;
   /** Amazon type details. Should only be used when type is amazon. */
-  amazon?: UpdateAppRequestAmazon;
+  amazon?: UpdateAppRequestAmazon | undefined;
   /** App Store type details. Should only be used when type is app_store. */
-  app_store?: UpdateAppRequestAppStore;
+  app_store?: UpdateAppRequestAppStore | undefined;
   /** Legacy Mac App Store type details. Should only be used when type is mac_app_store. */
-  mac_app_store?: UpdateAppRequestMacAppStore;
+  mac_app_store?: UpdateAppRequestMacAppStore | undefined;
   /** Play Store type details. Should only be used when type is play_store. */
-  play_store?: UpdateAppRequestPlayStore;
+  play_store?: UpdateAppRequestPlayStore | undefined;
   /** Stripe type details. Should only be used when type is stripe. */
-  stripe?: UpdateAppRequestStripe;
+  stripe?: UpdateAppRequestStripe | undefined;
   /** Web Billing type details. Should only be used when type is rc_billing. */
-  rc_billing?: UpdateAppRequestRcBilling;
+  rc_billing?: UpdateAppRequestRcBilling | undefined;
   /** Roku Channel Store type details. Should only be used when type is roku. */
-  roku?: RokuAppCreateRoku;
+  roku?: RokuAppCreateRoku | undefined;
   /** Paddle Billing type details. Should only be used when type is paddle. */
-  paddle?: UpdateAppRequestPaddle;
+  paddle?: UpdateAppRequestPaddle | undefined;
 }
 export type UpdateAppResponse = App;
 export interface UpdateAudienceRequest {
@@ -5379,9 +5387,9 @@ export interface UpdateAudienceRequest {
   /** ID of the Audience */
   audience_id: string;
   /** The name of the Audience */
-  name?: string;
+  name?: string | undefined;
   /** The Audience membership rules */
-  rules?: AudienceRules;
+  rules?: AudienceRules | undefined;
 }
 /** The type of discount to apply. */
 export type UpdateDiscountOfferRequestType = "percentage" | "fixed_amount";
@@ -5406,21 +5414,21 @@ export interface UpdateDiscountOfferRequest {
   /** The id of the RevenueCat Billing discount. */
   discount_id: string;
   /** Name displayed to customers for this discount. */
-  customer_facing_name?: string;
+  customer_facing_name?: string | undefined;
   /** The type of discount to apply. */
-  type?: UpdateDiscountOfferRequestType | (string & {});
+  type?: UpdateDiscountOfferRequestType | (string & {}) | undefined;
   /** Percentage value for percentage discounts. */
-  percentage?: number;
+  percentage?: number | undefined;
   /** Fixed amount values by currency for fixed amount discounts. */
-  fixed_amounts?: UpdateDiscountOfferRequestFixedAmountsMap;
+  fixed_amounts?: UpdateDiscountOfferRequestFixedAmountsMap | undefined;
   /** The discount duration mode. */
-  duration_mode?: UpdateDiscountOfferRequestDurationMode | (string & {});
+  duration_mode?: UpdateDiscountOfferRequestDurationMode | (string & {}) | undefined;
   /** Eligibility criteria for this discount. */
-  eligibility?: UpdateDiscountOfferRequestEligibility | (string & {});
+  eligibility?: UpdateDiscountOfferRequestEligibility | (string & {}) | undefined;
   /** ISO-8601 duration when using time window duration mode. */
-  time_window?: string;
+  time_window?: string | undefined;
   /** Product identifiers that this discount applies to. */
-  product_identifiers?: UpdateDiscountOfferRequestProductIdentifiersList;
+  product_identifiers?: UpdateDiscountOfferRequestProductIdentifiersList | undefined;
 }
 export type UpdateDiscountOfferResponse = Discount;
 export interface UpdateEntitlementRequest {
@@ -5445,56 +5453,64 @@ export interface UpdateIamAuthenticationMethodRequest {
   /** ID of the IAM authentication method */
   authentication_method_id: string;
   /** The display name of the authentication method. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of the sender of the emails. */
-  sender_name?: string | null;
+  sender_name?: string | null | undefined;
   /** Reply-to address of the emails. */
-  reply_to_email?: string | null;
+  reply_to_email?: string | null | undefined;
   /** Number of minutes the code stays valid. */
-  code_expiration_minutes?: number | null;
+  code_expiration_minutes?: number | null | undefined;
   /** Number of minutes the link stays valid. */
-  magic_link_expiration_minutes?: number | null;
+  magic_link_expiration_minutes?: number | null | undefined;
   /** Issuer URL of the identity provider. The OpenID configuration is discovered from it. */
-  issuer_url?: string;
+  issuer_url?: string | undefined;
   /** OAuth client id (`oidc`, `google`). Matched against the `aud` claim of the ID token. */
-  client_id?: string | null;
+  client_id?: string | null | undefined;
   /** Client secret used for interactive login. It is never returned. */
-  client_secret?: string | Redacted.Redacted<string> | null;
+  client_secret?: string | Redacted.Redacted<string> | null | undefined;
   /** OAuth scopes requested from the identity provider in addition to `openid`, which is always requested. */
-  requested_scopes?: UpdateIamAuthenticationMethodRequestRequestedScopesList | null;
+  requested_scopes?: UpdateIamAuthenticationMethodRequestRequestedScopesList | null | undefined;
   /** Dot-path selector of the ID token claim used as the app user id. When null, the `sub` claim is used. Cannot be changed after users signed in. */
-  app_user_id_claim?: string | null;
+  app_user_id_claim?: string | null | undefined;
   /** Static query parameters added to the authorize URL of the identity provider during interactive login. OAuth and PKCE parameters cannot be overridden. */
-  authorization_params?: UpdateIamAuthenticationMethodRequestAuthorizationParamsMap | null;
+  authorization_params?:
+    | UpdateIamAuthenticationMethodRequestAuthorizationParamsMap
+    | null
+    | undefined;
   /** Maximum age in seconds of the `iat` claim of the external ID token, used for replay protection. When omitted, 5 seconds are used. */
-  id_token_iat_freshness_seconds?: number | null;
+  id_token_iat_freshness_seconds?: number | null | undefined;
   /** Ids of the Apple apps that form the Apple App ID group of the method. Omit or set to null to cover every Apple app of the project. */
-  app_ids?: UpdateIamAuthenticationMethodRequestAppIdsList | null;
+  app_ids?: UpdateIamAuthenticationMethodRequestAppIdsList | null | undefined;
   /** Id of the Apple app whose App ID is the primary one in the Apple Developer account. */
-  primary_app_id?: string | null;
+  primary_app_id?: string | null | undefined;
   /** Meta app id, matched against the token audience. */
-  facebook_app_id?: string;
+  facebook_app_id?: string | undefined;
   /** Meta app secret, used to verify Android access tokens. It is never returned. */
-  app_secret?: string | Redacted.Redacted<string> | null;
+  app_secret?: string | Redacted.Redacted<string> | null | undefined;
   /** Firebase project id, matched against the `aud` claim of the ID token. */
-  firebase_project_id?: string;
+  firebase_project_id?: string | undefined;
   /** Firebase web API key. */
-  api_key?: string | Redacted.Redacted<string>;
+  api_key?: string | Redacted.Redacted<string> | undefined;
   /** Firebase auth domain. */
-  auth_domain?: string;
+  auth_domain?: string | undefined;
 }
 export type UpdateIamAuthenticationMethodResponse = IAMAuthenticationMethod;
 /** The migration mode of the project. `dual`: legacy API-key authentication and IAM both work. `protected`: requests made with a public API key are rejected for customers that are linked to an IAM user. `authenticat_only`: requests made with a public API key are rejected for all customers. */
 export type UpdateIamSettingsRequestMigrationMode = "dual" | "protected" | "authenticat_only";
+/** Which app user ids an anonymous login may pass as `app_user_id` to migrate an existing customer. `disabled`: anonymous logins with an `app_user_id` are rejected. `rc_prefix`: only RevenueCat anonymous ids (prefixed with `$RCAnonymousID:`). `custom`: also ids the project sets itself for customers who haven't logged in. Has no effect once the migration mode is `authenticat_only`. */
+export type UpdateIamSettingsRequestAnonymousMigrationMode = "disabled" | "rc_prefix" | "custom";
 export interface UpdateIamSettingsRequest {
   /** ID of the project */
   project_id: string;
   /** The migration mode of the project. `dual`: legacy API-key authentication and IAM both work. `protected`: requests made with a public API key are rejected for customers that are linked to an IAM user. `authenticat_only`: requests made with a public API key are rejected for all customers. */
-  migration_mode?: UpdateIamSettingsRequestMigrationMode | (string & {});
-  /** Whether an anonymous login may pass an `app_user_id` to migrate an existing anonymous customer. */
-  anonymous_login_app_user_id_enabled?: boolean;
+  migration_mode?: UpdateIamSettingsRequestMigrationMode | (string & {}) | undefined;
+  /** Which app user ids an anonymous login may pass as `app_user_id` to migrate an existing customer. `disabled`: anonymous logins with an `app_user_id` are rejected. `rc_prefix`: only RevenueCat anonymous ids (prefixed with `$RCAnonymousID:`). `custom`: also ids the project sets itself for customers who haven't logged in. Has no effect once the migration mode is `authenticat_only`. */
+  anonymous_migration_mode?:
+    | UpdateIamSettingsRequestAnonymousMigrationMode
+    | (string & {})
+    | undefined;
   /** Whether SDKs may spend virtual currency with a user access token. */
-  sdk_virtual_currency_spend_enabled?: boolean;
+  sdk_virtual_currency_spend_enabled?: boolean | undefined;
 }
 export interface UpdateOfferingRequest {
   /** ID of the project */
@@ -5502,11 +5518,11 @@ export interface UpdateOfferingRequest {
   /** ID of the offering */
   offering_id: string;
   /** The display name of the offering */
-  display_name?: string;
+  display_name?: string | undefined;
   /** Indicates if the offering is the current offering */
-  is_current?: boolean;
+  is_current?: boolean | undefined;
   /** Custom metadata of the offering */
-  metadata?: OfferingMetadata | null;
+  metadata?: OfferingMetadata | null | undefined;
 }
 export interface UpdatePackageRequest {
   /** ID of the project */
@@ -5514,9 +5530,9 @@ export interface UpdatePackageRequest {
   /** ID of the package */
   package_id: string;
   /** The display name of the package */
-  display_name?: string;
+  display_name?: string | undefined;
   /** The position of the package within the offering */
-  position?: number;
+  position?: number | undefined;
 }
 /** The raw paywall components configuration to save as the draft. Omit to leave unchanged. */
 export type UpdatePaywallRequestComponentsConfigMap = { [key: string]: unknown | undefined };
@@ -5587,23 +5603,26 @@ export interface UpdatePaywallRequest {
   /** The current revision of the paywall, as returned in the `revision` field of any paywall response. Used to reject stale writes: if another update has bumped the revision in the meantime, this request fails with a 409. */
   revision: number;
   /** The raw paywall components configuration to save as the draft. Omit to leave unchanged. */
-  components_config?: UpdatePaywallRequestComponentsConfigMap;
+  components_config?: UpdatePaywallRequestComponentsConfigMap | undefined;
   /** Localized component values keyed by locale. Omit to leave unchanged. */
-  components_localizations?: UpdatePaywallRequestComponentsLocalizationsMap;
+  components_localizations?: UpdatePaywallRequestComponentsLocalizationsMap | undefined;
   /** The default locale for this paywall. Omit to leave unchanged. */
-  default_locale?: string;
+  default_locale?: string | undefined;
   /** The ID of the offering to attach this paywall to. Pass null to detach the paywall from its offering (not supported while the paywall is published). Omit the field to leave it unchanged. */
-  offering_id?: string | null;
+  offering_id?: string | null | undefined;
   /** Optional paywall name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Whether font sizes should automatically scale for this paywall draft. */
-  automatically_scale_font_size?: boolean;
+  automatically_scale_font_size?: boolean | undefined;
   /** Exit offer configuration to save on the draft. */
-  exit_offers?: UpdatePaywallRequestExitOffersMap | null;
+  exit_offers?: UpdatePaywallRequestExitOffersMap | null | undefined;
   /** State declarations to save on the draft, keyed by state key name. Pass null to clear all state declarations. Omit to leave unchanged. */
-  state_declarations?: UpdatePaywallRequestStateDeclarationsMap | null;
+  state_declarations?: UpdatePaywallRequestStateDeclarationsMap | null | undefined;
   /** Play Store product change mode configuration to save on the draft. */
-  play_store_product_change_mode?: UpdatePaywallRequestPlayStoreProductChangeModeMap | null;
+  play_store_product_change_mode?:
+    | UpdatePaywallRequestPlayStoreProductChangeModeMap
+    | null
+    | undefined;
 }
 export type UpdateProductRequestExpandItem = "app" | "indicative_price";
 export type UpdateProductRequestExpandList = Array<UpdateProductRequestExpandItem | (string & {})>;
@@ -5613,11 +5632,11 @@ export interface UpdateProductRequest {
   /** ID of the product */
   product_id: string;
   /** Specifies which fields in the response should be expanded. Accepted values are: `app` (requires `project_configuration:apps:read` permission), `indicative_price` (requires `project_configuration:products:read` permission). */
-  expand?: UpdateProductRequestExpandList;
+  expand?: UpdateProductRequestExpandList | undefined;
   /** The display name of the product */
-  display_name?: string;
+  display_name?: string | undefined;
   /** The product type. Supported for App Store products (`subscription`, `consumable`, `non_consumable` or `non_renewing_subscription`) and for one-time Play Store products (`consumable` or `non_consumable`). For App Store products, and when changing a Play Store product to consumable, type cannot be changed once the product has production transactions; create a new product with the type you need instead. Play Store consumable to non-consumable is allowed even with production transactions. */
-  type?: ProductType | (string & {});
+  type?: ProductType | (string & {}) | undefined;
 }
 /** The adjustments to the in-app currencies (virtual currencies) */
 export type UpdateVirtualCurrenciesBalanceRequestAdjustmentsMap = {
@@ -5629,11 +5648,11 @@ export interface UpdateVirtualCurrenciesBalanceRequest {
   /** ID of the customer */
   customer_id: string;
   /** Whether to include in-app currencies (virtual currencies) with a zero balance (default false). */
-  include_empty_balances?: boolean;
+  include_empty_balances?: boolean | undefined;
   /** The adjustments to the in-app currencies (virtual currencies) */
   adjustments: UpdateVirtualCurrenciesBalanceRequestAdjustmentsMap;
   /** The reference of the transaction */
-  reference?: string | null;
+  reference?: string | null | undefined;
 }
 /** Product grants that define how products grant this in-app currency (virtual currency) */
 export type UpdateVirtualCurrencyRequestProductGrantsList = Array<VirtualCurrencyProductGrantInput>;
@@ -5643,11 +5662,11 @@ export interface UpdateVirtualCurrencyRequest {
   /** The in-app currency (virtual currency) code */
   virtual_currency_code: string;
   /** The display name of the in-app currency (virtual currency) */
-  name?: string;
+  name?: string | undefined;
   /** Description of the in-app currency (virtual currency) */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Product grants that define how products grant this in-app currency (virtual currency) */
-  product_grants?: UpdateVirtualCurrencyRequestProductGrantsList | null;
+  product_grants?: UpdateVirtualCurrencyRequestProductGrantsList | null | undefined;
 }
 /** The environment the webhook integration is configured for */
 export type UpdateWebhookIntegrationRequestEnvironment = "production" | "sandbox";
@@ -5659,17 +5678,17 @@ export interface UpdateWebhookIntegrationRequest {
   /** The ID of the webhook integration */
   webhook_integration_id: string;
   /** The display name of the webhook integration */
-  name?: string;
+  name?: string | undefined;
   /** The URL RevenueCat will send webhook notifications to */
-  url?: string;
+  url?: string | undefined;
   /** Optional authorization header that will be sent with webhook notifications */
-  authorization_header?: string | Redacted.Redacted<string> | null;
+  authorization_header?: string | Redacted.Redacted<string> | null | undefined;
   /** The environment the webhook integration is configured for */
-  environment?: UpdateWebhookIntegrationRequestEnvironment | (string & {}) | null;
+  environment?: UpdateWebhookIntegrationRequestEnvironment | (string & {}) | null | undefined;
   /** Event types that will trigger the webhook */
-  event_types?: UpdateWebhookIntegrationRequestEventTypesList | null;
+  event_types?: UpdateWebhookIntegrationRequestEventTypesList | null | undefined;
   /** The ID of the app the webhook integration is scoped to */
-  app_id?: string | null;
+  app_id?: string | null | undefined;
 }
 export type ArchiveEntitlementError =
   | BadRequest
@@ -6414,7 +6433,7 @@ export type DeleteCustomerError =
   | Conflict
   | UnprocessableEntity
   | RevenueCatOpError;
-/** Delete a customer This endpoint requires the following permission(s): <code>customer_information:customers:read_write</code>. This endpoint belongs to the <strong>Customer Information</strong> domain, which has a default rate limit of <strong>480 requests per minute</strong>. */
+/** Delete a customer Permanently deletes a customer. Deletion is queued asynchronously. After a `200`, call v2 Get a customer and treat a `404` as confirmation that the customer no longer exists. This endpoint requires the following permission(s): <code>customer_information:customers:read_write</code>. This endpoint belongs to the <strong>Customer Information</strong> domain, which has a default rate limit of <strong>480 requests per minute</strong>. */
 export const deleteCustomer: API.OperationMethod<
   DeleteCustomerRequest,
   DeletedObject,
@@ -9924,7 +9943,7 @@ function __c46(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           migration_mode: S.optional(S.String),
-          anonymous_login_app_user_id_enabled: S.optional(S.Boolean),
+          anonymous_migration_mode: S.optional(S.String),
           sdk_virtual_currency_spend_enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/iam/settings", code: 200 })),
       ).annotate({ identifier: "UpdateIamSettingsRequest" });
@@ -12021,7 +12040,7 @@ function __c145(j: number): any {
             object: S.String,
             migration_mode: S.NullOr(S.String),
             effective_migration_mode: S.String,
-            anonymous_login_app_user_id_enabled: S.Boolean,
+            anonymous_migration_mode: S.String,
             sdk_virtual_currency_spend_enabled: S.Boolean,
           }),
           [S.Record(S.String, S.Unknown)],
