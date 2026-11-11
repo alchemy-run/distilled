@@ -38,6 +38,10 @@ await runOpenApiConvert({
     // Without it the converter finds no success schema and emits an empty
     // response struct, so the created id is unreachable.
     successStatuses: ["200", "201", "202", "204"],
+    // Header parameters carry required acknowledgements (`X-Dangerous` on
+    // the destroy-with-resources endpoints) and Action Gateway identity
+    // (`X-Actor-Id`, `X-Session-Id`, `X-Endpoint-Id`).
+    headerParams: true,
   },
 });
 

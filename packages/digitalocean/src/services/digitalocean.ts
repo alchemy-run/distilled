@@ -3126,6 +3126,8 @@ export interface ChatCompletionResponse {
   object: ChatCompletionResponseObject;
   usage?: CompletionUsage | undefined;
 }
+export type CreateAppRequestAccept = "application/json" | "application/yaml";
+export type CreateAppRequestContentType = "application/json" | "application/yaml";
 /** The slug form of the geographical origin of the app. Default: `nearest available` */
 export type AppSpecInputRegion =
   | "atl"
@@ -3183,6 +3185,10 @@ export interface AppSpecInput {
   maintenance?: AppMaintenanceSpec | undefined;
 }
 export interface CreateAppRequest {
+  /** The content-type that should be used by the response. By default, the response will be `application/json`. `application/yaml` is also supported. */
+  accept?: CreateAppRequestAccept | (string & {}) | undefined;
+  /** The content-type used for the request. By default, the requests are assumed to use `application/json`. `application/yaml` is also supported. */
+  contentType?: CreateAppRequestContentType | (string & {}) | undefined;
   spec: AppSpecInput;
   /** The ID of the project the app should be assigned to. If omitted, it will be assigned to your default project. <br><br>Requires `project:assign_resource` and `project:update` scopes. */
   project_id?: string | undefined;
@@ -6519,6 +6525,8 @@ export interface CreateHarnessSessionRequest {
   openai_session_id?: string | undefined;
   /** Opt the new session in to automatic resumption when the team's prepayment balance is restored. Defaults to false. Exists as a query parameter so the environment spec (YAML body) form can carry it too. On the application/json form the body field is idiomatic, but this parameter wins when both are present. Must be exactly one of true/false/1/0; anything else is a 400. */
   resume_on_topoff?: boolean | undefined;
+  /** Optional hardware device id forwarded by doctl. Persisted on the session row for lifecycle attribution. Values over 128 bytes are ignored. */
+  xDeviceUUID?: string | undefined;
   /** Session name, independent of the config name. Must satisfy the existing environment-spec metadata.name rules and must not be UUID-shaped. */
   name: string;
   config_id: string;
@@ -6722,6 +6730,8 @@ export interface CreateTemplateResponse {
   template: SandboxTemplate;
 }
 export interface CreateHarnessWorkspaceRequest {
+  /** Optional key that makes retries safe. Within 24 hours, the same key and body return the workspace the first request created, and the same key with a different body returns `422`. */
+  idempotencyKey?: string | undefined;
   /** Size limit of the workspace in GiB, from 1 to 100. A team limit can lower the maximum. The size cannot be changed after create. */
   size_limit_gib: number;
   /** Optional label of at most 255 characters. It does not need to be unique. */
@@ -10437,6 +10447,8 @@ export interface DeleteAutoscalepoolResponse {}
 export interface DeleteAutoscalepoolDangerousRequest {
   /** A unique identifier for an autoscale pool. */
   autoscale_pool_id: string;
+  /** Acknowledge this action will destroy the autoscale pool and its associated resources and _can not_ be reversed. */
+  xDangerous: boolean;
 }
 export interface DeleteAutoscalepoolDangerousResponse {}
 export interface DeleteByoipPrefixRequest {
@@ -10851,6 +10863,8 @@ export interface DeleteHarnessProviderConnectionRequest {
 export interface DeleteHarnessSessionRequest {
   /** The session UUID. */
   session_id: string;
+  /** Optional hardware device id forwarded by doctl. Recorded on the session row as the device that performed the destroy. */
+  xDeviceUUID?: string | undefined;
 }
 export interface DeleteHarnessSessionResponse {}
 export interface DeleteHarnessSessionCheckpointRequest {
@@ -11214,6 +11228,8 @@ export interface DropletsDestroyByTagResponse {}
 export interface DropletsDestroyWithAssociatedResourcesDangerousRequest {
   /** A unique identifier for a Droplet instance. */
   droplet_id: number;
+  /** Acknowledge this action will destroy the Droplet and all associated resources and _can not_ be reversed. */
+  xDangerous: boolean;
 }
 export interface DropletsDestroyWithAssociatedResourcesDangerousResponse {}
 /** An array of unique identifiers for the floating IPs to be scheduled for deletion. */
@@ -11354,6 +11370,12 @@ export type GatewayToolsListSearchRequestProvidersList = Array<string>;
 /** Restricts every query to tools with these tags. */
 export type GatewayToolsListSearchRequestTagsList = Array<string>;
 export interface GatewayToolsListSearchRequest {
+  /** The session to act in: the UUID at the end of the session's `sessionUrn` and `mcpUrl`. For a pinned endpoint version, use the session UUID at the end of its `mcp_url`, not the composite version ID. The session must belong to the authenticated user and team. Send either this header or `X-Endpoint-Id`, not both; both returns 400. With neither, the request uses your default endpoint when default endpoints are enabled for your team, and otherwise returns 403. */
+  xSessionId?: string | undefined;
+  /** The endpoint to act in, as a lowercase endpoint UUID. The request uses the endpoint's current head version, which the response reports in `X-Action-Gateway-Endpoint-Version`. The endpoint must belong to the authenticated user and team; an unknown or inaccessible endpoint returns 404. Send either this header or `X-Session-Id`, not both. A malformed value or more than one value returns 400. */
+  xEndpointId?: string | undefined;
+  /** The actor you expect the session or endpoint to be bound to. It does not select an actor or connections; those come from the session's or endpoint's `actor_id`. When sent, it must equal that binding. A different value, including any value for a target with no actor, returns 403 with the message "The session is not bound to the request's actor." */
+  xActorId?: string | undefined;
   /** Independent search queries. Split separate actions into separate queries. Each query is searched on its own and gets its own result group. */
   queries: GatewayToolsListSearchRequestQueriesList;
   /** Restricts every query to these providers. */
@@ -14646,6 +14668,10 @@ export interface GetHarnessSessionEventsRequest {
   cursor?: string | undefined;
   /** Query-param equivalent of `X-Device-UUID`. Identifies one client install so its delivery cursor and live slot are its own; a second attach from the same device supersedes the first. */
   device_id?: string | undefined;
+  /** The last event this client rendered (not merely received). Its presence marks the request a reconnect, so OHP serves strictly what follows it with no last-N floor. Persist it only after rendering. */
+  lastEventID?: string | undefined;
+  /** A stable per-install device id. See `device_id`. */
+  xDeviceUUID?: string | undefined;
 }
 export interface GetHarnessSessionEventsResponse {}
 export type GetHarnessSessionImageMessagesRequestType = "vulnerability";
@@ -17004,6 +17030,8 @@ export interface HarnessCreateSessionWorkspaceUploadRequest {
   path: string;
   /** If true, the body is a tar stream that the guest extracts under `path`. Defaults to false (single file). */
   is_archive?: boolean | undefined;
+  /** Optional hex SHA-256 of the full payload. The guest verifies it after writing; a mismatch returns 400. */
+  xContentSha256?: string | undefined;
 }
 export interface WorkspaceUploadResponse {
   /** Absolute guest path the payload was written to. */
@@ -17172,6 +17200,8 @@ export interface ListTriggerExecutionsResponse {
 export interface HarnessPostSessionResumeRequest {
   /** The session UUID. */
   session_id: string;
+  /** Optional hardware device id forwarded by doctl. Recorded for audit. */
+  xDeviceUUID?: string | undefined;
 }
 export interface HarnessPostSessionResumeResponse {}
 /** Program and arguments. Required and non-empty; run directly, with no shell interpretation. */
@@ -18957,6 +18987,14 @@ export interface ListGatewayToolsRequest {
   page_size?: number | undefined;
   /** The `next_page_token` from the previous response. A token is only valid for the session that received it. */
   page_token?: string | undefined;
+  /** The session to act in: the UUID at the end of the session's `sessionUrn` and `mcpUrl`. For a pinned endpoint version, use the session UUID at the end of its `mcp_url`, not the composite version ID. The session must belong to the authenticated user and team. Send either this header or `X-Endpoint-Id`, not both; both returns 400. With neither, the request uses your default endpoint when default endpoints are enabled for your team, and otherwise returns 403. */
+  xSessionId?: string | undefined;
+  /** The endpoint to act in, as a lowercase endpoint UUID. The request uses the endpoint's current head version, which the response reports in `X-Action-Gateway-Endpoint-Version`. The endpoint must belong to the authenticated user and team; an unknown or inaccessible endpoint returns 404. Send either this header or `X-Session-Id`, not both. A malformed value or more than one value returns 400. */
+  xEndpointId?: string | undefined;
+  /** The actor you expect the session or endpoint to be bound to. It does not select an actor or connections; those come from the session's or endpoint's `actor_id`. When sent, it must equal that binding. A different value, including any value for a target with no actor, returns 403 with the message "The session is not bound to the request's actor." */
+  xActorId?: string | undefined;
+  /** The `ETag` from a previous response for the same page. If the page is unchanged, the response is `304 Not Modified` with no body. */
+  ifNoneMatch?: string | undefined;
 }
 /** The JSON Schema for the tool's `arguments`. */
 export type SessionToolInputSchemaMap = { [key: string]: unknown | undefined };
@@ -23164,6 +23202,8 @@ export interface PostHarnessSessionHitlRequest {
   session_id: string;
   /** The HITL request identifier. */
   request_id: string;
+  /** Optional hardware device id forwarded by doctl. Recorded on the resulting HITL decision. */
+  xDeviceUUID?: string | undefined;
   outcome: HitlOutcome | (string & {});
   /** Optional free-text reason. Captured in the audit trail; not interpreted. */
   reason?: string | undefined;
@@ -23173,6 +23213,8 @@ export interface PostHarnessSessionHitlResponse {}
 export interface PostHarnessSessionPauseRequest {
   /** The session UUID. */
   session_id: string;
+  /** Optional hardware device id forwarded by doctl. Recorded for audit. */
+  xDeviceUUID?: string | undefined;
 }
 export interface PostHarnessSessionPauseResponse {}
 export interface PostImageAccountTransferDeclineRequest {
@@ -23489,6 +23531,12 @@ export interface RetryDropletsDestroyWithAssociatedResourcesRequest {
 }
 export interface RetryDropletsDestroyWithAssociatedResourcesResponse {}
 export interface RunGatewayCodeRequest {
+  /** The session to act in: the UUID at the end of the session's `sessionUrn` and `mcpUrl`. For a pinned endpoint version, use the session UUID at the end of its `mcp_url`, not the composite version ID. The session must belong to the authenticated user and team. Send either this header or `X-Endpoint-Id`, not both; both returns 400. With neither, the request uses your default endpoint when default endpoints are enabled for your team, and otherwise returns 403. */
+  xSessionId?: string | undefined;
+  /** The endpoint to act in, as a lowercase endpoint UUID. The request uses the endpoint's current head version, which the response reports in `X-Action-Gateway-Endpoint-Version`. The endpoint must belong to the authenticated user and team; an unknown or inaccessible endpoint returns 404. Send either this header or `X-Session-Id`, not both. A malformed value or more than one value returns 400. */
+  xEndpointId?: string | undefined;
+  /** The actor you expect the session or endpoint to be bound to. It does not select an actor or connections; those come from the session's or endpoint's `actor_id`. When sent, it must equal that binding. A different value, including any value for a target with no actor, returns 403 with the message "The session is not bound to the request's actor." */
+  xActorId?: string | undefined;
   /** Python source to run. The sandbox provides `invoke_digitalocean_tool(name: str, arguments: dict) -> dict`, which calls a catalog tool under the session's policy and returns a tool result. */
   code: string;
 }
@@ -23537,6 +23585,12 @@ export interface ToolCall {
 /** The tool calls to run in parallel. */
 export type RunGatewayToolRequestToolsList = Array<ToolCall>;
 export interface RunGatewayToolRequest {
+  /** The session to act in: the UUID at the end of the session's `sessionUrn` and `mcpUrl`. For a pinned endpoint version, use the session UUID at the end of its `mcp_url`, not the composite version ID. The session must belong to the authenticated user and team. Send either this header or `X-Endpoint-Id`, not both; both returns 400. With neither, the request uses your default endpoint when default endpoints are enabled for your team, and otherwise returns 403. */
+  xSessionId?: string | undefined;
+  /** The endpoint to act in, as a lowercase endpoint UUID. The request uses the endpoint's current head version, which the response reports in `X-Action-Gateway-Endpoint-Version`. The endpoint must belong to the authenticated user and team; an unknown or inaccessible endpoint returns 404. Send either this header or `X-Session-Id`, not both. A malformed value or more than one value returns 400. */
+  xEndpointId?: string | undefined;
+  /** The actor you expect the session or endpoint to be bound to. It does not select an actor or connections; those come from the session's or endpoint's `actor_id`. When sent, it must equal that binding. A different value, including any value for a target with no actor, returns 403 with the message "The session is not bound to the request's actor." */
+  xActorId?: string | undefined;
   /** One sentence explaining why the tools are being called. Values longer than 512 characters are truncated. */
   rationale?: string | undefined;
   /** The tool calls to run in parallel. */
@@ -24257,6 +24311,12 @@ export type UpdateGatewayApprovalRequestDecision = "approve" | "deny";
 export interface UpdateGatewayApprovalRequest {
   /** The `approval_id` from a tool result whose `_meta.status` is `requires_approval`. */
   approval_id: string;
+  /** The session to act in: the UUID at the end of the session's `sessionUrn` and `mcpUrl`. For a pinned endpoint version, use the session UUID at the end of its `mcp_url`, not the composite version ID. The session must belong to the authenticated user and team. Send either this header or `X-Endpoint-Id`, not both; both returns 400. With neither, the request uses your default endpoint when default endpoints are enabled for your team, and otherwise returns 403. */
+  xSessionId?: string | undefined;
+  /** The endpoint to act in, as a lowercase endpoint UUID. The request uses the endpoint's current head version, which the response reports in `X-Action-Gateway-Endpoint-Version`. The endpoint must belong to the authenticated user and team; an unknown or inaccessible endpoint returns 404. Send either this header or `X-Session-Id`, not both. A malformed value or more than one value returns 400. */
+  xEndpointId?: string | undefined;
+  /** The actor you expect the session or endpoint to be bound to. It does not select an actor or connections; those come from the session's or endpoint's `actor_id`. When sent, it must equal that binding. A different value, including any value for a target with no actor, returns 403 with the message "The session is not bound to the request's actor." */
+  xActorId?: string | undefined;
   /** Whether to let the pending call run. */
   decision: UpdateGatewayApprovalRequestDecision | (string & {});
 }
@@ -24275,6 +24335,8 @@ export interface UpdateGatewaySessionApprovalRequest {
   session_id: string;
   /** The `approval_id` from a tool result whose `_meta.status` is `requires_approval`. */
   approval_id: string;
+  /** The actor you expect the session or endpoint to be bound to. It does not select an actor or connections; those come from the session's or endpoint's `actor_id`. When sent, it must equal that binding. A different value, including any value for a target with no actor, returns 403 with the message "The session is not bound to the request's actor." */
+  xActorId?: string | undefined;
   /** Whether to let the pending call run. */
   decision: UpdateGatewaySessionApprovalRequestDecision | (string & {});
 }
@@ -41983,6 +42045,7 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           size_limit_gib: S.Number,
           name: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v2/agents/workspaces", code: 200 })),
@@ -45218,6 +45281,7 @@ function __c160(j: number): any {
       return S.suspend(() =>
         S.Struct({
           autoscale_pool_id: S.String.pipe(T.Label()),
+          xDangerous: S.Boolean.pipe(T.Header("X-Dangerous")),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -46058,6 +46122,7 @@ function __c217(j: number): any {
       return S.suspend(() =>
         S.Struct({
           session_id: S.String.pipe(T.Label()),
+          xDeviceUUID: S.optional(S.String.pipe(T.Header("X-Device-UUID"))),
         }).pipe(T.Http({ method: "DELETE", uri: "/v2/agents/sessions/{session_id}", code: 200 })),
       ).annotate({ identifier: "DeleteHarnessSessionRequest" });
   }
@@ -47603,6 +47668,7 @@ function __c294(j: number): any {
       return S.suspend(() =>
         S.Struct({
           droplet_id: S.Number.pipe(T.Label()),
+          xDangerous: S.Boolean.pipe(T.Header("X-Dangerous")),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -47807,6 +47873,9 @@ function __c305(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          xSessionId: S.optional(S.String.pipe(T.Header("X-Session-Id"))),
+          xEndpointId: S.optional(S.String.pipe(T.Header("X-Endpoint-Id"))),
+          xActorId: S.optional(S.String.pipe(T.Header("X-Actor-Id"))),
           queries: __S(9761, __c305, 1),
           providers: S.optional(__S(3392, __c106, 0)),
           tags: S.optional(__S(3392, __c106, 0)),
@@ -51927,6 +51996,8 @@ function __c487(j: number): any {
           replay_from: S.optional(S.String.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           device_id: S.optional(S.String.pipe(T.Query())),
+          lastEventID: S.optional(S.String.pipe(T.Header("Last-Event-ID"))),
+          xDeviceUUID: S.optional(S.String.pipe(T.Header("X-Device-UUID"))),
         }).pipe(
           T.Http({ method: "GET", uri: "/v2/agents/sessions/{session_id}/events", code: 200 }),
         ),
@@ -54698,6 +54769,8 @@ function __c627(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          accept: S.optional(S.String.pipe(T.Header("Accept"))),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
           spec: __S(20192, __c631, 0),
           project_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v2/apps", code: 200 })),
@@ -56117,6 +56190,7 @@ function __c704(j: number): any {
           session_id: S.String.pipe(T.Label()),
           path: S.String.pipe(T.Query()),
           is_archive: S.optional(S.Boolean.pipe(T.Query())),
+          xContentSha256: S.optional(S.String.pipe(T.Header("X-Content-Sha256"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -56401,6 +56475,7 @@ function __c719(j: number): any {
       return S.suspend(() =>
         S.Struct({
           session_id: S.String.pipe(T.Label()),
+          xDeviceUUID: S.optional(S.String.pipe(T.Header("X-Device-UUID"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/agents/sessions/{session_id}/resume", code: 200 }),
         ),
@@ -59225,6 +59300,10 @@ function __c833(j: number): any {
         S.Struct({
           page_size: S.optional(S.Number.pipe(T.Query())),
           page_token: S.optional(S.String.pipe(T.Query())),
+          xSessionId: S.optional(S.String.pipe(T.Header("X-Session-Id"))),
+          xEndpointId: S.optional(S.String.pipe(T.Header("X-Endpoint-Id"))),
+          xActorId: S.optional(S.String.pipe(T.Header("X-Actor-Id"))),
+          ifNoneMatch: S.optional(S.String.pipe(T.Header("If-None-Match"))),
         }).pipe(
           T.Http({ method: "GET", uri: "/tools", code: 200, baseUrl: "https://actions.do-ai.run" }),
         ),
@@ -64127,6 +64206,7 @@ function __c1050(j: number): any {
         S.Struct({
           session_id: S.String.pipe(T.Label()),
           request_id: S.String.pipe(T.Label()),
+          xDeviceUUID: S.optional(S.String.pipe(T.Header("X-Device-UUID"))),
           outcome: S.String,
           reason: S.optional(S.String),
           source: S.optional(S.String),
@@ -64177,6 +64257,7 @@ function __c1053(j: number): any {
       return S.suspend(() =>
         S.Struct({
           session_id: S.String.pipe(T.Label()),
+          xDeviceUUID: S.optional(S.String.pipe(T.Header("X-Device-UUID"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/agents/sessions/{session_id}/pause", code: 200 }),
         ),
@@ -64590,6 +64671,9 @@ function __c1080(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          xSessionId: S.optional(S.String.pipe(T.Header("X-Session-Id"))),
+          xEndpointId: S.optional(S.String.pipe(T.Header("X-Endpoint-Id"))),
+          xActorId: S.optional(S.String.pipe(T.Header("X-Actor-Id"))),
           code: S.String,
         }).pipe(
           T.Http({
@@ -64646,6 +64730,9 @@ function __c1081(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          xSessionId: S.optional(S.String.pipe(T.Header("X-Session-Id"))),
+          xEndpointId: S.optional(S.String.pipe(T.Header("X-Endpoint-Id"))),
+          xActorId: S.optional(S.String.pipe(T.Header("X-Actor-Id"))),
           rationale: S.optional(S.String),
           tools: __S(34594, __c1081, 2),
         }).pipe(
@@ -65627,6 +65714,9 @@ function __c1131(j: number): any {
       return S.suspend(() =>
         S.Struct({
           approval_id: S.String.pipe(T.Label()),
+          xSessionId: S.optional(S.String.pipe(T.Header("X-Session-Id"))),
+          xEndpointId: S.optional(S.String.pipe(T.Header("X-Endpoint-Id"))),
+          xActorId: S.optional(S.String.pipe(T.Header("X-Actor-Id"))),
           decision: S.String,
         }).pipe(
           T.Http({
@@ -65658,6 +65748,7 @@ function __c1133(j: number): any {
         S.Struct({
           session_id: S.String.pipe(T.Label()),
           approval_id: S.String.pipe(T.Label()),
+          xActorId: S.optional(S.String.pipe(T.Header("X-Actor-Id"))),
           decision: S.String,
         }).pipe(
           T.Http({
@@ -67433,6 +67524,7 @@ function __c1220(j: number): any {
         S.Struct({
           openai_session_id: S.optional(S.String.pipe(T.Query())),
           resume_on_topoff: S.optional(S.Boolean.pipe(T.Query())),
+          xDeviceUUID: S.optional(S.String.pipe(T.Header("X-Device-UUID"))),
           name: S.String,
           config_id: S.String,
           region: S.optional(S.String),
