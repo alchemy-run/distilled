@@ -1087,7 +1087,7 @@ export interface CreateSecretRequest {
   app_name: string;
   /** App secret name */
   secret_name: string;
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface SetAppSecretResponse {
   /** DEPRECATED */
@@ -1096,7 +1096,7 @@ export interface SetAppSecretResponse {
   digest?: string | undefined;
   name?: string | undefined;
   updated_at?: string | undefined;
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
   /** The app's secrets version after this change. Pass it as `min_secrets_version` when creating or updating Machines so that they are guaranteed to see the change. */
   version?: number | undefined;
 }
@@ -1534,7 +1534,7 @@ export interface AppSecret {
   digest?: string | undefined;
   name?: string | undefined;
   updated_at?: string | undefined;
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetSecretKeyRequest {
   /** Fly App Name */
@@ -2264,7 +2264,9 @@ export interface UpdatePostgresUserRoleRequest {
   role: UpdatePostgresUserRoleRequestRole | (string & {});
 }
 export interface UpdatePostgresUserRoleResponse {}
-export type UpdateSecretsRequestValuesMap = { [key: string]: string | undefined };
+export type UpdateSecretsRequestValuesMap = {
+  [key: string]: string | Redacted.Redacted<string> | undefined;
+};
 export interface UpdateSecretsRequest {
   /** Fly App Name */
   app_name: string;
@@ -4037,8 +4039,8 @@ export const updateSecrets: API.OperationMethod<
   UpdateSecretsError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<UpdateSecretsRequest>,
-  output: __S(65, __c2, 1) as any as S.Schema<AppSecretsUpdateResp>,
+  input: __S(65, __c2, 1) as any as S.Schema<UpdateSecretsRequest>,
+  output: __S(66, __c2, 2) as any as S.Schema<AppSecretsUpdateResp>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
@@ -4163,13 +4165,15 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           app_name: S.String.pipe(T.Label()),
-          values: S.optional(__S(480, __c15, 0)),
+          values: S.optional(__S(64, __c2, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/apps/{app_name}/secrets", code: 200 })),
       ).annotate({ identifier: "UpdateSecretsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           Version: S.optional(S.Number),
@@ -5140,7 +5144,7 @@ function __c33(j: number): any {
         S.Struct({
           app_name: S.String.pipe(T.Label()),
           secret_name: S.String.pipe(T.Label()),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/apps/{app_name}/secrets/{secret_name}", code: 200 }),
         ),
@@ -5153,7 +5157,7 @@ function __c33(j: number): any {
           digest: S.optional(S.String),
           name: S.optional(S.String),
           updated_at: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
           version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SetAppSecretResponse" });
@@ -5947,7 +5951,7 @@ function __c75(j: number): any {
           digest: S.optional(S.String),
           name: S.optional(S.String),
           updated_at: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AppSecret" });
   }
